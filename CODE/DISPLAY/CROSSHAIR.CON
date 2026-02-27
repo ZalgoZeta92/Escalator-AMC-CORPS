@@ -1,0 +1,359 @@
+var xhair_col 0 1
+var xhair_shade 0 1
+
+defstate DISP_crosshair
+				getu .crosshairscale disp_temp3
+				mul disp_temp3 300
+
+				set disp_acc GUN_ACCURACY
+				ifn ANGLE 0 set disp_acc 24
+				add disp_acc gun_spread
+				div disp_acc 6
+
+				ifg disp_vis disp_acc sub disp_vis 1
+				else ifl disp_vis disp_acc add disp_vis 1
+				
+				ifg SWORD_BLOCK 0
+				{
+				set disp_temp6 30
+				sub disp_temp6 SWORD_BLOCK
+				ife MELEE_RESEARCH[RS_D_DKNIGHT_SWORD] 2 { ifg SWORD_BLOCK 24 set disp_temp7 32 else set disp_temp7 0 } 
+				else { ifg SWORD_BLOCK 30 set disp_temp7 32 else set disp_temp7 0 }
+				rotatespritea 150 110 40960 0 8859 disp_temp6 disp_temp7 0 -255 0 0 xdim ydim
+				}
+	
+				ifg shield_bash 0
+				{
+				set disp_temp6 30
+				sub disp_temp6 shield_bash
+				ifg shield_bash 15 set disp_temp7 32 else set disp_temp7 0
+				rotatespritea 150 110 40960 0 8859 disp_temp6 disp_temp7 0 -255 0 0 xdim ydim
+				}	
+				
+				// fire mode shower
+				ife userdef[].althud 0
+				 ifg firekey_indicator 0
+					{
+					set disp_temp2 10 
+					ifg player[].weapon_pos 0 sub disp_temp2 player[].weapon_pos
+					ifand weap_special[cur_weap] 32768 rotatespritea 160 70 HALFSIZE 0 3233 disp_temp2 13 4096 -255 0 0 xdim ydim // tert-fire
+					ifand weap_special[cur_weap] 16384 rotatespritea 190 130 HALFSIZE 768 3233 disp_temp2 13 4096 -255 0 0 xdim ydim // alt-fire
+					rotatespritea 130 130 HALFSIZE 256 3233 disp_temp2 13 4100 -255 0 0 xdim ydim // normal fire
+					}
+				ifg player[].reloading 0 set xhair_shade 20 else ifg enemies_cleared 149 ife opt_crosshair_hide YES set xhair_shade 25 else set xhair_shade 0
+				ife weapon_type 0 // standard
+					{
+					set xhair_y 100
+					sub xhair_y disp_vis
+					ifl xhair_y 0 set xhair_y 0
+					guniqhudid 71
+					rotatespritea 160 xhair_y disp_temp3 0 13535 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // top part of xhair
+
+					set xhair_x 160
+					add xhair_x disp_vis
+					ifg xhair_x 320 set xhair_x 320
+					guniqhudid 72
+					rotatespritea xhair_x 100 disp_temp3 0 13536 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // right part of xhair
+
+					set xhair_y 100
+					add xhair_y disp_vis
+					ifg xhair_y 200 set xhair_y 200
+					guniqhudid 73
+					rotatespritea 160 xhair_y disp_temp3 0 13537 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // bottom part of xhair
+
+					set xhair_x 160
+					sub xhair_x disp_vis
+					ifl xhair_x 0 set xhair_x 0
+					guniqhudid 74
+					rotatespritea xhair_x 100 disp_temp3 0 13538 xhair_shade xhair_col 4096 -255 0 0 xdim ydim    // left part of xhair
+					guniqhudid 75
+					rotatespritea 160 100 disp_temp3 0 5131 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // center bit of xhair
+					}
+				ife weapon_type 1 // 1 = armour piercing
+					{
+					set xhair_y 100
+					sub xhair_y disp_vis
+					ifl xhair_y 0 set xhair_y 0
+					guniqhudid 71
+					rotatespritea 160 xhair_y disp_temp3 0 13551 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // top part of xhair
+
+					set xhair_x 160
+					add xhair_x disp_vis
+					ifg xhair_x 320 set xhair_x 320
+					guniqhudid 72
+					rotatespritea xhair_x 100 disp_temp3 0 13552 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // right part of xhair
+
+					set xhair_y 100
+					add xhair_y disp_vis
+					ifg xhair_y 200 set xhair_y 200
+					guniqhudid 73
+					rotatespritea 160 xhair_y disp_temp3 0 13553 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // bottom part of xhair
+
+					set xhair_x 160
+					sub xhair_x disp_vis
+					ifl xhair_x 0 set xhair_x 0
+					guniqhudid 74
+					rotatespritea xhair_x 100 disp_temp3 0 13554 xhair_shade xhair_col 4096 -255 0 0 xdim ydim    // left part of xhair
+					guniqhudid 75
+					rotatespritea 160 100 disp_temp3 0 5131 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // center bit of xhair
+					}
+				ife weapon_type 2 // 2 = soft projectile (shotgun.etc)
+					{
+					set xhair_y 100
+					sub xhair_y disp_vis
+					ifl xhair_y 0 set xhair_y 0
+					guniqhudid 71
+					rotatespritea 160 xhair_y disp_temp3 0 13525 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // top part of xhair
+					set xhair_x 160
+					add xhair_x disp_vis
+					ifg xhair_x 320 set xhair_x 320
+					guniqhudid 72
+					rotatespritea xhair_x 100 disp_temp3 0 13526 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // right part of xhair
+					set xhair_y 100
+					add xhair_y disp_vis
+					ifg xhair_y 200 set xhair_y 200
+					guniqhudid 73
+					rotatespritea 160 xhair_y disp_temp3 0 13527 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // bottom part of xhair
+					set xhair_x 160
+					sub xhair_x disp_vis
+					ifl xhair_x 0 set xhair_x 0
+					guniqhudid 74
+					rotatespritea xhair_x 100 disp_temp3 0 13528 xhair_shade xhair_col 4096 -255 0 0 xdim ydim    // left part of xhair
+					guniqhudid 75
+					rotatespritea 160 100 disp_temp3 0 13529 xhair_shade 0 4096 -255 0 0 xdim ydim // center bit of xhair
+					}
+				ife weapon_type 3 // 3 = Gold-standard rounds
+					{
+					set xhair_y 100
+					sub xhair_y disp_vis
+					ifl xhair_y 0 set xhair_y 0
+					guniqhudid 71
+					rotatespritea 160 xhair_y disp_temp3 0 13551 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // top part of xhair
+					set xhair_x 160
+					add xhair_x disp_vis
+					ifg xhair_x 320 set xhair_x 320
+					guniqhudid 72
+					rotatespritea xhair_x 100 disp_temp3 0 13552 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // right part of xhair
+					set xhair_y 100
+					add xhair_y disp_vis
+					ifg xhair_y 200 set xhair_y 200
+					guniqhudid 73
+					rotatespritea 160 xhair_y disp_temp3 0 13553 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // bottom part of xhair
+					set xhair_x 160
+					sub xhair_x disp_vis
+					ifl xhair_x 0 set xhair_x 0
+					guniqhudid 74
+					rotatespritea xhair_x 100 disp_temp3 0 13554 xhair_shade xhair_col 4096 -255 0 0 xdim ydim    // left part of xhair
+					guniqhudid 75
+					rotatespritea 160 100 disp_temp3 0 13555 xhair_shade 7 4096 -255 0 0 xdim ydim // center bit of xhair
+					}
+					guniqhudid 76
+				// 4 = explosive
+				ife weapon_type 4 rotatespritea 160 100 disp_temp3 0 13524 xhair_shade 0 4096 -255 0 0 xdim ydim 
+				ife weapon_type 5 // bow
+					{
+					set xhair_y 100
+					sub xhair_y disp_vis
+					ifl xhair_y 0 set xhair_y 0
+					guniqhudid 71
+					rotatespritea 160 xhair_y disp_temp3 0 13520 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // top part of xhair
+					set xhair_x 160
+					set xhair_y 100
+					add xhair_x disp_vis
+					add xhair_y disp_vis
+					ifg xhair_x 320 set xhair_x 320
+					guniqhudid 72
+					rotatespritea xhair_x xhair_y disp_temp3 0 13521 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // right part of xhair
+					set xhair_x 160
+					set xhair_y 100
+					sub xhair_x disp_vis
+					add xhair_y disp_vis
+					ifl xhair_x 0 set xhair_x 0
+					guniqhudid 73
+					rotatespritea xhair_x xhair_y disp_temp3 0 13522 xhair_shade xhair_col 4096 -255 0 0 xdim ydim    // left part of xhair
+					guniqhudid 74
+					rotatespritea 160 100 disp_temp3 0 13523 xhair_shade 0 4096 -255 0 0 xdim ydim // center bit of xhair
+					}
+				// 6 = thrown/utility
+				ife weapon_type 6 rotatespritea 160 100 disp_temp3 0 13557 xhair_shade 0 4096 -255 0 0 xdim ydim
+				ife weapon_type 7 // Silver ammo
+					{
+					set xhair_y 100
+					sub xhair_y disp_vis
+					ifl xhair_y 0 set xhair_y 0
+					guniqhudid 71
+					rotatespritea 160 xhair_y disp_temp3 0 15102 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // top part of xhair
+					set xhair_x 160
+					add xhair_x disp_vis
+					ifg xhair_x 320 set xhair_x 320
+					guniqhudid 72
+					rotatespritea xhair_x 100 disp_temp3 512 15102 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // right part of xhair
+					set xhair_y 100
+					add xhair_y disp_vis
+					ifg xhair_y 200 set xhair_y 200
+					guniqhudid 73
+					rotatespritea 160 xhair_y disp_temp3 1024 15102 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // bottom part of xhair
+					set xhair_x 160
+					sub xhair_x disp_vis
+					ifl xhair_x 0 set xhair_x 0
+					guniqhudid 74
+					rotatespritea xhair_x 100 disp_temp3 1536 15102 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // left part of xhair
+					guniqhudid 75
+					rotatespritea 160 100 disp_temp3 0 15103 xhair_shade 0 4096 -255 0 0 xdim ydim // center bit of xhair
+					}
+				ife weapon_type 8 // Projectile
+					{
+					set xhair_y 100
+					set xhair_x 160
+					sub xhair_y disp_vis
+					add xhair_x disp_vis
+					ifl xhair_y 0 set xhair_y 0
+					guniqhudid 71
+					rotatespritea xhair_x xhair_y disp_temp3 0 15101 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // top part of xhair
+					set xhair_x 160
+					set xhair_y 100
+					add xhair_x disp_vis
+					add xhair_y disp_vis
+					ifg xhair_x 320 set xhair_x 320
+					guniqhudid 72
+					rotatespritea xhair_x xhair_y disp_temp3 0 15101 xhair_shade xhair_col 4100 -255 0 0 xdim ydim // right part of xhair
+					set xhair_x 160
+					set xhair_y 100
+					sub xhair_x disp_vis
+					add xhair_y disp_vis
+					ifl xhair_x 0 set xhair_x 0
+					guniqhudid 73
+					rotatespritea xhair_x xhair_y disp_temp3 1024 15101 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // left part of xhair
+					set xhair_y 100
+					set xhair_x 160
+					sub xhair_y disp_vis
+					sub xhair_x disp_vis
+					ifl xhair_y 0 set xhair_y 0
+					guniqhudid 74
+					rotatespritea xhair_x xhair_y disp_temp3 1024 15101 xhair_shade xhair_col 4100 -255 0 0 xdim ydim // top part of xhair
+					}
+				ife weapon_type 9 // AP projectile
+					{
+					set xhair_y 100
+					set xhair_x 160
+					sub xhair_y disp_vis
+					add xhair_x disp_vis
+					ifl xhair_y 0 set xhair_y 0
+					guniqhudid 71
+					rotatespritea xhair_x xhair_y disp_temp3 0 15100 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // top part of xhair
+					set xhair_x 160
+					set xhair_y 100
+					add xhair_x disp_vis
+					add xhair_y disp_vis
+					ifg xhair_x 320 set xhair_x 320
+					guniqhudid 72
+					rotatespritea xhair_x xhair_y disp_temp3 0 15100 xhair_shade xhair_col 4100 -255 0 0 xdim ydim // right part of xhair
+					set xhair_x 160
+					set xhair_y 100
+					sub xhair_x disp_vis
+					add xhair_y disp_vis
+					ifl xhair_x 0 set xhair_x 0
+					guniqhudid 73
+					rotatespritea xhair_x xhair_y disp_temp3 1024 15100 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // left part of xhair
+					set xhair_y 100
+					set xhair_x 160
+					sub xhair_y disp_vis
+					sub xhair_x disp_vis
+					ifl xhair_y 0 set xhair_y 0
+					guniqhudid 74
+					rotatespritea xhair_x xhair_y disp_temp3 1024 15100 xhair_shade xhair_col 4100 -255 0 0 xdim ydim // top part of xhair
+					}
+				ife weapon_type 10 // nuke
+					{
+					set xhair_y 100
+					sub xhair_y disp_vis
+					ifl xhair_y 0 set xhair_y 0
+					guniqhudid 71
+					rotatespritea 160 xhair_y disp_temp3 0 15097 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // top part of xhair
+					set xhair_x 160
+					set xhair_y 100
+					add xhair_x disp_vis
+					add xhair_y disp_vis
+					ifg xhair_x 320 set xhair_x 320
+					guniqhudid 72
+					rotatespritea xhair_x xhair_y disp_temp3 0 15098 xhair_shade xhair_col 4096 -255 0 0 xdim ydim // right part of xhair
+					set xhair_x 160
+					set xhair_y 100
+					sub xhair_x disp_vis
+					add xhair_y disp_vis
+					ifl xhair_x 0 set xhair_x 0
+					guniqhudid 73
+					rotatespritea xhair_x xhair_y disp_temp3 1024 15098 xhair_shade xhair_col 4100 -255 0 0 xdim ydim // left part of xhair
+					guniqhudid 74
+					rotatespritea 160 100 disp_temp3 0 15099 xhair_shade 0 4096 -255 0 0 xdim ydim // center bit of xhair
+					}
+
+ife opt_protected_ding YES
+ifl hit_indic 30
+	{
+	add hit_indic 1
+	guniqhudid 77
+	rotatespritea 160 100 49152 0 13555 hit_indic hit_indic_pal 4096 -255 0 0 xdim ydim
+	}
+guniqhudid 0
+ends
+
+onevent EVENT_DISPLAYCROSSHAIR
+set RETURN -1
+ifn camerasprite -1 nullop
+else ife player[].holster_weapon 1 nullop
+else ifg cameraend 0 nullop
+else ife hud_disp 0 nullop
+else ifg MOUSEUP 0 nullop
+else ife CHARSELECT 1 nullop
+else ife CHAR -1 nullop
+else ife MISSION_UP 1 nullop
+else ifg END_LEVEL 0 nullop
+else ifn DOCUMENT -1 nullop
+else ifn injured 0 nullop
+else ifn CONTROL_VR -1 nullop
+else ife hide_xhair 1
+	{
+	ife opt_protected_ding YES
+	ifl hit_indic 30
+		{
+		add hit_indic 1
+		guniqhudid 77
+		rotatespritea 160 100 49152 0 13555 hit_indic hit_indic_pal 4096 -255 0 0 xdim ydim
+		}
+	}
+else ifg mech_startup_sequence 0 nullop
+else ife cur_weap 0 ife temp_weap 0 nullop
+else ifn scope 0
+	{
+	ife opt_protected_ding YES
+	ifl hit_indic 30
+		{
+		add hit_indic 1
+		guniqhudid 77
+		ifl hit_indic 0 rotatespritea 160 100 59152 0 13555 hit_indic 106 4096 -255 0 0 xdim ydim
+		guniqhudid 78
+		rotatespritea 160 100 49152 0 13555 hit_indic hit_indic_pal 4096 -255 0 0 xdim ydim
+		}
+	}
+else
+		{
+		getu .crosshair disp_temp
+		ifn disp_temp 0 // Crosshairs not disabled?
+			{
+			ifand gun_firemode 32768
+				{
+				rotatespritea 160 100 HALFSIZE 0 12287 0 0 0 -255 0 0 xdim ydim
+				set disp_temp5 6553600
+				set disp_temp4 DISTANCE
+				mul disp_temp4 32
+				add disp_temp5 disp_temp4
+				ifg disp_temp5 20971520 set disp_temp5 20971520
+				ifl disp_temp5 0 set disp_temp5 0
+				rotatesprite16 10485760 disp_temp5 NORMALSIZE 0 12285 0 0 0 0 0 xdim ydim
+				}
+				else
+				state DISP_crosshair
+			}
+		}
+endevent

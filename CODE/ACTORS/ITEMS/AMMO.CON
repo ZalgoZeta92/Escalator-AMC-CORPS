@@ -1,0 +1,1292 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Contains code for basic ammo and special ammo
+--------------------------------------------------------------------------------
+*/
+
+spriteshadow AMMO
+actor AMMO
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+	  {
+	    ife CHAR 17
+		 ifn SPECIALIST_EQUIPMENT[155] 2 // not using the Seburo?
+			{
+			ifg KAGURA_CHARGE 9 break
+			ifg KAGURA_CHARGE 9 { screensound YO_CHARGE set KAGURA_CHARGE 10 } else
+			add KAGURA_CHARGE 2
+			addphealth 5
+			}
+			else
+		ife CHAR 2
+			{
+			ife merlijn_shield merlijn_shield_cap break else
+			add merlijn_shield 5
+			}
+			else
+			{
+			getp[].ammo_amount 1 temp
+			getp[].max_ammo_amount 1 temp2
+			ife temp temp2 break
+			add temp ammo_amount[1]
+			ife SKILL_LEVEL 1 add temp ammo_amount[1]
+			ifg temp temp2 set temp temp2
+			setp[].ammo_amount 1 temp
+			}
+
+		setarray picked_up_gun[1] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile W_AMMO_TILE[1]
+		set item_amount ammo_amount[1]
+
+
+		ifspawnedby AMMO
+		  state getcode
+		else
+		  state quikget
+	  }
+enda
+
+spriteshadow FREEZEAMMO
+actor FREEZEAMMO
+
+ife CHAR 4 set command 262144 // if Sang, set as magic item so it floats and glows
+else set command 0
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+	  {
+		ife CHAR 2
+			{
+			ife merlijn_shield merlijn_shield_cap break else
+			add merlijn_shield 20
+			}
+		else
+			{
+			getp[].ammo_amount 9 temp
+			getp[].max_ammo_amount 9 temp2
+			ife temp temp2 break
+			add temp ammo_amount[9]
+			ife SKILL_LEVEL 1 add temp ammo_amount[9]
+			ifg temp temp2 set temp temp2
+			setp[].ammo_amount 9 temp
+			}
+
+		setarray picked_up_gun[9] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile W_AMMO_TILE[9]
+		set item_amount ammo_amount[9]
+
+		ifspawnedby FREEZEAMMO
+		  state getcode
+		else
+		  state quikget
+	  }
+enda
+
+spriteshadow SHOTGUNAMMO
+actor SHOTGUNAMMO
+
+ife W_AMMO_TILE[2] GREEN_MANA_PICKUP set command 262144
+else ife CHAR 4 set command 262144 // if Sang, set as magic item so it floats and glows
+else set command 0
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+	  {
+	  ife W_AMMO_TILE[2] GREEN_MANA_PICKUP { spawn GREEN_MANA_PICKUP killit } // TO-DO: make a system for this
+	    ife CHAR 17
+		 ife SPECIALIST_EQUIPMENT[103] 2
+			{
+			ifg KAGURA_CHARGE 9 break
+			ifg KAGURA_CHARGE 9 { screensound YO_CHARGE set KAGURA_CHARGE 10 } else
+			add KAGURA_CHARGE 1
+			addphealth 3
+			}
+		ife CHAR 2
+			{
+			ife merlijn_shield merlijn_shield_cap break else
+			add merlijn_shield 10
+			}
+		else
+			{
+				set ammo_forweaponidx 2
+				set ammo_to_add ammo_amount[2]
+				ife SKILL_LEVEL 1
+					mul ammo_to_add 2
+				state do_addammo
+			}
+
+		setarray picked_up_gun[2] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile W_AMMO_TILE[2]
+		set item_amount ammo_amount[2]
+
+		ifspawnedby SHOTGUNAMMO
+		  state getcode
+		else
+		  state quikget
+	  }
+enda
+
+actor AMMOLOTS
+
+state ITEM_SETTINGS
+state can_pickup_item
+  ife actor_return 1
+	  {
+		ife CHAR 2
+			{
+			ife merlijn_shield merlijn_shield_cap break else
+			add merlijn_shield 10
+			}
+		else
+		{
+		getp[].ammo_amount 1 temp
+		getp[].max_ammo_amount 1 temp2
+		ife temp temp2 break
+		add temp ammo_amount[1]
+		ifg temp temp2 set temp temp2
+		ife SKILL_LEVEL 1 add temp ammo_amount[1]
+		setp[].ammo_amount 1 temp
+		}
+		setarray picked_up_gun[1] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile W_AMMO_TILE[1]
+		set item_amount ammo_amount[1]
+
+		ifspawnedby AMMOLOTS
+		  state getcode
+		else
+		  state quikget
+	  }
+enda
+
+spriteshadow CRYSTALAMMO
+useractor notenemy CRYSTALAMMO
+
+
+state ITEM_SETTINGS
+sizeat 32 32
+
+ifaction 0 { seta[].shade -127 spriteflags 68 }
+ifspritepal 0 nullop else { ifmultiplayer nullop else killit }
+  state can_pickup_item
+  ife actor_return 1
+	  {
+
+		getp[].ammo_amount 6 temp
+		getp[].max_ammo_amount 6 temp2
+		ife temp temp2 break
+		add temp ammo_amount[6]
+		ife SKILL_LEVEL 1 add temp ammo_amount[6]
+		ifg temp temp2 set temp temp2
+		setp[].ammo_amount 6 temp
+
+		setarray picked_up_gun[6] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile W_AMMO_TILE[6]
+		set item_amount ammo_amount[6]
+
+		ifspawnedby CRYSTALAMMO
+		  state getcode
+		else
+		  state quikget
+	  }
+enda
+
+spriteshadow GROWAMMO
+actor GROWAMMO
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+	  {
+	  ifand weap_special[6] 512 // no expander variant, give the player shrinker ammo instead
+		{
+		getp[].ammo_amount 6 temp
+		getp[].max_ammo_amount 6 temp2
+		ife temp temp2 break
+		add temp ammo_amount[6]
+		ife SKILL_LEVEL 1 add temp ammo_amount[6]
+		ifg temp temp2 set temp temp2
+		setp[].ammo_amount 6 temp
+
+		setarray picked_up_gun[6] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile W_AMMO_TILE[6]
+		set item_amount ammo_amount[6]
+		}
+		else
+		{
+		getp[].ammo_amount 11 temp
+		getp[].max_ammo_amount 11 temp2
+		ife temp temp2 break
+		add temp ammo_amount[11]
+		ifg temp temp2 set temp temp2
+		setp[].ammo_amount 11 temp
+
+		setarray picked_up_gun[6] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile W_AMMO_TILE[11]
+		set item_amount ammo_amount[11]
+		}
+
+		ifspawnedby GROWAMMO
+		  state getcode
+		else
+		  state quikget
+	  }
+enda
+
+spriteshadow BATTERYAMMO
+actor BATTERYAMMO
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+	  {
+		ife CHAR 2
+			{
+			ife merlijn_shield merlijn_shield_cap break else
+			add merlijn_shield 15
+			}
+		else
+			{
+			getp[].ammo_amount 3 temp
+			getp[].max_ammo_amount 3 temp2
+			ife temp temp2 break
+			add temp ammo_amount[3]
+			ife SKILL_LEVEL 1 add temp ammo_amount[3]
+			ifg temp temp2 set temp temp2
+			setp[].ammo_amount 3 temp
+			}
+
+		setarray picked_up_gun[3] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile W_AMMO_TILE[3]
+		set item_amount ammo_amount[3]
+
+		ifspawnedby BATTERYAMMO
+		  state getcode
+		else
+		  state quikget
+	  }
+enda
+
+spriteshadow DEVISTATORAMMO
+actor DEVISTATORAMMO
+
+state ITEM_SETTINGS
+
+  state can_pickup_item
+  ife actor_return 1
+				  {
+					getp[].ammo_amount 7 temp4
+					getp[].max_ammo_amount 7 temp5
+					ife temp4 temp5 break
+					add temp4 ammo_amount[7]
+					ife SKILL_LEVEL 1 add temp ammo_amount[7]
+					ifg temp4 temp5 set temp4 temp5
+					setp[].ammo_amount 7 temp4
+
+					setarray picked_up_gun[7] 30
+					set weap_show 130
+					state PICKUP_DISPLAY
+					set picked_up_tile W_AMMO_TILE[7]
+					set item_amount ammo_amount[7]
+
+					ifspawnedby DEVISTATORAMMO
+					  state getcode
+					else
+					  state quikget
+				  }
+enda
+
+spriteshadow RPGAMMO
+actor RPGAMMO
+
+ife CHAR 4 set command 262144 // if Sang, set as magic item so it floats and glows
+else set command 0
+state ITEM_SETTINGS
+
+  state can_pickup_item
+  ife actor_return 1
+	  {
+		getp[].ammo_amount 4 temp
+		getp[].max_ammo_amount 4 temp2
+		ife temp temp2 break
+		add temp ammo_amount[4]
+		ife SKILL_LEVEL 1 add temp ammo_amount[4]
+		ifg temp temp2 set temp temp2
+		setp[].ammo_amount 4 temp
+
+		setarray picked_up_gun[4] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile W_AMMO_TILE[4]
+		set item_amount ammo_amount[4]
+
+		ifspawnedby RPGAMMO
+		  state getcode
+		else
+		  state quikget
+	  }
+enda
+
+// ---------------------------------------------------------------------------------------------
+// SPECIAL AMMO PICKUP
+
+spriteshadow SILVERAMMO_DRUM
+useractor notenemy SILVERAMMO_DRUM
+	sizeat 24 24
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[3] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+ifaction 0
+{
+
+action ZERO
+}
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl silver_ammo 200
+				{
+				ife EQUIPMENT_RESEARCH[3] 0 { setarray EQUIPMENT_RESEARCH[3] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+				add silver_ammo 50
+				ifg silver_ammo 200 set silver_ammo 200
+
+				state PICKUP_DISPLAY
+				set picked_up_tile SILVERAMMO_DRUM
+				set item_amount 50
+			userquote 1736
+			ifspawnedby SILVERAMMO_DRUM
+			  state getcode
+			else
+			  state quikget
+				}
+enda
+
+// incendiary ammo =========================
+
+spriteshadow INCEND_AMMO_DRUM
+useractor notenemy INCEND_AMMO_DRUM
+	sizeat 24 24
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[23] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+ifaction 0
+{
+
+action ZERO
+}
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl incend_ammo 150
+				{
+				ife EQUIPMENT_RESEARCH[23] 0 { setarray EQUIPMENT_RESEARCH[23] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+				add incend_ammo 50
+				ifg incend_ammo 150 set incend_ammo 150
+
+				state PICKUP_DISPLAY
+				set picked_up_tile INCEND_AMMO_DRUM
+				set item_amount 50
+			userquote 1735
+			ifspawnedby INCEND_AMMO_DRUM
+			  state getcode
+			else
+			  state quikget
+				}
+enda
+
+spriteshadow FORTYMM_NADES
+useractor notenemy FORTYMM_NADES
+sizeat 23 23
+
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[13] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl fortymm_grenades 40
+			{
+			ife EQUIPMENT_RESEARCH[13] 0 { setarray EQUIPMENT_RESEARCH[13] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+
+			ife CHAR 0 ife SPECIALIST_EQUIPMENT[77] 2 addammo 4 2 else
+			ife CHAR 9 addammo 4 2 else
+			add fortymm_grenades 2
+			clamp fortymm_grenades 0 40
+
+			state PICKUP_DISPLAY
+			set picked_up_tile FORTYMM_NADES
+			set item_amount 2
+			userquote 1734
+	        ifspawnedby FORTYMM_NADES
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+spriteshadow FORTYMM_CASELESS
+useractor notenemy FORTYMM_CASELESS
+sizeat 23 23
+
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[14] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl fortymm_caseless 20
+			{
+			ife EQUIPMENT_RESEARCH[14] 0 { setarray EQUIPMENT_RESEARCH[14] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add fortymm_caseless 2
+			ifg fortymm_caseless 20 set fortymm_caseless 20
+
+			state PICKUP_DISPLAY
+			set picked_up_tile FORTYMM_CASELESS
+			set item_amount 2
+			userquote 1733
+	        ifspawnedby FORTYMM_CASELESS
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+spriteshadow FORTYMM_SLUGS
+useractor notenemy FORTYMM_SLUGS
+sizeat 23 23
+
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[17] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl fortymm_slug 20
+			{
+			ife EQUIPMENT_RESEARCH[17] 0 { setarray EQUIPMENT_RESEARCH[17] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add fortymm_slug 2
+			ifg fortymm_slug 20 set fortymm_slug 20
+
+			state PICKUP_DISPLAY
+			set picked_up_tile FORTYMM_SLUGS
+			set item_amount 2
+			userquote 1732
+	        ifspawnedby FORTYMM_SLUGS
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+spriteshadow FORTYMM_ELECTRO
+useractor notenemy FORTYMM_ELECTRO
+sizeat 23 23
+
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[21] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl fortymm_electro 20
+			{
+			ife EQUIPMENT_RESEARCH[21] 0 { setarray EQUIPMENT_RESEARCH[21] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add fortymm_electro 2
+			ifg fortymm_electro 20 set fortymm_electro 20
+
+			state PICKUP_DISPLAY
+			set picked_up_tile FORTYMM_ELECTRO
+			set item_amount 2
+			userquote 1731
+	        ifspawnedby FORTYMM_ELECTRO
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+spriteshadow FORTYMM_CRYO
+useractor notenemy FORTYMM_CRYO
+sizeat 23 23
+
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[22] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl fortymm_electro 20
+			{
+			ife EQUIPMENT_RESEARCH[22] 0 { setarray EQUIPMENT_RESEARCH[22] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add fortymm_cryo 2
+			ifg fortymm_cryo 20 set fortymm_cryo 20
+
+			state PICKUP_DISPLAY
+			set picked_up_tile FORTYMM_CRYO
+			set item_amount 2
+			userquote 1730
+	        ifspawnedby FORTYMM_CRYO
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+spriteshadow FORTYMM_SHELLS
+useractor notenemy FORTYMM_SHELLS
+sizeat 40 40
+
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[15] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl fortymm_shells 16
+			{
+			ife EQUIPMENT_RESEARCH[15] 0 { setarray EQUIPMENT_RESEARCH[15] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add fortymm_shells 8
+			ifg fortymm_shells 16 set fortymm_shells 16
+
+			state PICKUP_DISPLAY
+			set picked_up_tile FORTYMM_SHELLS
+			set item_amount 7
+			userquote 1729
+	        ifspawnedby FORTYMM_SHELLS
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+spriteshadow EXPL_SHELLS
+useractor notenemy EXPL_SHELLS
+sizeat 32 32
+
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[1] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl explosive_shells 20
+			{
+			ife EQUIPMENT_RESEARCH[1] 0 { setarray EQUIPMENT_RESEARCH[1] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add explosive_shells 10
+			ifg explosive_shells 40 set explosive_shells 40
+
+			state PICKUP_DISPLAY
+			set picked_up_tile EXPL_SHELLS
+			set item_amount 10
+			userquote 1728
+	        ifspawnedby EXPL_SHELLS
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+spriteshadow FLECHETE_SHELLS
+useractor notenemy FLECHETE_SHELLS
+sizeat 32 32
+
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[2] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl flechete_shells 40
+			{
+			ife EQUIPMENT_RESEARCH[2] 0 { setarray EQUIPMENT_RESEARCH[2] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add flechete_shells 10
+			ifg flechete_shells 40 set flechete_shells 40
+
+			state PICKUP_DISPLAY
+			set picked_up_tile FLECHETE_SHELLS
+			set item_amount 10
+			userquote 1727
+	        ifspawnedby FLECHETE_SHELLS
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+spriteshadow TESLA_AMMO_SPRITE
+useractor notenemy TESLA_AMMO_SPRITE
+sizeat 24 24
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[4] 2 nullop else killit
+	set zvel_saved 0
+	}
+ifaction 0
+	{
+	geta[].mdflags temp
+	orvar temp 16
+	seta[].mdflags temp
+	action ZERO
+	}
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl tesla_ammo 200
+			{
+			ife EQUIPMENT_RESEARCH[4] 0 { setarray EQUIPMENT_RESEARCH[4] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			ife WEAPONS_RESEARCH[RS_W_ENERGY_SACK] 2 
+				{
+				add tesla_ammo 75
+				ifg tesla_ammo 300 set tesla_ammo 300
+				} 
+			else 
+				{
+				add tesla_ammo 50
+				ifg tesla_ammo 200 set tesla_ammo 200
+				}
+			
+
+			state PICKUP_DISPLAY
+			set picked_up_tile TESLA_AMMO_SPRITE
+			set item_amount 50
+			userquote 1726
+	        ifspawnedby TESLA_AMMO_SPRITE
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+appendevent EVENT_LOADACTOR
+	// These pickups are introduced in EP4, extra is set to -2 on the pickups on Welys (EP4 base level)
+	// To display without picking up and explain what they do
+	switch sprite[].picnum
+		case SILVER_CROSSBOW_BOLTS
+		case VOID_CROSSBOW_BOLTS
+		case ORANGE_MANA_PICKUP
+		case GREEN_MANA_PICKUP
+		case BLUE_MANA_PICKUP
+		case PURPLE_MANA_PICKUP
+		case CROSSBOWSPRITE
+		case RW_CROSSBOW_SPRITE
+			geta[].extra extra_saved
+			break
+	endswitch
+endevent
+
+spriteshadow SILVER_CROSSBOW_BOLTS
+useractor notenemy SILVER_CROSSBOW_BOLTS
+sizeat 32 32
+
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[6] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+
+	ifn extra_saved -2 // not the tutorial display item on Welys
+	  ifn extra_saved -3
+	{
+		state ITEM_SETTINGS
+	  state can_pickup_item
+	  ife actor_return 1
+		ifl silver_bolts bolt_cap
+				{
+			ife EQUIPMENT_RESEARCH[6] 0 { setarray EQUIPMENT_RESEARCH[6] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add silver_bolts 10
+			ifg silver_bolts bolt_cap set silver_bolts bolt_cap
+
+			state PICKUP_DISPLAY
+			set picked_up_tile SILVER_CROSSBOW_BOLTS
+			set item_amount 10
+			userquote 1725
+			ifspawnedby SILVER_CROSSBOW_BOLTS
+			  state getcode
+			else
+			  state quikget
+				}
+	}
+	else ife extra_saved -3 // spawn crossbow when used
+	{
+	  state can_pickup_item
+	  ife actor_return 1
+		{
+			state use_prompt
+			ife use_action_allowed 1
+			{
+				set hit_key 30
+				espawn SILVER_CROSSBOW_BOLTS
+				state setIgnoreUse
+			}
+		}
+	}
+enda
+
+spriteshadow VOID_CROSSBOW_BOLTS
+useractor notenemy VOID_CROSSBOW_BOLTS
+	sizeat 32 32
+
+	ifn extra_saved -2 // not the tutorial display item on Welys
+	  ifn extra_saved -3
+	{
+		state ITEM_SETTINGS
+		  state can_pickup_item
+		  ife actor_return 1
+			 ifl void_bolts bolt_cap
+					{
+				// ife EQUIPMENT_RESEARCH[6] 0 { setarray EQUIPMENT_RESEARCH[6] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+				add void_bolts 5
+				ifg void_bolts bolt_cap set void_bolts bolt_cap
+
+				state PICKUP_DISPLAY
+				set picked_up_tile VOID_CROSSBOW_BOLTS
+				set item_amount 5
+				userquote 1724
+				ifspawnedby VOID_CROSSBOW_BOLTS
+				  state getcode
+				else
+				  state quikget
+					}
+	}
+	else ife extra_saved -3 // spawn crossbow when used
+	{
+	  state can_pickup_item
+	  ife actor_return 1
+		{
+			state use_prompt
+			ife use_action_allowed 1
+			{
+				set hit_key 30
+				espawn VOID_CROSSBOW_BOLTS
+				state setIgnoreUse
+			}
+		}
+	}
+enda
+
+spritenopal ORANGE_MANA_PICKUP
+spritenoshade ORANGE_MANA_PICKUP
+spriteshadow ORANGE_MANA_PICKUP
+
+useractor notenemy ORANGE_MANA_PICKUP
+
+	ifaction 0
+		{
+		sizeat 24 24
+		action ZERO
+		cstat 0 set
+		command 32768
+		geta[].mdflags temp
+		orvar temp 16
+		seta[].mdflags temp
+		}
+
+	ifn extra_saved -2 // not the tutorial display item on Welys
+	  ifn extra_saved -3
+	{
+		state ITEM_SETTINGS
+		  state can_pickup_item
+		  ife actor_return 1
+					 ifl p_orange_mana max_orange_mana
+						{
+					add p_orange_mana 4
+					clamp p_orange_mana 0 max_orange_mana
+
+					state PICKUP_DISPLAY
+					set picked_up_tile ORANGE_MANA_PICKUP
+					set item_amount 4
+					userquote 1723
+					ifspawnedby ORANGE_MANA_PICKUP
+					  state getcode
+					else
+					  state quikget
+						}
+	}
+	else ife extra_saved -3
+	{
+	  state can_pickup_item
+	  ife actor_return 1
+		{
+			state use_prompt
+			ife use_action_allowed 1
+			{
+				set hit_key 30
+				espawn ORANGE_MANA_PICKUP
+				state setIgnoreUse
+			}
+		}
+	}
+enda
+
+spritenopal GREEN_MANA_PICKUP
+spritenoshade GREEN_MANA_PICKUP
+spriteshadow GREEN_MANA_PICKUP
+
+useractor notenemy GREEN_MANA_PICKUP
+
+	ifaction 0
+	{
+		sizeat 24 24
+		action ZERO
+		cstat 0 set command 32768
+		geta[].mdflags temp
+		orvar temp 16
+		seta[].mdflags temp
+	}
+
+	ifn extra_saved -2 // not the tutorial display item on Welys
+	  ifn extra_saved -3
+	{
+		state ITEM_SETTINGS
+	  state can_pickup_item
+	  ife actor_return 1
+		ifl p_green_mana max_green_mana
+		{
+				add p_green_mana 8
+				clamp p_green_mana 0 max_green_mana
+
+				state PICKUP_DISPLAY
+				set picked_up_tile GREEN_MANA_PICKUP
+				set item_amount 8
+				userquote 1722
+				ifspawnedby GREEN_MANA_PICKUP
+				  state getcode
+				else
+				  state quikget
+		}
+	}
+	else ife extra_saved -3
+	{
+	  state can_pickup_item
+	  ife actor_return 1
+		{
+			state use_prompt
+			ife use_action_allowed 1
+			{
+				set hit_key 30
+				espawn GREEN_MANA_PICKUP
+				state setIgnoreUse
+			}
+		}
+	}
+enda
+
+spritenopal BLUE_MANA_PICKUP
+spritenoshade BLUE_MANA_PICKUP
+spriteshadow BLUE_MANA_PICKUP
+
+useractor notenemy BLUE_MANA_PICKUP
+
+	ifaction 0
+		{
+		sizeat 24 24
+		action ZERO
+		cstat 0 set
+		command 32768
+		geta[].mdflags temp
+		orvar temp 16
+		seta[].mdflags temp
+		}
+
+	ifn extra_saved -2 // not the tutorial display item on Welys
+	  ifn extra_saved -3
+	{
+		state ITEM_SETTINGS
+		  state can_pickup_item
+		  ife actor_return 1
+			 ifl p_blue_mana max_blue_mana
+						{
+					add p_blue_mana 16
+					clamp p_blue_mana 0 max_blue_mana
+
+					state PICKUP_DISPLAY
+					set picked_up_tile BLUE_MANA_PICKUP
+					set item_amount 16
+					userquote 1721
+					ifspawnedby BLUE_MANA_PICKUP
+					  state getcode
+					else
+					  state quikget
+						}
+	}
+	else ife extra_saved -3
+	{
+	  state can_pickup_item
+	  ife actor_return 1
+		{
+			state use_prompt
+			ife use_action_allowed 1
+			{
+				set hit_key 30
+				espawn BLUE_MANA_PICKUP
+				state setIgnoreUse
+			}
+		}
+	}
+enda
+
+spritenopal PURPLE_MANA_PICKUP
+spritenoshade PURPLE_MANA_PICKUP
+spriteshadow PURPLE_MANA_PICKUP
+
+useractor notenemy PURPLE_MANA_PICKUP
+
+	ifaction 0
+		{
+		sizeat 24 24
+		action ZERO
+		cstat 0 set
+		command 32768
+		geta[].mdflags temp
+		orvar temp 16
+		seta[].mdflags temp
+		}
+
+
+	ifn extra_saved -2 // not the tutorial display item on Welys
+	  ifn extra_saved -3
+	{
+		state ITEM_SETTINGS
+		  state can_pickup_item
+		  ife actor_return 1
+					 ifl p_purple_mana max_purple_mana
+						{
+					add p_purple_mana 2
+					clamp p_purple_mana 0 max_purple_mana
+
+					state PICKUP_DISPLAY
+					set picked_up_tile PURPLE_MANA_PICKUP
+					set item_amount 2
+					userquote 1720
+					ifspawnedby PURPLE_MANA_PICKUP
+					  state getcode
+					else
+					  state quikget
+						}
+	}
+	else ife extra_saved -3
+	{
+	  state can_pickup_item
+	  ife actor_return 1
+		{
+			state use_prompt
+			ife use_action_allowed 1
+			{
+				set hit_key 30
+				espawn PURPLE_MANA_PICKUP
+				state setIgnoreUse
+			}
+		}
+	}
+enda
+
+spriteshadow MICRO_TORPEDO_PACK
+useractor notenemy MICRO_TORPEDO_PACK
+sizeat 20 20
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[8] 2 nullop else killit
+	set zvel_saved 0
+	}
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl micro_torpedo 25
+			{
+			ife EQUIPMENT_RESEARCH[8] 0 { setarray EQUIPMENT_RESEARCH[8] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add micro_torpedo 5
+			ifg micro_torpedo 25 set micro_torpedo 25
+
+			state PICKUP_DISPLAY
+			set picked_up_tile MICRO_TORPEDO_PACK
+			set item_amount 5
+
+		userquote 1719
+		ifspawnedby MICRO_TORPEDO_PACK
+		  state getcode
+		else
+		  state quikget
+			}
+enda
+
+spriteshadow MAGNUM_SHELLS
+useractor notenemy MAGNUM_SHELLS
+sizeat 32 32
+
+
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[9] 2 nullop else killit
+	set zvel_saved 0
+	}
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+	 ifl magnum_shells 40
+			{
+			ife EQUIPMENT_RESEARCH[9] 0 { setarray EQUIPMENT_RESEARCH[9] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add magnum_shells 10
+			ifg magnum_shells 40 set magnum_shells 40
+
+			state PICKUP_DISPLAY
+			set picked_up_tile MAGNUM_SHELLS
+			set item_amount 10
+			userquote 1718
+	        ifspawnedby MAGNUM_SHELLS
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+spriteshadow DRAGONS_SHELLS
+useractor notenemy DRAGONS_SHELLS
+sizeat 32 32
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[20] 2 nullop else killit
+	set zvel_saved 0
+	}
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl dragon_shells 20
+			{
+			ife EQUIPMENT_RESEARCH[20] 0 { setarray EQUIPMENT_RESEARCH[20] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add dragon_shells 10
+			ifg dragon_shells 20 set dragon_shells 20
+
+			state PICKUP_DISPLAY
+			set picked_up_tile DRAGONS_SHELLS
+			set item_amount 10
+
+			userquote 1717
+	        ifspawnedby DRAGONS_SHELLS
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+spriteshadow SILVERBALL_SHELLS
+useractor notenemy SILVERBALL_SHELLS
+sizeat 32 32
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[24] 2 nullop else killit
+	set zvel_saved 0
+	}
+state ITEM_SETTINGS
+  state can_pickup_item
+   ife actor_return 1
+	ifl silverb_shells 20
+			{
+			ife EQUIPMENT_RESEARCH[24] 0 { setarray EQUIPMENT_RESEARCH[24] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add silverb_shells 10
+			ifg silverb_shells 20 set silverb_shells 20
+
+			state PICKUP_DISPLAY
+			set picked_up_tile SILVERBALL_SHELLS
+			set item_amount 10
+
+			userquote 1763
+	        ifspawnedby SILVERBALL_SHELLS
+	          state getcode
+	        else
+	          state quikget
+			}
+enda
+
+spriteshadow HEAT_SEEK_CARD_PICKUP
+useractor notenemy HEAT_SEEK_CARD_PICKUP
+sizeat 40 40
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[10] 2 nullop else killit
+	set zvel_saved 0
+	}
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+	ifl heat_seek_card 5
+			{
+			ife EQUIPMENT_RESEARCH[10] 0 { setarray EQUIPMENT_RESEARCH[10] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			ife PERSONNEL_RESEARCH[15] 2 // has advanced heat seeking card project?
+				{
+				add heat_seek_card 10
+				ifg heat_seek_card 10 set heat_seek_card 10
+				}
+			else
+				{
+				add heat_seek_card 5
+				ifg heat_seek_card 5 set heat_seek_card 5
+				}
+
+			state PICKUP_DISPLAY
+			set picked_up_tile HEAT_SEEK_CARD_PICKUP
+			set item_amount 5
+		userquote 1716
+		ifspawnedby HEAT_SEEK_CARD_PICKUP
+		  state getcode
+		else
+		  state quikget
+			}
+enda
+
+spriteshadow ATOMIC_BOMB_PICKUP
+useractor notenemy ATOMIC_BOMB_PICKUP
+sizeat 40 40
+ife zvel_saved 2 // check to see if the player's researched this
+	{
+	ife EQUIPMENT_RESEARCH[11] 2 nullop else killit
+	set zvel_saved 0
+	}
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl atomic_bomb 1
+			{
+			ife EQUIPMENT_RESEARCH[11] 0 { setarray EQUIPMENT_RESEARCH[11] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add atomic_bomb 1
+			ifg atomic_bomb 1 set atomic_bomb 1
+
+			state PICKUP_DISPLAY
+			set picked_up_tile ATOMIC_BOMB_PICKUP
+			set item_amount 1
+		userquote 1715
+		ifspawnedby ATOMIC_BOMB_PICKUP
+		  state getcode
+		else
+		  state quikget
+			}
+enda
+
+spriteshadow DUP_MISSILES_PICKUP
+useractor notenemy DUP_MISSILES_PICKUP
+sizeat 40 40
+state ITEM_SETTINGS
+  state can_pickup_item
+  ife actor_return 1
+			 ifl DUP_missile_ammo 10
+			{
+			ife EQUIPMENT_RESEARCH[12] 0 { setarray EQUIPMENT_RESEARCH[12] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+			add DUP_missile_ammo 10
+			ifg DUP_missile_ammo 10 set heat_seek_card 10
+
+			state PICKUP_DISPLAY
+			set picked_up_tile DUP_MISSILES_PICKUP
+			set item_amount 10
+
+		ifspawnedby DUP_MISSILES_PICKUP
+		  state getcode
+		else
+		  state quikget
+			}
+enda
+
+
+spriteshadow HEAT_SINK_PACK
+useractor notenemy HEAT_SINK_PACK // heat sinks
+state ITEM_SETTINGS
+
+ifaction 0 { sizeat 24 24 action ZERO cstat 0 }
+
+
+  state can_pickup_item
+  ife actor_return 1
+	  {
+	ife HEAT_SINKS 10 break
+	else
+		{
+		add HEAT_SINKS 3
+		ifg HEAT_SINKS 10 set HEAT_SINKS 10
+		ife EQUIPMENT_RESEARCH[19] 0 { setarray EQUIPMENT_RESEARCH[19] 3 ifand new_research 2 nullop else xorvar new_research 2 set array_save 1 }
+
+			state PICKUP_DISPLAY
+			geta[].picnum picked_up_tile
+			setarray picked_up_inven[1] 60
+			set item_amount 3
+
+		userquote 1713
+		ifspawnedby HEAT_SINK_PACK
+		  state getcode
+		else
+		  state quikget
+		}
+	  }
+enda

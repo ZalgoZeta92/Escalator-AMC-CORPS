@@ -1,0 +1,433 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+
+// ************************************************************************************
+// PARADIGM ESCHATON SPACESUIT
+// ************************************************************************************
+
+damageeventtile PE_SPACES
+
+action A_PESPACES_START 0 1 5 1 20
+action A_PESPACES_IDLE 0 1 5 1 20
+
+action A_PESPACES_DEAD 59 1 1 1 10
+action A_PESPACES_HEADDEAD 64 1 1 1 10
+action A_PESPACES_HEADSHOT 60 5 1 1 16
+action A_PESPACES_DYING 55 5 1 1 16
+
+action A_PESPACES_FREEZE 55 1 5 1 10
+action A_PESPACES_GROW 55 1 1 1 10
+action A_PESPACES_SHRUNK  0 4 5 1 12
+action A_PESPACES_PAIN 55 1 1 1 10
+action A_PESPACES_SEEK  10 4 5 1 12
+action A_PESPACES_FIRE 0 2 5 1 12
+
+action A_PESPACES_FLY 30 1 5 1 8
+
+action A_PESPACE_SHOOTUP 35 2 5 1 12
+action A_PESPACE_SHOOTDOWN 30 2 5 1 12
+
+move M_PESPACES_WALK 120
+
+move M_STOP_FALL 0 -18
+
+move M_PESPACES_FLYUP 150 -64
+move M_PESPACES_FLYDOWN 150 32
+move M_PESPACES_FLYSTRAIGHT 150 -18 // the upwards velocity counteracts the fall velocity to give the appearance of flying straight
+
+defstate pe_spaces_fire
+		ifaction A_PESPACES_FIRE move STOP
+		else move M_STOP_FALL getv
+		state new_validatetarget
+
+		ife my_target -1
+		{
+			ifrnd 32 ife npc_talking 0 { ife GENDER MALE set npc_sound PE_HAHAHA else set npc_sound PE_F_HAHA soundoncevar npc_sound }
+			ifaction A_PESPACES_FIRE action A_PESPACES_SEEK
+			else action A_PESPACES_FLY
+		}
+		state fronttowardstarget
+		{
+			ifactioncount 1
+			{
+				add ally_mag 1
+				ifspritepal 21
+				{
+					set PROJECTILE_STRENGTH 12
+					set PROJECTILE_TO_SHOOT ENEMY_BULLET
+					state M16_RIFLE_SOUNDS
+					state sang_enemyShootProjectile
+				}
+				else
+				{
+					state DARKNESS_TARGET_ACCURACY
+					set PROJECTILE_TO_SHOOT ENEMY_BULLET
+					state PARADIGM_SMG_SOUNDS 
+					state sang_enemyShootProjectile
+				}
+
+				ife PERFMODE 1
+				 ifcansee
+				  ife INVASION 0
+				{
+					set gunsmoke_z 8244
+					set gunsmoke_angle 128
+					state spawn_gunsmoke_z
+					set gunsmoke_z 6344
+					espawn 16115
+					state spawn_muzzleflash
+					state npc_pistolshell
+				}
+				ifg ally_mag 8 { action A_PESPACES_SEEK set ally_mag -30 }
+				resetactioncount
+			}
+		}
+ends
+
+defstate pe_spaces_startup
+		cstator 257
+		ife actor_pal 0 geta[].pal actor_pal
+		ife actor_pal 21 { set NPC_SHIELD 400 set actor_type TYPE_BODY_ARMOUR }
+		strength 125 
+		ifrnd 128 { sizeat 22 23 set GENDER FEMALE } else { sizeat 24 24 set GENDER MALE }
+		state monst_glow
+		spawn SHOOTME
+
+		set MONSTER_FLAGS 2
+		set npc_talking 0
+		spriteflags NORMAL_ENEMY
+		set ally_mag 30
+ends
+
+useractor enemystayput PE_SPACES_STAYPUT 125 A_PESPACES_START
+	state monst_glow
+	cactor PE_SPACES
+enda
+
+useractor enemy PE_SPACES_FLY 125
+	state monst_glow
+	action A_PESPACES_FLY
+	state pe_spaces_startup
+	cactor PE_SPACES
+enda
+
+useractor enemy PE_SPACES 125 A_PESPACES_START
+	fall
+
+	ifaction A_PESPACES_START
+	{
+		state pe_spaces_startup
+
+		action A_PESPACES_IDLE
+	}
+
+	ife actor_pal 21 state ENEMY_SHIELD_STUFF
+
+	ifg npc_talking 0 sub npc_talking 1
+
+	state actor_knockback_state
+	xor element_type FLOOR_DAMAGE
+	xor element_type FIRE_DAMAGE
+	xor element_type ICE_DAMAGE
+	xor element_type SPIRIT_DAMAGE
+
+	ifaction A_PESPACES_IDLE
+	{
+		move STOP
+		state checkfortarget
+
+		ifn my_target -1
+		{
+			ifcansee
+				state pegrunt_recog_sound
+
+			action A_PESPACES_SEEK
+		}
+	}
+	else ifaction A_PESPACES_DEAD
+		state pegrunt_dead
+	else ifaction A_PESPACES_HEADDEAD
+		state pegrunt_dead
+	else ifaction A_PESPACES_HEADSHOT
+	{
+		strength 0
+		ifactioncount 5 { state BODY_FALL_NOISES spawn BLOODPOOL action A_PESPACES_HEADDEAD }
+	}
+	else ifaction A_PESPACES_DYING
+	{
+		strength 0
+		ifactioncount 5 { state BODY_FALL_NOISES spawn BLOODPOOL action A_PESPACES_DEAD }
+	}
+	else ifaction A_PESPACES_FREEZE
+		state frozen_code
+	else ifaction A_PESPACES_GROW
+	{
+		move STOP
+		state genericgrowcode
+	}
+	else ifaction A_PESPACES_SHRUNK
+	{
+		ifmove M_PESPACES_WALK nullop
+		else move M_PESPACES_WALK geth fleeenemy
+
+		ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+			state new_shrunkcode
+		else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+		{
+			state unshrink
+
+			ifspritepal 24 { sizeto 26 26 }
+			else
+			{
+				ife GENDER FEMALE
+					sizeto 22 23
+				else ife GENDER MALE
+					sizeto 24 24
+			}
+		}
+		else // after regrow, switch back to regular action
+		{
+			state endshrunkenstate
+			action A_PESPACES_SEEK
+		}
+	}
+	else ifaction A_PESPACES_PAIN
+	{
+		move STOP
+		sub PAIN_AMOUNT 1
+		ife PAIN_AMOUNT 0 action A_PESPACES_SEEK
+	}
+	else ifaction A_PESPACES_FLY
+	{
+	state float_check
+	set FLOATING_CUR RETURN
+
+		ife RETURN -1
+		{
+			ifmove M_PESPACES_FLYDOWN nullop
+			else move M_PESPACES_FLYDOWN geth getv
+		}
+		else ife RETURN 0
+		{
+			ifmove M_PESPACES_FLYSTRAIGHT nullop
+			else move M_PESPACES_FLYSTRAIGHT geth getv
+		}
+		else ife RETURN 1
+		{
+			ifmove M_PESPACES_FLYUP nullop
+			else move M_PESPACES_FLYUP geth getv
+		}
+		
+		ifl ally_mag 0 add ally_mag 1
+		ifg ally_mag 0 sub ally_mag 1
+		
+		state checkfortarget
+	
+		ifn my_target -1
+			ife ally_mag 0
+		{
+			state SKILL_SHOOT_LEVELADJUST
+			ifl RANDOM_CHANCE SKILLCHANCE
+			{
+				ife npc_talking 0
+					state pegrunt_chat_target
+
+				ifp phigher action A_PESPACE_SHOOTUP
+				else action A_PESPACE_SHOOTDOWN
+			}
+		}
+
+		ife my_target -1
+		  ifrnd 2
+			state pegrunt_chat_seek
+		
+	}
+	else ifaction A_PESPACES_SEEK
+	{
+		ifmove M_PESPACES_WALK nullop
+		else move M_PESPACES_WALK geth
+	
+		
+		ifp phigher action A_PESPACES_FLY
+		else ifp pjetpack action A_PESPACES_FLY
+
+		ifl ally_mag 0 add ally_mag 1
+		ifg ally_mag 0 sub ally_mag 1
+
+		ife npc_talking 0
+			state pegrunt_chat_underfire
+
+		ifnotmoving ifrnd 32 operate
+
+		state checkfortarget
+
+		ifn my_target -1
+			ife ally_mag 0
+		{
+			state SKILL_SHOOT_LEVELADJUST
+			ifl RANDOM_CHANCE SKILLCHANCE
+			{
+				ife npc_talking 0
+					state pegrunt_chat_target
+
+				action A_PESPACES_FIRE
+			}
+		}
+
+		ife my_target -1
+		  ifrnd 2
+			state pegrunt_chat_seek
+	}
+	else ifaction A_PESPACE_SHOOTUP state pe_spaces_fire
+	else ifaction A_PESPACE_SHOOTDOWN state pe_spaces_fire
+	else ifaction A_PESPACES_FIRE state pe_spaces_fire
+
+	ifhitweapon
+	{
+	state NEWGUNEFFECTS
+	ife INVASION 0
+	ifcansee
+		state random_wall_jibs
+
+	ifdead
+	{
+		ifn npc_sound 0 stopactorsound THISACTOR npc_sound
+		ifand npc_killed 32 nullop else xorvar npc_killed 32
+		addkills 1
+
+		ifwasweapon RADIUSEXPLOSION
+		{
+			geta[].extra temp
+			state squish_sounds
+			state standard_jibs
+			state human_jibs
+			killit
+		}
+		ifwasweapon RPG
+		{
+			geta[].extra temp
+			state squish_sounds
+			state standard_jibs
+			state human_jibs
+			killit
+		}
+		ifand proj_udata PROJ_GIB
+		{
+		    geta[].extra temp
+			state squish_sounds
+			state standard_jibs
+			state human_jibs
+			killit
+		}
+		ifand proj_udata 8192
+		 {
+			 ifrnd 4 ife GENDER MALE { spawn ELECTROCUTE_MARV soundonce MALE_ELECT1 } else spawn ELECTROCUTE_GUY
+			 shoot SPARK2 shoot SPARK2 shoot SPARK2
+			 killit
+		 }
+		else ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_PESPACES_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 1 sound SOMETHINGFROZE action A_PESPACES_FREEZE }
+		else
+		{
+			state rf
+			ife HEADSHOT 2
+			{
+				ifg fire_damage 0 set fire_damage 0
+				state random_trigger_showoff
+				state jib_sounds
+				state decap_sounds
+				sound PRESSURIZE
+				geta[].z temp
+				sub temp 4096
+				espawn WFRAMES
+				seta[RETURN].pal 12
+				seta[RETURN].z temp
+				shoot NJIB
+				shoot NJIB
+				guts JIBS6 3
+				guts JIBS2 2
+				action A_PESPACES_HEADSHOT
+			}
+			else ifg spirit_damage 0
+			{
+				shoot SPARK2 shoot SPARK2 shoot SPARK2
+				spritepal 1
+				guts JIBS3 6
+				spawn SPIRIT_DEATH_GUY
+				killit
+			}
+			else ifg fire_damage 0
+			{
+				state pegrunt_chat_onfire
+				set PLAYER_VOICEOVER 21
+				spawn ONFIREGUY
+				killit
+			}
+			else ifg energy_damage 0
+			{
+				shoot SPARK2 shoot SPARK2 shoot SPARK2
+				spritepal 4
+				guts JIBS3 6
+				spawn DISINTIGRATE_GUY
+				killit
+			}
+			else
+			{
+					ife GENDER MALE { ifrnd 128 sound PE_PAIN1 else sound PE_PAIN2 }
+					else { ifrnd 128 sound PE_F_PAIIN1 else sound PE_F_PAIN2 }
+					action A_PESPACES_DYING
+			}
+			ifrnd 48 
+				{ 
+				ifspritepal 21 { espawn AR65_SPRITE randvar temp 50 setactorvar[RETURN].yvel_saved temp } else
+				{ espawn M960_SPRITE randvar temp 50 setactorvar[RETURN].yvel_saved temp }
+				}
+		}
+		
+		ifle LIFE_SUPPORT 3000 { espawn SPACESUIT_REFILL seta[RETURN].pal 21 }
+
+		ifphealthl 50
+		{
+			state SKILL_LEVELADJUST
+			ifl RANDOM_CHANCE SKILLCHANCE spawn HYPOSPRAY
+		}
+	}
+	else // not dead
+	{
+		ifg PAIN_AMOUNT 0 action A_PESPACES_PAIN
+		else ifrnd 16 { state PAIN_SKILL_LEVELADJUST action A_PESPACES_PAIN }
+		else ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_PESPACES_SHRUNK }
+		else ifaction A_PESPACES_IDLE { state PAIN_SKILL_LEVELADJUST action A_PESPACES_PAIN }
+	}
+}
+
+state checksquished
+
+enda

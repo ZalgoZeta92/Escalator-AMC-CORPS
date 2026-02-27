@@ -1,0 +1,311 @@
+// PLAYER DUPLICATE==========================================================================================================
+
+defstate hide_cutscene
+ifg hitag_saved 0
+{
+ifl camerasprite 0 cstat 32768
+else
+	{
+	ifg hitag_saved 1
+		{
+		checkactivatormotion hitag_saved
+		ife RETURN 1 { set hitag_saved 1 cstat 0 }
+		}
+	else cstat 2048
+	}
+}
+ends
+
+defstate facing_code
+ifvarn dummy_face -1
+{
+getactor[dummy_face].x mx
+getactor[dummy_face].y my
+subvarvar mx sprite[].x
+subvarvar my sprite[].y
+getangle angvar mx my
+seta[THISACTOR].ang angvar
+}
+ends
+
+
+action AMCS_STAND2 7644 1 5
+
+action AMCS_RUN2 7624 4 5 1 10
+
+move fake_player_run 120 0
+
+var DUMMY_MOVEMENT 0 2
+
+spriteshadow DUMMY_PLAYER
+spritenoshade DUMMY_PLAYER
+
+useractor notenemy DUMMY_PLAYER 100 0
+state facing_code
+state spawn_cold_breathe
+seta[].mdflags 16
+ifand zvel_saved 4 nullop else
+	{
+	seta[].shade sector[].floorshade
+	seta[].pal sector[].floorpal
+	}
+
+ife sprite[].cstat 80 nullop else
+ifand zvel_saved 2 nullop else
+	{
+	ifaction AMCS_STAND2 sizeat 23 23 else
+	ifaction AMCS_RUN2 sizeat 23 23 else
+	sizeat 34 34
+	}
+
+ifand zvel_saved 1
+{
+ifvarn zpos_saved 0 seta[].z zpos_saved
+}
+else fall
+
+ifspawnedby APLAYER { set extra_saved -1 ife PCAMERA 0 killit }
+ifl extra_saved -1 set extra_saved -1
+ifg hitag_saved 0 state facing_code
+ife hitag_saved 1 { ifn camerasprite -1 cstat 0 else cstat 32768 }
+
+// hitag > 2 -- if in cutscene, check if activated, then make visible
+ifg hitag_saved 2
+{
+ifl camerasprite 0
+cstat 32768
+else
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1 cstat 0
+	}
+}
+
+ifspawnedby RESPAWN
+{
+ife hitag_saved 2
+	{
+	checkactivatormotion 811
+	ife RETURN 1 killit
+	}
+}
+
+ifn owner_saved -1
+{
+checkactivatormotion owner_saved
+ife RETURN 1 killit
+}
+
+ife extra_saved -1
+	{
+	geta[].htflags temp
+	xorvar temp 4
+	seta[].htflags temp
+	ife DUMMY_MOVEMENT 0 set DUMMY_MOVEMENT 1
+	}
+else
+	{
+	ifaction 0
+	 ifg player[].player_par 10 // gives some time for timezone actor to kick in
+		{
+		ifg extra_saved 99 // sets character to which character beat chosen levels
+			{
+			readarrayfromfile BEATEN_LEVEL_CHAR F_PLAYED_AS_AMCTC
+			ife extra_saved 100 set extra_saved BEATEN_LEVEL_CHAR[0] // City under siege
+			ife extra_saved 101 set extra_saved BEATEN_LEVEL_CHAR[1] // Chisland
+			ife extra_saved 102 set extra_saved BEATEN_LEVEL_CHAR[2] // X64-2
+			ife extra_saved 103 set extra_saved BEATEN_LEVEL_CHAR[3] // Egypt
+			ife extra_saved 104 set extra_saved BEATEN_LEVEL_CHAR[4] // Base Invasion
+			ife extra_saved 105 set extra_saved BEATEN_LEVEL_CHAR[5] // Megabase
+			ife extra_saved 106 set extra_saved BEATEN_LEVEL_CHAR[6] // Dis Base
+			ife extra_saved 200 // for chisland ending cutscene
+				{
+				ife CHARSELECT 0
+					{
+					ife CHAR 0 killit
+					else ife CHAR 13 killit
+					else set extra_saved CHAR
+					}
+				}
+			}
+		else
+			{
+			ife extra_saved 30 { ifspritepal 0 spritepal 3 action AMCS_STAND2 } 
+			else { ifaction DUMMY_STAND nullop else action DUMMY_STAND }
+			}
+		set DUMMY_MOVEMENT 1
+		}
+	}
+
+ife DUMMY_MOVEMENT 1 // 'Idle'
+{
+move STOP
+ife extra_saved 30 action AMCS_STAND2 else 
+	{
+	ifaction DUMMY_STAND nullop else action DUMMY_STAND
+	}
+	ife speaker 50 // change to idle variants
+		{
+		action 0
+		ife extra_saved 0 { seta[].xrepeat James_anims[30] seta[].yrepeat James_anims[31] cactor 9017 }
+		ife extra_saved 1 { seta[].xrepeat Zaxtor_anims[30] seta[].yrepeat Zaxtor_anims[31] cactor 5611 }
+		ife extra_saved 2 { seta[].xrepeat Merlijn_anims[30] seta[].yrepeat Merlijn_anims[31] cactor 6425 }
+		ife extra_saved 3 { seta[].xrepeat Highwire_anims[30] seta[].yrepeat Highwire_anims[31] cactor 6019 }
+		ife extra_saved 4 { seta[].xrepeat Sang_anims[30] seta[].yrepeat Sang_anims[31] cactor 24011 }
+		ife extra_saved 5 
+			{
+			seta[].xrepeat Rusty_anims[30] seta[].yrepeat Rusty_anims[31]
+			ifand CHAR_APP 32 cactor 27864 else
+			cactor 6676
+			}
+		ife extra_saved 6 { seta[].xrepeat Geoffrey_anims[30] seta[].yrepeat Geoffrey_anims[31] cactor 6456 }
+		ife extra_saved 7 { seta[].xrepeat Mikko_anims[30] seta[].yrepeat Mikko_anims[31] cactor 20074 }
+		ife extra_saved 12 { seta[].xrepeat Jane_anims[30] seta[].yrepeat Jane_anims[31] cactor 12949 }
+		ife extra_saved 13 
+			{ 
+			seta[].xrepeat Micky_anims[30] seta[].yrepeat Micky_anims[31] 
+			ifand CHAR_APP 512 cactor 26807 
+			else ifand CHAR_APP 128 cactor 18527
+			else cactor 16585 
+			}
+		ife extra_saved 14 { seta[].xrepeat Snowfall_anims[30] seta[].yrepeat Snowfall_anims[31] cactor 20888 }
+		ife extra_saved 16 { seta[].xrepeat Rosa_anims[30] seta[].yrepeat Rosa_anims[31] cactor 34560 }
+		ife extra_saved 17 { seta[].xrepeat Kagura_anims[30] seta[].yrepeat Kagura_anims[31] cactor 27136 }
+		action 0
+		}
+
+ifn lotag_saved 0
+	{
+	checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		// ife extra_saved 30 { ifaction AMCS_RUN2 nullop else action AMCS_RUN2 } 
+		// else { ifaction DUMMY_RUN nullop else action DUMMY_RUN }
+		set DUMMY_MOVEMENT 2
+		}
+	}
+}
+ife DUMMY_MOVEMENT 2 // 'Running'
+	{
+	ife extra_saved 30 { ifaction AMCS_RUN2 nullop else action AMCS_RUN2 } 
+	else { ifaction DUMMY_RUN nullop else action DUMMY_RUN }
+	gets[].floorpicnum FLOORTEX
+	state CHECKSTEPSOUNDS
+	ifand zvel_saved 1 nullop else fall
+	move fake_player_run geth
+	randvar fstep_count 3
+	add temp4 1
+	ifg temp4 8
+		{
+		state RUNSOUNDS
+		set temp4 0
+		}
+	sub yvel_saved 1
+	ifl yvel_saved 1
+		{
+		move STOP
+			
+		ife extra_saved 30 action AMCS_STAND2
+		else
+			{
+			ifaction DUMMY_STAND nullop else action DUMMY_STAND
+			}
+		set DUMMY_MOVEMENT 1
+		}
+	}
+
+ifn temp9 0
+{
+fall
+ifvarvarn temp9 CONTROL_VR killit
+}
+
+enda
+
+action JS_D_PAIN 3948
+action JS2_D_PAIN 24322
+
+action Z_D_PAIN 4204
+
+action MRL_D_PAIN 5017
+
+action HIGH_D_PAIN 4716
+
+action SANG_D_PAIN 4953
+action SANG2_D_PAIN 22532
+
+action RUSTY_D_PAIN 5293
+
+action GEO_D_PAIN 5047
+
+action MIKKO_D_PAIN 5539
+
+action CULT_D_PAIN 6366
+
+action MICKY_D_PAIN 15019
+
+action BOMBSHELL_PAIN 8526
+
+action JANE_PAIN 11468
+
+action SNOWF_D_PAIN 19479
+
+action KAG_D_PAIN 25838
+
+action WHEATON_PAIN 34628
+
+// 108
+useractor notenemy 1403
+
+ifinwater
+{
+sleeptime 0
+spawn WATERBUBBLE
+fall
+}
+
+ifaction 0
+ife CHARSELECT 0
+{
+ifspritepal 0
+{
+getp[].palookup temp
+seta[].pal temp
+}
+ife CHAR 0 { ifand CHAR_APP 1 action JS2_D_PAIN else action JS_D_PAIN } else
+ife CHAR 1 action Z_D_PAIN else
+ife CHAR 2 { ifspritepal 0 spritepal 21 action MRL_D_PAIN } else
+ife CHAR 3 { ifspritepal 0 spritepal 3 action HIGH_D_PAIN } else
+ife CHAR 4
+{ ifspritepal 0 spritepal 21
+ifand CHAR_APP 2 action SANG2_D_PAIN else action SANG_D_PAIN
+}
+else
+ife CHAR 5 { ifspritepal 0 spritepal 12 action RUSTY_D_PAIN } else
+ife CHAR 6 { ifspritepal 0 spritepal 21 action GEO_D_PAIN } else
+ife CHAR 7 { ifspritepal 0 spritepal 11 action MIKKO_D_PAIN } else
+ife CHAR 9 action CULT_D_PAIN else
+ife CHAR 10 action BOMBSHELL_PAIN else
+ife CHAR 12 action JANE_PAIN else
+ife CHAR 13 { ifspritepal 0 spritepal 3 action MICKY_D_PAIN }
+ife CHAR 14 { ifspritepal 0 spritepal 3 action SNOWF_D_PAIN }
+ife CHAR 17 { ifspritepal 0 spritepal 3 action KAG_D_PAIN }
+ife CHAR 18 { ifspritepal 0 spritepal 3 action WHEATON_PAIN }
+}
+
+ifaction JS_D_PAIN sizeat 23 23 else
+ifaction JS2_D_PAIN sizeat 23 23 else
+ifaction MIKKO_D_PAIN sizeat 25 25 else
+ifaction GEO_D_PAIN sizeat 25 25 else
+ifaction HIGH_D_PAIN sizeat 21 21 else
+ifaction SANG_D_PAIN sizeat 25 25 else
+ifaction SANG2_D_PAIN sizeat 25 25 else
+ifaction RUSTY_D_PAIN sizeat 23 23 else
+ifaction MRL_D_PAIN sizeat 22 22 else
+ifaction MICKY_D_PAIN sizeat 23 23 else
+ifaction SNOWF_D_PAIN sizeat 21 21 else
+ifaction KAG_D_PAIN sizeat 23 23 else
+ifaction WHEATON_PAIN sizeat 22 22 else
+sizeat 34 34
+
+enda

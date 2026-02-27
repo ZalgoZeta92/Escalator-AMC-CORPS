@@ -1,0 +1,327 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile BEYOND_THING
+
+action A_BTHING_START 0 1 5 1 10
+
+action BEYT_BURST1 0 7 1 1 20
+action BEYT_BURSTED 7
+
+useractor notenemy BEYT_CORPSE1
+ifaction 0
+	{
+	ife lotag_saved 0 nullop else ifl SKILL_LEVEL lotag_saved killit
+	sizeat 30 30
+	ifn hitag_saved 0
+		{
+		checkactivatormotion hitag_saved
+		ife RETURN 1 action ZERO
+		}
+		else action ZERO
+	}
+else
+ifaction ZERO
+	{
+	ifpdistl 4096
+		{
+		spawn 2284
+		sound BEYT_BURST
+		guts JIBS6 6
+		action BEYT_BURST1
+		}
+	}
+else
+ifaction BEYT_BURST1
+	{
+	move STOP faceplayer
+	ifactioncount 6 { espawn BEYOND_THING seta[RETURN].ang sprite[].ang seta[RETURN].pal sprite[].pal seta[RETURN].shade sprite[].shade action BEYT_BURSTED }
+	}
+enda
+
+action BEYT_BURST2 0 4 1 1 16
+action BEYT_BURSTED2 4
+
+useractor notenemy BEYT_CORPSE2
+ifaction 0
+	{
+	ife lotag_saved 0 nullop else ifl SKILL_LEVEL lotag_saved killit
+	sizeat 30 30
+	ifn hitag_saved 0
+		{
+		checkactivatormotion hitag_saved
+		ife RETURN 1 action ZERO
+		}
+		else action ZERO
+	}
+else
+ifaction ZERO
+	{
+	ifpdistl 4096
+		{
+		guts JIBS6 6
+		sound BEYT_BURST
+		action BEYT_BURST2
+		}
+	}
+else
+ifaction BEYT_BURST2
+	{
+	move STOP faceplayer
+	ifactioncount 4 { seta[RETURN].ang sprite[].ang action ZERO state BODY_FALL_NOISES spawn 2284 cactor BEYT_CORPSE3 }
+	}
+enda
+
+action BEYT_BURST3 0 6 1 1 12
+
+useractor notenemy BEYT_CORPSE3
+ifaction 0
+	{
+	ife lotag_saved 0 nullop else ifl SKILL_LEVEL lotag_saved killit
+	sizeat 30 30
+	ifn hitag_saved 0
+		{
+		checkactivatormotion hitag_saved
+		ife RETURN 1 action ZERO
+		}
+		else action ZERO
+	}
+else
+ifaction ZERO
+	{
+	ifpdistl 4096
+		{
+		spawn 2284
+		guts JIBS6 6
+		sound BEYT_BURST
+		action BEYT_BURST3
+		}
+	}
+else
+ifaction BEYT_BURST3
+	{
+	move STOP faceplayer
+	ifactioncount 6 { seta[RETURN].ang sprite[].ang action A_BTHING_START cactor BEYOND_THING }
+	}
+enda
+
+// ======================================================================================
+// BEYOND THING
+// ======================================================================================
+
+action A_BTHING_IDLE 0 1 5 1 10
+action A_BTHING_SEEK 0 4 5 1 12
+action A_BTHING_SHRUNK 0 4 5 1 12
+action A_BTHING_ATTACK 20 4 5 1 12
+
+action A_BTHING_PAIN 40
+action A_BTHING_FREEZE 40
+action A_BTHING_GROW 40
+
+action A_BTHING_DYING 40 7 1 1 12
+action A_BTHING_DEAD 46
+
+move M_BTHING_WALK 140 0
+
+useractor enemy BEYOND_THING 500 A_BTHING_START
+fall
+ifaction A_BTHING_START
+{
+	sizeat 30 30
+	cstat 257
+	move STOP faceplayer
+	set actor_type TYPE_BEYOND_THING
+	ifrnd 128 sound BEYT_RCG1 else sound BEYT_RCG2
+	action A_BTHING_IDLE
+	strength 500
+	state monst_glow
+	espawn SHOOTME // Controls stuff like fire damage, targetting, .etc .etc - still used as a backup for the ally fighting stuff in-case an actor isn't set up with it yet
+	seta[RETURN].pal 1 // basically done just to make it clear that this actor is onboarded to the new targetting stuff, and is using SHOOTME for other purposes
+	action A_BTHING_IDLE
+}
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+
+ifaction A_BTHING_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1
+	{
+		// play alert sound here
+
+		action A_BTHING_SEEK
+	}
+}
+
+// Death & dying
+else ifaction A_BTHING_DEAD
+{
+cstat 0
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+else ifaction A_BTHING_DYING
+{
+	strength 0
+	ifactioncount 6 { state rf state BODY_FALL_NOISES action A_BTHING_DEAD }
+}
+
+// Status effects
+else ifaction A_BTHING_FREEZE state frozen_code
+else ifaction A_BTHING_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+else ifaction A_BTHING_SHRUNK
+{
+	ifmove M_BTHING_WALK { } // need to do this cause we're not using ai routines anymore
+	else
+		move M_BTHING_WALK geth fleeenemy
+
+	ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+		state new_shrunkcode
+	else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+	{
+		state unshrink
+		sizeto 30 30
+	}
+	else // after regrow, switch back to regular action
+	{
+		state endshrunkenstate
+		action A_BTHING_SEEK
+	}
+}
+
+else ifaction A_BTHING_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_BTHING_DYING
+		else action A_BTHING_SEEK
+	}
+}
+
+else ifaction A_BTHING_SEEK
+{
+ifrnd 2
+	{
+	ifrnd 96 sound BEYT_AMB1 else ifrnd 96 sound BEYT_AMB2
+	}
+	ifmove M_BTHING_WALK nullop
+	else move M_BTHING_WALK geth
+
+	state checkfortarget
+
+	ifn my_target -1
+	{
+	ldist temp THISACTOR my_target
+	ifl temp 1024 action A_BTHING_ATTACK
+	}
+}
+
+else ifaction A_BTHING_ATTACK
+{
+	move STOP
+	state new_validatetarget
+
+	ife my_target -1
+		action A_BTHING_SEEK
+
+	state fronttowardstarget
+
+	ifactioncount 2
+	{
+		// Optional: check if the target is the player
+
+			set PROJECTILE_TO_SHOOT 15729
+			set PROJECTILE_FIRING_SOUND BEYT_ATCK1
+			state sang_enemyShootProjectile
+
+
+
+		action A_BTHING_SEEK
+	}
+}
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+
+	ifdead
+	{
+		addkills 1
+		state rf
+
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_BTHING_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_BTHING_FREEZE }
+		else ifg fire_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			ifrnd 128 sound BEYT_BURN2 else sound BEYT_BURN
+			spawn ONFIREGUY
+			killit
+		}
+		else
+		{
+			sound BEYT_DIE1
+			action A_BTHING_DYING
+			spawn BLOODPOOL
+		}
+	}
+
+	else // not dead
+	{
+		ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_BTHING_SHRUNK }
+
+		ifg PAIN_AMOUNT 0 action A_BTHING_PAIN
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST action A_BTHING_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_BTHING_IDLE { state PAIN_SKILL_LEVELADJUST action A_BTHING_PAIN }
+	}
+}
+
+state checksquished
+
+enda

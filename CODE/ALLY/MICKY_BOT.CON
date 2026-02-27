@@ -1,0 +1,313 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+// ========================================================AMC SOLDIER=====================================================
+
+action A_CRISP_EIDLE 0 1 5 1 11
+action A_CRISP_EMOVE 0 2 5 1 11
+action A_CRISP_EFIRE 5 2 5 1 3
+action A_CRISP_EFLAME 5 2 5 1 3
+
+move CRPE_SLOW 32 0
+
+ai AI_CRISP_EIDLE A_CRISP_EIDLE AMCSTILL 0
+
+ai AI_CRISP_EMOVE A_CRISP_EMOVE AMCMOVE geth 
+
+ai AI_CRISP_EFIRE A_CRISP_EFIRE CRPE_SLOW geth
+ai AI_CRISP_EFLAME A_CRISP_EFLAME CRPE_SLOW geth
+
+spriteshadow MICKY_BOT
+spritenvg MICKY_BOT
+
+damageeventtile MICKY_BOT // Ally
+
+useractor notenemy MICKY_BOT
+fall
+
+state player_walkthru
+
+ifai 0
+	{
+	seta[].htwaterzoffset 8
+	set actor_type TYPE_ROBOTIC
+	ifspritepal 5 ife base_tutorial 0 killit
+	sizeat 28 28
+
+	readarrayfromfile PERSONNEL_RESEARCH F_PERSONNEL_AMCTC
+	ife PERSONNEL_RESEARCH[1] 2 { ifand amc_soldier_upgrades 1 nullop else xorvar amc_soldier_upgrades 1 } // has the player researched laser guns for AMC soldiers?
+	ife PERSONNEL_RESEARCH[2] 2 { ifand amc_soldier_upgrades 2 nullop else xorvar amc_soldier_upgrades 2 } // has the player researched better armour for AMC soldiers?
+
+	ifand amc_soldier_upgrades 2
+		{
+		set max_health 300
+		strength 300
+		}
+	else
+		{
+		set max_health 150
+		strength 150
+		}
+
+	// TODO remove shootme refs
+	spawn SHOOTME2
+
+	ai AI_CRISP_EIDLE
+	ifspawnedby RESPAWN spawn TRANSPORTERBEAM
+	ifspawnedby APLAYER
+		{
+		sound CRP_HELLO
+		spawn TRANSPORTERBEAM
+		state startfollowplayer
+		ife BASE_RESEARCH[7] 2 set INTERNALCOUNT_3 1920 else
+		set INTERNALCOUNT_3 960
+		}
+	else set INTERNALCOUNT_3 -1
+	}
+
+ifg ALLY_VOICE 0
+{
+sub ALLY_VOICE 1
+ife ALLY_VOICE 1
+	{
+	ifrnd 128
+		{
+		sound CRP_FOLL1
+		ife ally_subt 0
+			{
+			qputs ALLY_SUBTITLE ^1Crisp-E: ^7^Happy noises^
+			set ally_subt 43
+			}
+		}
+	else
+		{
+		sound CRP_FOLL2
+		ife ally_subt 0
+			{
+			qputs ALLY_SUBTITLE ^1Crisp-E: ^7^Ecstatic noises^
+			set ally_subt 65
+			}
+		}
+	}
+}
+else
+ifl ALLY_VOICE 0
+{
+add ALLY_VOICE 1
+ife ALLY_VOICE -1
+	{
+	ifrnd 128
+		{
+		ife ally_subt 0
+			{
+			qputs ALLY_SUBTITLE ^1Crisp-E: ^7^Sad noises^
+			set ally_subt 65
+			}
+		sound CRP_STAY1
+		}
+		{
+		ife ally_subt 0
+			{
+			qputs ALLY_SUBTITLE ^1Crisp-E: ^7^Dejected noises^
+			set ally_subt 48
+			}
+		sound CRP_STAY2
+		}
+	}
+}
+
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+
+ifg INTERNALCOUNT_2 0 sub INTERNALCOUNT_2 1
+
+ifn INTERNALCOUNT_3 -1
+	{
+	ifg INTERNALCOUNT_3 0 sub INTERNALCOUNT_3 1
+	else ife INTERNALCOUNT_3 0
+		{
+		spawn TRANSPORTERBEAM
+		state removefollower
+		killit
+		}
+	}
+
+// ifspritepal 5 ifn camerasprite -1
+
+
+ifai AI_CRISP_EFIRE
+	{
+	ifactorsound THISACTOR TANK_ROAM stopactorsound THISACTOR TANK_ROAM
+	state new_validatetarget
+	ife my_target -1 ai AI_CRISP_EIDLE
+	state fronttowardstarget
+	ifactioncount 3
+			{
+			ife actorvar[my_target].actor_type TYPE_SUPERNATURAL
+			ifand amc_soldier_upgrades 1
+				{
+				set PROJECTILE_FIRING_SOUND LASERGUN_FIRE
+				set PROJECTILE_TO_SHOOT BLUELASERSHOT
+				ife PERFMODE 1
+					 ifcansee
+					{
+						set gunsmoke_z 3244
+						set gunsmoke_angle 220
+						state spawn_gunsmoke_z
+						set gunsmoke_z 3144
+						espawn 16113
+						state spawn_muzzleflash
+						state npc_scifi_shell
+					}
+				}
+			else
+				{
+				set PROJECTILE_FIRING_SOUND AUTOTURRET_FIRE
+				set PROJECTILE_TO_SHOOT ENEMY_BULLET
+				ifand amc_soldier_upgrades 1 set PROJECTILE_STRENGTH 10
+				set PROJECTILE_PAL 8
+				ife PERFMODE 1
+					 ifcansee
+					{
+						set gunsmoke_z 4244
+						set gunsmoke_angle 220
+						state spawn_gunsmoke_z
+						set gunsmoke_z 4144
+						state spawn_enemy_ARFLASH
+						state spawn_muzzleflash
+						state npc_rifleshell
+					}
+				}		
+			state sang_enemyShootProjectile
+
+			resetactioncount
+			}
+	}
+else
+ifai AI_CRISP_EFLAME
+	{
+	ifactorsound THISACTOR TANK_ROAM stopactorsound THISACTOR TANK_ROAM
+	state new_validatetarget
+	ife my_target -1 { stopactorsound THISACTOR CRP_FLAME sound FLAMETH_STOP ai AI_CRISP_EIDLE }
+	state fronttowardstarget
+	ifactioncount 1
+			{
+			ife actorvar[my_target].actor_type 0
+				{
+				state global_flash
+				espawn FLAME_THROW
+				ifge ally_mag 151 { stopactorsound THISACTOR CRP_FLAME sound FLAMETH_STOP ai AI_CRISP_EFIRE }
+				}
+			else	
+			ai AI_CRISP_EFIRE
+			}
+	}
+else
+ifai AI_CRISP_EMOVE
+	{
+	ifrnd 16 spawn GUNSMOKE
+		geta[PLAYER_IDENTITY].xvel temp
+		ifg temp 10
+			{
+			mul temp 2
+			seta[].xvel temp
+			}
+			
+	state checkfortarget
+	ifn my_target -1
+			{
+			state fronttowardstarget
+			dist temp THISACTOR my_target
+			ifl temp 4096 
+			 ifn sector[sprite[my_target].sectnum].lotag 1 // enemy is NOT stood in water? 
+			  ifn sector[].lotag 2 // not underwater myself
+				{
+				sound CRP_FLAME
+				ai AI_CRISP_EFLAME
+				set ally_mag 0
+				}
+			else
+			ifrnd 64
+			 ifl temp 16384
+					{
+					ifrnd 64
+						{
+						ife ally_subt 0
+							{
+							qputs ALLY_SUBTITLE ^1Crisp-E: ^7^Angry noises^
+							set ally_subt 39
+							}
+						sound CRP_ATCK1
+						}
+					else
+					ifrnd 64
+						{
+						ife ally_subt 0
+							{
+							qputs ALLY_SUBTITLE ^1Crisp-E: ^7^Incandescent noises^
+							set ally_subt 38
+							}
+						sound CRP_ATCK2
+						}
+					ai AI_CRISP_EFIRE
+					}
+			}
+		else state faceplayerstate
+
+	ifactorsound THISACTOR TANK_ROAM nullop else { sound TANK_ROAM setactorsoundpitch THISACTOR TANK_ROAM 1024 }
+
+	ifpdistl 1536 ife FOLLOW_PLAYER 1 ai AI_CRISP_EIDLE
+
+	ifnotmoving operate
+	}
+else
+ifai AI_CRISP_EIDLE
+	{
+	sleeptime 0
+	
+	state checkfortarget
+	ifn my_target -1
+	 ai AI_CRISP_EMOVE
+	 
+	ifactorsound THISACTOR TANK_ROAM stopactorsound THISACTOR TANK_ROAM
+	
+	ife FOLLOW_PLAYER 1
+		{ ifpdistg 1535 ifcansee ifcanseetarget ai AI_CRISP_EMOVE }
+		ifl sprite[].extra max_health { soundonce VEH_REP ife CHAR 13 addstrength 2 else addstrength 1 }
+	state rand_lookaround
+	}
+
+
+state player_follow_commands
+
+ifhitweapon
+	{
+	ifstrength 100 ifrnd 16 soundonce RB_ERROR1
+	ifdead
+		{
+		state clear_ally_death
+		ifrnd 32 sound RB_DIE1
+		else ifrnd 64 sound RB_DIE2
+		else ifrnd 96 sound RB_DIE3
+		else ifrnd 128 sound RB_DIE4
+		spawn EXPLOSION2 
+		killit
+		}
+	}
+
+enda

@@ -1,0 +1,1652 @@
+onevent EVENT_EGS
+
+  ifactor WTANK
+	state wtankload
+  ifactor WTANKGUN
+	cstat 32768
+  ifactor EXPLOSIONMAKER
+  {
+	geta[].z SET
+	gets[].ceilingz ANGLE
+	seta[].z ANGLE
+	cstat 32768
+  }
+
+switch sprite[].picnum
+case SOUND_SPRITE
+	geta[].owner myowner
+	break
+case BLOODPOOL
+	geta[].owner myowner
+	ife actorvar[myowner].blood_type 4 sizeat 0 0
+	break
+case MONEY
+	geta[].owner myowner
+	seta[].mdflags 16
+	ifspawnedby THOTH spritepal 70
+	ifspawnedby THOTH_TORSO_FLY spritepal 70
+	ife actorvar[myowner].actor_type 512 // a tree?
+		{
+		geta[].z temp
+		sub temp 8192
+		seta[].z temp
+		}
+	break
+case EMBERS
+	ife sprite[].xrepeat 0 sizeat 64 64
+	break
+case 17782
+	geta[].owner myowner
+	geta[myowner].owner temp5
+	ife sprite[temp5].picnum APLAYER 
+		{
+		getp[].horiz temp4
+		sub temp4 100 // 100 in horiz is straight ahead
+		set PERCENTAGE_IN temp4 
+		set PERCENTAGE_PERCENT 175
+		state getpercentage
+		set temp4 PERCENTAGE_OUT
+		inv temp4 
+		clamp temp4 -512 512
+		seta[].pitch temp4
+		}
+	break
+case MODEL_TRAIL
+	geta[].owner myowner
+	ifspawnedby GREEN_ARCH_BOLT spritepal 8
+	ifspawnedby RED_ARCH_BOLT spritepal 2
+	ifspawnedby VOID_ARCH_BOLT spritepal 30
+	ifspawnedby VOID_PLAYER_BOLT spritepal 30
+	ifspawnedby VOID_BOLT spritepal 30
+	ifspawnedby PLASMAPROJ spritepal 30
+	ifspawnedby MISSILE spritepal 5
+	ifspawnedby MICRO_MISSILE spritepal 5
+	ifspawnedby HOMING_MISSILE spritepal 2
+	ifspawnedby EXP_CROSSBOW spritepal 2
+	ifspawnedby SPELL4 spritepal 2
+	ifspawnedby 7526 spritepal 2
+	ifspawnedby 9361 spritepal 2
+	ifspawnedby 9359 spritepal 2
+	ifspawnedby 6826 { seta[].shade 20 spritepal 27 }
+	ifspawnedby 6816 { seta[].shade 20 spritepal 1 }
+	ifspawnedby ROCKET_PUNCH spritepal 5
+	ifspawnedby ATOM_BOMB spritepal 20
+	ifspawnedby 12717 spritepal 30
+	ifspawnedby 5125 spritepal 5
+	ifspawnedby ICE_SPIKE spritepal 1
+	ifspawnedby SILVER_STAKE spritepal 1
+	ifspawnedby LAVA_NAIL spritepal 2
+	ifspawnedby GOLD_SPELL1 spritepal 29
+	ifspawnedby SPELL1 spritepal 1
+	ifspawnedby SPELL8 spritepal 27
+	ifspawnedby SPELL5 spritepal 30
+	ifspawnedby SPELL14 spritepal 30
+	ifspawnedby 6221 spritepal 30
+	ifspawnedby 7160 spritepal 1
+	ifspawnedby 7162 spritepal 1
+	ifspawnedby 7163 spritepal 2
+	ifspawnedby GOLD_SPELL2 spritepal 2
+	ifspawnedby 19807 spritepal 2
+	ifspawnedby ICE_BLAST spritepal 1
+	ifspawnedby FLAME_BLAST spritepal 2
+	ifspawnedby SAWBLADE spritepal 5
+	ifspawnedby SAWBLADE_BOUNCE spritepal 2
+	ifspawnedby SNOWFALL_DISC spritepal 1
+	ifspawnedby CYCLOID_PLASMA spritepal 8
+	ifspawnedby BOLT_PROJECTILE { seta[].shade sprite[myowner].shade spritepal 27 }
+	ifspawnedby BALLISTIC_KNIFE { seta[].shade sprite[myowner].shade spritepal 27 }
+	ifspawnedby BALLISTIC_SKNIFE { seta[].shade sprite[myowner].shade spritepal 1 }
+	ifspawnedby 6627 spritepal 8
+	ifspawnedby SPIKE_PROJ { seta[].shade sprite[myowner].shade spritepal 5	}
+	ifspawnedby ARROW_PROJ { seta[].shade sprite[myowner].shade spritepal 27 }
+	ifspawnedby 18096 { seta[].shade sprite[myowner].shade spritepal 1 }
+	ifspawnedby 22610 { seta[].shade 15 spritepal 1 }
+	ifspawnedby XBOW_BOLT { seta[].shade sprite[myowner].shade spritepal 27 }
+	ifspawnedby BALLIST_BOLT { seta[].shade sprite[myowner].shade spritepal 27 }
+	ifspawnedby AUTOBOW_BOLT { seta[].shade sprite[myowner].shade spritepal 27 }
+	ifspawnedby SILVER_BEARING // will become less bright as number of bounces left decrease 
+		{ 
+		geta[myowner].yvel temp // get bounces left 
+		mul temp 5 
+		set temp2 30
+		sub temp2 temp
+		seta[].shade temp2
+		spritepal 1 
+		}
+	ifspawnedby SILVER_BOLT { seta[].shade sprite[myowner].shade spritepal 1 }
+	ifspawnedby 29076 spritepal 5
+	ifspawnedby 18072 { seta[].shade sprite[myowner].shade spritepal 5	}
+	ifspawnedby 18067 { seta[].shade sprite[myowner].shade spritepal 5	}
+	seta[].cstat 514
+	seta[].blend 255
+	state model_owner_pitch
+break
+case ENERGY_SHIELD
+case SUPERN_SHIELD
+		geta[].owner myowner
+		geta[myowner].z temp
+		sub temp 4096 // rough centre
+		seta[].z temp
+		seta[].shade 0
+		seta[].blend 255
+		cstat 130
+		break
+case 19674
+		geta[].owner myowner
+		break
+case DIRT_SPLASH
+case SNOW_SPLASH
+		rand temp 2048
+		seta[].blend 128
+		cstator 2
+		seta[].ang temp
+		seta[].shade sector[].floorshade
+		sizeat 12 24
+		break
+case ENEMY_SHOTGUN
+case FAKE_BULLET
+case 5125
+case GAUSS_EXP
+case GAUSS_HIGH
+case GAUSS_MED
+case GAUSS_LOW
+case MAGP_EXP
+case MAGP_HIGH
+case MAGP_MED
+case MAGP_LOW
+case CRYO_PROJ
+	seta[].blend 255
+	state model_pitch		
+	ifspawnedby APLAYER
+		{
+		ifpdistl 256 cstat 32768 else cstat 130
+		randvarvar temp2 GUN_ACCURACY
+		randvarvar temp4 gun_spread
+		add temp2 temp4
+		mul temp2 32
+		geta[].zvel temp
+		ifrnd 128 add temp temp2 else sub temp temp2
+		seta[].zvel temp
+
+		randvarvar temp3 GUN_ACCURACY
+		randvarvar temp4 gun_spread
+		add temp3 temp4
+		geta[].ang temp
+		ifrnd 128 sub temp temp3 else add temp temp3
+		seta[].ang temp
+		}
+	else // reduce accuracy
+		{
+		ifactor FAKE_BULLET ifpdistgvar opt_particle_distance sizeto 0 0
+		cstat 130
+		randvar temp 200
+		geta[].ang temp2
+		geta[].zvel temp3
+		sub temp 100
+		add temp2 temp
+		randvar temp 1000
+		sub temp 500
+		add temp3 temp
+		seta[].ang temp2
+		seta[].zvel temp3
+		}
+	break
+case ENEMY_BULLET
+		state littlerandtraj
+		randvar temp3 12
+		add temp3 20
+		seta[].yrepeat temp3
+		seta[].blend 255
+		state model_pitch
+	break
+case FIREWALL_BOMB
+	geta[].zvel temp
+	sub temp 2048
+	seta[].zvel temp
+	break
+case 18360
+	ifoutside seta[].pal sector[].ceilingpal else
+	seta[].pal sector[].floorpal
+	break
+case PARAD_TORSO_FLY
+	geta[].owner myowner
+	getav[myowner].GENDER GENDER
+	ife GENDER MALE { ifrnd 128 sound PE_PAIN1 else sound PE_PAIN2 }
+	else { ifrnd 128 sound PE_F_PAIIN1 else sound PE_F_PAIN2 }
+	break
+case 18855
+	cstat 32
+	sizeat 24 24
+	geta[].owner myowner
+	break
+case 22013
+	cstat 32
+	sizeat 16 16
+	geta[].owner myowner
+	break
+case JEDRIK_SHIELD
+	geta[].owner myowner
+	break
+case SNOWFALL_DISC
+	seta[].shade -127
+	espawn 18855
+	break
+case SAWBLADE
+case SAWBLADE_BOUNCE
+	espawn 22013
+	break
+case 30070
+case 30071
+	cstat 32768
+	break
+case 30139 // dazed star
+case 18067 // Bolt
+case 18072 // golden bolt
+case XBOW_BOLT
+case ARROW_PROJ
+case 12232 // silver bolt
+case 19029
+case 17886
+case 24730 // Terminator weak spot
+case 28317 // Beholder weak spot
+case 18157
+case 10828
+case 10039
+case COPTER_ROTOR
+case COPTER_ROTOR2
+case 16764
+case 22923
+case 23746
+case 5381
+case 13592
+case 18427
+case 18133
+case FLAME_THROW
+case SHOOTME
+case SHOOTME2
+case LILITH
+case 9750
+case 18768
+case 9302
+case 4712
+case 29079
+case GOLEM
+case GOLEM_STAYPUT
+case DRAGON
+case DRAGON_FLIGHT
+case SOUNDSCAPE
+case WARN_GLINT
+case 14040
+ geta[].owner myowner
+ break
+  case FOOTPRINTS
+  case FOOTPRINTS2
+  case FOOTPRINTS3
+  case FOOTPRINTS4
+  seta[].shade sector[].floorshade
+  break
+case BLUELASERSHOT
+setprojectile[].userdata 80
+  break
+case TRENTON_SOLARI
+	ifspawnedby TRENTON_SOLARI ifspritepal 0 spritepal 10
+	break
+case 17079
+  set SPEC_ACT 1
+  break
+case SHELL12GF
+ geta[].owner myowner
+ seta[].pal sprite[myowner].pal
+ break
+case 8002
+ cstat 1
+ sizeat 32 32
+ break
+case 2284
+	geta[].owner myowner
+	ife actorvar[myowner].blood_type 4 sizeat 0 0
+	cstat 34
+	sizeat 10 10
+ break
+case 9284
+case 9285
+case 9286
+case 9287
+  iffloordistl 4 espawn 9288
+  ifceilingdistl 4 espawn 9288
+ break
+case 16113
+case 16114
+case 16115
+case 16116
+case 16117
+case 16118
+case 16119
+case 16120
+case 16121
+ seta[].shade -127
+ cstat 32768 // make initially invisible
+ break
+case 22093
+ geta[].owner myowner
+ state KEEPMYPAL
+ break
+case 3063
+case ROTATEGUN
+case WTANK
+case WTANKDEAD
+case SH40MM_FLOOR
+case POTTERY_DEBRIS_F1
+case POTTERY_DEBRIS_F2
+ state KEEPMYPAL
+ break
+case PROJECTILE_FLARE
+	geta[].owner myowner
+	cstat 32768
+	setsprite THISACTOR sprite[myowner].x sprite[myowner].y sprite[myowner].z
+break
+case 18271
+ state KEEPMYPAL
+ geta[].owner myowner
+ geta[myowner].lotag temp2
+ add temp2 1
+ setactorvar[].lotag_saved temp2
+ break
+case 13952
+case SHOTSPARK1
+ geta[].owner myowner
+ break
+case BLOODSPLAT1
+case BLOODSPLAT2
+case BLOODSPLAT3
+case BLOODSPLAT4
+	geta[].owner myowner
+	ifrnd 96 sound BLD_SPLASH1
+	else ifrnd 96 sound BLD_SPLASH2
+	else sound BLD_SPLASH3
+	seta[].pal actorvar[myowner].blood_type
+	break
+case SORCERER
+case FR_SORCERER
+case DARKAVATAR
+case DARKAVATAR_STAYPUT
+case LOST
+		state KEEPMYPAL
+		espawn 13950 // spawning circle
+		seta[RETURN].ang sprite[].ang
+		break
+case MISTERH
+	geta[].owner myowner
+	state KEEPMYPAL
+	flash
+	palfrom 20 64 64 64
+	globalsound LIGHTNING_SLAP
+	soundonce LIGHTNING_SLAP
+	seta[].ang sprite[myowner].ang
+	spawn 8433
+	spawn PENTAGRAM
+	spawn BURNING2
+break
+case 3665
+	sizeto 128 128
+	geta[].owner myowner
+	seta[].cstat sprite[myowner].cstat
+	seta[].pal sprite[myowner].pal
+break
+case FIRE
+case FIRE2
+case FIRE3
+	cstator 32770
+	espawn EMBERS
+	seta[RETURN].pal sprite[].pal
+	seta[].blend 255
+	ifactor FIRE3 sizeat 96 96 else
+	sizeat 64 64
+	state KEEPMYPAL
+break
+case FLAMEKEY
+case SPIDERKEY
+case DAGGERKEY
+case MOONKEY
+case SKULLKEY
+case EYEKEY
+case GENERICKEY
+case DIAMOND_KEY
+case CLUB_KEY
+case SPADE_KEY
+case HEART_KEY
+case NORMAL_KEY5
+	soundonce KEY_DROP
+break
+case DUMMY_PLAYER
+	ifspawnedby RESPAWN
+		{
+		geta[].owner myowner
+		seta[].ang sprite[myowner].ang
+		ife sprite[myowner].pal 3 set extra_saved -1
+		else
+			{
+			getav[myowner].extra_saved extra_saved
+			getav[myowner].xvel hitag_saved
+			}
+		}
+	ifspawnedby INSTANT_RESPAWN
+		{
+		geta[].owner myowner
+		seta[].ang sprite[myowner].ang
+		ife sprite[myowner].pal 3 set extra_saved -1
+		else
+			{
+			getav[myowner].extra_saved extra_saved
+			getav[myowner].xvel hitag_saved
+			}
+		}
+break
+case FL_GRENADE
+	seta[].pal 17
+break
+case ORC
+case TROLL
+case MI_24_HIND
+case KA_50_BLACK_SHARK
+case BLACK_HAWK
+case EDFSOLDIER_RAPPEL
+case EDFSOLDIER_ACTIVE
+case EDF_SUPERSOLDIER
+case FEAR_SOLDIER_ACTIVE
+case 10510
+case HPOWERSUIT
+case TERMINATOR
+case TERMINATORSTAYPUT
+case TERMINATORCRAWLING
+case TERMTORSO
+case TERMHEAD
+case TOWN_GUARD
+case JUGGERNAUT
+case JUGGERNAUT_STAYPUT
+case EDF_FLIER
+	state KEEPMYPAL
+	getactor[].pal actor_pal
+	break
+case AMC_209
+case AMC_ASOLDIER_ACTIVE
+case AMCSOLDIER_ACTIVE
+case AMC_MEDIC_ACTIVE
+case AMC_HEAVY_ACTIVE
+case AMCM_PARACHUTE
+case AMCH_PARACHUTE
+case AMCS_PARACHUTE
+case EDF_PARACHUTE
+	state KEEPMYPAL
+	break
+case LAVABALL
+	randvar temp 2048
+	seta[].ang temp
+	randvar temp -8192
+	seta[].zvel temp
+	set temp 0
+	seta[].shade -127
+break
+case 9946
+case 12800
+	geta[].owner temp4
+break
+case 6204
+	geta[].z temp
+	sub temp 6136
+	seta[].z temp
+	break
+case 6200
+	geta[].owner myowner
+	break
+case 6078 // Russian grenade
+	geta[].owner myowner
+	ifspawnedby APLAYER set grenade_counter 0 else
+	getav[myowner].grenade_counter grenade_counter
+	break
+case PROXBUNDLE
+case DYNAMITEBUNDLE
+case DYNAMITESTICK
+case CHARMED_DYNA
+case DISCBOMB
+case DISCBOMB2
+case GRENADE
+case R_GRENADE
+case WA_GRENADE
+case MS_GRENADE_THROW
+case H_GRENADE
+case J_GRENADE
+case MC_GRENADE
+case Z_GRENADE
+case SF_GRENADE
+case HOLYHANDG
+case POP_ROCKS
+	ifspawnedby APLAYER
+		{
+		geta[].owner myowner
+		geta[].xvel temp
+		getav[myowner].bomb_throw_power temp2
+		add temp temp2
+		seta[].xvel temp
+		geta[].zvel temp
+		set temp3 temp2
+		mul temp3 4
+		sub temp temp3
+		seta[].zvel temp
+		}
+	break
+case EXPLOSION2
+	seta[].blend 255
+	cstat 130
+	ifg ALARM_DETECT 0 add ALARM_COUNTER 70
+			ifspawnedby RPG
+		 ife CHAR 1
+		  ife cur_weap 7 nullop else
+	spawn 8433
+	ifinwater  { spawn 18920 seta[].xrepeat 1 seta[].yrepeat 1 }
+	ifspawnedby SEENINE nullop
+	else ifspawnedby OOZFILTER nullop
+	else ifspawnedby 9361 nullop
+	else ifspawnedby 9359 nullop
+	else ifspawnedby GORO_EXPLODING_FLAME nullop
+	else
+	{
+	ifonwater spawn 18138
+	else
+		{
+		ifspawnedby RPG
+		 ife CHAR 1
+		  ife cur_weap 7 nullop else
+			{
+			spawn BIG_SMOKE2
+			spawn BIG_SMOKE2
+			spawn BIG_SMOKE2
+			}
+		}
+	}
+	ifspawnedby 5968
+		{
+		flash
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		debris SCRAP2 3
+		}
+	ifspawnedby GP30_NADE
+		{
+		flash
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+	ifspawnedby SF_GRENADE
+		{
+		flash
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		}
+	ifspawnedby POP_ROCKS
+		{
+		flash
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		}
+	ifspawnedby EMP_GRENADE
+		{
+		
+		ldist EV_temp THISACTOR PLAYER_IDENTITY
+		ifl EV_temp 16384
+			flash
+			
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		}
+	ifspawnedby J_GRENADE
+		{
+		flash
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+	ifspawnedby H_GRENADE
+		{
+		flash
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+	ifspawnedby GRENADE
+		{
+		flash
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+	ifspawnedby R_GRENADE
+		{
+		flash
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+	ifspawnedby WA_GRENADE
+		{
+		flash
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+	ifspawnedby MS_GRENADE_THROW
+		{
+		flash
+		state FIRE_RING
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+	ifspawnedby MOLOTOV
+		{
+		flash
+		state FIRE_RING
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+	ifspawnedby HOLYHANDG
+		{
+		flash
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+	break
+case 18096
+	geta[].owner myowner
+	randvar temp2 64
+	randvar temp3 32
+	state CHANGEACCURACY
+	break
+case 14509
+	randvar temp2 64
+	randvar temp3 32
+	state CHANGEACCURACY
+	break
+case 9359
+case 9361
+case 9115
+	randvar temp2 128
+	randvar temp3 16
+	state CHANGEACCURACY
+	break
+case GASBURST
+case 19807
+case FLARE_PROJ
+	seta[].blend 255
+	seta[].shade -127
+	randvar temp2 128
+	randvar temp3 16
+	state CHANGEACCURACY
+	break
+case LAVA_NAIL
+	randvar temp2 64
+	randvar temp3 8
+	state CHANGEACCURACY
+	break
+case 6816
+case 6826
+case CRYSTAL_SPIKE
+case SILVER_STAKE
+case BOLT_PROJECTILE
+	randvar temp2 64
+	randvar temp3 8
+	state CHANGEACCURACY
+	break
+case 5374
+	seta[].blend 255
+	seta[].shade -127
+	randvar temp2 64
+	randvar temp3 8
+	state CHANGEACCURACY
+	break
+case 6857
+case 6627
+case 6198
+	randvar temp2 64
+	randvar temp3 8
+	state CHANGEACCURACY
+	seta[].shade -127
+	seta[].blend 255
+	break
+case BONE_SHARD
+case SPIKE_PROJ
+case SILVER_BEARING
+	randvar temp2 256
+	randvar temp3 64
+	state CHANGEACCURACY
+	break
+case 7423
+	geta[].owner temp
+	seta[].xrepeat sprite[temp].xrepeat
+	seta[].yrepeat sprite[temp].yrepeat
+break
+case HADESBLAST
+case HADESBLASTH
+	geta[].z temp
+	add temp 2192
+	seta[].z temp
+	seta[].blend 255
+break
+case RUBYBLAST
+	spawn PROJECTILE_FLARE
+	randvar temp2 32
+	randvar temp3 16
+	state CHANGEACCURACY
+	seta[].blend 255
+	seta[].shade -127
+break
+case GORO_EXPLODING_FLAME
+case SKULL_RPG
+	seta[].blend 255
+	seta[].shade -127
+break
+case 26016
+case 21612
+case AMCSHIP
+case AMCSHIP2
+case 29237
+case EAF_JET_ACTOR
+case 8924
+case 8922
+case 9388
+case CAR_MOVE
+case 15329
+	geta[].sectnum upd_sect
+	updatesectorz sprite[].x sprite[].y sprite[].z upd_sect
+	ifn upd_sect -1 changespritesect THISACTOR upd_sect else sizeat 0 0
+	geta[].owner temp
+	ife sprite[temp].pal 3 set lotag_saved 2 // FLY UP
+	ife sprite[temp].pal 5 set lotag_saved 1
+	ife sprite[temp].pal 9 set lotag_saved 3
+	ife sprite[temp].pal 10 set lotag_saved 4
+	ife sprite[temp].pal 11 set lotag_saved 5
+	ife sprite[temp].pal 12 set lotag_saved 6
+	ife sprite[temp].pal 13 { spawn EXPLOSION2 shoot SPARK shoot SPARK spawn 8433 soundonce MISSILE_EXPLODE set lotag_saved 7 }
+	ife sprite[temp].pal 14 { globalsound CY_FLYBY set lotag_saved 9 }
+	ife sprite[temp].pal 15 set lotag_saved 7
+	ife sprite[temp].pal 16 set lotag_saved 10
+	ife sprite[temp].pal 17 set lotag_saved 12
+
+	ife sprite[].picnum AMCSHIP2 screensound AMCSHIP2_FLYBY
+	else ife sprite[].picnum AMCSHIP screensound AMCSHIP_FLYBY
+
+break
+case PARAD_CORPSE_FLY
+	geta[].owner myowner
+	getav[myowner].GENDER GENDER
+	ife GENDER MALE { ifrnd 128 sound PE_PAIN1 else sound PE_PAIN2 }
+	else { ifrnd 128 sound PE_F_PAIIN1 else sound PE_F_PAIN2 }
+break
+case PARAD_PINNED
+case CULTIST_PINNED
+case ORC_PINNED
+case LIZTROOP_PINNED
+case THOTH_PINNED
+case ARCHER_PINNED
+case TRIAD_PINNED
+case NINJA_PINNED
+	stopsound BODY_DROP
+	sound IMPALE
+	guts JIBS6 4
+break
+case GROUNDEXPLOSION
+	state explosion_shake
+	shoot SPARK
+	shoot SPARK
+	shoot SPARK
+	shoot SPARK
+	 flash
+break
+// items
+case GOLD_SPELL1
+case SPELL1
+case SPELL2
+case 22610
+case GOLD_SPELL2
+case SPELL8
+case SPELL9
+case SPELL7
+case BRUISERFIREBALL
+case BRUISERFEXPLOSION
+case RUBYBLAST_EX
+case REDM_BLAST
+case BLOOD_BLAST
+case KAG_BLAST_RIGHT
+case KAG_BLAST_LEFT
+case ICE_BLAST
+case THUND_BLAST
+case FLAME_BLAST
+case ACID_EXPLOSION
+case ENERGY_EXPLOSION
+case NUCLEAR_EXPLOSION
+case BOLT_EXPLOSION
+case MPLASMA
+case MDF_PLASMA
+case 5372
+case PRIEST_BLAST
+case MINE_DART
+case IN_MINE_DART
+case MIA_BLAST
+case MICRO_MISSILE
+case HOMING_MISSILE
+case MISSILE
+case GORO_FLAME
+case 7526
+case 12712
+case 12717
+case PETRIFYRAY
+case 5394
+case PLASMAPROJ
+case GREEN_ARCH_BOLT
+case RED_ARCH_BOLT
+case VOID_ARCH_BOLT
+case VOID_PLAYER_BOLT
+case VOID_BOLT
+case 27364
+case 27365
+case 27366
+case TESLA_BALL
+	seta[].blend 255
+	seta[].shade -127
+break
+case WATERFALL_SPRITES
+	cstat 32768
+	seta[].blend 255
+	state model_pitch
+break
+case 22442
+	seta[].blend 255
+	seta[].shade -127
+	state model_pitch
+break
+case QUIETUS_BLAST
+	spawn PROJECTILE_FLARE
+	seta[].blend 255
+	seta[].shade -127
+	ifspawnedby APLAYER cstat 32768
+break
+case FRAMEEFFECT1
+	state KEEPMYPAL
+	ifspawnedby TROLLFIREWALL nullop else
+	ifspawnedby 29076 nullop else
+	ifspawnedby 14970 nullop else
+	ifspawnedby 3789 nullop else
+	ifspawnedby 3790 nullop else
+	ifspawnedby SILVER_BEARING spritepal 102 else
+	{
+	seta[].blend 255
+	seta[].shade -127
+	}
+break
+case SPARK
+case SPARK2
+	ife INVASION 1 sizeat 0 0
+	ifspawnedby ENERGY_EXPLOSION set param 1
+	else ifspawnedby 12722 set param 1
+	else set param 0
+	ife param 1
+		{
+		geta[].z temp
+		add temp 8192
+		seta[].z temp
+		}
+	seta[].cstat 514
+	seta[].blend 255
+	randvar temp 2048
+	seta[].ang temp
+	randvar temp -4096
+	seta[].zvel temp
+	set temp 0
+	seta[].yvel 0
+	ifpdistl 4096 seta[].shade -90
+	else ifpdistl 8192 seta[].shade -45
+	else ifpdistl 16384 seta[].shade 0
+	else seta[].shade 15
+break
+case HEAT_SINK
+	geta[].z temp
+	add temp 1120
+	seta[].z temp
+	seta[].shade -127
+break
+case SWOODSCRAP
+case WOODSCRAP
+case ICE_DEBRIS
+case ROCKDEB_1
+case ROCKDEB_3
+case ROCKDEB_4
+case SROCKDEB_4
+case CLUSTER_BOMB
+case CLUSTER_BOMB2
+	randvar temp 2048
+	seta[].ang temp
+	randvar temp -4096
+	seta[].zvel temp
+	seta[].yvel 0
+	setthisprojectile[].pal sector[].floorpal
+break
+case SLIMEPROJ
+	seta[].blend 255
+	randvar temp 2048
+	seta[].ang temp
+	randvar temp -256
+	seta[].zvel temp
+	seta[].yvel 0
+	setthisprojectile[].pal sector[].floorpal
+	ifspawnedby GOLEM spritepal 8
+break
+case ROCKDEB_2
+	randvar temp 2048
+	seta[].ang temp
+	randvar temp 4096
+	ifrnd 128 mul temp -1
+	seta[].zvel temp
+	seta[].yvel 0
+break
+case WATERDRIP
+sizeat 10 10
+	ifspritepal 0
+		{
+		ifspawnedby 3555 spritepal 10
+		ifspawnedby 3327 spritepal 10
+		ifspawnedby 20084 spritepal 10
+		ifspawnedby 20085 spritepal 10
+		ifspawnedby 20087 spritepal 10
+		ifspawnedby 20088 spritepal 10
+		ifspawnedby 2284 spritepal 10
+		}
+break
+case NINEMM_SHELL
+case RIFLESHELL
+case SRIFLESHELL
+case SHELL_LINK
+case REVOLV_SHELL
+case TWENTY_SHELL
+case FIFTY_CAL_SHELL
+case SCIFI_SHELL
+	state animate_sprite_event
+	move FORWARD
+	randvar temp 512
+	seta[].zvel temp
+	geta[].ang temp
+	sub temp -412
+	randvar temp2 128
+	add temp temp2
+	seta[].ang temp
+	geta[].owner temp8
+		set temp3 sprite[temp8].x
+		add temp3 256
+		geta[temp8].ang temp4
+		ifactor SRIFLESHELL add temp4 160 else
+		ifactor RIFLESHELL add temp4 160 else
+		ifactor FIFTY_CAL_SHELL add temp4 160 else
+		ifactor SHELL_LINK add temp4 160 else
+		ifspawnedby APLAYER
+			{
+			ife cur_weap 1
+				{
+				ife CHAR 0 add temp4 140 else
+				ife CHAR 5 add temp4 140 else
+				ife CHAR 7 add temp4 140 else
+				ife CHAR 6 add temp4 140
+				else add temp4 128
+				}
+			else ife cur_weap 3
+				{
+				ife CHAR 5 add temp4 140
+				else add temp4 128
+				}
+			else add temp4 128
+			}
+		else add temp4 128
+		rotatepoint sprite[temp8].x sprite[temp8].y temp3 sprite[temp8].y temp4 temp5 temp6
+		seta[].x temp5
+		seta[].y temp6
+		geta[temp8].z temp
+		sub temp 8096
+		ifspawnedby APLAYER
+			{
+			getp[].horiz temp2
+			sub temp2 100
+			mul temp2 16
+			sub temp temp2
+			}
+		seta[].z temp
+break
+case NINEMM_SHELL_LEFT
+case SHOTG_SHELL_LEFT
+	move FORWARD
+	state animate_sprite_event
+	randvar temp 512
+	seta[].zvel temp
+	geta[].ang temp
+	sub temp 512
+	randvar temp2 -128
+	add temp temp2
+	seta[].ang temp
+	geta[].owner temp8
+		set temp3 sprite[temp8].x
+		add temp3 256
+		geta[temp8].ang temp4
+		add temp4 -128
+		rotatepoint sprite[temp8].x sprite[temp8].y temp3 sprite[temp8].y temp4 temp5 temp6
+		seta[].x temp5
+		seta[].y temp6
+		geta[temp8].z temp
+		sub temp 8096
+		ifspawnedby APLAYER
+			{
+			getp[].horiz temp2
+			sub temp2 100
+			mul temp2 14
+			sub temp temp2
+			}
+		seta[].z temp
+break
+case SHELL_40MM
+	move FORWARD
+	geta[].owner temp8
+		set temp3 sprite[temp8].x
+		add temp3 256
+		geta[temp8].ang temp4
+		add temp4 140
+		rotatepoint sprite[temp8].x sprite[temp8].y temp3 sprite[temp8].y temp4 temp5 temp6
+		seta[].x temp5
+		seta[].y temp6
+		geta[temp8].z temp
+		sub temp 8096
+		ifspawnedby APLAYER
+			{
+			getp[].horiz temp2
+			sub temp2 100
+			mul temp2 14
+			sub temp temp2
+			}
+		seta[].z temp
+break
+case SHOTG_SHELL
+case EXSHELL
+case FL_SHELL
+case MAGN_SHELL
+	state animate_sprite_event
+	move FORWARD
+	geta[].ang temp
+	add temp 412
+	randvar temp2 128
+	add temp temp2
+	seta[].ang temp
+	geta[].owner temp8
+		set temp3 sprite[temp8].x
+		add temp3 256
+		geta[temp8].ang temp4
+		ifspawnedby APLAYER
+		 ife cur_weap 0
+		  ife temp_weap 7
+		   add temp4 200 else
+		add temp4 140
+		rotatepoint sprite[temp8].x sprite[temp8].y temp3 sprite[temp8].y temp4 temp5 temp6
+		seta[].x temp5
+		seta[].y temp6
+		geta[temp8].z temp
+		sub temp 8096
+		ifspawnedby APLAYER
+			{
+			getp[].horiz temp2
+			sub temp2 100
+			mul temp2 14
+			sub temp temp2
+			}
+		seta[].z temp
+break
+case OGRE_STAFF_DROP
+case OGRE_MACE_DROP
+case ORC_SWORD_DROP
+	randvar temp 2048
+	seta[].ang temp
+break
+case METAL_RING
+case POTTERY_DEBRIS1
+case POTTERY_DEBRIS2
+	state KEEPMYPAL
+	randvar temp 2048
+	seta[].ang temp
+	randvar temp -4096
+	seta[].zvel temp
+break
+case NJIB
+case NJIB2
+case NJIB3
+case NJIB4
+case OCTA_TENT
+case 11426
+case 11431
+case 4714
+case CAR_DOOR
+case CAR_WHEEL
+	randvar temp 2048
+	seta[].ang temp
+	randvar temp -4000
+	seta[].zvel temp
+break
+case PISTOL_MAGAZINE
+case HEAVY_PISTOL_MAG
+case SMGMAGAZINE
+case SMG_MAG2
+case 3790
+	geta[].z temp
+	add temp 1120
+	seta[].z temp
+break
+case RIFLEMAGAZINE
+case SCIFI_SMG_MAG
+case DRUMMAGAZINE
+case SHOTGUNBOXMAGAZINE
+case BETA_MAG
+case BIG_RIFLE_MAG
+case SCIFI_BIG_MAG
+case NAILG_MAG
+case CROSSB_MAG
+	geta[].z temp
+	add temp 2020
+	seta[].z temp
+break
+case WATERSPLASH2
+  seta[].blend 255
+  cstator 2
+  ifinwater
+   {
+   ife sector[].ceilingpicnum FLOORPLASMA seta[].pal 2 else
+   ife sector[].ceilingpicnum 5795 seta[].pal 11 else
+   ife sector[].ceilingpicnum PURPLELAVA { seta[].pal 18 spawn LAVABUBBLE } else
+   ife sector[].ceilingpicnum 773 seta[].pal 13
+   ife sector[].ceilingpicnum 7387 seta[].pal 14
+   ife sector[].ceilingpicnum 7396 { spawn LAVASPLASH sound LAVA_HIT cactor 3833 } else
+   ife sector[].ceilingpicnum 10030 { spawn LAVASPLASH sound LAVA_HIT cactor 3833 } else
+   ife sector[].ceilingpicnum 10033 { spawn LAVASPLASH sound LAVA_HIT cactor 3833 } else
+   ife sector[].ceilingpicnum 10047 { spawn LAVASPLASH sound LAVA_HIT cactor 3833 } else
+   ife sector[].ceilingpicnum 17052 { spawn LAVASPLASH sound LAVA_HIT cactor 3833 } else
+   ife sector[].ceilingpicnum 10526 { spawn LAVASPLASH cactor 3833 }
+	}
+	else
+	{
+   ife sector[].floorpicnum FLOORPLASMA { espawn LAVASPLASH seta[RETURN].pal 2 sound LAVA_HIT cactor 3833 } else
+   ife sector[].floorpicnum PURPLELAVA seta[].pal 18 else
+   ife sector[].floorpicnum 773 seta[].pal 13 else
+   ife sector[].floorpicnum 19564 seta[].pal 10 else
+   ife sector[].floorpicnum 7396 { spawn LAVASPLASH sound LAVA_HIT cactor 3833 } else
+   ife sector[].floorpicnum 10030 { spawn LAVASPLASH sound LAVA_HIT cactor 3833 } else
+   ife sector[].floorpicnum 10033 { spawn LAVASPLASH sound LAVA_HIT cactor 3833 } else
+   ife sector[].floorpicnum 10047 { spawn LAVASPLASH sound LAVA_HIT cactor 3833 } else
+   ife sector[].floorpicnum 17052 { spawn LAVASPLASH sound LAVA_HIT cactor 3833 } else
+   ife sector[].floorpicnum 10526 { spawn LAVASPLASH sound LAVA_HIT cactor 3833 } else
+	 {
+	ife sector[].floorpicnum 5795 seta[].pal 11
+	ife sector[].floorpicnum 7387 seta[].pal 14
+	espawn 8435
+	geta[RETURN].sectnum temp
+	geta[RETURN].x temp2
+	geta[RETURN].y temp3
+	getflorzofslope temp temp2 temp3 temp4
+	seta[RETURN].z temp4
+	seta[RETURN].pal sprite[].pal
+	 }
+   }
+   break
+ case BULLETHOLE
+ case TRIPBOMB
+	seta[].mdflags 16
+  break
+ case LASERLINE
+ sound LASERTRIP_ARMING
+ setactorsoundpitch THISACTOR LASERTRIP_ARMING 512
+ break
+ case FIRELASER
+  geta[].owner myowner
+  seta[].mdflags 16
+  seta[].blend 255
+  ifspawnedby LIZTROOP
+  ife sprite[myowner].pal 10
+  {
+	seta[].pal 24
+	addstrength FIRELASER_WEAPON_STRENGTH
+	addstrength FIRELASER_WEAPON_STRENGTH
+  }
+  ife sprite[myowner].pal 20
+  {
+	seta[].pal 24
+	addstrength FIRELASER_WEAPON_STRENGTH
+	addstrength FIRELASER_WEAPON_STRENGTH
+  }
+   break
+ case HEAVYHBOMB
+  seta[].mdflags 16
+	ifspawnedby APLAYER
+	{
+	geta[].owner myowner
+	getav[myowner].P_CHAR temp
+	ife temp 0 { set SHOOTGRENADE myowner cactor 3833 }
+	ife temp 1 { set SHOOTGRENADE myowner cactor 3833 }
+	ife temp 2 { set SHOOTHOLYG myowner cactor 3833 }
+	ife temp 3 { set SHOOTGRENADE myowner cactor 3833 }
+	ife temp 4 { set SHOOTDYNAMITE myowner cactor 3833 }
+	ife temp 5 { set SHOOTDYNAMITE myowner cactor 3833 }
+	ife temp 6 { set SHOOTDISCBOMB myowner cactor 3833 }
+	ife temp 7 { set SHOOTGRENADE myowner cactor 3833 }
+	ife temp 9 { set SHOOTDYNAMITE myowner cactor 3833 }
+	ife temp 10 { set SHOOTGRENADE myowner cactor 3833 }
+	ife temp 11 { set SHOOTHOLYG myowner cactor 3833 }
+	ife temp 12 { set SHOOTCLUSTER myowner cactor 3833 }
+	ife temp 13 { set SHOOTGRENADE myowner cactor 3833 }
+	ife temp 14 { set SHOOTGRENADE myowner cactor 3833 }
+	ife temp 16 { set SHOOTGRENADE myowner cactor 3833 }
+	ife temp 17 { set SHOOTGRENADE myowner cactor 3833 }
+	ife temp 18 { set SHOOTGRENADE myowner cactor 3833 }
+	}
+	break
+ case RPG
+   ifspawnedby APLAYER
+   {
+   ife CHAR 1
+		{
+		ife cur_weap 7
+		 ife SPECIALIST_EQUIPMENT[52] 2
+		  {
+		  sizeat 7 7
+		  }
+		  else
+		  {
+		action SONICRPG
+		addstrength 40
+		ife cur_weap 7 sizeat 7 7 else sizeat 14 14
+			}
+		}
+		else
+   ife CHAR 3 { action MISSILERPG addstrength 20 sizeat 10 10 randvar temp2 256 randvar temp3 8 state CHANGEACCURACY } else
+   ife CHAR 5 addstrength 150
+   }
+   ifspawnedby CYBERDEMON addstrength 60
+   ifspawnedby ROTATEGUN addstrength -40
+   ifspawnedby BOSS3
+	{
+	geta[].owner temp
+	geta[temp].pal temp2
+	ifn temp2 0
+		{
+		addstrength -100
+		geta[].z temp
+		add temp 3000
+		seta[].z temp
+		}
+	}
+	ifspawnedby COMMANDER
+	{
+	geta[].owner temp
+	geta[temp].pal temp2
+	ife temp2 20
+		{
+		soundonce SONICC
+		action SONICRPG
+		}
+	else
+		{
+		action DARKRPG
+		}
+	}
+	ifspawnedby SECTOREFFECTOR
+	{
+	sound BOS1_ATTACK2
+	action DARKRPG
+	}
+	break
+case 7160
+case 7162
+case 7163
+	ifspawnedby APLAYER
+		{
+		ife CHAR 4 ife cur_weap 2 addstrength -175
+		}
+	seta[].blend 255
+	seta[].shade -127
+break
+ case EGG
+  state KEEPMYPAL
+  seta[].xrepeat 40
+  seta[].yrepeat 40
+   break
+ case SVEDR
+ case DRONE
+ case PIGCOP
+ case PIGCOPSTAYPUT
+ case PIGCOPDIVE
+ case PIG_SF
+ case PIG_SF_STAYPUT
+ case COMMANDER
+ case COMMANDERSTAYPUT
+ case ADV_COMMANDER
+ case ADV_COMMANDER_STAYPUT
+ case LIZMAN
+ case LIZMANSTAYPUT
+ case LIZMANSPITTING
+ case LIZMANJUMP
+ case OCTABRAIN
+ case OCTABRAINSTAYPUT
+ case HEADJIB1
+ case ARMJIB1
+ case KEY_CARD
+ case ACCESSCARD2
+ case LEGJIB1
+  case LIZMANHEAD1
+  case LIZMANHEAD3
+  case 2214 // head on floor
+  case LIZMANARM1
+  case LIZMANLEG1
+  case SATYR_HEAD
+  case SATYR_HEAD_FLOOR
+  case ORC_HEAD
+  case ORC_HEAD_FLOOR
+  case ARCHER_HEAD
+  case ARCHER_HEAD_FLOOR
+  case MJ12_HEAD
+  case MJ12_HEAD_FLOOR
+  case GORO_HEAD_FLY
+  case FLAMEC_HEAD
+  case FLAMEC_HEAD_FLOOR
+  case HMGC_HEAD
+  case HMGC_HEAD_FLOOR
+  case SHAMBLER
+  case PIG_HEAD
+  case PIG_HEAD_FLOOR
+   state KEEPMYPAL
+  break
+ case LIZTROOP
+ case LIZTROOPRUNNING
+ case LIZTROOPSTAYPUT
+ case LIZTROOPJETPACK
+ case LIZTROOPDUCKING
+ case LIZTROOPSHOOT
+  geta[].owner temp
+  ifn temp -1
+  {
+	ife sprite[temp].pal 0 seta[].pal 11 else
+	seta[].pal sprite[temp].pal
+  }
+  break
+ case NEWBEAST
+ case NEWBEASTSTAYPUT
+ case NEWBEASTJUMP
+ case NEWBEASTHANG
+ case NEWBEASTHANGDEAD
+  geta[].owner temp
+  ifn temp -1
+  {
+	ife sprite[temp].pal 0 seta[].pal 15 else
+	seta[].pal sprite[temp].pal
+  }
+  break
+ case CULT_CHAINSAW
+	state KEEPMYPAL
+	break
+ case CULTIST
+ case CULTISTSTAYPUT
+ case CULTISTJUMP
+  geta[].owner temp
+  ifn temp -1
+  {
+	seta[].xrepeat 28
+	seta[].yrepeat 28
+	ife sprite[temp].pal 0 seta[].pal 15 else
+	seta[].pal sprite[temp].pal
+  }
+  break
+  case TRIAD
+  case TRIADSTAYPUT
+  case TRIADJUMP
+	state KEEPMYPAL
+	seta[].xrepeat 28
+	seta[].yrepeat 28
+  break
+  case ZSCIEN
+  case ZCHAING
+  case ZSOLDIER
+  case ZSOLDIER2
+  case Z_GRENADEL
+   state KEEPMYPAL
+  break
+  case MINERVA
+   globalsound CSPELL
+   spawn 8433
+  break
+  case NINJA
+  case NINJASTAYPUT
+  case NINJAJUMP
+  case RIPPER
+  case GUARDIAN
+  case GUARDIANSTAYPUT
+  case MAMANO
+  case YUKI_ONNA
+  case SHADOW_NINJA
+  case SHADOW_NINJA_STAYPUT
+  case KAPPA
+	  state KEEPMYPAL
+	  geta[].owner temp
+	  ifn temp -1
+	  {
+		ifn sprite[temp].pal 3
+			{
+			globalsound TELEPORT_IN
+			spawn 18623
+			}
+	  }
+  break
+   case LESANG
+	  state KEEPMYPAL
+	  geta[].owner temp
+	  ifn temp -1
+	  {
+		globalsound SIREN_TELEP
+		spawn 18623
+	  }
+  break
+  case PE_TROOP
+  case PE_TROOP_STAYPUT
+  case PE_SHOTGUNNER
+  case PE_SHOTGUNNER_STAYPUT
+  case PE_ELDER
+  case PE_ELDER_STAYPUT
+	  state KEEPMYPAL
+	  geta[].owner temp
+	  ifn temp -1
+	  {
+		ifn sprite[temp].pal 3
+			{
+			soundonce BLOOD_EXPLOSION
+			spawn BIG_BLOOD_EXE
+			ifrnd 128 spawn 10644 else spawn 10643
+			}
+	  }
+  break
+  case THOTH
+  case THOTH_STAYPUT
+  case ANUBIS_MUMMY
+  case ANUBIS_MUMMY_STAYPUT
+  case SIREN
+  case ALUDRAN
+  case ALUDRAN_STAYPUT
+  case SCORPIONESS
+  case SCORPIONESS_STAYPUT
+  case COBRA
+  case COBRA_STAYPUT
+	state KEEPMYPAL
+	globalsound LESANG_AID
+	espawn SKULLEXPLOSION
+	seta[RETURN].pal 1
+	break
+  case SATYR
+  case SATYR_STAYPUT
+  case SHADE
+  case SHADESTAYPUT
+  case INFERNAL
+  case INFERNAL_STAYPUT
+  case FLESHWIZARD
+  case FLESHWIZARDSTAYPUT
+  case BRUISER
+  case BRUISERSTAYPUT
+  case CYBERDEMON
+  case SCARAB_DEMON
+  case MAEPHISTO
+  case CYBERTOUR
+  case CYBERTOURSTAYPUT
+  state KEEPMYPAL
+  geta[].owner temp
+  ifn temp -1
+  {
+	ife sprite[temp].pal 0 globalsound DEMON_TELEPORT
+	ifactor BRUISER ife sprite[temp].pal 3 globalsound DEMON_TELEPORT
+  }
+  break
+  case HADESPHERE
+  case HADESPHERESTAYPUT
+  state KEEPMYPAL
+  geta[].owner temp
+  ifn temp -1
+  {
+	spawn PENTAGRAM
+	ife sprite[temp].pal 0 globalsound DEMON_TELEPORT
+  }
+  break
+  case ZOMBIE
+  state KEEPMYPAL
+  break
+  case JIBS1
+  case JIBS2
+  case JIBS3
+  case JIBS4
+  case JIBS5
+	sizeat 20 20
+	geta[].owner myowner
+	getactorvar[myowner].blood_type blood_type
+	ifn blood_type 0 seta[].pal blood_type
+	ife blood_type 4 sizeat 0 0
+	ifspawnedby PE_SENTRY sizeat 0 0
+	ifspawnedby SENTRY sizeat 0 0
+	break
+  case JIBS6
+	sizeat 20 20
+	geta[].owner myowner
+	ifn myowner -1 { getav[myowner].fire_damage temp2 ifg temp2 0 sizeat 0 0 }
+	getactorvar[myowner].blood_type blood_type
+	ifn blood_type 0 seta[].pal blood_type
+	ife blood_type 4 sizeat 0 0
+	ifspawnedby PE_SENTRY sizeat 0 0
+	ifspawnedby SENTRY sizeat 0 0
+	/*
+	ifspawnedby SORCERER spritepal 1
+	ifspawnedby FR_SORCERER spritepal 1
+	ifspawnedby DARKAVATAR spritepal 1
+	ifspawnedby ANUBIS_MUMMY spritepal 5
+	ifspawnedby COBRA spritepal 8
+	ifspawnedby NEWBEAST spritepal 8
+	ifspawnedby 4705 spritepal 27
+	ifspawnedby PE_SENTRY sizeat 0 0
+	ifspawnedby SENTRY sizeat 0 0
+	ifspawnedby SPIDER2 spritepal 8
+	*/
+	break
+endswitch
+
+ifactor TRANSPORTERSTAR
+{
+ifspawnedby RESPAWN
+	{
+	geta[].owner temp4
+	switch sprite[temp4].hitag
+	case SATYR
+	case SATYR_STAYPUT
+	case FLESHWIZARD
+	case FLESHWIZARDSTAYPUT
+	case SHADE
+	case SHADESTAYPUT
+	case INFERNAL
+	case INFERNAL_STAYPUT
+	case BRUISER
+	case BRUISERSTAYPUT
+	case CYBERTOUR
+	case CYBERTOURSTAYPUT
+	case MAEPHISTO
+	case 7492 // Shade dummy
+		spawn BURNING2
+		espawn PENTAGRAM
+		seta[RETURN].ang sprite[].ang
+		break
+	case 8576
+	case CULTIST
+	case CULTISTSTAYPUT
+	case WATERBUBBLE
+	case 7677
+	case VLADMIR
+	case RIPPERJUMP
+	case RIPPER
+	case MAMANOJUMP
+	case MAMANO
+	case BEYONDER
+		seta[].xrepeat 1
+		seta[].yrepeat 1
+		break
+	default
+		break
+	endswitch
+	}
+}
+
+endevent

@@ -1,0 +1,4353 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Weapon shop keeper
+Gun name text is coloured coded!
+Blue = default 
+Gold = Gold unlock
+White = Nelson license only
+Green = Matvei license only 
+Purple = Faithful license only
+Brown = Vreteol license only 
+Grey-Brown = Ad/misc
+--------------------------------------------------------------------------------
+*/
+
+defstate WEAPON_SHOP_INTERFACE
+rotatesprite 162 103 43690 0 13539 0 0 8 0 0 xdim ydim
+
+		qputs 409 Budget: %ld
+		qsprintf 409 409 AMC_BUDGET
+		screentext 2822 240 17 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+ife INFO_SEL 0 // James
+	{
+	rotatesprite 206 60 43690 0 3589 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45
+	state CURSOR_OVER_ITEM
+	qputs 409 FN-57 Pistol
+	set item_num 2
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+			{
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+				else
+				ifl AMC_BUDGET 15 soundonce COMP_INVALID
+				else
+					{
+					sub AMC_BUDGET 15
+					savegamevar AMC_BUDGET
+					setarray SPECIALIST_EQUIPMENT[item_num] 1
+					writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+					sound CASHREG
+					}
+			}
+
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 15
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 64 18000 0 10391 0 0 8 0 0 xdim ydim
+
+		qputs 409 A pistol with armour-piercing rounds;
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 it has a 20-round magazine and comes
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 with a laser-sight, activated with
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 alt-fire.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+
+	add gui_pos_y 10
+	state CURSOR_OVER_ITEM
+	qputs 409 MP5
+	set item_num 8
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 20
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 212 61 17000 0 11887 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of James slot 2 bracket
+
+		qputs 409 A suppressed submachine gun that
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 uses subsonic rounds; meaning it
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 makes very little noise, but has low
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 damage output. It also comes with a
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 red-dot sight for accuracy, and an
+		screentext 2822 163 147 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 underslung grenade launcher for
+		screentext 2822 163 153 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 those unsubtle moments.
+		screentext 2822 163 159 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+
+	ife SAVED_MATVEI 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 PP-19
+		set item_num 15
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 20
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 19000 0 12063 0 0 8 0 0 xdim ydim
+
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of James slot 3 bracket
+
+			qputs 409 A Russian-made SMG using armour-
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 piercing rounds. It comes with a
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 large helical-feed magazine
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 that holds 64 rounds.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 AN-94
+		set item_num 22
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 25
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 64 17500 0 13356 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 25 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 25
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of James' slot 4 bracket
+
+			qputs 409 A Russian-made AR with an underslung
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 GL and a HoloSight. It's known for its
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 unique 2-round burst ability that is
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 almost perfectly accurate.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 OTs-33
+		set item_num 28
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 20
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 208 61 19500 0 13413 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of James' slot 5 bracket
+
+			qputs 409 A Russian-made Machine-Pistol; it has
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 a large magazine of 27 rounds and is
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 a reliable sidearm.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+
+
+		} // end of matvei weapons
+
+	ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 Gold Jericho
+		set item_num 36
+		ife NEW_IN_STORE[36] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 70
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 208 61 19500 0 14612 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 70 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 70
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of James' slot 6 bracket
+
+			qputs 409 A golden Jericho; fires gold rounds
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 effective against all enemies, and has
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 a mag capacity of 9 rounds.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+		}
+
+	ife NELSON_LICENSE 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 PPK
+		set item_num 44
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+				ife NEW_IN_STORE[item_num] 0
+					{
+					setarray NEW_IN_STORE[item_num] 1
+					sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+					}
+				screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+				else qputs 409 Cost: 15
+				screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 208 61 20500 0 15872 0 0 8 0 0 xdim ydim
+
+				state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 15 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 15
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of James' slot 7 bracket
+
+				qputs 409 The PPK pistol fires .32-calibre
+				screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 rounds. It has a suppressor, and
+				screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 a mag capacity of 8 rounds.
+				screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 LR300
+		set item_num 45
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+				ife NEW_IN_STORE[item_num] 0
+					{
+					setarray NEW_IN_STORE[item_num] 1
+					sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+					}
+				screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+				else qputs 409 Cost: 35
+				screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 210 70 15500 0 15893 0 11 8 0 0 xdim ydim
+
+				state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 35 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 35
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of James slot 8 bracket
+
+				qputs 409 The LR300 comes with an M203, optics,
+				screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 laser-sight, and also has a
+				screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 hi-capacity mag of 60 rounds.
+				screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	ife EP2_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 Gold HK CAWS
+		set item_num 61
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+				ife NEW_IN_STORE[item_num] 0
+					{
+					setarray NEW_IN_STORE[item_num] 1
+					sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+					}
+				screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+				else qputs 409 Cost: 150
+				screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 210 61 17000 0 19760 0 11 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 150 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 150
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of James slot 9 bracket
+
+				qputs 409 A Golden HK CAWS; useful against all
+				screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 enemies but ammo is very limited.
+				screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 Has a magazine of 10 rounds.
+				screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	ifn FAITHFUL_LICENSE 0
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 Gilboa AR
+		set item_num 72
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 30 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+				ife NEW_IN_STORE[item_num] 0
+					{
+					setarray NEW_IN_STORE[item_num] 1
+					sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+					}
+				screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+				else
+					{
+					ifand FAITHFUL_LICENSE 4 // has cola cap discount
+					qputs 409 Cost: 45
+					else
+					qputs 409 Cost: 150
+					}
+				screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 210 67 20000 0 19848 0 11 8 0 0 xdim ydim
+
+				state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifand FAITHFUL_LICENSE 4 // has bottle cap discount?
+						{
+						ifl AMC_BUDGET 45 soundonce COMP_INVALID
+						else
+							{
+
+							sub AMC_BUDGET 45
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						}
+					else
+						{
+						ifl AMC_BUDGET 150 soundonce COMP_INVALID
+						else
+							{
+
+							sub AMC_BUDGET 150
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						}
+					} // End of James slot 10 bracket
+
+				qputs 409 A dual-barreled assault rifle with
+				screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 2 mags totalling 60 rounds together.
+				screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 Also has a cased launcher and a sight.
+				screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	}
+else
+ife INFO_SEL 1 // Zaxtor
+	{
+	rotatesprite 206 60 43690 0 3590 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45
+	state CURSOR_OVER_ITEM
+	qputs 409 Leadgun
+	set item_num 5
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 20
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 60 19000 0 8316 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Zaxtor slot 1 bracket
+
+		qputs 409 A quad-barreled shotgun; what more
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 needs to be said? Apart from the fact
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 it has monstrous recoil and low
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 accuracy of course.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		}
+
+	add gui_pos_y 10
+	state CURSOR_OVER_ITEM
+	qputs 409 RC-APSMG
+	set item_num 23
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 15
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 60 15000 0 5577 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 15 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 15
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Zaxtor slot 2 bracket
+
+		qputs 409 A compact submachine gun firing
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 Armour-piercing rounds. It's light
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 but has poor accuracy.
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+		
+		ife NELSON_LICENSE 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Magnum
+		set item_num 167
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 29 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 30
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18400 0 38993 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 30 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 30
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 A custom mod of a Deagle, made
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 to fire powerful armour-piercing
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 rounds.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+		
+		ife VRETEOL_LICENSE 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Silver Shooter
+		set item_num 126
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 29 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 40
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18400 0 29129 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 40 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 40
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 An Assault rifle with a mounted
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 scope that can fire powerful
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 silver bullets.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Autorifle
+		set item_num 37
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 50
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 60 15500 0 14626 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 50 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 50
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Zaxtor slot 3 bracket
+
+			qputs 409 A Golden Autorifle that fires gold
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 rounds; effective against both
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 armoured and supernatural foes.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	ife EP2_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Shotgun
+		set item_num 62
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 125
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 60 19000 0 19767 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 125 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 125
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Zaxtor slot 4 bracket
+
+			qputs 409 A golden shotgun that fires gold
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 shells; effective against armour
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 and supernatural enemies.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	}
+else
+ife INFO_SEL 2 // Merlijn
+	{
+	ifand CHAR_APP 4 rotatesprite 206 60 43690 0 25567 20 27 8 0 0 xdim ydim else
+	rotatesprite 206 60 43690 0 3591 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45
+	state CURSOR_OVER_ITEM
+		qputs 409 Thunderbuss
+		set item_num 102
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 30
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 205 60 16000 0 29135 0 0 0 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 30 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 30
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Merlijn slot 1 bracket
+
+			qputs 409 A strange lightning cannon; very
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 useful against armoured and super
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 natural enemies.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+
+	ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Dagger
+		set item_num 38
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 50
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 205 60 16000 0 4984 0 0 0 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 50 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 50
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Merlijn slot 1 bracket
+
+			qputs 409 A golden dagger, not hugely damaging
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 but effective against supernatural
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 AND armoured enemies alike.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+ife NELSON_LICENSE 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 Scatter Bow
+		set item_num 56
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+				ife NEW_IN_STORE[item_num] 0
+					{
+					setarray NEW_IN_STORE[item_num] 1
+					sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+					}
+				screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+				else qputs 409 Cost: 25
+				screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 205 60 8692 0 18091 0 0 8 0 0 xdim ydim
+
+				state handle_click ife clicked 1
+						{
+						ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+						else
+						ifl AMC_BUDGET 25 soundonce COMP_INVALID
+						else
+							{
+							sub AMC_BUDGET 25
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						} // End of Merlijn's slot 2 bracket
+
+				qputs 409 This bow fires unique arrows that
+				screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 split into 5 separate projectiles;
+				screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 whilst harder to hit all marks, it's
+				screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 also more forgiving of misses.
+				screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+
+		}
+
+		ife EP2_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Sword
+		set item_num 63
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 100
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 205 60 12192 0 19784 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 99 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 100
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Merlijn slot 3 bracket
+
+			qputs 409 A golden sword - whilst expensive,
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 it's effective against supernatural
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 and armoured enemies.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	}
+else
+ife INFO_SEL 3 // Highwire
+	{
+	ifand CHAR_APP 16 rotatesprite 206 60 43690 0 25568 20 27 8 0 0 xdim ydim
+	else rotatesprite 206 60 43690 0 3593 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45
+	state CURSOR_OVER_ITEM
+	qputs 409 M16A2
+	set item_num 7
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 20
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 67 16000 0 11872 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Highwire slot 1 bracket
+
+		qputs 409 An assault rifle with a grenade
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 launcher. It's weaker than the AKM,
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 but it's more accurate. Comes with
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 an M203 grenade launcher.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		}
+
+	add gui_pos_y 10
+	state CURSOR_OVER_ITEM
+	qputs 409 Automag
+	set item_num 32
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 20
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 61 16000 0 13431 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Highwire slot 2 bracket
+
+		qputs 409 A powerful semi-auto pistol firing a
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 .44-calibre bullet; has an 8-round mag.
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 Ammo is hard to come by however, but
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 it's a reliable weapon otherwise.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		}
+
+	ife SAVED_MATVEI 1
+	{
+	add gui_pos_y 10
+	state CURSOR_OVER_ITEM
+	qputs 409 RPKM
+	set item_num 11
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 20
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 205 61 17000 0 11881 0 0 0 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Highwire slot 3 bracket
+
+		qputs 409 A light machine gun; unlike the RPK
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 it doesn't have a large drum magazine
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 or a bipod - but it's more accurate
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 for running and gunning.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		}
+
+	add gui_pos_y 10
+	state CURSOR_OVER_ITEM
+	qputs 409 Saiga-12
+	set item_num 13
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 20
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 67 16000 0 12096 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Highwire slot 4 bracket
+
+		qputs 409 A Semi-auto shotgun; has an 8-round
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 magazine, rather than the manual
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 shell-by-shell loading of a standard
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 shotgun.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		}
+
+	add gui_pos_y 10
+	state CURSOR_OVER_ITEM
+	qputs 409 Pribor-3B
+	set item_num 14
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 25
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 220 65 18000 0 11031 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 25 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 25
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Highwire slot 5 bracket
+
+		qputs 409 A prototype 3-barrelled AR
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 that fires heavy armour-piercing
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 bullets. Has a Zilla missile
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 launcher module attached too!
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		}
+
+	add gui_pos_y 10
+	state CURSOR_OVER_ITEM
+	qputs 409 PP-2000
+	set item_num 10
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 15
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 61 19000 0 11860 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 15 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 15
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Highwire slot 6 bracket
+
+		qputs 409 A submachine gun; fires a smaller-
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 calibre bullet than the Tokarev. It's
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 ideal for those who prefer volume of
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 fire over the semi-auto pistol.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		}
+
+	add gui_pos_y 10
+	state CURSOR_OVER_ITEM
+	qputs 409 PKM
+	set item_num 35
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 25
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 61 15500 0 13452 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 25 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 25
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Highwire slot 7 bracket
+
+		qputs 409 A machine gun with a 100-round tin
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 magazine. Very heavy, but can lay
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 down an impressive amount of fire-
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 power.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+
+	} // End of Matvei guns
+
+		ife VRETEOL_LICENSE 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 TOZ-81
+		set item_num 106
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 29 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 50
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 20400 0 29857 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 50 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 50
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 This unique revolver can fire both
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 silver bullets, and small flares;
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 vital for surviving against the
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 unknown terrors of the world.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+			
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gauss Rifle
+		set item_num 137
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 29 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 200
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 20400 0 29864 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 200 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 200
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 Brand new weapon technology; fires
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 high velocity armour piercing 
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 projectiles at a decent rate
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 of fire.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+		ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Skorpion
+		set item_num 39
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 75
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 17000 0 13509 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 75 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 75
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Highwire slot 8 bracket
+
+			qputs 409 A small SMG firing gold standard
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 rounds. Has a high rate of fire, but
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 a small magazine capacity of 20
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 rounds.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+		ife EP2_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold T-Threat
+		set item_num 65
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 150
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 205 62 18000 0 19775 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 150 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 150
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Highwire slot 9 bracket
+
+			qputs 409 A golden Chiappa Triple Threat - it
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 fires gold standard shells. Has little
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 ammo, but can damage armour and the
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 supernatural as well.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+	}
+else
+ife INFO_SEL 4 // Sang
+	{
+	rotatesprite 206 60 43690 0 3598 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45
+	state CURSOR_OVER_ITEM
+	qputs 409 BAR Machine Gun
+	set item_num 6
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 20
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 205 61 16000 0 11114 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Sang slot 1 bracket
+
+		qputs 409 A vintage machine gun;
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 more powerful than the
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 Uzi but has limited ammo.
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 Has a mag of 20 rounds.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		}
+
+
+	ife SAVED_MATVEI 1
+	{
+	add gui_pos_y 10
+	state CURSOR_OVER_ITEM
+
+	qputs 409 PPSH41
+	set item_num 16
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 15
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 61 18000 0 12056 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 15 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 15
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Sang slot 2 bracket
+
+		qputs 409 A vintage SMG;
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 has a huge drum of 71 rounds,
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 but has little stopping power.
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+
+		set gui_pos_y 65
+		state CURSOR_OVER_ITEM
+		qputs 409 SR-2
+		set item_num 34
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 20
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 14000 0 13447 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Sang slot 3 bracket
+
+			qputs 409 A Russian-made SMG using armour-
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 piercing rounds. It comes with an
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 optical sight activated with alt-fire
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 that allows for more accurate shots.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+		}
+
+		ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Ring
+		set item_num 40
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 60
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifand CHAR_APP 2 rotatesprite 205 60 22000 0 23843 0 0 0 0 0 xdim ydim
+			else rotatesprite 205 60 22000 0 13490 0 0 0 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 60 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 60
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Sang slot 4 bracket
+
+			qputs 409 A golden ring; fires magic that is
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 less powerful than the normal ring,
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 but does normal damage to both
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 supernatural and armoured enemies.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+		}
+
+	ife EP2_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Spell
+		set item_num 64
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 100
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 205 60 32000 0 19803 0 0 0 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 100 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 100
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Sang slot 5 bracket
+
+			qputs 409 A golden spell; fires magic that
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 can damage armour and supernatural
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 enemies as well.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+		}
+
+ife NELSON_LICENSE 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 FN F2000
+		set item_num 71
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 35
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 16000 0 19837 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 35 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 35
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Sang slot 6 bracket
+
+			qputs 409 An assault rifle with a scope
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 and an attached 40mm cased
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 grenade launcher.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 Holds a 30-round mag.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+		}
+ifn FAITHFUL_LICENSE 0
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 AK-47
+		set item_num 74
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 30 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else
+				{
+				ifand FAITHFUL_LICENSE 2 qputs 409 Cost: 35
+				else qputs 409 Cost: 125
+				}
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 205 61 18000 0 19902 0 0 8 0 0 xdim ydim
+
+				state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifand FAITHFUL_LICENSE 2 // has bottle cap discount?
+						{
+						ifl AMC_BUDGET 35 soundonce COMP_INVALID
+						else
+							{
+
+							sub AMC_BUDGET 35
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						}
+					else
+						{
+						ifl AMC_BUDGET 125 soundonce COMP_INVALID
+						else
+							{
+
+							sub AMC_BUDGET 125
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						}
+					} // End of Sang slot 7 bracket
+
+			qputs 409 An assault rifle with a scope,
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 GP-30 caseless launcher, and
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 a battle scanner.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 Holds a 30-round mag.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+	ife VRETEOL_LICENSE 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gauss SMG
+		set item_num 138
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 29 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 100
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18000 0 29880 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 100 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 100
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 Brand new weapon technology; fires
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 high velocity armour piercing 
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 projectiles at a decent rate
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 of fire.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	}
+else
+ife INFO_SEL 5 // Rusty
+	{
+	rotatesprite 206 60 43690 0 3600 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45
+	state CURSOR_OVER_ITEM
+	qputs 409 Over-under shotgun
+	set item_num 3
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 20
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 61 16500 0 11090 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Rusty slot 1 bracket
+
+		qputs 409 A vintage Shotgun;
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 far more accurate than
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 the autoshotgun but can
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 only hold 2 shells.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		}
+
+	add gui_pos_y 10
+	state CURSOR_OVER_ITEM
+	qputs 409 M41C
+	set item_num 9
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 20
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 61 20000 0 11866 0 13 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Rusty slot 2 bracket
+
+		qputs 409 An assault rifle with
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 an underslung flamer that
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 uses pulse cells. Has a mag
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 capacity of 99.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+		
+	add gui_pos_y 10
+	state CURSOR_OVER_ITEM
+	qputs 409 PK-D 5223
+	set item_num 123
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 15
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 61 20000 0 34021 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 15 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 15
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} 
+
+		qputs 409 A small revolver built to take down
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 cyborgs; it can punch straight through
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 heavy armour plating...and just about 
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 anything else really.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+
+	ife SAVED_MATVEI 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 AK-74
+		set item_num 27
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 30
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 17000 0 13405 0 13 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 30 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 30
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Highwire slot 3 bracket
+
+			qputs 409 An assault rifle with an
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 underslung grenade launcher,
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 HP rounds, and Kobra sight. Has
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 a mag capacity of 30 rounds.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+		}
+		
+	ife NELSON_LICENSE 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 Alofs Shotgun
+		set item_num 116
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+				ife NEW_IN_STORE[item_num] 0
+					{
+					setarray NEW_IN_STORE[item_num] 1
+					sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+					}
+				screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+				else qputs 409 Cost: 15
+				screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 208 61 19000 0 33752 0 0 8 0 0 xdim ydim
+
+				state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 15 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 15
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} 
+
+				qputs 409 A single barrel shotgun with a
+				screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 unique contraption allowing it
+				screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 to hold 4 more shells.
+				screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+			
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 Winchester
+		set item_num 154
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+				ife NEW_IN_STORE[item_num] 0
+					{
+					setarray NEW_IN_STORE[item_num] 1
+					sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+					}
+				screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+				else qputs 409 Cost: 25
+				screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 208 61 19000 0 34004 0 0 8 0 0 xdim ydim
+
+				state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 25 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 25
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} 
+
+				qputs 409 A Winchester rifle; has a mag
+				screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 capacity of 12 rounds and is
+				screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 very accurate.
+				screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Revolver
+		set item_num 41
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 50
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 205 61 18300 0 14618 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 50 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 50
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Rusty slot 4 bracket
+
+			qputs 409 A golden revolver, firing gold rounds
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 effective against armour and magic.
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 Holds 6 shells (surprise surprise)
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+		}
+
+	ife EP2_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Lever Action
+		set item_num 66
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 100
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 205 61 20000 0 19813 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 100 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 100
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Rusty' slot 5 bracket
+
+			qputs 409 A golden lever-action rifle, firing
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 gold shells effective against armour
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 and supernatural enemies.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+		}
+
+	ifn FAITHFUL_LICENSE 0
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 AutoM Shotgun
+		set item_num 83
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 30 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+				ife NEW_IN_STORE[item_num] 0
+					{
+					setarray NEW_IN_STORE[item_num] 1
+					sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+					}
+				screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+				else
+					{
+					ifand FAITHFUL_LICENSE 8 // has cola cap discount
+					qputs 409 Cost: 30
+					else
+					qputs 409 Cost: 100
+					}
+				screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 210 61 16500 0 22672 0 0 8 0 0 xdim ydim
+
+				state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifand FAITHFUL_LICENSE 8 // has bottle cap discount?
+						{
+						ifl AMC_BUDGET 30 soundonce COMP_INVALID
+						else
+							{
+
+							sub AMC_BUDGET 30
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						}
+					else
+						{
+						ifl AMC_BUDGET 100 soundonce COMP_INVALID
+						else
+							{
+
+							sub AMC_BUDGET 100
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						}
+					} // End of Rusty slot 6 bracket
+
+				qputs 409 A fully-automatic shotgun, with
+				screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 a 20-round detachable magazine.
+				screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+
+	}
+else
+ife INFO_SEL 6 // Geoffrey
+	{
+	rotatesprite 206 60 43690 0 3603 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45
+	state CURSOR_OVER_ITEM
+	qputs 409 AP SMG
+	set item_num 12
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 15
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 64 17000 0 6550 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 15 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 15
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Geoffrey slot 1 bracket
+
+		qputs 409 An armour-piercing SMG;
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 Popular choice for Martian criminals.
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 Has a mag capacity of 80 rounds.
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		}
+
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Plasma shotgun
+		set item_num 20
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 20
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 60 21000 0 6512 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 20 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 20
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Geoffrey slot 2 bracket
+
+			qputs 409 A relatively new weapon, the plasma
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 shotgun fires a burst of deadly blue
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 wavelength plasma.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+			
+	ife VRETEOL_LICENSE 1
+		{
+			add gui_pos_y 10
+			state CURSOR_OVER_ITEM
+			qputs 409 Cryo shotgun
+			set item_num 177
+			ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 29 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+				{
+				ife NEW_IN_STORE[item_num] 0
+					{
+					setarray NEW_IN_STORE[item_num] 1
+					sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+					}
+				screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+				else qputs 409 Cost: 40
+				screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 210 60 19000 0 39011 0 0 8 0 0 xdim ydim
+
+				state handle_click ife clicked 1
+						{
+						ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+						else
+						ifl AMC_BUDGET 40 soundonce COMP_INVALID
+						else
+							{
+							sub AMC_BUDGET 40
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						} // End of Geoffrey slot 2 bracket
+
+				qputs 409 Fires blasts of cryogenic energy, good
+				screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 for telling enemies to chill out.
+				screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+		}
+
+	ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Magshot
+		set item_num 42
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 50
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 17500 0 14594 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 50 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 50
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Geoffrey slot 3 bracket
+
+			qputs 409 A Golden Magshot; stronger than the
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 standard one but lacks upgradability
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 Has a 3-shot burst alt-fire.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	ife EP2_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Shotgun
+		set item_num 67
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 100
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 17000 0 19809 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 100 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 100
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Geoffrey slot 4 bracket
+
+			qputs 409 A golden shotgun; fires gold
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 standard shells that damage both
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 armour and supernatural.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	}
+else
+ife INFO_SEL 7 // Mikko
+	{
+	rotatesprite 206 60 43690 0 3606 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45
+	state CURSOR_OVER_ITEM
+	qputs 409 MDF Magnum
+	set item_num 4
+	ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+	screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+		{
+		ife NEW_IN_STORE[item_num] 0
+			{
+			setarray NEW_IN_STORE[item_num] 1
+			sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			}
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+		else qputs 409 Cost: 15
+		screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatesprite 210 66 18500 0 11102 0 0 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 15 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 15
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Mikko slot 1 bracket
+
+		qputs 409 A Custom .44 Handcannon;
+		screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 more powerful than the pistol
+		screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 but is less accurate and has
+		screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 409 a smaller ammo count.
+		screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Nailgun
+		set item_num 33
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 15
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 60 18000 0 13440 0 0 0 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 15 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 15
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Mikko slot 2 bracket
+
+			qputs 409 A construction nailgun, tweaked for
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 combat use. Fires armour-piercing
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 nails at rapid speeds.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+
+	ifand FOUND_ADS 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 MDF Plasma gun
+		set item_num 19
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 42 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 15
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 23500 0 7031 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 15 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 15
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Mikko slot 3 bracket
+
+			qputs 409 A plasma gun created by the Mars
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 Defence Force. Fires very fast, but
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 has a notorious overheating problem.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Rose
+		set item_num 43
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 75
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 207 65 19000 0 13484 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 75 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 75
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Mikko slot 4 bracket
+
+			qputs 409 A Custom .44 Handcannon;
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 fires gold standard rounds
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 good against all enemy types,
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 but lacks ammo and accuracy.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	ife EP2_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Semi-auto Shotgun
+		set item_num 68
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 125
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18500 0 19822 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 125 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 125
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Mikko's slot 5 bracket
+
+			qputs 409 A golden shotgun; fires gold
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 standard shells that damage
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 armour and supernautral foes.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+
+	}
+else
+ife INFO_SEL 13 // Micky
+	{
+	rotatesprite 206 60 43690 0 16600 20 27 8 0 0 xdim ydim
+		set gui_pos_x 35
+		set gui_pos_y 45
+		state CURSOR_OVER_ITEM
+		qputs 409 AR-73 Battle rifle
+		set item_num 48
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 40
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18500 0 16566 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+						{
+						ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+						else
+						ifl AMC_BUDGET 40 soundonce COMP_INVALID
+						else
+							{
+							sub AMC_BUDGET 40
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						} // End of Micky slot 1 bracket
+
+			qputs 409 A prototype Assault rifle, using
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 a new caseless ammunition type. Can
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 overheat if fired excessively, but
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 is powerful as well.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+			
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Kobra Cannon
+		set item_num 170
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 40
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 16500 0 39055 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+						{
+						ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+						else
+						ifl AMC_BUDGET 40 soundonce COMP_INVALID
+						else
+							{
+							sub AMC_BUDGET 40
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						} // End of Micky slot 1 bracket
+
+			qputs 409 An explosive anti-material rifle,
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 with an attached hi-tech scope.
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+	
+	ife NELSON_LICENSE 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Whiplash Shotgun
+		set item_num 58
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 35
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 17500 0 18020 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 35 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 35
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Micky slot 3 bracket
+
+			qputs 409 A unique shotgun with a
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 custom handle for spin-
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 cocking. Can be dual
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 wielded as well.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Metal Storm
+		set item_num 46
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 75
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 208 61 20500 0 16554 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+						{
+						ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+						else
+						ifl AMC_BUDGET 75 soundonce COMP_INVALID
+						else
+							{
+							sub AMC_BUDGET 75
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						} // End of Micky slot 1 bracket
+
+			qputs 409 A golden Metal storm pistol;
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 fires gold standard rounds
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 good against supernatural
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 and armour.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	ife EP2_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gold Energy Shotgun
+		set item_num 69
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 125
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 23500 0 19831 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 125 soundonce COMP_INVALID
+					else
+						{
+						sub AMC_BUDGET 125
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} // End of Micky slot 4 bracket
+
+			qputs 409 An energy weapon that fires a
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 burst of gold energy, damaging
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 all enemy types.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+
+	}
+else
+ife INFO_SEL 14 // Snowfall
+	{
+	rotatesprite 206 60 43690 0 20813 20 27 8 0 0 xdim ydim
+		set gui_pos_x 35
+		set gui_pos_y 45
+		state CURSOR_OVER_ITEM
+		qputs 409 Spike Shotgun
+		set item_num 100
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 20
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18500 0 29132 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+						{
+						ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+						else
+						ifl AMC_BUDGET 20 soundonce COMP_INVALID
+						else
+							{
+							sub AMC_BUDGET 20
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						} // End of Snowfall slot 1 bracket
+
+			qputs 409 A spike shotgun, fires flechetes;
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 don't even attempt to use this
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 thing at any sort of range beyond
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 kissing distance.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+			
+add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Bolt Gun
+		set item_num 166
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 30
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18500 0 38961 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+						{
+						ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+						else
+						ifl AMC_BUDGET 30 soundonce COMP_INVALID
+						else
+							{
+							sub AMC_BUDGET 30
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						} // End of Snowfall slot 1 bracket
+
+			qputs 409 Fires a powerful bolt that can
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 penetrate armour, and also pin
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 weaker enemies to walls.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}			
+			
+	ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 Honeycomb
+		set item_num 143
+		ife NEW_IN_STORE[143] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else 
+				{
+				ife EP2_GOT_GOLD 1 qputs 409 Cost: 35
+				else qputs 409 Cost: 70
+				}
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 208 61 19500 0 29758 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ife EP2_GOT_GOLD 1 // Gun is half-price if Ep2 is also beaten in expert
+						{
+						ifl AMC_BUDGET 35 soundonce COMP_INVALID
+						else
+							{
+
+							sub AMC_BUDGET 35
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						}
+					else 
+						{
+						ifl AMC_BUDGET 70 soundonce COMP_INVALID
+						else
+							{
+
+							sub AMC_BUDGET 70
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						}
+					} 
+
+			qputs 409 Called the 'Honeycomb', a small handheld
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 shotgun for Snowfall. Fires gold standard
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 shotgun shells.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+		}
+	}
+else
+ife INFO_SEL 17 // Kagura
+	{
+	rotatesprite 206 60 43690 0 27262 20 27 8 0 0 xdim ydim
+		set gui_pos_x 35
+		set gui_pos_y 45
+		
+		state CURSOR_OVER_ITEM
+		qputs 409 Seburo
+		set item_num 155
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 10
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18400 0 34041 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 10 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 10
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 A Pistol with a 20
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 round magazine.
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Dragon Blades
+		set item_num 103
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 40
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 17500 0 29114 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+						{
+						ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+						else
+						ifl AMC_BUDGET 40 soundonce COMP_INVALID
+						else
+							{
+							sub AMC_BUDGET 40
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						} // End of Kagura slot 1 bracket
+
+			qputs 409 Two melee blades; you can swing
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 each blade separately, or both
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 at the same time for a powerful
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 downward swing.
+			screentext 2822 163 141 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+			
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 HMG
+		set item_num 133
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 30
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18400 0 27241 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 30 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 30
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 A 7.62 HMG; has a 100
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 round belt attachment.
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		ife VRETEOL_LICENSE 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Tesla SMG
+		set item_num 127
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 29 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 60
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18400 0 29140 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 60 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 60
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 Not associated with a rich
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 dipshit, just a powerful
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 electrical SMG.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+			
+	ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 Gold Shuriken
+		set item_num 129
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+	ifl gui_pos_x_temp 10
+	 ifg gui_pos_x_temp -50
+	  ifl gui_pos_y_temp 5
+	   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else 
+				{
+				ife EP2_GOT_GOLD 1 qputs 409 Cost: 25
+				else qputs 409 Cost: 50
+				}
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 208 61 INVENSIZE 0 7471 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ife EP2_GOT_GOLD 1 // Half price if ep2 also beat in expert
+						{
+						ifl AMC_BUDGET 25 soundonce COMP_INVALID
+						else
+							{
+
+							sub AMC_BUDGET 25
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						}
+					else 
+						{
+						ifl AMC_BUDGET 50 soundonce COMP_INVALID
+						else
+							{
+							sub AMC_BUDGET 50
+							savegamevar AMC_BUDGET
+							setarray SPECIALIST_EQUIPMENT[item_num] 1
+							writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+							sound CASHREG
+							break
+							}
+						}
+					} 
+
+			qputs 409 Golden throwing stars to compliment Yo;
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 effective against all enemies but has
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 a longer cooldown between throws.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			}
+		}
+	}
+else
+ife INFO_SEL 9 // Cultist
+	{
+	rotatesprite 206 60 43690 0 7768 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45	
+		state CURSOR_OVER_ITEM
+		qputs 409 Flaregun
+		set item_num 171
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 10
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18400 0 38976 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 10 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 10
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 A flaregun; fires a flare
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 that imbeds into enemies.
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+	
+	}
+else
+ife INFO_SEL 10 // Bombshell
+	{
+	rotatesprite 206 60 43690 0 5368 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45
+		ife VRETEOL_LICENSE 1
+		{
+		state CURSOR_OVER_ITEM
+		qputs 409 BFR
+		set item_num 135
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 29 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 60
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 15400 0 29897 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 50 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 60
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 A Revolver that fires
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 massive .500 Bushwacker
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 cartridges.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+	
+	}
+else
+ife INFO_SEL 11 // Maarten
+	{
+	rotatesprite 206 60 43690 0 5488 20 27 8 0 0 xdim ydim
+	}
+else
+ife INFO_SEL 12 // Jane
+	{
+	rotatesprite 206 60 43690 0 5366 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45		
+		ife VRETEOL_LICENSE 1
+		{
+		state CURSOR_OVER_ITEM
+		qputs 409 AR-15 Beowulf
+		set item_num 128
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 29 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 50
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18400 0 29921 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 50 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 50
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 An AR-15 modified to fire
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 very powerful .50 Beowulf
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 ammunition.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+	
+	}
+else
+ife INFO_SEL 16 // Rosa
+	{
+	rotatesprite 206 60 43690 0 34672 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45
+
+		state CURSOR_OVER_ITEM
+		qputs 409 Huot AR
+		set item_num 151
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 29 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 25
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18400 0 32462 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 25 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 25
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 A WW1-Era Canadian made
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 Automatic rifle; has a 25
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 round mag of .303 ammo.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+	
+	}
+else
+ife INFO_SEL 18 // Wheaton
+	{
+	rotatesprite 206 60 43690 0 35840 20 27 8 0 0 xdim ydim
+	set gui_pos_x 35
+	set gui_pos_y 45
+	
+		state CURSOR_OVER_ITEM
+		qputs 409 Longslide
+		set item_num 150
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 25
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18400 0 17983 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 25 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 25
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 A powerful pistol firing
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 high powered custom .460
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 rounds.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+		qputs 409 Gauss AR
+		set item_num 147
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+			ife NEW_IN_STORE[item_num] 0
+				{
+				setarray NEW_IN_STORE[item_num] 1
+				sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+				}
+			screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+			else qputs 409 Cost: 50
+			screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			rotatesprite 210 61 18400 0 29734 0 0 8 0 0 xdim ydim
+
+			state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 50 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 50
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					}
+
+			qputs 409 EAF's attempt at creating
+			screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 Gauss weaponry; powerful
+			screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 409 anti-armour capabilities.
+			screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+			
+	ife EP1_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 Gold Particle Magnum
+		set item_num 153
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+				ife NEW_IN_STORE[item_num] 0
+					{
+					setarray NEW_IN_STORE[item_num] 1
+					sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+					}
+				screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+				else qputs 409 Cost: 50
+				screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 210 61 17000 0 35576 0 11 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 50 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 50
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} 
+
+				qputs 409 A unique form of Energy pistol;
+				screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 fires gold laser blasts that,
+				screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 surprise, damage all enemies.
+				screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+	
+	ife EP2_GOT_GOLD 1
+		{
+		add gui_pos_y 10
+		state CURSOR_OVER_ITEM
+
+		qputs 409 Gold SPAS-15
+		set item_num 152
+		ife NEW_IN_STORE[item_num] 0 myospal 81 gui_pos_y 14606 0 0 0
+		screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 0 7 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -50
+		  ifl gui_pos_y_temp 5
+		   ifg gui_pos_y_temp -5
+			{
+				ife NEW_IN_STORE[item_num] 0
+					{
+					setarray NEW_IN_STORE[item_num] 1
+					sound COMP_SELECT writearraytofile NEW_IN_STORE F_SHOP_NEW_AMCTC
+					}
+				screentext 2822 gui_pos_x gui_pos_y 28672 0 0 409 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ifg SPECIALIST_EQUIPMENT[item_num] 0 qstrcpy 409 3080
+				else qputs 409 Cost: 75
+				screentext 2822 163 95 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 210 61 17000 0 35572 0 11 8 0 0 xdim ydim
+
+		state handle_click ife clicked 1
+					{
+					ifg SPECIALIST_EQUIPMENT[item_num] 0 soundonce COMP_INVALID
+					else
+					ifl AMC_BUDGET 75 soundonce COMP_INVALID
+					else
+						{
+
+						sub AMC_BUDGET 75
+						savegamevar AMC_BUDGET
+						setarray SPECIALIST_EQUIPMENT[item_num] 1
+						writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+						sound CASHREG
+						break
+						}
+					} 
+
+				qputs 409 A Gold SPAS-15; useful against all
+				screentext 2822 163 123 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 enemies but ammo is very limited.
+				screentext 2822 163 129 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 409 Has a magazine of 10 rounds.
+				screentext 2822 163 135 28672 0 0 409 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		}
+	
+	}
+rotatespritea 276 52 NNORMALSIZE 0 11231 disp_pulse 0 0 -255 0 0 xdim ydim
+rotatespritea 208 60 NNORMALSIZE 0 11232 0 0 0 -255 0 0 xdim ydim
+
+	set gui_pos_x 5
+	set gui_pos_y 26
+	state character_gui_icons
+
+ends
+
+spritenvg 13540
+
+useractor notenemy 13540 // IW SHOPKEEPER
+
+ifaction 0
+{
+strength 50
+espawn 12263
+set actor_return RETURN
+seta[RETURN].owner THISACTOR
+geta[RETURN].z temp
+sub temp 16384
+seta[RETURN].z temp
+action ZERO
+}
+
+ifaction ZERO
+{
+
+ifp palive
+ ife player[].newowner -1 // prevent viewscreen bugs
+  ifp pfacing
+   ifpdistl 1526
+  {
+  ife MOUSEUP 0 state talk_prompt
+   ife use_action_allowed 1
+	{
+		ife MOUSEUP 0
+			{
+			soundonce CONVERSATION
+			readarrayfromfile NEW_IN_STORE F_SHOP_NEW_AMCTC
+			readarrayfromfile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+			resizearray SPECIALIST_EQUIPMENT MAX_SPECIAL_LOADOUT
+			getp[].horiz PHORIZ
+			readgamevar AMC_BUDGET
+			readgamevar SAVED_MATVEI
+			readgamevar NELSON_LICENSE
+			readgamevar VRETEOL_LICENSE
+			readgamevar FAITHFUL_LICENSE
+			readgamevar FOUND_ADS
+			readgamevar EP1_GOT_GOLD
+			readgamevar EP2_GOT_GOLD
+			readgamevar EP3_GOT_GOLD
+			getp[].ang PANG
+			set PCINTER 11
+			set INFO_SEL 20
+			seta[actor_return].shade 20 // darken 'speech' bubble to show they've been spoken to
+			set MOUSEUP 1
+			}
+		else
+		ife MOUSEUP 1
+			{
+			set PCINTER 0
+			set MOUSEUP 0
+			soundonce CONVERSATION
+			}
+	state setIgnoreUse
+	}
+
+	ife PCINTER 11 // Talking to the shopkeeper?
+		{
+		ifcount 13
+			{
+			getinput[].bits temp
+			shiftvarr temp 8
+			andvar temp 0xF
+			switch temp
+				case 1:
+					soundonce CONVERSATION
+					ife INFO_SEL 20 { set INFO_SEL CHAR set PCINTER 12 }
+					ife INFO_SEL 21 { set INFO_SEL CHAR set PCINTER 12 }
+					resetcount
+					break
+				case 2:
+					soundonce CONVERSATION
+					ife INFO_SEL 20 set INFO_SEL 21
+					resetcount
+					break
+				case 10:
+					set PCINTER 0
+					set MOUSEUP 0
+					soundonce CONVERSATION
+					resetcount
+					break
+			endswitch
+			}
+		}
+	else
+	ife PCINTER 12 // Browsing the shop?
+		state scroll_char_keys
+   }
+
+}
+enda

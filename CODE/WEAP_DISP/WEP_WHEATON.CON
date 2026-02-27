@@ -1,0 +1,3518 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+This file defines the display code for Wheaton's weapons.
+--------------------------------------------------------------------------------
+*/
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// SLOT 1 WEAPONS
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+defstate draw_welrod
+
+  set x 219
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 230
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+
+	ifl gunsmoke_disp 40 ife INVINC 0
+	 ifn weaponcount 2
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+		sub x 33
+		sub y 40
+		rotatespritea x y 30000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		add x 33
+		add y 40
+		guniqhudid 0
+		}
+		
+	sub x 33
+	sub y 37
+	state flash_scanner
+	add x 33
+	add y 37
+
+switch weaponcount
+case 0
+case 1
+  set weap_disp_temp2 player[].weapon_pos
+  state wep_drawup
+  state gunpushback_display
+  ife slot1_mag 0 set tilenum 35849 else set tilenum 35848
+  guniqhudid 10
+  rotatesprite x y 40960 0 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 35
+  add x 10
+  guniqhudid 11
+  rotatesprite x y 40960 0 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 2
+state gun_smoke_display
+displayrandvar gun_pushb_disp 15
+  state gunpushback_display
+  sub y 40
+  sub x 33
+  guniqhudid 10
+  state random_gun_flash
+  rotatespritea x y 20000 rot_flash rot_flash2 0 27 4096 -255 windowx1 windowy1 windowx2 windowy2
+  add y 40
+  add x 33
+  guniqhudid 11
+  rotatesprite x y 40960 0 35848 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 35
+  add x 10
+  guniqhudid 12
+  rotatesprite x y 40960 0 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 3
+case 5
+  state gunpushback_display
+  guniqhudid 10
+  rotatesprite x y 40960 24 35849 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 32
+  add x 11
+  guniqhudid 11
+  rotatesprite x y 40960 24 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 4
+  state gunpushback_display
+  guniqhudid 10
+  rotatesprite x y 40960 52 35849 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 35
+  add x 11
+  guniqhudid 11
+  rotatesprite x y 40960 52 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 6
+case 7
+case 8
+case 9
+case 10
+case 43
+  guniqhudid 10
+  rotatesprite x y 40960 32 35854 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  add y 40
+  guniqhudid 11
+  rotatesprite x y 40960 164 C_PISTOL_R shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  break
+case 11
+case 12
+case 13
+case 14
+case 15
+case 16
+case 40
+case 41
+case 42
+  add y 7
+	ife weaponcount 12 add y 20
+	ife weaponcount 41 ife reload_empty 1 add y 10
+  guniqhudid 10
+  rotatesprite x y 40960 0 35854 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	add y 45
+  add x 0
+  guniqhudid 11
+  rotatesprite x y 40960 190 C_PISTOL_R shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  break
+case 17
+case 18
+case 19
+case 20
+case 21
+case 22
+case 23
+case 37
+case 38
+case 39
+  guniqhudid 10
+  rotatesprite x y 40960 32 35854 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	add y 45
+  sub x 5
+  guniqhudid 11
+  rotatesprite x y 40960 204 C_PISTOL_R shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  break
+case 24
+case 25
+case 26
+case 27
+case 34
+case 35
+case 36
+  add y 5
+  guniqhudid 10
+ rotatesprite x y 40960 0 35855 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+   add y 50
+  sub x 5
+  guniqhudid 11
+  rotatesprite x y 40960 204 C_PISTOL_R shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  break
+case 28
+case 29
+case 30
+case 31
+case 32
+case 33
+  add y 5
+   ife weaponcount 32 sub y 15
+  guniqhudid 10
+  rotatesprite x y 40960 32 35856 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	add y 50
+  sub x 5
+  guniqhudid 11
+  rotatesprite x y 40960 320 C_PISTOL_R shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  break
+endswitch
+guniqhudid 0
+ends
+
+// Wheaton's Longslide===============================================================================================================
+
+defstate draw_wa_longside
+
+  set x 199
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 240
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  
+    state gunpushback_display
+
+	ifl gunsmoke_disp 40 ife INVINC 0
+	 ifn weaponcount 2
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+		sub x 33
+		sub y 45
+		rotatespritea x y 28000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		add x 33
+		add y 45
+		guniqhudid 0
+		}
+
+guniqhudid 0
+switch weaponcount
+case 0
+case 1
+  set weap_disp_temp2 player[].weapon_pos
+  ife weap_disp_temp2 8 soundonce SELECT_PISTOL
+  state wep_drawup
+ ife slot1_mag 0 set tilenum 17985 else set tilenum 17983
+ guniqhudid 10
+  rotatesprite x y 40960 weap_disp_temp2 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 20
+  add x 8
+  guniqhudid 11
+  rotatesprite x y 40960 0 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 2
+case 3
+  ife weaponcount 3 { displayrandvar gun_pushb_disp 10 add gun_pushb_disp 5 }
+  state gun_smoke_display
+  displayrandvar rot_flash 2048
+  sub y 45
+  sub x 33
+  guniqhudid 10
+  state fortyfive_flashes
+  add y 45
+  add x 33
+  guniqhudid 11
+  rotatesprite x y 40960 0 17984 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 20
+  add x 8
+  guniqhudid 12
+  rotatesprite x y 40960 0 C_PISTOL_R 0 107 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 4
+case 5
+ set tilenum 17985
+  guniqhudid 10
+  rotatesprite x y 40960 8 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 20
+  add x 8
+  guniqhudid 11
+  rotatesprite x y 40960 8 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 6
+case 7
+case 8
+case 9
+case 10
+  add y 5
+  ife slot1_mag 0 set tilenum 17985 else set tilenum 17983
+  guniqhudid 10
+  rotatesprite x y 40960 16 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 20
+  add x 8
+  guniqhudid 11
+  rotatesprite x y 40960 16 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 11
+case 12
+case 13
+  add y 7
+  ife slot1_mag 0 set tilenum 17985 else set tilenum 17983
+  guniqhudid 10
+  rotatesprite x y 40960 0 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 20
+  add x 8
+  guniqhudid 11
+  rotatesprite x y 40960 0 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 14
+case 15
+case 16
+  add y 7
+  ife weaponcount 16 add y 5
+  ife slot1_mag 0 set tilenum 17986 else set tilenum 17987
+  guniqhudid 10
+  rotatesprite x y 40960 0 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 22
+  sub x 6
+  guniqhudid 11
+  rotatesprite x y 40960 64 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 17
+case 18
+case 19
+case 20
+case 21
+case 22
+case 23
+  ife slot1_mag 0 set tilenum 17986 else set tilenum 17987
+  guniqhudid 10
+	rotatesprite x y 40960 32 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 20
+  sub x 6
+  guniqhudid 11
+  rotatesprite x y 40960 96 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 24
+case 25
+case 26
+case 27
+case 28
+case 29
+case 30
+  add y 5
+  ife slot1_mag 0 set tilenum 17986 else set tilenum 17987
+  guniqhudid 10
+	rotatesprite x y 40960 64 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 18
+  sub x 8
+  guniqhudid 11
+  rotatesprite x y 40960 128 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 31
+case 32
+case 33
+case 34
+	ife weaponcount 32 add y 5
+  ife slot1_mag 0 set tilenum2 17986 else set tilenum2 17987
+  guniqhudid 10
+	rotatesprite x y 40960 96 tilenum2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 14
+  sub x 8
+  guniqhudid 11
+  rotatesprite x y 40960 160 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 35
+case 36
+case 37
+case 38
+  guniqhudid 10
+	rotatesprite x y 40960 98 tilenum2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 14
+  sub x 8
+  guniqhudid 11
+  rotatesprite x y 40960 162 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 39
+case 40
+case 41
+case 42
+case 43
+  add y 5
+  ife tilenum2 17986 ife weaponcount 40 sound S1911_SLIDE
+  set tilenum 17987
+  guniqhudid 10
+	rotatesprite x y 40960 64 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add y 18
+  sub x 8
+  guniqhudid 11
+  rotatesprite x y 40960 128 C_PISTOL_R shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+endswitch
+guniqhudid 0
+ends
+
+defstate draw_gold_laser
+
+  set x 210
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 235
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  
+  clamp y 143 320
+  
+  state gunpushback_display
+
+	ifl gunsmoke_disp 40 ife INVINC 0
+	 ifn weaponcount 2
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+	   sub x 20
+	   sub y 45
+		rotatespritea x y 40000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+	  add x 20
+	  add y 45
+		guniqhudid 0
+		}
+
+  ifg weaponcount 6 set gun_pushb_disp 0
+
+switch weaponcount
+case 0
+case 1
+case 3
+case 4
+case 5
+  state wep_drawup
+  
+  guniqhudid 10
+  rotatesprite x y 40960 weap_disp_temp2 35576 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  ife HANDS_DRAW 2
+	  {
+	  sub x 50
+	  add y 20
+	  guniqhudid 11
+	  rotatesprite x y 32768 weap_disp_temp2 C_ARM_3 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 50
+	  sub y 20
+	  }
+    add x 10
+	add y 30
+	guniqhudid 12
+	rotatesprite x y 35768 weap_disp_temp2 C_PISTOL_R shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  break
+case 2
+ state gun_smoke_display
+ set gun_pushb_disp 10
+ displayrandvar rot_flash 2048
+   sub x 20
+   sub y 45
+   guniqhudid 10
+  state random_gun_flash
+  rotatespritea x y 24000 rot_flash rot_flash2 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+  add x 20
+  add y 45
+  guniqhudid 11
+  rotatesprite x y 40960 weap_disp_temp2 35577 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  ife HANDS_DRAW 2
+	  {
+	  sub x 50
+	  add y 20
+	  guniqhudid 12
+	  rotatesprite x y 32768 weap_disp_temp2 C_ARM_3 0 106 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 50
+	  sub y 20
+	  }
+	add x 10
+	add y 30
+	guniqhudid 13
+	rotatesprite x y 35768 weap_disp_temp2 C_PISTOL_R 0 106 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 6
+case 7
+case 8
+case 38
+case 39
+case 40
+  guniqhudid 10
+  rotatesprite x y 40960 0 35578 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 9
+case 10
+case 11
+case 35
+case 36
+case 37
+  guniqhudid 10
+  rotatesprite x y 40960 -64 35579 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 12
+case 13
+case 14
+
+case 32
+case 33
+case 34
+add y 15
+add x 30
+  guniqhudid 10
+  rotatesprite x y 40960 0 35580 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 15
+case 16
+case 17
+
+case 29
+case 30
+case 31
+  guniqhudid 10
+  rotatesprite x y 40960 0 35581 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  ifge weaponcount 29
+		{
+		add y 45
+		sub x 20
+		guniqhudid 11
+		rotatesprite x y 40960 1024 C_HAND_2 shade wep_pal 12 windowx1 windowy1 windowx2 windowy2
+		}
+  break
+case 18
+case 19
+case 20
+case 26
+case 27
+case 28
+  add y 5
+  guniqhudid 10
+  rotatesprite x y 40960 0 35582 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 21
+case 22
+case 23
+case 24
+case 25
+  add y 5
+  guniqhudid 10
+  rotatesprite x y 40960 0 35583 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+ endswitch
+ guniqhudid 0
+ends
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// SLOT 2 WEAPONS
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+defstate draw_wheaton_shotgun
+
+  set x 240
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 247
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+
+	ifl gunsmoke_disp 40 ife INVINC 0
+	 ifn weaponcount 2
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+		sub x 58
+		sub y 52
+		rotatespritea x y 40000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		add x 58
+		add y 52
+		guniqhudid 0
+		}
+
+	state gunpushback_display
+	guniqhudid 0
+	switch weaponcount
+	case 0
+	case 1
+	case 4
+	  set rot_flash 0
+	  set rot_flash2 0
+	ifand gun_firemode 16384 // Ironsight?
+	  {
+		  set x 160
+		  set weap_disp_temp2 wepsway_x
+		  div weap_disp_temp2 2
+		  sub x weap_disp_temp2
+		  set y 140
+		  set weap_disp_temp3 wepsway_y
+		  div weap_disp_temp3 2
+		  sub y weap_disp_temp3
+		  set weap_disp_temp4 weapon_xoffset // set the weapon x sway to displaytemp4
+		  div weap_disp_temp4 2 // divide it by 2
+		  add x weap_disp_temp4 // add it to x
+		  sub x 5 // offset it by 5
+		  sub y 10
+		  state gunpushback_sight_display
+		  guniqhudid 10
+		  sub weap_disp_temp8 16384
+		  rotatesprite x y weap_disp_temp8 0 35903 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // Barrel
+		  add weap_disp_temp8 16384
+		  sub y 30
+		  guniqhudid 11
+		  rotatespritea x y 8192 0 11047 0 0 1 -255 windowx1 windowy1 windowx2 windowy2 // holographic crosshair
+		  set x 160
+		  sub x wepsway_x
+		  sub x 10
+		  add x weapon_xoffset
+		  set y 142
+		  sub y wepsway_y
+		  guniqhudid 12
+		  rotatesprite x y weap_disp_temp8 0 35902 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // holotech sight
+
+				ifl player_shade_diff -5
+					{
+					set weap_disp_temp3 player_shade_diff
+					mul weap_disp_temp3 2
+					sub y 30
+					guniqhudid 13
+					rotatespritea x y 6096 0 2587 player_shade_diff wall_pal 33 weap_disp_temp3 windowx1 windowy1 windowx2 windowy2 // Glass in holosight
+					}
+
+	  }
+	else
+		{
+		ife player[].weapon_pos 9 { set LOWER_WEAPON_SOUND SELECT_WEAPON state sound_lower_weapon }
+		state wep_drawup
+		guniqhudid 10
+		rotatesprite x y 40960 weap_disp_temp2 35895 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		sub x 80
+		sub y 5
+		guniqhudid 11
+		rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+		}
+	  break
+	case 2
+	ifand gun_firemode 16384
+		  {
+			  set x 160
+			  set weap_disp_temp2 wepsway_x
+			  div weap_disp_temp2 2
+			  sub x weap_disp_temp2
+			  set y 140
+			  set weap_disp_temp3 wepsway_y
+			  div weap_disp_temp3 2
+			  sub y weap_disp_temp3
+			  set weap_disp_temp4 weapon_xoffset // set the weapon x sway to displaytemp4
+			  div weap_disp_temp4 2 // divide it by 2
+			  add x weap_disp_temp4 // add it to x
+			  sub x 5 // offset it by 5
+			  sub y 5
+			  sub y 10
+			  guniqhudid 10
+			  rotatespritea x y 20000 rot_flash 16114 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+			  add y 5
+			  ife weaponcount 3
+			  {
+			  set gun_pushb_disp 10
+			  state gunpushback_sight_display
+			 }
+			 guniqhudid 11
+			  rotatesprite x y weap_disp_temp8 0 35903 0 106 0 windowx1 windowy1 windowx2 windowy2 // Barrel
+			  sub y 30
+			  guniqhudid 12
+			  rotatespritea x y 8192 0 11047 0 0 1 -255 windowx1 windowy1 windowx2 windowy2 // holographic crosshair
+			  set x 160
+			  sub x wepsway_x
+			  sub x 10
+			  add x weapon_xoffset
+			  set y 142
+			  sub y wepsway_y
+			  guniqhudid 13
+			  rotatesprite x y weap_disp_temp8 0 35902 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // holotech sight
+
+		  }
+  else
+		{
+		state gun_smoke_display
+		displayrandvar gun_pushb_disp 10
+		ife weaponcount 3
+			  {
+			  add x gun_pushb_disp
+			  add y gun_pushb_disp
+			  }
+		  sub x 58
+		  sub y 52
+		  guniqhudid 10
+		  state random_shotg_flash
+		  rotatespritea x y 40960 rot_flash2 rot_flash 0 0 8 -255 windowx1 windowy1 windowx2 windowy2
+		  add x 58
+		  add y 52
+		  guniqhudid 11
+		  rotatesprite x y 40960 0 35895 0 0 0 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 12
+		  rotatesprite x y 40960 0 35896 0 0 0 windowx1 windowy1 windowx2 windowy2
+		 sub x 80
+		 sub y 5
+		 guniqhudid 13
+		 rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 0 107 4096 windowx1 windowy1 windowx2 windowy2
+		}
+	  break
+	case 3
+	ife rot_flash 0 displayrandvar rot_flash 2048
+	ifand gun_firemode 16384
+		  {
+			  set x 160
+			  set weap_disp_temp2 wepsway_x
+			  div weap_disp_temp2 2
+			  sub x weap_disp_temp2
+			  set y 140
+			  set weap_disp_temp3 wepsway_y
+			  div weap_disp_temp3 2
+			  sub y weap_disp_temp3
+			  set weap_disp_temp4 weapon_xoffset // set the weapon x sway to displaytemp4
+			  div weap_disp_temp4 2 // divide it by 2
+			  add x weap_disp_temp4 // add it to x
+			  sub x 5 // offset it by 5
+			  sub y 5
+			  sub y 10
+			  guniqhudid 10
+			  rotatespritea x y 20000 rot_flash 16114 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+			  add y 5
+			  ife weaponcount 3
+			  {
+			  set gun_pushb_disp 10
+			  state gunpushback_sight_display
+			 }
+			 guniqhudid 11
+			  rotatesprite x y weap_disp_temp8 0 35903 0 106 0 windowx1 windowy1 windowx2 windowy2 // Barrel
+			  sub y 30
+			  guniqhudid 12
+			  rotatespritea x y 8192 0 11047 0 0 1 -255 windowx1 windowy1 windowx2 windowy2 // holographic crosshair
+			  set x 160
+			  sub x wepsway_x
+			  sub x 10
+			  add x weapon_xoffset
+			  set y 142
+			  sub y wepsway_y
+			  guniqhudid 13
+			  rotatesprite x y weap_disp_temp8 0 35902 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // holotech sight
+
+		  }
+  else
+		{
+		state gun_smoke_display
+		displayrandvar gun_pushb_disp 10
+		ife weaponcount 3
+			  {
+			  add x gun_pushb_disp
+			  add y gun_pushb_disp
+			  }
+		  sub x 58
+		  sub y 52
+		  guniqhudid 10
+		  rotatespritea x y 20000 rot_flash 16114 0 0 8 -255 windowx1 windowy1 windowx2 windowy2
+		  add x 58
+		  add y 52
+		  guniqhudid 11
+		  rotatesprite x y 40960 0 35895 0 0 0 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 12
+		  rotatesprite x y 40960 0 35896 0 0 0 windowx1 windowy1 windowx2 windowy2
+		 sub x 80
+		 sub y 5
+		 guniqhudid 13
+		 rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 0 107 4096 windowx1 windowy1 windowx2 windowy2
+		}
+	  break
+	case 5
+	case 6
+	case 7
+	case 8
+	case 9
+	case 10
+	case 11
+	case 36
+	case 37
+	case 38
+	case 39
+	case 40
+	case 41
+	case 42
+		guniqhudid 10
+	  rotatesprite x y 40960 0 35897 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 12
+	case 13
+	case 14
+	case 15
+	case 16
+	case 17
+	case 32
+	case 33
+	case 34
+	case 35
+	  sub y 15
+	  ife kickbackpic 33 sub y 15
+	  guniqhudid 10
+	  rotatesprite x y 40960 0 35898 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 90
+	  add y 45
+	  guniqhudid 11
+	  rotatesprite x y 40960 96 CHOLDING_3 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 18
+	case 19
+	case 30
+	case 31
+	  sub y 15
+	  ife kickbackpic 18 add y 15
+	  guniqhudid 10
+	  rotatesprite x y 40960 8 35899 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  guniqhudid 11
+	  rotatesprite x y 40960 8 35900 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 20
+	case 21
+	case 22
+	case 23
+	case 24
+	case 25
+	case 26
+	case 27
+	case 28
+	case 29
+	  sub y 15
+	  ife kickbackpic 18 add y 5
+	  guniqhudid 10
+	  rotatesprite x y 40960 16 35900 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	// PRESS BOLT CATCH RELOAD
+	case 43
+	case 61
+		guniqhudid 10
+	  rotatesprite x y 40960 0 35897 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 44
+	case 60
+		guniqhudid 10
+	  rotatesprite x y 40960 16 35897 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 45
+	case 59
+		guniqhudid 10
+	  rotatesprite x y 40960 32 35897 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 46
+	case 58
+		guniqhudid 10
+	  rotatesprite x y 40960 32 35897 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 50
+	  add y 20
+	  break
+	case 47
+	case 57
+		guniqhudid 10
+	  rotatesprite x y 40960 32 35897 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 55
+	  add y 20
+	  break
+	case 48
+	case 56
+	  add y 5
+	  guniqhudid 10
+	  rotatesprite x y 40960 48 35897 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 57
+	  add y 50
+	  break
+	case 49
+	case 55
+	  add y 10
+	  guniqhudid 10
+	  rotatesprite x y 40960 64 35897 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 57
+	  add y 50
+	  break
+	case 50
+	case 54
+	  add y 15
+	  guniqhudid 10
+	  rotatesprite x y 40960 76 35897 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 57
+	  add y 50
+	  break
+	case 51
+	case 53
+	  add y 20
+	  guniqhudid 10
+	  rotatesprite x y 40960 96 35897 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 52
+	  add y 35
+	  guniqhudid 10
+	  rotatesprite x y 40960 104 35898 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	endswitch
+guniqhudid 0
+ends
+
+defstate onagre_ironsight
+		  set x 160
+		  set weap_disp_temp2 wepsway_x
+		  div weap_disp_temp2 2
+		  sub x weap_disp_temp2
+		  set y 140
+		  set weap_disp_temp3 wepsway_y
+		  div weap_disp_temp3 2
+		  sub y weap_disp_temp3
+		  set weap_disp_temp4 weapon_xoffset // set the weapon x sway to displaytemp4
+		  div weap_disp_temp4 2 // divide it by 2
+		  add x weap_disp_temp4 // add it to x
+		  sub x 5 // offset it by 5
+		  sub y 10
+		  state gunpushback_sight_display
+		  guniqhudid 10
+		  sub weap_disp_temp8 16384
+		  // rotatesprite x y weap_disp_temp8 0 35903 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // Barrel
+		  add weap_disp_temp8 16384
+		  sub y 30
+		  guniqhudid 11
+		  rotatespritea x y 8192 0 11047 0 0 1 -255 windowx1 windowy1 windowx2 windowy2 // holographic crosshair
+		  set x 160
+		  sub x wepsway_x
+		  sub x 10
+		  add x weapon_xoffset
+		  set y 142
+		  sub y wepsway_y
+		  guniqhudid 12
+		  rotatesprite x y weap_disp_temp8 0 35902 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // holotech sight
+
+				ifl player_shade_diff -5
+					{
+					set weap_disp_temp3 player_shade_diff
+					mul weap_disp_temp3 2
+					sub y 30
+					guniqhudid 13
+					rotatespritea x y 6096 0 2587 player_shade_diff wall_pal 33 weap_disp_temp3 windowx1 windowy1 windowx2 windowy2 // Glass in holosight
+					}
+ends
+
+defstate draw_onagre
+
+  set x 235
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 240
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+
+	ifl gunsmoke_disp 40 ife INVINC 0
+		 ifn weaponcount 2
+			{
+			add gunsmoke_disp 1
+			guniqhudid 18
+			  sub x 57
+			  sub y 45
+			rotatespritea x y 40000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+			add x 57
+			add y 45
+			guniqhudid 0
+			}
+
+ifl kickbackpic 18
+state gunpushback_display
+
+guniqhudid 0
+switch weaponcount
+case 0
+case 1
+  ife player[].weapon_pos 8 soundonce WINCHUP
+  state wep_drawup
+  set rot_flash 0
+  set rot_flash2 0
+	  ifand gun_firemode 16384 state onagre_ironsight
+	  else
+	  {
+	  sub x 65
+	  add y 20
+	  guniqhudid 10
+	  rotatesprite x y 45152 weap_disp_temp2 C_ARM_1 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 65
+	  sub y 20
+	  guniqhudid 11
+	rotatesprite x y 40960 weap_disp_temp2 35880 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	}
+  break
+case 2
+  ifand gun_firemode 16384 // Ironsight?
+	  {
+		  set x 160
+		  set weap_disp_temp2 wepsway_x
+		  div weap_disp_temp2 2
+		  sub x weap_disp_temp2
+		  set y 140
+		  set weap_disp_temp3 wepsway_y
+		  div weap_disp_temp3 2
+		  sub y weap_disp_temp3
+		  set weap_disp_temp4 weapon_xoffset // set the weapon x sway to displaytemp4
+		  div weap_disp_temp4 2 // divide it by 2
+		  add x weap_disp_temp4 // add it to x
+		  sub x 5 // offset it by 5
+		  sub y 10
+		  state gunpushback_sight_display
+		  guniqhudid 10
+		  sub weap_disp_temp8 16384
+		  // rotatesprite x y weap_disp_temp8 0 35903 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // Barrel
+		  add weap_disp_temp8 16384
+		  sub y 30
+		  guniqhudid 11
+		  rotatespritea x y 8192 0 11047 0 0 1 -255 windowx1 windowy1 windowx2 windowy2 // holographic crosshair
+		  set x 160
+		  sub x wepsway_x
+		  sub x 10
+		  add x weapon_xoffset
+		  set y 142
+		  sub y wepsway_y
+		  guniqhudid 12
+		  rotatesprite x y weap_disp_temp8 0 35902 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // holotech sight
+
+				ifl player_shade_diff -5
+					{
+					set weap_disp_temp3 player_shade_diff
+					mul weap_disp_temp3 2
+					sub y 30
+					guniqhudid 13
+					rotatespritea x y 6096 0 2587 player_shade_diff wall_pal 33 weap_disp_temp3 windowx1 windowy1 windowx2 windowy2 // Glass in holosight
+					}
+
+	  }
+	  else
+	  {
+	state gun_smoke_display
+  sub x 57
+  sub y 45
+  guniqhudid 10
+  state random_shotg_flash
+  rotatespritea x y 40960 rot_flash2 rot_flash 0 94 4096 -255 windowx1 windowy1 windowx2 windowy2
+  add x 57
+  add y 45
+	  sub x 65
+	  add y 20
+	  guniqhudid 11
+	  rotatesprite x y 45152 0 C_ARM_1 0 106 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 65
+	  sub y 20
+	  guniqhudid 12
+  rotatesprite x y 40960 0 35880 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  guniqhudid 13
+  rotatesprite x y 40960 0 35881 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  }
+  break
+case 3
+	ifand gun_firemode 16384
+		  {
+			  set x 160
+			  set weap_disp_temp2 wepsway_x
+			  div weap_disp_temp2 2
+			  sub x weap_disp_temp2
+			  set y 140
+			  set weap_disp_temp3 wepsway_y
+			  div weap_disp_temp3 2
+			  sub y weap_disp_temp3
+			  set weap_disp_temp4 weapon_xoffset // set the weapon x sway to displaytemp4
+			  div weap_disp_temp4 2 // divide it by 2
+			  add x weap_disp_temp4 // add it to x
+			  sub x 5 // offset it by 5
+			  sub y 5
+			  sub y 10
+			  guniqhudid 10
+			  rotatespritea x y 20000 rot_flash 16114 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+			  add y 5
+			  ife weaponcount 3
+			  {
+			  set gun_pushb_disp 10
+			  state gunpushback_sight_display
+			 }
+			 guniqhudid 11
+			  // rotatesprite x y weap_disp_temp8 0 35903 0 106 0 windowx1 windowy1 windowx2 windowy2 // Barrel
+			  sub y 30
+			  guniqhudid 12
+			  rotatespritea x y 8192 0 11047 0 0 1 -255 windowx1 windowy1 windowx2 windowy2 // holographic crosshair
+			  set x 160
+			  sub x wepsway_x
+			  sub x 10
+			  add x weapon_xoffset
+			  set y 142
+			  sub y wepsway_y
+			  guniqhudid 13
+			  rotatesprite x y weap_disp_temp8 0 35902 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // holotech sight
+
+		  }
+  else
+	  {
+	  sub x 57
+	  sub y 45
+	  addvar gun_pushb_disp 4
+	  ife rot_flash 0 displayrandvar rot_flash 2048
+	  guniqhudid 10
+	  rotatespritea x y 19000 rot_flash 16114 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+	  add x 57
+	  add y 45
+		  sub x 65
+		  add y 20
+		  guniqhudid 11
+		  rotatesprite x y 45152 0 C_ARM_1 0 107 4096 windowx1 windowy1 windowx2 windowy2
+		  add x 65
+		  sub y 20
+		  guniqhudid 12
+	  rotatesprite x y 40960 0 35880 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  guniqhudid 13
+	  rotatesprite x y 40960 0 35881 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  }
+  break
+case 4
+case 5
+case 6
+	ifand gun_firemode 16384 state onagre_ironsight 
+	else
+	{
+	  set weap_disp_temp4 20
+	  randvar gun_pushb_disp 15
+	  addvar gun_pushb_disp 15
+	  sub x 65
+	  add y 20
+	  guniqhudid 10
+	  rotatesprite x y 45152 0 C_ARM_1 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 65
+	  sub y 20
+	  guniqhudid 11
+	  rotatesprite x y 40960 20 35880 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  }
+	break
+	case 7
+	case 8
+	case 14
+	case 15
+	ifand gun_firemode 16384 state onagre_ironsight 
+	else
+	{
+		  add x 5
+		  add y 3
+	  sub x 55
+	  add y 15
+	  guniqhudid 10
+	  rotatesprite x y 45152 0 C_ARM_1 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 55
+	  sub y 15
+	  guniqhudid 11
+	  rotatesprite x y 40960 0 35882 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  }
+	  break
+	case 9
+	case 13
+	ifand gun_firemode 16384 { addvar gun_pushb_disp 4 state onagre_ironsight }
+	else
+	{
+		  add x 8
+		  add y 5
+	  sub x 50
+	  add y 12
+	  guniqhudid 10
+	  rotatesprite x y 45152 0 C_ARM_1 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 50
+	  sub y 12
+	  guniqhudid 11
+	  rotatesprite x y 40960 0 35883 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  }
+	  break
+	case 10
+	case 12
+	ifand gun_firemode 16384 state onagre_ironsight 
+	else
+	{
+		  add x 10
+		  add y 7
+	  sub x 35
+	  add y 30
+	  guniqhudid 10
+	  rotatesprite x y 45152 0 C_ARM_1 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 35
+	  sub y 30
+	  guniqhudid 11
+	  rotatesprite x y 40960 0 35884 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  }
+	  break
+	case 11
+	ifand gun_firemode 16384 state onagre_ironsight 
+	else
+	{
+		  add x 10
+		  add y 7
+	  sub x 35
+	  add y 30
+	  guniqhudid 10
+	  rotatesprite x y 45152 32 C_ARM_1 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 35
+	  sub y 30
+	  guniqhudid 11
+	  rotatesprite x y 40960 32 35884 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  }
+	  break
+	case 16
+	case 17
+	case 18
+		ifand gun_firemode 16384 state onagre_ironsight 
+	else
+	{
+		  add x 5
+		  add y 3
+	  sub x 60
+	  add y 20
+	  guniqhudid 10
+	  rotatesprite x y 45152 5 C_ARM_1 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 60
+	  sub y 20
+	  guniqhudid 11
+	  rotatesprite x y 40960 5 35880 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  }
+	  break
+	case 19
+	case 20
+	case 21
+	case 22
+	  sub x 20
+	  sub y 18
+	  guniqhudid 10
+	  rotatesprite x y 40960 20 35885 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+
+	  add x 25
+	  add y 45
+	  sub x kickbackpic
+	  add y kickbackpic
+	  guniqhudid 11
+	  ifand CHAR_APP 1 rotatesprite x y 56638 0 C_HAND_1 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  else rotatesprite x y 56638 0 C_HAND_1 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  ifand gun_firemode_two 8
+		  {
+		  guniqhudid 12
+		  ifand AMMO_TYPES[15] 1 ifg explosive_shells 0 rotatesprite x y 56638 0 7903 shade pal_2 4096 windowx1 windowy1 windowx2 windowy2
+		  else ifand AMMO_TYPES[15] 4 ifg flechete_shells 0 rotatesprite x y 56638 0 7867 shade pal_2 4096 windowx1 windowy1 windowx2 windowy2
+		  else ifand AMMO_TYPES[15] 64 ifg magnum_shells 0 rotatesprite x y 56638 0 7868 shade pal_2 4096 windowx1 windowy1 windowx2 windowy2
+		  else ifand AMMO_TYPES[15] 1024 ifg dragon_shells 0 rotatesprite x y 56638 0 7866 shade pal_2 4096 windowx1 windowy1 windowx2 windowy2
+		  else ifand AMMO_TYPES[15] 65536 ifg silverb_shells 0 rotatesprite x y 56638 0 3743 shade pal_2 4096 windowx1 windowy1 windowx2 windowy2
+		  }
+	  else
+		  {
+		  guniqhudid 13
+		  ifand AMMO_TYPES[cur_weap] 1 ifg explosive_shells 0 rotatesprite x y 56638 0 7903 shade pal_2 4096 windowx1 windowy1 windowx2 windowy2
+		  else ifand AMMO_TYPES[cur_weap] 4 ifg flechete_shells 0 rotatesprite x y 56638 0 7867 shade pal_2 4096 windowx1 windowy1 windowx2 windowy2
+		  else ifand AMMO_TYPES[cur_weap] 64 ifg magnum_shells 0 rotatesprite x y 56638 0 7868 shade pal_2 4096 windowx1 windowy1 windowx2 windowy2
+		  else ifand AMMO_TYPES[cur_weap] 1024 ifg dragon_shells 0 rotatesprite x y 56638 0 7866 shade pal_2 4096 windowx1 windowy1 windowx2 windowy2
+		  else ifand AMMO_TYPES[cur_weap] 65536 ifg silverb_shells 0 rotatesprite x y 56638 0 3743 shade pal_2 4096 windowx1 windowy1 windowx2 windowy2
+		  }
+	  break
+	case 23
+	case 24
+	  sub x 23
+	  sub y 15
+	  guniqhudid 10
+	  rotatesprite x y 40960 20 35885 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 25
+	case 26
+	case 27
+	sub x 20
+	sub y 20
+	guniqhudid 10
+	rotatesprite x y 40960 40 35885 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	break
+	case 28
+	case 29
+	case 30
+	  sub x 20
+	  sub y 10
+	  guniqhudid 10
+	  rotatesprite x y 40960 20 35885 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 31
+	case 32
+	case 33
+	  sub x 15
+	  sub y 8
+	  guniqhudid 10
+	  rotatesprite x y 40960 0 35880 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 34
+	case 35
+	case 36
+	  sub x 15
+	  guniqhudid 10
+	  rotatesprite x y 45152 0 35880 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+endswitch
+guniqhudid 0
+ends
+
+// automated onagre
+
+defstate draw_autom_onagre
+
+  set x 230
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 230
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  state gunpushback_display
+	ifl gunsmoke_disp 40 ife INVINC 0
+	 ifn weaponcount 2
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+		 sub y 37
+		  sub x 65
+		rotatespritea x y 30000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  add x 65
+		  add y 37
+		guniqhudid 0
+		}
+guniqhudid 0
+switch weaponcount
+case 0
+case 1
+  ife player[].weapon_pos 8 soundonce WINCHUP
+  state wep_drawup
+  set rot_flash 0
+  guniqhudid 10
+  rotatesprite x y 40960 weap_disp_temp2 35886 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+   sub x 80
+	add y 20
+	guniqhudid 11
+	rotatesprite x y 32768 0 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 2
+case 3
+ state gun_smoke_display
+ displayrandvar gun_pushb_disp 10
+ add x gun_pushb_disp
+ add y gun_pushb_disp
+ ife rot_flash 0 displayrandvar rot_flash 2048
+ sub y 37
+  sub x 65
+  guniqhudid 10
+  rotatespritea x y 16000 rot_flash 16114 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+  add x 65
+  add y 37
+  guniqhudid 11
+  rotatesprite x y 40960 0 35887 0 0 0 windowx1 windowy1 windowx2 windowy2
+   sub x 80
+	add y 20
+	guniqhudid 12
+	rotatesprite x y 32768 0 C_ARM_2 0 107 8 windowx1 windowy1 windowx2 windowy2
+  break
+case 4
+case 5
+case 6
+case 39
+case 38
+case 37
+  add x 10
+  add y 15
+  guniqhudid 10
+  rotatesprite x y 40960 0 35886 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+   sub x 80
+	add y 20
+	guniqhudid 11
+	rotatesprite x y 32768 0 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 7
+case 8
+case 36
+case 35
+  add x 15
+  add y 20
+  guniqhudid 10
+  rotatesprite x y 40960 0 35886 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 9
+case 10
+case 34
+case 33
+  add x 20
+  add y 25
+  guniqhudid 10
+  rotatesprite x y 40960 0 35886 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 11
+case 15
+case 16
+case 17
+case 18
+case 19
+case 20
+case 21
+case 22
+case 23
+case 24
+case 28
+case 29
+case 30
+case 31
+case 32
+  add x 35
+  add y 25
+  guniqhudid 10
+  rotatesprite x y 45056 0 35888 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 12
+case 13
+case 14
+case 25
+case 26
+case 27
+  add x 35
+  add y 30
+  guniqhudid 10
+  rotatesprite x y 45056 0 35888 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+endswitch
+guniqhudid 0
+ends
+
+defstate disp_gold_spas15
+  set x 245
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 225
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  
+  state gunpushback_display
+  
+  clamp y 143 320
+  
+  		ifl gunsmoke_disp 40 ife INVINC 0
+		 ifn weaponcount 2
+			{
+			add gunsmoke_disp 1
+			guniqhudid 18
+			sub x 57
+			sub y 40
+			rotatespritea x y 40000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+			add y 40
+			add x 57
+			guniqhudid 0
+			}
+  
+guniqhudid 0
+switch weaponcount
+case 0
+case 1
+case 4
+  state wep_drawup
+  guniqhudid 10
+  rotatesprite x y 40960 weap_disp_temp2 35572 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	sub x 82
+	add y 15
+	guniqhudid 11
+	rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 2
+case 3
+	displayrandvar gun_pushb_disp 3
+	add gun_pushb_disp 3
+	state gun_smoke_display
+
+	sub x 57
+	sub y 40
+	  ife weaponcount 3
+		  {
+		  displayrandvar rot_flash 2048
+		  rotatespritea x y 18000 rot_flash 16114 0 0 8 -255 windowx1 windowy1 windowx2 windowy2
+		  }
+	  else
+		  {
+		  state random_shotg_flash
+		  rotatespritea x y 40960 rot_flash2 rot_flash 0 0 8 -255 windowx1 windowy1 windowx2 windowy2
+		  }
+	  add x 57
+	  add y 40
+	  
+	  guniqhudid 11
+	  rotatesprite x y 40960 0 35572 0 0 4096 windowx1 windowy1 windowx2 windowy2
+	  guniqhudid 12
+	  rotatesprite x y 40960 0 35573 0 0 4096 windowx1 windowy1 windowx2 windowy2
+		sub x 82
+		add y 15
+		guniqhudid 13
+		rotatesprite x y 32768 0 C_ARM_2 0 107 4096 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 5
+case 6
+case 7
+case 8
+case 35
+case 36
+  guniqhudid 10
+  rotatesprite x y 40960 0 35572 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  		sub x 82
+		add y 15
+		guniqhudid 13
+		rotatesprite x y 32768 0 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 9
+case 34
+  guniqhudid 10
+  rotatesprite x y 40960 0 35572 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  	sub x 72
+	add y 55
+	guniqhudid 11
+	rotatesprite x y 32768 0 C_ARM_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 10
+case 33
+  add x 1
+  add y 1
+  guniqhudid 10
+  rotatesprite x y 40960 4 35572 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+    sub x 72
+	add y 57
+	guniqhudid 11
+	rotatesprite x y 32768 4 C_ARM_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 11
+case 32
+  add x 2
+  add y 2
+  guniqhudid 10
+  rotatesprite x y 40960 8 35572 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+    sub x 72
+	add y 59
+	guniqhudid 11
+	rotatesprite x y 32768 8 C_ARM_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 12
+case 31
+  add x 3
+  add y 3
+  guniqhudid 10
+  rotatesprite x y 40960 12 35572 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+    sub x 72
+	add y 61
+	guniqhudid 11
+	rotatesprite x y 32768 12 C_ARM_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 13
+case 30
+  add x 4
+  add y 4
+  guniqhudid 10
+  rotatesprite x y 40960 16 35572 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+    sub x 72
+	add y 63
+	guniqhudid 11
+	rotatesprite x y 32768 16 C_ARM_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 14
+case 29
+  add x 5
+  add y 5
+  guniqhudid 10
+  rotatesprite x y 40960 20 35572 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+    sub x 72
+	add y 65
+	guniqhudid 11
+	rotatesprite x y 32768 20 C_ARM_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 15
+case 28
+  add x 6
+  add y 6
+  guniqhudid 10
+  rotatesprite x y 40960 24 35574 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+    sub x 80
+	add y 80
+    guniqhudid 11
+	rotatesprite x y 32768 64 C_ARM_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 16
+case 27
+  add x 7
+  add y 7
+  guniqhudid 10
+  rotatesprite x y 40960 28 35574 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+      sub x 80
+	add y 85
+    guniqhudid 11
+	rotatesprite x y 32768 76 C_ARM_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 17
+case 18
+case 19
+case 20
+case 21
+case 22
+case 23
+case 24
+case 25
+case 26
+  add x 8
+  add y 8
+  ife kickbackpic 24 sub y 10
+  guniqhudid 10
+  rotatesprite x y 40960 32 35574 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+endswitch
+guniqhudid 0
+ends
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// SLOT 3 WEAPONS
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+defstate draw_xm8
+
+  set x 235
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 227
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  state gunpushback_display
+	ifl gunsmoke_disp 40 ife INVINC 0
+	 ifn weaponcount 2
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+		sub x 70
+		sub y 48
+		rotatespritea x y 35000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		add x 70
+		add y 48
+		guniqhudid 0
+		}
+
+guniqhudid 0
+	switch weaponcount
+	case 0
+	case 1
+	case 3
+	case 4
+	ifand gun_firemode 16384 state default_gun_scope
+	else
+		{
+		ife player[].weapon_pos 9 { set LOWER_WEAPON_SOUND SELECT_WEAPON state sound_lower_weapon }
+		state wep_drawup
+		guniqhudid 10
+		rotatesprite x y 45056 weap_disp_temp2 38940 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		sub x 80
+		add y 20
+		guniqhudid 11
+		rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+		}
+	  break
+	case 2
+	ifand gun_firemode 16384
+		{
+		  set x 160
+		  set disp_temp2 wepsway_x
+		  div disp_temp2 2
+		  sub x disp_temp2
+		  set y 100
+		  set disp_temp3 wepsway_y
+		  div disp_temp3 2
+		  sub y disp_temp3
+		add y 66
+		state random_AR_flash
+		guniqhudid 10
+		rotatespritea x 140 16192 0 rot_flash 15 27 4096 -255 windowx1 windowy1 windowx2 windowy2
+		sub y 66
+		state default_gun_scope
+		}
+	else
+			{
+			state gun_smoke_display
+			displayrandvar gun_pushb_disp 5
+			add gun_pushb_disp 5
+			sub x 70
+			sub y 48
+			state random_AR_flash
+			guniqhudid 10
+			rotatespritea x y 8192 0 rot_flash 15 27 4096 -255 windowx1 windowy1 windowx2 windowy2
+			add x 70
+			add y 48
+			guniqhudid 11
+			rotatesprite x y 45056 0 38940 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+			guniqhudid 12
+			rotatesprite x y 45056 0 38941 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+			sub x 80
+			add y 20
+			guniqhudid 13
+			rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+			}
+	  break
+	case 5
+	case 6
+	case 7
+	case 8
+	case 9
+	case 10
+	case 11
+	case 36
+	case 37
+	case 38
+	case 39
+	case 40
+	case 41
+	case 42
+		guniqhudid 10
+	  rotatesprite x y 45056 0 38942 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 12
+	case 13
+	case 14
+	case 15
+	case 16
+	case 17
+	case 30
+	case 31
+	case 32
+	case 33
+	case 34
+	case 35
+	  sub y 15
+	  ife kickbackpic 30 sub y 5
+	  guniqhudid 10
+	  rotatesprite x y 45056 0 38944 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  guniqhudid 11
+	  rotatesprite x y 45056 0 38943 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 45
+	  add y 90
+	  guniqhudid 12
+	  rotatesprite x y 40960 78 CHOLDING_3 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 18
+	case 19
+	case 20
+	case 21
+	case 22
+	case 23
+	case 24
+	case 25
+	case 26
+	case 27
+	case 28
+	case 29
+	  sub y 15
+	  ife kickbackpic 18 add y 5
+	  guniqhudid 10
+	  rotatesprite x y 45056 0 38944 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	// PRESS BOLT CATCH RELOAD
+	case 43
+	case 61
+	  guniqhudid 10
+	  rotatesprite x y 45056 0 38942 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 44
+	case 60
+	  guniqhudid 10
+	  rotatesprite x y 45056 16 38942 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 45
+	case 59
+	  guniqhudid 10
+	  rotatesprite x y 45056 32 38942 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 46
+	case 58
+	  guniqhudid 10
+	  rotatesprite x y 45056 32 38942 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 50
+	  add y 20
+	  break
+	case 47
+	case 57
+	  guniqhudid 10
+	  rotatesprite x y 45056 32 38942 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 55
+	  add y 20
+	  break
+	case 48
+	case 56
+	  add y 2
+	  guniqhudid 10
+	  rotatesprite x y 45056 48 38942 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 57
+	  add y 50
+	  break
+	case 49
+	case 55
+	  add y 4
+	  guniqhudid 10
+	  rotatesprite x y 45056 64 38942 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 57
+	  add y 50
+	  break
+	case 50
+	case 54
+	  add y 6
+	  guniqhudid 10
+	  rotatesprite x y 45056 76 38942 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 57
+	  add y 50
+	  break
+	case 51
+	case 53
+	  add y 8
+	  guniqhudid 10
+	  rotatesprite x y 45056 96 38944 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 57
+	  add y 68
+	  guniqhudid 12
+	  rotatesprite x y 45056 128 CHOLDING_3 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 52
+	  add y 10
+	  guniqhudid 10
+	  rotatesprite x y 45056 104 38944 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 57
+	  add y 68
+	  guniqhudid 12
+	  rotatesprite x y 45056 136 CHOLDING_3 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	endswitch
+guniqhudid 0
+ends
+
+defstate draw_stg46
+
+  set x 225
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 222
+  
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  
+  clamp y 142 320
+	ifl gunsmoke_disp 40 ife INVINC 0
+	 ifn weaponcount 2
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+		  sub x 40
+		  sub y 40
+		rotatespritea x y 30000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  add x 40
+		  add y 40
+		guniqhudid 0
+		}
+guniqhudid 0
+
+switch weaponcount
+case 0
+case 1
+case 4
+case 5
+case 6
+  ifand gun_firemode 16384 state default_gun_scope
+  else
+  {
+  state wep_drawup
+  state gunpushback_display
+  sub x 70
+  add y 25
+  guniqhudid 10
+  rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add x 70
+  sub y 25
+  guniqhudid 11
+  ifand WHEATON_UPGRADE 16 set tilenum 36241 else set tilenum 35858
+  rotatesprite x y 40960 weap_disp_temp2 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  }
+  break
+case 2
+case 3
+	ifand gun_firemode 16384
+	{
+		  set x 160
+		  set disp_temp2 wepsway_x
+		  div disp_temp2 2
+		  sub x disp_temp2
+		  set y 100
+		  set disp_temp3 wepsway_y
+		  div disp_temp3 2
+		  sub y disp_temp3
+		add y 66
+		state random_AR_horzflash
+		guniqhudid 10
+		rotatespritea x y 42000 0 rot_flash 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+		sub y 66
+		state default_gun_scope
+	}
+  else
+  {
+  state gun_smoke_display
+ displayrandvar gun_pushb_disp 7
+  add x gun_pushb_disp
+  add y gun_pushb_disp
+  sub x 40
+  sub y 30
+  state random_AR_horzflash
+  guniqhudid 10
+  rotatespritea x y 22500 0 rot_flash 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+  add x 40
+  add y 30
+	  sub x 70
+	  add y 25
+	  guniqhudid 11
+	  rotatesprite x y 32768 0 C_ARM_2 0 107 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 70
+	  sub y 25
+	  guniqhudid 12
+  ifand WHEATON_UPGRADE 16 set tilenum 36242 else set tilenum 35859
+  rotatesprite x y 40960 0 tilenum 0 0 4096 windowx1 windowy1 windowx2 windowy2
+  }
+  break
+case 7
+case 8
+case 9
+case 10
+  sub x 70
+  add y 25
+  guniqhudid 10
+  rotatesprite x y 32768 0 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  add x 70
+  sub y 25
+  guniqhudid 11
+  ifand WHEATON_UPGRADE 16 set tilenum 36241 else set tilenum 35858
+  rotatesprite x y 40960 0 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 11
+case 12
+case 13
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36243 else set tilenum 35860
+  rotatesprite x y 40960 0 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 14
+case 15
+case 16
+case 36
+case 37
+  add y 5
+  add x 5
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36244 else set tilenum 35861
+  rotatesprite x y 40960 0 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 17
+case 18
+case 19
+case 20
+case 34
+case 35
+  add y 5
+  add x 5
+  ife weaponcount 20 add y 15
+  ife weaponcount 34 sub y 15
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36244 else set tilenum 35861
+  rotatesprite x y 40960 0 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 21
+case 22
+case 23
+case 24
+case 25
+case 32
+case 33
+  sub y 5
+  sub x 5
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36245 else set tilenum 35862
+  rotatesprite x y 40960 0 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 26
+case 27
+case 28
+case 29
+case 30
+case 31
+  sub y 5
+  sub x 5
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36246 else set tilenum 35863
+  rotatesprite x y 40960 0 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 38 // start reloading
+case 58
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36243 else set tilenum 35860
+  rotatesprite x y 40960 0 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 39
+case 57
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36243 else set tilenum 35860
+  rotatesprite x y 40960 16 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 40
+case 56
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36243 else set tilenum 35860
+  rotatesprite x y 40960 32 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 41
+case 55
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36243 else set tilenum 35860
+  rotatesprite x y 40960 32 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 42
+case 54
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36243 else set tilenum 35860
+  rotatesprite x y 40960 32 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 43
+case 53
+  add y 15
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36243 else set tilenum 35860
+  rotatesprite x y 40960 48 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 44
+case 52
+  add y 20
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36243 else set tilenum 35860
+  rotatesprite x y 40960 64 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 45
+case 51
+  add y 25
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36244 else set tilenum 35861
+  rotatesprite x y 40960 76 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 46
+case 50
+  add y 30
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36244 else set tilenum 35861
+  rotatesprite x y 40960 96 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 47
+case 48
+case 49
+  add y 45
+  guniqhudid 10
+  ifand WHEATON_UPGRADE 16 set tilenum 36244 else set tilenum 35861
+  rotatesprite x y 40960 104 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+endswitch
+guniqhudid 0
+ends
+
+defstate draw_mp44
+
+  set x 235
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 222
+  
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  
+  clamp y 142 320
+	ifl gunsmoke_disp 40 ife INVINC 0
+	 ifn weaponcount 2
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+		  sub x 40
+		  sub y 40
+		rotatespritea x y 30000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  add x 40
+		  add y 40
+		guniqhudid 0
+		}
+guniqhudid 0
+
+sub x 45
+sub y 20
+state flash_scanner
+add x 45
+add y 20
+
+
+switch weaponcount
+case 0
+case 1
+case 4
+case 5
+case 6
+case 7
+case 8
+case 9
+case 10
+  state wep_drawup
+  state gunpushback_display
+  guniqhudid 10
+  rotatesprite x y 40960 weap_disp_temp2 36038 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+   sub x 77
+  add y 24
+  guniqhudid 11
+  rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2 
+  break
+case 2
+case 3
+  state gun_smoke_display
+ displayrandvar gun_pushb_disp 7
+  add x gun_pushb_disp
+  add y gun_pushb_disp
+  sub x 60
+  sub y 34
+  state random_AR_flash
+  guniqhudid 10
+  rotatespritea x y 22500 0 rot_flash 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+  add x 60
+  add y 34
+  guniqhudid 11
+  rotatesprite x y 40960 weap_disp_temp2 36039 0 0 4104 windowx1 windowy1 windowx2 windowy2
+   sub x 77
+  add y 24
+  guniqhudid 12
+  rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 0 107 4104 windowx1 windowy1 windowx2 windowy2 
+  break
+case 11
+case 12
+case 13
+  guniqhudid 10
+  rotatesprite x y 40960 0 36040 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 14
+case 15
+case 16
+case 36
+case 37
+  add y 5
+  add x 5
+  guniqhudid 10
+  rotatesprite x y 40960 0 36041 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 17
+case 18
+case 19
+case 20
+case 34
+case 35
+  add y 5
+  add x 5
+  ife weaponcount 20 add y 15
+  ife weaponcount 34 sub y 15
+  guniqhudid 10
+  rotatesprite x y 40960 0 36042 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 21
+case 22
+case 23
+case 24
+case 25
+case 32
+case 33
+  sub y 5
+  sub x 5
+  guniqhudid 10
+  rotatesprite x y 40960 0 36043 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 26
+case 27
+case 28
+case 29
+case 30
+case 31
+  sub y 5
+  sub x 5
+  guniqhudid 10
+  rotatesprite x y 40960 0 36043 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 38 // start reloading
+case 58
+  guniqhudid 10
+  rotatesprite x y 40960 0 36040 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 39
+case 57
+  guniqhudid 10
+  rotatesprite x y 40960 16 36040 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 40
+case 56
+  guniqhudid 10
+  rotatesprite x y 40960 32 36040 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 41
+case 55
+  guniqhudid 10
+  rotatesprite x y 40960 32 36040 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 42
+case 54
+  guniqhudid 10
+  rotatesprite x y 40960 32 36040 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 43
+case 53
+  add y 15
+  guniqhudid 10
+  rotatesprite x y 40960 48 36040 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 44
+case 52
+  add y 20
+  guniqhudid 10
+  rotatesprite x y 40960 64 36040 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 45
+case 51
+  add y 25
+  guniqhudid 10
+  rotatesprite x y 40960 76 36041 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 46
+case 50
+  add y 30
+  guniqhudid 10
+  rotatesprite x y 40960 96 36041 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 47
+case 48
+case 49
+  add y 45
+  guniqhudid 10
+  rotatesprite x y 40960 104 36041 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+endswitch
+guniqhudid 0
+ends
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// SLOT 4 WEAPONS
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+defstate draw_chinalake
+
+  set x 215
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 230
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  
+  ifg weaponcount 4 clamp y 160 320
+  else clamp y 150 320
+
+	ifl gunsmoke_disp 40 ife INVINC 0
+	 ifn weaponcount 2
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+		sub x 44
+		sub y 48
+		rotatespritea x y 30000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		add x 44
+		add y 48
+		guniqhudid 0
+		}
+
+guniqhudid 0
+switch weaponcount
+case 0
+case 1
+case 25
+  ife player[].weapon_pos 8 sound ZAX_GOLDS_PUMP
+  state wep_drawup
+  state gunpushback_display
+  guniqhudid 10
+  rotatesprite x y 40960 weap_disp_temp2 35874 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	sub x 70
+	add y 20
+	guniqhudid 11
+	rotatesprite x y 32768 0 C_ARM_2 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  break
+case 2
+  ife rot_flash 0 displayrandvar rot_flash 2048
+  state gun_smoke_display
+  sub x 36
+  sub y 32
+  guniqhudid 10
+  state random_shotg_flash
+  rotatespritea x y 49152 rot_flash2 rot_flash 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+  add x 36
+  add y 32
+
+	guniqhudid 11
+	rotatesprite x y 40960 0 35875 shade 106 4104 windowx1 windowy1 windowx2 windowy2
+	sub x 75
+	add y 16
+	guniqhudid 12
+	rotatesprite x y 32768 0 C_ARM_2 0 106 4104 windowx1 windowy1 windowx2 windowy2 // hand
+  break
+case 3
+  set gun_pushb_disp 6
+  sub x 36
+  sub y 32
+  guniqhudid 10
+  rotatespritea x y 34000 rot_flash 16114 15 0 0 -255 windowx1 windowy1 windowx2 windowy2
+  add x 36
+  add y 32
+
+	guniqhudid 11
+	rotatesprite x y 40960 0 35875 shade 107 4104 windowx1 windowy1 windowx2 windowy2
+	sub x 75
+	add y 16
+	guniqhudid 12
+	rotatesprite x y 32768 0 C_ARM_2 0 107 4104 windowx1 windowy1 windowx2 windowy2 // hand
+  break
+case 22
+case 23
+case 24
+  sub y 7
+  set rot_flash 0
+
+   guniqhudid 10
+  rotatesprite x y 40960 16 35874 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  sub x 75
+	add y 15
+	guniqhudid 11
+	rotatesprite x y 32768 16 C_ARM_2 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2 // hand
+  break
+case 4
+case 5
+case 18
+case 19
+case 20
+case 21
+  add y 7
+	guniqhudid 10
+	rotatesprite x y 40960 32 35876 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	sub x 76
+	add y 5
+	guniqhudid 11
+	rotatesprite x y 32768 32 C_ARM_2 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2 // hand
+  break
+case 6
+case 7
+case 8
+case 14
+case 15
+case 16
+case 17
+  add y 9
+	guniqhudid 11
+	rotatesprite x y 40960 0 35877 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2	
+	sub x 72
+	guniqhudid 10
+	rotatesprite x y 32768 0 C_ARM_2 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2	
+  break
+case 9
+case 10
+case 11
+case 12
+case 13
+add y 15
+  guniqhudid 11
+  rotatesprite x y 40960 0 35878 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  sub x 72
+	add y 30
+	guniqhudid 10
+	rotatesprite x y 36768 16 C_ARM_2 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  break
+endswitch
+guniqhudid 0
+ends
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// SLOT 5 WEAPONS
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// SLOT 6 WEAPONS
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+defstate draw_leber
+
+  set x 228
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 232
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  
+  clamp y 155 320
+  
+  state gunpushback_display
+
+  ifn scope 0 { add x 60 add y 60 }
+  
+  
+guniqhudid 0
+switch weaponcount
+  case 0
+  case 67
+  case 3
+  case 4
+  case 5
+  case 6
+  state wep_drawup
+  guniqhudid 10
+  sub x 65
+  add y 36
+  rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  add x 65
+  sub y 36
+  guniqhudid 11
+  rotatesprite x y 40960 weap_disp_temp2 36045 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  break
+  case 1
+  case 2
+   set gun_pushb_disp 15
+   
+    sub x 48
+	sub y 34
+	state random_gauss_flash
+	guniqhudid 10
+	rotatespritea x y rot_size rot_flash2 rot_flash 0 2 4096 -255 windowx1 windowy1 windowx2 windowy2
+	add x 48
+	add y 34
+		
+  guniqhudid 11
+  sub x 65
+  add y 36
+  rotatesprite x y 32768 0 C_ARM_2 0 106 4104 windowx1 windowy1 windowx2 windowy2
+  add x 65
+  sub y 36
+  guniqhudid 12
+  rotatesprite x y 40960 0 36046 0 0 4104 windowx1 windowy1 windowx2 windowy2
+   break
+case 7
+case 8
+case 9
+case 34
+case 35
+case 36
+  sub x 65
+  add y 45
+  guniqhudid 10
+  rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  add x 65
+  sub y 45
+  guniqhudid 11
+  rotatesprite x y 40960 0 36047 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+  break
+case 10
+case 33
+  add x 1
+  add y 1
+  guniqhudid 10
+  rotatesprite x y 40960 4 36047 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 11
+case 32
+  add x 2
+  add y 2
+  guniqhudid 10
+  rotatesprite x y 40960 8 36047 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 12
+case 31
+  add x 3
+  add y 3
+  guniqhudid 10
+  rotatesprite x y 40960 12 36047 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 13
+case 30
+  add x 4
+  add y 4
+  guniqhudid 10
+  rotatesprite x y 40960 16 36047 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 14
+case 29
+  add x 5
+  add y 5
+  guniqhudid 10
+  rotatesprite x y 40960 20 36047 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 15
+case 28
+  add x 6
+  add y 6
+  guniqhudid 10
+  rotatesprite x y 40960 24 36050 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 16
+case 27
+  add x 7
+  add y 7
+  guniqhudid 10
+  rotatesprite x y 40960 28 36050 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 17
+case 18
+case 19
+case 20
+case 21
+case 22
+case 23
+case 24
+case 25
+case 26
+  add x 8
+  add y 8
+  ife kickbackpic 24 sub y 10
+  guniqhudid 10
+  rotatesprite x y 40960 32 36051 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+   // rifle bolt cock when reloading from empty
+   case 37
+   case 66
+	   state gunpushback_display
+	   guniqhudid 10
+	  sub x 65
+	  add y 25
+	  rotatesprite x y 32768 20 C_ARM_2 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  add x 65
+	  sub y 25
+	   guniqhudid 11
+	   rotatesprite x y 40960 20 36047 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  break
+   case 38
+   case 39
+   case 65
+	   state gunpushback_display
+	   guniqhudid 10
+	  sub x 75
+	  add y 20
+	  rotatesprite x y 32768 40 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 75
+	  sub y 20
+	  guniqhudid 11
+	  rotatesprite x y 40960 40 36047 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+  case 40
+  case 41
+  case 42
+  case 63
+  case 64
+	  add x 10
+	  sub y 20
+	  
+	  sub x 60
+	  add y 40
+	  guniqhudid 10
+	  rotatesprite x y 32768 -40 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 60
+	  sub y 40
+	  guniqhudid 11
+	  rotatesprite x y 40960 0 36047 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+
+	  break
+  case 43
+  case 44
+  case 45
+  case 61
+  case 62
+	  add x 15
+	  sub y 20
+
+	  sub x 57
+	  add y 44
+	  guniqhudid 10
+	  rotatesprite x y 36768 -40 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 57
+	  sub y 44
+	  guniqhudid 11
+	  rotatesprite x y 40960 0 36048 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+  case 46
+  case 47
+  case 48
+  case 59
+  case 60
+	  add x 20
+	  sub y 20
+	  
+	  sub x 59
+	  add y 42
+	  guniqhudid 10
+	  rotatesprite x y 36768 -20 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 59
+	  sub y 42
+	  guniqhudid 11
+	  rotatesprite x y 40960 20 36048 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+  case 49
+  case 50
+  case 57
+  case 58
+	  add x 25
+	  sub y 20
+	  
+	  sub x 62
+	  add y 42
+	  guniqhudid 10
+	  rotatesprite x y 36768 0 C_ARM_2 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  add x 124
+	  add y 42
+	  guniqhudid 11
+	  rotatesprite x y 40960 40 35911 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  sub x 62
+	  sub y 82
+	  guniqhudid 12
+	  rotatesprite x y 40960 40 36048 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  break
+  case 51
+  case 52
+  case 55
+  case 56
+	  add x 30
+	  sub y 18
+	  
+	  sub x 62
+	  add y 42
+	  guniqhudid 10
+	  rotatesprite x y 36768 20 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 62
+	  sub y 42
+	  guniqhudid 11
+	  rotatesprite x y 40960 60 36049 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+  case 53
+  case 54
+	  add x 35
+	  sub y 14
+	  
+	  sub x 62
+	  add y 42
+	  guniqhudid 10
+	  rotatesprite x y 36768 40 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 62
+	  sub y 42
+	  guniqhudid 11
+	  rotatesprite x y 40960 80 36049 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+endswitch
+guniqhudid 0
+ends
+
+defstate draw_photonDMR
+
+  set x 235
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 247
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  state gunpushback_display
+	ifl gunsmoke_disp 40 ife INVINC 0
+	 ifn weaponcount 2
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+		sub x 70
+		sub y 65
+		rotatespritea x y 35000 0 29952 gunsmoke_disp wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		add x 70
+		add y 65
+		guniqhudid 0
+		}
+		
+  sub y 65
+  sub x 70
+  set weap_disp_temp3 3
+  guniqhudid 18
+  state laser_muzzleflash
+  add y 65
+  add x 70
+
+
+guniqhudid 0
+	switch weaponcount
+	case 0
+	case 1
+	case 3
+	case 4
+		ife player[].weapon_pos 9 { set LOWER_WEAPON_SOUND SELECT_WEAPON state sound_lower_weapon }
+		state wep_drawup
+		guniqhudid 10
+		rotatesprite x y 40960 weap_disp_temp2 36062 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		sub x 70
+		add y 5
+		guniqhudid 11
+		rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 2
+			state gun_smoke_display
+			displayrandvar gun_pushb_disp 3
+			add gun_pushb_disp 3
+			guniqhudid 11
+			rotatesprite x y 40960 0 36063 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+			sub x 70
+			add y 5
+			guniqhudid 12
+			rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 5
+	case 6
+	case 7
+	case 8
+	case 9
+	case 10
+	case 11
+	case 36
+	case 37
+	case 38
+	case 39
+	case 40
+	case 41
+	case 42
+		guniqhudid 10
+	  rotatesprite x y 40960 0 36064 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 12
+	case 13
+	case 14
+	case 15
+	case 16
+	case 17
+	case 30
+	case 31
+	case 32
+	case 33
+	case 34
+	case 35
+	  sub y 15
+	  ife kickbackpic 30 sub y 5
+	  guniqhudid 10
+	  rotatesprite x y 40960 0 36066 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  guniqhudid 11
+	  rotatesprite x y 40960 0 36066 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 60
+	  add y 60
+	  guniqhudid 12
+	  rotatesprite x y 40960 78 CHOLDING_3 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 18
+	case 19
+	case 20
+	case 21
+	case 22
+	case 23
+	case 24
+	case 25
+	case 26
+	case 27
+	case 28
+	case 29
+	  sub y 15
+	  ife kickbackpic 18 add y 5
+	  guniqhudid 10
+	  rotatesprite x y 40960 0 36067 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	// PRESS BOLT CATCH RELOAD
+	case 43
+	case 61
+	  guniqhudid 10
+	  rotatesprite x y 40960 0 36064 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 44
+	case 60
+	  guniqhudid 10
+	  rotatesprite x y 40960 16 36064 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 45
+	case 59
+	  guniqhudid 10
+	  rotatesprite x y 40960 32 36064 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 46
+	case 58
+	  guniqhudid 10
+	  rotatesprite x y 40960 32 36064 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 50
+	  add y 20
+	  break
+	case 47
+	case 57
+	  guniqhudid 10
+	  rotatesprite x y 40960 32 36064 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 55
+	  add y 20
+	  break
+	case 48
+	case 56
+	  add y 2
+	  guniqhudid 10
+	  rotatesprite x y 40960 48 36064 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 57
+	  add y 50
+	  break
+	case 49
+	case 55
+	  add y 4
+	  guniqhudid 10
+	  rotatesprite x y 40960 64 36064 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 57
+	  add y 50
+	  break
+	case 50
+	case 54
+	  add y 6
+	  guniqhudid 10
+	  rotatesprite x y 40960 76 36065 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  add x 57
+	  add y 50
+	  break
+	case 51
+	case 53
+	  add y 8
+	  guniqhudid 10
+	  rotatesprite x y 40960 96 36065 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 57
+	  add y 18
+	  guniqhudid 12
+	  rotatesprite x y 40960 128 CHOLDING_3 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 52
+	  add y 10
+	  guniqhudid 10
+	  rotatesprite x y 40960 104 36065 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 57
+	  add y 18
+	  guniqhudid 12
+	  rotatesprite x y 40960 136 CHOLDING_3 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  break
+	endswitch
+guniqhudid 0
+ends
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// SLOT 7 WEAPONS
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+defstate draw_lasercannon
+
+  set x 200
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 202
+  sub y wepsway_y
+  add y looking_arc
+  div gun_pos 2
+  sub y gun_pos
+
+	ifl gunsmoke_disp 40 ife INVINC 0
+	 ifn weaponcount 2
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+		sub x 20
+		sub y 30
+		rotatespritea x y 42000 0 29952 gunsmoke_disp 2 4096 -255 windowx1 windowy1 windowx2 windowy2
+		add x 20
+		add y 30
+		guniqhudid 0
+		}
+
+guniqhudid 0
+	switch weaponcount
+	case 0
+	  state wep_drawup
+	  guniqhudid 10
+	  rotatesprite x y 45056 weap_disp_temp2 36053 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 65
+	  add y 50
+	  guniqhudid 11
+	  rotatesprite x y 32768 weap_disp_temp2 CHOLDING_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 1
+	case 4
+	case 7
+	case 10
+	case 13
+	case 16
+	case 19
+	case 22
+	case 24
+	case 29
+	case 32
+	case 35
+	case 38
+	case 41
+	case 42
+	case 48
+	case 49
+	case 50
+	  guniqhudid 10
+	  ifand weaponcount 1 { add x 1 add y 1 } else { sub x 1 sub y 1 }
+	  rotatesprite x y 45056 0 36191 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 65
+	  add y 50
+	  guniqhudid 11
+	  rotatesprite x y 32768 0 CHOLDING_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 2
+	case 5
+	case 8
+	case 11
+	case 14
+	case 17
+	case 20
+	case 25
+	case 30
+	case 33
+	case 36
+	case 39
+	case 43
+	case 44
+	case 51
+	case 52
+	case 53
+	  guniqhudid 10
+	  ifand weaponcount 1 { add x 1 add y 1 } else { sub x 1 sub y 1 }
+	  rotatesprite x y 45056 0 36192 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 65
+	  add y 50
+	  guniqhudid 11
+	  rotatesprite x y 32768 0 CHOLDING_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 3
+	case 6
+	case 9
+	case 12
+	case 15
+	case 18
+	case 21
+	case 23
+	case 31
+	case 34
+	case 37
+	case 40
+	case 45
+	case 46
+	case 47
+	case 54
+	case 55
+	case 56
+	case 57
+		guniqhudid 10
+		rotatesprite x y 45056 0 36193 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  sub x 65
+		  add y 50
+		  guniqhudid 11
+		  rotatesprite x y 32768 0 CHOLDING_3 shade wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 26
+	  sub x 20
+	  sub y 30
+	  displayrandvar rot_flash 2048
+	  guniqhudid 10
+	  rotatespritea x y 65000 rot_flash 6197 0 21 1 -255 windowx1 windowy1 windowx2 windowy2
+	  add x 20
+	  add y 30
+	  guniqhudid 11
+	  rotatesprite x y 45056 0 36194 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 65
+	  add y 50
+	  guniqhudid 12
+	  rotatesprite x y 32768 0 CHOLDING_3 0 wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 27
+	  sub x 20
+	  sub y 30
+	  displayrandvar rot_flash 2048
+	  guniqhudid 10
+	  rotatespritea x y 62000 rot_flash 6197 0 2 1 -255 windowx1 windowy1 windowx2 windowy2
+	  add x 20
+	  add y 30
+	  guniqhudid 11
+	  rotatesprite x y 45056 0 36195 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 65
+	  add y 50
+	  guniqhudid 12
+	  rotatesprite x y 32768 0 CHOLDING_3 0 wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  break
+	case 28
+	  sub x 20
+	  sub y 30
+	  displayrandvar rot_flash 2048
+	  state gun_smoke_display
+	  guniqhudid 10
+	  rotatespritea x y 65000 rot_flash 6197 0 2 1 -255 windowx1 windowy1 windowx2 windowy2
+	  add x 20
+	  add y 30
+	  guniqhudid 11
+	  rotatesprite x y 45056 0 36196 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  sub x 65
+	  add y 50
+	  guniqhudid 12
+	  rotatesprite x y 32768 0 CHOLDING_3 0 wep_pal 4104 windowx1 windowy1 windowx2 windowy2
+	  break
+	endswitch
+guniqhudid 0
+ends
+
+defstate disp_MAG_carbine
+  set x 235
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 230
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  
+  state gunpushback_display
+  
+  clamp y 143 320
+  
+  		ifl gunsmoke_disp 40 ife INVINC 0
+		 ifn weaponcount 2
+			{
+			add gunsmoke_disp 1
+			guniqhudid 18
+			sub x 45
+			sub y 25
+			rotatespritea x y 40000 0 29952 gunsmoke_disp 1 4096 -255 windowx1 windowy1 windowx2 windowy2
+			add y 25
+			add x 45
+			guniqhudid 0
+			}
+  
+guniqhudid 0
+switch weaponcount
+case 0
+case 1
+case 4
+  state wep_drawup
+  guniqhudid 10
+  rotatesprite x y 40960 weap_disp_temp2 38913 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	sub x 90
+	add y 30
+	guniqhudid 11
+	rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 2
+case 3
+	displayrandvar gun_pushb_disp 3
+	add gun_pushb_disp 3
+	state gun_smoke_display
+
+	sub x 55
+	sub y 35
+	  state random_magp_flash
+	  guniqhudid 10
+	  rotatespritea x y rot_size rot_flash2 rot_flash 0 1 4096 -255 windowx1 windowy1 windowx2 windowy2
+	  add x 55
+	  add y 35
+	  
+	  guniqhudid 11
+	  rotatesprite x y 40960 0 38913 0 3 4096 windowx1 windowy1 windowx2 windowy2
+	  guniqhudid 12
+	  rotatesprite x y 40960 0 38914 0 3 4096 windowx1 windowy1 windowx2 windowy2
+		sub x 90
+		add y 30
+		guniqhudid 13
+		rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 0 102 4096 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 5
+case 6
+case 7
+case 8
+case 35
+case 36
+  guniqhudid 10
+  rotatesprite x y 40960 0 38913 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 9
+case 34
+  guniqhudid 10
+  rotatesprite x y 40960 0 38913 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 10
+case 33
+  add x 1
+  add y 1
+  guniqhudid 10
+  rotatesprite x y 40960 4 38915 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 11
+case 32
+  add x 2
+  add y 2
+  guniqhudid 10
+  rotatesprite x y 40960 8 38915 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 12
+case 31
+  add x 3
+  add y 3
+  guniqhudid 10
+  rotatesprite x y 40960 12 38915 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 13
+case 30
+  add x 4
+  add y 4
+  guniqhudid 10
+  rotatesprite x y 40960 16 38915 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 14
+case 29
+  add x 5
+  add y 5
+  guniqhudid 10
+  rotatesprite x y 40960 20 38915 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 15
+case 28
+  add x 6
+  add y 6
+  guniqhudid 10
+  rotatesprite x y 40960 24 38916 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 16
+case 27
+  add x 7
+  add y 7
+  guniqhudid 10
+  rotatesprite x y 40960 28 38916 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 17
+case 18
+case 19
+case 20
+case 21
+case 22
+case 23
+case 24
+case 25
+case 26
+  add x 8
+  add y 8
+  ife kickbackpic 24 sub y 10
+  guniqhudid 10
+  rotatesprite x y 40960 32 38917 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+endswitch
+guniqhudid 0
+ends
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// SLOT 8 WEAPONS
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+defstate display_claymore
+guniqhudid 0
+ add weapon_xoffset 8
+ sub gun_pos 10
+ ifg weaponcount 6
+ {
+  div weaponcount 8
+  add looking_arc weaponcount
+ }
+ else
+ {
+  ifl weaponcount 4
+   {
+	set x 142
+	add x weapon_xoffset
+	getp[].look_ang weap_disp_temp
+	div weap_disp_temp 2
+	sub x weap_disp_temp
+	set y 234
+	add y looking_arc
+	sub y gun_pos
+	ife weaponcount 0
+		{
+		guniqhudid 10
+		rotatesprite x y 40960 0 36060 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		}
+	sub x 12
+	add y 15
+	ife weaponcount 0 set tilenum CHOLDING_R else
+	ife weaponcount 1 set tilenum CKEYCARDTILE2 else
+	ife weaponcount 2 set tilenum CKEYCARDTILE3
+	sub x 70
+	guniqhudid 11
+	rotatesprite x y 42960 1024 tilenum shade arm_pal 4100 windowx1 windowy1 windowx2 windowy2
+	add x 165
+	guniqhudid 12
+	rotatesprite x y 42960 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+   }
+ }
+ guniqhudid 0
+ends
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// SLOT 9 WEAPONS
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+defstate draw_laserkraft
+
+  set x 220
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 220
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  clamp y 140 320
+  
+  state gunpushback_display
+
+	ifl gunsmoke_disp 40 ife INVINC 0 // melta smoke
+		{
+		add gunsmoke_disp 1
+		guniqhudid 18
+		sub x 46
+		sub y 38
+		rotatespritea x y 30000 0 29952 gunsmoke_disp 2 4096 -255 windowx1 windowy1 windowx2 windowy2
+		add x 46
+		add y 38
+		guniqhudid 0
+		}
+
+
+switch weaponcount
+case 0
+case 3
+case 4
+  state wep_drawup
+   ifand gun_firemode 16384 state default_gun_scope
+	else
+		{
+		guniqhudid 10
+	    rotatesprite x y 45056 weap_disp_temp2 35890 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		sub x 75
+		add y 30
+		guniqhudid 11
+		rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	   }
+  break
+case 1
+  ifand gun_firemode 16384 state default_gun_scope
+	else
+	{
+	  sub x 46
+	  sub y 38
+	  displayrandvar rot_flash 2048
+	  guniqhudid 10
+	  rotatespritea x y 80000 rot_flash 7056 0 2 4096 -255 windowx1 windowy1 windowx2 windowy2
+	  add x 46
+	  add y 38
+ guniqhudid 11
+  rotatesprite x y 45056 0 35891 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  	sub x 75
+	add y 30
+	guniqhudid 12
+	rotatesprite x y 32768 0 C_ARM_2 0 107 4096 windowx1 windowy1 windowx2 windowy2
+  }
+  break
+case 2
+   ifand gun_firemode 16384 state default_gun_scope
+   else
+   {
+	state gun_smoke_display
+	displayrandvar gun_pushb_disp 15
+	  sub x 46
+	  sub y 38
+	  displayrandvar rot_flash 2048
+	  guniqhudid 10
+	  rotatespritea x y 80000 rot_flash 7056 0 2 4096 -255 windowx1 windowy1 windowx2 windowy2
+	  add x 46
+	  add y 38
+guniqhudid 11
+ rotatesprite x y 45056 0 35891 0 106 4096 windowx1 windowy1 windowx2 windowy2
+   	sub x 75
+	add y 30
+	guniqhudid 12
+	rotatesprite x y 32768 0 C_ARM_2 0 106 4096 windowx1 windowy1 windowx2 windowy2
+  }
+  break
+endswitch
+guniqhudid 0
+ends
+
+defstate disp_w_gauss
+  set x 245
+  sub x wepsway_x
+  add x weapon_xoffset
+  sub x looking_angSR1
+
+  set y 225
+  sub y wepsway_y
+  add y looking_arc
+  sub y gun_pos
+  
+  state gunpushback_display
+  
+  clamp y 143 320
+  
+  		ifl gunsmoke_disp 40 ife INVINC 0
+		 ifn weaponcount 2
+			{
+			add gunsmoke_disp 1
+			guniqhudid 18
+			sub x 45
+			sub y 25
+			rotatespritea x y 40000 0 29952 gunsmoke_disp 2 4096 -255 windowx1 windowy1 windowx2 windowy2
+			add y 25
+			add x 45
+			guniqhudid 0
+			}
+  
+guniqhudid 0
+switch weaponcount
+case 0
+case 1
+case 4
+  state wep_drawup
+  guniqhudid 10
+  rotatesprite x y 40960 weap_disp_temp2 29734 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+	sub x 80
+	add y 45
+	guniqhudid 11
+	rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 2
+case 3
+	displayrandvar gun_pushb_disp 3
+	add gun_pushb_disp 3
+	state gun_smoke_display
+
+	sub x 45
+	sub y 25
+	  state random_gauss_flash
+	  guniqhudid 10
+	  rotatespritea x y rot_size rot_flash2 rot_flash 0 2 4096 -255 windowx1 windowy1 windowx2 windowy2
+	  add x 45
+	  add y 25
+	  
+	  guniqhudid 11
+	  rotatesprite x y 40960 0 29734 0 21 4096 windowx1 windowy1 windowx2 windowy2
+	  guniqhudid 12
+	  rotatesprite x y 40960 0 29735 0 21 4096 windowx1 windowy1 windowx2 windowy2
+		sub x 80
+		add y 45
+		guniqhudid 13
+		rotatesprite x y 32768 weap_disp_temp2 C_ARM_2 0 107 4096 windowx1 windowy1 windowx2 windowy2 // hand graphics
+  break
+case 5
+case 6
+case 7
+case 8
+case 35
+case 36
+  guniqhudid 10
+  rotatesprite x y 40960 0 29734 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 9
+case 34
+  guniqhudid 10
+  rotatesprite x y 40960 0 29736 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 10
+case 33
+  add x 1
+  add y 1
+  guniqhudid 10
+  rotatesprite x y 40960 4 29736 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 11
+case 32
+  add x 2
+  add y 2
+  guniqhudid 10
+  rotatesprite x y 40960 8 29736 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 12
+case 31
+  add x 3
+  add y 3
+  guniqhudid 10
+  rotatesprite x y 40960 12 29736 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 13
+case 30
+  add x 4
+  add y 4
+  guniqhudid 10
+  rotatesprite x y 40960 16 29736 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 14
+case 29
+  add x 5
+  add y 5
+  guniqhudid 10
+  rotatesprite x y 40960 20 29736 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 15
+case 28
+  add x 6
+  add y 6
+  guniqhudid 10
+  rotatesprite x y 40960 24 29737 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 16
+case 27
+  add x 7
+  add y 7
+  guniqhudid 10
+  rotatesprite x y 40960 28 29737 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+case 17
+case 18
+case 19
+case 20
+case 21
+case 22
+case 23
+case 24
+case 25
+case 26
+  add x 8
+  add y 8
+  ife kickbackpic 24 sub y 10
+  guniqhudid 10
+  rotatesprite x y 40960 32 29737 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+  break
+endswitch
+guniqhudid 0
+ends
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+defstate display_wheaton_weapons
+set RETURN 1
+	ife currentweapon 1 
+		{
+		ife SPECIALIST_EQUIPMENT[153] 2 state draw_gold_laser
+		else ife SPECIALIST_EQUIPMENT[150] 2 state draw_wa_longside
+		else state draw_welrod
+		}
+	else
+	ife currentweapon 2
+		{
+		ife SPECIALIST_EQUIPMENT[152] 2 state disp_gold_spas15
+		else ife SPECIALIST_EQUIPMENT[119] 2 state draw_autom_onagre
+		else ife SPECIALIST_EQUIPMENT[118] 2 state draw_onagre
+		else state draw_wheaton_shotgun
+		}
+	else
+	ife currentweapon 3
+		{
+		ife SPECIALIST_EQUIPMENT[160] 2 state draw_xm8
+		else ife SPECIALIST_EQUIPMENT[117] 2 state draw_mp44
+		else state draw_stg46
+		}
+	else
+	ife currentweapon 4 state draw_chinalake
+	else
+	ife currentweapon 5 state displaygrenade else
+	ife currentweapon 6
+		{
+		ife SPECIALIST_EQUIPMENT[120] 2 state draw_photonDMR
+		else state draw_leber
+		}
+	else
+	ife currentweapon 7 
+	{
+	ife SPECIALIST_EQUIPMENT[158] 2 state disp_MAG_carbine
+	else state draw_lasercannon
+	}
+	else ife currentweapon 8 
+	{
+	ifg player[].ammo_amount 8 0 state display_claymore
+	}
+	else
+	ife currentweapon 9 
+	{
+	ife SPECIALIST_EQUIPMENT[147] 2 state disp_w_gauss
+	else state draw_laserkraft
+	}
+ends
+

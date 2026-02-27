@@ -1,0 +1,327 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+SPRITE SHADOWS AND SPRITE NO PALS
+This CON file contains definitions for all non-actor sprite shadows, noshades and nopals
+just add spriteshadow *tilenum* or spritenopal *tilenum* here if you want to add to the list
+--------------------------------------------------------------------------------
+*/
+
+spritenopal 38859
+
+spritenopal 23445
+
+spritenopal 18119
+
+spritenopal 4179
+
+spritenopal 19676
+spritenoshade 19676
+
+spritenoshade 34494
+spritenopal 34494
+
+spritenopal 20663
+
+spritenoshade EMBERS
+spritenopal EMBERS
+
+spritenopal 25248
+
+spritenopal 10040
+
+spritenopal 22464
+spritenoshade 22464
+
+spritenopal 25149
+spritenoshade 25149
+
+spritenopal 25152
+spritenoshade 25152
+
+spritenopal 25154
+spritenoshade 25154
+
+spritenopal 25254
+spritenoshade 25254
+spritenopal 25255
+spritenoshade 25255
+spritenopal 25256
+spritenoshade 25256
+
+spriteshadow 12936
+spriteshadow 12940
+
+spriteshadow 26
+
+spriteshadow 9405
+
+spriteshadow 5597
+spriteshadow 6104
+spriteshadow 5331
+
+spriteshadow 5968
+
+spritenoshade 4081
+spriteshadow 4081
+
+spriteshadow 5880
+
+spriteshadow 5674
+spritenoshade 5674
+
+spriteshadow CHAIR3
+
+spriteshadow 9048
+
+spriteshadow 9522
+
+spritenopal 1660
+spritenoshade 1660
+
+spritenopal 1664
+spritenopal 1665
+spritenoshade 1665
+
+spritenopal 230
+spritenoshade 230
+
+spritenopal 2559
+
+
+spritenopal 11695
+
+spritenopal 11743
+
+spritenopal 7161
+
+spritenopal 10610
+spritenopal 10611
+spritenopal 10612
+
+spritenoshade 16339
+spritenoshade 16356
+spritenoshade 16369
+
+spritenoshade 11679
+spritenopal 11679
+
+spritenoshade 490
+
+spritenoshade 8507
+spritenopal 8507
+
+spritenopal 199
+
+spritenoshade 4818
+spritenopal 4818
+
+spritenopal 7964
+
+spritenoshade 16143
+spritenopal 16143
+
+
+spritenoshade 9149
+spritenoshade 9154
+spritenoshade 9155
+
+spritenoshade 10990
+spritenoshade 4858
+spritenoshade 12302
+
+spritenoshade 8166
+
+spritenoshade 128
+
+spritenoshade 8074
+
+spritenoshade 10700
+
+spritenoshade SPOTLITE
+spritenopal SPOTLITE
+
+spritenoshade 10707
+
+spritenoshade 10610
+spritenoshade 10611
+spritenoshade 10612
+
+spritenoshade 8668
+
+
+
+spritenoshade 9547
+spritenoshade 9548
+spritenoshade 9575
+spritenopal 9575
+spritenoshade 8173
+
+spritenopal 4804
+
+spritenoshade FOOTPRINTS
+spritenoshade FOOTPRINTS2
+spritenoshade FOOTPRINTS3
+spritenoshade FOOTPRINTS4
+
+spritenoshade 8662
+spritenoshade 3295
+spritenoshade 8024
+
+spritenoshade 3583
+
+spritenoshade 3882
+spritenoshade 3883
+spritenoshade 3885
+spritenoshade 3886
+spritenoshade 3887
+spritenoshade 3888
+
+spritenoshade 8525
+
+spritenoshade 17971
+
+spritenoshade 11641
+
+spritenoshade 11645
+spritenopal 11645
+
+spritenoshade 12351
+spritenoshade 12352
+
+spritenoshade BROWNSTAIN
+
+spritenopal 5662
+
+spritenopal 16151
+
+spritenopal 8583
+spritenopal 8584
+spritenopal 8585
+spritenopal 8586
+spritenopal 8587
+spritenopal 8588
+
+spritenopal 225
+
+spritenopal 44340
+spritenopal 44341
+spritenopal 44342
+spritenopal 44343
+spritenopal 44344
+spritenopal 44345
+spritenopal 44346
+spritenopal 44347
+spritenopal 44348
+spritenopal 44349
+spritenopal 44350
+spritenopal 44351
+spritenopal 44352
+spritenopal 44353
+spritenopal 44354
+spritenopal 44355
+spritenopal 44356
+spritenopal 44357
+spritenopal 44358
+spritenopal 44359
+spritenopal 44360
+spritenopal 44361
+spritenopal 44362
+spritenopal 44363
+spritenopal 44364
+spritenopal 44365
+spritenopal 44366
+spritenopal 44367
+spritenopal 44368
+spritenopal 44369
+spritenopal 44370
+spritenopal 44371
+spritenopal 44372
+spritenopal 44373
+spritenopal 44374
+spritenopal 44375
+spritenopal 44376
+spritenopal 44377
+spritenopal 44378
+spritenopal 44379
+spritenopal 44380
+spritenopal 44381
+spritenopal 44382
+spritenopal 44383
+spritenopal 44384
+spritenopal 44385
+spritenopal 44386
+spritenopal 44387
+spritenopal 44388
+spritenopal 44389
+spritenopal 44390
+spritenopal 44391
+spritenopal 44392
+spritenopal 44393
+spritenopal 44394
+spritenopal 44395
+spritenopal 44396
+spritenopal 44397
+spritenopal 44398
+spritenopal 44399
+spritenopal 44400
+spritenopal 44401
+spritenopal 44402
+spritenopal 44403
+spritenopal 44404
+spritenopal 44405
+spritenopal 44406
+spritenopal 44407
+spritenopal 44408
+spritenopal 44409
+spritenopal 44410
+spritenopal 44411
+spritenopal 44412
+spritenopal 44413
+spritenopal 44414
+spritenopal 44415
+spritenopal 44416
+spritenopal 44417
+spritenopal 44418
+spritenopal 44419
+spritenopal 44420
+spritenopal 44421
+spritenopal 44422
+spritenopal 44423
+spritenopal 44424
+spritenopal 44425
+spritenopal 44426
+spritenopal 44427
+spritenopal 44428
+spritenopal 44429
+spritenopal 44430
+spritenopal 44431
+spritenopal 44432
+spritenopal 44433
+spritenopal 44434
+spritenopal 44435
+spritenopal 44436
+spritenopal 44437
+spritenopal 44438
+
+spritenopal 21605
+spritenoshade 21605
+
+spritenopal 21593
+spritenoshade 21593
+
+spritenopal 25488
+spritenoshade 25488
+
+useractor notenemy 21605 seta[].blend 253 spritepal 0 ifand sprite[].cstat 2 nullop else { geta[].cstat temp xor temp 2 seta[].cstat temp } enda
+useractor notenemy 21593 seta[].blend 253 spritepal 0 ifand sprite[].cstat 2 nullop else { geta[].cstat temp xor temp 2 seta[].cstat temp } enda

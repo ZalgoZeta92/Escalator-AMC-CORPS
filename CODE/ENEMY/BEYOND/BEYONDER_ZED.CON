@@ -1,0 +1,836 @@
+// Walky
+action A_BEYZED_START 0 1 5 1 12 // Starting frame, different from the idle frame
+action A_BEYZED_IDLE 0 1 5 1 12
+action A_BEYZED_SEEK 0 4 5 1 36
+action A_BEYZED_SHRUNK 0 4 5 1 36
+action A_BEYZED_ATTACK 20 2 5 1 36
+action A_BEYZED_PAIN 30 1 1 1 8
+action A_BEYZED_FREEZE 30 1 1 1 8
+action A_BEYZED_GROW 30 1 1 1 8
+action A_BEYZED_FAKEDYING 30 5 1 1 12
+action A_BEYZED_DYING 30 5 1 1 12
+action A_BEYZED_FAKEDEAD 34
+action A_BEYZED_DEAD 34
+action A_BEYZED_RESURRECT 35 4 1 1 24
+action A_BEYZED_BIDIE 1962 2 1 1 16
+action A_BEYZED_BIDEAD 1963
+
+move M_BEYZED_WALK 63
+move M_BEYZED_WALK_RES1 80
+move M_BEYZED_WALK_RES2 150
+
+// Crawly
+action A_BEYZED_C_START 0
+action A_BEYZED_C_IDLE 0
+action A_BEYZED_C_DEAD 0
+action A_BEYZED_C_RES 0 4 1 1 24
+action A_BEYZED_C_SEEK 4 4 5 1 36
+action A_BEYZED_C_SHRUNK 4 4 5 1 36
+action A_BEYZED_C_FREEZE 4 1 1 1 8
+action A_BEYZED_C_GROW 4 1 1 1 8
+action A_BEYZED_C_ATTACK 24 3 5 1 36
+action A_BEYZED_C_LEG_RES 39 7 1 1 24
+
+move M_BEYZED_CRAWL 32
+move M_BEYZED_CRAWL_RES1 50
+move M_BEYZED_CRAWL_RES2 80
+
+var beyz_fake_strength 150 2
+var beyz_res_count 0 2
+
+defstate beyzombie_torsofly
+	cstat 0
+	state random_trigger_showoff
+	sound TORS_BISEC
+	
+	setprojectile[BEYZED_TORSO_FLY].pal sprite[].pal
+	ezshoot -4096 BEYZED_TORSO_FLY
+	setprojectile[BEYZED_TORSO_FLY].pal 0
+	geta[].htang temp4
+	seta[RETURN].ang temp4
+	espawn BIG_BLOOD_EXE
+	
+	action A_BEYZED_BIDIE
+ends
+
+defstate beyzombie_applymove
+	ife beyz_res_count 0
+	{
+		ifactor BEYOND_ZED
+		{
+			ifmove M_BEYZED_WALK nullop 
+			else move M_BEYZED_WALK geth
+		}
+		else ifactor BEYOND_ZED_CRAWL
+		{
+			ifmove M_BEYZED_CRAWL nullop 
+			else move M_BEYZED_CRAWL geth
+		}
+	}
+	else ife beyz_res_count 1
+	{
+		ifactor BEYOND_ZED
+		{
+			ifmove M_BEYZED_WALK_RES1 nullop 
+			else move M_BEYZED_WALK_RES1 geth
+		}
+		else ifactor BEYOND_ZED_CRAWL
+		{
+			ifmove M_BEYZED_CRAWL_RES1 nullop 
+			else move M_BEYZED_CRAWL_RES1 geth
+		}
+	}
+	else ifge beyz_res_count 2
+	{
+		ifactor BEYOND_ZED
+		{
+			ifmove M_BEYZED_WALK_RES2 nullop 
+			else move M_BEYZED_WALK_RES2 geth
+		}
+		else ifactor BEYOND_ZED_CRAWL 
+		{
+			ifmove M_BEYZED_CRAWL_RES2 nullop 
+			else move M_BEYZED_CRAWL_RES2 geth
+		}
+	}
+ends
+
+defstate beyz_realdeath
+	addkills 1
+	state rf
+	sound BZ_DIE
+	ifand proj_udata 8192
+	{
+		ifrnd 4 { spawn ELECTROCUTE_MARV soundonce MALE_ELECT1 } else spawn ELECTROCUTE_GUY
+		shoot SPARK2 shoot SPARK2 shoot SPARK2
+		killit
+	}
+	ifwasweapon SAWBLADE state beyzombie_torsofly
+	else ifwasweapon SAWBLADE_BOUNCE state beyzombie_torsofly
+	else ifwasweapon SNOWFALL_DISC state beyzombie_torsofly
+	else ifwasweapon 6875 ife CHAR 2 state beyzombie_torsofly
+	else ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_BEYZED_GROW break }
+	else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_BEYZED_FREEZE } 
+	else ifg fire_damage 0 
+	{
+		shoot SPARK2 shoot SPARK2 shoot SPARK2 
+		ifrnd 128 sound ZSOLD_DIE1
+		else sound ZSOLD_DIE2
+		spawn ONFIREGUY
+		killit
+	}
+	else ife HEADSHOT 2 
+	{
+		ifg fire_damage 0 set fire_damage 0
+		ifrnd 32 state trigger_showoff
+		state jib_sounds
+		state decap_sounds
+		shoot NJIB 
+		shoot NJIB 
+		guts JIBS6 3 
+		guts JIBS2 2 
+		action A_BEYZED_DYING
+	}
+	else ifg spirit_damage 0
+	{
+		shoot SPARK2 shoot SPARK2 shoot SPARK2 
+		spritepal 1
+		guts JIBS3 6
+		spawn SPIRIT_DEATH_GUY
+		killit
+	}
+	else ifg energy_damage 0
+	{
+		shoot SPARK2 shoot SPARK2 shoot SPARK2 
+		spritepal 4
+		guts JIBS3 6
+		spawn DISINTIGRATE_GUY
+		killit
+	}
+	else
+	{
+		geta[].extra temp
+		ifl temp -100
+			state beyzombie_torsofly
+		else
+		{
+			sound BZ_DIE
+			action A_BEYZED_DYING
+			spawn BLOODPOOL
+		}
+	}
+ends
+
+defstate beyz_handledamage
+	// Fake death stuff: all damage except environmental damage gets discarded
+	// We apply the damage to a fake variable, and do a fake death
+	// After every resurrection, the threshold for the fake death gets higher
+	// (up to a maximum, you did mention making them invincible after a while but that sounds really tedious)
+	geta[].htextra temp
+	
+	ifn temp -1
+	{
+		state damage_is_environmental // output: temp5		
+		
+		ife temp5 0
+		{
+			// note: we WANT the ifhitweapon logic to take place, for proper particles and sounds and all that jazz
+			// but to get around the real actor death taking place, just add htextra to extra
+			geta[].extra temp2
+			add temp2 temp
+			seta[].extra temp2
+			
+			sub beyz_fake_strength temp
+			clamp beyz_fake_strength 0 2000
+			ife beyz_fake_strength 0
+			{
+				ifactor BEYOND_ZED
+				{
+					ifwasweapon SAWBLADE state beyzombie_torsofly
+					else ifwasweapon SAWBLADE_BOUNCE state beyzombie_torsofly
+					else ifwasweapon SNOWFALL_DISC state beyzombie_torsofly
+					else ifwasweapon 6875 ife CHAR 2 state beyzombie_torsofly
+					else ifg temp 100 state beyzombie_torsofly
+					else action A_BEYZED_FAKEDYING
+				}
+				else ifactor BEYOND_ZED_CRAWL
+					action A_BEYZED_C_DEAD
+					
+				add beyz_res_count 1
+				set beyz_fake_strength 150
+				mul beyz_fake_strength beyz_res_count
+				clamp beyz_fake_strength 0 2000
+			}
+		}
+		// else it is environmental damage, run normal logic
+	}
+	else
+	{
+		// Something killed us, but ifhitweapon can no longer trigger, run same logic manually
+		geta[].extra temp
+		
+		ifle temp 0
+			state beyz_realdeath
+	}
+ends
+
+var beyz_torso_active 0 2
+defstate beyz_bisect_body
+	seta[].mdflags 16
+	cstator 256
+	sizeat 35 27
+	ifaction 0 
+	{ 
+		set temp 64 action ZERO 
+	}
+	iffloordistl 8
+	{
+		move STOP geth
+		ifg temp 0
+		{
+			sub temp 1
+			seta[].xvel temp
+		}
+		else
+		{
+			set beyz_torso_active 1
+			action A_BEYZED_C_START
+		}
+	}
+	else action MINUSONE
+	
+	ifaction MINUSONE
+	{
+		iffloordistl 8 
+		{ 
+			action 0 
+			ifrnd 128 
+				cstator 4 
+			espawn BLOODPOOL 
+			state BODY_FALL_NOISES 
+			
+			set beyz_torso_active 1 
+			set my_target PLAYER_IDENTITY 
+			action A_BEYZED_C_SEEK 
+		}
+	}
+ends
+
+damageeventtile BEYOND_ZED
+damageeventtile BEYOND_ZED_CRAWL
+
+useractor enemy BEYOND_ZED_CRAWL 150 A_BEYZED_C_START
+	fall
+	
+	// Teleportation like movement
+	geta[].cstat temp
+	ifaction A_BEYZED_C_SEEK
+	{
+		ifrnd 64 ifand temp 32768
+		{
+			spawn FRAMEEFFECT1
+			sub temp 32768
+			seta[].cstat temp
+		}
+		
+		ifand temp 32768 nullop
+		else ifrnd 32
+		{
+			spawn FRAMEEFFECT1
+			cstator 32768
+			
+			// Don't play the sound all the time, cause it is a lot
+			ifrnd 64
+			{
+				espawn SOUND_SPRITE
+				setactorvar[RETURN].temp BZ_JUMP
+			}
+		}
+	}
+	else ifand temp 32768
+	{
+		spawn FRAMEEFFECT1
+		sub temp 32768
+		seta[].cstat temp
+	}
+		
+	ifn beyz_torso_active 1
+		state beyz_bisect_body
+	else
+	{
+		state beyz_handledamage
+		
+		ifaction A_BEYZED_C_START
+		{
+			cstat 0
+			strength 150
+			sizeat 35 27
+			set blood_type 0 // defaults to 0 which is red
+			set actor_type 0 // defaults to 0, either remove or change this to desired armour type
+			geta[].pal actor_pal
+			state monst_glow
+			
+			espawn TARGETFX
+			setav[RETURN].is_flammable 1
+			
+			set INTERNALCOUNT 0
+			action A_BEYZED_C_IDLE
+		}
+			
+		state actor_knockback_state
+		xor element_type FLOOR_DAMAGE
+		xor element_type FIRE_DAMAGE
+		xor element_type ICE_DAMAGE
+		xor element_type SPIRIT_DAMAGE
+
+		ifaction A_BEYZED_C_IDLE
+		{
+			move STOP
+			state checkfortarget
+			ifn my_target -1 
+			{
+				add INTERNALCOUNT 1
+				ifge INTERNALCOUNT 120
+				{
+					ifrnd 128 sound BZ_RCG1 else sound BZ_RCG2
+				
+					action A_BEYZED_C_RES
+				}
+			}
+		}
+		else ifaction A_BEYZED_C_RES
+		{
+			move STOP
+			cstat 257
+			set INTERNALCOUNT 0
+			
+			ifactioncount 4
+				action A_BEYZED_C_SEEK
+		}
+		else ifaction A_BEYZED_C_SEEK
+		{
+			// Don't move in a straight line to make the "teleportation movement" a bit cuter
+			ifrnd 64
+			{
+				set temp3 sprite[].x
+				add temp3 200
+				geta[].ang temp4
+				ifrnd 64
+				{
+					ifrnd 128 sub temp4 256
+					else ifrnd 128 add temp4 256
+				}
+				rotatepoint sprite[].x sprite[].y temp3 sprite[].y temp4 temp5 temp6
+				
+				geta[].sectnum upd_sect
+				updatesectorz temp5 temp6 sprite[].z upd_sect
+				ifn upd_sect -1 
+				{
+					changespritesect THISACTOR upd_sect
+					seta[].x temp5
+					seta[].y temp6
+				}
+			}
+			
+			state beyzombie_applymove
+				
+			findnearactorz BEYOND_ZED_DEDLEGS 8192 2048 temp3
+			ifn temp3 -1
+			{	
+				set ANGLE_TO_ACTOR temp3
+				state angleTo
+				seta[].ang angvar
+				
+				dist temp THISACTOR temp3
+				ifl temp 1024
+				{
+					seta[].x sprite[temp3].x
+					seta[].y sprite[temp3].y
+					seta[].z sprite[temp3].z
+					seta[temp3].xrepeat 0
+					sound BZ_REZ
+					action A_BEYZED_C_LEG_RES
+				}
+			}
+			else
+			{
+				state checkfortarget
+				ifn my_target -1
+				{
+				dist temp THISACTOR my_target
+				ifl temp 1024 action A_BEYZED_C_ATTACK
+				}
+			}
+		}
+		else ifaction A_BEYZED_C_SHRUNK
+		{
+			ifmove M_BEYZED_CRAWL nullop 
+			else move M_BEYZED_CRAWL geth fleeenemy
+				
+			ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+				state new_shrunkcode
+			else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+			{
+				state unshrink
+				sizeto 35 27
+			}
+			else // after regrow, switch back to regular action
+			{
+				state endshrunkenstate
+				action A_BEYZED_C_SEEK
+			}	
+		}
+		else ifaction A_BEYZED_C_FREEZE state frozen_code
+		else ifaction A_BEYZED_C_GROW
+		{
+			move STOP
+			state genericgrowcode
+		}
+		else ifaction A_BEYZED_C_ATTACK
+		{
+			move STOP
+			state fronttowardstarget
+
+			ifactioncount 2
+			{
+				set INTERNALCOUNT 0
+				
+				state checkfortarget
+				
+				ife my_target -1
+					action A_BEYZED_C_SEEK
+				else
+				{
+					dist temp THISACTOR my_target
+					ifg temp 1024
+						action A_BEYZED_C_SEEK
+					else
+						resetactioncount
+				}
+			}
+			else ifactioncount 1
+			{
+				ife INTERNALCOUNT 0
+				{
+					add INTERNALCOUNT 1
+
+					// TODO need some kind of melee hitscan projectile, ripper scratch isn't cutting it
+					// For now just apply damage directly
+					ifrnd 128 sound DGR_SLSH1
+					else sound DGR_SLSH2
+
+					// if player is close enough play scratch sound
+					dist temp THISACTOR my_target
+					ifle temp 1024
+					{
+						sound RIPPER_SCRATCH
+						set temp 20
+						rand temp2 25
+						add temp temp2
+						seta[my_target].htextra temp
+						seta[my_target].htpicnum 17663
+					}
+				}
+			}
+		}
+		else ifaction A_BEYZED_C_DEAD
+		{
+			cstat 0
+			move STOP
+			// explosion should still work right?
+			ifhitweapon
+			{
+				ifwasweapon RADIUSEXPLOSION
+				{
+					state squish_sounds
+					state standard_jibs
+					killit
+				}
+			}
+			
+			add INTERNALCOUNT 1
+			ifge INTERNALCOUNT 120
+				action A_BEYZED_C_RES
+		}
+		else ifaction A_BEYZED_C_LEG_RES
+		{
+			// this gets around a bug where the previous damage stayed saved, not ideal but meh
+			seta[].htextra -1 seta[].htpicnum -1
+			
+			move STOP
+			cstat 257
+			set INTERNALCOUNT 0
+			ifactioncount 7
+			{
+				cactor BEYOND_ZED
+				action A_BEYZED_SEEK
+			}
+		}
+		
+		ifhitweapon
+		{
+			state NEWGUNEFFECTS
+			sound BERSERK_PAIN
+			//spawn BLOOD
+			guts JIBS6 1
+			state random_wall_jibs
+			ifdead
+			{
+				state rf
+				sound BZ_DIE
+				
+				ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING addkills 1 action A_BEYZED_C_GROW break }
+				else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE addkills 1 action A_BEYZED_C_FREEZE } 
+				else
+				{
+					sound BERSERK_DIE
+					action A_BEYZED_C_DEAD
+					spawn BLOODPOOL
+				}
+			}
+			else ifwasweapon SHRINKSPARK 
+			{ 
+				sound ACTOR_SHRINKING 
+				action A_BEYZED_C_SHRUNK 
+			}
+				
+		}
+
+		state checksquished
+	}
+enda
+
+useractor enemystayput BEYOND_ZED_STAYPUT 150 A_BEYZED_START
+	cactor BEYOND_ZED
+enda
+
+useractor enemy BEYOND_ZED 150 A_BEYZED_START
+	fall
+	
+	state beyz_handledamage
+	
+	// Teleportation like movement
+	geta[].cstat temp
+	
+	ifaction A_BEYZED_SEEK
+	{
+		ifrnd 64 ifand temp 32768
+		{
+			spawn FRAMEEFFECT1
+			sub temp 32768
+			seta[].cstat temp
+		}
+		
+		ifand temp 32768 nullop
+		else ifrnd 32
+		{
+			spawn FRAMEEFFECT1
+			cstator 32768
+			
+			// Don't play the sound all the time, cause it is a lot
+			ifrnd 64
+			{
+				espawn SOUND_SPRITE
+				setactorvar[RETURN].temp BZ_JUMP
+			}
+		}
+	}
+	else ifand temp 32768
+	{
+		spawn FRAMEEFFECT1
+		sub temp 32768
+		seta[].cstat temp
+	}
+	
+	
+	ifaction A_BEYZED_START
+	{
+		cstat 257
+		strength 150
+		sizeat 35 27
+		set blood_type 0 // defaults to 0 which is red
+		set actor_type 0 // defaults to 0, either remove or change this to desired armour type
+		geta[].pal actor_pal
+		state monst_glow
+		
+		espawn SHOOTME
+		seta[RETURN].pal 1
+		
+		action A_BEYZED_IDLE
+	}
+		
+	state actor_knockback_state
+	xor element_type FLOOR_DAMAGE
+	xor element_type FIRE_DAMAGE
+	xor element_type ICE_DAMAGE
+	xor element_type SPIRIT_DAMAGE
+
+
+	ifaction A_BEYZED_IDLE
+	{
+		move STOP
+		state checkfortarget
+		ifn my_target -1 
+		{
+			ifrnd 128 sound BZ_RCG1 else sound BZ_RCG2
+			
+			action A_BEYZED_SEEK
+		}
+	}
+	else ifaction A_BEYZED_SEEK
+	{
+		// Don't move in a straight line to make the "teleportation movement" a bit cuter
+		ifrnd 64
+		{
+			set temp3 sprite[].x
+			add temp3 200
+			geta[].ang temp4
+			ifrnd 64
+			{
+				ifrnd 128 sub temp4 256
+				else ifrnd 128 add temp4 256
+			}
+			rotatepoint sprite[].x sprite[].y temp3 sprite[].y temp4 temp5 temp6
+			
+			geta[].sectnum upd_sect
+			updatesectorz temp5 temp6 sprite[].z upd_sect
+			ifn upd_sect -1 
+			{
+				changespritesect THISACTOR upd_sect
+				seta[].x temp5
+				seta[].y temp6
+			}
+		}
+		
+		state beyzombie_applymove
+			
+		state checkfortarget
+		
+		ifn my_target -1
+		{
+		dist temp THISACTOR my_target
+		ifl temp 1024 action A_BEYZED_ATTACK
+		}
+	}
+	else ifaction A_BEYZED_SHRUNK
+	{
+		ifmove M_BEYZED_WALK nullop 
+		else move M_BEYZED_WALK geth fleeenemy
+			
+		ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+			state new_shrunkcode
+		else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+		{
+			state unshrink
+			sizeto 35 27
+		}
+		else // after regrow, switch back to regular action
+		{
+			state endshrunkenstate
+			action A_BEYZED_SEEK
+		}	
+	}
+	else ifaction A_BEYZED_ATTACK
+	{
+		move STOP
+		state fronttowardstarget
+
+		ifactioncount 2
+		{
+			set INTERNALCOUNT 0
+			
+			state checkfortarget
+			
+			ife my_target -1
+				action A_BEYZED_SEEK
+			else
+			{
+				dist temp THISACTOR my_target
+				ifg temp 1024
+					action A_BEYZED_SEEK
+				else
+					resetactioncount
+			}
+		}
+		else ifactioncount 1
+		{
+			ife INTERNALCOUNT 0
+			{
+				add INTERNALCOUNT 1
+
+				// TODO need some kind of melee hitscan projectile, ripper scratch isn't cutting it
+				// For now just apply damage directly
+				ifrnd 128 sound DGR_SLSH1
+				else sound DGR_SLSH2
+
+				// if player is close enough play scratch sound
+				dist temp THISACTOR my_target
+				ifle temp 1024
+				{
+					sound RIPPER_SCRATCH
+					set temp 20
+					rand temp2 25
+					add temp temp2
+					seta[my_target].htextra temp
+					seta[my_target].htpicnum 17663
+				}
+			}
+		}
+	}
+	else ifaction A_BEYZED_PAIN
+	{
+		sub PAIN_AMOUNT 1
+		move STOP
+		ife PAIN_AMOUNT 0
+		{
+			// TODO fake dying?
+			ifdead action A_BEYZED_DYING 
+			else action A_BEYZED_SEEK
+		}
+	}
+	else ifaction A_BEYZED_FREEZE state frozen_code
+	else ifaction A_BEYZED_GROW
+	{
+		move STOP
+		state genericgrowcode
+	}
+	else ifaction A_BEYZED_DYING
+	{
+		move STOP
+		strength 0
+		ifactioncount 5 { state rf state BODY_FALL_NOISES action A_BEYZED_DEAD }
+	}
+	else ifaction A_BEYZED_FAKEDYING
+	{
+		move STOP
+		ifactioncount 5 { state rf state BODY_FALL_NOISES set INTERNALCOUNT 0 action A_BEYZED_FAKEDEAD }
+	}
+	else ifaction A_BEYZED_DEAD
+	{
+		move STOP
+		ifhitweapon
+		{
+			ifwasweapon RADIUSEXPLOSION
+			{
+				state squish_sounds
+				state standard_jibs
+				killit
+			}
+		}
+	}
+	else ifaction A_BEYZED_FAKEDEAD
+	{
+		move STOP
+		// explosion should still work right?
+		ifhitweapon
+		{
+			ifwasweapon RADIUSEXPLOSION
+			{
+				state squish_sounds
+				state standard_jibs
+				killit
+			}
+		}
+		
+		add INTERNALCOUNT 1
+		ifge INTERNALCOUNT 120
+			{
+			sound BZ_REZ
+			action A_BEYZED_RESURRECT
+			}
+	}
+	else ifaction A_BEYZED_RESURRECT
+	{
+		move STOP
+		cstat 257
+		
+		ifactioncount 4
+			action A_BEYZED_SEEK
+	}
+	else ifaction A_BEYZED_BIDEAD
+	{
+		move STOP
+		cactor BEYOND_ZED_DEDLEGS
+	}
+	else ifaction A_BEYZED_BIDIE
+	{
+		ifactioncount 2 { state rf state BODY_FALL_NOISES action A_BEYZED_BIDEAD espawn BLOODPOOL }
+	}
+	
+	ifhitweapon
+	{
+		state NEWGUNEFFECTS
+		sound BERSERK_PAIN
+		//spawn BLOOD
+		guts JIBS6 1
+		state random_wall_jibs
+		ifdead
+		{
+			state beyz_realdeath
+		}
+			
+		else // not dead
+		{
+			ifaction A_BEYZED_FAKEDYING 
+				nullop
+			else ifaction A_BEYZED_BIDIE
+				nullop
+			else ifaction A_BEYZED_BIDEAD
+				nullop
+			else ifaction A_BEYZED_DEAD
+				nullop
+			else
+			{
+				ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_BEYZED_SHRUNK }
+				
+				ifg PAIN_AMOUNT 0 action A_BEYZED_PAIN
+				else ifrnd 32 { state PAIN_SKILL_LEVELADJUST action A_BEYZED_PAIN }
+				// if they were idle, getting hit ALWAYS wakes them up
+				else ifaction A_BEYZED_IDLE { state PAIN_SKILL_LEVELADJUST action A_BEYZED_PAIN }
+			}
+		}
+	}
+
+	state checksquished
+
+enda

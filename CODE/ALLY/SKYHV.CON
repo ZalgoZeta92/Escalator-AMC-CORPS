@@ -1,0 +1,389 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+
+damageeventtile SKYHV
+
+action A_SKYHV_IDLE -2071 1 5 1 11
+action A_SKYHV_MOVE 0 4 5 1 11
+action A_SKYHV_RELOAD 0 4 5 1 11
+action A_SKYHV_FIRE -2071 1 5 1 3
+action A_SKYHV_DYING 70 6 1 1 11
+action A_SKYHV_JUMP 30 2 5 1 20
+action A_SKYHV_KICK 20 2 5 1 12
+action A_SKYHV_DEAD 75 1 1 1 1
+action A_SKYHV_FALL 35 1 5 1 30
+
+move M_SKYHV_MOVE 266
+move M_SKYHV_MOVESLOW 128
+
+// Copies, used with different movflags
+move M_SKYHV_MOVEJUMP 266
+move M_SKYHV_MOVEFALL 266
+
+spriteshadow SKYHV
+spritenvg SKYHV
+
+defstate SKYHV_voice
+	ifvarg ALLY_VOICE 0
+	{
+		subvar ALLY_VOICE 1
+		ife ALLY_VOICE 1
+		{
+			ifrnd 96
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5193
+					set ally_subt 90
+				}
+				sound SK_FOLL1
+			}
+			else
+			ifrnd 96
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5194
+					set ally_subt 127
+				}
+				sound SK_FUCKNA
+			}
+			else
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5195
+					set ally_subt 27
+				}
+				sound SK_OKAY
+			}
+		}
+	}
+	else ifvarl ALLY_VOICE 0
+	{
+		addvar ALLY_VOICE 1
+		ife ALLY_VOICE -1
+		{
+		ifrnd 96
+			{
+			ife ally_subt 0
+				{
+					qstrcpy 7501 5196
+					set ally_subt 73
+				}
+			sound SK_ERM
+			}
+		else
+		ifrnd 96
+			{
+			ife ally_subt 0
+				{
+					qstrcpy 7501 5197
+					set ally_subt 93
+				}
+			sound SK_WAIT1
+			}
+		else
+			{
+			ife ally_subt 0
+				{
+					qstrcpy 7501 5198
+					set ally_subt 112
+				}
+			sound SK_TSUCKS
+			}
+		}
+	}
+ends
+
+useractor notenemy SKYHV
+	fall
+	
+		ife actor_return 1
+			{
+			ifle player[].steroids_amount 3
+				{
+				globalsound SOMETHINGHITFORCE
+				spawn TRANSPORTERBEAM
+				state clear_ally_death
+				killit
+				}
+			}
+
+	ifaction 0
+	{
+		seta[].htwaterzoffset 8
+		spawn SHOOTME2
+		spawn 9946
+		strength 16384
+		setvar ally_mag 30
+		cstat 257
+		sizeat 22 22
+		action A_SKYHV_IDLE
+		ifspawnedby APLAYER state startfollowplayer
+	}
+
+	ifl sprite[].extra 16000
+		seta[].extra 16384
+
+	state spawn_cold_breathe
+
+	state actor_knockback_state
+	xor element_type FLOOR_DAMAGE
+	xor element_type FIRE_DAMAGE
+	xor element_type ICE_DAMAGE
+	xor element_type SPIRIT_DAMAGE
+
+	ifvarg sprite[THISACTOR].zvel 40 { ifstrength 0 break else action A_SKYHV_FALL }
+
+	state SKYHV_voice
+
+	ifaction A_SKYHV_DEAD
+	{
+		move STOP
+		strength 0
+		break
+	}
+	else ifaction A_SKYHV_DYING
+	{
+		move STOP
+		ifactioncount 6 { state BODY_FALL_NOISES action A_SKYHV_DEAD }
+	}
+	else ifaction A_SKYHV_KICK
+	{
+		move STOP
+		state checkfortarget
+
+		add INTERNALCOUNT_2 1
+
+		ifn my_target -1
+		{
+			// swing sound only once
+			ife INTERNALCOUNT_2 1
+				soundonce KICK_SWING
+
+			ifactioncount 3
+			{
+				set INTERNALCOUNT_2 0
+				resetactioncount
+			}
+			else ifactioncount 2
+			{
+				ife INTERNALCOUNT_2 3
+				{
+					state fronttowardstarget
+					ldist temp THISACTOR my_target
+
+					ifg temp 1024
+						action A_SKYHV_MOVE
+
+					setprojectile[KICK_2].WORKSLIKE 2125890
+					setprojectile[KICK_2].extra 90
+					setprojectile[KICK_2].range 5
+
+					set PROJECTILE_TO_SHOOT KICK_2
+					set PROJECTILE_FIRING_SOUND -1
+					state sang_enemyShootProjectile
+
+					setprojectile[KICK_2].WORKSLIKE 2129986
+					setprojectile[KICK_2].extra 13
+					setprojectile[KICK_2].range 2
+
+					add INTERNALCOUNT_2 1
+				}
+			}
+			else ifactioncount 1
+				set INTERNALCOUNT_2 2
+		}
+		else
+			action A_SKYHV_MOVE
+	}
+	else ifaction A_SKYHV_FIRE
+	{
+		move STOP
+		state checkfortarget
+		ifn my_target -1
+		{
+			ifactioncount 3
+			{
+				state fronttowardstarget
+				state AK104_RIFLE_SOUNDS 
+				set PROJECTILE_TO_SHOOT ENEMY_BULLET
+				set PROJECTILE_PAL 8
+				set PROJECTILE_STRENGTH 7
+				state sang_enemyShootProjectile
+
+				ife PERFMODE 1
+				 ifcansee
+				{
+					set gunsmoke_z 5244
+					set gunsmoke_angle 256
+					state spawn_gunsmoke_z
+					set gunsmoke_z 5044
+					state spawn_enemy_ARFLASH
+					state spawn_muzzleflash
+					state npc_rifleshell
+				}
+
+				subvar ally_mag 1
+				resetactioncount
+				ifvarl ally_mag 1 { shoot RIFLEMAGAZINE sound AR_MAGOUT_1 action A_SKYHV_RELOAD }
+			}
+		}
+
+		ife my_target -1
+			action A_SKYHV_IDLE
+	}
+	else ifaction A_SKYHV_FALL
+	{
+		ifmove M_SKYHV_MOVEFALL nullop
+		else move M_SKYHV_MOVEFALL geth seekplayer
+
+		iffloordistl 8
+		{
+			soundonce LAND_NORM
+			action A_SKYHV_MOVE
+		}
+	}
+	else ifaction A_SKYHV_JUMP
+	{
+		ifmove M_SKYHV_MOVEJUMP nullop
+		else move M_SKYHV_MOVEJUMP geth jumptoplayer
+
+		ifactioncount 3
+			action A_SKYHV_FALL
+	}
+	else ifaction A_SKYHV_MOVE
+	{
+		ifmove M_SKYHV_MOVE nullop
+		else move M_SKYHV_MOVE geth
+
+		state checkfortarget
+		ifactioncount 3
+		{
+			state npc_footsteps
+			resetactioncount
+		}
+
+		ifn my_target -1
+		{
+			ldist temp THISACTOR my_target
+
+			ifl temp 768
+				action A_SKYHV_KICK
+			else
+				action A_SKYHV_FIRE
+
+			resetactioncount
+		}
+		else
+			state faceplayerstate
+
+		ifnotmoving operate
+		ifp phigher ifnotmoving ifrnd 128 action A_SKYHV_JUMP
+		else ifpdistl 1736 { ifphealthl 25 ifrnd 16 sound BS_HURT1 action A_SKYHV_IDLE }
+	}
+	else ifaction A_SKYHV_RELOAD
+	{
+		ifmove M_SKYHV_MOVESLOW nullop
+		else move M_SKYHV_MOVESLOW geth
+
+		addvar ally_mag 1
+		ife ally_mag 25 sound AR_MAGIN_1
+		ife ally_mag 30 action A_SKYHV_MOVE
+	}
+	else ifaction A_SKYHV_IDLE
+	{
+		move STOP
+		sleeptime 0
+		ifn camerasprite -1
+			move STOP faceplayer
+		else
+			state rand_lookaround
+
+		addvar temp7 1
+		ife FOLLOW_PLAYER 1
+		{
+			ifpdistg 1735
+			 ifcansee
+			  ifcanseetarget
+			   action A_SKYHV_MOVE
+		}
+		state checkfortarget
+		ifn my_target -1
+		{
+			ldist temp THISACTOR my_target
+			ifl temp 768
+				action A_SKYHV_KICK
+			else
+				action A_SKYHV_FIRE
+			resetactioncount
+		}
+
+		ifstrength 1499 ifcount 6 { addstrength 1 resetcount }
+	}
+
+
+	ifvarn lotag_saved 0
+	{
+		checkactivatormotion lotag_saved
+		ife RETURN 1 killit
+	}
+
+	ifvarn xvel_saved 0
+	{
+		checkactivatormotion xvel_saved
+		ife RETURN 1 killit
+	}
+
+
+	state player_follow_commands
+
+	ifvarg spirit_damage 0 subvar spirit_damage 2
+
+	ifhitweapon
+	{
+		spawn BLOOD
+		state actor_knockback_state
+		state random_wall_jibs
+		state NEWGUNEFFECTS
+		ifvarg spirit_damage 10 setvar spirit_damage 10
+		ifdead
+		{
+			state clear_ally_death
+			state rf
+
+			action A_SKYHV_DYING
+			ifrnd 76 spawn BLOODPOOL
+
+			/* disable babysitting
+			ifmultiplayer nullop
+			else
+			{
+				palfrom 63 63 63 63
+				setvar SLO_MO_SHOWOFF 70
+				setvar FISSION_MAILED 1
+			}
+			*/
+		}
+		else ifrnd 16 
+			{
+			ifrnd 128 sound SK_PAIN1 else sound SK_PAIN2
+			}
+	}
+enda

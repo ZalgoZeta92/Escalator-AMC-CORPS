@@ -1,0 +1,180 @@
+action A_FLAME_H_START 0 0 5 1 12
+action A_FLAME_H_IDLE 0 0 5 1 12
+
+action A_FLAME_H_BURST 25 3 5 1 12
+action A_FLAME_H_PUNCH 40 3 5 1 20
+
+action A_FLAME_H_SEEK 5 4 5 1 8
+
+action A_FLAME_H_PAIN 55 0 1 1 8
+
+action A_FLAME_H_DYING 55 6 1 1 12
+action A_FLAME_H_DEAD 61
+
+move M_FLAME_H_WALK 180
+
+damageeventtile FLAME_HYDE
+
+useractor enemy FLAME_HYDE 6000 A_FLAME_H_START
+fall
+ifaction A_FLAME_H_START
+{
+	cstat 257
+	strength 6000
+	sizeat 30 30
+	set CURBOSS THISACTOR
+	set blood_type 0 // defaults to 0 which is red
+	set actor_type TYPE_CHITIN
+	geta[].pal actor_pal
+	espawn SHOOTME seta[RETURN].pal 1
+	state monst_glow
+	action A_FLAME_H_SEEK
+}
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifaction A_FLAME_H_IDLE
+{
+	move STOP
+
+		state checkfortarget
+		ifn my_target -1 
+		{
+		ifp pdead nullop else
+			action A_FLAME_H_SEEK
+		}
+
+}
+else ifaction A_FLAME_H_SEEK
+{
+	ifmove M_FLAME_H_WALK nullop 
+	else move M_FLAME_H_WALK geth
+	
+	state smartpoint_angletoplayer
+	
+	ifrnd 4 sound MRH_ROAM
+	
+		ifg fstep_count 0 sub fstep_count 1
+		ife fstep_count 0
+			{
+			randvar temp8 40
+			ifl temp8 10 sound SUIT_STEP1 else
+			ifl temp8 20 sound SUIT_STEP2 else
+			ifl temp8 30 sound SUIT_STEP3 else
+			sound SUIT_STEP4
+			set fstep_count 7
+			}
+
+	ifn my_target -1
+	{
+	ldist temp6 THISACTOR my_target
+	ifl temp6 1280 { sound MRH_THROWP ifaction A_FLAME_H_BURST nullop else action A_FLAME_H_PUNCH }
+	else
+		{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+		ifl RANDOM_CHANCE SKILLCHANCE 
+			{
+				sound JMOVE5 
+				ifaction A_FLAME_H_BURST nullop else action A_FLAME_H_BURST
+			}
+		}
+	}
+
+	 ifp pdead action A_FLAME_H_IDLE
+}
+else ifaction A_FLAME_H_BURST
+{
+move STOP
+state new_validatetarget
+ife my_target -1 action A_FLAME_H_SEEK
+else
+	{
+	state fronttowardstarget
+	ifactioncount 2
+		{
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		globalsound GUARDIAN_FLAME
+        set PROJECTILE_TO_SHOOT 22536
+        set PROJECTILE_FIRING_SOUND 4
+        state sang_enemyShootProjectile
+		state sang_enemyShootProjectile
+		state sang_enemyShootProjectile
+		state sang_enemyShootProjectile
+		action A_FLAME_H_SEEK
+		}
+	}
+}
+else ifaction A_FLAME_H_PUNCH
+{
+move STOP faceplayer
+ifactioncount 3
+	{
+	sound BERSERK_HIT
+	eshoot 17849	
+	resetactioncount
+	}
+ifpdistg 1025 action A_FLAME_H_SEEK
+}
+else ifaction A_FLAME_H_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_FLAME_H_DYING 
+		else action A_FLAME_H_SEEK
+	}
+}
+else ifaction A_FLAME_H_DYING
+{
+	strength 0
+	ifactioncount 6 { sound BOSSFALL quake 13 spawn BLOODPOOL action A_FLAME_H_DEAD operateactivators 809 THISACTOR }
+}
+
+else ifaction A_FLAME_H_DEAD
+{
+	move STOP
+}
+
+
+ifhitweapon
+{
+	sound BERSERK_PAIN
+	set CURBOSS THISACTOR
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+		action A_FLAME_H_DYING
+		ife CHAR 5
+			{
+				ife gp_subt 0
+					{
+					set subt_id 13022
+					set gp_subt 64
+					}
+				screensound RN_FILLH
+			}
+		set SLO_MO_SHOWOFF 40 
+	}
+		
+	else // not dead
+	{
+		ifg PAIN_AMOUNT 0 action A_FLAME_H_PAIN
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST action A_FLAME_H_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_FLAME_H_IDLE { state PAIN_SKILL_LEVELADJUST action A_FLAME_H_PAIN }
+	}
+}
+
+state checksquished
+
+enda

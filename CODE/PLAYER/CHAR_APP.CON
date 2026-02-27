@@ -1,0 +1,1113 @@
+
+defstate character_tiles
+
+// James Animations ============================================================================================
+ifand CHAR_APP 512 // Abyssal Armour James
+	{
+	setarray James_anims[0] 27773 // standing
+	setarray James_anims[1] 27853 // idle
+	setarray James_anims[2] 27778 // moving
+	setarray James_anims[3] 27798 // jumping
+	setarray James_anims[4] 27803 // falling
+	setarray James_anims[5] 27808 // ducking
+	setarray James_anims[6] 27813 // crawling
+	setarray James_anims[7] 27838 // kicking
+	setarray James_anims[8] 27828 // swimming
+	setarray James_anims[9] 27858 // pain
+	setarray James_anims[10] 27858 // dying
+	setarray James_anims[11] 27798 // jetpack
+	setarray James_anims[12] 17455 // on bike
+	setarray James_anims[13] 0 // firing
+	setarray James_anims[14] 27863 // dead
+	setarray James_anims[15] 0 // walking
+	setarray James_anims[16] 0 // horse
+
+	setarray James_anims[30] 22 // x size
+	setarray James_anims[31] 22 // y size
+	setarray James_anims[32] 0 // default colour
+	}
+	else
+ifand CHAR_APP 64 // Ringworld James
+	{
+	setarray James_anims[0] 27397 // standing
+	setarray James_anims[1] 27392 // idle
+	setarray James_anims[2] 27402 // moving
+	setarray James_anims[3] 27422 // jumping
+	setarray James_anims[4] 27432 // falling
+	setarray James_anims[5] 27427 // ducking
+	setarray James_anims[6] 27437 // crawling
+	setarray James_anims[7] 27452 // kicking
+	setarray James_anims[8] 27462 // swimming
+	setarray James_anims[9] 27492 // pain
+	setarray James_anims[10] 27492 // dying
+	setarray James_anims[11] 27432 // jetpack
+	setarray James_anims[12] 17455 // on bike
+	setarray James_anims[13] 0 // firing
+	setarray James_anims[14] 27497 // dead
+	setarray James_anims[15] 0 // walking
+	setarray James_anims[16] 27511 // horse
+
+	setarray James_anims[30] 23 // x size
+	setarray James_anims[31] 23 // y size
+	setarray James_anims[32] 0 // default colour
+	}
+	else
+ifand CHAR_APP 1
+ ifn TIMEZONE 2 // Bionic arm James
+	{
+	setarray James_anims[0] 25640 // standing
+	setarray James_anims[1] 25630 // idle
+	setarray James_anims[2] 25645 // moving
+	setarray James_anims[3] 25665 // jumping
+	setarray James_anims[4] 25670 // falling
+	setarray James_anims[5] 25675 // ducking
+	setarray James_anims[6] 25680 // crawling
+	setarray James_anims[7] 25715 // kicking
+	setarray James_anims[8] 25705 // swimming
+	setarray James_anims[9] 25725 // pain
+	setarray James_anims[10] 25725 // dying
+	setarray James_anims[11] 25665 // jetpack
+	setarray James_anims[12] 17505 // on bike
+	setarray James_anims[13] 0 // firing
+	setarray James_anims[14] 25730 // dead
+	setarray James_anims[15] 0 // walking
+	setarray James_anims[16] 21767 // horse
+
+	setarray James_anims[30] 23 // x size
+	setarray James_anims[31] 23 // y size
+	setarray James_anims[32] 0 // default colour
+	}
+else // default James
+	{
+	setarray James_anims[0] 5245 // standing
+	setarray James_anims[1] 5260 // idle
+	setarray James_anims[2] 5265 // moving
+	setarray James_anims[3] 5300 // jumping
+	setarray James_anims[4] 5305 // falling
+	setarray James_anims[5] 5331 // ducking
+	setarray James_anims[6] 5336 // crawling
+	setarray James_anims[7] 5285 // kicking
+	setarray James_anims[8] 5310 // swimming
+	setarray James_anims[9] 5351 // pain
+	setarray James_anims[10] 5351 // dying
+	setarray James_anims[11] 5305 // jetpack
+	setarray James_anims[12] 17455 // on bike
+	setarray James_anims[13] 0 // firing
+	setarray James_anims[14] 5358 // dead
+	setarray James_anims[15] 0 // walking
+	setarray James_anims[16] 0 // horse
+
+	setarray James_anims[30] 23 // x size
+	setarray James_anims[31] 23 // y size
+	setarray James_anims[32] 0 // default colour
+	}
+
+// Zaxtor anims =============================================================
+
+setarray Zaxtor_anims[0] 5501 // standing
+setarray Zaxtor_anims[1] 5611 // idle
+setarray Zaxtor_anims[2] 5521 // moving
+setarray Zaxtor_anims[3] 5551 // jumping
+setarray Zaxtor_anims[4] 5561 // falling
+setarray Zaxtor_anims[5] 5587 // ducking
+setarray Zaxtor_anims[6] 5592 // crawling
+setarray Zaxtor_anims[7] 5541 // kicking
+setarray Zaxtor_anims[8] 5566 // swimming
+setarray Zaxtor_anims[9] 5605 // pain
+setarray Zaxtor_anims[10] 5605 // dying
+setarray Zaxtor_anims[11] 5551 // jetpack
+setarray Zaxtor_anims[12] 17490 // on bike
+setarray Zaxtor_anims[13] 0 // firing
+setarray Zaxtor_anims[14] 5610 // dead
+setarray Zaxtor_anims[15] 0 // walking
+ife VOLUME 3 setarray Zaxtor_anims[16] 21827 // ringworld horse
+else setarray Zaxtor_anims[16] 21792 // horse
+
+setarray Zaxtor_anims[30] 22 // x size
+setarray Zaxtor_anims[31] 22 // y size
+setarray Zaxtor_anims[32] 21 // default colour
+
+// Merlijn anims
+
+ifand CHAR_APP 131072 // slayer merlijn
+	{
+	setarray Merlijn_anims[0] 39302 // standing
+	setarray Merlijn_anims[1] 39302 // idle
+	setarray Merlijn_anims[2] 39307 // moving
+	setarray Merlijn_anims[3] 39337 // jumping
+	setarray Merlijn_anims[4] 39342 // falling
+	setarray Merlijn_anims[5] 39357 // ducking
+	setarray Merlijn_anims[6] 39362 // crawling
+	setarray Merlijn_anims[7] 39347 // kicking
+	setarray Merlijn_anims[8] 39372 // swimming
+	setarray Merlijn_anims[9] 39382 // pain
+	setarray Merlijn_anims[10] 39382 // dying
+	setarray Merlijn_anims[11] 0 // jetpack
+	setarray Merlijn_anims[12] 21837 // on bike
+	setarray Merlijn_anims[13] 39327 // firing
+	setarray Merlijn_anims[14] 39386 // dead
+	setarray Merlijn_anims[15] 0 // walking
+	setarray Merlijn_anims[16] 21817 // horse
+	}
+else
+ifand CHAR_APP 4 // Berserker Suit
+	{
+	setarray Merlijn_anims[0] 26452 // standing
+	setarray Merlijn_anims[1] 26447 // idle
+	setarray Merlijn_anims[2] 26452 // moving
+	setarray Merlijn_anims[3] 26492 // jumping
+	setarray Merlijn_anims[4] 26497 // falling
+	setarray Merlijn_anims[5] 26502 // ducking
+	setarray Merlijn_anims[6] 26507 // crawling
+	setarray Merlijn_anims[7] 26472 // kicking
+	setarray Merlijn_anims[8] 26517 // swimming
+	setarray Merlijn_anims[9] 26547 // pain
+	setarray Merlijn_anims[10] 26547 // dying
+	setarray Merlijn_anims[11] 0 // jetpack
+	setarray Merlijn_anims[12] 21837 // on bike
+	setarray Merlijn_anims[13] 26482 // firing
+	setarray Merlijn_anims[14] 26551 // dead
+	setarray Merlijn_anims[15] 0 // walking
+	setarray Merlijn_anims[16] 21817 // horse
+	}
+else
+	{
+	setarray Merlijn_anims[0] 6400 // standing
+	setarray Merlijn_anims[1] 6425 // idle
+	setarray Merlijn_anims[2] 6400 // moving
+	setarray Merlijn_anims[3] 9225 // jumping
+	setarray Merlijn_anims[4] 9230 // falling
+	setarray Merlijn_anims[5] 9245 // ducking
+	setarray Merlijn_anims[6] 9250 // crawling
+	setarray Merlijn_anims[7] 9235 // kicking
+	setarray Merlijn_anims[8] 9260 // swimming
+	setarray Merlijn_anims[9] 6420 // pain
+	setarray Merlijn_anims[10] 6420 // dying
+	setarray Merlijn_anims[11] 0 // jetpack
+	setarray Merlijn_anims[12] 17470 // on bike
+	setarray Merlijn_anims[13] 10485 // firing
+	setarray Merlijn_anims[14] 6424 // dead
+	setarray Merlijn_anims[15] 0 // walking
+	setarray Merlijn_anims[16] 21782 // horse
+	}
+
+setarray Merlijn_anims[30] 23 // x size
+setarray Merlijn_anims[31] 23 // y size
+setarray Merlijn_anims[32] 21 // default colour
+
+// Highwire anims =====================================================================
+
+ifand CHAR_APP 16 // SMART Highwire?
+ ifn TIMEZONE 23 // prison level
+	{
+	setarray Highwire_anims[0] 31744 // standing
+	setarray Highwire_anims[1] 30121 // idle
+	setarray Highwire_anims[2] 31749 // moving
+	setarray Highwire_anims[3] 31779 // jumping
+	setarray Highwire_anims[4] 31784 // falling
+	setarray Highwire_anims[5] 31789 // ducking
+	setarray Highwire_anims[6] 31794 // crawling
+	setarray Highwire_anims[7] 31769 // kicking
+	setarray Highwire_anims[8] 31804 // swimming
+	setarray Highwire_anims[9] 31814 // pain
+	setarray Highwire_anims[10] 31814 // dying
+	setarray Highwire_anims[11] 0 // jetpack
+	setarray Highwire_anims[12] 17450 // on bike
+	setarray Highwire_anims[13] 0 // firing
+	setarray Highwire_anims[14] 31818 // dead
+	setarray Highwire_anims[15] 0 // walking
+	setarray Highwire_anims[16] 0 // horse
+	}
+else
+	{
+	setarray Highwire_anims[0] 6013 // standing
+	setarray Highwire_anims[1] 6019 // idle
+	setarray Highwire_anims[2] 6028 // moving
+	setarray Highwire_anims[3] 6048 // jumping
+	setarray Highwire_anims[4] 6058 // falling
+	setarray Highwire_anims[5] 6099 // ducking
+	setarray Highwire_anims[6] 6104 // crawling
+	setarray Highwire_anims[7] 6063 // kicking
+	setarray Highwire_anims[8] 9270 // swimming
+	setarray Highwire_anims[9] 6119 // pain
+	setarray Highwire_anims[10] 6119 // dying
+	setarray Highwire_anims[11] 0 // jetpack
+	setarray Highwire_anims[12] 17450 // on bike
+	setarray Highwire_anims[13] 0 // firing
+	setarray Highwire_anims[14] 6124 // dead
+	setarray Highwire_anims[15] 0 // walking
+	setarray Highwire_anims[16] 21787 // horse
+	}
+
+setarray Highwire_anims[30] 24 // x size
+setarray Highwire_anims[31] 24 // y size
+setarray Highwire_anims[32] 3 // default colour
+
+// Sang anims
+
+ifand CHAR_APP 2 // Crusader Sang?
+	{
+	setarray Sang_anims[0] 23966 // standing
+	setarray Sang_anims[1] 24011 // idle
+	setarray Sang_anims[2] 23808 // moving
+	setarray Sang_anims[3] 23971 // jumping
+	setarray Sang_anims[4] 23971 // falling
+	setarray Sang_anims[5] 23976 // ducking
+	setarray Sang_anims[6] 23981 // crawling
+	setarray Sang_anims[7] 23813 // kicking
+	setarray Sang_anims[8] 24001 // swimming
+	setarray Sang_anims[9] 23828 // pain
+	setarray Sang_anims[10] 23828 // dying
+	setarray Sang_anims[11] 0 // jetpack
+	setarray Sang_anims[12] 17475 // on bike
+	setarray Sang_anims[13] 0 // firing
+	setarray Sang_anims[14] 23833 // dead
+	setarray Sang_anims[15] 0 // walking
+	setarray Sang_anims[16] 21807 // horse
+	}
+else // default Sang
+	{
+	setarray Sang_anims[0] 17560 // standing
+	setarray Sang_anims[1] 13207 // idle
+	setarray Sang_anims[2] 6336 // moving
+	setarray Sang_anims[3] 17565 // jumping
+	setarray Sang_anims[4] 17565 // falling
+	setarray Sang_anims[5] 17570 // ducking
+	setarray Sang_anims[6] 17575 // crawling
+	setarray Sang_anims[7] 17555 // kicking
+	setarray Sang_anims[8] 17585 // swimming
+	setarray Sang_anims[9] 6356 // pain
+	setarray Sang_anims[10] 6356 // dying
+	setarray Sang_anims[11] 0 // jetpack
+	setarray Sang_anims[12] 17460 // on bike
+	setarray Sang_anims[13] 10282 // firing
+	setarray Sang_anims[14] 6361 // dead
+	setarray Sang_anims[15] 0 // walking
+	setarray Sang_anims[16] 0 // horse
+	}
+
+setarray Sang_anims[30] 22 // x size
+setarray Sang_anims[31] 22 // y size
+setarray Sang_anims[32] 21 // default colour
+
+// Rusty anims =============================================================================
+
+ifand CHAR_APP 65536
+ ifn TIMEZONE 23 // prison level
+  ifn TIMEZONE 21 // ww2 Rusty
+	{
+	setarray Rusty_anims[0] 38149 // standing
+	setarray Rusty_anims[1] 38144 // idle
+	setarray Rusty_anims[2] 38154 // moving
+	setarray Rusty_anims[3] 38174 // jumping
+	setarray Rusty_anims[4] 38179 // falling
+	setarray Rusty_anims[5] 38194 // ducking
+	setarray Rusty_anims[6] 38199 // crawling
+	setarray Rusty_anims[7] 38184 // kicking
+	setarray Rusty_anims[8] 38209 // swimming
+	setarray Rusty_anims[9] 38219 // pain
+	setarray Rusty_anims[10] 38219 // dying
+	setarray Rusty_anims[11] 0 // jetpack
+	setarray Rusty_anims[12] 17445 // on bike
+	setarray Rusty_anims[13] 0 // firing
+	setarray Rusty_anims[14] 38224 // dead
+	setarray Rusty_anims[15] 0 // walking
+	setarray Rusty_anims[16] 21822 // horse
+	}
+else
+ifand CHAR_APP 32
+ifn TIMEZONE 21 // not the WW2 Rusty?
+ ifn TIMEZONE 23 // prison level
+	{
+	setarray Rusty_anims[0] 27869 // standing
+	setarray Rusty_anims[1] 27864 // idle
+	setarray Rusty_anims[2] 27869 // moving
+	setarray Rusty_anims[3] 27894 // jumping
+	setarray Rusty_anims[4] 27889 // falling
+	setarray Rusty_anims[5] 27899 // ducking
+	setarray Rusty_anims[6] 27904 // crawling
+	setarray Rusty_anims[7] 27874 // kicking
+	setarray Rusty_anims[8] 27914 // swimming
+	setarray Rusty_anims[9] 27944 // pain
+	setarray Rusty_anims[10] 27944 // dying
+	setarray Rusty_anims[11] 0 // jetpack
+	setarray Rusty_anims[12] 17445 // on bike
+	setarray Rusty_anims[13] 0 // firing
+	setarray Rusty_anims[14] 27949 // dead
+	setarray Rusty_anims[15] 0 // walking
+	setarray Rusty_anims[16] 21822 // horse
+	}
+else
+	{
+	setarray Rusty_anims[0] 6656 // standing
+	setarray Rusty_anims[1] 6676 // idle
+	setarray Rusty_anims[2] 6656 // moving
+	setarray Rusty_anims[3] 6686 // jumping
+	setarray Rusty_anims[4] 6691 // falling
+	setarray Rusty_anims[5] 6728 // ducking
+	setarray Rusty_anims[6] 6733 // crawling
+	setarray Rusty_anims[7] 6661 // kicking
+	setarray Rusty_anims[8] 6703 // swimming
+	setarray Rusty_anims[9] 6696 // pain
+	setarray Rusty_anims[10] 6696 // dying
+	setarray Rusty_anims[11] 0 // jetpack
+	setarray Rusty_anims[12] 17445 // on bike
+	setarray Rusty_anims[13] 0 // firing
+	setarray Rusty_anims[14] 6702 // dead
+	setarray Rusty_anims[15] 0 // walking
+	setarray Rusty_anims[16] 21812 // horse
+	}
+
+setarray Rusty_anims[30] 23 // x size
+setarray Rusty_anims[31] 23 // y size
+setarray Rusty_anims[32] 12 // default colour
+
+// Geoffrey anims =========================================================================
+
+setarray Geoffrey_anims[0] 6681 // standing
+setarray Geoffrey_anims[1] 6456 // idle
+setarray Geoffrey_anims[2] 6430 // moving
+setarray Geoffrey_anims[3] 6585 // jumping
+setarray Geoffrey_anims[4] 6590 // falling
+setarray Geoffrey_anims[5] 6595 // ducking
+setarray Geoffrey_anims[6] 6600 // crawling
+setarray Geoffrey_anims[7] 6610 // kicking
+setarray Geoffrey_anims[8] 11132 // swimming
+setarray Geoffrey_anims[9] 6450 // pain
+setarray Geoffrey_anims[10] 6450 // dying
+setarray Geoffrey_anims[11] 6585 // jetpack
+setarray Geoffrey_anims[12] 17480 // on bike
+setarray Geoffrey_anims[13] 0 // firing
+setarray Geoffrey_anims[14] 6455 // dead
+setarray Geoffrey_anims[15] 0 // walking
+setarray Geoffrey_anims[16] 21797 // horse
+
+setarray Geoffrey_anims[30] 21 // x size
+setarray Geoffrey_anims[31] 21 // y size
+setarray Geoffrey_anims[32] 21 // default colour
+
+// Mikko anims
+
+ifand CHAR_APP 8
+	{
+	setarray Mikko_anims[0] 27682 // standing
+	setarray Mikko_anims[1] 27677 // idle
+	setarray Mikko_anims[2] 27687 // moving
+	setarray Mikko_anims[3] 27707 // jumping
+	setarray Mikko_anims[4] 27707 // falling
+	setarray Mikko_anims[5] 27712 // ducking
+	setarray Mikko_anims[6] 27717 // crawling
+	setarray Mikko_anims[7] 27737 // kicking
+	setarray Mikko_anims[8] 27727 // swimming
+	setarray Mikko_anims[9] 27747 // pain
+	setarray Mikko_anims[10] 27747 // dying
+	setarray Mikko_anims[11] 0 // jetpack
+	setarray Mikko_anims[12] 21832 // on bike
+	setarray Mikko_anims[13] 0 // firing
+	setarray Mikko_anims[14] 27752 // dead
+	setarray Mikko_anims[15] 0 // walking
+	setarray Mikko_anims[16] 0 // horse
+	}
+else
+	{
+	setarray Mikko_anims[0] 6932 // standing
+	setarray Mikko_anims[1] 20074 // idle
+	setarray Mikko_anims[2] 6912 // moving
+	setarray Mikko_anims[3] 6944 // jumping
+	setarray Mikko_anims[4] 6949 // falling
+	setarray Mikko_anims[5] 6983 // ducking
+	setarray Mikko_anims[6] 7144 // crawling
+	setarray Mikko_anims[7] 7149 // kicking
+	setarray Mikko_anims[8] 14399 // swimming
+	setarray Mikko_anims[9] 6937 // pain
+	setarray Mikko_anims[10] 6937 // dying
+	setarray Mikko_anims[11] 0 // jetpack
+	setarray Mikko_anims[12] 17845 // on bike
+	setarray Mikko_anims[13] 0 // firing
+	setarray Mikko_anims[14] 6943 // dead
+	setarray Mikko_anims[15] 0 // walking
+	setarray Mikko_anims[16] 21772 // horse
+	}
+
+setarray Mikko_anims[30] 23 // x size
+setarray Mikko_anims[31] 23 // y size
+setarray Mikko_anims[32] 11 // default colour
+
+// Player Cultist =========================================
+
+ifg PARMOUR 100 // super armour?
+	{
+	setarray Cultist_anims[0] 36400 // standing
+	setarray Cultist_anims[1] 36352 // idle
+	setarray Cultist_anims[2] 36357 // moving
+	setarray Cultist_anims[3] 36378 // jumping
+	setarray Cultist_anims[4] 36383 // falling
+	setarray Cultist_anims[5] 36465 // ducking
+	setarray Cultist_anims[6] 36475 // crawling
+	setarray Cultist_anims[7] 36388 // kicking
+	setarray Cultist_anims[8] 36420 // swimming
+	setarray Cultist_anims[9] 36441 // pain
+	setarray Cultist_anims[10] 36443 // dying
+	setarray Cultist_anims[11] 36378 // jetpack
+	setarray Cultist_anims[12] 17460 // on bike
+	setarray Cultist_anims[13] 36400 // firing
+	setarray Cultist_anims[14] 36448 // dead
+	setarray Cultist_anims[15] 0 // walking
+	}
+else
+	{
+	setarray Cultist_anims[0] 7728 // standing
+	setarray Cultist_anims[1] 7680 // idle
+	setarray Cultist_anims[2] 7685 // moving
+	setarray Cultist_anims[3] 7706 // jumping
+	setarray Cultist_anims[4] 7711 // falling
+	setarray Cultist_anims[5] 15230 // ducking
+	setarray Cultist_anims[6] 15240 // crawling
+	setarray Cultist_anims[7] 7716 // kicking
+	setarray Cultist_anims[8] 7748 // swimming
+	setarray Cultist_anims[9] 7769 // pain
+	setarray Cultist_anims[10] 7771 // dying
+	setarray Cultist_anims[11] 7706 // jetpack
+	setarray Cultist_anims[12] 17460 // on bike
+	setarray Cultist_anims[13] 7728 // firing
+	setarray Cultist_anims[14] 7776 // dead
+	setarray Cultist_anims[15] 0 // walking
+	}
+
+setarray Cultist_anims[30] 23 // x size
+setarray Cultist_anims[31] 23 // y size
+setarray Cultist_anims[32] 0 // default colour
+
+// Bombshell =============================================================
+
+setarray Bombshell_anims[0] 10365 // standing
+setarray Bombshell_anims[1] 14075 // idle
+setarray Bombshell_anims[2] 9909 // moving
+setarray Bombshell_anims[3] 10370 // jumping
+setarray Bombshell_anims[4] 10380 // falling
+setarray Bombshell_anims[5] 10375 // ducking
+setarray Bombshell_anims[6] 11142 // crawling
+setarray Bombshell_anims[7] 9936 // kicking
+setarray Bombshell_anims[8] 14474 // swimming
+setarray Bombshell_anims[9] 9929 // pain
+setarray Bombshell_anims[10] 9929 // dying
+setarray Bombshell_anims[11] 10370 // jetpack
+setarray Bombshell_anims[12] 17500 // on bike
+setarray Bombshell_anims[13] 0 // firing
+setarray Bombshell_anims[14] 9934 // dead
+setarray Bombshell_anims[15] 0 // walking
+
+setarray Bombshell_anims[30] 22 // x size
+setarray Bombshell_anims[31] 22 // y size
+setarray Bombshell_anims[32] 0 // default colour
+
+// Maarten anims ==================================================
+
+ife cur_weap 1
+	{
+	setarray Maarten_anims[0] 26305 // standing
+	setarray Maarten_anims[13] 26310 // firing
+	}
+else
+	{
+	setarray Maarten_anims[0] 26320 // standing
+	setarray Maarten_anims[13] 26320 // firing
+	}
+
+setarray Maarten_anims[1] 26280 // idle
+setarray Maarten_anims[2] 26285 // moving
+setarray Maarten_anims[3] 26335 // jumping
+setarray Maarten_anims[4] 26330 // falling
+setarray Maarten_anims[5] 26360 // ducking
+setarray Maarten_anims[6] 26350 // crawling
+setarray Maarten_anims[7] 26340 // kicking
+setarray Maarten_anims[8] 26365 // swimming
+setarray Maarten_anims[9] 26375 // pain
+setarray Maarten_anims[10] 26375 // dying
+
+setarray Maarten_anims[11] 0 // jetpack
+setarray Maarten_anims[12] 17470 // on bike
+
+setarray Maarten_anims[14] 26380 // dead
+setarray Maarten_anims[15] 0 // walking
+
+setarray Maarten_anims[30] 21 // x size
+setarray Maarten_anims[31] 21 // y size
+setarray Maarten_anims[32] 0 // default colour
+
+// Jane anims ==========================================================
+
+setarray Jane_anims[0] 12801 // standing
+setarray Jane_anims[1] 12954 // idle
+setarray Jane_anims[2] 12811 // moving
+
+setarray Jane_anims[5] 12846 // ducking
+setarray Jane_anims[6] 12856 // crawling
+setarray Jane_anims[7] 12831 // kicking
+setarray Jane_anims[8] 14464 // swimming
+setarray Jane_anims[9] 12871 // pain
+setarray Jane_anims[10] 12871 // dying
+
+setarray Jane_anims[12] 17500 // on bike
+setarray Jane_anims[13] 0 // firing
+setarray Jane_anims[14] 12876 // dead
+setarray Jane_anims[15] 0 // walking
+
+setarray Jane_anims[30] 22 // x size
+setarray Jane_anims[31] 22 // y size
+setarray Jane_anims[32] 3 // default colour
+
+ife jane_wings 1
+	{
+	setarray Jane_anims[3] 13676 // jumping
+	setarray Jane_anims[4] 13681 // falling
+	setarray Jane_anims[11] 13676 // jetpack
+	}
+else
+	{
+	setarray Jane_anims[3] 12841 // jumping
+	setarray Jane_anims[4] 12851 // falling
+	setarray Jane_anims[11] 0 // jetpack
+	}
+
+// Micky anims ====================================================
+ifand CHAR_APP 256
+ ifn TIMEZONE 13 // not the Hell arc levels with James?
+	{
+	setarray Micky_anims[0] 26731 // standing
+	setarray Micky_anims[1] 26812 // idle
+	setarray Micky_anims[2] 26701 // moving
+	setarray Micky_anims[3] 26746 // jumping
+	setarray Micky_anims[4] 26741 // falling
+	setarray Micky_anims[5] 26751 // ducking
+	setarray Micky_anims[6] 26756 // crawling
+	setarray Micky_anims[7] 26721 // kicking
+	setarray Micky_anims[8] 26766 // swimming
+	setarray Micky_anims[9] 26796 // pain
+	setarray Micky_anims[10] 26796 // dying
+	setarray Micky_anims[11] 0 // jetpack
+	setarray Micky_anims[12] 21832 // on bike
+	setarray Micky_anims[13] 26731 // firing
+	setarray Micky_anims[14] 26801 // dead
+	setarray Micky_anims[15] 0 // walking
+	setarray Micky_anims[16] 0 // horse
+	}
+else
+	{
+	setarray Micky_anims[0] 16389 // standing
+	setarray Micky_anims[1] 16384 // idle
+	setarray Micky_anims[2] 16394 // moving
+	setarray Micky_anims[3] 17525 // jumping
+	setarray Micky_anims[4] 17530 // falling
+	setarray Micky_anims[5] 16425 // ducking
+	setarray Micky_anims[6] 17535 // crawling
+	setarray Micky_anims[7] 17515 // kicking
+	setarray Micky_anims[8] 17545 // swimming
+	setarray Micky_anims[9] 16419 // pain
+	setarray Micky_anims[10] 16419 // dying
+	setarray Micky_anims[11] 0 // jetpack
+	setarray Micky_anims[12] 17465 // on bike
+	setarray Micky_anims[13] 0 // firing
+	setarray Micky_anims[14] 16424 // dead
+	setarray Micky_anims[15] 0 // walking
+	setarray Micky_anims[16] 21777 // horse
+	}
+
+setarray Micky_anims[30] 23 // x size
+setarray Micky_anims[31] 23 // y size
+setarray Micky_anims[32] 0 // default colour
+
+// Snowfall anims
+ife TIMEZONE 6
+{
+setarray Snowfall_anims[0] 15599 // standing
+setarray Snowfall_anims[1] 15599 // idle
+setarray Snowfall_anims[2] 24987 // moving
+setarray Snowfall_anims[3] 15405 // jumping
+setarray Snowfall_anims[4] 15405 // falling
+setarray Snowfall_anims[5] 24982 // ducking
+setarray Snowfall_anims[6] 15405 // crawling
+setarray Snowfall_anims[7] 15405 // kicking
+setarray Snowfall_anims[8] 15405 // swimming
+setarray Snowfall_anims[9] 15526 // pain
+setarray Snowfall_anims[10] 15526 // dying
+setarray Snowfall_anims[11] 15405 // jetpack
+setarray Snowfall_anims[12] 0 // on bike
+setarray Snowfall_anims[13] 0 // firing
+setarray Snowfall_anims[14] 15528 // dead
+setarray Snowfall_anims[15] 15405 // walking
+setarray Snowfall_anims[16] 0 // horse
+}
+else
+{
+setarray Snowfall_anims[0] 20736 // standing
+setarray Snowfall_anims[1] 20888 // idle
+setarray Snowfall_anims[2] 20741 // moving
+setarray Snowfall_anims[3] 20766 // jumping
+setarray Snowfall_anims[4] 20771 // falling
+setarray Snowfall_anims[5] 20893 // ducking
+setarray Snowfall_anims[6] 20898 // crawling
+setarray Snowfall_anims[7] 20933 // kicking
+setarray Snowfall_anims[8] 20913 // swimming
+setarray Snowfall_anims[9] 20882 // pain
+setarray Snowfall_anims[10] 20882 // dying
+setarray Snowfall_anims[11] 20761 // jetpack
+setarray Snowfall_anims[12] 17495 // on bike
+setarray Snowfall_anims[13] 20736 // firing
+setarray Snowfall_anims[14] 20886 // dead
+setarray Snowfall_anims[15] 0 // walking
+setarray Snowfall_anims[16] 21802 // horse
+}
+
+setarray Snowfall_anims[30] 21 // x size
+setarray Snowfall_anims[31] 21 // y size
+setarray Snowfall_anims[32] 0 // default colour
+
+// Rosa anims ======================================================================
+
+setarray Rosa_anims[0] 34565 // standing
+setarray Rosa_anims[1] 34560 // idle
+setarray Rosa_anims[2] 34575 // moving
+setarray Rosa_anims[3] 34595 // jumping
+setarray Rosa_anims[4] 34600 // falling
+setarray Rosa_anims[5] 34615 // ducking
+setarray Rosa_anims[6] 34620 // crawling
+setarray Rosa_anims[7] 34605 // kicking
+setarray Rosa_anims[8] 34630 // swimming
+setarray Rosa_anims[9] 34665 // pain
+setarray Rosa_anims[10] 34665 // dying
+setarray Rosa_anims[11] 0 // jetpack
+setarray Rosa_anims[12] 27264 // on bike
+setarray Rosa_anims[13] 34565 // firing
+setarray Rosa_anims[14] 34670 // dead
+setarray Rosa_anims[15] 0 // walking
+setarray Rosa_anims[16] 0 // horse
+
+setarray Rosa_anims[30] 22 // x size
+setarray Rosa_anims[31] 22 // y size
+setarray Rosa_anims[32] 0 // default colour
+
+// Kagura anims =========================================
+
+ifand CHAR_APP 32768 // red coat
+	{
+	setarray Kagura_anims[0] 34684 // standing
+	setarray Kagura_anims[1] 34679 // idle
+	setarray Kagura_anims[2] 34689 // moving
+	setarray Kagura_anims[3] 34729 // jumping
+	setarray Kagura_anims[4] 34734 // falling
+	setarray Kagura_anims[5] 34739 // ducking
+	setarray Kagura_anims[6] 34744 // crawling
+	setarray Kagura_anims[7] 34719 // kicking
+	setarray Kagura_anims[8] 34754 // swimming
+	setarray Kagura_anims[9] 34764 // pain
+	setarray Kagura_anims[10] 34764 // dying
+	setarray Kagura_anims[11] 0 // jetpack
+	setarray Kagura_anims[12] 27264 // on bike
+	setarray Kagura_anims[13] 34719 // firing
+	setarray Kagura_anims[14] 34769 // dead
+	setarray Kagura_anims[15] 0 // walking
+	setarray Kagura_anims[16] 27257 // horse
+	}
+else
+	{
+	setarray Kagura_anims[0] 27146 // standing
+	setarray Kagura_anims[1] 27141 // idle
+	setarray Kagura_anims[2] 27151 // moving
+	setarray Kagura_anims[3] 27191 // jumping
+	setarray Kagura_anims[4] 27196 // falling
+	setarray Kagura_anims[5] 27201 // ducking
+	setarray Kagura_anims[6] 27206 // crawling
+	setarray Kagura_anims[7] 27181 // kicking
+	setarray Kagura_anims[8] 27216 // swimming
+	setarray Kagura_anims[9] 27226 // pain
+	setarray Kagura_anims[10] 27226 // dying
+	setarray Kagura_anims[11] 0 // jetpack
+	setarray Kagura_anims[12] 27264 // on bike
+	setarray Kagura_anims[13] 27171 // firing
+	setarray Kagura_anims[14] 27231 // dead
+	setarray Kagura_anims[15] 0 // walking
+	setarray Kagura_anims[16] 27257 // horse
+	}
+
+setarray Kagura_anims[30] 23 // x size
+setarray Kagura_anims[31] 23 // y size
+setarray Kagura_anims[32] 0 // default colour
+
+// Wheaton anims
+
+setarray Wheaton_anims[0] 35956 // standing
+setarray Wheaton_anims[1] 35951 // idle
+setarray Wheaton_anims[2] 35956 // moving
+setarray Wheaton_anims[3] 35991 // jumping
+setarray Wheaton_anims[4] 35996 // falling
+setarray Wheaton_anims[5] 36001 // ducking
+setarray Wheaton_anims[6] 36006 // crawling
+setarray Wheaton_anims[7] 35981 // kicking
+setarray Wheaton_anims[8] 36016 // swimming
+setarray Wheaton_anims[9] 36031 // pain
+setarray Wheaton_anims[10] 36031 // dying
+setarray Wheaton_anims[11] 0 // jetpack
+setarray Wheaton_anims[12] 27264 // on bike
+setarray Wheaton_anims[13] 0 // firing
+setarray Wheaton_anims[14] 36036 // dead
+setarray Wheaton_anims[15] 0 // walking
+setarray Wheaton_anims[16] 0 // horse
+
+setarray Wheaton_anims[30] 22 // x size
+setarray Wheaton_anims[31] 22 // y size
+setarray Wheaton_anims[32] 0 // default colour
+
+// No suit Micky
+
+setarray NSMicky_anims[0] 19129 // standing
+setarray NSMicky_anims[1] 19129 // idle
+setarray NSMicky_anims[2] 19134 // moving
+setarray NSMicky_anims[3] 19134 // jumping
+setarray NSMicky_anims[4] 19134 // falling
+setarray NSMicky_anims[5] 19134 // ducking
+setarray NSMicky_anims[6] 19134 // crawling
+setarray NSMicky_anims[7] 19134 // kicking
+setarray NSMicky_anims[8] 19134 // swimming
+setarray NSMicky_anims[9] 19134 // pain
+setarray NSMicky_anims[10] 19134 // dying
+setarray NSMicky_anims[11] 0 // jetpack
+setarray NSMicky_anims[12] 17465 // on bike
+setarray NSMicky_anims[13] 0 // firing
+setarray NSMicky_anims[14] 19134 // dead
+setarray NSMicky_anims[15] 0 // walking
+
+setarray NSMicky_anims[30] 22 // x size
+setarray NSMicky_anims[31] 22 // y size
+setarray NSMicky_anims[32] 0 // default colour
+
+// Cassandra anims
+
+setarray Cassandra_anims[0] 17925 // standing
+setarray Cassandra_anims[1] 17925 // idle
+setarray Cassandra_anims[2] 17930 // moving
+setarray Cassandra_anims[3] 17935 // jumping
+setarray Cassandra_anims[4] 17940 // falling
+setarray Cassandra_anims[5] 17950 // ducking
+setarray Cassandra_anims[6] 17955 // crawling
+setarray Cassandra_anims[7] 17930 // kicking
+setarray Cassandra_anims[8] 17930 // swimming
+setarray Cassandra_anims[9] 17930 // pain
+setarray Cassandra_anims[10] 17930 // dying
+setarray Cassandra_anims[11] 17930 // jetpack
+setarray Cassandra_anims[12] 17455 // on bike
+setarray Cassandra_anims[13] 0 // firing
+setarray Cassandra_anims[14] 17925 // dead
+setarray Cassandra_anims[15] 31685 // walking
+
+setarray Cassandra_anims[30] 22 // x size
+setarray Cassandra_anims[31] 22 // y size
+setarray Cassandra_anims[32] 0 // default colour
+
+ife CHAR C_JAMES copy James_anims[0] player_anims[0] 33
+else ife CHAR C_ZAXTOR copy Zaxtor_anims[0] player_anims[0] 33
+else ife CHAR C_MERLIJN copy Merlijn_anims[0] player_anims[0] 33
+else ife CHAR C_HIGHWIRE copy Highwire_anims[0] player_anims[0] 33
+else ife CHAR C_SANG copy Sang_anims[0] player_anims[0] 33
+else ife CHAR C_RUSTY copy Rusty_anims[0] player_anims[0] 33
+else ife CHAR C_GEOFFREY copy Geoffrey_anims[0] player_anims[0] 33
+else ife CHAR C_MIKKO copy Mikko_anims[0] player_anims[0] 33
+else ife CHAR C_CULTIST copy Cultist_anims[0] player_anims[0] 33
+else ife CHAR C_BOMBSHELL copy Bombshell_anims[0] player_anims[0] 33
+else ife CHAR C_MAARTEN copy Maarten_anims[0] player_anims[0] 33
+else ife CHAR C_JANE copy Jane_anims[0] player_anims[0] 33
+else ife CHAR C_MICKY copy Micky_anims[0] player_anims[0] 33
+else ife CHAR C_SNOWFALL copy Snowfall_anims[0] player_anims[0] 33
+else ife CHAR 15 copy NSMicky_anims[0] player_anims[0] 33
+else ife CHAR C_ROSA copy Rosa_anims[0] player_anims[0] 33
+else ife CHAR C_KAGURA copy Kagura_anims[0] player_anims[0] 33
+else ife CHAR C_WHEATON copy Wheaton_anims[0] player_anims[0] 33
+else ife CHAR C_CASSANDRA copy Cassandra_anims[0] player_anims[0] 33
+
+ends
+
+// action DUMMY_STAND -1404 1 5
+// action DUMMY_RUN -1404 4 5 1 10
+action DUMMY_RUN -1404 4 5 1 10
+action DUMMY_STAND -1404 1 5 1 10
+
+appendevent EVENT_ANIMATESPRITES
+ifactor DUMMY_PLAYER
+	{
+	gettspr[].tsprcstat tsprite_temp
+	gettspr[].tsprpal tsprite_temp2
+	ifn tsprite_temp2 4
+	ifand tsprite_temp 2
+	xorvar tsprite_temp 2
+	settspr[].tsprcstat tsprite_temp
+	ifaction DUMMY_STAND
+	{
+	gettspr[].tsprpicnum tsprite_temp
+		switch extra_saved
+		case C_JAMES add tsprite_temp James_anims[0] break
+		case C_ZAXTOR add tsprite_temp Zaxtor_anims[0] break
+		case C_MERLIJN add tsprite_temp Merlijn_anims[0] break
+		case C_HIGHWIRE add tsprite_temp Highwire_anims[0] break
+		case C_SANG add tsprite_temp Sang_anims[0] break
+		case C_RUSTY add tsprite_temp Rusty_anims[0] break
+		case C_GEOFFREY add tsprite_temp Geoffrey_anims[0] break
+		case C_MIKKO add tsprite_temp Mikko_anims[0] break
+		case C_CULTIST add tsprite_temp Cultist_anims[0] break
+		case C_BOMBSHELL add tsprite_temp Bombshell_anims[0] break
+		case C_MAARTEN add tsprite_temp Maarten_anims[0] break
+		case C_JANE add tsprite_temp Jane_anims[0] break
+		case C_MICKY add tsprite_temp Micky_anims[0] break
+		case C_SNOWFALL add tsprite_temp Snowfall_anims[0] break
+		case 15 add tsprite_temp NSMicky_anims[0] break
+		case C_ROSA add tsprite_temp Rosa_anims[0] break
+		case C_KAGURA add tsprite_temp Kagura_anims[0] break
+		case C_WHEATON add tsprite_temp Wheaton_anims[0] break
+		case C_CASSANDRA add tsprite_temp Cassandra_anims[0] break
+		default add tsprite_temp player_anims[0] break
+		endswitch
+	settspr[].tsprpicnum tsprite_temp
+	}
+	else
+	ifaction DUMMY_RUN
+		{
+		gettspr[].tsprpicnum tsprite_temp
+		switch extra_saved
+			case C_JAMES add tsprite_temp James_anims[2] break
+			case C_ZAXTOR add tsprite_temp Zaxtor_anims[2] break
+			case C_MERLIJN add tsprite_temp Merlijn_anims[2] break
+			case C_HIGHWIRE add tsprite_temp Highwire_anims[2] break
+			case C_SANG add tsprite_temp Sang_anims[2] break
+			case C_RUSTY add tsprite_temp Rusty_anims[2] break
+			case C_GEOFFREY add tsprite_temp Geoffrey_anims[2] break
+			case C_MIKKO add tsprite_temp Mikko_anims[2] break
+			case C_CULTIST add tsprite_temp Cultist_anims[2] break
+			case C_BOMBSHELL add tsprite_temp Bombshell_anims[2] break
+			case C_MAARTEN add tsprite_temp Maarten_anims[2] break
+			case C_JANE add tsprite_temp Jane_anims[2] break
+			case C_MICKY add tsprite_temp Micky_anims[2] break
+			case C_SNOWFALL add tsprite_temp Snowfall_anims[2] break
+			case 15 add tsprite_temp NSMicky_anims[2] break
+			case C_ROSA add tsprite_temp Rosa_anims[2] break
+			case C_KAGURA add tsprite_temp Kagura_anims[2] break
+			case C_WHEATON add tsprite_temp Wheaton_anims[2] break
+			case C_CASSANDRA add tsprite_temp Cassandra_anims[2] break
+			default add tsprite_temp player_anims[2] break
+		endswitch
+		settspr[].tsprpicnum tsprite_temp
+		}
+	ife extra_saved -1
+		{
+		ifn player_anims[30] 0 settspr[].tsprxrepeat player_anims[30]
+		gettspr[].tsprpal tsprite_temp2
+		ifn tsprite_temp2 4
+			{
+			ifn player_anims[31] 0 settspr[].tspryrepeat player_anims[31]
+			}
+		}
+	else
+		{
+		// handle the x size
+		switch extra_saved
+			case C_JAMES settspr[].tsprxrepeat James_anims[30] break
+			case C_ZAXTOR settspr[].tsprxrepeat Zaxtor_anims[30] break
+			case C_MERLIJN settspr[].tsprxrepeat Merlijn_anims[30] break
+			case C_HIGHWIRE settspr[].tsprxrepeat Highwire_anims[30] break
+			case C_SANG settspr[].tsprxrepeat Sang_anims[30] break
+			case C_RUSTY settspr[].tsprxrepeat Rusty_anims[30] break
+			case C_GEOFFREY settspr[].tsprxrepeat Geoffrey_anims[30] break
+			case C_MIKKO settspr[].tsprxrepeat Mikko_anims[30] break
+			case C_CULTIST settspr[].tsprxrepeat Cultist_anims[30] break
+			case C_BOMBSHELL settspr[].tsprxrepeat Bombshell_anims[30] break
+			case C_MAARTEN settspr[].tsprxrepeat Maarten_anims[30] break
+			case C_JANE settspr[].tsprxrepeat Jane_anims[30] break
+			case C_MICKY settspr[].tsprxrepeat Micky_anims[30] break
+			case C_SNOWFALL settspr[].tsprxrepeat Snowfall_anims[30] break
+			case 15 settspr[].tsprxrepeat NSMicky_anims[30] break
+			case C_ROSA settspr[].tsprxrepeat Rosa_anims[30] break
+			case C_KAGURA settspr[].tsprxrepeat Kagura_anims[30] break
+			case C_WHEATON settspr[].tsprxrepeat Wheaton_anims[30] break
+			case C_CASSANDRA settspr[].tsprxrepeat Cassandra_anims[30] break
+			case 30 settspr[].tsprxrepeat 22 break
+			default settspr[].tsprxrepeat player_anims[30] break
+		endswitch
+		// handle the y size
+		gettspr[].tsprpal tsprite_temp2
+		ifn tsprite_temp2 4 // not the shadow sprite?
+		switch extra_saved
+			case C_JAMES settspr[].tspryrepeat James_anims[31] break
+			case C_ZAXTOR settspr[].tspryrepeat Zaxtor_anims[31] break
+			case C_MERLIJN settspr[].tspryrepeat Merlijn_anims[31] break
+			case C_HIGHWIRE settspr[].tspryrepeat Highwire_anims[31] break
+			case C_SANG settspr[].tspryrepeat Sang_anims[31] break
+			case C_RUSTY settspr[].tspryrepeat Rusty_anims[31] break
+			case C_GEOFFREY settspr[].tspryrepeat Geoffrey_anims[31] break
+			case C_MIKKO settspr[].tspryrepeat Mikko_anims[31] break
+			case C_CULTIST settspr[].tspryrepeat Cultist_anims[31] break
+			case C_BOMBSHELL settspr[].tspryrepeat Bombshell_anims[31] break
+			case C_MAARTEN settspr[].tspryrepeat Maarten_anims[31] break
+			case C_JANE settspr[].tspryrepeat Jane_anims[31] break
+			case C_MICKY settspr[].tspryrepeat Micky_anims[31] break
+			case C_SNOWFALL settspr[].tspryrepeat Snowfall_anims[31] break
+			case 15 settspr[].tspryrepeat NSMicky_anims[31] break
+			case C_ROSA settspr[].tspryrepeat Rosa_anims[31] break
+			case C_KAGURA settspr[].tspryrepeat Kagura_anims[31] break
+			case C_WHEATON settspr[].tspryrepeat Wheaton_anims[31] break
+			case C_CASSANDRA settspr[].tspryrepeat Cassandra_anims[31] break
+			case 30 settspr[].tspryrepeat 22 break
+			default settspr[].tspryrepeat player_anims[31] break
+		endswitch
+		ifand sprite[].cstat 16 nullop else
+			{
+			seta[].xrepeat tspr[].tsprxrepeat
+			seta[].yrepeat tspr[].tspryrepeat
+			}
+		}
+	}
+endevent
+
+// character appearence
+appendevent EVENT_ENTERLEVEL
+switch VOLUME
+case -1
+	// inherit previous value
+	break
+case 0 // Episode 1
+	switch LEVEL
+	case 26 // TRAINING
+	// inherit previous value
+	break
+	default
+	set CHAR_APP 0 // only default appearances here
+	break
+	endswitch
+	break
+	case 1 // Episode 2
+	switch LEVEL
+	case 22 // MOON_DX.MAP
+	case 30 // VTEST.MAP
+	// inherit previous value
+	break
+	default
+	set CHAR_APP 0 // only default appearances here
+	break
+	endswitch
+	break
+case 2 // Episode 3
+	switch LEVEL
+		case 32 // GARMID.MAP
+		// inherit previous value
+		break
+		case 0 // INTRO3.MAP
+		case 1 // AMCB.MAP
+		case 2 // BRIEF6.MAP
+		case 3 // X64-2M.MAP
+		case 4 // AMCB.MAP
+		case 5 // EINTRO.MAP
+		case 6 // EGY_HUB.MAP
+		case 7 // CATAC.MAP
+		case 8 // SS.MAP
+		case 9 // EGLOKE_PT1.MAP
+		case 10 // EGLOKE_PT2.MAP
+		case 11 // SANGTOMB.MAP
+		case 12 // LESANG.MAP
+		case 13 // SS2.MAP
+		case 46 // X64-2M_2.MAP
+		set CHAR_APP 1 // James' bionic hand
+		break
+		default // everything else
+		set CHAR_APP 3 // James' bionic hand + Rehab Sang
+		break
+	endswitch
+	break
+	case 3 // Episode 4
+	set CHAR_APP 3 // James' bionic hand + Crusader Sang
+		switch LEVEL
+		case 3
+		case 5 // Easthaven
+			ifand ELYSION_QUEST 4096 or CHAR_APP 64 // Ringworld James
+			ifand ELYSION_QUEST 64 or CHAR_APP 128 // beard micky
+			ifand ELYSION_QUEST 131072 or CHAR_APP 4 // Berserker Merlijn
+			ifand ELYSION_QUEST 512 or CHAR_APP 32 // Rusty's hunter outfit
+			set just_changed 1
+			break
+		case 8 // Wetlands
+		case 9 // Forest
+		case 10 // Saelmere
+		case 15 // Darrow lake
+		case 16 // knight's fall
+		case 17 // Necropolis
+		case 18 // cave diving in the sky
+		case 19 // underworld
+		case 20 // Mongur
+		case 22 // Grotto
+		case 23 // Library
+		case 25 // palace
+		case 26 // dragonfight
+		case 27 // skytown
+		case 28 // temple
+		case 29 // snow temple
+		case 31 // boat battle
+		case 32 // dehydration
+		case 34 // Roesia's den
+		case 36 // battle prep
+		case 37 // town attack
+		case 41 // pyramid
+		case 42 // Skytown cutscene
+		case 43 // Anchors aweigh
+		case 52 // ending cutscene
+		case 55 // rowgar
+		case 56 // necro keep
+		case 57 // naaldir
+		case 58 // home base
+		case 60
+			or CHAR_APP 64 // Ringworld James
+			or CHAR_APP 128 // beard micky
+			or CHAR_APP 4 // Berserker Merlijn
+			or CHAR_APP 32 // Rusty's hunter outfit
+			break
+		default // everything else
+		break
+		endswitch
+	break
+case 4 // Episode 5
+set CHAR_APP 503 // Bionic, Crusader, Hunter, Berserk, SMART HW, SMART2
+	switch LEVEL
+		case 21
+		case 55
+		case 58
+			or CHAR_APP 512 // Abyss James
+			break
+		case 30
+		case 49
+		case 50
+		case 51
+		case 56
+		case 57
+		case 60
+		case 61
+		case 62
+		case 63
+			or CHAR_APP 512 // Abyss James
+			or CHAR_APP 8 // Neo Mikko
+			or CHAR_APP 65536 // Slick Rusty
+			break
+		case 31
+			or CHAR_APP 512 // Abyss James
+			or CHAR_APP 8 // Neo Mikko
+			or CHAR_APP 32768 // Coat Kagura
+			or CHAR_APP 65536 // Slick Rusty
+			or CHAR_APP 131072 // Slayer Merlijn
+			break
+		default // everything else
+			break
+	endswitch
+	ife stream_mode 1 set CHAR_APP 503
+	break
+case 5 // Episode 6
+	set CHAR_APP 98303 // All upgrades
+	break
+case 6 // EDF Usermaps
+	// inherit previous value
+	break
+endswitch
+endevent

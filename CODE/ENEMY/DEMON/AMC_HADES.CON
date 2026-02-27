@@ -1,0 +1,322 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile HADESPHERE
+
+action AHADESFLOAT 0 1 5 1 0
+
+action AHADESBLAST 5 3 5 1 10
+action AHADESBIGBLAST 20 3 5 1 15
+
+action AHADESBLAST_R 15 3 5 -1 4
+action AHADESBIGBLAST_R 30 3 5 -1 4
+
+action AHADESPAIN 35 1 5 1 10
+action AHADESDYING 40 6 1 1 12
+action AHADESDEAD 46 1 1 1 10
+
+/*Hades needs to destroy enemies in their way. Not move and attack towards the player.*/
+action AHADES_SEEKENEMY 50 4 5 1 10 /*Hades hunts down enemies that interferes them.*/
+
+
+move MHADESFLOAT 128 0
+move MHADESFLOATUP 128 -128
+move MHADESFLOATDOWN 128 128
+move MHADESFLOATDOWNSLOW 0 32
+move MHADESTOP 0
+
+ai AIHADESFLOAT AHADESFLOAT MHADESFLOAT geth
+ai AIHADESFLOATUP AHADESFLOAT MHADESFLOATUP geth getv
+ai AIHADESFLOATDOWN AHADESFLOAT MHADESFLOATDOWN geth getv
+
+ai AIHADESSHOOT AHADESBLAST MHADESFLOATDOWNSLOW
+ai AIHADESBIGSHOOT AHADESBIGBLAST MHADESFLOATDOWNSLOW
+
+ai AIHADES_SHRUNK AHADESFLOAT SATYRWALKVELS furthestdir
+
+ai AIHADESPAIN AHADESPAIN MHADESFLOATDOWNSLOW getv
+ai AIHADESDYING AHADESDYING MHADESFLOATDOWNSLOW getv
+ai AIHADESDEAD AHADESDEAD MHADESTOP
+
+useractor enemystayput HADESPHERESTAYPUT 300 AHADESFLOAT
+state monst_glow
+cactor HADESPHERE
+enda
+
+useractor enemy HADESPHERE 300 AHADESFLOAT
+
+ifai 0
+	{
+	set MONSTER_FLAGS 1
+	state monst_glow
+	spriteflags NORMAL_ENEMY_TRU
+	spawn SHOOTME
+	sound HADES_ALERT
+	geta[].pal actor_pal
+	ife actor_pal 24 { spritepal 0 setactorsoundpitch THISACTOR HADES_ALERT -512 strength 1000 sizeat 40 40 }
+	else { strength 300 sizeat 30 30 }
+	set kag_charge_inc 2
+	ai AIHADESFLOAT
+	cstator 257
+	}
+
+
+ifai AIHADESDEAD
+	{
+	sizeto 30 22
+	fall
+	move 0
+
+    ifhitweapon
+	    {
+	      ifwasweapon RADIUSEXPLOSION
+	      {
+	        state squish_sounds
+			state standard_jibs
+	        killit
+	      }
+	      break
+	    }
+
+	}
+else
+ifai AIHADESDYING
+	{
+	sizeto 30 22
+	cstat 0
+	strength 0
+	ifactioncount 4 fall
+	ifactioncount 6
+		{
+		state BODY_FALL_NOISES
+		spawn BLOODPOOL
+		ai AIHADESDEAD
+		}
+	}
+else
+ifai AIHADESPAIN
+	{
+	sub PAIN_AMOUNT 1
+	move MHADESTOP
+	ife PAIN_AMOUNT 0 ai AIHADESFLOAT
+	}
+else
+ifai AIHADES_SHRUNK
+	{
+	fall
+		ifcount SHRUNKDONECOUNT
+		  ai AIHADESFLOATUP
+		else ifcount SHRUNKCOUNT
+		  {
+		  sound ACTOR_UNSHRINK
+		ife actor_pal 24 sizeto 40 40 else sizeto 30 30
+		}
+		else
+		  state genericshrunkcode
+		break
+	}
+else
+ifaction AHADESBLAST_R
+{
+ifactioncount 3 ai AIHADESFLOAT
+}
+else
+ifaction AHADESBIGBLAST_R
+{
+ifactioncount 3 ai AIHADESFLOAT
+}
+else
+ifai AIHADESFLOAT
+{
+state checkfortarget
+ifcansee
+ ifcanseetarget
+  ifrnd 8
+  {
+  ifrnd 64 ife silence_damage 0 ai AIHADESBIGSHOOT else
+   ai AIHADESSHOOT
+   }
+   else
+ifrnd 128
+	{
+	 ifp phigher
+        ai AIHADESFLOATUP
+      else
+		{
+		geta[].z z
+		getp[].posz temp
+		ifg temp z ai AIHADESFLOATDOWN
+		}
+	}
+}
+else
+ifai AIHADESFLOATUP
+{
+state thisactor_getzrange
+ifcansee
+ ifcanseetarget
+  ifrnd 8
+  {
+  ifrnd 64 ai AIHADESBIGSHOOT else
+   ai AIHADESSHOOT
+   }
+   else
+ifrnd 16 ai AIHADESFLOAT
+}
+else
+ifai AIHADESFLOATDOWN
+{
+fall
+iffloordistl 8 fall
+state thisactor_getzrange
+ifcansee
+ ifcanseetarget
+  ifrnd 8
+  {
+  ifrnd 64 ai AIHADESBIGSHOOT else
+   ai AIHADESSHOOT
+   }
+   else
+ifrnd 16 ai AIHADESFLOAT
+}
+else
+ifai AIHADESSHOOT
+{
+state new_validatetarget
+ife my_target -1 ai AIHADESFLOAT
+state fronttowardstarget
+ifactioncount 2
+	{
+	sound HADES_FIRE
+	set PROJECTILE_TO_SHOOT 8243
+	state sang_enemyShootProjectile
+	action AHADESBIGBLAST_R
+	}
+ifactioncount 3
+	{
+	action AHADESBLAST_R
+	resetactioncount
+	}
+}
+else
+ifai AIHADESBIGSHOOT
+{
+state new_validatetarget
+ife my_target -1 ai AIHADESFLOAT
+state fronttowardstarget
+ifactioncount 3
+	{
+	sound HADES_BIGBLAST
+	set PROJECTILE_TO_SHOOT HADESBLASTH
+	state sang_enemyShootProjectile
+	action AHADESBIGBLAST_R
+	resetactioncount
+	}
+}
+
+state actor_knockback_state
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifg silence_damage 0
+	{
+	fall
+	sub silence_damage 1
+	state spawn_curse_particles
+	}
+
+ifhitweapon
+	{
+	state NEWGUNEFFECTS
+	ifwasweapon VOID_PLAYER_BOLT { sound EN_CURSE set silence_damage 150 }
+	ifwasweapon VOID_BOLT { sound EN_CURSE set silence_damage 300 }
+	ifwasweapon VOID_BLAST { sound EN_CURSE set silence_damage 900 }
+	guts JIBS6 1
+	state random_wall_jibs
+    ifwasweapon RPG
+	{ seta[].xvel 5 }
+	ifdead
+		{
+		state rf
+		addkills 1
+		ifwasweapon RADIUSEXPLOSION
+			{
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			state squish_sounds
+			spawn ENERGY_EXPLOSION
+			spawn 8433
+			killit
+			}
+		ifwasweapon RPG
+			{
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			state squish_sounds
+			spawn ENERGY_EXPLOSION
+			spawn 8433
+			killit
+			}
+		ifand proj_udata PROJ_GIB
+			{
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			shoot 11426
+			state squish_sounds
+			spawn ENERGY_EXPLOSION
+			spawn 8433
+			killit
+			}
+		sound HADES_DIE
+		sound PRESSURIZE
+		sizeto 30 22
+		geta[].z temp2
+		sub temp2 4096
+		espawn WFRAMES
+		seta[RETURN].pal 12
+		seta[RETURN].z temp2
+		ai AIHADESDYING
+		}
+	else ifg PAIN_AMOUNT 0 { sound HADES_PAIN ai AIHADESPAIN }
+	else ifrnd 16 { sound HADES_PAIN state PAIN_SKILL_LEVELADJUST ai AIHADESPAIN }
+	ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING ai AIHADES_SHRUNK }
+	}
+
+enda

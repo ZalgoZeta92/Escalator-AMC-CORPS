@@ -1,0 +1,355 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+The HOLLOW only moves when it's not in view, so it doesn't animate, just has a bunch of still frames.
+Of course it still has regular game logic for moving and attacking and such.
+--------------------------------------------------------------------------------
+*/
+
+var hollow_stopped 0 2
+
+action A_HOLLOW_START 0 1 5 1 12 // Starting frame, different from the idle frame
+action A_HOLLOW_IDLE 0 1 5 1 12
+action A_HOLLOW_SEEK 5 1 5 1 12
+action A_HOLLOW_STAND 5 1 5 1 12
+action A_HOLLOW_ATK1 10 1 5 1 12
+action A_HOLLOW_ATK2 15 1 5 1 12
+action A_HOLLOW_ATK3 20 1 5 1 12
+action A_HOLLOW_ATK4 25 1 5 1 12
+action A_HOLLOW_ATK5 30 1 5 1 12
+action A_HOLLOW_ATK6 35 1 5 1 12
+action A_HOLLOW_ATK7 40 1 5 1 12
+action A_HOLLOW_DYING 45 5 5 1 12
+action A_HOLLOW_DEAD 49
+
+move M_HOLLOW_WALK 512
+move M_HOLLOW_WALK_EXP 768
+ move M_HOLLOW_WALK_PRO 1024
+
+defstate hollow_scuffle 
+ife play_sound 0
+{
+ife ARTIFACTS_LOADOUT[CHAR] 3 set play_sound 1 // Minerva's amulet 
+else ife ARTIFACTS_LOADOUT[CHAR] 9 set play_sound 1 // Spirit Shawl 
+else ife HELMET_LOADOUT[CHAR] 4 ife player[].heat_on 1 set play_sound 1 // Ghost vision 
+else ife CHAR 18 set play_sound 1 // Wheaton's senses
+else set play_sound 0
+ife play_sound 1
+	{ 
+	ifrnd 96 sound HLW_STOP1 
+	else ifrnd 96 sound HLW_STOP2
+	else sound HLW_STOP3 
+	set play_sound 2 
+	}
+}
+ends
+
+defstate hollow_handlehasLOS
+	// If we're here, there is LOS
+	// Player not looking at them
+	set ANGLE_TO_ACTOR THISACTOR
+	state angleToFromPlayer
+
+	geta[PLAYER_IDENTITY].ang temp4
+
+	set temp2 angvar
+	sub temp2 512
+
+	set temp3 angvar
+	add temp3 512
+
+	ifl temp2 0
+		add temp2 2048
+
+	ifge temp3 2048
+		sub temp3 2048
+
+	ifl temp3 temp2
+	{
+		// we wrapped around the 0/2048 line, either case is enough
+		ifl temp4 temp3
+		{
+			state hollow_scuffle 
+			set hollow_stopped 1
+			set temp 1
+		}
+		else ifg temp4 temp2
+		{
+			state hollow_scuffle 
+			set hollow_stopped 1
+			set temp 1
+		}
+	}
+	else
+	{
+		// we didn't wrap around so needs to be inbetween [temp2-temp3]
+		ifge temp4 temp2
+			ifle temp4 temp3
+		{
+			state hollow_scuffle 
+			set hollow_stopped 1
+			set temp 1
+		}
+	}
+	ifg flash_banged 15 set hollow_stopped 0 // flashbang blocks the player's vision!!
+ends
+
+defstate hollow_checkshouldbestopped
+	// The hollow should stop if the player is looking at them
+	// With probably some exceptions for really dark rooms and such.
+	set hollow_stopped 0
+
+	// this should account for any part of the hollow and not just the feet or head
+	// The most reasonable check is probably to check the top, bottom and midway point of the sprite to conclude the player cannot see it anywhere.
+
+	// BOTTOM
+	geta[PLAYER_IDENTITY].z my_z
+	sub my_z 10000
+	seta[PLAYER_IDENTITY].z my_z
+	canseespr THISACTOR PLAYER_IDENTITY temp
+	add my_z 10000
+	seta[PLAYER_IDENTITY].z my_z
+
+	ife temp 1
+	{
+		state hollow_handlehasLOS
+		break
+	}
+
+	// TOP
+	set temp2 THISACTOR
+	state getspriteheight
+	abs return_getspriteheight
+	geta[].z z
+	set temp z
+	sub temp return_getspriteheight
+	seta[].z temp
+	geta[PLAYER_IDENTITY].z my_z
+	sub my_z 10000
+	seta[PLAYER_IDENTITY].z my_z
+	canseespr THISACTOR PLAYER_IDENTITY temp
+	add my_z 10000
+	seta[PLAYER_IDENTITY].z my_z
+	seta[].z z
+
+	ife temp 1
+	{
+		state hollow_handlehasLOS
+		break
+	}
+
+	// MIDDLE
+	div return_getspriteheight 2
+	set temp z
+	sub temp return_getspriteheight
+	seta[].z temp
+	geta[PLAYER_IDENTITY].z my_z
+	sub my_z 10000
+	seta[PLAYER_IDENTITY].z my_z
+	canseespr THISACTOR PLAYER_IDENTITY temp
+	add my_z 10000
+	seta[PLAYER_IDENTITY].z my_z
+	seta[].z z
+
+	ife temp 1
+	{
+		state hollow_handlehasLOS
+		break
+	}
+
+	// if we're here there is no LOS
+	set hollow_stopped 0
+ends
+
+defstate hollow_setattackframe
+	ifrnd 42 action A_HOLLOW_ATK1
+	else ifrnd 42 action A_HOLLOW_ATK2
+	else ifrnd 42 action A_HOLLOW_ATK3
+	else ifrnd 42 action A_HOLLOW_ATK4
+	else ifrnd 42 action A_HOLLOW_ATK5
+	else ifrnd 42 action A_HOLLOW_ATK6
+	else ifrnd 42 action A_HOLLOW_ATK7
+	else action A_HOLLOW_ATK1
+ends
+
+defstate hollow_attack
+	move STOP
+
+	state new_validatetarget
+
+	ife my_target -1
+		action A_HOLLOW_SEEK
+	else
+	{
+		set HITSCAN_TO_ACTOR my_target
+		state hitscanTo
+
+		ifn hitwall -1
+			set my_target -1
+		
+		ife my_target -1
+			action A_HOLLOW_SEEK
+		else
+		{
+			state fronttowardstarget
+
+			ifrnd 16
+			{
+				sound RIPPER_SCRATCH
+				// No distance check on the player here. If the hollow got close enough, you get shwacked. Otherwise you can just keep running and be fine which sucks
+				ife my_target PLAYER_IDENTITY
+					{
+					set temp 5
+					rand temp2 10
+					mul temp2 SKILL_LEVEL // increase damage based on skill level
+					ifg P_SPIRIT_ARMOUR 0 mul temp2 2 // spirit armour protects, but takes x2 damage
+					add temp temp2
+					ifg player[].jetpack_on 0 
+						{
+						sound PLYR_JETPACK_OFF
+						sound SHORT_CIRCUIT
+						stopsound JAWINGS_ON
+						setp[].jetpack_on 0
+						}
+					seta[my_target].htextra temp
+					}
+				else seta[my_target].htextra 50
+				seta[my_target].htpicnum SPELL8 // set damage to spirit ie goes through armour
+			}
+
+			dist temp THISACTOR my_target
+			ifg temp 2048
+				action A_HOLLOW_SEEK
+		}
+	}
+ends
+
+useractor enemy HOLLOW 150 A_HOLLOW_START
+	fall
+	ifaction A_HOLLOW_START
+	{
+		cstat 256
+		strength 150
+		sizeat 40 40
+		state monst_glow
+		action A_HOLLOW_IDLE
+	}
+
+	state hollow_checkshouldbestopped
+
+	ifaction A_HOLLOW_START
+		nullop
+	else ife hollow_stopped 1
+		move STOP
+
+	ife hollow_stopped 0
+	{
+	set play_sound 0
+		ifaction A_HOLLOW_IDLE
+		{
+			move STOP
+			state smartpoint_angletoplayer
+
+			ifn my_target -1
+				action A_HOLLOW_SEEK
+
+			// Alert sound maybe?
+		}
+		else ifaction A_HOLLOW_SEEK
+		{
+			ifge SKILL_LEVEL 4 
+			{
+				ifmove M_HOLLOW_WALK_PRO nullop
+				else move M_HOLLOW_WALK_PRO geth
+			}
+			else ife SKILL_LEVEL 3
+			{
+				ifmove M_HOLLOW_WALK_EXP nullop
+				else move M_HOLLOW_WALK_EXP geth
+			}
+			else 
+			{
+				ifmove M_HOLLOW_WALK nullop
+				else move M_HOLLOW_WALK geth
+			}
+
+			state smartpoint_angletoplayer
+			
+			// if another HOLLOW is very close, randomize the angle a bit
+			findnearactor HOLLOW 512 temp
+			ifn temp -1
+			{
+				geta[].ang angvar
+				ifrnd 128
+					add angvar 512
+				else
+					sub angvar 512
+					
+				seta[].ang angvar
+			}
+				
+			ifn my_target -1
+			{
+				ifrnd 64
+				{
+					ldist temp THISACTOR my_target
+					ifl temp 1536
+						state hollow_setattackframe
+				}
+			}
+		}
+		else ifaction A_HOLLOW_ATK1
+			state hollow_attack
+		else ifaction A_HOLLOW_ATK2
+			state hollow_attack
+		else ifaction A_HOLLOW_ATK3
+			state hollow_attack
+		else ifaction A_HOLLOW_ATK4
+			state hollow_attack
+		else ifaction A_HOLLOW_ATK5
+			state hollow_attack
+		else ifaction A_HOLLOW_ATK6
+			state hollow_attack
+		else ifaction A_HOLLOW_ATK7
+			state hollow_attack
+		// Death & dying
+		else ifaction A_HOLLOW_DYING
+		{
+			move STOP
+			strength 0
+			ifactioncount 5 { state rf state BODY_FALL_NOISES action A_HOLLOW_DEAD }
+		}
+		else ifaction A_HOLLOW_DEAD
+			move STOP
+
+		
+		// Cannot be harmed by projectiles (unless you're not looking at it? maybe lure it into a projectile shooter?)
+		seta[].htextra -1
+	}
+
+ifhitweapon state MIA_GUN_STATE
+
+
+enda

@@ -1,0 +1,375 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+action A_BZOMB_KNEEL 30
+action A_BZOMB_RISE 30 5 1 1 18
+
+action A_BZOMB_START 0 1 5 1 10
+action A_BZOMB_IDLE 0 1 5 1 10
+action A_BZOMB_PREPATTACK 0 1 5 1 10
+
+action A_BZOMB_ATTACK 0 2 5 1 8
+action A_BZOMB_SEEK 10 4 5 1 16
+action A_BZOMB_SHRUNK 10 4 5 1 16
+
+action A_BZOMB_FREEZE 35 1 1 1 10
+action A_BZOMB_PAIN 35
+action A_BZOMB_GROW 35
+
+action A_BZOMB_DYING 35 4 1 1 12
+action A_BZOMB_DEAD 39
+
+action A_BZ_RISE 0 5 1 1 18
+
+defstate beyond_zombie_corpse
+ifaction 0
+{
+move STOP
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	soundonce BZ_REZ
+	ifrnd 64 soundonce JMOVE1 else
+	ifrnd 64 soundonce JMOVE2 else
+	ifrnd 64 soundonce JMOVE3 else
+	soundonce JMOVE4
+	action A_BZ_RISE
+	}
+}
+else
+ifaction A_BZ_RISE
+{
+move STOP faceplayer
+ifactioncount 5 
+	{
+	ifactor BZ_CORPSE1 cactor BEYOND_ZOMBIE1
+	ifactor BZ_CORPSE2 cactor BEYOND_ZOMBIE2
+	ifactor BZ_CORPSE3 cactor BEYOND_ZOMBIE3
+	ifactor BZ_CORPSE4 cactor BEYOND_ZOMBIE4
+	action A_BZOMB_START
+	resetactioncount
+	}
+}
+ends
+
+spriteshadow BZ_CORPSE1
+spriteshadow BZ_CORPSE2
+spriteshadow BZ_CORPSE3
+spriteshadow BZ_CORPSE4
+
+useractor notenemy BZ_CORPSE1 state beyond_zombie_corpse enda
+useractor notenemy BZ_CORPSE2 state beyond_zombie_corpse enda
+useractor notenemy BZ_CORPSE3 state beyond_zombie_corpse enda
+useractor notenemy BZ_CORPSE4 state beyond_zombie_corpse enda
+
+damageeventtile BEYOND_ZOMBIE1
+damageeventtile BEYOND_ZOMBIE2
+damageeventtile BEYOND_ZOMBIE3
+damageeventtile BEYOND_ZOMBIE4
+
+defstate beyond_zombie_state
+fall
+ifaction 0 action A_BZOMB_START
+ifaction A_BZOMB_START
+{
+	cstat 257
+	
+	strength 150
+	sizeat 24 24
+	state monst_glow
+	espawn SHOOTME
+	seta[RETURN].pal 1
+	set faction_flag 4
+	ifactor BEYOND_ZOMBIE4 
+		{
+		ifspritepal 21 set NPC_SHIELD 400
+		else spritepal 12
+		set actor_pal sprite[].pal
+		}
+	// spawn FLAMMABLE if the actor in question is flammable. NOT needed as long as SHOOTME still exists, otherwise enemy will take double fire damage (I guess?)
+	action A_BZOMB_IDLE
+}
+
+ifactor BEYOND_ZOMBIE4 ife actor_pal 21 state ENEMY_SHIELD_STUFF
+
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifaction A_BZOMB_KNEEL
+{
+move STOP
+ifpdistl 8192
+	{
+	soundonce BZ_REZ
+	ifrnd 64 soundonce JMOVE1 else
+	ifrnd 64 soundonce JMOVE2 else
+	ifrnd 64 soundonce JMOVE3 else
+	soundonce JMOVE4
+	action A_BZOMB_RISE
+	}
+}
+else
+ifaction A_BZOMB_RISE
+{
+move STOP faceplayer
+ifactioncount 5 action A_BZOMB_IDLE
+}
+else
+
+ifaction A_BZOMB_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1
+	{
+		ifrnd 128 sound BH_SIG1
+		else sound BH_SIG2
+		action A_BZOMB_SEEK
+	}
+}
+
+// Death & dying
+else ifaction A_BZOMB_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state zombie_jibs
+			killit
+		}
+	}
+}
+else ifaction A_BZOMB_DYING
+{
+	strength 0
+	ifactioncount 4 { state rf state BODY_FALL_NOISES action A_BZOMB_DEAD }
+}
+
+// Status effects
+else ifaction A_BZOMB_FREEZE state frozen_code
+else ifaction A_BZOMB_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+else ifaction A_BZOMB_SHRUNK
+{
+	ifmove ZSOLDIERRUNVELS { } // need to do this cause we're not using ai routines anymore
+	else
+		move ZSOLDIERRUNVELS geth fleeenemy
+
+	ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+		state new_shrunkcode
+	else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+	{
+		state unshrink
+		sizeto 24 24
+	}
+	else // after regrow, switch back to regular action
+	{
+		state endshrunkenstate
+		action A_BZOMB_SEEK
+	}
+}
+
+else ifaction A_BZOMB_PAIN
+{
+	sub PAIN_AMOUNT 1
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_BZOMB_DYING
+		else action A_BZOMB_SEEK
+	}
+}
+
+else ifaction A_BZOMB_SEEK
+{
+	ifmove ZSOLDIERRUNVELS nullop
+	else move ZSOLDIERRUNVELS geth
+	
+	ifrnd 1
+		{
+		ifrnd 128 sound BH_ROAM1 else ifrnd 128 sound BH_ROAM2
+		}
+
+	state checkfortarget
+
+	ifn my_target -1
+	{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+
+		ifl RANDOM_CHANCE SKILLCHANCE
+		{
+			set INTERNALCOUNT 0
+			ldist temp THISACTOR my_target
+			ifl temp 16384 action A_BZOMB_PREPATTACK
+		}
+	}
+}
+else ifaction A_BZOMB_PREPATTACK
+{
+	move STOP
+	state new_validatetarget
+
+	ife my_target -1
+		action A_BZOMB_SEEK
+	else
+	{
+		state fronttowardstarget
+		
+		add INTERNALCOUNT 1
+		
+		ife INTERNALCOUNT 8
+			action A_BZOMB_ATTACK
+	}
+}
+
+else ifaction A_BZOMB_ATTACK
+{
+	move STOP
+	state new_validatetarget
+
+	ife my_target -1
+		action A_BZOMB_SEEK
+	else
+	{
+		state fronttowardstarget
+
+		ifactioncount 1
+		{
+				
+				set PROJECTILE_TO_SHOOT ENEMY_BULLET
+				ifactor BEYOND_ZOMBIE1 state PISTOL_FIRE_SOUNDS 
+				else ifactor BEYOND_ZOMBIE3 state PARADIGM_SMG_SOUNDS 
+				else ifactor BEYOND_ZOMBIE4 state MJ12_RIFLE_SOUNDS 
+				else state SIL_SMG_SOUNDS 
+				state sang_enemyShootProjectile
+
+			ife PERFMODE 1
+			 ifcansee
+				{
+				set gunsmoke_z 8244
+				set gunsmoke_angle 0
+				state spawn_gunsmoke_z
+				set gunsmoke_z 6044
+				espawn 16115
+				state spawn_muzzleflash
+				state npc_pistolshell
+				}
+
+			ifactor BEYOND_ZOMBIE1 action A_BZOMB_SEEK
+			else ifrnd 16 action A_BZOMB_SEEK
+			else resetactioncount
+		}
+	}
+}
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	//spawn BLOOD
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+
+		ifwasweapon RADIUSEXPLOSION state zombie_jibs
+		else
+		ifwasweapon RPG state zombie_jibs
+		else
+		ifand proj_udata PROJ_GIB state zombie_jibs
+		else
+		ifand proj_udata 8192
+		 {
+		 shoot SPARK2 shoot SPARK2 shoot SPARK2
+		 spawn ELECTROCUTE_GUY
+		 killit
+		 }
+		else
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_BZOMB_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_BZOMB_FREEZE }
+		else ifg fire_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			ifrnd 128 sound ZSOLD_DIE1
+			else sound ZSOLD_DIE2
+			spawn ONFIREGUY
+			killit
+		}
+		else ifg spirit_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 1
+			guts JIBS3 6
+			spawn SPIRIT_DEATH_GUY
+			killit
+		}
+		else ifg energy_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 4
+			guts JIBS3 6
+			spawn DISINTIGRATE_GUY
+			killit
+		}
+		else
+		{
+			ifrnd 128 sound BH_DIE1
+			else sound BH_DIE2
+			action A_BZOMB_DYING
+			spawn BLOODPOOL
+		}
+	}
+
+	else // not dead
+	{
+		ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_BZOMB_SHRUNK }
+
+		ifg PAIN_AMOUNT 0 action A_BZOMB_PAIN
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST action A_BZOMB_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_BZOMB_IDLE { state PAIN_SKILL_LEVELADJUST action A_BZOMB_PAIN }
+	}
+}
+
+state actor_knockback_state
+state checksquished
+ends
+
+useractor enemy BEYOND_ZOMBIE1 150 A_BZOMB_START state beyond_zombie_state enda
+useractor enemy BEYOND_ZOMBIE2 150 A_BZOMB_START state beyond_zombie_state enda
+useractor enemy BEYOND_ZOMBIE3 150 A_BZOMB_START state beyond_zombie_state enda
+useractor enemy BEYOND_ZOMBIE4 150 A_BZOMB_START state beyond_zombie_state enda

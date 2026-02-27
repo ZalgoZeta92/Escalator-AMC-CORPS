@@ -1,0 +1,425 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Translator text
+--------------------------------------------------------------------------------
+*/
+
+// ELYSION TRANSLATOR LOGS
+
+string 2200 ^32Cpl. Torres, EDF BC PANAMA
+string 2201 It's been 2 months since we crashed on the ringworld. No sign of
+string 2202 any other Terrans so far, just damn monsters. The natives are
+string 2203 identical to us, no idea how or why. They're helpful but very
+string 2204 cautious. At least we won't starve, but we're preserving ammo
+string 2205 and weaponry where possible. No idea if I'll make it home...
+
+string 2206 ^32Cpl. Wyatt, EDF BC PANAMA
+string 2207 Don't know if I was lucky to live, or unlucky to come here. The
+string 2208 Panama went down when we came near the ringworld; no idea how
+string 2209 many lost souls there are out the 6000 or so aboard. We were
+string 2210 scattered all around this continent...whilst it has humans
+string 2211 here, it also has horrible monsters. Just my damn luck.
+
+string 2212 ^32Sgt. Santiago, EDF BC PANAMA
+string 2213 CO Blake set up an FOB at the crashsite and organised us into
+string 2214 scouting groups; not sure what he expects us to find. This place
+string 2215 is bigger than anything I ever seen before. Don't even know what
+string 2216 the hell the mission is; whole thing was classified deep ultra.
+string 2217 All I've heard was that we were searching for someone. Here?!
+
+string 2218 ^32Cpl. Petterson, EDF BC PANAMA
+string 2219 Spiders jumped me, and stuck me up here. Jokes' on them, I took
+string 2220 a hit from one of those damn archers and it's bleeding very
+string 2221 badly. If they're hoping for a live meal they're shit out of luck.
+string 2222 I hope Torres is alright...Wyatt's a self-centred prick. If by a
+string 2223 stroke of luck someone gets this, tell my sisters I love 'em.
+
+// ABYSS TEXT
+
+string 2224 ^32The Translator beeps, hangs for a few tense moments, then
+string 2225 ^32spits out an error. The closest language match found was
+string 2226 ^32Ancient Sumer. Whatever language the text is in, it's truly
+string 2227 ^32Antediluvian in nature...and unmistakably human as well.
+
+// AMC MUSEUM
+
+string 2228 ^32James Stanfield, alongside Jane Ashford and Minerva Armitage
+string 2229 Veteran of the Pitfiend invasion back in the 2000s, Stanfield has
+string 2230 led a decorated career in the EDF and now is the de-facto leader of
+string 2231 the AMC Squad. Courageous, brave, but fairly reckless; his longtime
+string 2232 nemesis Magnus Giesler (not pictured) is still at large. James lost
+string 2233 his right arm in a classified encounter above Arsia Mons colony.
+
+string 2234 ^32Zaxtor Znort, alongside Skyhv Knawvkiov
+string 2235 Zaxtor Znort is a veteran of the Oblivion Wars; he battled
+string 2236 an army of Cycloids and eventually defeated Galbaland. When
+string 2237 not fighting to save Earth or the rainforests of Madagascar,
+string 2238 Zaxtor works alongside his fellow cryptoprocta-ferox people
+string 2239 in rebuilding after an asteroid attack by Galbaland.
+
+string 2240 ^32Merlijn Van Oostrum
+string 2241 A mysterious knight who appeared in the Netherlands one day with
+string 2242 his brother Maarten (not pictured) They defended the country
+string 2243 against an attack by a self-proclaimed Necromancer. Noble and
+string 2244 just, Merlijn is searching for his lost brother who disappeared a
+string 2245 few years ago after the Necromancer's defeat.
+
+string 2246 ^32Highwire, alongside Vladmir Lebedev
+string 2247 A former commander for the EDF, Highwire left to spearhead a
+string 2248 rebellion against the Empirical Union alongside Lebedev. Smart,
+string 2249 crafty and spry for his age, Highwire (real name unknown) is known
+string 2250 for his love of old progressive rock music. He worked alongside
+string 2251 James as his CO during the pitfiend invasion.
+
+string 2252 ^32Kagura Takahashi
+string 2253 A demon hunter from the Akai Kiba Clan, she has vast knowledge
+string 2254 of spirits and demons. Her family and clan was devastated
+string 2255 and betrayed by her adversary Rikka, a hunter who has complete
+string 2256 control over demons. She is tasked with bringing Rikka to trial
+string 2257 and is aided by an ancient cursed sword and spirit called Yo.
+
+string 2258 ^32Sangluss
+string 2259 A powerful magic user, Sang uses his abilities to defend
+string 2260 mankind. Whilst sometimes overly flippant, Sang has worked
+string 2261 with the AMC squad and is one of the most valued members.
+string 2262 Whilst coming to terms with his abilities, he was trained
+string 2263 by the elusive Cair Dore.
+
+string 2264 ^32Rusty Nails
+string 2265 A Gunslinger by nature, Rusty has travelled the solar system
+string 2266 and battled Cultists for many years. Cool, collected but also
+string 2267 ruthless at times, he has battled his nemesis Dr Jekyll around
+string 2268 the globe and still hunts the crazed former nazi scientist to
+string 2269 this day.
+
+string 2270 ^32Geoffrey
+string 2271 An elusive hacker; when asked about his history for this
+string 2272 collection, Geoffrey told us that he was related to Royalty
+string 2273 and also 10 former US presidents. All we can say is that he
+string 2274 likes to keep secrets and harbours an extensive collection
+string 2275 of authentic doujinshi.
+
+string 2276 ^32Mikko Sandt
+string 2277 Visionary, Entrepreneur, Master of fate - Mikko Sandt is
+string 2278 the glorious leader of MS Corp industries. With his self-
+string 2279 created wealth due to his revolutionary portal technology,
+string 2280 Sandt drags mankind kicking and screaming into a new golden
+string 2281 age. ^8Text donated by MS Corp industries
+
+string 2282 ^32Dr Micky Crisp
+string 2283 A graduate of the EDF university of 'Stralia, Micky is
+string 2284 both an Engineer and also an expert in bio-technology.
+string 2285 Reserved and polite, Micky meets any challenge that the world
+string 2286 throws at him with wit and ingenuity. Whilst some say he may
+string 2287 be a braggart, he has earned his place in the team tenfold.
+
+string 2288 ^32Snowfall
+string 2289 Seemingly appearing out of thin air, Snowfall is a kind and
+string 2290 courageous space explorer. He brings his knowledge of the
+string 2291 solar system to the team and has allowed AMC to extend their
+string 2292 reach in protecting Earth. His personal ship, the Snowflake,
+string 2293 is capable of FTL travel, a rare feat.
+
+// Lake
+string 2300 Here lies Pelinal's trusted companions; Goldsworn the Tower and
+string 2301 Ossaem the Temperate. Long did they fight by his side, as his
+string 2302 companions and most trusted advisors. Respect their deeds, as
+string 2303 you travel on Pelinal's path and his pilgrimage.
+
+string 2304 The sacred waters of the path flow from here into the grotto;
+string 2305 those who are willing to take the plunge of faith will be
+string 2306 rewarded with due progress on their pilgrimage through the
+string 2307 grotto, towards Knight's fall.
+
+// Grotto
+string 2308 On his path to Knight's Fall, Pelinal travelled to the Grotto of
+string 2309 Jungim the Seamaster, and stood before the throne of the man of
+string 2310 the sea. Jungim accepted Pelinal's fealty, and granted entry to
+string 2311 the aquaducts, another step on the journey.
+
+string 2312 One must light the torch to be granted an audience with Jungim's
+string 2313 throneroom; stand on the plate before the mighty seat of the
+string 2314 seamaster to be judged and granted ingress to the aquaducts.
+
+string 2315 ^32Cpl. Winters, EDF BC PANAMA
+string 2316 I'm fucked - I've fallen into this cavern and broken my legs. I
+string 2317 screamed for help for an hour solid and heard nothing. Don't
+string 2318 have any painkillers left...I don't have the balls to end it
+string 2319 though. Guess I should say sorry to my parents for ditching
+string 2320 them to join the EDF, hopefully Peter will take care of them.
+
+// Sangtemple
+string 2400 Finally! After being dormant for so long, finally another
+string 2401 lifeform to be tested on. They cried as I made them drink,
+string 2402 but eventually some got through the tower trial.
+string 2403 After the molten rock, tree root and blood, all that's
+string 2404 left to know is that the winds will guide the way.
+string 2405 At long last, the treasure of Hero's Hall shall be ours.
+
+// feel free to redact this, I'm just making up some bullshit
+string 2410 Beware, for as one may have passed the water trials, a greater
+string 2411 trial yet lies before them. The passage to <UNREADABLE> and as
+string 2412 the brew requires the molten rock of life, so too shall
+string 2413 <UNREADABLE> And as it is written, <UNREADABLE>
+string 2414 the Hero's Hall be permissible.
+
+// Sangdragonfight
+string 2420 Reading this means the ritual has stopped, most likely due to
+string 2421 Naaldir or Axon. If you wish to try your luck meeting him anyway,
+string 2422 take Svedr's blade and plant it on the pedestal in the lower
+string 2423 mines, then use the elevator platform to ascend to the skycart.
+string 2424 You will need to then find the temple of Anchora. God speed.
+
+// ideyr
+string 2425 Bring the sacred ashes from the shore to this kiln, to
+string 2426 summon the beast from the deep.
+
+// Episode 5 ===========================================================================================================
+
+// Beaumont
+string 2430 This statue was pulled from the ancient ruins discovered here.
+string 2431 Not only does it not match any known civilisation, but it has
+string 2432 also been found in other ruins situated in entirely different
+string 2433 continents. The ramifications of this are unknown, but are
+string 2434 incredibly exciting!
+
+defstate TRANSLATOR_TEXT
+set tl_pic -1 // no logo
+qputs 330
+qputs 331
+qputs 332
+qputs 333
+qputs 334
+qputs 335
+switch lotag_saved
+case 0 // text id, this is what the lotag of the translator sprite should be set to
+// text can be 67 letters long, than it needs to be put on a new line
+break
+case 1 // Torres log
+set tl_pic 12163 // EDF logo
+qstrcpy 330 2200
+qstrcpy 331 2201
+qstrcpy 332 2202
+qstrcpy 333 2203
+qstrcpy 334 2204
+qstrcpy 335 2205 
+break
+case 2 // Wyatt log
+set tl_pic 12163 // EDF logo
+qstrcpy 330 2206
+qstrcpy 331 2207
+qstrcpy 332 2208
+qstrcpy 333 2209
+qstrcpy 334 2210
+qstrcpy 335 2211 
+break
+case 3 // Santiago log
+set tl_pic 12163 // EDF logo
+qstrcpy 330 2212
+qstrcpy 331 2213
+qstrcpy 332 2214
+qstrcpy 333 2215
+qstrcpy 334 2216
+qstrcpy 335 2217 
+break
+case 4 // Petterson
+set tl_pic 12163 // EDF logo
+qstrcpy 330 2218
+qstrcpy 331 2219
+qstrcpy 332 2220
+qstrcpy 333 2221
+qstrcpy 334 2222
+qstrcpy 335 2223 
+break
+case 10 // Lake slab 1
+qstrcpy 330 2300
+qstrcpy 331 2301
+qstrcpy 332 2302
+qstrcpy 333 2303
+break
+case 11 // Lake slab 2
+qstrcpy 330 2304
+qstrcpy 331 2305
+qstrcpy 332 2306
+qstrcpy 333 2307
+break
+case 12 // Grotto slab 1
+qstrcpy 330 2308
+qstrcpy 331 2309
+qstrcpy 332 2310
+qstrcpy 333 2311
+break
+case 13 // Grotto slab 2
+qstrcpy 330 2312
+qstrcpy 331 2313
+qstrcpy 332 2314
+break
+case 14 // Sangtemple alchemist notes
+qstrcpy 330 2400
+qstrcpy 331 2401
+qstrcpy 332 2402
+qstrcpy 333 2403
+qstrcpy 334 2404
+qstrcpy 335 2405 
+break
+case 15 // Sangtemple slab
+qstrcpy 330 2410
+qstrcpy 331 2411
+qstrcpy 332 2412
+qstrcpy 333 2413
+qstrcpy 334 2414
+break
+case 16 // Sangdragonfight text
+qstrcpy 330 2420
+qstrcpy 331 2421
+qstrcpy 332 2422
+qstrcpy 333 2423
+qstrcpy 334 2424
+break
+case 17 // Grotto EDF
+qstrcpy 330 2315
+qstrcpy 331 2316
+qstrcpy 332 2317
+qstrcpy 333 2318
+qstrcpy 334 2319
+qstrcpy 335 2320 
+break
+case 90 // Abyss slab
+qstrcpy 330 2224
+qstrcpy 331 2225
+qstrcpy 332 2226
+qstrcpy 333 2227
+break
+case 100
+qstrcpy 330 2228
+qstrcpy 331 2229
+qstrcpy 332 2230
+qstrcpy 333 2231
+qstrcpy 334 2232
+qstrcpy 335 2233 
+break
+case 101
+qstrcpy 330 2234
+qstrcpy 331 2235
+qstrcpy 332 2236
+qstrcpy 333 2237
+qstrcpy 334 2238
+qstrcpy 335 2239 
+break
+case 102
+qstrcpy 330 2240
+qstrcpy 331 2241
+qstrcpy 332 2242
+qstrcpy 333 2243
+qstrcpy 334 2244
+qstrcpy 335 2245 
+break
+case 103
+qstrcpy 330 2246
+qstrcpy 331 2247
+qstrcpy 332 2248
+qstrcpy 333 2249
+qstrcpy 334 2250
+qstrcpy 335 2251 
+break
+case 104
+qstrcpy 330 2252
+qstrcpy 331 2253
+qstrcpy 332 2254
+qstrcpy 333 2255
+qstrcpy 334 2256
+qstrcpy 335 2257 
+break
+case 105
+qstrcpy 330 2258
+qstrcpy 331 2259
+qstrcpy 332 2260
+qstrcpy 333 2261
+qstrcpy 334 2262
+qstrcpy 335 2263 
+break
+case 106
+qstrcpy 330 2264
+qstrcpy 331 2265
+qstrcpy 332 2266
+qstrcpy 333 2267
+qstrcpy 334 2268
+qstrcpy 335 2269 
+break
+case 107
+qstrcpy 330 2270
+qstrcpy 331 2271
+qstrcpy 332 2272
+qstrcpy 333 2273
+qstrcpy 334 2274
+qstrcpy 335 2275 
+break
+case 108
+qstrcpy 330 2276
+qstrcpy 331 2277
+qstrcpy 332 2278
+qstrcpy 333 2279
+qstrcpy 334 2280
+qstrcpy 335 2281 
+break
+case 109
+qstrcpy 330 2282
+qstrcpy 331 2283
+qstrcpy 332 2284
+qstrcpy 333 2285
+qstrcpy 334 2286
+qstrcpy 335 2287 
+break
+case 110
+qstrcpy 330 2288
+qstrcpy 331 2289
+qstrcpy 332 2290
+qstrcpy 333 2291
+qstrcpy 334 2292
+qstrcpy 335 2293 
+break
+case 111
+qstrcpy 330 2425
+qstrcpy 331 2426
+break
+case 2430
+qstrcpy 330 2430
+qstrcpy 331 2431
+qstrcpy 332 2432
+qstrcpy 333 2433
+qstrcpy 334 2434
+break
+case 2440
+qputs 330 ^32Kibo Ishi
+qputs 331 ^12This is an iwakura rock (rock of power) named the Kibo Ishi
+qputs 332 ^12(the hope stone). Believed in Shinto religion to house a spirit of
+qputs 333 ^12good fortune, many come to make a wish or ask for good luck.
+qputs 334 ^12Now a day's many people have begun to throw money into the water
+qputs 335 ^12surrounding it like a wishing well before making thier prayer.
+break
+case 2441
+qputs 330 ^32100 Year old Sakura Tree
+qputs 331 ^12This Sakura tree is 100 years old and is a shinboku, which means
+qputs 332 ^12a sacred tree of the Shinto religion.  No one is allowed on the 
+qputs 333 ^12small island except Shinto priest or shrine maidens. 
+qputs 334 ^12Many pray to this three for protection and to find love.
+break
+case 2442
+qputs 330 ^32Arina Saito 
+qputs 331 ^12Here buried is Lady Arina. Guardian of the bamboo forest.
+qputs 332 ^12May her sword stand in the heart of the forest and protect 
+qputs 333 ^12this place from evil.
+break
+endswitch
+set mission_update -90
+ends

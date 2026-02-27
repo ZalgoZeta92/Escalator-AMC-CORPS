@@ -1,0 +1,81 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+--------------------------------------------------------------------------------
+*/
+
+defstate tw_mg42_code
+    setarray WEAPON_TILE[0] MG42_SPRITE
+    set WEAPON0_SHOOTS ARMOUR_PIERCING_SHOT
+	set WEAPON0_SHOTSPERBURST 1
+    set WEAPON0_HOLDDELAY 1
+    set WEAPON0_FIRESOUND 4
+    set WEAPON0_INITIALSOUND 0
+    setarray weap_special[0] 0
+
+    set WEAPON0_FIREDELAY 2
+    set WEAPON0_TOTALTIME 3
+    set WEAPON0_RELOAD 70
+    set WEAPON0_FLAGS 65548
+    set WEAPON0_SELECTSOUND SELECT_HMG
+
+    ife cur_weap 0
+        {
+        set GUN_VOLUME 25
+        set weapon_type 1
+        set GUN_SIZE 3
+        set GUN_HANDS 2
+        set GUN_AMMO_TYPES 0
+        set gun_mag temp_wep_mag
+        set max_temp_wep_mag 100
+		set reload_frame 12
+        ife kickbackpic 2 
+		{ 
+			espawn SOUND_SPRITE state SPAWN_IN_PLAYER_FRONT setactorvar[RETURN].temp MG42_FIRE 
+			state pfakebullet state pfakebullet
+			randvar temp2 1024 zshoot temp2 RIFLESHELL
+			randvar temp2 12 set temp9 GUN_HEAT[cur_weap] add temp9 temp2 setarray GUN_HEAT[cur_weap] temp9
+			randvar temp2 1024 zshoot temp2 SHELL_LINK
+		}
+
+            set GUN_ACCURACY 12
+            set GUN_MAX_SPREAD 32
+            ife kickbackpic 1 { ifge gun_grace 20 add gun_spread 7 set gun_recoil 4 }
+            ife kickbackpic 2 { set gunsmoke_angle 64 state spawn_gunsmoke }
+
+        ife kickbackpic 18 sound PKM_BOX_OUT
+        ife kickbackpic 35 sound PKM_CHAIN
+        ife kickbackpic 50
+            {
+            sound PKM_BOX_IN
+            ifvarvarl cur_ammo max_temp_wep_mag set temp_wep_mag cur_ammo else set temp_wep_mag max_temp_wep_mag
+            }
+
+        ifg GUN_HEAT[cur_weap] 40
+            {
+            ifg kickbackpic 10 { set gunsmoke_z 9144 set gunsmoke_angle 64 }
+            else { set gunsmoke_z 9144 set gunsmoke_angle 64 }
+            state spawn_gunsmoke_z
+            }
+
+      ifl temp_wep_mag 1
+       ife player[].weapon_pos 0
+        ife kickbackpic 0
+            {
+            ifg cur_ammo 0
+                {
+                setp[].reloading 1
+                setp[].kickback_pic reload_frame
+                }
+            }
+        }
+ends

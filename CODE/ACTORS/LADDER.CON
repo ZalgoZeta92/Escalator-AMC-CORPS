@@ -1,0 +1,338 @@
+// *************************************************
+// LADDER CODE BY DEEPERTHOUGHT FROM DUKE PLUS
+// *************************************************
+
+useractor notenemy 18481
+	ifn hitag_saved 0
+	{
+		cstat 32768
+		ife global_trigger hitag_saved
+		{
+			set hitag_saved 0
+			seta[].cstat cstat_saved
+		}
+	}
+enda
+
+useractor notenemy 3803
+
+	ifn clipdist_saved 32
+	{
+		ife CHAR 1 nullop
+		else ife CHAR 17 nullop
+		else break
+	}
+
+	ifspritepal 1
+	{
+		ife GOT_KNIFE 4 nullop
+		else break
+	}
+
+	// temp9 appears to be used as some kind of init var here to find the other sprite in the ladder pair
+	ife temp9 0
+	{
+		set temp9 1
+		set temp 0
+		for temp sprofstat 1
+		{
+			ife sprite[temp].picnum 3803 ifvarvarn temp THISACTOR
+			{
+				getav[temp].hitag_saved temp3
+				ife hitag_saved temp3 // it is the other of the pair
+				{
+					set myspawner temp
+					set temp9 1
+					set temp 16383 // we can stop the loop now
+					ifg sprite[].z sprite[myspawner].z
+					{
+						set mtype 1 // the bottom of the ladder
+						set ally_mag sprite[myspawner].z
+					}
+				}
+			}
+		}
+	}
+
+
+	ifn yvel_saved 0
+	{
+		checkactivatormotion yvel_saved
+		ife RETURN 1
+		{
+			set yvel_saved 0
+		}
+	}
+	else ifn zvel_saved 0 // code to throw down a rope from inventory, I think
+	{
+		ife mtype 0 // at top of ladder?
+		{
+			ifpdistl 1536
+			{
+				ife ROPE 1
+				{
+					setp[].inven_icon 11
+
+					ife use_action_allowed 1
+					{
+						set hit_key 30
+						soundonce THROWSOMET
+						set global_trigger zvel_saved
+						setp[].inven_icon 0
+						set ROPE 0
+						set zvel_saved 0
+						state setIgnoreUse
+					}
+				}
+				else
+				{
+					state ladder_prompt
+					ife use_action_allowed 1
+					{
+						 set hit_key 30
+						 set door_locked 0
+						 set key_icon ROPE_PICKUP
+						 set key_pal 0
+						 state setIgnoreUse
+					}
+				}
+			}
+			else ifpdistg 1536
+			{
+				ife player[].inven_icon 11 setp[].inven_icon 0
+			}
+		}
+
+		ife global_trigger zvel_saved
+			set zvel_saved 0
+	}
+	else ife mtype 1 // at bottom of ladder
+	{
+		getp[].posz mz
+		ifp pducking sub mz 4096
+
+		ifg mz ally_mag ifl mz sprite[].z
+		{
+			ldist xydist THISACTOR player[].i
+			// if pal is 3 we don't require the player to look at the ladder to stay on it
+			ifspritepal 3
+			{
+				ifl xydist 768 // 192 512
+				{
+					setp[].kickback_pic 0
+					set LADDERTYPE 2
+					ife onladder 0
+					{
+						getp[].posx lastladderx
+						getp[].posy lastladdery
+					}
+					set onladder 3
+					ifn lotag_saved 0 set laddersound lotag_saved else set laddersound -1
+				}
+			}
+			else ifangdiffl 384 ifl xydist 256 // 192 512
+			{
+				setp[].kickback_pic 0
+				set LADDERTYPE xvel_saved
+				ife onladder 0
+				{
+					getp[].posx lastladderx
+					getp[].posy lastladdery
+				}
+				set onladder 3
+				ifspritepal 1 { set LADDERTYPE 3 set laddersound ICE_AXE }
+				else ifn lotag_saved 0 set laddersound lotag_saved
+				else set laddersound -1
+			}
+		}
+		
+	}
+	else ife mtype 0 // at top of ladder, player can press use to face the direction of the ladder
+	{
+		ifpdistl 1536
+		 ifp pfacing
+		  ifcansee
+		  ife onladder 0
+		{
+			state ladder_prompt
+			ife use_action_allowed 1
+			{
+				set hit_key 30
+				soundonce JMOVE6
+				setp[].one_eighty_count -1024
+				setp[].cursectnum sprite[].sectnum
+				setp[].posx sprite[].x
+				setp[].posy sprite[].y
+				setp[].posz sprite[].z
+				state setIgnoreUse
+			}
+		}
+
+	}
+enda
+
+defstate wood_ladder
+	ifrnd 96 sound WOOD_LADDER1
+	else ifrnd 96 sound WOOD_LADDER2
+	else sound WOOD_LADDER3
+ends
+
+defstate rock_climb
+	ifrnd 96 sound ROCK_CLIMB1
+	else ifrnd 96 sound ROCK_CLIMB2
+	else sound ROCK_CLIMB3
+ends
+
+defstate rope_climb
+	ifrnd 96 sound ROPE_CLIMB
+	else ifrnd 96 sound ROPEC2
+	else ifrnd 96 sound ROPEC3
+	else sound ROPEC4
+ends
+
+defstate laddercode
+	state lower_weapon
+	
+	state trorawareponground
+	ife IS_ON_GROUND 1 { stopsound SLIDE_DOWN set bpress 0 }
+	setp[].falling_counter 0
+
+	ife LADDERTYPE 2
+	{
+		ifcount 13 ifand EXTBITS_PRESS 4
+		{
+			setp[].kickback_pic 0
+			ife laddersound 408 state wood_ladder
+			else ife laddersound 2617 state rock_climb
+			else ife laddersound 906 state rope_climb
+			else ifn laddersound -1 soundvar laddersound
+			resetcount
+		}
+		
+		ifcount 13 ifand EXTBITS_PRESS 8
+		{
+			setp[].kickback_pic 0
+			ife laddersound 408 state wood_ladder
+			else ife laddersound 2617 state rock_climb
+			else ife laddersound 906 state rope_climb
+			else ifn laddersound -1 soundvar laddersound
+			resetcount
+		}
+	}
+
+	ife fpress 0 ife bpress 0
+	{
+		set laddervel -256
+		getp[].posx lastladderx
+		getp[].posy lastladdery
+	}
+	else
+	{
+		ifcount 13 ifg fpress 0
+		{
+			setp[].kickback_pic 0
+			ifrnd 8 set PLAYER_VOICEOVER 25
+			ife laddersound 408 state wood_ladder
+			else ife laddersound 2617 state rock_climb
+			else ife laddersound 906 state rope_climb
+			else ifn laddersound -1 soundvar laddersound
+			resetcount
+		}
+
+		ife LADDERTYPE 2 { ifg bpress 0 { soundonce SLIDE_DOWN } }
+		else ife LADDERTYPE 1 { ifg bpress 0 { soundonce SLIDE_DOWN } }
+		else ife LADDERTYPE 0
+		{ 
+			ifcount 13
+			ifg bpress 0
+			{
+				setp[].kickback_pic 0
+				ife laddersound 408 state wood_ladder
+				else ife laddersound 2617 state rock_climb
+				else ife laddersound 906 state rope_climb
+				else ifn laddersound -1 soundvar laddersound
+				resetcount
+			}
+		}
+		geta[].sectnum mysector
+		updatesectorz lastladderx lastladdery player[].posz mysector
+		ifn mysector -1 ifl ladder_stuck_tics 3
+		{
+			setp[].posx lastladderx
+			setp[].posy lastladdery
+			getp[].i spriteid
+			seta[spriteid].x lastladderx
+			seta[spriteid].y lastladdery
+			changespritesect spriteid mysector
+		}
+	}
+	
+	sub onladder 1
+	
+	// manipulate player posxv/posyv
+	
+	ifp ponground nullop
+	else
+	{
+		setp[].posxv 0
+		setp[].posyv 0
+	}
+	
+	ifg ladder_stuck_tics 3
+	{
+		// The player is stuck on the ladder while trying to climb up for real now.
+		// The most likely cause is that they "used" the ladder to close to a wall, or to a blocking sprite.
+		// Correct their position by moving them back a bit.
+		geta[].ang temp
+		sub temp 1024
+		set knockbackang temp
+		cos xvel knockbackang
+		sin yvel knockbackang
+		mul xvel 64
+		mul yvel 64
+		setp[].posxv xvel
+		setp[].posyv yvel
+	}
+	
+	// We're climbing, but not going up anymore - this means we're clipping into something
+	getp[].posz temp
+	ife temp ladder_prev_z
+	  ifand EXTBITS_PRESS 1
+		add ladder_stuck_tics 1
+	else
+		set ladder_stuck_tics 0
+	
+	setp[].poszv laddervel
+	getp[].posz ladder_prev_z
+ends
+
+defstate cutscene_restoreladderang
+	// commented out for now. Unclear what problem this really solves atm and it causes other problems
+	// If restoring ladder angles is needed for some reason we should store what ladder the player is on specifically and not just take any prev ladder ang value..
+	/*
+	// Fix ladder turn
+	ifg onladder 0
+	{
+		ife prev_ladder_ang_set 0
+		{ 
+			getp[].ang prev_ladder_ang
+			set prev_ladder_ang_set 1
+		}
+
+		set disp_temp prev_ladder_ang
+		getp[].ang disp_temp2
+		getincangle disp_temp2 disp_temp disp_temp2
+		div disp_temp2 2
+		add disp_temp disp_temp2
+
+		set prev_ladder_ang disp_temp
+		setp[].ang prev_ladder_ang
+		set cameraang prev_ladder_ang
+	}
+
+   // reset for zipwire + ladder
+   ifg prev_ladder_ang 0
+	 ife onladder 0
+		  set prev_ladder_ang_set 0
+	*/
+ends

@@ -1,0 +1,412 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+// armoured, has an energy shield, fires plasma bursts out of its arms and homing rockets from its launchers
+// EMP attacks will disable the shield and its homing rockets
+
+action A_MJ12_MECH_START 0 1 5 1 10
+action A_MJ12_MECH_IDLE 0 1 5 1 10
+action A_MJ12_MECH_PREP_MIS 0 1 5 1 10
+action A_MJ12_MECH_PREP 5 1 5 1 16
+action A_MJ12_MECH_PAIN 5 1 5 1 16
+action A_MJ12_MECH_FIRE 10 2 5 1 8
+action A_MJ12_MECH_FIRE_MIS 20 2 5 1 32
+action A_MJ12_MECH_SEEK 30 4 5 1 16
+
+action A_MJ12_MECH_DEAD1 50
+action A_MJ12_MECH_DEAD2 51
+action A_MJ12_MECH_DEAD3 52
+action A_MJ12_MECH_DEAD4 53
+
+move M_MJ12_MECH_WALK 128
+
+var mech_x 0 2
+var mech_y 0 2
+
+defstate mj12_mech_bulletlefthandcorrection
+	set movesprite_customvels 1
+	cos movesprite_xvel movesprite_angvar
+	sin movesprite_yvel movesprite_angvar
+	set movesprite_shift 3
+	shiftr movesprite_xvel movesprite_shift
+	shiftr movesprite_yvel movesprite_shift
+
+	set temp movesprite_xvel
+	set temp2 movesprite_yvel
+
+	div temp 6
+	div temp2 6
+
+	add movesprite_xvel temp
+	add movesprite_yvel temp2
+ends
+
+defstate mj12_mech_bulletfire
+	// left hand side shooting has to be done like this :'( 
+	ife INTERNALCOUNT_2 2
+	{
+		geta[].ang movesprite_angvar
+		sub movesprite_angvar 512
+		state mj12_mech_bulletlefthandcorrection
+		state movesprite_state
+	}
+	ifactorsound THISACTOR M12M_MGUN nullop else sound M12M_MGUN
+	set CALCZ_TARGET_OFFSET -8000
+	set PROJECTILE_TO_SHOOT ENEMY_BULLET
+	set PROJECTILE_FIRING_SOUND -1
+	set PROJECTILE_OFFSET 32
+	set PROJECTILE_STRENGTH 4
+	set PROJECTILE_ZOFFSET 0
+	set PROJECTILE_PAL 1
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	
+	set PROJECTILE_TO_SHOOT FAKE_BULLET
+	set PROJECTILE_FIRING_SOUND -1
+	set PROJECTILE_OFFSET 32
+	set PROJECTILE_ZOFFSET 0
+	set PROJECTILE_PAL 1
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	
+	ife INTERNALCOUNT_2 2
+	{
+		seta[].x mech_x
+		seta[].y mech_y
+	}
+ends
+
+defstate mj12_mech_missilelefthandcorrection
+	set movesprite_customvels 1
+	cos movesprite_xvel movesprite_angvar
+	sin movesprite_yvel movesprite_angvar
+	set movesprite_shift 5
+	shiftr movesprite_xvel movesprite_shift
+	shiftr movesprite_yvel movesprite_shift
+
+	set temp movesprite_xvel
+	set temp2 movesprite_yvel
+
+	div temp 2
+	div temp2 2
+
+	add movesprite_xvel temp
+	add movesprite_yvel temp2
+ends
+
+defstate mj12_mech_missilefire
+	// left hand side shooting has to be done like this :'( 
+	ife INTERNALCOUNT_2 2
+	{
+		geta[].ang movesprite_angvar
+		sub movesprite_angvar 512
+		state mj12_mech_missilelefthandcorrection
+		state movesprite_state
+	}
+	
+	set CALCZ_TARGET_OFFSET -8000
+	set PROJECTILE_FIRING_SOUND M12M_MISSL
+	set PROJECTILE_TO_SHOOT HOMING_MISSILE
+	set PROJECTILE_STRENGTH 25
+	set PROJECTILE_ZOFFSET 12000
+	state sang_enemyShootProjectile
+	
+	ife INTERNALCOUNT_2 2
+	{
+		seta[].x mech_x
+		seta[].y mech_y
+	}
+ends
+
+defstate mj12_mech_die
+	sound PES_DEAD
+	spawn 8433
+	quake 13
+	flash
+	spawn BIG_EXPLOSION
+	sound EXPLOSION_BIG
+	shoot SPARK shoot SPARK
+	ifactorsound THISACTOR M12M_MGUN stopactorsound THISACTOR M12M_MGUN
+	move STOP
+	
+	addkills 1
+	state rf
+	
+	debris SCRAP2 20
+
+	ifrnd 63
+	{
+		action A_MJ12_MECH_DEAD1
+		ezshoot -4096 MJ12_MECH_ARM randvar temp 2048 seta[RETURN].ang temp
+	}
+	else ifrnd 63
+	{
+		action A_MJ12_MECH_DEAD2
+		ezshoot -4096 MJ12_MECH_ARM randvar temp 2048 seta[RETURN].ang temp
+		ezshoot -4096 MJ12_MECH_ARM randvar temp 2048 seta[RETURN].ang temp
+	}
+	else ifrnd 63
+	{
+		action A_MJ12_MECH_DEAD3
+		ezshoot -4096 MJ12_MECH_LEG randvar temp 2048 seta[RETURN].ang temp // debris arms and legs
+		ezshoot -4096 MJ12_MECH_LEG randvar temp 2048 seta[RETURN].ang temp
+	}
+	else
+	{
+		action A_MJ12_MECH_DEAD4	
+		ezshoot -4096 MJ12_MECH_ARM randvar temp 2048 seta[RETURN].ang temp
+	}
+ends
+
+damageeventtile MJ12_MECH
+
+useractor enemystayput MJ12_MECH_STAYPUT 150 A_MJ12_MECH_START
+   cactor MJ12_MECH
+enda
+
+useractor enemy MJ12_MECH 3000 A_MJ12_MECH_START
+fall
+
+ifg enemy_cooldown1 0 sub enemy_cooldown1 1
+ifg enemy_cooldown2 0 sub enemy_cooldown2 1
+
+ifaction A_MJ12_MECH_START
+{
+	cstat 257
+	strength 3000
+	sizeat 45 40
+	spriteflags ENEMY_NOBLOOD
+	set actor_type TYPE_ROBOTIC
+	geta[].pal actor_pal
+	set NPC_SHIELD 1000
+	state monst_glow // Robotic AND energy shield.. mean combo
+	espawn SHOOTME seta[RETURN].pal 1
+	set enemy_cooldown1 90
+	set enemy_cooldown2 15
+	action A_MJ12_MECH_IDLE
+}
+
+state check_metal_squished
+
+ifaction A_MJ12_MECH_DEAD1
+	move STOP
+else ifaction A_MJ12_MECH_DEAD2
+	move STOP
+else ifaction A_MJ12_MECH_DEAD3
+	move STOP
+else ifaction A_MJ12_MECH_DEAD4
+	move STOP	
+else
+ifaction A_MJ12_MECH_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1 
+	{
+		
+		
+		action A_MJ12_MECH_SEEK
+	}
+}
+else ifaction A_MJ12_MECH_PREP_MIS
+{
+	move STOP
+	
+	add INTERNALCOUNT 1
+	state fronttowardstarget
+	
+	ife INTERNALCOUNT 30
+	{
+		set INTERNALCOUNT 0
+		set INTERNALCOUNT_2 0
+		action A_MJ12_MECH_FIRE_MIS
+	}
+}
+else ifaction A_MJ12_MECH_PREP
+{
+	move STOP
+	
+	add INTERNALCOUNT 1
+	state fronttowardstarget
+	
+	ife INTERNALCOUNT 20
+	{
+		set INTERNALCOUNT 0
+		set INTERNALCOUNT_2 0
+		action A_MJ12_MECH_FIRE
+	}
+}
+else ifaction A_MJ12_MECH_PAIN
+{
+	move STOP
+	sub PAIN_AMOUNT 1
+	ife PAIN_AMOUNT 0
+	{
+		ifdead state mj12_mech_die
+		else action A_MJ12_MECH_SEEK
+	}
+}
+else ifaction A_MJ12_MECH_FIRE_MIS
+{
+	move STOP
+	
+	add INTERNALCOUNT 1
+	state fronttowardstarget
+	
+	ifactioncount 2
+	{
+		ifn INTERNALCOUNT_2 2
+		{
+			set INTERNALCOUNT_2 2
+			state mj12_mech_missilefire
+		}
+		
+		resetactioncount
+	}
+	else ifactioncount 1
+	{
+		ifn INTERNALCOUNT_2 1
+		{
+			set INTERNALCOUNT_2 1
+			state mj12_mech_missilefire
+		}
+	}
+	
+	ife INTERNALCOUNT 90
+	{
+		set enemy_cooldown1 150
+		action A_MJ12_MECH_SEEK
+	}
+}
+else ifaction A_MJ12_MECH_FIRE
+{
+	move STOP
+	
+	add INTERNALCOUNT 1
+	state fronttowardstarget
+	
+	ifactioncount 2
+	{
+		ifn INTERNALCOUNT_2 2
+		{
+			set INTERNALCOUNT_2 2
+			state mj12_mech_bulletfire
+		}
+		
+		resetactioncount
+	}
+	else ifactioncount 1
+	{
+		ifn INTERNALCOUNT_2 1
+		{
+			set INTERNALCOUNT_2 1
+			state mj12_mech_bulletfire
+		}
+	}
+	
+	ife INTERNALCOUNT 90
+	{
+		set enemy_cooldown2 60
+		ifactorsound THISACTOR M12M_MGUN stopactorsound THISACTOR M12M_MGUN
+		action A_MJ12_MECH_SEEK
+	}
+}
+else ifaction A_MJ12_MECH_SEEK
+{
+	ifmove M_MJ12_MECH_WALK nullop 
+	else move M_MJ12_MECH_WALK geth
+	
+	add fstep_count 1
+	
+	ifge fstep_count 10
+		{
+		ifpdistl 8192 quake 6
+		ifrnd 128 sound M12M_STEP1 else sound M12M_STEP2
+		set fstep_count 0
+		}
+		
+	state checkfortarget
+	
+	ifn my_target -1
+	{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+		
+		ifl RANDOM_CHANCE SKILLCHANCE 
+		  ifrnd 96
+		{
+			geta[].x mech_x
+			geta[].y mech_y
+			ife enemy_cooldown1 0
+			{
+				set INTERNALCOUNT 0
+				ifrnd 128 sound M12M_FIH1 else sound M12M_FIH2
+				action A_MJ12_MECH_PREP_MIS
+			}
+			else ife enemy_cooldown2 0
+			{
+				set INTERNALCOUNT 0
+				ifrnd 128 sound M12M_ENG1 else sound M12M_ENG2
+				action A_MJ12_MECH_PREP
+			}
+		}
+	}
+}
+
+state ENEMY_SHIELD_STUFF
+	
+ifhitweapon
+{
+	shoot SPARK
+	
+	ifdead
+		state mj12_mech_die
+	else // not dead
+		{
+		ifg PAIN_AMOUNT 0 action A_MJ12_MECH_PAIN
+		else ifaction A_MJ12_MECH_IDLE { state PAIN_SKILL_LEVELADJUST action A_MJ12_MECH_PAIN }
+		}
+}
+
+state checksquished
+
+enda
+

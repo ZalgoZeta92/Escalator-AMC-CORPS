@@ -1,0 +1,430 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile MJ12_GUNNER
+
+// Walks, readies his gun - maybe a laser dot appears to track the player, and then it fires a shitload of bullets that do incredible damage
+// Throws an EMP grenade, just have him throw a regular grenade for now
+
+action A_MJ12_GUNR_START 0 1 5 1 10
+action A_MJ12_GUNR_IDLE 0 1 5 1 10
+action A_MJ12_GUNR_FIREPREP 0 1 5 1 16
+action A_MJ12_GUNR_FIRE 0 2 5 1 4
+
+action A_MJ12_GUNR_SEEK 10 4 5 1 16
+action A_MJ12_GUNR_BACKUP 25 4 5 -1 20
+
+action A_MJ12_GUNR_THROWPREP 30 1 5 1 12
+action A_MJ12_GUNR_THROW 30 2 5 1 24
+action A_MJ12_GUNR_FROZEN 40 1 1 1 10
+action A_MJ12_GUNR_PAIN 40
+action A_MJ12_GUNR_DIE 40 5 1 1 12
+action A_MJ12_GUNR_DEAD 45
+
+move M_MJ12_GUNR_WALK 128
+move M_MJ12_GUNR_BACKUP -64
+
+useractor enemystayput MJ12_GUNNER_STAYPUT 500 A_MJ12_GUNR_START cactor MJ12_GUNNER enda
+useractor enemy MJ12_GUNNER 500 A_MJ12_GUNR_START
+	fall
+	
+	ifdead
+	{
+		stopactorsound THISACTOR MINIGUN_FIRE
+		stopactorsound THISACTOR MINIGUN_SPIN
+	}
+	
+	ifaction A_MJ12_GUNR_START
+	{
+		cstat 257
+		strength 500
+		sizeat 35 27
+		set actor_type TYPE_ARMOURED
+		set MONSTER_FLAGS 2
+		geta[].pal actor_pal
+		ife actor_pal 0 spritepal 10
+		espawn SHOOTME seta[RETURN].pal 1
+		state monst_glow
+		action A_MJ12_GUNR_IDLE
+	} 
+	
+	
+	ifn npc_sound -1 setactorsoundpitch THISACTOR npc_sound -256
+	
+	ifg INTERNALCOUNT_3 0 sub INTERNALCOUNT_3 1
+	
+	state MJ12_GRENADE
+	
+	state actor_knockback_state
+	ifg npc_talking 0 sub npc_talking 1
+	xor element_type FLOOR_DAMAGE
+	xor element_type FIRE_DAMAGE
+	xor element_type ICE_DAMAGE
+	xor element_type SPIRIT_DAMAGE
+	
+	ifaction A_MJ12_GUNR_IDLE
+	{
+		move STOP
+		state checkfortarget
+		ifn my_target -1 
+		{
+			state MJ12_TALK_WAKEUP
+			set INTERNALCOUNT_2 0
+			action A_MJ12_GUNR_SEEK
+		}
+	}
+	else ifaction A_MJ12_GUNR_FIREPREP
+	{
+	
+		move STOP
+		state checkfortarget
+		state fronttowardstarget
+		
+		add INTERNALCOUNT 1
+		
+		ifge INTERNALCOUNT 10
+		{
+			set INTERNALCOUNT 0
+			sound MJ12_GUNR
+			action A_MJ12_GUNR_FIRE
+		}
+	}
+	else ifaction A_MJ12_GUNR_FIRE
+	{
+
+		move STOP
+		state checkfortarget
+		
+		ifn my_target -1
+			state fronttowardstarget
+		
+		ifactioncount 2
+		{
+			set PROJECTILE_TO_SHOOT ENEMY_BULLET
+			set PROJECTILE_FIRING_SOUND 4
+			state sang_enemyShootProjectile
+			shoot FAKE_BULLET
+			state sang_enemyShootProjectile
+			shoot FAKE_BULLET
+			state sang_enemyShootProjectile
+			shoot FAKE_BULLET
+			state sang_enemyShootProjectile
+			shoot FAKE_BULLET
+			state sang_enemyShootProjectile
+			
+			ife PERFMODE 1
+				ifcansee
+			{
+				set gunsmoke_z 8844
+				set gunsmoke_angle 256
+				state spawn_gunsmoke_z
+				state npc_rifleshell
+				set gunsmoke_z 8000
+				state spawn_enemy_ARFLASH
+				state spawn_muzzleflash
+			}
+			
+			resetactioncount
+		}
+		add INTERNALCOUNT 1
+		
+		ifge INTERNALCOUNT 30
+		{
+			set INTERNALCOUNT_2 0
+			ifn my_target -1 
+				{	
+				dist xydist THISACTOR my_target
+				ifl xydist 2048 action A_MJ12_GUNR_BACKUP else
+				action A_MJ12_GUNR_SEEK
+				} 
+			else action A_MJ12_GUNR_SEEK
+		}
+	}
+	else ifaction A_MJ12_GUNR_BACKUP
+	{
+		ifmove M_MJ12_GUNR_BACKUP nullop 
+		else move M_MJ12_GUNR_BACKUP geth
+			
+		state checkfortarget
+		
+		add INTERNALCOUNT_2 1
+
+		ife INTERNALCOUNT_3 0
+			{
+			randvar temp8 40
+			ifl temp8 10 sound SUIT_STEP1 else
+			ifl temp8 20 sound SUIT_STEP2 else
+			ifl temp8 30 sound SUIT_STEP3 else
+			sound SUIT_STEP4
+			set INTERNALCOUNT_3 20
+			}
+	
+		ifn my_target -1
+		{
+		dist xydist THISACTOR my_target 
+			// Target acquired, skill setting can still affect decision to shoot.
+			state SKILL_SHOOT_LEVELADJUST
+			
+			ifg xydist 1536 
+					{
+					sound MJ12_GUNL
+					state MJ12_TALK_ENGAGING
+					action A_MJ12_GUNR_FIREPREP
+					}
+			else
+			ifl RANDOM_CHANCE SKILLCHANCE
+			{
+				set INTERNALCOUNT 0
+				ifrnd 32
+				 ifl xydist 4096
+					{
+					state MJ12_TALK_FLUSHOUT
+					action A_MJ12_GUNR_THROWPREP
+					}
+				else
+					{
+					sound MJ12_GUNL
+					state MJ12_TALK_ENGAGING
+					action A_MJ12_GUNR_FIREPREP
+					}
+			}
+		}
+		else action A_MJ12_GUNR_SEEK
+	}
+	else ifaction A_MJ12_GUNR_SEEK
+	{
+		ifmove M_MJ12_GUNR_WALK nullop 
+		else move M_MJ12_GUNR_WALK geth
+			
+		state checkfortarget
+		
+		state MJ12_TALK_SEEKCHATTER
+		
+		add INTERNALCOUNT_2 1
+
+		ife INTERNALCOUNT_3 0
+			{
+			randvar temp8 40
+			ifl temp8 10 sound SUIT_STEP1 else
+			ifl temp8 20 sound SUIT_STEP2 else
+			ifl temp8 30 sound SUIT_STEP3 else
+			sound SUIT_STEP4
+			set INTERNALCOUNT_3 20
+			}
+	
+		ifn my_target -1
+		{
+			dist xydist THISACTOR my_target 
+			// Target acquired, skill setting can still affect decision to shoot.
+			state SKILL_SHOOT_LEVELADJUST
+			ifl xydist 1536  
+					{
+					sound MJ12_GUNL
+					action A_MJ12_GUNR_BACKUP
+					}
+			else			
+			ifl RANDOM_CHANCE SKILLCHANCE
+			{
+				set INTERNALCOUNT 0
+				ifrnd 32
+				 ifl xydist 4096
+					{
+					state MJ12_TALK_FLUSHOUT
+					action A_MJ12_GUNR_THROWPREP
+					}
+				else
+					{
+					state MJ12_TALK_ENGAGING
+					sound MJ12_GUNL
+					action A_MJ12_GUNR_FIREPREP
+					}
+			}
+		}
+	}
+	else ifaction A_MJ12_GUNR_THROWPREP
+	{
+		move STOP
+		state checkfortarget
+		state fronttowardstarget
+		
+		ifactioncount 2
+		{
+			set INTERNALCOUNT 0
+			action A_MJ12_GUNR_THROW
+		}
+	}
+	else ifaction A_MJ12_GUNR_THROW
+	{
+		move STOP
+		state checkfortarget
+		
+		ifn my_target -1
+			state fronttowardstarget
+		
+		ifactioncount 2
+		{
+			set INTERNALCOUNT_2 0
+			action A_MJ12_GUNR_SEEK
+		}
+		else ifactioncount 1
+		{
+			ife INTERNALCOUNT 0
+			{
+				sub ally_mag 1
+				// if not aiming at player, manipulate noaim
+				ifn my_target PLAYER_IDENTITY
+					setprojectile[EMP_GRENADE].WORKSLIKE 2125890
+				else
+					setprojectile[EMP_GRENADE].WORKSLIKE 0x40010002
+
+				shoot EMP_GRENADE
+				setprojectile[EMP_GRENADE].WORKSLIKE 0x40010002
+				
+				set INTERNALCOUNT 1
+			}
+		}
+			
+	}
+	else ifaction A_MJ12_GUNR_FROZEN 
+		state frozen_code
+	else ifaction A_MJ12_GUNR_PAIN
+	{
+		sub PAIN_AMOUNT 1
+		move STOP
+		ife PAIN_AMOUNT 0
+		{
+			set INTERNALCOUNT_2 0
+			ifdead action A_MJ12_GUNR_DIE 
+			else action A_MJ12_GUNR_SEEK
+		}
+	}
+	else ifaction A_MJ12_GUNR_DIE
+	{
+		strength 0
+		ifactioncount 5 { state rf state BODY_FALL_NOISES action A_MJ12_GUNR_DEAD }
+	}
+	else ifaction A_MJ12_GUNR_DEAD
+	{
+		move STOP
+		ifhitweapon
+		{
+			ifwasweapon RADIUSEXPLOSION
+			{
+				state squish_sounds
+				state standard_jibs
+				killit
+			}
+		}
+	}
+	
+	ifhitweapon
+	{
+		state NEWGUNEFFECTS
+		xorvar npc_killed 16
+		//spawn BLOOD
+		guts JIBS6 1
+		state random_wall_jibs
+		ifdead
+		{
+			addkills 1
+			state rf
+			
+			ifand proj_udata 8192
+			{
+				ifrnd 4 { spawn ELECTROCUTE_MARV soundonce MALE_ELECT1 } else spawn ELECTROCUTE_GUY
+				shoot SPARK2 shoot SPARK2 shoot SPARK2
+				killit
+			}
+			ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_MJ12_GUNR_FROZEN } 
+			else ifg fire_damage 0 
+			{
+				shoot SPARK2 shoot SPARK2 shoot SPARK2 
+				ifrnd 128 sound ZSOLD_DIE1
+				else sound ZSOLD_DIE2
+				spawn ONFIREGUY
+				killit
+			}
+			else ife HEADSHOT 2 
+			{
+				ifg fire_damage 0 set fire_damage 0
+				ifrnd 32 state trigger_showoff
+				state jib_sounds
+				state decap_sounds
+				shoot NJIB 
+				shoot NJIB 
+				guts JIBS6 3 
+				guts JIBS2 2 
+				action A_MJ12_GUNR_DIE
+			}
+			else ifg spirit_damage 0
+			{
+				shoot SPARK2 shoot SPARK2 shoot SPARK2 
+				spritepal 1
+				guts JIBS3 6
+				spawn SPIRIT_DEATH_GUY
+				killit
+			}
+			else ifg energy_damage 0
+			{
+				shoot SPARK2 shoot SPARK2 shoot SPARK2 
+				spritepal 4
+				guts JIBS3 6
+				spawn DISINTIGRATE_GUY
+				killit
+			}
+			else
+			{
+				ifpdistg 16384
+					{
+						ifrnd 96 globalsound MJ12_DIE_DISTANT1
+						else ifrnd 96 globalsound MJ12_DIE_DISTANT2
+						else globalsound MJ12_DIE_DISTANT3
+					}
+				else
+					{
+						ifrnd 96 sound MJ12_DIE1
+						else ifrnd 96 sound MJ12_DIE2
+						else sound MJ12_DIE3
+					}
+				action A_MJ12_GUNR_DIE
+				spawn BLOODPOOL
+			}
+		}
+			
+		else // not dead
+		{
+			ifg PAIN_AMOUNT 0 action A_MJ12_GUNR_PAIN
+			else ifrnd 4 { state PAIN_SKILL_LEVELADJUST action A_MJ12_GUNR_PAIN }
+			// if they were idle, getting hit ALWAYS wakes them up
+			else ifaction A_MJ12_GUNR_IDLE { state PAIN_SKILL_LEVELADJUST action A_MJ12_GUNR_PAIN }
+		}
+	}
+
+	state checksquished
+enda

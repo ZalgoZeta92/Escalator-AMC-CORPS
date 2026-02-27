@@ -1,0 +1,1376 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Event Anime sprite and related stuff
+--------------------------------------------------------------------------------
+*/
+
+var TSPRITE_STATNUM 0 2
+
+defstate SHELL_ROT
+		geta[].xvel tsprite_temp4
+		div tsprite_temp4 5
+		set tsprite_temp5 25
+		sub tsprite_temp5 tsprite_temp4
+		gettspr[].tsprpicnum tsprite_temp
+		add tsprite_temp2 1
+		ifg tsprite_temp2 tsprite_temp5
+			{
+			add tsprite_temp3 1
+			set tsprite_temp2 0
+			}
+		ifactor NINEMM_SHELL { ifg tsprite_temp3 5 set tsprite_temp3 0 } else
+		ifactor NINEMM_SHELL_LEFT { ifg tsprite_temp3 5 set tsprite_temp3 0 } else
+		ifactor SRIFLESHELL { ifg tsprite_temp3 5 set tsprite_temp3 0 } else
+		{ ifg tsprite_temp3 6 set tsprite_temp3 0 }
+		ifactor SHOTG_SHELL_LEFT sub tsprite_temp tsprite_temp3 else
+		add tsprite_temp tsprite_temp3
+		settspr[].tsprpicnum tsprite_temp
+ends
+
+defstate SHELL_ROT_BACK
+		geta[].xvel tsprite_temp4
+		div tsprite_temp4 5
+		set tsprite_temp5 25
+		sub tsprite_temp5 tsprite_temp4
+		gettspr[].tsprpicnum tsprite_temp
+		add tsprite_temp2 1
+		ifg tsprite_temp2 tsprite_temp5
+			{
+			sub tsprite_temp3 1
+			set tsprite_temp2 0
+			}
+		ifl tsprite_temp3 -6 set tsprite_temp3 0
+		add tsprite_temp tsprite_temp3
+		settspr[].tsprpicnum tsprite_temp
+ends
+
+defstate pickup_disp_stuff
+	settspr[].tsprpicnum tsprite_temp3
+	set tsprite_temp2 3200
+	ifg tilesizy[tsprite_temp3] tilesizx[tsprite_temp3]
+	{
+	div tsprite_temp2 tilesizy[tsprite_temp3]
+	clamp tsprite_temp2 24 24
+	}
+	else
+	{
+	div tsprite_temp2 tilesizx[tsprite_temp3]
+	clamp tsprite_temp2 16 24
+	}
+	settspr[].tsprxrepeat tsprite_temp2 // change it's X value
+	ifn tspr[].tsprpal 4 settspr[].tspryrepeat tsprite_temp2 // If it's not the sprite's shadow, change it's Y value
+ends
+
+defstate inv_disp_stuff
+	settspr[].tsprpicnum tsprite_temp3
+	set tsprite_temp2 3200
+	ifg tilesizy[tsprite_temp3] tilesizx[tsprite_temp3]
+	div tsprite_temp2 tilesizy[tsprite_temp3]
+	else
+	div tsprite_temp2 tilesizx[tsprite_temp3]
+	clamp tsprite_temp2 16 32
+	settspr[].tsprxrepeat tsprite_temp2 // change it's X value
+	ifn tspr[].tsprpal 4 settspr[].tspryrepeat tsprite_temp2 // If it's not the sprite's shadow, change it's Y value
+ends
+
+defstate ammo_disp_stuff
+	settspr[].tsprpicnum tsprite_temp3
+	set tsprite_temp2 2400
+	div tsprite_temp2 tilesizx[tsprite_temp3]
+	clamp tsprite_temp2 10 24
+	settspr[].tsprxrepeat tsprite_temp2 // change it's X value
+	ifn tspr[].tsprpal 4 settspr[].tspryrepeat tsprite_temp2 // If it's not the sprite's shadow, change it's Y value
+ends
+
+onevent EVENT_ANIMATESPRITES
+gettspr[].tsprpicnum tspr_picnum
+gettspr[].tsprstatnum TSPRITE_STATNUM
+
+ifg vr_glitched 0 settspr[].tsprpal 125
+
+ifactor KEY_CARD
+	{
+	ifspritepal 21 settspr[].tsprpicnum 65
+	}
+
+ife sprite[].htflags 32
+  ifn tspr[].tsprpal 4
+	{
+	ifg sector[].floorpal 127
+		{
+		settspr[].tsprpal sector[].floorpal
+		}
+	}
+	
+	ifactor 4087 // case specific shit
+	{
+	ife sector[].floorpal 131 settspr[].tsprpal 174
+	}
+	
+	ifactor PE_ELDER
+	{
+	ife display_mirror 1
+		{
+		// Paradigm Elder's invisible in mirrors
+		settspr[].tsprpicnum 3587
+		}
+	}
+	
+	ifactor 14040
+	{
+	gettspr[].tsprz temp
+	add temp 2048
+	settspr[].tsprz temp
+	}
+
+	ifactor GUNSMOKE
+		{
+		geta[].shade temp
+		add temp 20
+		settspr[].tsprshade temp
+		}
+
+	ifactor 13214
+		{
+		settspr[].tsprshade 90
+		}
+
+	ifactor 3810 // skycube
+		{
+		settspr[].tsprsectnum player[].cursectnum
+		}
+
+	ifactor HEAVYHBOMB { settspr[].tsprxrepeat 16  settspr[].tspryrepeat 16 }
+
+ifactor CUSTOM_OBJECT
+	{
+	ifn lotag_saved 0 
+		{
+		ifn clipdist_saved 32 
+			{
+			set temp2 lotag_saved
+			add temp2 32768
+			settspr[].tsprpicnum temp2
+			}
+		else
+			settspr[].tsprpicnum lotag_saved
+		}
+	set actor_pal 1
+	}
+
+// snow death stuff ==================================================================================
+
+ifactor MERC
+	{
+	ife weather_type 1
+	 ifle raining -1
+	  ifdead
+	   ifoutside
+		{
+		ifl INTERNALCOUNT_4 7200
+			add INTERNALCOUNT_4 1
+			else
+		ife INTERNALCOUNT_4 7200
+			{
+			ife tspr[].tsprpicnum 8843 settspr[].tsprpicnum 33542
+			ife tspr[].tsprpicnum 8848 settspr[].tsprpicnum 33543
+			}
+		}
+	}
+
+ifactor MERC2
+	{
+	ife weather_type 1
+	 ifle raining -1
+	  ifdead
+	   ifoutside
+		{
+		ifl INTERNALCOUNT_4 7200
+			add INTERNALCOUNT_4 1
+			else
+		ife INTERNALCOUNT_4 7200
+			{
+			ife tspr[].tsprpicnum 13607 settspr[].tsprpicnum 33544
+			ife tspr[].tsprpicnum 13675 settspr[].tsprpicnum 33545
+			}
+		}
+	}
+
+ifactor LPOWERSUIT
+	{
+	ife weather_type 1
+	 ifle raining -1
+	  ifdead
+	   ifoutside
+		{
+		ifl INTERNALCOUNT_4 7200
+			add INTERNALCOUNT_4 1
+			else
+		ife INTERNALCOUNT_4 7200
+			{
+			ife tspr[].tsprpicnum 8738 settspr[].tsprpicnum 33546
+			}
+		}
+	}
+
+ifactor CULTIST
+	{
+	ife weather_type 1
+	 ifle raining -1
+	  ifdead
+	   ifoutside
+		{
+		ifl INTERNALCOUNT_4 7200
+			add INTERNALCOUNT_4 1
+			else
+		ife INTERNALCOUNT_4 7200
+			{
+			ife tspr[].tsprpicnum 7775 settspr[].tsprpicnum 33536
+			ife tspr[].tsprpicnum 7782 settspr[].tsprpicnum 33537
+			ife tspr[].tsprpicnum 7788 settspr[].tsprpicnum 33538
+			ife tspr[].tsprpicnum 15260 settspr[].tsprpicnum 33539
+			ife tspr[].tsprpicnum 30421 settspr[].tsprpicnum 33540
+			}
+		}
+	}
+
+ifactor 7775 // flyback corpse
+	{
+	ife weather_type 1
+	 ifle raining -1
+	   ifoutside
+		{
+		ifl INTERNALCOUNT_4 7200
+			add INTERNALCOUNT_4 1
+			else
+		ife INTERNALCOUNT_4 7200
+			{
+			ife tspr[].tsprpicnum 7775 settspr[].tsprpicnum 33536
+			}
+		}
+	}
+
+ifactor 30426 // Cultist bi-sected corpse top
+	{
+	ife weather_type 1
+	 ifle raining -1
+	   ifoutside
+		{
+		ifl INTERNALCOUNT_4 7200
+			add INTERNALCOUNT_4 1
+			else
+		ife INTERNALCOUNT_4 7200
+			{
+			ife tspr[].tsprpicnum 30426 settspr[].tsprpicnum 33541
+			}
+		}
+	}
+	
+
+ifactor CUSTOM_ACTOR
+	{
+		set temp3 lotag_saved
+		sub temp3 4010
+		gettspr[].tsprpicnum temp2
+		add temp2 temp3
+		ifn clipdist_saved 32 add temp2 32768
+		settspr[].tsprpicnum temp2
+		set actor_pal 1
+	}
+
+ifactor VIEWSCREEN
+{
+	switch tspr[].tsprpicnum
+		case 32505
+		case 32506
+		case 32507
+			break
+		default
+			ifn extra_saved -1
+			{
+				settspr[].tsprpicnum extra_saved
+				settspr[].tsprxrepeat temp4
+				settspr[].tspryrepeat temp5
+			}
+			break
+	endswitch
+}
+
+ifactor VIEWSCREEN2
+{
+	switch tspr[].tsprpicnum
+		case 32505
+		case 32506
+		case 32507
+			break
+		default
+			ifn extra_saved -1
+			{
+				settspr[].tsprpicnum extra_saved
+				settspr[].tsprxrepeat temp4
+				settspr[].tspryrepeat temp5
+			}
+			break
+	endswitch
+}
+
+ifactor GREENSLIME
+	{
+	geta[].xrepeat temp
+	div temp 2
+	settspr[].tsprxrepeat temp
+	geta[].yrepeat temp
+	div temp 2
+	settspr[].tspryrepeat temp
+	}
+
+ife TSPRITE_STATNUM 99
+{
+
+gettspr[].tsprsectnum temp
+gettspr[].tsprx temp2
+gettspr[].tspry temp3
+
+getflorzofslope temp temp2 temp3 tsprite_temp // very important to account for slopes. Otherwise sprite shadows are completely FUBAR
+settspr[].tsprz tsprite_temp
+
+ ifl sprite[].extra 1 // needs to be fixed at some point
+  ifn tspr[].tsprpal 4
+	{
+	ifg sector[].floorpal 127
+		{
+		settspr[].tsprpal sector[].floorpal
+		settspr[].tsprshade 32
+		}
+	}
+}
+
+	// Floating code by DeeperThought
+	ifand actorvar[].command 32768
+	{
+		gettspr[].tsprpal pal
+		ifn pal 4
+		{
+			geta[].z z
+			sub z 1024
+			set tsprite_temp player[].player_par
+			set tsprite_temp2 THISACTOR
+			ifand tsprite_temp2 1 add tsprite_temp2 4096
+			add tsprite_temp tsprite_temp2
+			shiftvarl tsprite_temp 6
+			sin tsprite_temp2 tsprite_temp
+			shiftvarr tsprite_temp2 4
+			sub z tsprite_temp2
+			settspr[].tsprz z
+		}
+	}
+
+	ifand actorvar[].command 262144 // floating magic items
+	{
+		gettspr[].tsprpal pal
+		ifn pal 4
+		{
+			settspr[].tsprshade -127
+			geta[].z z
+			sub z 1024
+			set tsprite_temp player[].player_par
+			set tsprite_temp2 THISACTOR
+			ifand tsprite_temp2 1 add tsprite_temp2 4096
+			add tsprite_temp tsprite_temp2
+			shiftvarl tsprite_temp 6
+			sin tsprite_temp2 tsprite_temp
+			shiftvarr tsprite_temp2 4
+			sub z tsprite_temp2
+			settspr[].tsprz z
+		}
+	}
+	
+	ifand actorvar[].command 16 settspr[THISACTOR].tsprshade -127
+
+	ifand actorvar[].command 64
+	{
+	getactor[THISACTOR].ang tsprite_temp
+	setvarvar tsprite_temp2 totalclock
+	shiftvarl tsprite_temp2 1
+	div tsprite_temp2 16
+	add tsprite_temp tsprite_temp2
+	settspr[THISACTOR].tsprang tsprite_temp
+	}
+
+	ifand actorvar[].command 128
+	{
+	getactor[THISACTOR].ang tsprite_temp
+	setvarvar tsprite_temp2 totalclock
+	shiftvarl tsprite_temp2 1
+	div tsprite_temp2 2
+	add tsprite_temp tsprite_temp2
+	settspr[THISACTOR].tsprang tsprite_temp
+	}
+
+	ifand actorvar[].command 256
+	{
+	getactor[THISACTOR].ang tsprite_temp
+	setvarvar tsprite_temp2 totalclock
+	shiftvarl tsprite_temp2 2
+	add tsprite_temp tsprite_temp2
+	settspr[THISACTOR].tsprang tsprite_temp
+	}
+
+	ifand actorvar[].command 512
+	{
+	getactor[THISACTOR].ang tsprite_temp
+	setvarvar tsprite_temp2 totalclock
+	shiftvarl tsprite_temp2 6
+	add tsprite_temp tsprite_temp2
+	settspr[THISACTOR].tsprang tsprite_temp
+	}
+
+	ifand actorvar[].command 1024 // counter-clockwise
+	{
+	getactor[THISACTOR].ang tsprite_temp
+	setvarvar tsprite_temp2 totalclock
+	shiftvarl tsprite_temp2 1
+	div tsprite_temp2 2
+	sub tsprite_temp tsprite_temp2
+	settspr[THISACTOR].tsprang tsprite_temp
+	}
+
+	ifand actorvar[].command 2048 // counter-clockwise
+	{
+	getactor[THISACTOR].ang tsprite_temp
+	setvarvar tsprite_temp2 totalclock
+	shiftvarl tsprite_temp2 2
+	sub tsprite_temp tsprite_temp2
+	settspr[THISACTOR].tsprang tsprite_temp
+	}
+
+	ifand actorvar[].command 131072
+	{
+	ife player[].heat_on 1
+		ife HELMET_LOADOUT[CHAR] 4 // ghost vision
+			{
+			settspr[].tsprpal 33
+			settspr[].tsprshade -127
+			}
+	}
+
+	ifand actorvar[].command 65536
+	{
+		gettspr[].tsprpal pal
+		ifn pal 4
+		{
+			geta[].z z
+			sub z 128
+			set tsprite_temp player[].player_par
+			set tsprite_temp2 THISACTOR
+			ifand tsprite_temp2 1 add tsprite_temp2 256
+			add tsprite_temp tsprite_temp2
+			shiftvarl tsprite_temp 2
+			sin tsprite_temp2 tsprite_temp
+			shiftvarr tsprite_temp2 4
+			sub z tsprite_temp2
+			settspr[].tsprz z
+		}
+	}
+
+	ifand actorvar[].command 8192
+	{
+	gettspr[].tsprpal tsprite_temp2
+	ife tsprite_temp2 4 break // If the shadow actor, break
+	ifl SKILL_LEVEL 3
+		{
+		geta[].shade tsprite_temp
+		sub tsprite_temp 5
+		ifl tsprite_temp -120 set tsprite_temp -120
+		settspr[].tsprshade tsprite_temp
+		}
+	ife player[].heat_on 1
+		{
+		ife HEAT_GOGGLES 1 // heat vision
+			{
+			ifand MONSTER_FLAGS 4
+				{
+				settspr[].tsprblend 0
+				settspr[].tsprcstat sprite[].cstat
+				}
+			ifl sprite[].extra 1
+				{
+				settspr[].tsprpal sprite[].pal
+				settspr[].tsprshade sector[].floorshade
+				}
+			else
+				{
+				settspr[].tsprpal 107
+				settspr[].tsprshade -127
+				}
+			}
+		else
+		ife HELMET_LOADOUT[CHAR] 4 // ghost vision
+			{
+			ifand MONSTER_FLAGS 8
+				{
+				settspr[].tsprblend 0
+				settspr[].tsprcstat 0
+				settspr[].tsprpal 67
+				}
+			else
+				{
+				settspr[].tsprpal sprite[].pal
+				settspr[].tsprshade sector[].floorshade
+				}
+			}
+		else // night vision
+			{
+			gets[].floorpal tsprite_temp3
+			switch tsprite_temp3
+				case 1
+				case 2
+				case 4
+				case 6
+				case 7
+				case 8
+				case 17
+				case 19
+				case 26
+				case 27
+				case 28
+				case 29
+				case 30
+				case 31
+				case 32
+				case 33
+				case 34
+				case 35
+					settspr[].tsprpal sector[].floorpal
+					break
+				default
+					settspr[].tsprpal sprite[].pal
+					break
+			endswitch
+
+			settspr[].tsprshade sector[].floorshade
+			}
+		ifl sprite[].extra 1
+				{
+					gets[].floorpal tsprite_temp3
+					switch tsprite_temp3
+						case 1
+						case 2
+						case 4
+						case 6
+						case 7
+						case 8
+						case 17
+						case 19
+						case 26
+						case 27
+						case 28
+						case 29
+						case 30
+						case 31
+						case 32
+						case 33
+						case 34
+						case 35
+							settspr[].tsprpal sector[].floorpal
+							break
+						default
+							settspr[].tsprpal sprite[].pal
+							break
+					endswitch
+				settspr[].tsprshade sector[].floorshade
+				}
+		}
+	}
+
+	// fade in and out code by helixhorned
+	ifand actorvar[].command 16384
+	{
+		set tsprite_temp totalclock
+		shiftvarl tsprite_temp 2
+
+		sin alpha tsprite_temp	 // alpha is now in [-2^14 .. 2^14]
+		shiftvarr alpha 7  // [-2^7 .. 2^7]
+		add alpha 128  // [0 .. 256]
+
+		ife alpha 0
+		{
+			// clear translucent bits, 0xfdfe == 0xffff-(1+512)
+			gettspr[].tsprcstat tsprite_temp
+			andvar tsprite_temp 0xfdfe
+			settspr[].tsprcstat tsprite_temp
+		}
+		else
+		{
+			gettspr[].tsprcstat tsprite_temp
+			orvar tsprite_temp 2
+			settspr[].tsprcstat tsprite_temp
+
+			// Assume blending tables [1 .. 128] are installed, like generated by
+			// shadexfog.lua:create_128_trans(1).
+			ifg alpha 128
+			{
+				set tsprite_temp 257
+				sub tsprite_temp alpha
+				set alpha tsprite_temp
+
+				// Set "reverse translucent" cstat bit
+				gettspr[].tsprcstat tsprite_temp
+				orvar tsprite_temp 512
+				settspr[].tsprcstat tsprite_temp
+			}
+			else
+			{
+				// Clear cstat bit 512
+				gettspr[].tsprcstat tsprite_temp
+				andvar tsprite_temp 0xfdff
+				settspr[].tsprcstat tsprite_temp
+			}
+
+			settspr[].tsprblend alpha
+		}
+	}
+
+	ifand actorvar[].command 2048
+	{
+	gettspr[].tsprstatnum tsprite_temp
+		{
+		ife tsprite_temp 99 nullop else settspr[].tsprpicnum 3587
+		}
+	}
+
+	ifand actorvar[].command 4096
+	{
+	ifn CHAR -1
+	ife ARTIFACTS_LOADOUT[CHAR] 9 // player has spirit shawl?
+		{
+		gettspr[].tsprpal tsprite_temp2
+		ifn tsprite_temp2 4
+			{
+			settspr[].tsprshade -127
+			settspr[].tsprblend 254
+			settspr[].tsprpal 103
+			}
+		}
+		else
+		ifn CHAR -1
+		ife HELMET_LOADOUT[CHAR] 4 // ghost vision
+		 ife player[].heat_on 1
+			{
+				settspr[].tsprblend 0
+				settspr[].tsprshade -127
+				settspr[].tsprcstat 0
+				settspr[].tsprpal 109
+			}
+		else
+		{
+			set tsprite_temp totalclock
+			shiftvarl tsprite_temp 2
+
+			sin alpha tsprite_temp	 // alpha is now in [-2^14 .. 2^14]
+			shiftvarr alpha 7  // [-2^7 .. 2^7]
+			add alpha 128  // [0 .. 256]
+
+			ife alpha 0
+			{
+				// clear translucent bits, 0xfdfe == 0xffff-(1+512)
+				gettspr[].tsprcstat tsprite_temp
+				andvar tsprite_temp 0xfdfe
+				settspr[].tsprcstat tsprite_temp
+			}
+			else
+			{
+				gettspr[].tsprcstat tsprite_temp
+				orvar tsprite_temp 2
+				settspr[].tsprcstat tsprite_temp
+
+				// Assume blending tables [1 .. 128] are installed, like generated by
+				// shadexfog.lua:create_128_trans(1).
+				ifg alpha 128
+				{
+					set tsprite_temp 257
+					sub tsprite_temp alpha
+					set alpha tsprite_temp
+
+					// Set "reverse translucent" cstat bit
+					gettspr[].tsprcstat tsprite_temp
+					orvar tsprite_temp 512
+					settspr[].tsprcstat tsprite_temp
+				}
+				else
+				{
+					// Clear cstat bit 512
+					gettspr[].tsprcstat tsprite_temp
+					andvar tsprite_temp 0xfdff
+					settspr[].tsprcstat tsprite_temp
+				}
+
+				settspr[].tsprblend alpha
+			}
+		}
+
+	}
+
+ifactor CAMERA1
+{
+settspr[].tsprcstat cstat_saved
+ifl sprite[].xrepeat 8
+ ifl sprite[].xrepeat 8
+  settspr[].tsprpicnum 3625
+}
+
+ifactor TRIPBOMB
+{
+ifspawnedby APLAYER
+ ife CHAR 1
+	settspr[].tsprpicnum 5449
+}
+
+
+ifactor BULLETHOLE
+{
+ife ally_mag 0 // no point making new variables
+	{
+	 geta[].x x
+	geta[].y y
+	geta[].sectnum temp
+	geta[].ang temp3
+	add temp3 1024
+
+	sin my temp3
+	cos mx temp3
+	geta[].z z
+
+	ifn temp -1
+	{
+		hitscan x y z temp mx my 0 hitsect hitwall hitsprite hitx hity hitz 16777280
+		ifn hitwall -1
+			{
+		   getw[hitwall].picnum FLOORTEX
+		   ife FLOORTEX 179 killit // hit a skybox wall texture
+		   ifand wall[hitwall].hitag 16 killit // wall scroll
+		   settspr[].tsprpal wall[hitwall].pal
+		   settspr[].tsprshade wall[hitwall].shade
+		   state CHECKSTEPS
+		   ife STEPSOUNDFX 1 set ally_mag 2
+		   ife STEPSOUNDFX 2 set ally_mag 5
+		   ife STEPSOUNDFX 3 set ally_mag 5
+		   ife STEPSOUNDFX 24 set ally_mag 5
+		   ife STEPSOUNDFX 14 set ally_mag 5
+		   ife STEPSOUNDFX 21 set ally_mag 6
+		   ife STEPSOUNDFX 23 set ally_mag 2
+		   ife STEPSOUNDFX 11 set ally_mag 3
+		   ife STEPSOUNDFX 18 set ally_mag 4
+		   ife STEPSOUNDFX 26 set ally_mag 4
+		   ife STEPSOUNDFX 32 set ally_mag 7
+			}
+			else set ally_mag 1
+
+		}
+	}
+
+ife ally_mag 2
+	settspr[].tsprpicnum 3778
+
+
+ife ally_mag 3
+	settspr[].tsprpicnum 3769
+
+ife ally_mag 4
+	{
+	settspr[].tsprpicnum 3068
+	settspr[].tsprblend 255
+	gettspr[].tsprcstat temp
+	xorvar temp 18
+	settspr[].tsprcstat 18
+	}
+
+ife ally_mag 5
+	settspr[].tsprpicnum 3645
+
+ife ally_mag 6
+	settspr[].tsprpicnum 3640
+
+ife ally_mag 7
+	settspr[].tsprpicnum 3715
+
+ifn hitwall -1 settspr[].tsprshade wall[hitwall].shade
+
+}
+
+ifactor AMCSHIP
+{
+ifoutside
+	{
+	settspr[].tsprpal sector[].floorpal
+	}
+}
+
+ifactor AMCSHIP2
+{
+ifoutside
+	{
+	settspr[].tsprpal sector[].floorpal
+	}
+}
+
+ifactor 29237
+{
+settspr[].tsprpal sector[].floorpal
+}
+
+ifactor 21612
+{
+ifspritepal 143 nullop else
+ifspritepal 163 nullop else
+settspr[].tsprpal 49
+}
+
+ifactor 14302
+{
+ife opt_highres_clouds OFF settspr[].tsprpicnum 3625
+ife opt_highres_clouds YES
+	{
+	settspr[].tsprpicnum 14309
+	  gettspr[].tsprcstat tsprite_temp
+	  ifand tsprite_temp 2 nullop else
+		  xorvar tsprite_temp 2
+	  settspr[].tsprcstat tsprite_temp
+	}
+}
+
+ifactor FIRELASER settspr[].tsprcstat 130
+
+ifactor 12263
+{
+ifn player[].newowner -1 settspr[].tsprpicnum 3625
+else ifn camerasprite -1 settspr[].tsprpicnum 3625
+else ife opt_speech_bubble NO settspr[].tsprpicnum 3625
+else settspr[].tsprpicnum 12263
+}
+
+ifactor TOWN_GUARD
+{
+ife sprite[].pal 21
+ ife VOLUME 3 // only do this in episode 4 since it relies on per-map
+	{
+	gettspr[].tsprpicnum tsprite_temp
+	add tsprite_temp 4848
+	settspr[].tsprpicnum tsprite_temp
+	}
+}
+
+
+ifactor 22877
+{
+ifand sprite[].pal 3
+	{
+	settspr[].tsprcstat 8
+	}
+}
+
+ifactor PIGCOP
+{
+		  geta[].htdispicnum tsprite_temp
+		  ifg tsprite_temp 2044
+		  ifl tsprite_temp 2055
+		  {
+		  settspr[].tsprxrepeat 28
+		  gettspr[].tsprpal tsprite_temp2
+		  ifn tsprite_temp2 4 settspr[].tspryrepeat 28
+		  }
+
+}
+
+ifactor PIG_SF
+{
+		  geta[].htdispicnum tsprite_temp
+		  ifg tsprite_temp 24108
+		  ifl tsprite_temp 24119
+		  {
+		  settspr[].tsprxrepeat 28
+		  gettspr[].tsprpal tsprite_temp2
+		  ifn tsprite_temp2 4 settspr[].tspryrepeat 28
+		  }
+
+}
+
+ifactor NINJA
+{
+		  geta[].htdispicnum tsprite_temp
+		  ifg tsprite_temp 14917
+		  ifl tsprite_temp 14943
+		  {
+		  settspr[].tsprxrepeat 30
+		  gettspr[].tsprpal tsprite_temp2
+		  ifn tsprite_temp2 4 settspr[].tspryrepeat 26
+		  }
+
+}
+
+ifactor MS_CORP_MECH
+{
+getp[].i tsprite_temp
+ife player_using_mech THISACTOR
+ife player[].over_shoulder_on 0
+	{
+	settspr[].tsprpicnum 11950
+	}
+}
+
+ifactor EAF_MECH
+{
+getp[].i tsprite_temp
+ife player_using_EAF_mech THISACTOR
+ife player[].over_shoulder_on 0
+	{
+	settspr[].tsprpicnum 11950
+	}
+}
+
+ifactor CULTIST
+{
+		  geta[].htdispicnum tsprite_temp
+		  ifg tsprite_temp 15229
+		  ifl tsprite_temp 15255
+		  {
+		  settspr[].tsprxrepeat 24
+		  gettspr[].tsprpal tsprite_temp2
+		  ifn tsprite_temp2 4 settspr[].tspryrepeat 24
+		  }
+
+}
+
+ifactor LIZMAN
+{
+
+		  geta[].htdispicnum tsprite_temp
+		  ifg tsprite_temp 2139
+		  ifl tsprite_temp 2165
+		  {
+		  settspr[].tsprxrepeat 28
+		  gettspr[].tsprpal tsprite_temp2
+		  ifn tsprite_temp2 4 settspr[].tspryrepeat 28
+		  }
+
+}
+
+
+ifmultiplayer set TSPRITE_PLAYER screenpeek
+else set TSPRITE_PLAYER PLAYER_IDENTITY
+
+ife tspr_picnum 11772 // TIME PORTAL
+{
+getav[TSPRITE_PLAYER].P_CHAR tsprite_temp3
+ife tsprite_temp3 0 settspr[].tsprpicnum 11772
+else settspr[].tsprpicnum 3625
+}
+
+ife tspr_picnum 27112 // SHADOW GATE
+{
+getav[TSPRITE_PLAYER].P_CHAR tsprite_temp3
+ife tsprite_temp3 17 settspr[].tsprpicnum 27112
+else settspr[].tsprpicnum 3625
+}
+
+ife tspr_picnum 12261 // SPIRITS
+{
+getav[TSPRITE_PLAYER].P_CHAR tsprite_temp3
+ife tsprite_temp3 5 settspr[].tsprpicnum 12261
+else settspr[].tsprpicnum 3625
+}
+
+ife tspr_picnum 12267 // SPIRITS
+{
+getav[TSPRITE_PLAYER].P_CHAR tsprite_temp3
+ife tsprite_temp3 5 settspr[].tsprpicnum 12267
+else settspr[].tsprpicnum 3625
+}
+
+// item anim
+
+ife tspr_picnum FIRSTGUNSPRITE // PISTOL
+	{
+	set tsprite_temp3 WEAPON_TILE[1]
+	state pickup_disp_stuff
+	}
+
+ife tspr_picnum SHOTGUNSPRITE // SHOTGUN
+	{
+	set tsprite_temp3 WEAPON_TILE[2]
+	ife tspr[].tsprpal 0
+		{
+		ife WEAPON_TILE[2] 16079 // KSG-12 colour
+			{
+			set cosm_col_id 53
+			state cus_gun_colour
+			settspr[].tsprpal cosm_col
+			}
+		}
+	state pickup_disp_stuff
+	}
+
+ife tspr_picnum CHAINGUNSPRITE // CHAINGUN
+	{
+	set tsprite_temp3 WEAPON_TILE[3]
+	ife tspr[].tsprpal 0
+		{
+		ife WEAPON_TILE[3] 11865 // MDF BR colour
+			{
+			set cosm_col_id 9
+			state cus_gun_colour
+			settspr[].tsprpal cosm_col
+			}
+		ife WEAPON_TILE[3] 13444 // SR-2 colour
+			{
+			set cosm_col_id 34
+			state cus_gun_colour
+			settspr[].tsprpal cosm_col
+			}
+		ife WEAPON_TILE[3] 29145 // Kriss colour
+			{
+			set cosm_col_id 92
+			state cus_gun_colour
+			settspr[].tsprpal cosm_col
+			}
+		ife WEAPON_TILE[3] 15911 // MDF BR colour
+			{
+			set cosm_col_id 47
+			state cus_gun_colour
+			settspr[].tsprpal cosm_col
+			}
+		}
+	state pickup_disp_stuff
+	}
+
+ife tspr_picnum RPGSPRITE // RPG
+	{
+	set tsprite_temp3 WEAPON_TILE[4]
+	state pickup_disp_stuff
+	}
+
+ife tspr_picnum SHRINKERSPRITE // SHRINKER
+	{
+	set tsprite_temp3 WEAPON_TILE[6]
+	state pickup_disp_stuff
+	}
+
+ife tspr_picnum 3689 // GRENADE
+	{
+	set tsprite_temp3 WEAPON_TILE[5]
+	state pickup_disp_stuff
+	}
+
+ife tspr_picnum DEVISTATORSPRITE // DEVISTATOR
+	{
+	set tsprite_temp3 WEAPON_TILE[7]
+	ife tspr[].tsprpal 0
+		{
+		ife WEAPON_TILE[7] 5218 // LR300 colour
+			{
+			set cosm_col_id 200
+			state cus_gun_colour
+			settspr[].tsprpal cosm_col
+			}
+		ife WEAPON_TILE[7] 15895 // LR300 colour
+			{
+			set cosm_col_id 45
+			state cus_gun_colour
+			settspr[].tsprpal cosm_col
+			}
+		ife WEAPON_TILE[7] 15898 // MR-15 colour
+			{
+			set cosm_col_id 84
+			state cus_gun_colour
+			settspr[].tsprpal cosm_col
+			}
+		ife WEAPON_TILE[7] 22571 // G36 colour
+			{
+			set cosm_col_id 78
+			state cus_gun_colour
+			settspr[].tsprpal cosm_col
+			}
+		}
+	state pickup_disp_stuff
+	}
+
+ife tspr_picnum TRIPBOMBSPRITE // TRIPBOMB
+	{
+	set tsprite_temp3 WEAPON_TILE[8]
+	state ammo_disp_stuff
+	}
+
+ife tspr_picnum FREEZESPRITE // FREEZER
+	{
+	set tsprite_temp3 WEAPON_TILE[9]
+	state pickup_disp_stuff
+	}
+
+ife tspr_picnum AMMO // PISTOL AMMO
+	{
+	set tsprite_temp3 W_AMMO_TILE[1]
+	state ammo_disp_stuff
+	}
+
+ife tspr_picnum SHOTGUNAMMO // SHOTGUN AMMO
+	{
+	set tsprite_temp3 W_AMMO_TILE[2]
+	state ammo_disp_stuff
+	}
+
+ife tspr_picnum BATTERYAMMO // MACHINEGUN AMMO
+	{
+	set tsprite_temp3 W_AMMO_TILE[3]
+	state ammo_disp_stuff
+	}
+
+ife tspr_picnum RPGAMMO // RPG AMMO
+	{
+	set tsprite_temp3 W_AMMO_TILE[4]
+	state ammo_disp_stuff
+	}
+
+ife tspr_picnum HBOMBAMMO // PIPEBOMB BOX
+	{
+	set tsprite_temp3 W_AMMO_TILE[5]
+	state ammo_disp_stuff
+	}
+
+ife tspr_picnum CRYSTALAMMO // SHRINKER AMMO
+	{
+	set tsprite_temp3 W_AMMO_TILE[6]
+	state ammo_disp_stuff
+	ife tsprite_temp3 46 break // if shrinker crystal, glow as normal
+	settspr[].tsprshade sector[].floorshade
+	}
+
+ife tspr_picnum GROWAMMO // EXPANDER AMMO
+	{
+	ifand weap_special[6] 512 set tsprite_temp3 W_AMMO_TILE[6] // if no expander weapon, use slot6 ammo tile instead
+	else set tsprite_temp3 W_AMMO_TILE[11]
+	state ammo_disp_stuff
+	}
+
+ife tspr_picnum DEVISTATORAMMO // DEVISTATOR AMMO
+	{
+	set tsprite_temp3 W_AMMO_TILE[7]
+	state ammo_disp_stuff
+	}
+
+ife tspr_picnum FREEZEAMMO // FREEZER AMMO
+	{
+	set tsprite_temp3 W_AMMO_TILE[9]
+	state ammo_disp_stuff
+	}
+
+ife tspr_picnum STEROIDS // STEROIDS
+{
+getav[TSPRITE_PLAYER].c_steroids tsprite_temp3
+state pickup_disp_stuff
+}
+
+ife tspr_picnum BOOTS // BOOTS
+{
+getav[TSPRITE_PLAYER].c_boots tsprite_temp3
+settspr[].tsprpicnum tsprite_temp3
+}
+
+ife tspr_picnum FIRSTAID // Medikit
+{
+getav[TSPRITE_PLAYER].c_medikit tsprite_temp3
+settspr[].tsprpicnum tsprite_temp3
+}
+
+ife tspr_picnum HOLODUKE // Holoduke
+{
+getav[TSPRITE_PLAYER].c_holoduke tsprite_temp3
+settspr[].tsprpicnum tsprite_temp3
+ife tsprite_temp3 6373 // Sang mirror
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 20
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 20
+	}
+}
+
+ife tspr_picnum JETPACK // Jetpack
+{
+getav[TSPRITE_PLAYER].c_jetpack tsprite_temp3
+ife CHAR 4 set tsprite_temp3 6370
+ife CHAR 9 set tsprite_temp3 6370
+settspr[].tsprpicnum tsprite_temp3
+}
+
+ife tspr_picnum HEATSENSOR // Night vision
+{
+getav[TSPRITE_PLAYER].disp_nvg tsprite_temp3
+settspr[].tsprpicnum tsprite_temp3
+}
+
+ife tspr_picnum AIRTANK // Scuba
+{
+getav[TSPRITE_PLAYER].c_scuba tsprite_temp3
+settspr[].tsprpicnum tsprite_temp3
+}
+
+ife tspr_picnum SHIELD // ARMOUR
+{
+getav[TSPRITE_PLAYER].c_armour tsprite_temp3
+ifn CHAR -1 ife CHEST_LOADOUT[CHAR] 4 settspr[].tsprpicnum 117
+else settspr[].tsprpicnum tsprite_temp3
+ife tsprite_temp3 5229 // James
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 28
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 28
+	}
+ife tsprite_temp3 6638 // Sang
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 25
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 25
+	}
+ife tsprite_temp3 6868 // Rusty
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 22
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 22
+	}
+ife tsprite_temp3 6637 // Geoffrey
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 30
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 30
+	}
+ife tsprite_temp3 7084 // Mikko
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 30
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 30
+	}
+ife tsprite_temp3 16638 // Micky
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 25
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 25
+	}
+ife tsprite_temp3 20989 // Snowfall
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 22
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 22
+	}
+}
+
+ife tspr_picnum 5236 // HEAVY ARMOUR
+{
+getav[TSPRITE_PLAYER].c_heavy_armour tsprite_temp3
+settspr[].tsprpicnum tsprite_temp3
+ife tsprite_temp3 4959
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 36
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 36
+	}
+ife tsprite_temp3 5410
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 45
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 45
+	}
+ife tsprite_temp3 6867 // Rusty
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 24
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 24
+	}
+ife tsprite_temp3 6636 // Geoffrey
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 35
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 35
+	}
+ife tsprite_temp3 7089
+	{
+	gettspr[].tsprpal tsprite_temp2
+	settspr[].tsprxrepeat 30
+	ifn tsprite_temp2 4 settspr[].tspryrepeat 30
+	}
+}
+
+ifactor WOODSCRAP state SHELL_ROT
+ifactor SWOODSCRAP state SHELL_ROT_BACK
+ifactor SHOTG_SHELL state SHELL_ROT
+ifactor SHOTG_SHELL_LEFT state SHELL_ROT
+ifactor EXSHELL state SHELL_ROT
+ifactor FL_SHELL state SHELL_ROT
+ifactor MAGN_SHELL state SHELL_ROT
+ifactor RIFLESHELL state SHELL_ROT
+ifactor FIFTY_CAL_SHELL state SHELL_ROT
+ifactor SCIFI_SHELL state SHELL_ROT
+ifactor NINEMM_SHELL state SHELL_ROT
+ifactor SRIFLESHELL state SHELL_ROT
+ifactor NINEMM_SHELL_LEFT state SHELL_ROT
+ifactor REVOLV_SHELL state SHELL_ROT
+ifactor TWENTY_SHELL state SHELL_ROT
+
+	switch tspr_picnum
+		case MONEY // 1233
+		case 1234 // money on floor
+			set tsprite_temp2 tspr_picnum
+				switch sprite[myowner].picnum
+				case TRIAD // bloody yuan
+					add tsprite_temp2 14326
+					break
+				case PIGCOP 
+				case PIGCOP_RIOT
+					ife TIMEZONE 2 add tsprite_temp2 14329 // Australian dollary doos
+					else add tsprite_temp2 14323 // bloody dollars
+					break
+				case BOTTLE10
+					add tsprite_temp2 14317 // dollars
+					break
+				case 4071 
+				case 22742 
+				case 7943 
+					add tsprite_temp2 35 // brown leaves
+					break
+				case 14335 
+				case 27036
+				case 27037
+					add tsprite_temp2 14314 // sakura leaves
+					break
+				case THOTH
+				case THOTH_TORSO_FLY
+				case CHICKEN 
+					add tsprite_temp2 14320 settspr[].tsprxrepeat 6 settspr[].tspryrepeat 6 // feathers
+					break
+				endswitch
+			settspr[].tsprpicnum tsprite_temp2
+			break
+		case SWOODSCRAP
+		case WOODSCRAP
+		case ICE_DEBRIS
+		case ROCKDEB_1
+		case ROCKDEB_3
+		case ROCKDEB_4
+		case SROCKDEB_4
+		case SLIMEPROJ
+		case CLUSTER_BOMB
+		case CLUSTER_BOMB2
+			settspr[].tsprpal sector[].floorpal
+		break
+	endswitch
+
+endevent

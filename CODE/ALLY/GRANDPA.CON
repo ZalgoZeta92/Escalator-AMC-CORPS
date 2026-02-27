@@ -1,0 +1,284 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile GRANDPA
+
+action A_GRANDPAIDLE 0 1 5 1 11
+action A_GRANDPAMOVE 5 4 5 1 11
+action A_GRANDPAFIRE 25 2 5 1 24
+action A_GRANDPAPAIN 35 1 1 1 8
+action A_GRANDPADYING 35 5 1 1 11
+action A_GRANDPADEAD 39 1 1 1 1
+
+ai AI_GRANDPAIDLE A_GRANDPAIDLE STOP 0
+ai AI_GRANDPAMOVE A_GRANDPAMOVE M_EDF_WALK geth 
+ai AI_GRANDPARELOAD A_GRANDPAMOVE M_EDF_SLOW seekplayer
+ai AI_GRANDPAFIRE A_GRANDPAFIRE STOP 0
+ai AI_GRANDPADYING A_GRANDPADYING STOP 0
+
+spriteshadow GRANDPA
+spritenvg GRANDPA
+
+useractor notenemy GRANDPA
+fall
+
+state player_walkthru
+
+ifai 0
+	{
+	seta[].htwaterzoffset 8
+	spawn SHOOTME2
+	set ally_mag 40
+	strength 1500
+	sizeat 23 23
+	ai AI_GRANDPAIDLE
+
+		ifn extra_saved -1 state startfollowplayer
+
+	}
+
+state spawn_cold_breathe
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifg ALLY_VOICE 0
+	{
+	sub ALLY_VOICE 1
+	ife ALLY_VOICE 1
+		{
+		ifrnd 128
+			{
+			ife ally_subt 0
+				{
+				qstrcpy 7501 5100
+				set ally_subt 32
+				}
+			sound GJ_FOLL1
+			}
+			else
+			{
+			ife ally_subt 0
+				{
+				qstrcpy 7501 5101
+				set ally_subt 34
+				}
+			sound GJ_FOLL2
+			}
+		}
+	}
+else
+ifl ALLY_VOICE 0
+	{
+	add ALLY_VOICE 1
+	ife ALLY_VOICE -1
+		{
+		ifrnd 128
+			{
+			ife ally_subt 0
+				{
+				qstrcpy 7501 5102
+				// ^1GRANDPA: ^0I'll keep watch here.
+				set ally_subt 78
+				}
+			sound GJ_STAY1
+			}
+			else
+			{
+			ife ally_subt 0
+				{
+				qstrcpy 7501 5103
+				// ^1GRANDPA: ^0Dah, I'll wait here.
+				set ally_subt 44
+				}
+			sound GJ_STAY2
+			}
+		}
+	}
+
+ifaction A_GRANDPADEAD
+	{
+	strength 0
+	break
+	}
+else
+ifai AI_GRANDPADYING
+	{
+	ifactioncount 5 action A_GRANDPADEAD
+	}
+ifai AI_GRANDPAFIRE
+	{
+	move STOP
+	state checkfortarget
+	ifactioncount 2
+	ifn my_target -1
+			{
+			state fronttowardstarget			
+			set PROJECTILE_FIRING_SOUND GARAND_FIRE
+			set PROJECTILE_TO_SHOOT ENEMY_BULLET
+			set PROJECTILE_PAL 8
+			set PROJECTILE_STRENGTH 50
+			state sang_enemyShootProjectile
+
+			state npc_rifleshell
+
+			set gunsmoke_z 7244
+			set gunsmoke_angle 220
+			state spawn_gunsmoke_z
+			set gunsmoke_z 7044
+			espawn 16115
+			state spawn_muzzleflash
+
+			sub ally_mag 5
+			ifle ally_mag 0 { sound GARAND_PING shoot SMGMAGAZINE ai AI_GRANDPARELOAD }
+			resetactioncount
+			}
+	ife my_target -1
+		{
+		ifrnd 32
+			{
+			ife ally_subt 0
+				{
+				qstrcpy 7501 5104
+				set ally_subt 61
+				}
+			soundonce GJ_KILL1
+			}
+		else ifrnd 32
+			{
+			ife ally_subt 0
+				{
+				qstrcpy 7501 5105
+				set ally_subt 70
+				}
+			soundonce GJ_KILL2
+			}
+		else ifrnd 32
+			{
+			ife ally_subt 0
+				{
+				qstrcpy 7501 5106
+				set ally_subt 61
+				}
+			soundonce GJ_NKILL1
+			}
+		ai AI_GRANDPAIDLE
+		}
+	}
+else
+ifai AI_GRANDPAMOVE
+	{
+	state checkfortarget
+	
+	state special_npc_teleport
+
+		ifn my_target -1
+		{
+		 ifrnd 32
+		ai AI_GRANDPAFIRE
+		}
+		else ife FOLLOW_PLAYER 1 state faceplayerstate
+		else ai AI_GRANDPAIDLE
+
+	ifactioncount 3
+		{
+		state npc_footsteps
+		resetactioncount
+		}
+	ifn ANGLE 0 ifpdistl 32768 ai AI_GRANDPAIDLE else
+	ifpdistl 1536 ai AI_GRANDPAIDLE
+	ifnotmoving operate
+
+	}
+else
+ifai AI_GRANDPARELOAD
+	{
+	add ally_mag 1
+	ife ally_mag 20 state bgar_mag_in_sounds
+	ife ally_mag 40 { ife FOLLOW_PLAYER 1 ai AI_GRANDPAMOVE else ai AI_GRANDPAIDLE }
+	}
+else
+ifai AI_GRANDPAIDLE
+	{
+	state checkfortarget
+	move STOP
+	sleeptime 0
+	add HEAL_COUNT 1
+	
+	state special_npc_teleport
+
+
+		ifn my_target -1
+		 ifrnd 32
+		ai AI_GRANDPAFIRE
+
+	ife FOLLOW_PLAYER 1
+	{
+		ifpdistg 2048
+		{
+			set temp 0
+			// if smartpoints used, don't rely on whether or not the player can be seen
+			/*
+			ifg smartpoint_index 0
+				set temp 1
+			else ifcansee ifcanseetarget
+				set temp 1
+
+			ife temp 1
+			*/
+				ai AI_GRANDPAMOVE
+		}
+	}
+	ifstrength 1500 ifg HEAL_COUNT 6 { addstrength 1 set HEAL_COUNT 0 }
+	ifspritepal 3 nullop else state rand_lookaround
+	}
+
+state player_follow_commands
+
+ifhitweapon
+	{
+	spawn BLOOD
+	ifrnd 76 action A_GRANDPAPAIN
+	state actor_knockback_state
+	state random_wall_jibs
+	state NEWGUNEFFECTS
+	ifdead
+		{
+		state rf
+		state clear_ally_death
+		sound RUSSIAN_DIE1
+		ai AI_GRANDPADYING
+		state removefollower
+		ifrnd 76 spawn BLOODPOOL
+		ifmultiplayer nullop else
+			{
+			palfrom 63 63 63 63
+			set SLO_MO_SHOWOFF 70
+			set FISSION_MAILED 1
+			}
+		}
+	}
+else
+ifaction A_GRANDPAPAIN
+	{
+	ifactioncount 4 { ife FOLLOW_PLAYER 1 ai AI_GRANDPAMOVE else ai AI_GRANDPAIDLE }
+	}
+
+enda

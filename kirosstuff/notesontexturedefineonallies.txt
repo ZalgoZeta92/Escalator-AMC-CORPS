@@ -1,0 +1,9 @@
+This is where its possible to add many images with pngs and assigned them as def: texture {pal filename}
+
+I borrowed the Elysion squire knight to replicate the image into assigned tiles. Then set it up for the define texture.
+
+It works completely and the shade effects works. The tint lighting on sector pal does not.
+
+This helps if any artist and lead designer does not like a silly generic pal color.
+
+24-texture must be on at all times as it is important feature for the game.

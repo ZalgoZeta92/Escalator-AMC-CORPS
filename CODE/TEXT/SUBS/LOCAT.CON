@@ -1,0 +1,942 @@
+// Locations  ====================================================================================
+
+ife cuts_txt 1000
+{
+set cs_textl 1
+qputs 350 ^1Several years ago...
+}
+ife cuts_txt 1001
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2G
+}
+else ifl cs_timer 20 qputs 350 ^2Ga
+else ifl cs_timer 25 qputs 350 ^2Gan
+else ifl cs_timer 30 qputs 350 ^2Gany
+else ifl cs_timer 35 qputs 350 ^2Ganym
+else ifl cs_timer 40 qputs 350 ^2Ganyme
+else ifl cs_timer 45 qputs 350 ^2Ganymed
+else ifl cs_timer 50 qputs 350 ^2Ganymede
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Ganymede
+qputs 351 Jupiter's largest moon.
+}
+}
+ife cuts_txt 1002
+{
+
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 14
+{
+stopsound OSD_TEXT2
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2U
+}
+else ifl cs_timer 18 qputs 350 ^2UA
+else ifl cs_timer 24 qputs 350 ^2UAA
+else ifl cs_timer 28 qputs 350 ^2UAAF
+else ifl cs_timer 32 qputs 350 ^2UAAF M
+else ifl cs_timer 36 qputs 350 ^2UAAF Mi
+else ifl cs_timer 40 qputs 350 ^2UAAF Min
+else ifl cs_timer 44 qputs 350 ^2UAAF Mini
+else ifl cs_timer 48 qputs 350 ^2UAAF Minin
+else ifl cs_timer 52 qputs 350 ^2UAAF Mining
+else ifl cs_timer 56 qputs 350 ^2UAAF Mining f
+else ifl cs_timer 60 qputs 350 ^2UAAF Mining fac
+else ifl cs_timer 64 qputs 350 ^2UAAF Mining faci
+else ifl cs_timer 68 qputs 350 ^2UAAF Mining facil
+else ifl cs_timer 72 qputs 350 ^2UAAF Mining facili
+else ifl cs_timer 76 qputs 350 ^2UAAF Mining facilit
+else ifl cs_timer 80 qputs 350 ^2UAAF Mining facility
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2UAAF Mining facility
+qputs 351 Built near Khensu crater impact.
+}
+}
+ife cuts_txt 1003
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2N
+}
+else ifl cs_timer 20 qputs 350 ^2Ne
+else ifl cs_timer 25 qputs 350 ^2New
+else ifl cs_timer 30 qputs 350 ^2New E
+else ifl cs_timer 35 qputs 350 ^2New En
+else ifl cs_timer 40 qputs 350 ^2New Eng
+else ifl cs_timer 45 qputs 350 ^2New Engl
+else ifl cs_timer 50 qputs 350 ^2New Engla
+else ifl cs_timer 55 qputs 350 ^2New Englan
+else ifl cs_timer 60 qputs 350 ^2New England
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2New England
+qputs 351 Isolated region near Providence.
+}
+}
+ife cuts_txt 1004
+{
+ifl cs_timer 3 set cs_textl 0
+else ifl cs_timer 6
+{
+set cs_textl 1
+qputs 350 ^1M
+}
+else ifl cs_timer 9 qputs 350 ^1Me
+else ifl cs_timer 12 qputs 350 ^1Mea
+else ifl cs_timer 15 qputs 350 ^1Mean
+else ifl cs_timer 18 qputs 350 ^1Meanw
+else ifl cs_timer 21 qputs 350 ^1Meanwh
+else ifl cs_timer 24 qputs 350 ^1Meanwhi
+else ifl cs_timer 27 qputs 350 ^1Meanwhil
+else ifl cs_timer 30 qputs 350 ^1Meanwhile
+else ifl cs_timer 33 qputs 350 ^1Meanwhile.
+else ifl cs_timer 36 qputs 350 ^1Meanwhile..
+else qputs 350 ^1Meanwhile...
+}
+ife cuts_txt 1005
+{
+set cs_textl 1
+qputs 350 ^8*Incoming Message*
+}
+ife cuts_txt 1006
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2E
+}
+else ifl cs_timer 20 qputs 350 ^2Eg
+else ifl cs_timer 25 qputs 350 ^2Egy
+else ifl cs_timer 30 qputs 350 ^2Egyp
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+qputs 350 ^2Egypt
+}
+}
+ife cuts_txt 1007
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+stopsound OSD_TEXT2
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2C
+}
+else ifl cs_timer 20 qputs 350 ^2Ca
+else ifl cs_timer 25 qputs 350 ^2Cai
+else ifl cs_timer 30 qputs 350 ^2Cair
+else ifl cs_timer 35 qputs 350 ^2Cairo
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Cairo
+qputs 351 MS Industries embassy.
+}
+}
+ife cuts_txt 1008
+{
+ifl cs_timer 3 set cs_textl 0
+else ifl cs_timer 6
+{
+set cs_textl 1
+qputs 350 S
+}
+else ifl cs_timer 9 qputs 350 Se
+else ifl cs_timer 12 qputs 350 Sev
+else ifl cs_timer 15 qputs 350 Seve
+else ifl cs_timer 18 qputs 350 Sever
+else ifl cs_timer 21 qputs 350 Severa
+else ifl cs_timer 24 qputs 350 Several
+else ifl cs_timer 27 qputs 350 Several h
+else ifl cs_timer 30 qputs 350 Several ho
+else ifl cs_timer 33 qputs 350 Several hou
+else ifl cs_timer 36 qputs 350 Several hour
+else ifl cs_timer 39 qputs 350 Several hours
+else ifl cs_timer 42 qputs 350 Several hours l
+else ifl cs_timer 45 qputs 350 Several hours la
+else ifl cs_timer 48 qputs 350 Several hours lat
+else ifl cs_timer 51 qputs 350 Several hours late
+else ifl cs_timer 54 qputs 350 Several hours later
+else ifl cs_timer 57 qputs 350 Several hours later.
+else ifl cs_timer 60 qputs 350 Several hours later..
+else qputs 350 Several hours later...
+}
+ife cuts_txt 1009
+{
+set cs_textl 1
+qputs 350 ^54*Video footage recovered*
+}
+ife cuts_txt 1010
+{
+ifl cs_timer 3 set cs_textl 0
+else ifl cs_timer 6
+	{
+	set cs_textl 1
+	qputs 350 S
+	}
+else ifl cs_timer 9 qputs 350 Se
+else ifl cs_timer 12 qputs 350 Sev
+else ifl cs_timer 15 qputs 350 Seve
+else ifl cs_timer 18 qputs 350 Sever
+else ifl cs_timer 21 qputs 350 Severa
+else ifl cs_timer 24 qputs 350 Several
+else ifl cs_timer 27 qputs 350 Several m
+else ifl cs_timer 30 qputs 350 Several mo
+else ifl cs_timer 33 qputs 350 Several mom
+else ifl cs_timer 36 qputs 350 Several mome
+else ifl cs_timer 39 qputs 350 Several momen
+else ifl cs_timer 42 qputs 350 Several moment
+else ifl cs_timer 45 qputs 350 Several moments
+else ifl cs_timer 48 qputs 350 Several moments l
+else ifl cs_timer 51 qputs 350 Several moments la
+else ifl cs_timer 54 qputs 350 Several moments lat
+else ifl cs_timer 57 qputs 350 Several moments late
+else ifl cs_timer 60 qputs 350 Several moments later
+else ifl cs_timer 63 qputs 350 Several moments later.
+else ifl cs_timer 66 qputs 350 Several moments later..
+else qputs 350 Several moments later...
+}
+ife cuts_txt 1011
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2R
+}
+else ifl cs_timer 20 qputs 350 ^2Ru
+else ifl cs_timer 25 qputs 350 ^2Rus
+else ifl cs_timer 30 qputs 350 ^2Russ
+else ifl cs_timer 35 qputs 350 ^2Russi
+else ifl cs_timer 40 qputs 350 ^2Russia
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Russia
+qputs 351 Somewhere near the Coast.
+}
+}
+ife cuts_txt 1012
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2C
+}
+else ifl cs_timer 20 qputs 350 ^2Ca
+else ifl cs_timer 25 qputs 350 ^2Can
+else ifl cs_timer 30 qputs 350 ^2Cana
+else ifl cs_timer 35 qputs 350 ^2Canad
+else ifl cs_timer 40 qputs 350 ^2Canada
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Canada
+qputs 351 Somewhere above Les Laurentides, Quebec
+}
+}
+ife cuts_txt 1013
+{
+set cs_textl 2
+qputs 350 ^8The End
+qputs 351 ^1Thanks for playing! See you next Episode!
+}
+ife cuts_txt 1014
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2X
+}
+else ifl cs_timer 20 qputs 350 ^2X6
+else ifl cs_timer 25 qputs 350 ^2X64
+else ifl cs_timer 30 qputs 350 ^2X64-
+else ifl cs_timer 35 qputs 350 ^2X64-2
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 3
+qputs 350 ^2X64-2
+qputs 351 Highly Classified Cycloid
+qputs 352 War Outpost
+}
+}
+ife cuts_txt 1015
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2A
+}
+else ifl cs_timer 20 qputs 350 ^2Af
+else ifl cs_timer 25 qputs 350 ^2Afr
+else ifl cs_timer 30 qputs 350 ^2Afric
+else ifl cs_timer 35 qputs 350 ^2Africa
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 3
+qputs 350 ^2Africa
+qputs 351 Somewhere near the border
+qputs 352 of Rwanda and the DR Congo
+}
+}
+ife cuts_txt 1020
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2A
+}
+else ifl cs_timer 20 qputs 350 ^2Ar
+else ifl cs_timer 25 qputs 350 ^2Ars
+else ifl cs_timer 30 qputs 350 ^2Arsi
+else ifl cs_timer 35 qputs 350 ^2Arsia
+else ifl cs_timer 40 qputs 350 ^2Arsia M
+else ifl cs_timer 45 qputs 350 ^2Arsia Mo
+else ifl cs_timer 50 qputs 350 ^2Arsia Mon
+else ifl cs_timer 55 qputs 350 ^2Arsia Mons
+else
+ifl cs_timer 60
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Arsia Mons
+qputs 351 ^8Orbital Elevator
+}
+else
+{
+ife play_sound 0
+{
+stopsound OSD_TEXT2
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set play_sound 1
+}
+set cs_textl 3
+qputs 350 ^2Arsia Mons
+qputs 351 ^8Orbital Elevator
+qputs 352 Built to transition materials from lower orbit
+}
+}
+ife cuts_txt 1021
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2A
+}
+else ifl cs_timer 20 qputs 350 ^2Ar
+else ifl cs_timer 25 qputs 350 ^2Ars
+else ifl cs_timer 30 qputs 350 ^2Arsi
+else ifl cs_timer 35 qputs 350 ^2Arsia
+else ifl cs_timer 40 qputs 350 ^2Arsia M
+else ifl cs_timer 45 qputs 350 ^2Arsia Mo
+else ifl cs_timer 50 qputs 350 ^2Arsia Mon
+else ifl cs_timer 55 qputs 350 ^2Arsia Mons
+else ifl cs_timer 60
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Arsia Mons
+qputs 351 ^8Upper City Transport station
+}
+else
+{
+ife play_sound 0
+{
+stopsound OSD_TEXT2
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set play_sound 1
+}
+set cs_textl 3
+qputs 350 ^2Arsia Mons
+qputs 351 ^8Upper City Transport station
+qputs 352 Leads to retail sector, Arsia Mons Broadcasting
+}
+}
+ife cuts_txt 1022
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2A
+}
+else ifl cs_timer 20 qputs 350 ^2Ar
+else ifl cs_timer 25 qputs 350 ^2Ars
+else ifl cs_timer 30 qputs 350 ^2Arsi
+else ifl cs_timer 35 qputs 350 ^2Arsia
+else ifl cs_timer 40 qputs 350 ^2Arsia M
+else ifl cs_timer 45 qputs 350 ^2Arsia Mo
+else ifl cs_timer 50 qputs 350 ^2Arsia Mon
+else ifl cs_timer 55 qputs 350 ^2Arsia Mons
+else ifl cs_timer 60
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Arsia Mons
+qputs 351 ^8Cohagen Industries Mines
+}
+else
+{
+ife play_sound 0
+{
+stopsound OSD_TEXT2
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set play_sound 1
+}
+set cs_textl 3
+qputs 350 ^2Arsia Mons
+qputs 351 ^8Cohagen Industries Mines
+qputs 352 Built to mine Turbidium
+}
+}
+ife cuts_txt 1023
+{
+
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 14
+{
+stopsound OSD_TEXT2
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2U
+}
+else ifl cs_timer 18 qputs 350 ^2Un
+else ifl cs_timer 24 qputs 350 ^2Unk
+else ifl cs_timer 28 qputs 350 ^2Unkn
+else ifl cs_timer 32 qputs 350 ^2Unkn
+else ifl cs_timer 36 qputs 350 ^2Unkno
+else ifl cs_timer 40 qputs 350 ^2Unknow
+else ifl cs_timer 44 qputs 350 ^2Unknown
+else ifl cs_timer 48 qputs 350 ^2Unknown S
+else ifl cs_timer 52 qputs 350 ^2Unknown Sp
+else ifl cs_timer 56 qputs 350 ^2Unknown Spa
+else ifl cs_timer 60 qputs 350 ^2Unknown Spac
+else ifl cs_timer 64 qputs 350 ^2Unknown Space
+else ifl cs_timer 68 qputs 350 ^2Unknown Space S
+else ifl cs_timer 72 qputs 350 ^2Unknown Space St
+else ifl cs_timer 76 qputs 350 ^2Unknown Space Sta
+else ifl cs_timer 80 qputs 350 ^2Unknown Space Stat
+else ifl cs_timer 85 qputs 350 ^2Unknown Space Stati
+else ifl cs_timer 90 qputs 350 ^2Unknown Space Statio
+else ifl cs_timer 85 qputs 350 ^2Unknown Space Station
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Unknown Space Station
+qputs 351 Orbiting above Arsia Mons Colony
+}
+}
+ife cuts_txt 1024
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2U
+}
+else ifl cs_timer 20 qputs 350 ^2Um
+else ifl cs_timer 25 qputs 350 ^2Umb
+else ifl cs_timer 30 qputs 350 ^2Umbr
+else ifl cs_timer 35 qputs 350 ^2Umbri
+else ifl cs_timer 40 qputs 350 ^2Umbrie
+else ifl cs_timer 45 qputs 350 ^2Umbriel
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Umbriel
+qputs 351 The dark moon of the 7th planet
+}
+}
+ife cuts_txt 1025
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2T
+}
+else ifl cs_timer 20 qputs 350 ^2Ti
+else ifl cs_timer 25 qputs 350 ^2Tit
+else ifl cs_timer 30 qputs 350 ^2Tita
+else ifl cs_timer 35 qputs 350 ^2Titan
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Titan
+qputs 351 Saturn's largest moon.
+}
+}
+ife cuts_txt 1030
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2A
+}
+else ifl cs_timer 20 qputs 350 ^2AM
+else ifl cs_timer 25 qputs 350 ^2AMC
+else ifl cs_timer 30 qputs 350 ^2AMC b
+else ifl cs_timer 35 qputs 350 ^2AMC ba
+else ifl cs_timer 40 qputs 350 ^2AMC bas
+else ifl cs_timer 45 qputs 350 ^2AMC base
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 3
+qputs 350 ^2AMC base
+qputs 351 Couple of hours after return
+qputs 352 from the Life tower
+}
+}
+ife cuts_txt 1031
+{
+set cs_textl 1
+qputs 350 Several weeks later...
+}
+ife cuts_txt 1032
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2A
+}
+else ifl cs_timer 20 qputs 350 ^2Au
+else ifl cs_timer 25 qputs 350 ^2Aus
+else ifl cs_timer 30 qputs 350 ^2Aust
+else ifl cs_timer 35 qputs 350 ^2Austr
+else ifl cs_timer 40 qputs 350 ^2Austra
+else ifl cs_timer 45 qputs 350 ^2Austral
+else ifl cs_timer 50 qputs 350 ^2Australi
+else ifl cs_timer 55 qputs 350 ^2Australia
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Australia
+qputs 351 EDF University of Adelaide Lecture Hall
+}
+}
+ife cuts_txt 1033
+{
+ifl cs_timer 3 set cs_textl 0
+else ifl cs_timer 6
+{
+set cs_textl 1
+qputs 350 S
+}
+else ifl cs_timer 9 qputs 350 Se
+else ifl cs_timer 12 qputs 350 Sev
+else ifl cs_timer 15 qputs 350 Seve
+else ifl cs_timer 18 qputs 350 Sever
+else ifl cs_timer 21 qputs 350 Severa
+else ifl cs_timer 24 qputs 350 Several
+else ifl cs_timer 27 qputs 350 Several h
+else ifl cs_timer 30 qputs 350 Several ho
+else ifl cs_timer 33 qputs 350 Several hou
+else ifl cs_timer 36 qputs 350 Several hour
+else ifl cs_timer 39 qputs 350 Several hours
+else ifl cs_timer 42 qputs 350 Several hours l
+else ifl cs_timer 45 qputs 350 Several hours la
+else ifl cs_timer 48 qputs 350 Several hours lat
+else ifl cs_timer 51 qputs 350 Several hours late
+else ifl cs_timer 54 qputs 350 Several hours later
+else ifl cs_timer 57 qputs 350 Several hours later.
+else ifl cs_timer 60 qputs 350 Several hours later..
+else ifl cs_timer 65 qputs 350 Several hours later...
+else
+{
+set cs_textl 3
+qputs 350 Several Hours later...
+qputs 351 ^2Garmid
+qputs 352 EDF Headquarters
+}
+}
+ife cuts_txt 1034
+{
+set cs_textl 2
+qputs 350 ^2Hours later
+qputs 351 Highwire's holiday home
+}
+ife cuts_txt 1035
+{
+ifl cs_timer 3 set cs_textl 0
+else ifl cs_timer 6
+{
+set cs_textl 1
+qputs 350 S
+}
+else ifl cs_timer 9 qputs 350 Se
+else ifl cs_timer 12 qputs 350 Sev
+else ifl cs_timer 15 qputs 350 Seve
+else ifl cs_timer 18 qputs 350 Sever
+else ifl cs_timer 21 qputs 350 Severa
+else ifl cs_timer 24 qputs 350 Several
+else ifl cs_timer 27 qputs 350 Several m
+else ifl cs_timer 30 qputs 350 Several mo
+else ifl cs_timer 33 qputs 350 Several mon
+else ifl cs_timer 36 qputs 350 Several mont
+else ifl cs_timer 39 qputs 350 Several month
+else ifl cs_timer 42 qputs 350 Several months
+else ifl cs_timer 45 qputs 350 Several months l
+else ifl cs_timer 48 qputs 350 Several months la
+else ifl cs_timer 51 qputs 350 Several months lat
+else ifl cs_timer 54 qputs 350 Several months late
+else ifl cs_timer 57 qputs 350 Several months later
+else ifl cs_timer 60 qputs 350 Several months later.
+else ifl cs_timer 60 qputs 350 Several months later..
+else qputs 350 Several Months later...
+}
+ife cuts_txt 1036
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2E
+}
+else ifl cs_timer 20 qputs 350 ^2EA
+else ifl cs_timer 25 qputs 350 ^2EAF
+else ifl cs_timer 30 qputs 350 ^2EAF S
+else ifl cs_timer 35 qputs 350 ^2EAF St
+else ifl cs_timer 40 qputs 350 ^2EAF Sta
+else ifl cs_timer 45 qputs 350 ^2EAF Star
+else ifl cs_timer 50 qputs 350 ^2EAF Stars
+else ifl cs_timer 55 qputs 350 ^2EAF Starsh
+else ifl cs_timer 60 qputs 350 ^2EAF Starshi
+else ifl cs_timer 65 qputs 350 ^2EAF Starship
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2EAF Starship
+qputs 351 In Earth Orbit
+}
+}
+ife cuts_txt 1037
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2M
+}
+else ifl cs_timer 20 qputs 350 ^2Mi
+else ifl cs_timer 25 qputs 350 ^2Mia
+else ifl cs_timer 30 qputs 350 ^2Miam
+else ifl cs_timer 35 qputs 350 ^2Miami
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Miami
+qputs 351 Undisclosed airport near the coast
+}
+}
+ife cuts_txt 1038
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2T
+}
+else ifl cs_timer 20 qputs 350 ^2Th
+else ifl cs_timer 25 qputs 350 ^2The
+else ifl cs_timer 30 qputs 350 ^2The M
+else ifl cs_timer 35 qputs 350 ^2The Mo
+else ifl cs_timer 40 qputs 350 ^2The Moo
+else ifl cs_timer 45 qputs 350 ^2The Moon
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2The Moon
+qputs 351 Somewhere near the Crater Copernicus...
+}
+}
+ife cuts_txt 1039
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2M
+}
+else ifl cs_timer 20 qputs 350 ^2Ma
+else ifl cs_timer 25 qputs 350 ^2Mad
+else ifl cs_timer 30 qputs 350 ^2Mada
+else ifl cs_timer 35 qputs 350 ^2Madag
+else ifl cs_timer 40 qputs 350 ^2Madaga
+else ifl cs_timer 45 qputs 350 ^2Madagas
+else ifl cs_timer 50 qputs 350 ^2Madagasc
+else ifl cs_timer 55 qputs 350 ^2Madagasca
+else ifl cs_timer 60 qputs 350 ^2Madagascar
+else
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Madagascar
+qputs 351 Several miles from civilisation...
+}
+}
+ife cuts_txt 1040
+{
+ifl cs_timer 3 set cs_textl 0
+else ifl cs_timer 6
+{
+set cs_textl 1
+qputs 350 B
+}
+else ifl cs_timer 9 qputs 350 Ba
+else ifl cs_timer 12 qputs 350 Bac
+else ifl cs_timer 15 qputs 350 Back
+else ifl cs_timer 18 qputs 350 Back i
+else ifl cs_timer 21 qputs 350 Back in
+else ifl cs_timer 24 qputs 350 Back in t
+else ifl cs_timer 27 qputs 350 Back in th
+else ifl cs_timer 30 qputs 350 Back in the
+else ifl cs_timer 33 qputs 350 Back in the p
+else ifl cs_timer 36 qputs 350 Back in the pr
+else ifl cs_timer 39 qputs 350 Back in the pre
+else ifl cs_timer 42 qputs 350 Back in the pres
+else ifl cs_timer 45 qputs 350 Back in the prese
+else ifl cs_timer 48 qputs 350 Back in the presen
+else ifl cs_timer 51 qputs 350 Back in the present
+else ifl cs_timer 54 qputs 350 Back in the present.
+else ifl cs_timer 57 qputs 350 Back in the present..
+else qputs 350 Back in the present...
+}
+ife cuts_txt 1041
+{
+ifl cs_timer 3 set cs_textl 0
+else ifl cs_timer 6
+{
+set cs_textl 1
+qputs 350 S
+}
+else ifl cs_timer 9 qputs 350 So
+else ifl cs_timer 12 qputs 350 Som
+else ifl cs_timer 15 qputs 350 Some
+else ifl cs_timer 18 qputs 350 Somep
+else ifl cs_timer 21 qputs 350 Somepl
+else ifl cs_timer 24 qputs 350 Somepla
+else ifl cs_timer 27 qputs 350 Someplac
+else ifl cs_timer 30 qputs 350 Someplace
+else ifl cs_timer 33 qputs 350 Someplace f
+else ifl cs_timer 36 qputs 350 Someplace fa
+else ifl cs_timer 39 qputs 350 Someplace far
+else ifl cs_timer 42 qputs 350 Someplace far a
+else ifl cs_timer 45 qputs 350 Someplace far aw
+else ifl cs_timer 48 qputs 350 Someplace far awa
+else ifl cs_timer 51 qputs 350 Someplace far away
+else ifl cs_timer 54 qputs 350 Someplace far away.
+else ifl cs_timer 57 qputs 350 Someplace far away..
+else qputs 350 Someplace far away...
+}
+ife cuts_txt 1042
+{
+set cs_textl 2
+qputs 350 Scroll in hand, you return to the Airship - and
+qputs 351 onwards towards Axon...
+}
+ife cuts_txt 1043
+{
+set cs_textl 1
+qputs 350 The final battle approaches...
+}
+ife cuts_txt 1045
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2A
+}
+else ifl cs_timer 20 qputs 350 ^2An
+else ifl cs_timer 25 qputs 350 ^2Ant
+else ifl cs_timer 30 qputs 350 ^2Anta
+else ifl cs_timer 35 qputs 350 ^2Antar
+else ifl cs_timer 40 qputs 350 ^2Antarc
+else ifl cs_timer 45 qputs 350 ^2Antarct
+else ifl cs_timer 50 qputs 350 ^2Antarcti
+else ifl cs_timer 55 qputs 350 ^2Antarctic
+else ifl cs_timer 60 qputs 350 ^2Antarctica
+else
+	{
+	stopsound OSD_TEXT
+	ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+	set cs_textl 2
+	qputs 350 ^2Antarctica
+	qputs 351 Hundreds of miles from civilisation...
+	}
+}
+ife cuts_txt 1046
+	{
+	ifl cs_timer 10 set cs_textl 0
+	else ifl cs_timer 15
+	{
+	ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+	set cs_textl 1
+	qputs 350 ^2P
+	}
+	else ifl cs_timer 20 qputs 350 ^2Pi
+	else ifl cs_timer 25 qputs 350 ^2Pit
+	else ifl cs_timer 30 qputs 350 ^2Pitt
+	else ifl cs_timer 35 qputs 350 ^2Pitts
+	else ifl cs_timer 40 qputs 350 ^2Pittsb
+	else ifl cs_timer 45 qputs 350 ^2Pittsbu
+	else ifl cs_timer 50 qputs 350 ^2Pittsbur
+	else ifl cs_timer 55 qputs 350 ^2Pittsburg
+	else ifl cs_timer 60 qputs 350 ^2Pittsburgh
+	else
+	{
+	stopsound OSD_TEXT
+	ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+	set cs_textl 2
+	qputs 350 ^2Pittsburgh
+	qputs 351 A devastated city under siege by not just the Paradigm...
+	}
+	}
+ife cuts_txt 1047
+{
+set cs_textl 1
+qputs 350 A few hours ago...
+}
+ife cuts_txt 1048
+{
+ifl cs_timer 3 set cs_textl 0
+else ifl cs_timer 6
+	{
+	set cs_textl 1
+	qputs 350 S
+	}
+else ifl cs_timer 9 qputs 350 Se
+else ifl cs_timer 12 qputs 350 Sev
+else ifl cs_timer 15 qputs 350 Seve
+else ifl cs_timer 18 qputs 350 Sever
+else ifl cs_timer 21 qputs 350 Severa
+else ifl cs_timer 24 qputs 350 Several
+else ifl cs_timer 27 qputs 350 Several h
+else ifl cs_timer 30 qputs 350 Several ho
+else ifl cs_timer 33 qputs 350 Several hou
+else ifl cs_timer 36 qputs 350 Several hour
+else ifl cs_timer 39 qputs 350 Several hours
+else ifl cs_timer 42 qputs 350 Several hours l
+else ifl cs_timer 45 qputs 350 Several hours la
+else ifl cs_timer 48 qputs 350 Several hours lat
+else ifl cs_timer 51 qputs 350 Several hours late
+else ifl cs_timer 54 qputs 350 Several hours later
+else ifl cs_timer 57 qputs 350 Several hours later.
+else ifl cs_timer 60 qputs 350 Several hours later..
+else ifl cs_timer 65 qputs 350 Several hours later...
+else
+	{
+	set cs_textl 3
+	qputs 350 Several Hours later...
+	qputs 351 ^2Garmid's offshore Geothermal plant
+	qputs 352 ^32PATCOS' signal source
+	}
+}
+ife cuts_txt 1049
+{
+ifl cs_timer 3 set cs_textl 0
+else ifl cs_timer 6
+	{
+	set cs_textl 1
+	qputs 350 S
+	}
+else ifl cs_timer 9 qputs 350 So
+else ifl cs_timer 12 qputs 350 Sou
+else ifl cs_timer 15 qputs 350 Sout
+else ifl cs_timer 18 qputs 350 South
+else ifl cs_timer 21 qputs 350 South A
+else ifl cs_timer 24 qputs 350 South Af
+else ifl cs_timer 27 qputs 350 South Afr
+else ifl cs_timer 30 qputs 350 South Afri
+else ifl cs_timer 33 qputs 350 South Afric
+else ifl cs_timer 36 qputs 350 South Africa
+else
+	{
+	set cs_textl 3
+	qputs 350 South Africa
+	qputs 351 ^2An EAF base stationed near the shipyard 
+	qputs 352 ^2managing the Argo's construction...
+	}
+}
+ife cuts_txt 1100
+{
+set cs_textl 0
+}

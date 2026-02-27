@@ -1,0 +1,109 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+// Activespawn
+// Lotag = activator to check for
+// Hitag = Picnum to spawn
+// Xvel = Delay tics (will spawn if activator is in motion + x tics)
+// Yvel = lotag to give the spawned sprite
+// Zvel = hitag to give the spawned sprite
+// Resize to not 64x64 to have the spawned sprite apply the same dimensions
+// Apply transparency on this sprite to apply transparency on the spawned sprite
+useractor notenemy ACTIVESPAWN
+	geta[].cstat cstat_saved
+
+	ifand cstat_saved 32768 nullop
+	else
+	{
+		add cstat_saved 32768
+		seta[].cstat cstat_saved
+	}
+
+	checkactivatormotion lotag_saved
+
+	ife RETURN 1
+	{
+		set temp 1
+	}
+
+	ife temp 1
+	{
+		add INTERNALCOUNT 1
+		set temp2 0
+
+		geta[].xvel xvel_saved
+
+		ife xvel_saved 0
+			set temp2 1
+		else ifg INTERNALCOUNT xvel_saved
+			set temp2 1
+
+		ife temp2 1
+		{
+			geta[].yvel yvel_saved
+			geta[].zvel zvel_saved
+			geta[].pal pal_saved
+
+			espawn hitag_saved
+			seta[RETURN].pal pal_saved
+			setav[RETURN].lotag_saved yvel_saved
+			setav[RETURN].hitag_saved zvel_saved
+			setav[RETURN].my_target PLAYER_IDENTITY
+
+			geta[].xrepeat my_x
+			geta[].yrepeat my_y
+
+			// if this sprite was explicitly resized (so not just 64x64), apply this size to the spawned thing
+			ifn my_x 64
+				ifn my_y 64
+			{
+				seta[RETURN].xrepeat my_x
+				seta[RETURN].yrepeat my_y
+			}
+
+			// apply transparency
+			geta[].cstat temp
+
+			ifand temp 2
+			{
+				geta[RETURN].cstat temp2
+
+				// if already set then nvm
+				ifand temp2 2 nullop
+				else
+				{
+					add temp2 2
+					seta[RETURN].cstat temp2
+				}
+			}
+
+			ifand temp 512
+			{
+				geta[RETURN].cstat temp2
+				// if already set then nvm
+				ifand temp2 512 nullop
+				else
+				{
+					add temp2 512
+					seta[RETURN].cstat temp2
+				}
+			}
+
+			killit
+		}
+	}
+enda

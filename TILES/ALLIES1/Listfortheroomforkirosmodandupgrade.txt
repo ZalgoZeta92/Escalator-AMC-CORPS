@@ -1,0 +1,1 @@
+TEXTURES define to replace pals with awesome designs. Better than maxing out MAP ART FILES and numbers. Needs to have the same image size x * y and x * y.

@@ -1,0 +1,33 @@
+newgamechoices
+{
+    choice 0
+    {
+        name "Start from Episode"
+        choice 0
+        {
+            name "The Men who were AMC"
+        }
+        choice 1
+        {
+            name "Showdown in Hong Kong"
+        }
+        choice 2
+        {
+            name "Quest for the Golden Sang"
+        }
+    }
+    choice 1
+    {
+        name "Continue at AMC Base"
+        locked
+    }
+    choice 2
+    {
+        name "Custom Episode"
+    }
+    choice 3
+    {
+        name "User Maps"
+        usercontent
+    }
+}

@@ -1,0 +1,302 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+--------------------------------------------------------------------------------
+*/
+
+defstate ROSA_EQUIP_SCREEN
+	{
+	set gui_pos_x 12
+	set gui_pos_y 40
+	state SCROLL_POS
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 1) Mauser C96
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14847 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 535
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 535
+			{
+			rotatesprite 288 148 HALFSIZE 128 23268 0 0 0 0 0 xdim ydim
+			qputs 1011 Manufactured at the turn of the
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 20th century, this small pistol
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 packs a 7.63mm punch and is
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 fairly powerful
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 1 Pistol
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 ^8ALT-FIRE: ^0Stun Scanner Flash
+			screentext STARTALPHANUM 95 76 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_STANDARD
+			state gun_dam_type_disp
+			}
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 2) Trenchgun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14413 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 536
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 536
+			{
+			rotatesprite 288 148 18000 128 32366 0 0 0 0 0 xdim ydim
+			qputs 1011 Rosa's Trenchgun; capable
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 of slamfiring. In laymen's
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 terms, firing really fast.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 2 Shotgun
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 -Can use alternate/advanced Shells
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 ^8ALT-FIRE: ^0Stun Scanner Flash
+			screentext STARTALPHANUM 95 76 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_SOFT
+			state gun_dam_type_disp
+			}
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 3) Sterling
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14845 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 537
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[151] 2 setarray SPECIALIST_EQUIPMENT[151] 1 else
+					sound GET_GUN
+					}
+				}
+	}
+		ife INFO_SEL_3 537
+			{
+			rotatesprite 288 148 14000 128 32386 0 0 0 0 0 xdim ydim
+			qputs 1011 A Sterling SMG loaded with
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 silver ammunition, Has a
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 a magazine of 30 rounds.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 3 SMG
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 95 64 28672 0 0 2198 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_SILVER
+			state gun_dam_type_disp
+			}
+			
+	set item_num 151
+	ifg SPECIALIST_EQUIPMENT[151] 0 // has the Huot?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 -Huot AR
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14844 0 0 0 0 0 xdim ydim // Icon
+
+		ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 item_num
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+
+				state handle_click
+				ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[item_num] 2 setarray SPECIALIST_EQUIPMENT[item_num] 1 else
+					setarray SPECIALIST_EQUIPMENT[item_num] 2
+					sound GET_GUN
+					}
+				}
+		}
+	}
+
+		ife INFO_SEL_3 151
+			{
+			rotatesprite 288 148 22000 128 32461 0 0 0 0 0 xdim ydim
+			qputs 1011 A WW1-era Canadian LMG;
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 fires .303 rounds and has
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 a 25-round magazine.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 3 Rifle
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_RIFLE
+			state gun_dam_type_disp
+			}
+			
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 4) Firebomb
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14842 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 538
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 538
+			{
+			rotatesprite 288 148 24000 128 32409 0 0 0 0 0 xdim ydim
+			qputs 1011 An advaned explosive weapon
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 from H.U.N.T's arsenal that
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Rosa uses to great effect.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 4 Rocket Launcher
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_FLAME
+			state gun_dam_type_disp
+			}
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 6) AWM
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14793 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 539
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 539
+			{
+			rotatesprite 288 148 24000 128 29781 0 0 0 0 0 xdim ydim
+			qputs 1011 An Arctic Warfare Magnum
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 that's good for when Rosa
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 doesn't feel like getting
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 in her foe's face.
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 6 Sniper Rifle
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_ARMOURP
+			state gun_dam_type_disp
+			}
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 7) Stake Gun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14844 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 540
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 540
+			{
+			rotatesprite 288 148 22000 128 32393 0 0 0 0 0 xdim ydim
+			qputs 1011 This gun fires stakes made
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 of pure silver. Not much
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 more to say really.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 7 Projectile weapon
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_SILVER
+			state gun_dam_type_disp
+			}
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 9) Teslagun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14837 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 541
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 541
+			{
+			rotatesprite 288 147 INVENSIZE 128 32419 0 0 0 0 0 xdim ydim
+			qputs 1011 A rotary Teslagun; deals devestating
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 damage to anything stupid enough to
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 stand in the way.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 9 Electrical Weapon
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_THUNDER
+			state gun_dam_type_disp
+			}
+
+	}
+ends

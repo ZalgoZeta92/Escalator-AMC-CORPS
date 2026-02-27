@@ -1,0 +1,195 @@
+action A_MISTER_H_START 0 0 5 1 12
+action A_MISTER_H_IDLE 0 0 5 1 12
+
+action A_MISTER_H_SHOCK 25 2 5 1 12
+action A_MISTER_H_PUNCH 35 3 5 1 20
+
+action A_MISTER_H_SEEK 5 4 5 1 12
+
+action A_MISTER_H_PAIN 50 0 1 1 8
+
+action A_MISTER_H_DYING 50 2 1 1 12
+action A_MISTER_H_DEAD 51
+
+move M_MISTER_H_WALK 120
+
+damageeventtile HERR_HYDE
+
+useractor enemy HERR_HYDE 3000 A_MISTER_H_START
+fall
+ifaction A_MISTER_H_START
+{
+	cstat 257
+	strength 3000
+	set CURBOSS THISACTOR
+	sizeat 26 26
+	set blood_type 0 // defaults to 0 which is red
+	set actor_type TYPE_FULL_BODY_ARMOUR
+	geta[].pal actor_pal
+	espawn SHOOTME seta[RETURN].pal 1
+	state monst_glow
+	action A_MISTER_H_IDLE
+}
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifaction A_MISTER_H_IDLE
+{
+	move STOP
+	ifn lotag_saved 0
+	{
+	seta[].htextra -1
+	checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+			action A_MISTER_H_SEEK
+			set lotag_saved 0
+		}
+	}
+	else
+	{
+		state checkfortarget
+		ifn my_target -1 
+		{
+		ifp pdead nullop else
+			{
+			sound MRH_SEEK
+			action A_MISTER_H_SEEK
+			}
+		}
+	}
+}
+else ifaction A_MISTER_H_SEEK
+{
+	ifmove M_MISTER_H_WALK nullop 
+	else move M_MISTER_H_WALK geth
+	
+	ifrnd 4 sound MRH_ROAM
+	
+	state smartpoint_angletoplayer
+	
+		ifg fstep_count 0 sub fstep_count 1
+		ife fstep_count 0
+			{
+			randvar temp8 40
+			ifl temp8 10 sound SUIT_STEP1 else
+			ifl temp8 20 sound SUIT_STEP2 else
+			ifl temp8 30 sound SUIT_STEP3 else
+			sound SUIT_STEP4
+			set fstep_count 10
+			}
+
+	ifn my_target -1
+	{
+	ldist temp6 THISACTOR my_target
+	ifl temp6 768 { sound MRH_THROWP ifaction A_MISTER_H_SHOCK nullop else action A_MISTER_H_PUNCH }
+	else
+		{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+		ifl RANDOM_CHANCE SKILLCHANCE 
+			{
+				sound JMOVE5 
+				ifaction A_MISTER_H_SHOCK nullop else action A_MISTER_H_SHOCK
+			}
+		}
+	}
+
+	 ifp pdead action A_MISTER_H_IDLE
+}
+else ifaction A_MISTER_H_SHOCK
+{
+move STOP
+state new_validatetarget
+ife my_target -1 action A_MISTER_H_SEEK
+else
+	{
+	state fronttowardstarget
+	ifactioncount 2
+		{
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		globalsound SHAMB_BOOM
+        set PROJECTILE_TO_SHOOT 22610
+        set PROJECTILE_FIRING_SOUND 4
+        state sang_enemyShootProjectile
+		state sang_enemyShootProjectile
+		action A_MISTER_H_SEEK
+		}
+	}
+}
+else ifaction A_MISTER_H_PUNCH
+{
+move STOP faceplayer
+ifactioncount 3
+	{
+	sound BERSERK_HIT
+	eshoot 17849	
+	resetactioncount
+	}
+ifpdistg 1025 action A_MISTER_H_SEEK
+}
+else ifaction A_MISTER_H_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_MISTER_H_DYING 
+		else action A_MISTER_H_SEEK
+	}
+}
+else ifaction A_MISTER_H_DYING
+{
+	strength 0
+	ifactioncount 2 action A_MISTER_H_DEAD
+}
+
+else ifaction A_MISTER_H_DEAD
+{
+	move STOP
+	soundonce HYDE_BREATHE
+	checkactivatormotion 701
+	ife RETURN 1
+		{
+		quake 52
+		screensound MRH_LAUGH
+		state standard_jibs
+		spawn BIG_BLOOD_EXE
+		spawn FLAME_HYDE
+		killit
+		}
+}
+
+
+ifhitweapon
+{
+	sound BERSERK_PAIN
+	guts JIBS6 1
+	set CURBOSS THISACTOR
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+		action A_MISTER_H_DYING
+		set music_fade 1
+	}
+		
+	else // not dead
+	{
+		ifg PAIN_AMOUNT 0 action A_MISTER_H_PAIN
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST action A_MISTER_H_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_MISTER_H_IDLE { state PAIN_SKILL_LEVELADJUST action A_MISTER_H_PAIN }
+	}
+}
+
+state checksquished
+
+enda

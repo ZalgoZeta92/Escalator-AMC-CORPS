@@ -1,0 +1,387 @@
+appendstate runSectorEffectorLogic
+
+ife sprite[].lotag 75
+{
+	checkactivatormotion hitag_saved
+		ife RETURN 1
+		{
+		set skybox 1
+		killit
+		}
+}
+
+
+ife sprite[].lotag 77 // de-activated skybox, to swap with another one
+{
+	set MASTERSWITCH_SUBSCRIBE yvel_saved
+	checkactivatormotion yvel_saved
+
+	set temp 0
+	ife RETURN 1
+		set temp 1
+	else ife MASTERSWITCH_RETURN 1
+	{
+		set temp 1
+		set MASTERSWITCH_RETURN 0
+	}
+
+	ife temp 1
+	{
+		set skybox_owner THISACTOR
+		set cloud_centre THISACTOR
+
+		set skybox 2
+		seta[].lotag 80
+
+		ife pal_saved 2 nullop
+		else
+		{
+			geta[].x skybox_x
+			geta[].y skybox_y
+		}
+		geta[].z skybox_z
+		geta[].sectnum skybox_sect
+		updatesectorz skybox_x skybox_y skybox_z skybox_sect
+	}
+	ifn zvel_saved 0 // use this tag to turn the skybox off permanantly
+	{
+		checkactivatormotion zvel_saved
+		ife RETURN 1
+			seta[].lotag 76
+	}
+}
+
+ife sprite[].lotag 78 // de-activated skybox, turns off skybox initially
+{
+	ife skybox_owner -1 // only if no current skybox
+		set skybox 0
+
+	set MASTERSWITCH_SUBSCRIBE yvel_saved
+	checkactivatormotion yvel_saved
+
+	set temp 0
+	ife RETURN 1
+		set temp 1
+	else ife MASTERSWITCH_RETURN 1
+	{
+		set temp 1
+		set MASTERSWITCH_RETURN 0
+	}
+
+	ife temp 1
+	{
+		set skybox_owner THISACTOR
+		set cloud_centre THISACTOR
+
+		seta[].lotag 80
+
+		ife pal_saved 2 nullop
+		else
+		{
+			geta[].x skybox_x
+			geta[].y skybox_y
+		}
+		geta[].z skybox_z
+		geta[].sectnum skybox_sect
+		updatesectorz skybox_x skybox_y skybox_z skybox_sect
+
+	}
+	ifn zvel_saved 0 // use this tag to turn the skybox off permanantly
+	{
+		checkactivatormotion zvel_saved
+		ife RETURN 1
+			seta[].lotag 76
+	}
+}
+
+ife sprite[].lotag 79
+{
+	checkactivatormotion hitag_saved
+		ife RETURN 1
+		{
+		ifg skybox 0 set skybox 0 else
+		ife skybox 0
+			{
+			ifspritepal 0 set skybox 1
+			else ifspritepal 1 set skybox 2
+			}
+		}
+}
+
+ife sprite[].lotag 80 // skybox
+{
+	sleeptime 0
+
+	ife skybox_z_offset -3
+	{	
+		// This bit determines if skybox floor z offset is variable or not
+		// pal 7 skyboxes travel along a path and need a start angle for this to look correct so relying on angle 512 doesn't work
+		
+		ife pal_saved 7
+			set skybox_z_offset -1
+		else
+		{
+			geta[].ang angvar
+			ife angvar 512
+				set skybox_z_offset -1
+			else
+				set skybox_z_offset -2
+		}
+	}
+	// claim skybox owner if not already claimed
+	ife skybox_owner -1
+	{
+		set skybox_owner THISACTOR
+		set cloud_centre THISACTOR
+	}
+
+	ifn xvel_saved 0 // turn off skybox with XVEL (turn on again with YVEL)
+	{
+		set temp 0
+		set MASTERSWITCH_SUBSCRIBE xvel_saved
+		checkactivatormotion xvel_saved
+
+		ife RETURN 1
+			set temp 1
+		else ife MASTERSWITCH_RETURN 1
+		{
+			set temp 1
+			set MASTERSWITCH_RETURN 0
+		}
+
+		ife temp 1
+		{
+			ife pal_saved 3
+				seta[].lotag 77
+			else
+			{
+				// This check is to avoid setting skybox to 0 if a replacing skybox has already been set
+				ife skybox_owner THISACTOR
+				{
+					set skybox 0
+					set skybox_owner -1
+				}
+
+				seta[].lotag 78
+			}
+		}
+	}
+
+	// are we still in charge?
+	ife skybox_owner THISACTOR
+	{
+		ife pal_saved 0
+			set skybox 1
+		else ife pal_saved 1 // skybox that moves with player
+		{
+			ife hitag_saved 0
+				set skybox_scale 64
+			else
+				set skybox_scale hitag_saved
+
+			set skybox 2
+		}
+		else ife pal_saved 2 // rotating skybox
+		{
+			geta[].x temp
+			geta[].y temp2
+
+			set temp3 temp
+			add temp3 hitag_saved
+
+			rotatepoint temp temp2 temp3 temp2 temp9 skybox_x skybox_y
+
+			ifg temp9 2048 sub temp9 2048
+			seta[].ang temp9
+
+			getp[].ang temp6
+			add temp6 temp9
+
+			set skybox_angle temp6
+			add temp9 2
+
+			set skybox 3
+		}
+		else ife pal_saved 3 // skybox that moves with player
+		{
+			ife hitag_saved 0
+				set skybox_scale 64
+			else
+				set skybox_scale hitag_saved
+
+			set skybox 3
+		}
+		else ife pal_saved 7
+		{
+			set smartpoint_track_sub zvel_saved
+			
+			state anglePathToNextLotag
+			
+			ifn next_point -1
+			{
+				// if the next point has PAL 6 we teleport to it instantly
+				getav[next_point].pal_saved temp
+				ife temp 6
+				{
+					seta[].x sprite[next_point].x
+					seta[].y sprite[next_point].y
+					seta[].z sprite[next_point].z
+					
+					
+					// immediately angle to next point after this, just snap to it
+					// this doesn't seem to work so just relying on point ang for now
+					seta[].ang sprite[next_point].ang
+					state skybox_movesprite_state
+				}
+				else
+				{
+					// XY Axis movement
+					ldist xydist next_point THISACTOR
+
+					// if we're already at the next point, there's a good chance we only need Z axis movement
+					ifg xydist 500
+					{
+						// angvar contains angle we need to orient to. Gradually turn towards it.
+						geta[].ang temp
+						set ANGLE_A temp
+						set ANGLE_B angvar
+						state get_shortest_angle_diff
+						
+						geta[].ang temp // refetch just so we definitely have the correct value
+						ifg ANGLE_DIFF 10
+						{
+							ifg temp angvar
+								sub temp 3
+							else ifl temp angvar
+								add temp 3
+						}
+						else // close enough, just snap to it
+						{
+							set temp angvar
+						}
+						seta[].ang temp
+						
+						state skybox_movesprite_state
+					}
+				
+					// Z Axis movement
+					geta[].z my_z
+					geta[next_point].z z
+					add z skybox_z_offset
+					// Dunno the accurate zvel, maybe doesn't matter here yet - just increase/decrease Z until match
+					// if within x units just snap
+					set temp my_z
+					sub temp z
+					abs temp // temp = height diff
+					
+					ifg temp 200
+					{
+						ifg my_z z
+							sub my_z 200
+						else ifl my_z z
+							add my_z 200
+					}
+					else
+						set my_z z
+					
+					seta[].z my_z
+					
+					// failsafe, if sunk beneath floor z, push up
+					geta[].sectnum mysector
+					state gettrorawarefloorz
+
+					ifl z my_z 
+						seta[].z z
+						
+					// likewise for ceiling
+					geta[].sectnum mysector
+					state gettrorawareceilingz
+
+					ifg z my_z 
+						seta[].z z
+				}
+				
+			}
+			
+			set skybox 4
+		}
+		else ife pal_saved 8
+		{
+			ife hitag_saved 0
+				set skybox_scale 64
+			else
+				set skybox_scale hitag_saved
+
+			set skybox 2
+
+			geta[].z temp
+			add temp 128
+			seta[].z temp
+		}
+		// Static skybox with scale
+		// this doesn't actually do anything, to be removed?
+		else ife pal_saved 9
+		{
+			ife hitag_saved 0
+				set skybox_scale 64
+			else
+				set skybox_scale hitag_saved
+
+			set skybox 1
+		}
+
+		ife pal_saved 2
+			nullop
+		else
+		{
+			geta[].x skybox_x
+			geta[].y skybox_y
+		}
+
+		// if set to -2 we explicitly don't process
+		// if you're a dickish mapper, you'll break this effect by manually setting the skybox offset from the floor to -2 explicitly but ah well
+		ifn skybox_z_offset -2
+		{
+			// skybox sprite should be able to raise/fall along with a floor it's on, while keeping the same offset
+			// store the initial offset from the floor
+			ife skybox_z_offset -1
+			{
+				geta[].sectnum temp
+				gets[temp].floorz z
+				geta[].z my_z
+
+				sub my_z z
+				set skybox_z_offset my_z
+			}
+			// if initialised, keep updating
+			else ifn pal_saved 7 // skybox pal 7 follows smartpoint track, we just keep the initial offset
+			{
+				geta[].sectnum temp
+				gets[temp].floorz z
+				add z skybox_z_offset
+				seta[].z z
+			}
+		}
+
+		geta[].z skybox_z
+		geta[].sectnum skybox_sect
+		updatesectorz skybox_x skybox_y skybox_z skybox_sect
+
+	}
+
+}
+
+ife sprite[].lotag 81
+{
+gets[skybox_sect].floorshade skybox_shade
+mul skybox_shade 3
+sets[].visibility skybox_shade
+}
+
+ife sprite[].lotag 82 // Anchor
+{
+set skybox_id THISACTOR
+}
+
+
+ends

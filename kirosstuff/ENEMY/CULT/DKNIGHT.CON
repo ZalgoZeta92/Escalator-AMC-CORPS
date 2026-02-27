@@ -1,0 +1,345 @@
+// ===========================================
+// DKNIGHT ACTOR FOR EASE OF ADDING IN ENEMIES
+// ============================================
+
+action A_DKNIGHT_START 0 1 5 1 12 // Starting frame, different from the idle frame
+action A_DKNIGHT_IDLE 0 1 5 1 12
+
+action A_DKNIGHT_DEAD 70
+action A_DKNIGHT_DYING 65 5 1 1 12
+
+action A_DKNIGHT_HSDEAD 76
+action A_DKNIGHT_HSDYING 71 5 1 1 12
+
+action A_DKNIGHT_FREEZE 35 1 1 1 8
+action A_DKNIGHT_GROW 35 1 1 1 8
+
+action A_DKNIGHT_SHRUNK 0 4 5 1 12
+action A_DKNIGHT_PAIN 35 1 1 1 8
+
+action A_DKNIGHT_SEEK 10 4 5 1 12
+
+action A_DKNIGHT_MELEE 30 5 5 1 8
+
+action A_DKNIGHT_ATTACK 55 2 5 1 8
+
+move M_DKNIGHT_WALK 236
+
+damageeventtile DEATHKNIGHT
+
+// Insert stayput thing here
+useractor enemystayput DEATHKNIGHT_STAYPUT 700 A_DKNIGHT_START
+	cactor DEATHKNIGHT
+enda
+
+useractor enemy DEATHKNIGHT 700 A_DKNIGHT_START
+fall
+ifaction A_DKNIGHT_START
+{
+	cstat 257
+	strength 700
+	sizeat 34 28
+	set blood_type 0 // defaults to 0 which is red
+	geta[].pal actor_pal
+	state monst_glow
+	espawn SHOOTME // Controls stuff like fire damage, targetting, .etc .etc - still used as a backup for the ally fighting stuff in-case an actor isn't set up with it yet
+	seta[RETURN].pal 1 // basically done just to make it clear that this actor is onboarded to the new targetting stuff, and is using SHOOTME for other purposes
+	action A_DKNIGHT_IDLE
+}
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+
+ifaction A_DKNIGHT_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1
+	{
+		sound DKN_RCG
+		action A_DKNIGHT_SEEK
+	}
+}
+
+// Death & dying
+else ifaction A_DKNIGHT_HSDEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state human_jibs
+			state standard_jibs
+			killit
+		}
+	}
+}
+else ifaction A_DKNIGHT_HSDYING
+{
+	cstat 0
+	strength 0
+	ifactioncount 5 { state rf state BODY_FALL_NOISES action A_DKNIGHT_HSDEAD }
+}
+else ifaction A_DKNIGHT_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state human_jibs
+			state standard_jibs
+			killit
+		}
+	}
+}
+else ifaction A_DKNIGHT_DYING
+{
+	cstat 0
+	strength 0
+	ifactioncount 5 { state rf state BODY_FALL_NOISES action A_DKNIGHT_DEAD }
+}
+
+// Status effects
+else ifaction A_DKNIGHT_FREEZE state frozen_code
+else ifaction A_DKNIGHT_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+else ifaction A_DKNIGHT_SHRUNK
+{
+	ifmove M_DKNIGHT_WALK { } // need to do this cause we're not using ai routines anymore
+	else
+		move M_DKNIGHT_WALK geth fleeenemy
+
+	ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+		state new_shrunkcode
+	else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+	{
+		state unshrink
+		sizeto 28 28
+	}
+	else // after regrow, switch back to regular action
+	{
+		state endshrunkenstate
+		action A_DKNIGHT_SEEK
+	}
+}
+
+else ifaction A_DKNIGHT_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_DKNIGHT_DYING
+		else action A_DKNIGHT_SEEK
+	}
+}
+
+else ifaction A_DKNIGHT_SEEK
+{
+	ifmove M_DKNIGHT_WALK nullop
+	else move M_DKNIGHT_WALK geth
+
+	state checkfortarget
+
+	ifn my_target -1
+	{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+		dist temp THISACTOR my_target
+		ifl temp 1536 { sound DKN_ATCK01 action A_DKNIGHT_MELEE }
+		else
+		ifl RANDOM_CHANCE SKILLCHANCE
+		 ifrnd 96
+			{
+			sound DKN_ATCK02
+			action A_DKNIGHT_ATTACK
+			}
+	}
+}
+
+else ifaction A_DKNIGHT_MELEE
+{
+	move STOP
+	state new_validatetarget
+
+	ife my_target -1
+		action A_DKNIGHT_SEEK
+
+	state fronttowardstarget
+
+	ifactioncount 5
+	{
+		dist temp THISACTOR my_target
+		ifle temp 1536
+		{
+				ife my_target PLAYER_IDENTITY
+				 ifn SWORD_BLOCK 0
+					ifp pfacing
+						{
+						state enemy_parry_code
+						action A_DKNIGHT_PAIN
+						break
+						}
+					else
+					{
+					set PROJECTILE_TO_SHOOT 14605
+					state sang_enemyShootProjectile
+					}
+		action A_DKNIGHT_MELEE
+		}
+		else
+			{
+			sound DKN_ATCK02
+			action A_DKNIGHT_ATTACK
+			}
+	}
+}
+
+else ifaction A_DKNIGHT_ATTACK
+{
+	move STOP
+	state new_validatetarget
+
+	ife my_target -1
+		action A_DKNIGHT_SEEK
+
+	state fronttowardstarget
+
+	add INTERNALCOUNT 1
+
+	ife INTERNALCOUNT 5
+		{
+		set CALCZ_TARGET_OFFSET -2000
+		set PROJECTILE_TO_SHOOT 22828
+		set PROJECTILE_FIRING_SOUND COBRA_FIRE
+		state sang_enemyShootProjectile
+		}
+	else
+	ife INTERNALCOUNT 10
+		{
+		set CALCZ_TARGET_OFFSET -2000
+		set PROJECTILE_TO_SHOOT 22828
+		set PROJECTILE_FIRING_SOUND COBRA_FIRE
+		state sang_enemyShootProjectile
+		}
+	else
+	ife INTERNALCOUNT 15
+		{
+		set CALCZ_TARGET_OFFSET -2000
+		set PROJECTILE_TO_SHOOT 22828
+		set PROJECTILE_FIRING_SOUND COBRA_FIRE
+		state sang_enemyShootProjectile
+		}
+	else
+	ife INTERNALCOUNT 20
+		{
+		set CALCZ_TARGET_OFFSET -2000
+		set PROJECTILE_TO_SHOOT 22828
+		set PROJECTILE_FIRING_SOUND COBRA_FIRE
+		state sang_enemyShootProjectile
+		}
+	else
+	ife INTERNALCOUNT 25
+		{
+		set CALCZ_TARGET_OFFSET -2000
+		set PROJECTILE_TO_SHOOT 22828
+		set PROJECTILE_FIRING_SOUND COBRA_FIRE
+		state sang_enemyShootProjectile
+		}
+	else ifge INTERNALCOUNT 30 { set INTERNALCOUNT 0 action A_DKNIGHT_SEEK }
+}
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+
+
+		ifand proj_udata 8192
+			 {
+			 ifrnd 4 { spawn ELECTROCUTE_MARV soundonce MALE_ELECT1 } else spawn ELECTROCUTE_GUY
+			 shoot SPARK2 shoot SPARK2 shoot SPARK2
+			 killit
+			 }
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_DKNIGHT_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_DKNIGHT_FREEZE }
+		else ifg fire_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			ifrnd 128 sound ZSOLD_DIE1
+			else sound ZSOLD_DIE2
+			spawn ONFIREGUY
+			killit
+		}
+		else ife HEADSHOT 2
+		{
+			ifg fire_damage 0 set fire_damage 0
+			ifrnd 32 state trigger_showoff
+			state jib_sounds
+			state decap_sounds
+			shoot NJIB
+			shoot NJIB
+			guts JIBS6 3
+			guts JIBS2 2
+			action A_DKNIGHT_HSDYING
+		}
+		else ifg spirit_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 1
+			guts JIBS3 6
+			spawn SPIRIT_DEATH_GUY
+			killit
+		}
+		else ifg energy_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 4
+			guts JIBS3 6
+			spawn DISINTIGRATE_GUY
+			killit
+		}
+		else
+		{
+			sound DKN_DIE
+			action A_DKNIGHT_DYING
+			spawn BLOODPOOL
+		}
+
+	ifphealthl 50
+		{
+		state SKILL_LEVELADJUST
+		ifl RANDOM_CHANCE SKILLCHANCE spawn HPOWDER
+		}
+
+	}
+
+	else // not dead
+	{
+		ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_DKNIGHT_SHRUNK }
+
+		ifg PAIN_AMOUNT 0 { action A_DKNIGHT_PAIN ifrnd 128 sound DKN_PAIN01 else sound DKN_PAIN02 }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_DKNIGHT_IDLE { state PAIN_SKILL_LEVELADJUST ifrnd 128 sound DKN_PAIN01 else sound DKN_PAIN02 action A_DKNIGHT_PAIN }
+	}
+}
+
+state checksquished
+
+enda

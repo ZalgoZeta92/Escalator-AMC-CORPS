@@ -1,0 +1,1873 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+This file contains code that controls ingame cutscenes, FMV cutscenes, dummy actors
+that are usually used in cutscenes, as well as a display event that smoothes out
+camera movement or locks camera view in place.
+--------------------------------------------------------------------------------
+*/
+
+defstate gun_recoil_shake
+	randvarvar shake_temp gun_recoil
+	state getfactornormalizedframerate
+	mul shake_temp NORMALIZED_FACTOR
+	
+	ife opt_max_screen_shake 0 set shake_temp 0 else
+	ifn opt_max_screen_shake 100
+		{
+		set PERCENTAGE_IN shake_temp 
+		set PERCENTAGE_PERCENT opt_max_screen_shake
+		state getpercentage
+		set shake_temp PERCENTAGE_OUT
+		}
+	
+	ifrnd 128 mul shake_temp -1
+	div shake_temp 2
+	addvarvar cameraang shake_temp
+	mul shake_temp 32
+	ifrnd 128 mul shake_temp -1	
+	addvarvar cameraz shake_temp
+ends
+
+useractor notenemy 14521
+cstat 32768
+enda
+
+// Cutscene files
+string 1300 CUTSC/CUTSCENE-PATCOS.IVF
+string 1301 CUTSC/CUTSCENE-GANYMEDE.IVF
+string 1302 CUTSC/CUTSCENE-TRITON.IVF
+string 1303 CUTSC/CUTSCENE-RWORLD.IVF
+string 1304 CUTSC/CUTSCENE-ENTITY.IVF
+string 1305 CUTSC/CUTSCENE-SLILITH.IVF
+string 1306 CUTSC/CUTSCENE-TOMBESC.IVF
+string 1307 CUTSC/CUTSCENE-MARSMINE.IVF
+string 1308 CUTSC/CUTSCENE-JEKYLL.IVF
+string 1309 CUTSC/CUTSCENE-LESANG.IVF
+string 1310 CUTSC/CUTSCENE-AXON.IVF
+string 1311 CUTSC/CUTSCENE-SNOWBASE.IVF
+string 1312 CUTSC/CUTSCENE-CITY.IVF
+string 1313 CUTSC/CUTSCENE-JUNGLEB.IVF
+string 1314 CUTSC/CUTSCENE-WAKEY.IVF
+string 1315 CUTSC/CUTSCENE-TRENTON.IVF
+string 1316 CUTSC/CUTSCENE-AIRSHIP.IVF
+string 1317 CUTSC/CUTSCENE-SOKO.IVF
+string 1318 CUTSC/CUTSCENE-TOWER.IVF
+string 1319 CUTSC/CUTSCENE-PIPEDREAM.IVF
+string 1320 CUTSC/CUTSCENE-SHELLSHOCKED.IVF
+string 1321 CUTSC/CUTSCENE-JUMPGATE1.IVF
+string 1322 CUTSC/CUTSCENE-JUMPGATE2.IVF
+string 1323 CUTSC/CUTSCENE-JUMPGATE3.IVF
+string 1324 CUTSC/CUTSCENE-CALIGULA.IVF
+string 1325 CUTSC/CUTSCENE-DRAGON.IVF
+string 1326 CUTSC/CUTSCENE-BERSERK.IVF
+string 1327 CUTSC/CUTSCENE-TORNADO.IVF
+string 1328 CUTSC/CUTSCENE-JEDRIC.IVF
+string 1329 CUTSC/CUTSCENE-BIGBATTLE.IVF
+string 1330 CUTSC/CUTSCENE-RFI.IVF
+string 1331 CUTSC/CUTSCENE-AXON2.IVF
+string 1332 CUTSC/CUTSCENE-RINGWORLDRETURN.IVF
+string 1333 CUTSC/CUTSCENE-PARADIGMINTRO.IVF
+string 1334 CUTSC/CUTSCENE-SMARSUIT2.IVF
+string 1335 CUTSC/CUTSCENE-SUBLAB.IVF
+string 1336 CUTSC/CUTSCENE-REVELION.IVF
+string 1337 CUTSC/CUTSCENE-PITTSBURGH.IVF
+string 1338 CUTSC/CUTSCENE-X64.IVF
+string 1339 CUTSC/CUTSCENE-MEMORIAL.IVF
+
+string 1340 CUTSC/RESEARCH-FLYER.IVF
+string 1341 CUTSC/RESEARCH-ROLL.IVF
+string 1342 CUTSC/RESEARCH-SHIELD.IVF
+string 1343 CUTSC/RESEARCH-BRAIN.IVF
+string 1344 CUTSC/RESEARCH-MIAGUN.IVF
+string 1345 CUTSC/RESEARCH-EDF209.IVF
+string 1346 CUTSC/RESEARCH-AMCSOLDIER.IVF
+string 1347 CUTSC/RESEARCH-NUKE.IVF
+
+string 1350 CUTSC/CUTSCENE-DOG.IVF
+string 1351 CUTSC/CUTSCENE-JAMESARM.IVF
+string 1352 CUTSC/CUTSCENE-REVOLUTION.IVF
+string 1353 CUTSC/CUTSCENE-MAGNUS.IVF
+string 1354 CUTSC/CUTSCENE-TVWARNING.IVF
+string 1355 CUTSC/CUTSCENE-VOLCANO.IVF
+
+string 1356 CUTSC/CUTSCENE-JUMPGATE1RED.IVF
+string 1357 CUTSC/CUTSCENE-JUMPGATE2RED.IVF
+string 1358 CUTSC/CUTSCENE-JUMPGATE3RED.IVF
+
+string 1359 CUTSC/CUTSCENE-MIKKO.IVF
+
+string 1360 CUTSC/CUTSCENE-INTRO1.IVF
+string 1361 CUTSC/CUTSCENE-INTRO2.ivf
+string 1362 CUTSC/CUTSCENE-INTRO3.IVF
+string 1363 CUTSC/CUTSCENE-INTRO4.IVF
+string 1365 CUTSC/INTROLOGO.IVF
+
+string 1366 CUTSC/CUTSCENE-PRISON.IVF
+string 1367 CUTSC/CUTSCENE-GHOSTSHIP.IVF
+string 1368 CUTSC/CUTSCENE-ZAXP.IVF
+string 1369 CUTSC/CUTSCENE-BLIMP.IVF
+
+onevent EVENT_MAINMENUSCREEN
+	readarrayfromfile BEAT_EPISODES F_BEAT_EPISODES_AMCTC
+	ifand BEAT_EPISODES[5] 524288 // beat episode 5?
+		startcutscene 1363
+	else ifand BEAT_EPISODES[4] 32768 // beat episode 4?
+		startcutscene 1362
+	else ifand BEAT_EPISODES[2] 1024 // beat episode 2?
+		startcutscene 1361
+	else ifand BEAT_EPISODES[1] 1 // started episode 1?
+		startcutscene 1360
+	else startcutscene 1365
+endevent
+
+onevent EVENT_CUTSCENE
+	ifcutscene 1300
+	{
+	ife RETURN 30
+		{
+		ifphealthl 30
+			{
+			ifsound JS_PATBAD nullop else screensound JS_PATBAD
+			}
+		else
+		ifphealthl 70
+			{
+			ifsound JS_PATOK nullop else screensound JS_PATOK
+			}
+		else
+			{
+			ifsound JS_PATGOOD nullop else screensound JS_PATGOOD
+			}
+		}
+	}
+endevent
+
+onevent EVENT_SKIPCUTSCENE
+	ife RETURN 1 stopallsounds
+endevent
+
+onevent EVENT_PREUPDATEANGLES
+	ifn scope 0
+	{
+		// slow down turn velocity for scoped weapons
+		set disp_temp2 input.q16avel
+		shiftvarr disp_temp2 1
+		setinput[].q16avel disp_temp2
+	}
+	
+	ifg lock_picking 0
+	{
+		// apply the player's mouse rotation to the lockpick wheel thing only
+		set disp_temp2 input.avel
+		ifn disp_temp2 0
+		{
+			add lock_angle disp_temp2
+		}
+		
+		ifl lock_angle 0 set lock_angle 2048
+		ifg lock_angle 2048 set lock_angle 0
+		
+		// now lock their actual rotation
+		setinput[].q16avel 0
+		setinput[].avel 0
+		setinput[].horz 0
+	}
+endevent
+
+// Ok to have case specific stuff here since this actor will be used rarely => eh sorta, I guess it's ok for doing some advanced stuff but if it's for triggering tags when the FMV is playing I prefer this to be visible in the map itself
+// Added an XVEL option => will trigger the lotag specified by this XVEL
+useractor notenemy FMV_PLAYER
+cstat 32768
+
+checkactivatormotion lotag_saved
+ife RETURN 1
+{
+	ifspritepal 0 // will either play the cutscene and then do case specific stuff, or activate the hitags if playing in classic
+	{
+		ife rendmode 0
+			{
+			operateactivators hitag_saved THISACTOR
+			operatemasterswitches hitag_saved
+			operaterespawns hitag_saved
+			}
+		else
+		ife extra_saved 1305 ife STORY_TRIGGER2 0 // DIDN'T save lilith
+			{
+			operateactivators hitag_saved THISACTOR
+			operatemasterswitches hitag_saved
+			operaterespawns hitag_saved
+			}
+		else
+		{
+			state fade_out_black
+			ife extra_saved 1300 stopallmusic // Stop music for PATCOS fight
+			ife extra_saved 1303 stopallmusic // Stop music for Ringworld intro
+			ife extra_saved 1306 stopallsounds // Stop sounds for spookycut outro
+			ife extra_saved 1315 stopallmusic // Stop music for Trenton fight
+			ife extra_saved 1313 stopallmusic // Stop music for Jungle base
+			ife extra_saved 1318 stopallmusic // Stop music for lifetower
+			ife extra_saved 1319 stopallsounds // Stop sounds for pipedream outro
+			ife extra_saved 1320 { stopallmusic stopallsounds } // Stop sounds for Bombshell outro
+			ife extra_saved 1324 { stopallmusic stopallsounds } // Stop sounds for Jane outro
+			ife extra_saved 1328 stopallmusic // Stop music for Jedrik scene
+			ife extra_saved 1329 stopallsounds // Stop all sounds for battle scene
+			ife extra_saved 1330 stopallmusic // Stop all sounds for battle scene
+			ife extra_saved 1331 stopallsounds // Stop all sounds for axon scene
+			ife extra_saved 1332 { stopallmusic stopallsounds } // Stop all sounds for return scene
+			ife extra_saved 1336 { stopallmusic stopallsounds }
+			ife extra_saved 1337 { stopallmusic stopallsounds }
+			ife extra_saved 1338 { stopallmusic stopallsounds }
+			ife extra_saved 1350 { stopsound WIND_TRANS }
+			ife extra_saved 1352 stopallsounds
+			ife extra_saved 1353 stopallsounds
+			ife extra_saved 1368 stopallsounds
+			ife extra_saved 1312 { ife opt_streamer_mode NO screensound LTS_FADE stopallsounds }
+			startcutscene extra_saved
+			// begin ugly case specific stuff, but since there's going to be a handful of FMVs at best no point coding in systems
+			ife extra_saved 1300 // PATCOS CUTSCENE
+				{
+				operateactivators 832 THISACTOR
+				operatemasterswitches 832
+				operaterespawns 832
+				}
+			ife extra_saved 1302 // TRITON CUTSCENE
+				{
+				operaterespawns 25350
+				operateactivators 991 THISACTOR
+				operatemasterswitches 991
+				operaterespawns 991
+				}
+			ife extra_saved 1303 // RINGWORLD CUTSCENE
+				{
+				starttrack 2
+				operateactivators 801 THISACTOR
+				operatemasterswitches 801
+				operaterespawns 801
+				}
+			ife extra_saved 1305 // Lilith Rescue
+				{
+				operateactivators hitag_saved THISACTOR
+				operatemasterswitches hitag_saved
+				operaterespawns hitag_saved
+				}
+			ife extra_saved 1306 // Spookycut outro
+				{
+				operateactivators 907 THISACTOR
+				operatemasterswitches 907
+				operaterespawns 907
+				}
+			ife extra_saved 1307 // Mars outro
+				{
+				operateactivators 796 THISACTOR
+				operatemasterswitches 796
+				operaterespawns 796
+				}
+			ife extra_saved 1308 // Jekyll intor
+				{
+				operateactivators hitag_saved THISACTOR
+				operatemasterswitches hitag_saved
+				operaterespawns hitag_saved
+				}
+			ife extra_saved 1310 // Axon
+				{
+				operateactivators 821 THISACTOR
+				operatemasterswitches 821
+				operaterespawns 821
+				}
+			ife extra_saved 1312 // City under siege
+				{
+				operateactivators 807 THISACTOR
+				operatemasterswitches 807
+				operaterespawns 807
+				}
+			ife extra_saved 1313 // Jungle base
+				{
+				operateactivators 31970 THISACTOR
+				operatemasterswitches 31970
+				operaterespawns 31970
+				}
+			ife extra_saved 1316 // Airship
+				{
+				operateactivators hitag_saved THISACTOR
+				operatemasterswitches hitag_saved
+				operaterespawns hitag_saved
+				}
+			ife extra_saved 1318 // Shadow realm
+				{
+				operateactivators 927 THISACTOR
+				operatemasterswitches 927
+				operaterespawns 927
+				}
+			ife extra_saved 1314 // Wakey
+				{
+				operateactivators 917 THISACTOR
+				}
+			ife extra_saved 1319 // Pipedream
+				{
+				operateactivators 62 THISACTOR
+				operatemasterswitches 62
+				operaterespawns 62
+				}
+			ife extra_saved 1320 // Shellshocked
+				{
+				operateactivators hitag_saved THISACTOR
+				operatemasterswitches hitag_saved
+				operaterespawns hitag_saved
+				}
+			ife extra_saved 1324 // Caligula Station
+				{
+				operateactivators 2532 THISACTOR
+				operatemasterswitches 2532
+				operaterespawns 2532
+				}
+			ife extra_saved 1328 // Jedrik intro
+				{
+				operateactivators 6097 THISACTOR
+				operatemasterswitches 6097
+				operaterespawns 6097
+				}
+			ife extra_saved 1331 // Axon 2
+				{
+				operateactivators 803 THISACTOR
+				operatemasterswitches 803
+				operaterespawns 803
+				}
+			ife extra_saved 1332 // Ringworld return
+				{
+				operateactivators 843 THISACTOR
+				operatemasterswitches 843
+				operaterespawns 843
+				}
+			ife extra_saved 1338 // X64
+				{
+				operateactivators 801 THISACTOR
+				operatemasterswitches 801
+				operaterespawns 801
+				}
+			ife extra_saved 1353 // Magnus Trenton
+				{
+				operateactivators 845 THISACTOR
+				operatemasterswitches 845
+				operaterespawns 845
+				}
+			ife extra_saved 1366 stopallsounds
+			ife extra_saved 1367 // Ghost ship
+				{
+				operateactivators 10060 THISACTOR
+				operatemasterswitches 10060
+				operaterespawns 10060
+				}
+			ife extra_saved 1368 // Jungle pyramid
+				{
+				operateactivators 10510 THISACTOR
+				operatemasterswitches 10510
+				operaterespawns 10510
+				}
+			ifn xvel_saved 0
+			{
+				operateactivators xvel_saved THISACTOR
+				operatemasterswitches xvel_saved
+				operaterespawns xvel_saved
+			}
+		}
+	}
+	else ifspritepal 1 // just play a cutscene
+	{
+		set music_fade 1
+		startcutscene extra_saved
+	}
+	killit
+}
+
+enda
+
+appendevent EVENT_DISPLAYROOMS
+
+ifge player[].last_pissed_time 5662
+	{
+	ife P_GENDER FEMALE { add cameraang 1024 add cameraz 3072 } // ladies sit down to use toilet
+	}
+
+	/** BEGIN INTERPOLATION FIXES */
+	// The following code exists to accomodate missing interpolation thanks to the mouse input changes
+	// Anything that locks the player's view in place needs to be handled here
+	// This needs to happens before the skybox stuff is applied. Probably better to split these into two separate appendevents later.
+
+	// this smoothes out the forwards/backwards roll in first person
+	ife p_isbfrolling 1
+	  ifn player[].horiz p_rollhoriz_goal
+	{
+		getp[].horiz disp_temp
+
+		// incremental change (curr - ((curr - goal) / 2))
+		set disp_temp2 disp_temp
+		sub disp_temp2 p_rollhoriz_goal
+		div disp_temp2 2
+		ifn disp_temp2 0
+			sub disp_temp disp_temp2
+		else
+			set disp_temp p_rollhoriz_goal
+
+		// force player aim
+		setp[].horiz disp_temp
+	}
+
+	ife P_SWHEEL 1 {
+		ifg player[].invdisptime 0
+		{
+			set camerahoriz PHORIZ
+			set cameraang PANG
+		}
+	}
+
+	ifg troll_struggle -1
+		{
+		set disp_temp cameraz
+		sub disp_temp 24576
+		set cameraz disp_temp
+		}
+
+	set disp_temp cameraz
+	getpv[].phantom_ride disp_temp2
+	ifg disp_temp2 0 
+		{
+		switch CHAR
+		case 2
+		case 11
+			sub disp_temp 8192 
+			break
+		default
+			sub disp_temp 2048
+			break
+		endswitch
+		}
+		else
+	switch CHAR
+	case 2 // merlijn
+		sub disp_temp 512
+		break
+	case 1 // zaxtor
+	case 7 // mikko
+	case 16 // Rosa
+		sub disp_temp 512
+		break
+	case 3 // highwire
+	case 5 // rusty
+	case 14 // snowfall
+		sub disp_temp 256
+		break
+	case 12 // jane
+	case 6 // geoffrey
+	case 11 // maarten
+		sub disp_temp 128
+		break
+	case 20 // cass
+	case 17 // kagura
+	case 15 // unsuited micky
+		add disp_temp 256
+		break
+	endswitch
+	set cameraz disp_temp
+
+	// Menu fix
+	ifg MOUSEUP 0
+	{
+		// fix player angle so he doesn't turn
+		setp[].ang  PANG
+		setp[].horiz PHORIZ
+
+		// fix camera angle so it doesn't jitter
+		set cameraang PANG
+		set camerahoriz PHORIZ
+	}
+
+	// Sprinting fix
+	ifand BITS_PRESS P_SPRINTING // sprint key
+	ife player_in_vehicle 0
+	ife scope 0
+	{
+		ifg CHAR -1
+		{
+			ife ARTIFACTS_LOADOUT[CHAR] 6
+				set artifact_used 60
+			else // don't slow the player's turning speed if they have lightstep boots
+			{
+				getp[].oang disp_temp
+				getp[].ang disp_temp2
+				getincangle disp_temp2 disp_temp disp_temp2
+				ife GUN_SIZE 3 div disp_temp2 3
+				else div disp_temp2 2
+				add disp_temp disp_temp2
+				set cameraang disp_temp
+			}
+		}
+	}
+
+	// Reduce sensitivity of aim when scoping
+	ifn scope 0
+	{
+		// Adjust vertical aim (yeah, horiz means horizon, not horizontal)
+		// We use Q16 for just that tad more control over sensitivity.
+		set disp_temp2 player.q16horiz
+
+		ife prev_horiz_set 1
+		{
+			set disp_temp prev_q16horiz
+			set prev_q16horiz disp_temp2
+		}
+		else ife prev_horiz_set 0
+		{
+			set disp_temp disp_temp2
+			set prev_horiz_set 1
+			set prev_q16horiz disp_temp2
+		}
+
+		ifn disp_temp disp_temp2
+		{
+			sub disp_temp2 disp_temp
+
+			ifn disp_temp2 1 ifn disp_temp2 -1
+			{
+				shiftvarr disp_temp2 4
+				add disp_temp disp_temp2
+				setp .q16horiz disp_temp
+			}
+		}
+		
+		// HORIZONTAL AIM HANDLED IN EVENT_PREUPDATEANGLES
+
+		ifand BITS_PRESS P_SPRINTING // sprint key
+		  ifg p_stamina 0
+			 set hold_breathe 1
+		else
+		  ife hold_breathe 1
+			 set hold_breathe 2
+	}
+	else ife scope 0
+	{
+		ife hold_breathe 1 set hold_breathe 2
+
+		// reset q16horiz
+		set prev_horiz_set 0
+	}
+
+	// Fix choking
+	ifg CHOKE 0 ifl camerahoriz 50 set camerahoriz 50
+	ifg FCHOKE 0 ifl camerahoriz 50 set camerahoriz 50
+
+
+	// Phantasm ball attack
+	ifg phantasm_stick -1
+	{
+		setp[].horiz 100
+		set camerahoriz 100
+	}
+
+	// Cultist shotgun struggle
+	ifg shotgun_struggle -1
+	{
+		setp[].horiz 100
+		set camerahoriz 100
+	}
+
+	state cutscene_restoreladderang
+
+	// bipod actor -- disabled because strafing actually allows you to turn
+	//ifand gun_firemode 512 set cameraang angvar
+
+	// melee lockon fix
+	ife cur_weap 0
+	  ife temp_weap 0
+		{
+			set GUN_ACCURACY 16
+			ifn MELEE_LOCKED_ON -1
+			{
+				geta[MELEE_LOCKED_ON].extra disp_temp
+				ifl disp_temp 1 set MELEE_LOCKED_ON -1
+				else
+				{
+					geta[MELEE_LOCKED_ON].x mx
+					geta[MELEE_LOCKED_ON].y my
+					getp[].posx x
+					getp[].posy y
+					sub mx x
+					sub my y
+					getangle angvar mx my
+
+					set disp_temp angvar
+					sub disp_temp prev_melee_ang
+					ifl disp_temp 0 mul disp_temp -1
+
+					// Huge jumps normally occur when the angle goes from 2047 to 0. Check for this here:
+					ifg disp_temp 512 {
+						set disp_temp angvar
+						sub disp_temp 1
+						set prev_melee_ang disp_temp
+						}
+					else
+					{
+						sub angvar prev_melee_ang
+						div angvar 4
+						add prev_melee_ang angvar
+					}
+
+					ifn prev_melee_ang angvar ifg SPIN_KICK 13 ifg ROUNDHOUSE_KICK 26
+					{
+						set cameraang prev_melee_ang
+						setp[].ang prev_melee_ang
+					}
+					else getp[].ang prev_melee_ang
+
+					dist disp_temp THISACTOR MELEE_LOCKED_ON
+					ifg disp_temp 10000 set MELEE_LOCKED_ON -1
+				}
+			}
+			// else getp[].ang prev_melee_ang
+		}
+
+	// Vehicles angle fix: (excluding horse)
+	ifg player_in_vehicle 0
+	  ife player_using_horse -1
+		ifn vehicle_ang -1 set cameraang vehicle_ang
+	else ifg vehicle_ang -1
+		set vehicle_ang -1
+
+	// Horse horiz fix
+	ifn player_using_horse -1 ifl player[].horiz 0
+	{
+		set camerahoriz 0
+		setp[].horiz 0
+	}
+
+	// bike horiz fix
+	ifg player_bike 0
+	{
+		ifn vehicle_horiz -1
+		{
+			set camerahoriz vehicle_horiz
+		}
+	}
+	else ifg vehicle_horiz -1
+		set vehicle_horiz -1
+
+	/** END INTERPOLATION FIXES */
+
+	// based on code by M210 for BloodCM
+	ifg screen_shake 0
+		{	
+			randvarvar shake_temp shake_strength
+			state getfactornormalizedframerate
+			mul shake_temp NORMALIZED_FACTOR
+			
+			ife opt_max_screen_shake 0 set shake_temp 0 else
+			ifn opt_max_screen_shake 100
+				{
+				set PERCENTAGE_IN shake_temp 
+				set PERCENTAGE_PERCENT opt_max_screen_shake
+				state getpercentage
+				set shake_temp PERCENTAGE_OUT
+				}
+			
+			ifrnd 128 mul shake_temp -1
+			addvarvar cameraang shake_temp
+			mul shake_temp 64
+			ifrnd 128 mul shake_temp -1		
+			addvarvar cameraz shake_temp
+		}
+
+
+ifn SCIENTIST_CAM -1
+{
+  geta[SCIENTIST_CAM].x camerax
+  geta[SCIENTIST_CAM].y cameray
+  geta[SCIENTIST_CAM].z cameraz
+  geta[SCIENTIST_CAM].ang cameraang
+  geta[SCIENTIST_CAM].sectnum camerasect
+}
+
+switch PCINTER
+	case 14
+	case 13
+	case 12
+	case 8
+	case 6
+		set RETURN 1
+		break
+endswitch
+
+ife CHARSELECT 1
+ ife camerasprite -1
+	{
+	set RETURN 1
+	break
+	}
+else
+ifg cameraend 0
+	{
+	set RETURN 1
+	}
+
+ifn player_using_fighter -1
+{
+ife player[].over_shoulder_on 1
+	{
+	add cameraz 16184
+	set cameradist 227000 // sets the distance for 3rd person view
+	}
+}
+else
+ifn player_using_jet -1
+{
+ife player[].over_shoulder_on 1
+	{
+	add cameraz 16184
+	set cameradist 227000 // sets the distance for 3rd person view
+	}
+}
+else
+ifn player_using_submarine -1
+{
+ife player[].over_shoulder_on 1
+	{
+	add cameraz 16184
+	set cameradist 227000 // sets the distance for 3rd person view
+	}
+}
+else
+ifn player_using_hovertank -1
+{
+ifg gun_recoil 0 state gun_recoil_shake
+
+ife player[].over_shoulder_on 1
+	{
+	sub cameraz 8192
+	set cameradist 227000 // sets the distance for 3rd person view
+	}
+	ifn camerasect -1 getceilzofslope camerasect camerax cameray displayrooms_store // tempvar is the ceiling height
+	add displayrooms_store 1024 // because you don't want the camera to be all the way to the ceiling
+	sub cameraz 8192
+	ifl cameraz displayrooms_store set cameraz displayrooms_store
+}
+else
+ifn camerasprite -1
+{
+  geta[camerasprite].x camerax
+  geta[camerasprite].y cameray
+  geta[camerasprite].z cameraz
+  geta[camerasprite].ang cameraang
+  getav[camerasprite].extra_saved camerahoriz
+  geta[camerasprite].sectnum camerasect
+ifg gun_recoil 0 state gun_recoil_shake
+
+}
+else
+ifn player_using_hovercraft -1
+{
+ife player[].over_shoulder_on 1
+	set cameradist 327000 // sets the distance for 3rd person view
+	else add cameraz 6096
+
+ifn camerasect -1 getceilzofslope camerasect camerax cameray displayrooms_store // tempvar is the ceiling height
+add displayrooms_store 1024 // because you don't want the camera to be all the way to the ceiling
+sub cameraz 8192
+ifl cameraz displayrooms_store set cameraz displayrooms_store
+
+}
+else
+ifn player_using_mech -1
+{
+ifg gun_recoil 0 state gun_recoil_shake
+
+ife player[].over_shoulder_on 1
+	{
+	set cameradist 161072 // sets the distance for 3rd person view
+
+	ifn camerasect -1 getceilzofslope camerasect camerax cameray displayrooms_store // tempvar is the ceiling height
+	add displayrooms_store 1024 // because you don't want the camera to be all the way to the ceiling
+	sub cameraz 8192
+	ifl cameraz displayrooms_store set cameraz displayrooms_store
+	}
+
+}
+else
+ifn player_using_EAF_mech -1
+{
+ifg gun_recoil 0 state gun_recoil_shake
+
+ife player[].over_shoulder_on 1
+	{
+	set cameradist 121072 // sets the distance for 3rd person view
+
+	ifn camerasect -1 getceilzofslope camerasect camerax cameray displayrooms_store // tempvar is the ceiling height
+	add displayrooms_store 1024 // because you don't want the camera to be all the way to the ceiling
+	sub cameraz 2048
+	ifl cameraz displayrooms_store set cameraz displayrooms_store
+	}
+
+}
+else
+ifn ANGLE 0
+{
+ife player[].over_shoulder_on 1
+	{
+	set cameradist 161072 // sets the distance for 3rd person view
+
+	ifn camerasect -1 getceilzofslope camerasect camerax cameray displayrooms_store // tempvar is the ceiling height
+	add displayrooms_store 1024 // because you don't want the camera to be all the way to the ceiling
+	sub cameraz 8192
+	ifl cameraz displayrooms_store set cameraz displayrooms_store
+	}
+
+}
+else
+ifg gun_recoil 0 state gun_recoil_shake
+else
+ifp pstanding
+ ifhitspace
+	ifn LEAN_COUNT 0
+		{
+		getp[].posx disp_temp
+		getp[].posy disp_temp2
+
+		set disp_temp3 disp_temp
+		set disp_temp4 LEAN_COUNT
+		ifl LEAN_COUNT 0 mul disp_temp4 -1
+		mul disp_temp4 32
+		add disp_temp3 disp_temp4
+
+		getp[].ang disp_temp4
+		ifl LEAN_COUNT 0 add disp_temp4 512
+		else sub disp_temp4 512
+
+		rotatepoint disp_temp disp_temp2 disp_temp3 disp_temp2 disp_temp4 disp_temp5 disp_temp6
+		updatesector disp_temp5 disp_temp6 disp_temp7
+		ifn disp_temp7 -1
+			{
+			set camerax disp_temp5
+			set cameray disp_temp6
+			}
+		}
+
+ifg skybox 0 // some parts with revisions by Bloodclaw
+{
+ife skybox 1
+	{
+	ifn camerasprite -1
+	  {
+	  geta[camerasprite].ang skybox_angle
+	  // shiftvarl skybox_angle 16
+	  getav[camerasprite].extra_saved skybox_horiz
+	  // shiftvarl skybox_horiz 16
+	  }
+	  else
+	  ifn CAMID -1
+	  {
+	  geta[CAMID].ang skybox_angle
+	  // shiftvarl skybox_angle 16
+	  geta[CAMID].shade disp_temp4
+	  add disp_temp4 100
+	  set skybox_horiz disp_temp4
+	  // shiftvarl skybox_horiz 16
+	  }
+	  else
+	  {
+		// set skybox_horiz cameraq16horiz
+		set skybox_horiz camerahoriz
+		getp[].horizoff displayrooms_store
+		// shiftvarl displayrooms_store 16
+		add skybox_horiz displayrooms_store
+		// set skybox_angle cameraq16ang
+		set skybox_angle cameraang
+	  }
+	set disp_temp2 skybox_z
+	set disp_temp3 skybox_x
+	set disp_temp4 skybox_y
+	}
+else
+ife skybox 3
+	{
+	setvarvar disp_temp2 skybox_z
+	setvarvar disp_temp3 skybox_x
+	setvarvar disp_temp4 skybox_y
+
+	getplayer[THISACTOR].horiz skybox_horiz
+	getplayer[THISACTOR].horizoff disp_temp
+	addvarvar skybox_horiz disp_temp
+
+    set disp_temp2 cameraang
+	add disp_temp2 sprite[skybox_owner].ang
+
+	set skybox_angle disp_temp2
+	}
+else ife skybox 4
+{
+	// dunno man this is for the skybox following a smartpoint track, all the other options seem to do funky shit
+	// This is the same as skybox 3 (whatever that means) except it doesn't sink the display into the floor I guess?
+	getplayer[THISACTOR].horiz skybox_horiz
+	getplayer[THISACTOR].horizoff disp_temp
+	addvarvar skybox_horiz disp_temp
+
+    set disp_temp2 cameraang
+	add disp_temp2 sprite[skybox_owner].ang
+
+	set skybox_angle disp_temp2
+
+	setvarvar disp_temp2 skybox_z
+	setvarvar disp_temp3 skybox_x
+	setvarvar disp_temp4 skybox_y
+}
+else
+	{
+		ifn camerasprite -1
+		{
+			geta[camerasprite].ang skybox_angle
+			// shiftvarl skybox_angle 16
+			getav[camerasprite].extra_saved skybox_horiz
+			// shiftvarl skybox_horiz 16
+			geta[camerasprite].x disp_temp3
+			geta[camerasprite].y disp_temp4
+			geta[camerasprite].z disp_temp2
+			
+			ifn skybox_id 0
+			{
+				geta[skybox_id].x disp_temp5
+				geta[skybox_id].y disp_temp6
+				geta[skybox_id].z disp_temp7
+				sub disp_temp3 disp_temp5
+				sub disp_temp4 disp_temp6
+				sub disp_temp2 disp_temp7
+			}
+
+			ifg gun_recoil 0
+			{
+				ifand gun_recoil 1 add skybox_horiz 1 else sub skybox_horiz 1
+			}
+		}
+		else ifn CAMID -1
+		{
+			geta[CAMID].ang skybox_angle
+			// shiftvarl skybox_angle 16
+			geta[CAMID].shade disp_temp4
+			add disp_temp4 100
+			set skybox_horiz disp_temp4
+			// shiftvarl skybox_horiz 16
+			geta[CAMID].x disp_temp3
+			geta[CAMID].y disp_temp4
+			geta[CAMID].z disp_temp2
+		}
+		else
+		{
+			// set skybox_horiz cameraq16horiz
+			set skybox_horiz camerahoriz
+			getp[].horizoff displayrooms_store
+			// shiftvarl displayrooms_store 16
+			add skybox_horiz displayrooms_store
+			// set skybox_angle cameraq16ang
+			set skybox_angle cameraang
+			set disp_temp3 camerax
+			set disp_temp4 cameray
+			set disp_temp2 cameraz
+			ifn skybox_id 0
+			{
+				geta[skybox_id].x disp_temp5
+				geta[skybox_id].y disp_temp6
+				geta[skybox_id].z disp_temp7
+				sub disp_temp3 disp_temp5
+				sub disp_temp4 disp_temp6
+				sub disp_temp2 disp_temp7
+			}
+		}
+		div disp_temp2 skybox_scale // Z scale
+		div disp_temp3 skybox_scale // X scale
+		div disp_temp4 skybox_scale // Y scale
+
+		add disp_temp2 skybox_z
+		add disp_temp3 skybox_x
+		add disp_temp4 skybox_y
+	}
+
+	ifn skybox_sect -1
+	 ifn PCINTER 13
+	 ifn PCINTER 14
+	 ifn gotpic[179] 0 // if skybox HOM tile "visible". Add other tilenums if needed
+	{
+		// reset it on each tic
+		setarray gotpic[179] 0
+		setarray gotpic[4818] 0
+
+		showviewunbiased disp_temp3 disp_temp4 disp_temp2 skybox_angle skybox_horiz skybox_sect 0 0 319 199
+		// ife skybox 3 showviewunbiased disp_temp3 disp_temp4 disp_temp2 skybox_angle skybox_horiz skybox_sect 0 0 319 199
+		// else showviewq16unbiased disp_temp3 disp_temp4 disp_temp2 skybox_angle skybox_horiz skybox_sect 0 0 319 199
+	}
+}
+
+ifg player_using_hovertank 0
+	{
+	set disp_temp viewingrange
+	set disp_temp2 actorvar[player_using_hovertank].forward_accelerate
+	mul disp_temp2 64
+	add disp_temp disp_temp2
+	setaspect disp_temp yxaspect
+	}
+else
+ifg player_using_submarine 0
+	{
+	set disp_temp viewingrange
+	set disp_temp2 actorvar[player_using_submarine].forward_accelerate
+	mul disp_temp2 64
+	add disp_temp disp_temp2
+	setaspect disp_temp yxaspect
+	}
+else
+ifg player_using_fighter 0
+	{
+	set disp_temp viewingrange
+	set disp_temp2 actorvar[player_using_fighter].forward_accelerate
+	mul disp_temp2 64
+	add disp_temp disp_temp2
+	setaspect disp_temp yxaspect
+	}
+else
+ifg player_using_jet 0
+	{
+	set disp_temp viewingrange
+	set disp_temp2 actorvar[player_using_jet].forward_accelerate
+	mul disp_temp2 64
+	add disp_temp disp_temp2
+	setaspect disp_temp yxaspect
+	}
+else
+ifg player_bike 0
+	{
+	set disp_temp viewingrange
+	set disp_temp2 CURRENTBIKEVELOCITY
+	mul disp_temp2 512
+	add disp_temp disp_temp2
+	setaspect disp_temp yxaspect
+	}
+else
+ifand gun_firemode 16384
+	{
+	set disp_temp viewingrange
+	div disp_temp 2
+	setaspect disp_temp yxaspect
+	}
+else ifn scope 0 ife camerasprite -1
+	{
+	set disp_temp viewingrange
+	ifn ZOOMAMOUNT 0 div disp_temp ZOOMAMOUNT
+	setaspect disp_temp yxaspect
+	}
+else setaspect viewingrange yxaspect
+
+endevent
+
+move CAMBACK -90
+move CAMSLOWBACK -10
+move CAMFORWARD 90
+move CAMFORWARDUP 90 -30
+move CAMFASTFORWARD 180
+move CAMUP 0 -30
+move CAMSLOWFORWARD 15
+move CAMDOWN 0 30
+move CAMONE 1
+
+defstate roll_camera
+	set cameraend 0
+	state TURNOFF_NVG
+	setp[].sound_pitch 0
+	ifn owner_saved -1
+		{
+		getp[].palette temp2
+		  ifvarvarn temp2 owner_saved
+			{
+			ife owner_saved 0 ifn screen_pal_override 0 set screen_pal_override 10 // normal
+			ife owner_saved 1 set screen_pal_override 1 // Water/Blue
+			ife owner_saved 2 set screen_pal_override 2 // Nightvision/Green
+			ife owner_saved 3 set screen_pal_override 3 // Flashback
+			ife owner_saved 4 set screen_pal_override 4 // Greyscale
+			ife owner_saved 5 set screen_pal_override 5 // Heat/Red
+			}
+		}
+	ife temp7 0
+		{
+		ifinwater screensound PLYR_UNDERWATER
+		ife pal_saved 3 state fade_out_black // Fade in Black, Fade out Black
+		ife pal_saved 5 state fade_out_black // Fade in Black, Fade out white
+		ife pal_saved 6 state fade_out_white // Fade in white, Fade out black
+		ife pal_saved 9 state fade_out_white // Fade in white, Fade out white
+		ife pal_saved 20 state fade_out_black // Fade in black
+		ife pal_saved 13 state fade_out_black // Fade in Black
+		ife pal_saved 14 state fade_out_white // Fade in white
+		ife pal_saved 40 state fade_out_black // Fade in black
+		ife pal_saved 41 state fade_out_white // Fade in white
+		set temp7 1
+		}
+	ifand gun_firemode 16384 xorvar gun_firemode 16384
+	ifn scope 0 set scope 0
+	ife CHARSELECT 1 { set temp5 1 set CHARSELECT 0 }
+	ife cameratype 10 globalsound FLYING_AMB
+	set camerasprite THISACTOR
+	set cameratype yvel_saved
+ends
+
+defstate findnextcamerainchain
+	// If the lotag_saved is 0 we assume this is the end of the cutscene
+	ife lotag_saved 0
+		set next_camerasprite -1
+	else
+	{
+		// If there is no camera with the lotag_saved as its hitag, this is also the end of the cutscene
+		// For this we need to loop
+		set next_camerasprite -1
+		for temp allsprites
+		{
+			ifn next_camerasprite -1
+				exit
+
+			ife sprite[temp].picnum CUTSCENECAM
+			ife actorvar[temp].hitag_saved lotag_saved
+				set next_camerasprite temp
+		}
+	}
+ends
+
+// this unloads, (cleans up, ... "disposes" in .NET terminology) the current camera settings
+defstate dispose_camera_settings
+	// clear per actor var
+	getav[camerasprite].temp5 temp
+	ife temp 1 { set CHARSELECT 1 setav[camerasprite].temp5 0  }
+	
+	// clear global or per player var
+	set screen_pal_override 10
+	getav[camerasprite].lotag_saved temp
+	ifn cameratype 0 ifn cameratype 8 ifn cameratype 9 ifn cameratype 4 ife temp 0 { set camera_bars 16 set hud_disp 0 }
+	ife cameratype 10 stopsound FLYING_AMB
+	
+	getav[camerasprite].owner_saved temp
+	ife temp 10 set cameratime 104
+	
+	set camerasprite -1 // Reset Camera sprite
+	set cameratype -1 // Reset Camera type
+ends
+
+spriteflags CUTSCENECAM SFLAG_SMOOTHMOVE SFLAG_NOTELEPORT
+spritenopal CUTSCENECAM
+spritenoshade CUTSCENECAM
+
+useractor notenemy CUTSCENECAM
+	cstat 32768
+
+	set MASTERSWITCH_SUBSCRIBE hitag_saved
+	checkactivatormotion hitag_saved
+
+	set temp 0
+
+	ife RETURN 1
+	{
+		// dispose previous camera fully
+		ife next_camerasprite THISACTOR
+			state dispose_camera_settings
+		
+		ife camerasprite -1
+			set temp 1
+	}
+	else ife MASTERSWITCH_RETURN 1
+	{
+		// dispose previous camera fully
+		ife next_camerasprite THISACTOR
+			state dispose_camera_settings
+		
+		set temp 1
+		set MASTERSWITCH_RETURN 0
+	}
+
+	ife temp 1
+	{
+		set next_camerasprite -1
+		state setIgnoreUse // some cutscenes are triggered via use actions, eg button press. Ignore this use key press until it's let go again so we don't immediately start skipping
+		ife cameraskipping 0
+			state roll_camera
+		else
+		{
+			// instant skip
+			set camerasprite THISACTOR
+			set cameratype yvel_saved
+			palfrom 0 0 0 0
+			stopallsounds
+			set cameratime 0
+			set cuts_txt -1
+			set activatetext -1
+			set cs_textl 0
+		}
+	}
+
+	ife camerasprite THISACTOR
+	{
+		setp[].rotscrnang 0
+		
+		ifl cameratime 0
+			set cameratime 0
+
+		ifg cameratime 0
+		{
+			ifinwater
+			{
+				ifg cameratime 2 setp[].sound_pitch -512
+				else setp[].sound_pitch 0
+			}
+
+			setp[].over_shoulder_on 1
+			ife zvel_saved 0 move STOP
+			ifand zvel_saved 1
+			{
+				ife yvel_saved 4 { soundonce AMCSHIP_HOVER move CAMFASTFORWARD geth } else
+				ife yvel_saved 9 { soundonce AMCSHIP_HOVER move CAMFASTFORWARD geth }  else
+				move CAMFORWARD geth
+				// Cancel if bumping into something
+				ifnotmoving
+					move STOP
+			}
+			ifand zvel_saved 2 move CAMUP getv
+			ifand zvel_saved 4
+			{
+				state getfloordist
+				ifl z 8 move STOP else
+				move CAMDOWN getv
+			}
+			ifand zvel_saved 8 // Pitch the camera up
+			{
+				add extra_saved 1
+			}
+			ifand zvel_saved 16 // Turn the camera left or right depending on shade
+			{
+				geta[].ang temp2
+				add temp2 shade_saved
+				seta[].ang temp2
+			}
+			ifand zvel_saved 32 move CAMBACK geth
+			ifand zvel_saved 64 move CAMSLOWBACK geth
+			ifand zvel_saved 128 
+				{
+				move CAMSLOWFORWARD geth
+				// Cancel if bumping into something
+				ifnotmoving
+					move STOP
+				}
+			ifand zvel_saved 256 // Pitch the camera down
+			{
+				sub extra_saved 1
+			}
+			ifand zvel_saved 512 // move Camera Left
+			{
+				geta[].ang temp6
+				sub temp6 512
+				cos temp7 temp6
+				sin temp8 temp6
+				set temp6 clipdist_saved
+				mul temp6 10
+				div temp7 temp6
+				div temp8 temp6
+				movesprite THISACTOR temp7 temp8 0 4294901808 temp
+			}
+			ifand zvel_saved 1024 // move Camera right
+			{
+				geta[].ang temp6
+				sub temp6 1536
+				cos temp7 temp6
+				sin temp8 temp6
+				set temp6 clipdist_saved
+				mul temp6 10
+				div temp7 temp6
+				div temp8 temp6
+				movesprite THISACTOR temp7 temp8 0 4294901808 temp
+			}
+			ifand zvel_saved 2048 move STOP
+			ifand zvel_saved 4096 // move Camera forward/backward depending on shade
+			{
+				move CAMONE geth
+				set temp shade_saved
+				ifg temp 116 mul temp 10
+				else ifg temp 96 mul temp 5
+				else ifg temp 64 mul temp 4
+				else ifg temp 32 mul temp 3
+				else ifg temp 16 mul temp 2
+				ifl temp -116 mul temp 10
+				else ifl temp -96 mul temp 5
+				else ifl temp -64 mul temp 4
+				else ifl temp -32 mul temp 3
+				else ifl temp -16 mul temp 2
+				seta[].xvel temp
+			}
+			ifand zvel_saved 8192
+			{
+				add INTERNALCOUNT 1
+				ifg INTERNALCOUNT 1
+				{
+					set gun_recoil 6
+					set INTERNALCOUNT 0
+				}
+			}
+			ifand zvel_saved 16384 move STOP
+			ifg cameratype 1
+			{
+				lockplayer 5 // If camera type 2, lock the player's movement and weapon
+				setp[].weapon_pos 20
+			}
+			ife cameratype 20
+				set CUSENDLEVEL 1
+
+			sub cameratime 1 // Take 1 from the Camera time
+
+			// If alt-fire pressed, skip individual scenes
+                        ifn debug_cutscene_skip 0
+			{
+				palfrom 0 0 0 0
+				stopallsounds
+				set cameratime 2
+				set cuts_txt -1
+				set activatetext -1
+				set cs_textl 0
+                                set debug_cutscene_skip 0
+			}
+
+			ife cameraskipping 1
+			{
+				palfrom 0 0 0 0
+				stopallsounds
+				set cameratime 0
+				set cuts_txt -1
+				set activatetext -1
+				set cs_textl 0
+			}
+
+			// If use key is held for about 1.5 seconds, skip the entire cutscene across camera changes (this will still handle lotags and such)
+			ife ignore_current_use 0
+			{
+				ifg use_action_tics 45
+					set cameraskipping 1
+			}
+
+			ifn temp9 0
+			{
+				geta[].ang temp8
+				ifg temp8 temp9 sub temp8 8 else ifl temp8 temp9 add temp8 8
+				seta[].ang temp8
+				sub temp9 8
+			}
+
+			ifn xvel_saved 0
+			{
+				ifg extra_saved xvel_saved sub extra_saved 1
+				ifl extra_saved xvel_saved add extra_saved 1
+				ife extra_saved xvel_saved set xvel_saved 0
+			}
+		}
+		else ife cameratime 0
+		{
+			state findnextcamerainchain
+			
+			ife next_camerasprite -1
+				set cameraskipping 0
+
+			ife cameratype 20
+			{
+				move STOP
+				ifhitspace
+				  ifn lotag_saved 0
+				{
+					operateactivators lotag_saved THISACTOR
+					operatemasterswitches lotag_saved
+					operaterespawns lotag_saved
+					setp[].weapon_pos 0
+					ife temp5 1 { set CHARSELECT 1 set temp5 0  }
+					set screen_pal_override 10
+					setp[].over_shoulder_on 0 // Put back into 1st person 
+					set global_trigger lotag_saved
+					set camerasprite -1 // Reset Camera sprite
+					set cameratype -1 // Reset Camera type
+					set next_camerasprite -1
+					set CUSENDLEVEL 0
+					killit
+				}
+			}
+			else
+			{
+				// If skipping cutscenes, do not apply the fades
+				ifn cameraskipping 1
+				{
+					ife pal_saved 3 state fade_out_black
+					// fade in black, fade to white
+					ife pal_saved 5 state fade_out_white
+					ife pal_saved 6 state fade_out_black
+					ife pal_saved 9 state fade_out_white
+					ife pal_saved 10 state fade_out_black
+					ife pal_saved 11 state fade_out_white
+					// fade to black (identical to pal 10?)
+					ife pal_saved 21 state fade_out_black
+					// fade in black, to white (identical to pal 5?)
+					ife pal_saved 22 state fade_out_white
+					ife pal_saved 23 { state fade_out_black globalsound CL_COMM_LINK }
+					// Fade IN Black only
+					ife pal_saved 24 state fade_out_black
+				}
+				
+				set cameraend 2
+				ifn lotag_saved 0
+				{
+					operateactivators lotag_saved THISACTOR
+					operatemasterswitches lotag_saved
+					operaterespawns lotag_saved
+					set global_trigger lotag_saved
+				}
+				
+				// We need to only dispose some camera settings if there is no next camera in the chain anymore
+				ife next_camerasprite -1
+				{
+					state dispose_camera_settings
+					setp[].weapon_pos 0
+					setp[].over_shoulder_on 0 // Put back into 1st person
+					set cuts_txt -1 
+					set cs_textl -1
+				}
+				else
+				{
+					set camerasprite next_camerasprite
+					ifg cameratype 2 { set cuts_txt -1 set cs_textl -1 }
+				}
+				
+				action 0
+				killit
+			}
+		}
+
+		ife pal_saved 40
+		ife cameratime 37
+			set END_LEVEL 104
+
+		ife pal_saved 41
+		ife cameratime 43
+			set END_LEVEL 104
+
+		ife pal_saved 42
+		ife cameratime 37
+			set END_LEVEL 104
+
+		ife cameratype 10
+		 ife cameratime 40
+		  screensound MISSILE_LAUNCH
+
+		ife cameratime 35
+		{
+			geta[].pal temp2
+			switch temp2
+			case 3
+			case 6
+			case 21
+				state fade_in_black
+				set cus_fade_duration 35
+				break
+			case 5
+			case 9
+			case 22
+				state fade_in_white
+				set cus_fade_duration 35
+				break
+			case 11
+				state fade_in_white
+				set cus_fade_duration 35
+				break
+			case 0
+			default
+				break
+			endswitch
+		}
+	}
+
+enda
+
+// *************************************************
+// CUTSCENE CAMERA CHANGER
+// *************************************************
+
+useractor notenemy CUTSCENECAM_CHANGE
+	cstat 32768
+
+	ifn camerasprite -1
+	{
+		findnearactor3d CUTSCENECAM 512 temp6
+
+		ifn temp6 -1
+		{
+			ifn lotag_saved 0
+			{
+				operateactivators lotag_saved THISACTOR
+				operatemasterswitches lotag_saved
+				operaterespawns lotag_saved
+			}
+			ifn owner_saved -1
+			{
+				ife owner_saved 1 set screen_pal_override 1 // Water/Blue
+				ife owner_saved 2 set screen_pal_override 2 // Nightvision/Green
+				ife owner_saved 3 set screen_pal_override 3 // Flashback
+				ife owner_saved 4 set screen_pal_override 4 // Greyscale
+				ife owner_saved 5 set screen_pal_override 5 // Heat/Red
+			}
+			ife pal_saved 20 palfrom 0 0 0 0 // Clear last pal value
+			ife pal_saved 21 palfrom 0 0 0 0 // Clear last pal value, Fade out Black
+			ife pal_saved 22 palfrom 0 0 0 0 // Clear last pal value, Fade out White
+			ife pal_saved 3 palfrom 62 0 0 0 // Fade in Black, Fade out Black
+			ife pal_saved 5 palfrom 62 0 0 0 // Fade in Black, Fade out white
+			ife pal_saved 6 palfrom 62 62 62 62 // Fade in white, Fade out black
+			ife pal_saved 9 palfrom 62 62 62 62 // Fade in white, Fade out white
+			ifn yvel_saved 0 { set cameratype yvel_saved ifg yvel_saved 2 { set cuts_txt -1 set cs_textl -1 } }
+			ifn xvel_saved 0 setactorvar[temp6].cameratime xvel_saved
+			ife pal_saved 13 palfrom 62 0 0 0 // Fade in Black
+			ife zvel_saved 16384 setactorvar[temp6].zvel_saved 0 else
+			ifn zvel_saved 0 setactorvar[temp6].zvel_saved zvel_saved
+			ifn extra_saved -1 setactorvar[temp6].xvel_saved extra_saved
+			geta[temp6].ang temp3
+			geta[].ang temp4
+			ifn clipdist_saved 0 setactorvar[temp6].clipdist_saved clipdist_saved
+			ife hitag_saved 1 seta[temp6].ang temp3 // If the hitag is 1, set the angle instantly
+			else // Make it move to fit
+			{
+				sub temp3 temp4
+				setactorvar[temp6].temp9 temp3
+			}
+			killit
+		}
+	}
+
+enda
+
+
+// *************************************************
+// CUTSCENE SKIP SPRITE
+// *************************************************
+
+defstate turn_off_cutscene
+	ifn camerasprite -1
+		setactorvar[camerasprite].cameratime 0
+
+	ifspritepal 3
+	  ifn camerasprite -1
+		setactorvar[camerasprite].lotag_saved lotag_saved
+
+	set camerasprite -1
+	set next_camerasprite -1
+	set cameratype -1
+	ifg cameratype 2 { set cuts_txt -1 set cs_textl -1 }
+	set screen_pal_override 10
+	setp[].over_shoulder_on 0
+	set hud_disp 1
+	set cs_textl 1
+	set cs_timer 0
+	set activatetext -1
+	ifn lotag_saved 0
+	{
+		operateactivators lotag_saved THISACTOR
+		operaterespawns lotag_saved
+		operatemasterswitches lotag_saved
+	}
+	ifg extra_saved 0
+	{
+		operateactivators extra_saved THISACTOR
+		operaterespawns extra_saved
+		operatemasterswitches extra_saved
+	}
+ends
+
+useractor notenemy SKIP_CUTSCENE
+cstat 32768
+	ifspritepal 2
+	{
+		ifn camerasprite -1
+		ifpdistl 1736
+		 ifp pfacing
+		  ifhitspace
+		{
+			stopallsounds
+			state turn_off_cutscene
+			killit
+		}
+	}
+	else
+	{
+		checkactivatormotion hitag_saved
+		ife RETURN 1
+		{
+			state fade_out_black
+			state turn_off_cutscene
+			stopallsounds
+			ife xvel_saved 1 set PLAYER_VOICEOVER 56 // character will say 'shut up!'
+			ifn yvel_saved 0 starttrackvar yvel_saved
+			ifspritepal 3
+			{
+				setp[].over_shoulder_on 0
+				ife CHAR 20 { set CHAR -1 set CHARSELECT 1 set hud_disp 1 }
+				ife CHAR 8 { set CHAR -1 set CHARSELECT 1 }
+				ife CHAR -1 set CHARSELECT 1
+			}
+			killit
+		}
+	}
+
+enda
+
+// *************************************************
+// COMM LINK ACTIVATE
+// *************************************************
+
+defstate comm_popup
+	ifspritepal 1 { set COMM_COUNTD -260 quote 450 } else
+	{ set COMM_COUNTD 260 quote 192 }
+	set COMM_LINK lotag_saved
+	globalsound IN_COMM_LINK
+	killit
+ends
+
+useractor notenemy 3613
+cstat 32768
+
+ifn hitag_saved 0
+{
+	checkactivatormotion hitag_saved
+	ife RETURN 1 state comm_popup
+}
+else
+ifn sprite[].ang 1536
+	{
+	ife sprite[PLAYER_IDENTITY].sectnum sprite[].sectnum state comm_popup
+	}
+else
+ifpdistl 1024
+	state comm_popup
+
+enda
+
+// *************************************************
+// CUTSCENE TEXT
+// *************************************************
+
+
+defstate cuts_txt_CODE
+ifspritepal 1 ifn CHAR 0 break
+ifspritepal 2 ifn CHAR 1 break
+ifspritepal 3 ifn CHAR 2 break
+ifspritepal 4 ifn CHAR 3 break
+ifspritepal 5 ifn CHAR 4 break
+ifspritepal 6 ifn CHAR 5 break
+ifspritepal 7 ifn CHAR 6 break
+ifspritepal 8 ifn CHAR 7 break
+ifspritepal 10 ifn CHAR 9 break
+ifspritepal 11 ifn CHAR 10 break
+ifspritepal 12 ifn CHAR 11 break
+ifspritepal 13 ifn CHAR 12 break
+ifspritepal 14 ifn CHAR 13 break
+ifspritepal 15 ifn CHAR 14 break
+ifspritepal 16 ifn CHAR 15 break
+ifspritepal 17 ifn CHAR 16 break
+ifspritepal 18 ifn CHAR 17 break
+ifspritepal 19 ifn CHAR 18 break
+set cuts_txt lotag_saved
+set cs_timer 0
+set INTERNALCOUNT 0
+ifg extra_saved 0 ife playsound 0 { globalsoundvar extra_saved soundoncevar extra_saved ifn clipdist_saved 32 globalsound OP_COMM_LINK set playsound 1 }
+ife xvel_saved 999 set xvel_saved 0
+set temp2 1
+ends
+
+// ZVEL = Text id
+// XVEL = Text id to trigger
+// YVEL = Time to trigger it at
+
+useractor notenemy CUTSCENETEXT
+cstat 32768
+
+ifn hitag_saved 0
+ifaction 0
+{
+	checkactivatormotion hitag_saved
+	
+	ife RETURN 1
+	{
+	set hud_disp 1
+	ifn clipdist_saved 32 ife temp8 0 { soundonce OP_COMM_LINK set temp8 1 }
+	state clear_radio
+	state cuts_txt_CODE
+	set INTERNALCOUNT 0
+	set activatetext -1
+	action ZERO
+	}
+}
+else
+ife zvel_saved activatetext
+	{
+	state clear_radio
+	state cuts_txt_CODE
+	set INTERNALCOUNT 0
+	set activatetext -1
+	}
+else
+ifspritepal 30
+ ife temp2 0
+	{
+	ife sprite[PLAYER_IDENTITY].sectnum sprite[].sectnum
+		{
+		state cuts_txt_CODE
+		set INTERNALCOUNT 0
+		set activatetext -1
+		}
+	}
+else
+ife hitag_saved 0
+ ife zvel_saved 0 // activate by proximity
+ {
+   ifn cuts_txt lotag_saved // not already activated
+   ifpdistl 1524
+	ife temp2 0
+	{
+		state cuts_txt_CODE
+		set INTERNALCOUNT 0
+		set activatetext -1
+	}
+  }
+
+	ifn owner_saved 0
+	{
+		checkactivatormotion owner_saved
+		ife RETURN 1 killit
+	}
+
+	ife temp2 1 // has been activated
+	{
+		state credits_title
+		set voice_cooldown 600 // easy way to disable character taunts whilst stuff is playing
+		state CUTSCENE_TEXT
+		add cs_timer 1
+		ifn yvel_saved 0
+		{
+			add INTERNALCOUNT 1
+			ifg INTERNALCOUNT yvel_saved
+				{
+				ife xvel_saved 0
+				{ set hud_disp 1 set cuts_txt -1 set cs_textl -1 ifn clipdist_saved 32 globalsound CL_COMM_LINK }
+				else { set activatetext xvel_saved }
+				set cs_timer 0
+				killit
+				}
+		}
+		// if activated by proximity, no timeout specified and text is currently active
+		// Then it disappears when the player moves away from the text
+		else ife hitag_saved 0
+			ife zvel_saved 0
+			ife yvel_saved 0
+			ife cuts_txt lotag_saved
+			ifpdistg 1524
+		{
+			set cuts_txt -1
+			set cs_textl -1
+
+			// Reset
+			ife pal_saved 40
+			{
+				set temp2 0
+				set playsound 0
+			}
+		}
+
+		// if pal_saved is 40 then the text can reappear multiple times (as a tutorial), it's not killed as soon as it disappears
+		ifn pal_saved 40
+		  ifn cuts_txt lotag_saved
+		{
+			set cs_timer 0
+			killit
+		}
+	}
+enda
+
+//
+// ------------------------------------------------------------
+// STORYLINE TRIGGERS
+// ------------------------------------------------------------
+//
+
+useractor notenemy 10324
+cstat 32768
+
+ife lotag_saved 1
+{
+ifpdistl 1024
+	{
+	ife STORY_TRIGGER1 1
+		{
+		quote 192
+		set COMM_COUNTD 260
+		set COMM_LINK 828
+		globalsound IN_COMM_LINK
+		}
+		else
+		{
+		quote 192
+		set COMM_COUNTD 260
+		set COMM_LINK 829
+		globalsound IN_COMM_LINK
+		}
+	killit
+	}
+}
+else
+ife lotag_saved 2
+{
+updatesectorz player[].posx player[].posy player[].posz temp6
+ife sprite[].sectnum temp6
+	{
+	ife STORY_TRIGGER1 1
+		{
+		operateactivators hitag_saved THISACTOR
+		operaterespawns hitag_saved
+		operatemasterswitches hitag_saved
+		}
+		else
+		{
+		operateactivators xvel_saved THISACTOR
+		operaterespawns xvel_saved
+		operatemasterswitches xvel_saved
+		}
+	killit
+	}
+}
+else
+ife lotag_saved 3
+{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		ife SAVED_LILITH 1
+			{
+			operateactivators yvel_saved THISACTOR
+			operaterespawns yvel_saved
+			operatemasterswitches yvel_saved
+			}
+			else
+			{
+			operateactivators xvel_saved THISACTOR
+			operaterespawns xvel_saved
+			operatemasterswitches xvel_saved
+			}
+			killit
+		}
+}
+
+enda

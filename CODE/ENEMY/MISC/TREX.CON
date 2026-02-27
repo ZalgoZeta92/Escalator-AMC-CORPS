@@ -1,0 +1,230 @@
+action A_TREX_START 0 0 5 1 12
+action A_TREX_IDLE 0 0 5 1 12
+
+action A_TREX_ROAR 130 1 5 1 12
+action A_TREX_ROAR2 135 1 5 1 12
+
+action A_TREX_EAT 5 2 5 1 24
+
+action A_TREX_SEEK 15 6 5 1 8
+
+action A_TREX_SL_BITE 45 6 5 1 24
+
+action A_TREX_DEVOUR 75 12 5 1 24
+
+action A_TREX_FREEZE 140 0 1 1 8
+action A_TREX_GROW 140 0 1 1 8
+
+action A_TREX_DYING 140 10 1 1 16
+action A_TREX_DEAD 149
+
+
+move M_TREX_WALK 260
+damageeventtile TREX
+
+useractor enemy TREX 7500 A_TREX_START
+fall
+ifaction A_TREX_START
+{
+	cstat 257
+	geta[].pal actor_pal
+	sizeat 60 60
+	strength 7500
+	set blood_type 0 // defaults to 0 which is red
+	set actor_type 0 // defaults to 0, either remove or change this to desired armour type
+	espawn SHOOTME seta[RETURN].pal 1
+	state monst_glow
+	action A_TREX_IDLE
+}
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifaction A_TREX_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1 
+	{
+	globalsound TREX_ROAR action A_TREX_ROAR
+	}
+}
+else ifaction A_TREX_FREEZE state frozen_code
+else ifaction A_TREX_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+
+else ifaction A_TREX_DYING
+{
+	strength 0
+	ifactioncount 10 { iffloordistl 10 { globalsound BOSSFALL quake 36 } action A_TREX_DEAD }
+}
+
+else ifaction A_TREX_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+else ifaction A_TREX_DEVOUR
+{
+move STOP
+// TODO: T-rex ideally would only roar if there's only a couple of enemies left, otherwise he should go straight to seeking again
+ifactioncount 10 { quake 52 globalsound TREX_ROAR2 action A_TREX_ROAR2 }
+}
+else ifaction A_TREX_ROAR2
+{
+move STOP
+ifactioncount 24 action A_TREX_SEEK
+}
+else ifaction A_TREX_ROAR
+{
+move STOP
+ifactioncount 3 { quake 52 action A_TREX_ROAR2 }
+}
+else ifaction A_TREX_EAT
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1 
+	{
+		ldist temp THISACTOR my_target
+		ifsound RAP_SIGHT1 ifl temp 8192 { sound RAP_SIGHT1 action A_TREX_SEEK }
+		else ifl temp 2048 { sound RAP_SIGHT1 action A_TREX_SEEK }
+	}
+
+	seta[].ang angle_saved
+	ifrnd 4 sound GIB_LAND1
+	else ifrnd 4 sound GIB_LAND2
+	
+	ifrnd 8
+	{
+	ifp pdead nullop else
+		action A_TREX_IDLE
+	}
+}
+else ifaction A_TREX_SEEK
+{
+	ifmove M_RAPTOR_WALK nullop 
+	else move M_RAPTOR_WALK geth
+		
+	state checkfortarget
+	
+		ifg fstep_count 0 sub fstep_count 1
+		ife fstep_count 0
+			{
+			ifpdistl 16384 quake 6
+			sound BOS1_WALK
+			set fstep_count 10
+			}
+	
+	ifn my_target -1
+	{
+	ldist temp THISACTOR my_target
+		ifl temp 1793 
+			{ 
+			sound RAP_BITE
+			action A_TREX_SL_BITE 
+			}
+	}
+	else
+	ifpdistl 1024
+	 ifp pdead
+		{
+		move STOP faceplayer
+		set angle_saved sprite[].ang // make sure to face player when eating them
+		sound BLOOD_SPURT
+		action A_TREX_EAT
+		}
+}
+else ifaction A_TREX_SL_BITE
+{
+	move STOP
+	state new_validatetarget
+	
+	ifn my_target -1
+		{
+		ldist temp THISACTOR my_target
+		ifg temp 1793 { sound TREX_ROAM1 action A_TREX_SEEK }
+		}
+	else
+	ife my_target -1
+		action A_TREX_EAT
+	
+	state fronttowardstarget
+	
+	ifactioncount 6 { sound TREX_ROAM1 action A_TREX_SEEK }
+	else
+	ifactioncount 2
+	{
+		ldist temp THISACTOR my_target
+				ifle temp 1793
+				{
+				ifand actorvar[my_target].MONSTER_FLAGS 2
+					{
+					globalsound NBRUTE_BITE
+					globalsound ENDSEQVOL2SND2
+					action A_TREX_DEVOUR
+					seta[my_target].htpicnum RADIUSEXPLOSION
+					seta[my_target].htextra 6000
+					seta[my_target].xrepeat 1
+					seta[my_target].yrepeat 1
+					addstrength 1000
+					resetactioncount
+					}
+				else
+					{
+					soundonce NBRUTE_BITE
+					set temp 50
+					rand temp2 25
+					add temp temp2
+					seta[my_target].htextra temp
+					seta[my_target].htpicnum 17663
+					}
+				}
+	}
+}
+
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	guts JIBS6 1
+	state random_wall_jibs
+	geta[].htextra temp
+	ifg temp 0
+		{
+		ifaction A_TREX_DEVOUR { div temp 8 seta[].htextra temp }
+		ifaction A_TREX_ROAR { div temp 8 seta[].htextra temp }
+		ifaction A_TREX_ROAR2 { div temp 8 seta[].htextra temp }
+		}
+	ifdead
+	{
+		addkills 1
+		state rf
+		ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_TREX_FREEZE } 
+		else
+		{
+			sound TREX_DIE
+			state rf 
+			action A_TREX_DYING
+			spawn BLOODPOOL
+		}
+	}
+		
+
+}
+
+enda

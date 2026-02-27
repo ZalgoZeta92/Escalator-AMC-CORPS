@@ -1,0 +1,441 @@
+ife cuts_txt 7868 
+{
+ ife cuts_sound 0 { globalsound FK_01_SF setactorvar[camerasprite].cameratime 168 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 114 {  set cs_textl 2
+		qputs 350 ^8Snowfall: ^0Highwire picked up a distress 
+		qputs 351 signal somewhere in the Antarctic.
+	}
+	else ifge cs_timer 114 {  set cs_textl 1
+		qputs 350 ^8Snowfall: ^0We need to go check it out and see what's going on.
+	}
+}
+ife cuts_txt 87
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0Sick, nasty.
+}
+ife cuts_txt 7869 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound FK_01_SP setactorvar[camerasprite].cameratime 252 set cuts_sound 1 }
+ 	ifge cs_timer 0 ifl cs_timer 252 {  set cs_textl 3
+		qputs 350 ^8Clive: ^0It's like I said to your friend Snowfall, think 
+		qputs 351 there's something big down there. Who knows what it could 
+		qputs 352 do if it gets out of the ice.
+	}
+ 
+}
+ife cuts_txt 2526
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0This is cool but I hope it doesn't give too many emissions...
+}
+ife cuts_txt 1553
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0Hit the switch!
+}
+ife cuts_txt 7870 
+{
+ ife cuts_sound 0 { globalsound FK_02_SF setactorvar[camerasprite].cameratime 560 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 103 {  set cs_textl 1
+		qputs 350 ^8Snowfall: ^0Hmm, well there's the outpost, but um...
+	}
+	else ifge cs_timer 103 ifl cs_timer 256 {  set cs_textl 2
+		qputs 350 ^8Snowfall: ^0The distress signal seems to be 
+		qputs 351 coming from a different nearby location.
+	}
+	else ifge cs_timer 256 ifl cs_timer 337 {  set cs_textl 1
+		qputs 350 ^8Snowfall: ^0Huh, Well maybe we should split up then.
+	}
+	else ifge cs_timer 337 ifl cs_timer 427 {  set cs_textl 2
+		qputs 350 ^8Snowfall: ^0I'll follow the signal, You go ahead, 
+		qputs 351 and check out that outpost. 
+	}
+	else ifge cs_timer 427 ifl cs_timer 526 {
+		qputs 350 ^8Snowfall: ^0See if you can find any information
+		qputs 351 as to what could be happening here. 
+	}
+	else ifge cs_timer 526 {  set cs_textl 1
+		qputs 350 ^8Snowfall: ^0I'll call you if I need back up Ok?
+	}
+}
+ife cuts_txt 7871 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound FK_02_SP setactorvar[camerasprite].cameratime 109 set cuts_sound 1 }
+ 	 ifge cs_timer 0 ifl cs_timer 109 {  set cs_textl 1
+		qputs 350 ^8Clive: ^0Alright, please be careful out there!
+	}
+}
+ife cuts_txt 7872 
+{
+ ife cuts_sound 0 { globalsound FK_03_SF set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 121 {  set cs_textl 1
+		qputs 350 ^8Snowfall: ^0Hey uh Zaxtor, you need to check this out.
+	}
+	else ifge cs_timer 121 ifl cs_timer 186 {
+		qputs 350 ^8Snowfall: ^0There's an entire kingdom hidden under the ice.
+	}
+	else ifge cs_timer 186 ifl cs_timer 315 {  set cs_textl 2
+		qputs 350 ^8Snowfall: ^0I'm trapped in a colosseum though, so 
+		qputs 351 we won't be able to regroup right away...
+	}
+	else ifge cs_timer 315 ifl cs_timer 420 {
+		qputs 350 ^8Snowfall: ^0But I did see an opening in a window, 
+		qputs 351 maybe you can climb up and check it out.
+	}
+	else ifge cs_timer 420 ifl cs_timer 513 {
+		qputs 350 ^8Snowfall: ^0Just be careful, there's something 
+		qputs 351 evil moving around here, and uh the locals...
+	}
+	else ifge cs_timer 513 {  set cs_textl 1
+		qputs 350 ^8Snowfall: ^0Well they're definitely not friendly.
+	}
+}
+ife cuts_txt 7873 
+{
+ ife cuts_sound 0 { globalsound FK_04_SF setactorvar[camerasprite].cameratime 224 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 94 {  set cs_textl 1
+		qputs 350 ^8Snowfall: ^0Um, Zaxtor...I think we need to get out of here!
+	}
+	else ifge cs_timer 94 ifl cs_timer 166 {
+		qputs 350 ^8Snowfall: ^0Looks like this place is gonna come crashing down.
+	}
+	else ifge cs_timer 166 {  set cs_textl 2
+		qputs 350 ^8Snowfall: ^0Meet me at the bridge so we can 
+		qputs 351 get out of here together okay?
+	}
+}
+ife cuts_txt 7874 
+{
+	 ife cuts_sound 0 { globalsound FK_05_SF setactorvar[camerasprite].cameratime 450 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 76 {  set cs_textl 1
+		qputs 350 ^8Snowfall: ^0Well looks like that's over with.
+	}
+	else ifge cs_timer 76 ifl cs_timer 234 {  set cs_textl 2
+		qputs 350 ^8Snowfall: ^0Since we killed that creature, and their leader, I don't
+		qputs 351 think the frozen kingdom will be rising out of the ice any time soon.
+	}
+	else ifge cs_timer 234 ifl cs_timer 301 {  set cs_textl 1
+		qputs 350 ^8Snowfall: ^0Still, I wonder what those soldiers were doing here?
+	}
+	else ifge cs_timer 301 {  set cs_textl 2
+		qputs 350 ^8Snowfall: ^0We're definitely gonna have to 
+		qputs 351 update Highwire when we get back.
+	}
+}
+// Atlantis Arisen
+ife cuts_txt 7875 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_01_MC setactorvar[camerasprite].cameratime 238 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 120 {
+		qputs 350 ^8Micky: ^0Are these...people, the Atlanteans? 
+	}
+	else ifge cs_timer 120 {
+		qputs 350 ^8Micky: ^0Or perhaps their cybernetic army, ready to awaken?
+	}
+}
+ife cuts_txt 7876 
+{
+ ife cuts_sound 0 { globalsound AA_02_MC setactorvar[camerasprite].cameratime 340 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 211 {  set cs_textl 2
+		qputs 350 ^8Micky: ^0Hmm...this is definitely Engineer 
+		qputs 351 derived technology, fascinating! 
+	}
+	else ifge cs_timer 211 {  set cs_textl 1
+		qputs 350 ^8Micky: ^0To think that our ancestors had access to such knowledge.
+	}
+}
+ife cuts_txt 7877 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_03_MC setactorvar[camerasprite].cameratime 276 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 117 {
+		qputs 350 ^8Micky: ^0The city and its defenses are out of power...
+	}
+	else ifge cs_timer 117 ifl cs_timer 238 {
+		qputs 350 ^8Micky: ^0The only way to control the turrets would be manual control.
+	}
+	else ifge cs_timer 238 ifle cs_timer 275 {
+		qputs 350 ^8Micky: ^0But that means...
+	}
+}
+ife cuts_txt 7878 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_04_MC setactorvar[camerasprite].cameratime 70 set cuts_sound 1 }
+	 ifge cs_timer 20 ifle cs_timer 69 {
+		qputs 350 ^8Micky: ^0I'm not alone...
+	}
+}
+ife cuts_txt 7879 
+{
+ set cs_textl 2
+ ife cuts_sound 0 { globalsound AA_05_MC setactorvar[camerasprite].cameratime 785 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 267 {
+		qputs 350 ^8Micky: ^0Hmm..."To achieve our goal of combining 
+		qputs 351 science and magic, Posidon proposed a solution..."
+	}
+	else ifge cs_timer 267 ifl cs_timer 486 {
+		qputs 350 ^8Micky: ^0"A mind with child-like imagination 
+		qputs 351 to control the automa bee swarm."
+	}
+	else ifge cs_timer 486 {
+		qputs 350 ^8Micky: ^0"This child, using the 'swarm like' as magic will 
+		qputs 351 grant it a soul, able to merge science and magic together."
+	}
+}
+ife cuts_txt 7880 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_06_MC setactorvar[camerasprite].cameratime 143 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 103 {
+		qputs 350 ^8Micky: ^0"Automa bee swarm"? 
+	}
+	else ifge cs_timer 103 {
+		qputs 350 ^8Micky: ^0Are they talking about nanobots?
+	}
+}
+ife cuts_txt 7881 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_07_MC setactorvar[camerasprite].cameratime 154 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 94 {
+		qputs 350 ^8Micky: ^0Hostile army detected?
+	}
+	else ifge cs_timer 94 {
+		qputs 350 ^8Micky: ^0If not me, then it can only be...
+	}
+}
+ife cuts_txt 7882 
+{
+ set cs_textl 2
+ ife cuts_sound 0 { globalsound AA_08_MC setactorvar[camerasprite].cameratime 198 set cuts_sound 1 }
+ ifge cs_timer 0 {
+    qputs 350 ^8Micky: ^0I must reach the Central Mainframe to stop this madness 
+    qputs 351 before the EAF escalates this to an all out war!
+}
+}
+ife cuts_txt 7883 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_09_NA setactorvar[camerasprite].cameratime 395 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 81 {
+		qputs 350 ^7???: ^0It's you, the Heir! 
+	}
+	else ifge cs_timer 81 ifl cs_timer 154 {
+		qputs 350 ^7???: ^0Finally I get to meet you! 
+	}
+	else ifge cs_timer 154 ifl cs_timer 291 {
+		qputs 350 ^7???: ^0But first, you must prove your bravery and might!
+	}
+	else ifge cs_timer 291 {
+		qputs 350 ^7???: ^0I can make any enemy you can think of, so be ready!
+	}
+}
+ife cuts_txt 7884 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_10_NA setactorvar[camerasprite].cameratime 88 set cuts_sound 1 }
+	 ifge cs_timer 0 {
+		qputs 350 ^7???: ^0You really are mighty, just what the Heir should be!
+	}
+}
+ife cuts_txt 7885 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_11_MC setactorvar[camerasprite].cameratime 100 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 70 {
+		qputs 350 ^8Micky: ^0Who are you?
+	}
+	else ifge cs_timer 70 {
+		qputs 350 ^8Micky: ^0What are you?
+	}
+}
+ife cuts_txt 7886 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_12_NA setactorvar[camerasprite].cameratime 162 set cuts_sound 1 }
+ ifge cs_timer 0 ifl cs_timer 117 {
+    qputs 350 ^7???: ^0Come on, the Heir should be smart too!
+}
+else ifge cs_timer 117 {
+    qputs 350 ^7???: ^0I'm sure you already know that!
+}
+}
+ife cuts_txt 7887 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_13_MC setactorvar[camerasprite].cameratime 118 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 60 {
+		qputs 350 ^8Micky: ^0You are... 
+	}
+	else ifge cs_timer 60 {
+		qputs 350 ^8Micky: ^0Nanomachines, son.
+	}
+}
+ife cuts_txt 7888 
+{
+ ife cuts_sound 0 { globalsound AA_14_NA setactorvar[camerasprite].cameratime 400 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 127 {  set cs_textl 1
+		qputs 350 ^8NanoAI: ^0Correct, I was made thanks to Grandfather Poseidon! 
+	}
+	else ifge cs_timer 127 ifl cs_timer 190 {
+		qputs 350 ^8NanoAI: ^0He saw a big threat coming! 
+	}
+	else ifge cs_timer 190 ifl cs_timer 283 {
+		qputs 350 ^8NanoAI: ^0And when I was made, I also foresaw this.
+	}
+	else ifge cs_timer 283 {  set cs_textl 2
+		qputs 350 ^8NanoAI: ^0He said it would come after his time, and 
+		qputs 351 that I'd need to find an Heir to his Throne.
+	}
+}
+ife cuts_txt 7889 
+{
+ ife cuts_sound 0 { globalsound AA_15_NA setactorvar[camerasprite].cameratime 313 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 66 { set cs_textl 1
+		qputs 350 ^8NanoAI: ^0There was also Mother.
+	}
+	else ifge cs_timer 66 ifl cs_timer 120 {
+		qputs 350 ^8NanoAI: ^0She was the best! 
+	}
+	else ifge cs_timer 120 ifl cs_timer 256 { set cs_textl 2
+		qputs 350 ^8NanoAI: ^0She taught me about humans and that I must be kind and try
+		qputs 351  to help them the best I can...
+	}
+	else ifge cs_timer 256 {  set cs_textl 1
+		qputs 350 ^8NanoAI: ^0Because I have powers that they don't.
+	}
+}
+ife cuts_txt 7890 
+{
+ ife cuts_sound 0 { globalsound AA_16_NA setactorvar[camerasprite].cameratime 512 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 141 {  set cs_textl 1
+		qputs 350 ^8NanoAI: ^0But..my Fathers were not so nice.
+	}
+	else ifge cs_timer 141 ifl cs_timer 270 {  set cs_textl 2
+		qputs 350 ^8NanoAI: ^0They wanted me to use my powers to 
+		qputs 351 hurt other nations and their innocent! 
+	}
+	else ifge cs_timer 270 ifl cs_timer 360 {  set cs_textl 1
+		qputs 350 ^8NanoAI: ^0So when I was given full control over the island...
+	}
+	else ifge cs_timer 360 {  set cs_textl 2
+		qputs 350 ^8NanoAI: ^0I issued everyone to evacuate and sunk it, until 
+		qputs 351 it was time to defend against the big threat!
+	}
+}
+ife cuts_txt 7891 
+{
+ ife cuts_sound 0 { globalsound AA_17_NA setactorvar[camerasprite].cameratime 368 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 90 {  set cs_textl 1
+		qputs 350 ^8NanoAI: ^0Now the time is near! 
+	}
+	else ifge cs_timer 90 ifl cs_timer 243 {  set cs_textl 2
+		qputs 350 ^8NanoAI: ^0So I woke the city to defend against them and 
+		qputs 351 wait for the Heir to take over Grandfather's job!
+	}
+	else ifge cs_timer 243 {
+		qputs 350 ^8NanoAI: ^0You should have seen, I defeated all these 
+		qputs 351 flying metal dragons in the sky!
+	}
+}
+ife cuts_txt 7892 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_18_MC setactorvar[camerasprite].cameratime 224 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 136 {
+		qputs 350 ^8Micky: ^0Those weren't dragons, those were transports...
+	}
+	else ifge cs_timer 136 {
+		qputs 350 ^8Micky: ^0Like, flying ships carrying people...
+	}
+}
+ife cuts_txt 7893 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_19_NA setactorvar[camerasprite].cameratime 260 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 63 {
+		qputs 350 ^8NanoAI: ^0What?!
+	}
+	else ifge cs_timer 63 ifl cs_timer 123 {
+		qputs 350 ^8NanoAI: ^0N-No! No!
+	}
+	else ifge cs_timer 123 ifl cs_timer 195 {
+		qputs 350 ^8NanoAI: ^0I didn't want to hurt them!
+	}
+	else ifge cs_timer 195 {
+		qputs 350 ^8NanoAI: ^0Please...forgive me!
+	}
+}
+ife cuts_txt 7894 
+{
+ ife cuts_sound 0 { globalsound AA_20_MC setactorvar[camerasprite].cameratime 369 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 159 {  set cs_textl 1
+		qputs 350 ^8Micky: ^0*sigh* You really didn't know any better.
+	}
+	else ifge cs_timer 159 ifl cs_timer 240 {
+		qputs 350 ^8Micky: ^0But first, can you shut down your army?
+	}
+	else ifge cs_timer 240 {  set cs_textl 2
+		qputs 350 ^8Micky: ^0The people attacking the island are only 
+		qputs 351 doing it to defend themselves from your misunderstanding.
+	}
+}
+ife cuts_txt 7895 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_21_NA setactorvar[camerasprite].cameratime 90 set cuts_sound 1 }
+ ifge cs_timer 0 {
+    qputs 350 ^8NanoAI: ^0Army deployment terminated!
+}
+}
+ife cuts_txt 7896 
+{
+ ife cuts_sound 0 { globalsound AA_22_MC setactorvar[camerasprite].cameratime 364 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 58 {  set cs_textl 1
+		qputs 350 ^8Micky: ^0Thank you.
+	}
+	else ifge cs_timer 58 ifl cs_timer 154 {
+		qputs 350 ^8Micky: ^0For now let's forget about this Heir business, alright?
+	}
+	else ifge cs_timer 154 ifl cs_timer 253 {
+		qputs 350 ^8Micky: ^0I have a friend you should meet...Epsilon.
+	}
+	else ifge cs_timer 253 {  set cs_textl 2
+		qputs 350 ^8Micky: ^0He's just like you and he could teach
+		qputs 351 you about the modern world and how you could help. 
+	}
+}
+ife cuts_txt 7897 
+{
+ set cs_textl 1
+ ife cuts_sound 0 { globalsound AA_23_NA setactorvar[camerasprite].cameratime 82 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 36 {
+		qputs 350 ^8NanoAI: ^0Oh!
+	}
+	else ifge cs_timer 36 {
+		qputs 350 ^8NanoAI: ^0I'd like to meet Uncle Epsilon!
+	}
+}
+ife cuts_txt 7898 
+{
+ ife cuts_sound 0 { globalsound AA_24_MC setactorvar[camerasprite].cameratime 455 set cuts_sound 1 }
+	 ifge cs_timer 0 ifl cs_timer 161 { set cs_textl 2
+		qputs 350 ^8Micky: ^0I'm still not sure if it was the 
+		qputs 351 best decision to keep the AI online....
+	}
+	else ifge cs_timer 161 ifl cs_timer 337 {
+		qputs 350 ^8Micky: ^0But I could hear him say We need
+		qputs 351 all the help we can get to defend Earth.
+	}
+	else ifge cs_timer 337 ifl cs_timer 394 { set cs_textl 1
+		qputs 350 ^8Micky: ^0And how Earth is right now...
+	}
+	else ifge cs_timer 394 {
+		qputs 350 ^8Micky: ^0It needs all that help.
+	}
+}

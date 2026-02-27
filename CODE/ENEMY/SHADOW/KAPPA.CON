@@ -1,0 +1,235 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile KAPPA
+
+action A_KAPPA_IDLE 0 1 5 1 12
+// TODO Scream anim tile 5, 1 frame animation?
+// action A_KAPPA_THUMP 10 2 5 1 12 // Chest thump (disabled at Ali's request)
+action A_KAPPA_WALK 20 4 5 1 24
+action A_KAPPA_MELEE 40 5 5 1 12
+action A_KAPPA_PROJECTILE_PREP 65 1 5 1 12
+action A_KAPPA_PROJECTILE_SHOOT 70 1 5 1 12
+action A_KAPPA_PAIN 75
+action A_KAPPA_DYING 75 7 1 1 24
+action A_KAPPA_DEAD 81
+
+move M_KAPPA_WALK 250
+
+spriteshadow KAPPA
+spriteshadow KAPPA_STAYPUT
+
+useractor enemy KAPPA
+	fall
+
+	ifg INTERNALCOUNT_3 0 sub INTERNALCOUNT_3 1
+
+	ifaction 0
+	{
+		set actor_type TYPE_CHITIN
+		cstat 257
+		strength 600
+		sizeat 40 40
+		action A_KAPPA_IDLE
+	}
+	else ifaction A_KAPPA_IDLE
+	{
+		move STOP
+		state checkfortarget
+
+		ifn my_target -1
+			{
+			sound KAP_SIGHT
+			action A_KAPPA_WALK
+			}
+	}
+/*	else ifaction A_KAPPA_THUMP
+	{
+		move STOP
+
+		soundonce RIPPER_BEATCHEST
+		ifrnd 8
+			quake 26
+		// TODO maybe this could summon other shadow enemies? rippers?
+
+		ifactioncount 18
+			action A_KAPPA_WALK
+
+	}
+*/
+	else ifaction A_KAPPA_WALK
+	{
+		ifg INTERNALCOUNT 0
+			sub INTERNALCOUNT 1
+
+		ifmove M_KAPPA_WALK nullop
+		else move M_KAPPA_WALK geth
+
+		ife INTERNALCOUNT_3 0
+			{
+			ifpdistl 4096 quake 6
+			sound BOS1_WALK
+			set INTERNALCOUNT_3 20
+			}
+
+		ifrnd 4
+			{
+			ifrnd 128 sound KAP_ROAM else sound KAP_ROAM2
+			}
+
+		state checkfortarget
+
+		ifn my_target -1
+		{
+			ldist temp THISACTOR my_target
+
+			ifl temp 1536
+				{
+				ifrnd 128 sound KAP_MELEE1 else sound KAP_MELEE2
+				action A_KAPPA_MELEE
+				}
+			else ifrnd 16
+				{ ifrnd 128 sound KAP_ATTACK else sound KAP_ATTACK2 action A_KAPPA_PROJECTILE_PREP }
+			/*else ifrnd 8 ife INTERNALCOUNT 0
+			{
+				set INTERNALCOUNT 360
+				action A_KAPPA_THUMP
+			}*/
+		}
+	}
+	else ifaction A_KAPPA_MELEE
+	{
+		move STOP
+		state fronttowardstarget
+
+		ifactioncount 5
+			action A_KAPPA_WALK
+
+	}
+	else ifaction A_KAPPA_PROJECTILE_PREP
+	{
+		move STOP
+		state fronttowardstarget
+
+		ifactioncount 5
+		{
+			set INTERNALCOUNT_2 1
+			action A_KAPPA_PROJECTILE_SHOOT
+		}
+	}
+	else ifaction A_KAPPA_PROJECTILE_SHOOT
+	{
+		move STOP
+		state fronttowardstarget
+
+		ife INTERNALCOUNT_2 1
+		{
+			geta[].z my_z
+			sub my_z 7000
+			seta[].z my_z
+			sound KAP_FIRE
+			state fronttowardstarget
+			set PROJECTILE_TO_SHOOT 29020
+			//shoot 29020
+			state sang_enemyShootProjectile
+			add my_z 7000
+			seta[].z my_z
+		}
+
+		add INTERNALCOUNT_2 1
+
+		ifactioncount 8
+			action A_KAPPA_WALK
+	}
+	else ifaction A_KAPPA_PAIN
+	{
+		move STOP
+
+		ifactioncount 2
+		{
+			ifdead
+				action A_KAPPA_DYING
+			else
+				action A_KAPPA_WALK
+		}
+	}
+	else ifaction A_KAPPA_DYING
+	{
+		move STOP
+
+		ifactioncount 7
+		{
+			spawn BLOOD
+			sound BOSSFALL
+			ifpdistl 4096 quake 13
+			action A_KAPPA_DEAD
+		}
+	}
+	else ifaction A_KAPPA_DEAD
+	{
+		move STOP
+		strength 0
+
+		ifhitweapon
+		{
+			ifwasweapon RADIUSEXPLOSION
+			{
+				state squish_sounds
+				state standard_jibs
+				killit
+			}
+		}
+	}
+
+	ifhitweapon
+	{
+		espawn BLOOD
+		guts JIBS6 1
+		state random_wall_jibs
+		state NEWGUNEFFECTS
+
+		ifdead
+		{
+			addkills 1
+			state rf
+			sound KAP_DIE
+			cstat 0
+			strength 0
+			spawn BLOODPOOL
+			action A_KAPPA_DYING
+		}
+		else ifrnd 4
+			{ sound KAP_PAIN action A_KAPPA_PAIN }
+		else ifaction A_KAPPA_IDLE
+			{ sound KAP_PAIN action A_KAPPA_PAIN }
+	}
+
+enda
+
+useractor enemystayput KAPPA_STAYPUT cactor KAPPA enda

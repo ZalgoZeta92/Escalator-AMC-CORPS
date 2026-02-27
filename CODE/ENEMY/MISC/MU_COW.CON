@@ -1,0 +1,304 @@
+action A_MU_COW_START 0 0 5 1 12
+action A_MU_COW_IDLE 0 0 5 1 12
+action A_MU_COW_WANDER 5 4 5 1 24
+action A_MU_COW_WANDERSTOP 0 0 5 1 12
+action A_MU_COW_SEEK 5 4 5 1 12
+action A_MU_COW_SHRUNK 5 4 5 1 12
+action A_MU_COW_MELEEATK 50 4 5 1 12
+action A_MU_COW_PAIN 70 0 1 1 8
+action A_MU_COW_FREEZE 70 0 1 1 8
+action A_MU_COW_GROW 70 0 1 1 8
+action A_MU_COW_DYING 70 8 1 1 12
+action A_MU_COW_DEAD 78
+move M_MU_COW_WALK 150
+move M_MU_COW_WANDER 40
+
+damageeventtile MU_COW
+
+useractor enemy MU_COW 3000 A_MU_COW_START
+fall
+ifaction A_MU_COW_START
+{
+	cstat 257
+	strength 3000
+	sizeat 36 30
+	set blood_type 0 // defaults to 0 which is red
+	set actor_type 0 // defaults to 0, either remove or change this to desired armour type
+	geta[].pal actor_pal
+	state monst_glow
+	action A_MU_COW_IDLE
+}
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifdead nullop else state detectledge
+
+ifaction A_MU_COW_IDLE
+{
+	move STOP
+	set INTERNALCOUNT 0
+	action A_MU_COW_WANDER
+}
+else ifaction A_MU_COW_WANDER
+{
+	ifmove M_MU_COW_WANDER nullop
+	else move M_MU_COW_WANDER geth
+	
+	ifrnd 64
+	{
+	ifrnd 1 sound MCW_ROAM1 else ifrnd 1 sound MCW_ROAM2
+	}
+
+	add INTERNALCOUNT 1
+	
+	ifge INTERNALCOUNT 120
+		ifrnd 16
+	{
+		set INTERNALCOUNT 0
+		action A_MU_COW_WANDERSTOP
+	}
+	
+	state checkfortarget
+	ifn my_target -1 
+	{
+		sound MCW_ANGRY
+		action A_MU_COW_SEEK
+	}
+}
+else ifaction A_MU_COW_WANDERSTOP
+{
+	move STOP
+
+	add INTERNALCOUNT 1
+	
+	ifrnd 16
+	{
+	ifrnd 1 sound MCW_ROAM1 else ifrnd 1 sound MCW_ROAM2
+	}
+
+	// couldn't get them to forget about their previous target too well, and it sorta looks like it's eating it, looks kinda cool so let's lean into that
+	ifge INTERNALCOUNT 60
+	{
+		ifn my_previous_target -1
+		{
+			dist temp THISACTOR my_previous_target
+			
+			ifl temp 1536
+			{
+				sound MCW_EAT
+				seta[my_previous_target].htpicnum RADIUSEXPLOSION
+				seta[my_previous_target].htextra 14000
+				
+				set my_previous_target -1
+			}
+		}
+	}
+	
+	ifge INTERNALCOUNT 90
+		ifrnd 32
+	{
+		move M_MU_COW_WANDER geth randomangle
+		set INTERNALCOUNT 0
+		action A_MU_COW_WANDER
+	}
+	
+	state checkfortarget
+	ifn my_target -1 
+	{
+		sound MCW_ANGRY
+		action A_MU_COW_SEEK
+	}
+}		
+else ifaction A_MU_COW_SEEK
+{
+	set temp 0
+	ifn my_target -1
+		set temp 1
+	else ifn my_previous_target -1
+	{
+		ifg sprite[my_previous_target].extra 0
+			set temp 1
+	}
+	ife temp 0
+		action A_MU_COW_WANDER
+	else
+	{
+		ifmove M_MU_COW_WALK nullop 
+		else move M_MU_COW_WALK geth
+			
+		state checkfortarget
+		
+		ifn my_target -1
+		{
+			dist temp THISACTOR my_target
+			ifl temp 1024 { ifrnd 128 sound MCW_ATCK1 else sound MCW_ATCK2 action A_MU_COW_MELEEATK }
+		}
+	}
+}
+else ifaction A_MU_COW_SHRUNK
+{
+    ifmove M_MU_COW_WALK nullop 
+	else move M_MU_COW_WALK geth fleeenemy
+		
+	ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+		state new_shrunkcode
+	else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+	{
+		state unshrink
+		sizeto 36 30
+	}
+	else // after regrow, switch back to regular action
+	{
+		state endshrunkenstate
+		action A_MU_COW_SEEK
+	}
+}
+else ifaction A_MU_COW_MELEEATK
+{
+	move STOP
+	state fronttowardstarget
+
+	ifactioncount 3
+	{
+		state checkfortarget
+		
+		ife my_target -1
+			action A_MU_COW_SEEK
+		else
+		{
+			dist temp THISACTOR my_target
+			ifg temp 1024
+				action A_MU_COW_SEEK
+			else
+				resetactioncount
+		}
+	}
+	else ifactioncount 2
+	{
+		ife INTERNALCOUNT 0
+		{
+			add INTERNALCOUNT 1
+
+			// TODO need some kind of melee hitscan projectile, ripper scratch isn't cutting it
+			// For now just apply damage directly
+			ifrnd 128 sound DGR_SLSH1
+			else sound DGR_SLSH2
+
+			// if player is close enough play scratch sound
+			dist temp THISACTOR my_target
+			ifle temp 1024
+			{
+				ife my_target PLAYER_IDENTITY
+				  ifpdistl 1536
+				  ifn SWORD_BLOCK 0
+				  ifp pfacing
+				{
+						state enemy_parry_code
+						action A_MU_COW_PAIN
+						break
+				}
+				else
+				{
+					sound RIPPER_SCRATCH
+					set temp 20
+					rand temp2 25
+					add temp temp2
+					seta[my_target].htextra temp
+					seta[my_target].htpicnum 17663
+				}
+			}
+		}
+	}
+	else ifactioncount 1
+		set INTERNALCOUNT 0
+}
+else ifaction A_MU_COW_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_MU_COW_DYING 
+		else action A_MU_COW_SEEK
+	}
+}
+else ifaction A_MU_COW_FREEZE state frozen_code
+else ifaction A_MU_COW_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+
+else ifaction A_MU_COW_DYING
+{
+	strength 0
+	ifactioncount 8 { state rf sound BOSSFALL ifpdistl 2048 quake 6 action A_MU_COW_DEAD spawn BLOODPOOL }
+}
+
+else ifaction A_MU_COW_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+
+geta[].htpicnum temp
+geta[].picnum temp2
+ifn temp -1 
+  ifn temp temp2
+{
+	geta[].htowner temp
+	ifn temp -1
+	{
+		getav[temp].faction_flag temp2
+		ifand faction_flag temp2
+			sub faction_flag temp2
+	}
+}
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	sound BERSERK_PAIN
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_MU_COW_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_MU_COW_FREEZE } 
+		else
+		{
+			sound MCW_DIE
+			action A_MU_COW_DYING
+		}
+	}
+		
+	else // not dead
+	{
+		ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_MU_COW_SHRUNK }
+		
+		else ifg PAIN_AMOUNT 0 { sound MCW_PAIN action A_MU_COW_PAIN }
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST sound MCW_PAIN action A_MU_COW_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_MU_COW_IDLE { state PAIN_SKILL_LEVELADJUST sound MCW_PAIN action A_MU_COW_PAIN }
+		else ifaction A_MU_COW_WANDER { state PAIN_SKILL_LEVELADJUST sound MCW_PAIN action A_MU_COW_PAIN }
+		else ifaction A_MU_COW_WANDERSTOP { state PAIN_SKILL_LEVELADJUST sound MCW_PAIN action A_MU_COW_PAIN }
+	}
+}
+
+state checksquished
+
+enda

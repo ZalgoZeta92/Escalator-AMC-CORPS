@@ -1,0 +1,20 @@
+
+// define levels here
+
+definelevelname 5 0 FILE 00:00 00:00 MAP NAME
+definelevelname 5 1 FILE 00:00 00:00 MAP NAME
+definelevelname 5 2 FILE 00:00 00:00 MAP NAME
+
+// define music, in sequence
+music 6
+
+// no need to alter this
+// starts the map when episode is selected
+appendevent EVENT_NEWGAMECUSTOM
+    switch userdef.return 0
+        case 2:
+            setu[].m_volume_number 5
+            setu[].m_level_number 0
+            break
+    endswitch
+endevent

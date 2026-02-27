@@ -1,0 +1,345 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile LPOWERSUIT
+
+action ALPSUIT_IDLE 0 1 5 1 10
+action ALPSUIT_MOVE 0 4 5 1 14
+action ALPSUIT_FIRE 20 2 5 1 8
+action ALPSUIT_FLAME 25 1 5
+action ALPSUIT_DIE 30 5 1 1 20
+action ALPSUIT_HEAD_DIE -215 3 1 1 30
+action ALPSUIT_DEAD 34 1 1 1 10
+
+action ALPSUIT_CHARGE1 20 1 5 1 75 // Charge shot for ALPSUIT FIRE1
+action ALPSUIT_FIRE1 20 2 5 1 30 // Powerful shot with slow rate of fire /* Needs ifspritepal and actor_pal */
+action ALPSUIT_CHARGE2 20 1 5 1 200 // Charge shot for ALPSUIT FIRE2 /* Needs ifspritepal and actor_pal */
+action ALPSUIT_FIRE2 20 2 5 1 100 // Charged shot with slower rate of fire /* Needs ifspritepal and actor_pal */
+action ALPSUIT_FIRE3 20 2 5 1 8 // Powerful Guided Weapon with slowest rate of fire /* Needs ifspritepal and actor_pal */
+
+move LPSUIT_WALK 150 0
+
+ai AILPSUIT_IDLE ALPSUIT_IDLE STOP
+ai AILPSUIT_MOVE ALPSUIT_MOVE LPSUIT_WALK geth
+ai AILPSUIT_FIRE ALPSUIT_FIRE STOP
+ai AILPSUIT_FLAMET ALPSUIT_FLAME STOP
+ai AILPSUIT_DIE ALPSUIT_DIE STOP
+ai AILPSUIT_HEAD_DIE ALPSUIT_HEAD_DIE STOP
+ai AILPSUIT_CHARGE1 ALPSUIT_CHARGE1 STOP /* Needs ifspritepal or actor_pal */
+ai AILPSUIT_FIRE1 ALPSUIT_FIRE1 STOP /* Needs ifspritepal or actor_pal */
+ai AILPSUIT_CHARGE2 ALPSUIT_CHARGE2 STOP /* Needs ifspritepal or actor_pal */
+ai AILPSUIT_FIRE2 ALPSUIT_FIRE2 STOP /* Needs ifspritepal or actor_pal */
+
+/* Needs ifspritepal and actor_pal */
+
+/* Needs ifspritepal and actor_pal */
+
+/* Needs ifspritepal and actor_pal */
+
+useractor enemystayput LPOWERSUITSTAYPUT state monst_glow cactor LPOWERSUIT enda
+
+useractor enemy LPOWERSUIT 500 ALPSUIT_IDLE
+fall
+
+ifai 0
+	{
+	set MONSTER_FLAGS 2
+	state monst_glow
+	ifspawnedby MONS_SPAWNER sleeptime 0
+	spawn SHOOTME
+	spriteflags NORMAL_ENEMY
+	ife actor_pal 0 geta[].pal actor_pal
+	set actor_type TYPE_ARMOURED_HELMET
+	strength 500
+	sizeat 24 24
+	cstat 257
+	ife actor_pal 10
+			{
+			set faction_flag 2
+			ifrnd 64 soundonce PE_FORTHEPE1
+			else ifrnd 64 soundonce PE_FORTHEPE2
+			else ifrnd 64 soundonce PE_OVERTHERE
+			else soundonce PE_HAHAHA
+			}
+		else
+			{
+		  ifrnd 64 soundonce LP_SIGHT1
+		  else ifrnd 64 soundonce LP_SIGHT2
+		  else ifrnd 64 soundonce LP_SIGHT3
+		  else soundonce LP_SIGHT4
+			}
+	ai AILPSUIT_IDLE
+	}
+
+ifaction ALPSUIT_DEAD break
+
+ifai AILPSUIT_DIE
+	{
+	ifactioncount 4 { state BODY_FALL_NOISES sound MECH_F1 action ALPSUIT_DEAD }
+	}
+else
+ifai AILPSUIT_HEAD_DIE
+	{
+	ifactioncount 3 { state BODY_FALL_NOISES sound MECH_F1 action ALPSUIT_DEAD }
+	}
+else
+ifai AILPSUIT_IDLE
+	{
+	state checkfortarget
+	ifn my_target -1
+	  ai AILPSUIT_MOVE
+	}
+else
+ifai AILPSUIT_MOVE
+	{
+	state checkfortarget
+	ifactioncount 3 nullop else
+	 ifactioncount 2 sound BIG_BOOT_STEP
+
+	 ifpdistl 4096 ifrnd 32 ai AILPSUIT_FLAMET
+
+		state SKILL_SHOOT_LEVELADJUST
+		ifn my_target -1
+		  ifl RANDOM_CHANCE SKILLCHANCE
+		   ai AILPSUIT_FIRE
+		ifspritepal 17 or pal 18
+			ifn my_target -1
+		  ifl RANDOM_CHANCE SKILLCHANCE
+			ai AILPSUIT_CHARGE1
+		ifspritepal 22
+			ifn my_target -1
+		  ifl RANDOM_CHANCE SKILLCHANCE
+			ai AILPSUIT_CHARGE2
+		else ife my_target -1 ifp pdead ai AILPSUIT_IDLE
+	}
+else
+ifai AILPSUIT_FIRE
+	{
+	state new_validatetarget
+	ife my_target -1 ai AILPSUIT_MOVE
+	state fronttowardstarget
+	ifactioncount 1
+		{
+		ifspritepal 13
+			{
+			sound TES_BLAS
+			set PROJECTILE_STRENGTH 64
+			set PROJECTILE_ZOFFSET 16
+			set PROJECTILE_TO_SHOOT 22610
+			state sang_enemyShootProjectile
+			}
+		else ifspritepal 14
+			{
+			sound NAILGUN_FIRE
+			set PROJECTILE_STRENGTH 48
+			set PROJECTILE_ZOFFSET 16
+			set PROJECTILE_TO_SHOOT 6826
+			state sang_enemyShootProjectile
+			}
+		else
+			{
+			set PROJECTILE_STRENGTH 12
+			set PROJECTILE_ZOFFSET 16
+			set PROJECTILE_TO_SHOOT ENEMY_BULLET
+			set PROJECTILE_FIRING_SOUND AUTOTURRET_FIRE
+			state sang_enemyShootProjectile
+			}
+		ife PERFMODE 1
+		 ifcansee
+			{
+			set gunsmoke_z 7844
+			set gunsmoke_angle 256
+			state spawn_gunsmoke_z
+			set gunsmoke_z 8544
+			espawn 16115
+			state spawn_muzzleflash
+			}
+		resetactioncount
+		}
+	ifrnd 16 ai AILPSUIT_MOVE
+	}
+else
+// Adding a different variant to create a seperate actor with texture.
+ifai AILPSUIT_CHARGE1
+	{
+	state fronttowardstarget
+	ai AILPSUIT_FIRE1
+	}
+else
+// Adding a different variant to create a seperate actor with texture.
+ifai AILPSUIT_CHARGE2
+	{
+	state fronttowardstarget
+	ai AILPSUIT_FIRE2
+	}
+else
+ifai AILPSUIT_FIRE1
+	{
+	state new_validatetarget
+	ife my_target -1 ai AILPSUIT_MOVE
+	state fronttowardstarget
+	ifactioncount 1
+		{
+			{
+			sound REVOLVERFIRE
+			set PROJECTILE_STRENGTH 100
+			set PROJECTILE_TO_SHOOT ENEMY_BULLET
+			set PROJECTILE_ZOFFSET 0
+			state sang_enemyShootProjectile
+			}
+		ife PERFMODE 1
+		 ifcansee
+			{
+			set gunsmoke_z 7844
+			set gunsmoke_angle 256
+			state spawn_gunsmoke_z
+			set gunsmoke_z 8544
+			espawn 16115
+			state spawn_muzzleflash
+			}
+		resetactioncount
+		}
+	ifrnd 16 ai AILPSUIT_MOVE
+	}
+else
+ifai AILPSUIT_FIRE2
+	{
+	state new_validatetarget
+	ife my_target -1 ai AILPSUIT_MOVE
+	state fronttowardstarget
+	ifactioncount 1
+		{
+			{
+			sound MISSILE_EXPLODE
+			set PROJECTILE_STRENGTH 200
+			set PROJECTILE_TO_SHOOT MISSILE
+			set PROJECTILE_ZOFFSET 0
+			state sang_enemyShootProjectile
+			}
+		ife PERFMODE 1
+		 ifcansee
+			{
+			set gunsmoke_z 7844
+			set gunsmoke_angle 256
+			state spawn_gunsmoke_z
+			set gunsmoke_z 8544
+			espawn 16115
+			state spawn_muzzleflash
+			}
+		resetactioncount
+		}
+	ifrnd 16 ai AILPSUIT_MOVE
+	}
+else
+ifai AILPSUIT_FLAMET
+	{
+	ifspritepal 17 ai AILPSUIT_MOVE
+	else
+	ifspritepal 18 ai AILPSUIT_MOVE
+	else
+	ifspritepal 13 ai AILPSUIT_MOVE
+	else
+	ifspritepal 22 ai AILPSUIT_MOVE
+	else
+	{
+	ifactioncount 1
+	 ifcansee
+		{
+		soundonce FLAMETH_FIRE
+		espawn FLAME_THROW
+		geta[].x temp
+		geta[].y temp2
+		set temp3 temp
+		add temp3 256
+		geta[].ang temp4
+		add temp4 192
+		randvar temp5 8
+		ifrnd 128 add temp4 temp5 else sub temp4 temp5
+		rotatepoint temp temp2 temp3 temp2 temp4 temp5 temp6
+		seta[RETURN].x temp5
+		seta[RETURN].y temp6
+		setactorvar[RETURN].temp5 1
+		set gunsmoke_z 7844
+		state spawn_muzzleflash
+		resetactioncount
+		}
+	ifrnd 16 { stopsound FLAMETH_FIRE sound FLAMETH_STOP ai AILPSUIT_MOVE }
+	}
+	}
+
+ifhitweapon
+	{
+	seta[].xvel 0
+
+    // Debris + blood
+    ifrnd 64
+        {
+        ifspritepal 0 { spritepal 1 debris SCRAP1 1 debris SCRAP5 1 getlastpal }
+        else { debris SCRAP1 1 debris SCRAP5 1 }
+        }
+	ifrnd 32 guts JIBS6 1
+
+    ifdead
+		{
+		stopsound FLAMETH_FIRE
+		ifn yvel_saved 0 espawnvar yvel_saved
+		soundonce PA_DIE
+		setactorsoundpitch THISACTOR PA_DIE 384
+		ife HEADSHOT 2
+			{
+			state rf
+			sound GLASS_BREAKING
+			ifrnd 128 sound HEL_HS1 else sound HEL_HS2
+			guts JIBS6 5
+            spawn BLOODPOOL
+			ai AILPSUIT_HEAD_DIE
+			shoot NJIB
+			lotsofglass 3
+			}
+		else
+			{
+			state rf
+			ai AILPSUIT_DIE
+			ife actor_pal 10
+				{
+				ifrnd 128 sound PE_PAIN1 else sound PE_PAIN2
+				}
+			else
+				{
+				ifrnd 64 soundonce LP_DIE1
+				else ifrnd 64 soundonce LP_DIE2
+				else ifrnd 64 soundonce LP_DIE3
+				else soundonce LP_DIE4
+				}
+			}
+		addkills 1
+		}
+	}
+
+enda

@@ -1,0 +1,1007 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Contains character first person animations, called directly inside display.con
+--------------------------------------------------------------------------------
+*/
+
+
+
+ifg char_sel_anim 0
+ ife SPACE_SUIT 0 // don't do these if the player is in one of the suits
+  ife FIRE_SUIT 0
+   ife JUGGERN_SUIT 0
+	ife camerasprite -1
+	 ife player[].over_shoulder_on 0
+	{
+	ife CHAR 0 // James
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+			set screen_pal_override 3
+			rotatesprite 160 200 32768 1024 13970 shade wep_pal 12 windowx1 windowy1 windowx2 windowy2
+			break
+		case 26
+		case 25
+		case 24
+		case 23
+			rotatesprite 160 170 32768 1024 13971 shade wep_pal 12 windowx1 windowy1 windowx2 windowy2
+			break
+		case 22
+		case 21
+		case 20
+		case 19
+			rotatesprite 160 170 45768 1024 13972 shade wep_pal 12 windowx1 windowy1 windowx2 windowy2
+			break
+		case 18
+		case 17
+		case 16
+		case 15
+			rotatesprite 160 150 45768 1024 13973 shade wep_pal 12 windowx1 windowy1 windowx2 windowy2
+			break
+		case 14
+			state fade_out_black
+			set cus_fade_duration 3
+			set screen_pal_override 10 // turn off
+		default
+		break
+	endswitch
+	ife CHAR 1 // Zaxtor
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+		ife char_sel_anim 29 screensound JMOVE2
+		rotatesprite 150 160 32768 0 14458 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 26
+		case 25
+		case 24
+		case 23
+		case 10
+		case 9
+		case 8
+		case 7
+		rotatesprite 150 160 32768 0 14459 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 22
+		case 21
+		case 20
+		case 19
+		case 14
+		case 13
+		case 12
+		case 11
+		rotatesprite 150 160 32768 0 14460 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 18
+		case 17
+		case 16
+		case 15
+		rotatesprite 150 160 32768 64 14461 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 6
+		case 5
+		case 4
+		case 3
+		case 2
+		case 1
+		set disp_temp 142
+		set disp_temp2 7
+		sub disp_temp2 char_sel_anim
+		mul disp_temp2 10
+		add disp_temp disp_temp2
+		guniqhudid 40
+		rotatesprite 150 disp_temp 32768 0 14458 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		guniqhudid 0
+		break
+	endswitch
+	ife CHAR 2 // Merlijn
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+		case 26
+		case 25
+		case 24
+		case 23
+		case 22
+		case 21
+		case 20
+		case 19
+		ife char_sel_anim 29 screensound H_ARMOUR_M1
+		set disp_temp char_sel_anim
+		mul disp_temp 3
+		set disp_temp2 80
+		add disp_temp2 disp_temp
+		ifand CHAR_APP 4 set disp_temp5 14490
+		else set disp_temp5 14451
+		guniqhudid 40
+		rotatesprite 160 disp_temp2 32768 0 disp_temp5 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		guniqhudid 0
+		break
+		case 18
+		case 17
+		case 16
+		case 15
+		ifand CHAR_APP 4 set disp_temp5 14491
+		else set disp_temp5 14452
+		rotatesprite 160 100 32768 0 disp_temp5 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		break
+		case 14
+		case 13
+		case 12
+		case 11
+		ifand CHAR_APP 4 set disp_temp5 14492
+		else set disp_temp5 14453
+		rotatesprite 164 100 32768 0 disp_temp5 shade wep_pal 4608 windowx1 windowy1 windowx2 windowy2
+		break
+		case 10
+		case 9
+		case 8
+		case 7
+		ifand CHAR_APP 4 set disp_temp5 14493
+		else set disp_temp5 14454
+		rotatesprite 24 40 32768 0 disp_temp5 shade wep_pal 4352 windowx1 windowy1 windowx2 windowy2
+		ifand CHAR_APP 4 set disp_temp5 14494
+		else set disp_temp5 14455
+		rotatesprite 288 100 32768 0 disp_temp5 shade wep_pal 4608 windowx1 windowy1 windowx2 windowy2
+		break
+		case 6
+		case 5
+		case 4
+		case 3
+		case 2
+		case 1
+		ife char_sel_anim 6 { palfrom 30 0 0 0 soundonce HELM_EQ }
+		ife char_sel_anim 5 { getp[].horiz disp_temp add disp_temp 10 setp[].horiz disp_temp }
+		ife char_sel_anim 3 { getp[].horiz disp_temp sub disp_temp 10 setp[].horiz disp_temp }
+		break
+	endswitch
+	ife CHAR 3 // Highwire
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+		case 10
+		case 9
+		case 8
+		case 7
+			ife char_sel_anim 30 soundonce DRINKSOME
+			ife char_sel_anim 10 screensound JMOVE6
+			ife char_sel_anim 29 screensound JMOVE6
+			ifand CHAR_APP 16 rotatesprite 160 170 32768 0 29848 shade arm_pal 8 windowx1 windowy1 windowx2 windowy2
+			else rotatesprite 160 170 32768 0 14448 shade arm_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+		case 26
+		case 25
+		case 24
+		case 23
+		case 14
+		case 13
+		case 12
+		case 11
+			ifand CHAR_APP 16 rotatesprite 160 170 32768 0 29849 shade arm_pal 8 windowx1 windowy1 windowx2 windowy2
+			else rotatesprite 160 170 32768 0 14449 shade arm_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+		case 22
+		case 21
+		case 20
+		case 17
+		case 16
+		case 15
+			guniqhudid 40
+			ifand CHAR_APP 16 rotatesprite 160 175 32768 0 29850 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+			else rotatesprite 160 175 32768 0 14450 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+			guniqhudid 0
+			break
+		case 19
+		case 18
+			guniqhudid 40
+			ifand CHAR_APP 16 rotatesprite 160 170 32768 0 29850 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+			else rotatesprite 160 170 32768 0 14450 shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+			guniqhudid 0
+			break
+		case 6
+		case 5
+		case 4
+			ifand CHAR_APP 16 rotatesprite 160 170 32768 0 29847 shade arm_pal 8 windowx1 windowy1 windowx2 windowy2
+			else rotatesprite 160 170 32768 0 14447 shade arm_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+		case 3
+		case 2
+		case 1
+			ifand CHAR_APP 16 rotatesprite 160 195 32768 0 29846 shade arm_pal 8 windowx1 windowy1 windowx2 windowy2
+			else rotatesprite 160 195 32768 0 14446 shade arm_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+	endswitch
+	ife CHAR 4 // Sang
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+		case 26
+		case 25
+		case 24
+		case 23
+		case 22
+		case 21
+		case 20
+		case 19
+		case 18
+		case 17
+		case 16
+		case 15
+		case 14
+		case 13
+		case 12
+		case 11
+		case 10
+		case 9
+		case 8
+		case 7
+		ife char_sel_anim 30 sound CSPELL
+		add display_rot 8
+		ifg display_rot 2040 set display_rot 0
+		set disp_temp3 24
+		sub disp_temp3 char_sel_anim
+		ifand CHAR_APP 2
+			{
+			guniqhudid 40
+			rotatesprite 150 160 24576 0 14508 0 wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+			guniqhudid 41
+			rotatespritea 150 120 40960 display_rot 6335 disp_temp3 wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+			}
+		else
+			{
+			guniqhudid 40
+			rotatesprite 150 160 24576 0 14457 0 21 4096 windowx1 windowy1 windowx2 windowy2
+			guniqhudid 41
+			rotatespritea 150 120 32768 display_rot PENTAGRAM disp_temp3 wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+			}
+			guniqhudid 0
+		break
+		case 6
+		case 5
+		case 4
+		case 3
+		case 2
+		case 1
+		set disp_temp 142
+		set disp_temp2 7
+		sub disp_temp2 char_sel_anim
+		mul disp_temp2 10
+		add disp_temp disp_temp2
+		guniqhudid 40
+		ifand CHAR_APP 2 rotatesprite 150 disp_temp 24576 0 14507 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		else rotatesprite 150 disp_temp 24576 0 14456 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		guniqhudid 0
+		break
+	endswitch
+	ife CHAR 5 // Rusty
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+		ife char_sel_anim 29 screensound JMOVE1
+		rotatesprite 160 180 32768 0 13959 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 26
+		case 25
+		case 24
+		case 23
+		ifand CHAR_APP 65536 set tilenum 38352 else set tilenum 13960
+		rotatesprite 160 100 32768 0 tilenum shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 22
+		case 21
+		case 20
+		case 19
+		ifand CHAR_APP 65536 set tilenum 38353 else set tilenum 13961
+		rotatesprite 160 100 32768 0 tilenum shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 18
+		case 17
+		case 16
+		case 15
+		ifand CHAR_APP 65536 set tilenum 38354 else set tilenum 13962
+		rotatesprite 160 100 32768 0 tilenum shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 14
+		case 13
+		case 12
+		case 11
+		ife char_sel_anim 13 screensound JMOVE6
+		ifand CHAR_APP 65536 set tilenum 38355 else set tilenum 13963
+		rotatesprite 160 100 32768 0 tilenum shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 10
+		case 9
+		case 8
+		case 7
+		ife char_sel_anim 9 { getp[].horiz disp_temp add disp_temp 5 setp[].horiz disp_temp }
+		ife char_sel_anim 8 { getp[].horiz disp_temp sub disp_temp 5 setp[].horiz disp_temp }
+		ifand CHAR_APP 65536 set tilenum 38356 else set tilenum 13964
+		rotatesprite 160 100 32768 0 tilenum shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 6
+		case 5
+		case 4
+		case 3
+		case 2
+		case 1
+		set disp_temp 142
+		set disp_temp2 7
+		sub disp_temp2 char_sel_anim
+		mul disp_temp2 10
+		add disp_temp disp_temp2
+		guniqhudid 40
+		ifand CHAR_APP 65536 set tilenum 38357 else set tilenum 13965
+		rotatesprite 160 disp_temp 32768 0 tilenum shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		guniqhudid 0
+		break
+	endswitch
+	ife CHAR 6 // Geoffrey
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+		ife char_sel_anim 29 screensound PAGE_TURN
+		rotatesprite 160 170 32768 0 14628 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 26
+		case 25
+		case 24
+		case 23
+		rotatesprite 160 170 32768 0 14629 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 22
+		case 21
+		case 20
+		case 19
+		rotatesprite 160 170 32768 0 14630 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 18
+		case 17
+		case 16
+		case 15
+		rotatesprite 160 170 32768 0 14631 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 14
+		case 13
+		case 12
+		case 11
+		ife char_sel_anim 13 screensound JMOVE6
+		rotatesprite 160 170 32768 0 14632 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 10
+		case 9
+		case 8
+		case 7
+		rotatesprite 160 170 32768 0 14633 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 6
+		case 5
+		case 4
+		case 3
+		case 2
+		case 1
+		set disp_temp 160
+		set disp_temp2 7
+		sub disp_temp2 char_sel_anim
+		mul disp_temp2 10
+		add disp_temp disp_temp2
+		guniqhudid 40
+		rotatesprite 160 disp_temp 32768 0 14633 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		guniqhudid 0
+		break
+	endswitch
+	ife CHAR 7 // Mikko
+	{
+	ifand CHAR_APP 8
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+		case 26
+		case 25
+		case 24
+		case 23
+		case 22
+		case 21
+		case 20
+		case 19
+		set hud_disp 0
+		ife char_sel_anim 29 screensound JMOVE6
+		set disp_temp char_sel_anim
+		mul disp_temp 3
+		set disp_temp2 80
+		add disp_temp2 disp_temp
+		guniqhudid 40
+		rotatesprite 160 disp_temp2 32768 0 29404 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		guniqhudid 0
+		break
+		case 18
+		case 17
+		case 16
+		case 15
+		rotatesprite 160 100 32768 0 29405 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 14
+		case 13
+		case 12
+		case 11
+		rotatesprite 164 100 32768 0 29406 shade wep_pal 520 windowx1 windowy1 windowx2 windowy2
+		break
+		case 10
+		case 9
+		case 8
+		case 7
+		rotatesprite 14 30 32768 0 29407 shade wep_pal 264 windowx1 windowy1 windowx2 windowy2
+		break
+		case 6
+		case 5
+		case 4
+		case 3
+		case 2
+		case 1
+		set hud_disp 1
+		ife char_sel_anim 6 { palfrom 30 0 0 0 soundonce HELM_EQ }
+		ife char_sel_anim 5 { soundonce OSD_TEXT2 getp[].horiz disp_temp add disp_temp 10 setp[].horiz disp_temp }
+		ife char_sel_anim 3 { getp[].horiz disp_temp sub disp_temp 10 setp[].horiz disp_temp }
+		break
+	endswitch
+	else
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+		case 26
+		case 25
+		case 24
+		case 23
+		case 22
+		case 21
+		case 20
+		case 19
+		set hud_disp 0
+		ife char_sel_anim 29 screensound JMOVE6
+		set disp_temp char_sel_anim
+		mul disp_temp 3
+		set disp_temp2 80
+		add disp_temp2 disp_temp
+		guniqhudid 40
+		rotatesprite 160 disp_temp2 32768 0 13471 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		guniqhudid 0
+		break
+		case 18
+		case 17
+		case 16
+		case 15
+		rotatesprite 160 100 32768 0 13472 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 14
+		case 13
+		case 12
+		case 11
+		rotatesprite 164 100 32768 0 13473 shade wep_pal 520 windowx1 windowy1 windowx2 windowy2
+		break
+		case 10
+		case 9
+		case 8
+		case 7
+		rotatesprite 14 30 32768 0 13474 shade wep_pal 264 windowx1 windowy1 windowx2 windowy2
+		break
+		case 6
+		case 5
+		case 4
+		case 3
+		case 2
+		case 1
+		set hud_disp 1
+		ife char_sel_anim 6 { palfrom 30 0 0 0 soundonce HELM_EQ }
+		ife char_sel_anim 5 { soundonce OSD_TEXT2 getp[].horiz disp_temp add disp_temp 10 setp[].horiz disp_temp }
+		ife char_sel_anim 3 { getp[].horiz disp_temp sub disp_temp 10 setp[].horiz disp_temp }
+		break
+	endswitch
+	}
+	ife CHAR 12 // Jane
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+		case 26
+		case 25
+		case 24
+		case 23
+		case 22
+		case 21
+		case 20
+		case 19
+		set hud_disp 0
+		set temporary_no_helmet 1
+		ife char_sel_anim 29 screensound JMOVE6
+		set disp_temp char_sel_anim
+		mul disp_temp 3
+		set disp_temp2 80
+		add disp_temp2 disp_temp
+		guniqhudid 40
+		rotatesprite 160 disp_temp2 32768 0 14486 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		guniqhudid 0
+		break
+		case 18
+		case 17
+		case 16
+		case 15
+		rotatesprite 160 100 32768 0 14487 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 14
+		case 13
+		case 12
+		case 11
+		rotatesprite 164 100 32768 0 14487 shade wep_pal 520 windowx1 windowy1 windowx2 windowy2
+		break
+		case 10
+		case 9
+		case 8
+		case 7
+		rotatesprite 38 100 32768 0 14488 shade wep_pal 264 windowx1 windowy1 windowx2 windowy2
+		rotatesprite 272 100 32768 0 14489 shade wep_pal 520 windowx1 windowy1 windowx2 windowy2
+		break
+		case 6
+		case 5
+		case 4
+		case 3
+		case 2
+		case 1
+		set temporary_no_helmet 0
+		ife char_sel_anim 6 { state fade_out_black soundonce HELM_EQ }
+		ife char_sel_anim 5 { getp[].horiz disp_temp add disp_temp 10 setp[].horiz disp_temp }
+		ife char_sel_anim 3 { getp[].horiz disp_temp sub disp_temp 10 setp[].horiz disp_temp }
+		ife char_sel_anim 1 { soundonce OSD_TEXT2 set hud_disp 1 }
+		break
+	endswitch
+	ife CHAR 13 // Micky
+	{
+	ifand CHAR_APP 256 // SMART 4+++
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+		case 26
+		case 25
+		case 24
+		case 23
+		case 22
+		case 21
+		case 20
+		case 19
+		set hud_disp 0
+		set temporary_no_helmet 1
+		ife char_sel_anim 29 screensound JMOVE6
+		set disp_temp char_sel_anim
+		mul disp_temp 3
+		set disp_temp2 80
+		add disp_temp2 disp_temp
+		guniqhudid 40
+		rotatesprite 160 disp_temp2 32768 0 29400 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		guniqhudid 0
+		break
+		case 18
+		case 17
+		case 16
+		case 15
+		rotatesprite 160 100 32768 0 29401 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 14
+		case 13
+		case 12
+		case 11
+		rotatesprite 164 100 32768 0 29402 shade wep_pal 520 windowx1 windowy1 windowx2 windowy2
+		break
+		case 10
+		case 9
+		case 8
+		case 7
+		rotatesprite 16 40 32768 0 13478 shade wep_pal 264 windowx1 windowy1 windowx2 windowy2
+		rotatesprite 282 100 32768 0 29403 shade wep_pal 520 windowx1 windowy1 windowx2 windowy2
+		break
+		case 6
+		case 5
+		case 4
+		case 3
+		case 2
+		case 1
+		set temporary_no_helmet 0
+		ife char_sel_anim 6 { state fade_out_black soundonce HELM_EQ }
+		ife char_sel_anim 5 { getp[].horiz disp_temp add disp_temp 10 setp[].horiz disp_temp }
+		ife char_sel_anim 3 { getp[].horiz disp_temp sub disp_temp 10 setp[].horiz disp_temp }
+		ife char_sel_anim 1 { soundonce OSD_TEXT2 set hud_disp 1 ifand CHAR_APP 256 soundonce HEL_GLAS set helmet_fade 0 }
+		break
+	endswitch
+	else
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		case 27
+		case 26
+		case 25
+		case 24
+		case 23
+		case 22
+		case 21
+		case 20
+		case 19
+		set hud_disp 0
+		set temporary_no_helmet 1
+		ife char_sel_anim 29 screensound JMOVE6
+		set disp_temp char_sel_anim
+		mul disp_temp 3
+		set disp_temp2 80
+		add disp_temp2 disp_temp
+		guniqhudid 40
+		rotatesprite 160 disp_temp2 32768 0 13475 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		guniqhudid 0
+		break
+		case 18
+		case 17
+		case 16
+		case 15
+		rotatesprite 160 100 32768 0 13476 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+		break
+		case 14
+		case 13
+		case 12
+		case 11
+		rotatesprite 164 100 32768 0 13477 shade wep_pal 520 windowx1 windowy1 windowx2 windowy2
+		break
+		case 10
+		case 9
+		case 8
+		case 7
+		rotatesprite 16 40 32768 0 13478 shade wep_pal 264 windowx1 windowy1 windowx2 windowy2
+		rotatesprite 282 100 32768 0 13479 shade wep_pal 520 windowx1 windowy1 windowx2 windowy2
+		break
+		case 6
+		case 5
+		case 4
+		case 3
+		case 2
+		case 1
+		set temporary_no_helmet 0
+		ife char_sel_anim 6 { state fade_out_black soundonce HELM_EQ }
+		ife char_sel_anim 5 { getp[].horiz disp_temp add disp_temp 10 setp[].horiz disp_temp }
+		ife char_sel_anim 3 { getp[].horiz disp_temp sub disp_temp 10 setp[].horiz disp_temp }
+		ife char_sel_anim 1 { soundonce OSD_TEXT2 set hud_disp 1 }
+		break
+	endswitch
+	}
+	ife CHAR 14 // Snowfall
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+		  guniqhudid 40
+		  rotatesprite 200 160 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatesprite 125 180 32768 0 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		break
+		case 27
+		case 26
+		case 25
+		  ife char_sel_anim 27 sound ESHEILD_CHARGING
+		  guniqhudid 40
+		  rotatesprite 205 165 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatesprite 132 187 32768 16 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		break
+		case 24
+		case 23
+		case 22
+		  guniqhudid 40
+		  rotatesprite 200 160 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatesprite 125 180 32768 0 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		break
+		case 21
+		case 20
+		  guniqhudid 40
+		  rotatesprite 200 160 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatespritea 200 160 32768 0 13968 25 wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 42
+		  rotatesprite 120 185 32768 -8 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		break
+		case 19
+		case 18
+		guniqhudid 40
+		  rotatesprite 200 160 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatespritea 200 160 32768 0 13968 20 wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 42
+		  rotatesprite 115 190 32768 -16 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		break
+		case 17
+		case 16
+		guniqhudid 40
+		  rotatesprite 200 160 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatespritea 200 160 32768 0 13968 15 wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 42
+		  rotatesprite 110 195 32768 -24 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		case 15
+		case 14
+		guniqhudid 40
+		  rotatesprite 200 160 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatespritea 200 160 32768 0 13968 10 wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 42
+		  rotatesprite 105 200 32768 -32 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		break
+		case 13
+		case 12
+		guniqhudid 40
+		  rotatesprite 205 165 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatespritea 205 165 32768 0 13968 5 wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 42
+		  rotatesprite 100 205 32768 -40 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		 break
+		case 11
+		case 10
+		guniqhudid 40
+		  rotatesprite 210 170 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatespritea 210 170 32768 0 13968 0 wep_pal 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 42
+		  rotatesprite 95 210 32768 -48 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		 break
+		case 9
+		case 8
+		guniqhudid 40
+		  rotatesprite 215 175 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatespritea 215 175 32768 0 13968 0 32 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 42
+		  rotatesprite 90 215 32768 -56 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		break
+		case 7
+		case 6
+		  ife char_sel_anim 7 sound ESHIELD_RECHARGE
+		  guniqhudid 40
+		  rotatesprite 220 180 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatespritea 220 180 32768 0 13969 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 42
+		  rotatesprite 85 220 32768 -64 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		break
+		case 5
+		case 4
+		guniqhudid 40
+		  rotatesprite 225 185 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatespritea 225 185 34768 0 13969 10 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 42
+		  rotatesprite 80 225 32768 -72 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		break
+		case 3
+		case 2
+		guniqhudid 40
+		  rotatesprite 230 190 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatespritea 230 190 38768 0 13969 20 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 42
+		  rotatesprite 75 230 32768 -80 13967 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		break
+		case 1
+		guniqhudid 40
+		  rotatesprite 235 195 32768 0 13966 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 41
+		  rotatespritea 235 195 40768 0 13969 30 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+		  guniqhudid 0
+		break
+	endswitch
+	ife CHAR 17 // Kagura
+		{
+		ifg VOLUME 4
+		switch char_sel_anim
+			case 30
+			case 29
+			case 28
+			case 27
+			ife char_sel_anim 29 screensound JMOVE1
+			rotatesprite 160 154 32768 0 24046 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+			case 26
+			case 25
+			case 24
+			case 23
+			rotatesprite 160 156 32768 0 24047 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+			case 22
+			case 21
+			case 20
+			case 19
+			rotatesprite 160 170 32768 0 24048 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+			case 18
+			case 17
+			case 16
+			case 15
+			rotatesprite 160 190 32768 0 24049 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+			case 14
+			case 13
+			case 12
+			case 11
+			case 10
+			case 9
+			case 8
+			case 7
+			case 6
+			case 5
+			case 4
+			case 3
+			case 2
+			case 1
+			ife char_sel_anim 13 screensound JMOVE6
+			ife char_sel_anim 12 { getp[].horiz disp_temp sub disp_temp 5 setp[].horiz disp_temp }
+			ife char_sel_anim 11 { getp[].horiz disp_temp add disp_temp 5 setp[].horiz disp_temp }
+			set disp_temp 192
+			set disp_temp2 14
+			sub disp_temp2 char_sel_anim
+			mul disp_temp2 5
+			add disp_temp disp_temp2
+			guniqhudid 40
+			rotatesprite 160 disp_temp 32768 0 24050 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+			guniqhudid 0
+			break
+		endswitch
+		else
+		switch char_sel_anim
+			case 30
+			case 29
+			case 28
+			case 27
+			ife char_sel_anim 29 screensound JMOVE6
+			rotatesprite 160 154 32768 0 22687 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+			case 26
+			case 25
+			case 24
+			case 23
+			rotatesprite 160 174 32768 0 22687 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+			case 22
+			case 21
+			case 20
+			case 19
+			ife char_sel_anim 13 screensound JMOVE5
+			ife char_sel_anim 21 { getp[].horiz disp_temp sub disp_temp 2 setp[].horiz disp_temp }
+			ife char_sel_anim 20 { getp[].horiz disp_temp add disp_temp 2 setp[].horiz disp_temp }
+			rotatesprite 160 184 32768 0 22689 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+			case 18
+			case 17
+			case 16
+			case 15
+			rotatesprite 160 174 32768 0 22688 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+			case 14
+			case 13
+			case 12
+			case 11
+			case 10
+			case 9
+			case 8
+			case 7
+			case 6
+			case 5
+			case 4
+			case 3
+			case 2
+			case 1
+			set disp_temp 192
+			set disp_temp2 14
+			sub disp_temp2 char_sel_anim
+			mul disp_temp2 5
+			add disp_temp disp_temp2
+			guniqhudid 40
+			rotatesprite 160 disp_temp 32768 0 22689 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+			guniqhudid 0
+			break
+		endswitch
+		}
+	ife CHAR 18 // Wheaton
+	switch char_sel_anim
+		case 30
+		case 29
+		case 28
+			rotatesprite 160 140 32768 0 36080 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+		case 27
+		case 26
+		case 25
+			rotatesprite 160 113 32768 0 36081 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+		case 24
+		case 23
+		case 22
+			rotatesprite 160 103 32768 0 36082 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+		case 21
+		case 20
+		case 19
+			rotatesprite 160 118 32768 0 36083 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+		case 18
+		case 17
+		case 16
+			rotatesprite 150 125 32768 0 36084 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+		case 15
+		case 14
+		case 13
+			rotatesprite 150 115 32768 0 36085 shade wep_pal 264 windowx1 windowy1 windowx2 windowy2
+			break
+		case 12
+		case 11
+		case 10
+			rotatesprite 132 115 32768 0 36086 shade wep_pal 264 windowx1 windowy1 windowx2 windowy2
+			break
+		case 9
+		case 8
+		case 7
+			rotatesprite 160 100 43768 0 36087 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+		case 6
+		case 5
+		case 4
+			rotatesprite 160 100 43768 0 36088 shade wep_pal 8 windowx1 windowy1 windowx2 windowy2
+			break
+		case 3
+		case 2
+		case 1
+			state fade_out_black
+			set cus_fade_duration 3
+		default
+		break
+	endswitch
+	}
+	

@@ -1,0 +1,141 @@
+=============================================================================================================================
+This map is intended for Allied Military Complex (Short: AMC) Total Conversion only. Loading other mods or default will not work.
+=============================================================================================================================
+
+Title			: Kelkron11 Unknown Complex
+
+Date Finished	: 
+
+(Design 1)  10/30/2020
+
+(Second Update) 10/31/2021
+
+- Fixed accurate shading. Realign textures. Move enemy position to corrected areas.
+- Adding simple items.
+
+Filename		: Kelkron11Complex.map
+
+Authors			: Ultrakiroxei (himself)
+
+Email Address	: Contact him by either (Discord or Moddb); otherwise Kiroxeipro@gmail.com
+
+Description		: Details of the map are assured. Ultrakiroxei's first experimental super-gigantic scale map version.
+
+More			: More Details.
+
+Start with 2 position point and mow down all enemies in the map for extra budget and polymers for upgrades. Find the objects and unlock more areas as you go do some cleaning the Mercenary Complex interriors. Beware the timer will start after you choose the position point. The longer you take, the powerful enemy waves will arrive. So be prepared for the worst scenario.
+
+Hint:
+
+You do not need to complete the level 100%, because you can go anywhere. So good luck! It' best to upgrade all the characters weapons and research all technologies before you go on this map.
+
+James:
+# Front shield device can deflect off against many projectiles except ballistic missiles.
+# MJ12 Stim can do the trick while recovering and sprinting.
+
+Zaxtor
+# Zaxtor Hologram can distract the enemy, while mowing them down. Becareful, don't go on the fireline.
+# Some of his powerful weapons can waste ammo alot when confronting massive enemies, use it wisely.
+
+Merlijn:
+# Having a backup Ballistic shield will save you alot while sprinting or evading.
+# Do not go direct attack on advance heavy defenses because they will vaporize you for good.
+# Magic weapons can suppress any enemy armor.
+
+Highwire:
+# Highwire's multiple grenade launcher can fire anywhere on the map.
+# Highwires radio signals can be extremely useful against most enemies. However, they have summon time limit.
+# Highwires Vodka can be useful if health on low.
+
+Sang:
+# Most of his weapons can destroy any enemies without problems.
+# Reflect Orbs can deflect back any projectiles except missiles and radius damage.
+# Summoning Wizards allows him to take advantage against massive enemies.
+
+Rusty:
+# Detonator Pistol can help the player against enemies and traps. However, Detonator Pistol requires only advance tactics and familiar environment.
+# It's best for recommend to upgrade Rusty weapons during combat level.
+
+Geoffrey:
+# Geoffrey's multiple grenade launcher can fire anywhere on the map.
+# His powerful weapons can incinerate them without problems.
+# Bandana can help you save ammo shortly. Use it on weapons with low ammo.
+
+
+Mikko:
+# Backpack ammunition will help the player to hold off against enemies.
+# Mikko's weapon is much powerful to pierce any enemy in a seconds matter.
+# Special Boosters can help the player to destroy them shortly.
+
+Micky:
+# Smart Gun Turret can help the player to distract them while focusing on heavy targets.
+# Flamethrower can deal with crowd control.
+# Deploying multiple HMG Turret Mode will save you from enemy fire.
+
+Snowfall:
+# Equiping with Armor instead of Shield Generator will save more budget and efficient.
+# Heavy Machine Gun Turret Mode can distract the enemy, while you focus on powerful enemies.
+# Deploying multiple HMG Turret Mode will save you from enemy fire.
+
+
+Kagura: (This requires to have the AMC TC Team / Developers testing this map)
+# ?
+# ?
+# ?
+
+
+Misc. Author Info	: Comment
+
+Ultrakiroxei		: I spent about 8 months to brainstorm the AMC TC level for advance players. So I draft on the map design about 50 of them. The first map is the complex which the mercenary base is in the center filled with deadly traps and reinforcements. However, I revised the map often due to the nature of the build engine and the limits as well. Then sudden I've manage to reduce the scale to a performance level. This map is for advance players with finite skills so enjoy.
+
+Originally the player must use the scanner to find the hidden area during the space expedition. To do this it requires evidence by completing other levels. And if they are lucky, the new mission will unlock.
+
+;
+
+Story/Plot			: 
+
+Classified location on Milky Way Galaxy; Kelkron 11 Star System ; Planet: Kelkron 11; 
+
+(Alliance Military Complex + Mikko Sandt Corps + Solar System Expedition X 101st Galactic Cluster Mercenary "Secilia Front" + 423rd Auxillary Artillery)
+
+During the search for the Mandala Device, a group of AMC explorers have detected a signal that is not on the hyper decoder sensor.  A group of recon units have scouted the star system only a habitable planet with vast and hospitable areas. Kelkron 11's abundant resources will allow AMC to expand territory and military strength. Somehow they manage to locate a signal where it is originated. AMC recon units discovers a military forces are involved on the planet surface. Among to their discovery, they learn that military is not originated from the Milky Way Galaxy. However, they encountered the unknown military forces settled from another universe. Unfortunately, AMC expedition reports a unknown forces stationed at large complex with advance defensive structures. The expedition crew knew that taking on alone can prove to be more challenging. AMC spaceship crew have manage to contact Earth Assault Forces to assist on taking on the Mercenary Complex. However, their available strength may not able to outmatch the mercenarys strength because of their apex technology. Solar System forces planned out that the capture of their technology will be vital to survive the outsiders onslaught. Although, they knew that the battle will prove more difficult if the Mercenary legions able to contact their reinforcements. Can the Solar System forces defeat their infamous Merecenary forces and claim the planet as a colony? Or leave it alone to wait for their next long-term galactic warfare.
+
+
+
+
+
+Additional Credits to	:
+
+Eduke32 Developers
+AMC TC Developers
+If anything I missed something please notify me.
+
+
+
+
+
+
+Misc. Requirements	:
+
+* Game Information
+
+Players				: 1
+Single Player		: Yes
+Cooperate Player	: No
+
+
+
+
+Important Installation	: Please put this file into the AMC TC Directory or your simple custom folder. This map is not compatible with any kinds of mods.
+
+
+
+* Notice *
+This map is only intended to play AMC TC Mods only; otherwise, individuals will have to edit the map for their own.
+Everyone has their own responsibility for themselves.
+
+If you notice some flaws; please notify me.
+
+P.S.
+
+Don't cheat players, or else the maps are coming to get you! ;)

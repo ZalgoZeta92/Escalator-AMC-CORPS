@@ -1,0 +1,293 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Contains code for effects
+--------------------------------------------------------------------------------
+*/
+
+useractor notenemy CURRENT
+	cstat 32768
+
+	ife lotag_saved 0 set lotag_saved 8
+	geta[].ang movesprite_angvar
+	set movesprite_clipmask CLIPMASK0
+	set movesprite_shift lotag_saved
+
+	for temp sprofsec sprite[].sectnum
+	{
+		// don't apply movement to a few types of sprites
+		// this list is incomplete but I'm not sure what all needs to be on it
+		ife sprite[temp].statnum 3 nullop
+		else ife sprite[temp].statnum 4 nullop
+		else ife sprite[temp].statnum 7 nullop
+		else ife sprite[temp].statnum 8 nullop
+		else ife sprite[temp].statnum 9 nullop
+		else ife sprite[temp].statnum 11 nullop
+		else ife sprite[temp].picnum CURRENT nullop
+		else ife sprite[temp].picnum 3347 nullop
+		else ife sprite[temp].picnum 34495 nullop
+		else ife sprite[temp].picnum 18138 nullop
+		else ife sprite[temp].picnum 34489 nullop
+		else ife sprite[temp].picnum 12247 nullop
+		else ife sprite[temp].picnum 3670 nullop
+		else ifand sprite[temp].cstat 32768 nullop
+		else ifand sprite[temp].cstat 48 nullop
+		else
+		{
+			ifspritepal 1 // if spritepal is 1, only affect sprites underneath the actor
+			{
+			ifge sprite[temp].z sprite[].z
+				{
+					set movesprite_sprite temp
+					state movesprite_state
+
+					ife sprite[temp].statnum 10 // player needs something extra to have proper movement on this
+					{
+						geta[temp].x x
+						geta[temp].y y
+						setp[].posx x
+						setp[].posy y
+					}
+				}
+			}
+			else
+			{
+				set movesprite_sprite temp
+				state movesprite_state
+
+				ife sprite[temp].statnum 10 // player needs something extra to have proper movement on this
+				{
+					geta[temp].x x
+					geta[temp].y y
+					setp[].posx x
+					setp[].posy y
+				}
+			}
+		}
+	}
+enda
+
+// LOTAG = check for tag activation
+// angle = point at wall that needs to change texture
+// HITAG = picnum to change to
+// EXTRA = 1 if only floor texture needs to change, 2 for only ceiling, 3 for both
+// Deletes self when texture change is done (for performance reasons)
+useractor notenemy CHANGETEXTURE
+	cstat 32768
+
+	ifaction 0
+	{
+		checkactivatormotion lotag_saved
+
+		ife RETURN 1
+			action ZERO
+	}
+	else ifaction ZERO
+	{
+		ife extra_saved 0
+		{
+			// hitscan check
+			geta[].ang temp
+
+			sin my temp
+			cos mx temp
+
+			hitscan sprite[].x sprite[].y sprite[].z sprite[].sectnum mx my 0 hitsect hitwall hitsprite hitx hity hitz 16777280
+
+			ifn hitwall -1
+			{
+				setwall[hitwall].picnum hitag_saved
+				killit
+			}
+		}
+		else
+		{
+			geta[].sectnum temp
+
+			ife extra_saved 1
+				sets[temp].floorpicnum hitag_saved
+			else ife extra_saved 2
+				sets[temp].ceilingpicnum hitag_saved
+			else ife extra_saved 3
+			{
+				sets[temp].floorpicnum hitag_saved
+				sets[temp].ceilingpicnum hitag_saved
+			}
+
+			killit
+		}
+	}
+enda
+
+// *************************************************
+// TEXTURE SWAP
+// *************************************************
+
+useractor notenemy 11198
+cstat 32768
+
+ifaction 0
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		ifspritepal 1 state fade_out_white
+		action ZERO
+		}
+	}
+
+ifaction ZERO
+{
+	set temp6 0
+	whilevarvarn temp6 16384
+		{
+		ife sprite[temp6].picnum lotag_saved seta[temp6].picnum extra_saved
+		add temp6 1
+		}
+	set temp7 0
+	whilevarvarn temp7 numsectors
+		{
+		ife sector[temp7].floorpicnum lotag_saved sets[temp7].floorpicnum extra_saved
+		ife sector[temp7].ceilingpicnum lotag_saved sets[temp7].ceilingpicnum extra_saved
+		add temp7 1
+		}
+	set temp8 0
+	whilevarvarn temp8 NUMWALLS
+		{
+		ife wall[temp8].picnum lotag_saved setwall[temp8].picnum extra_saved
+		ife wall[temp8].overpicnum lotag_saved setwall[temp8].overpicnum extra_saved
+		add temp8 1
+		}
+	killit
+}
+
+
+enda
+
+// Lotag = picnum to count
+// Hitag = amount to count
+// Extra = activator to call when counted
+// Kills itself as soon as it has finished the count
+useractor notenemy HEADSPRITESECTCHECK
+	cstat 32768
+
+	set temp 0
+
+	headspritesect spriteid sprite[].sectnum
+
+	whilevarn spriteid -1
+	{
+		// 1) pal check
+		set temp3 0
+		ifn sprite[].pal 0
+			ife sprite[].pal sprite[spriteid].pal
+		{
+			set temp3 1
+		}
+		else ife sprite[].pal 0
+			set temp3 1
+
+		ife temp3 1
+		{
+			// 1) picnum check
+			geta[spriteid].picnum temp2
+			ife temp2 lotag_saved
+			{
+				add temp 1
+
+				// if this is one of a few items the player can hold then force drop it
+				// don't do this for every item (atm)
+				ife player_holding spriteid
+				{
+					set temp3 0
+					ife temp2 17978 // flask
+						set temp3 1
+					else ife temp2 25252 // tree root
+						set temp3 1
+
+					ife temp3 1
+					{
+						// mark as force drop (logic handled by sprite itself)
+						// also must drop in specified x/y/z coordinate to not just instadrop on the edge of the sector
+						setav[spriteid].drop_forced 1
+						setav[spriteid].drop_force_x sprite[].x
+						setav[spriteid].drop_force_y sprite[].y
+						setav[spriteid].drop_force_z sprite[].z
+					}
+				}
+			}
+		}
+
+		nextspritesect spriteid spriteid
+	}
+
+	ifge temp hitag_saved
+	{
+		operateactivators extra_saved THISACTOR
+		operatemasterswitches extra_saved
+		operaterespawns extra_saved
+
+		killit
+	}
+enda
+
+spritenopal PAL_SWAP
+useractor notenemy PAL_SWAP
+	cstat 32768
+	sizeat 50 50
+
+	ifaction 0
+	{
+	geta[].pal pal_saved
+	set RETURN 0
+
+	ifn lotag_saved 0 checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		geta[].sectnum temp2
+
+		// ceiling
+			ifn sprite[].ang 0
+			ifn sprite[].ang 256
+			{
+			sets[temp2].ceilingpal pal_saved
+			}
+		// floor
+			ifn sprite[].ang 1024
+			ifn sprite[].ang 256
+			{
+			sets[temp2].floorpal pal_saved
+			}
+		// walls
+		for WALLPOINT wallsofsector temp2
+				{
+					ifn wall[WALLPOINT].hitag 1 // if hitag 1, don't touch the wall - same as built in lighting effects
+					{
+						ifand wall[WALLPOINT].cstat 2 // is bottom swap flag set?
+						 ifn wall[WALLPOINT].nextwall -1 // sometimes a white wall can have cstat 2 applied
+						{
+						ifn wall[WALLPOINT].lotag 2 // set lotag to 2 to ONLY affect the top half
+							{
+							getw[WALLPOINT].nextwall temp5 // than get the nextwall's settings as that's where they are stored
+							setwall[temp5].pal pal_saved
+							}
+						}
+						ifn wall[WALLPOINT].lotag 1 // set lotag to 1 to ONLY affect the bottom half
+						{
+							setwall[WALLPOINT].pal pal_saved
+						}
+					}
+				}
+			}
+		}
+enda

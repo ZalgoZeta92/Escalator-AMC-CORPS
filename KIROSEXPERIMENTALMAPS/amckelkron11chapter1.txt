@@ -1,0 +1,49 @@
+=============================================================================================================================
+This map is intended for Allied Military Complex (Short: AMC) Squad. Loading other mods or default will not work.
+=============================================================================================================================
+
+Chapter Phase: Kelkron 11 Complex
+
+Location:
+
+Belligerents:
+
+Pre-Established Pre-Milky Way Galactic Federation (AMC Squad; MS Corps; EAF; IFE)
+Equipment: 43,070
+Troops: 4310 (Including Artifical Intelligence and UAV units)
+Vehicles: 430
+Aerospace: 43
+Starfleets: 4
+Defenses: 0
+
+X
+
+Imperial Galactic Mercenary "Emporium" (Silica Foreign Imperium Mercenary)
+Troops: No Information Available
+Vehicles: No Information Available
+Aerospace: No Information Available
+Starfleets: No Information Available
+Defenses: No Information Available
+
+
+
+
+
+
+
+
+
+
+ 1148
+ 0196
+$0952
+
+
+
+
+
+
+
+
+
+Plot:

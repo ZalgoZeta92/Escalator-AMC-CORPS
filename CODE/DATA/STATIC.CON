@@ -1,0 +1,137 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+		 -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+		/NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+	   /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+	  oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+	`sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+This file contains a large range of definitions that are for readability, as well as generic actions/moves
+--------------------------------------------------------------------------------
+*/
+
+// Main
+
+define HARDCODE_DISTANCE 1280
+
+move STOP 0
+
+move SUP 0 -5
+move SDOWN 0 5
+
+// Some misc defines
+
+define NO		0
+define YES		1
+define OFF		2
+
+action MINUSONE -1
+action ZERO 0
+action ZERO_TWO 0
+action ONE 1
+action TWO 2
+action THREE 3
+
+action FORM 0
+action FORMED 0
+action UNFORM 0
+
+// MISSION INTERFACE DEFINES
+define SYS_EARTH 0
+define SYS_SOL 1
+define SYS_MOON 2
+define SYS_GANYMEDE 3
+define SYS_IO 4
+define SYS_MARS 5
+define SYS_ASIA 6
+
+define SYS_LOCAL_CLOUD 10
+define SYS_ISHTEG 11
+define SYS_XUGLOP 12
+define SYS_RACTONIA 13
+define SYS_BOO 14
+define SYS_UMBRIEL 15
+define SYS_USA 16
+define SYS_EUROPE 17
+define SYS_MILKY_WAY 18
+define SYS_ELYSION 19
+define SYS_ABYSS 20
+define SYS_ELYSION_SURFACE 21
+
+define SYS_CERES 22
+define SYS_HAUMEA 23
+define SYS_MAKEMAKE 24
+define SYS_ERIS 25
+
+define SYS_VENUS 26
+
+// misc stuff
+
+define TX_GP 0
+define FLIP 1024
+define ALLY_SUBTITLE 7501
+define HIDE_PARTICLE 2048
+
+// UI STUFF
+define GENERICBUTTON 3216
+define GENERICBUTTONACTIVE 3217
+define GENERICPOPUP 3218
+
+// char defines to help with readability, C_ prefix to avoid possible conflicts
+define C_JAMES 0
+define C_ZAXTOR 1
+define C_MERLIJN 2
+define C_HIGHWIRE 3
+define C_SANG 4
+define C_RUSTY 5
+define C_GEOFFREY 6
+define C_MIKKO 7
+define C_CULTIST 9
+define C_BOMBSHELL 10
+define C_MAARTEN 11
+define C_JANE 12
+define C_MICKY 13
+define C_SNOWFALL 14
+define C_ROSA 16
+define C_KAGURA 17
+define C_WHEATON 18
+define C_CASSANDRA 20
+
+// These defines are used for flags on mission box
+define FLAG_ALL 0
+define FLAG_JAMES 1
+define FLAG_ZAXTOR 2
+define FLAG_MERLIJN 4
+define FLAG_HIGHWIRE 8
+define FLAG_SANG 16
+define FLAG_RUSTY 32
+define FLAG_GEOFFREY 64
+define FLAG_MIKKO 128
+define FLAG_MICKY 256
+define FLAG_SNOWFALL 512
+define FLAG_KAGURA 1024
+define FLAG_CULTIST 2048
+define FLAG_BOMBSHELL 4096
+define FLAG_JANE 8192
+define FLAG_MAARTEN 16384
+define FLAG_ROSA 32768
+define FLAG_WHEATON 65536
+
+define ALLIED_FACTION_FLAG 1024

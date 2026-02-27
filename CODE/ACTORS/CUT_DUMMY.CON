@@ -1,0 +1,3273 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+This file contains unique actors for cutscenes or ambience, misc basically
+--------------------------------------------------------------------------------
+*/
+
+
+action EIGHT_ANG 0 1 8
+
+move SAIDONCE 0
+
+action JAMES_HORSE 5755 1 5
+action ZAXTOR_HORSE 66 1 5
+action MERLIJN_HORSE 21 1 5
+action HIGHWIRE_HORSE 26 1 5
+action SANG_HORSE 46 1 5
+action RUSTY_HORSE 61 1 5
+action GEOFFREY_HORSE 36 1 5
+action MIKKO_HORSE 11 1 5
+action MICKY_HORSE 16 1 5
+action SNOWFALL_HORSE 41 1 5
+action KAGURA_HORSE 5496 1 5
+
+// Dummy horse
+
+spriteshadow 21761
+
+useractor notenemy 21761
+sizeat 36 32
+ifn camerasprite -1 cstat 0 else
+cstat 32768
+ife CHAR 0 { spritepal 3 action JAMES_HORSE }
+ife CHAR 1 action ZAXTOR_HORSE
+ife CHAR 2 { spritepal 21 action MERLIJN_HORSE }
+ife CHAR 3 action HIGHWIRE_HORSE
+ife CHAR 4 { spritepal 21 action SANG_HORSE }
+ife CHAR 5 action RUSTY_HORSE
+ife CHAR 6 action GEOFFREY_HORSE
+ife CHAR 7 { spritepal 11 action MIKKO_HORSE }
+ife CHAR 13 { spritepal 3 action MICKY_HORSE }
+ife CHAR 14 { spritepal 3 action SNOWFALL_HORSE }
+ife CHAR 17 action KAGURA_HORSE
+enda
+
+// sitting merlijn boat
+
+spriteshadow 7022
+
+useractor notenemy 7022 seta[].z sector[].floorz enda
+
+// Dean ==========================
+
+action DEAN_SHOT 5 5 1 1 8
+action DEAN_DEAD 9
+
+spriteshadow 33699
+
+useractor notenemy 33699
+
+ifaction 0 action FIVE_ANG
+
+ifaction FIVE_ANG
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1 { soundonce JMOVE4 set INTERNALCOUNT 1 }
+	ifge INTERNALCOUNT 1
+		{
+		move STOP faceplayer
+		add INTERNALCOUNT 1
+		ifge INTERNALCOUNT 90 
+			{ 
+			ifand AGENT_UPGRADE 65536 sound C96U_FIRE 
+			else sound C96_FIRE 
+			screensound PISTOL_HALL 
+			sound DECAPITATE
+			flash 
+			espawn BLOOD
+			geta[].z temp
+			sub temp 12288
+			seta[RETURN].z temp
+			action DEAN_SHOT 
+			}
+		}
+	}
+	
+ifaction DEAN_SHOT ifactioncount 5 { sound BODY_DROP action DEAN_DEAD spawn BLOODPOOL }
+
+enda
+
+// Dummy Face ==========================
+
+useractor notenemy DUMMY_FACE
+cstat 32768
+
+ifaction 0
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		set dummy_face THISACTOR
+		action ZERO
+		}
+	}
+
+ifaction ZERO
+	{
+	checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		set dummy_face -1
+		action 0
+		}
+	}
+
+enda
+
+//
+// ------------------------------------------------------------
+// Bombshell pinball
+// ------------------------------------------------------------
+//
+
+spriteshadow 22313
+
+useractor notenemy 22313
+ifaction 0
+{
+sizeat 22 22
+action FIVE_ANG
+}
+
+ifmove SAIDONCE
+	{
+	ifactorsound THISACTOR PINBALL nullop else
+		{
+		ifrnd 64 sound BS_DAMN1
+		else ifrnd 128 sound BS_DAMN2
+		ifrnd 192 sound BS_YESS
+		else sound BS_GOTWEP5
+		move 0
+		}
+	}
+
+ifaction FIVE_ANG
+	{
+	ifpdistl 2048 ifmove 0 { soundonce PINBALL move SAIDONCE }
+	ife CHAR 10 ife CHARSELECT 0 killit
+	// ifl VOLUME 4 killit // Bombshell only shows up in ep5+
+	}
+enda
+
+//
+// ------------------------------------------------------------
+// Merlijn Sit
+// ------------------------------------------------------------
+//
+
+spriteshadow 21263
+
+useractor notenemy 21263
+ifaction 0
+{
+sizeat 22 22
+action FIVE_ANG
+}
+ife TRIGGER_BASE_SCENE 8 killit
+ifpdistl 1536
+ ifmove 0
+   ifp pfacing
+	{
+	state speech_prompt
+	ifhitspace
+	 ifnosounds ife userdef.soundtoggle 1
+		{
+		set hit_key 30
+		}
+	}
+
+
+ifaction FIVE_ANG
+	{
+	ife CHAR 2 ife CHARSELECT 0 killit
+	ifand CHAR_APP 4 killit
+	}
+enda
+
+spriteshadow 33600
+
+useractor notenemy 33600
+ifaction 0
+{
+sizeat 23 23
+action FIVE_ANG
+}
+ife TRIGGER_BASE_SCENE 8 killit
+ifpdistl 1536
+ ifmove 0
+   ifp pfacing
+	{
+	state speech_prompt
+	ifhitspace
+	 ifnosounds ife userdef.soundtoggle 1
+		{
+		set hit_key 30
+		}
+	}
+
+
+ifaction FIVE_ANG
+	{
+	ife CHAR 2 ife CHARSELECT 0 killit
+	}
+enda
+
+//
+// ------------------------------------------------------------
+// Maarten sit
+// ------------------------------------------------------------
+//
+
+spriteshadow 33605
+
+useractor notenemy 33605
+ifaction 0
+{
+sizeat 23 23
+action FIVE_ANG
+}
+
+ifpdistl 1536
+ ifmove 0
+   ifp pfacing
+	{
+	state speech_prompt
+	ifhitspace
+	 ifnosounds ife userdef.soundtoggle 1
+		{
+		set hit_key 30
+		}
+	}
+
+
+ifaction FIVE_ANG
+	{
+	ife CHAR 2 ife CHARSELECT 0 killit
+	}
+enda
+
+//
+// ------------------------------------------------------------
+// Geoffrey sit chicken
+// ------------------------------------------------------------
+//
+
+spriteshadow 21258
+
+useractor notenemy 21258
+ifaction 0
+{
+sizeat 22 22
+action FIVE_ANG
+}
+ife TRIGGER_BASE_SCENE 8 killit
+
+ifpdistl 1536
+ ifmove 0
+   ifp pfacing
+	{
+	state speech_prompt
+	ifhitspace
+	 ifnosounds ife userdef.soundtoggle 1
+		{
+		set hit_key 30
+		}
+	}
+
+
+ifaction FIVE_ANG
+	{
+	ifpdistl 4096 ifrnd 1 soundonce CHICKENC
+	ife CHAR 6 ife CHARSELECT 0 killit
+	}
+enda
+
+//
+// ------------------------------------------------------------
+// Highwire asleep
+// ------------------------------------------------------------
+//
+
+spriteshadow 28762
+
+useractor notenemy 28762
+ifaction 0
+{
+sizeat 22 22
+action FIVE_ANG
+}
+ife TRIGGER_BASE_SCENE 8 killit
+
+ifaction FIVE_ANG
+	{
+	ifpdistl 2048 soundonce SNORE
+	ife CHAR 3 ife CHARSELECT 0 killit
+	}
+enda
+
+//
+// ------------------------------------------------------------
+// Rusty smoking
+// ------------------------------------------------------------
+//
+
+spriteshadow 21253
+
+action TAKE_PUFF -5 1 5 0 8
+
+defstate rusty_smoke
+ifaction 0
+{
+sizeat 22 22
+action FIVE_ANG
+}
+ife TRIGGER_BASE_SCENE 8 killit
+
+ifaction TAKE_PUFF
+{
+ifactioncount 16
+	{
+	set INTERNALCOUNT 0
+	action FIVE_ANG
+	resetcount
+	}
+}
+
+ifaction FIVE_ANG
+{
+add INTERNALCOUNT 1
+ife INTERNALCOUNT 45
+	{
+	set gunsmoke_z 8192
+	set gunsmoke_angle 0
+	state spawn_gunsmoke_z
+	}
+ifge INTERNALCOUNT 300 action TAKE_PUFF
+ifspritepal 3 nullop else
+	{
+	ife CHAR 5 ife CHARSELECT 0 killit
+	ifand CHAR_APP 32 killit
+	}
+}
+ends
+
+useractor notenemy 21253 state rusty_smoke enda
+useractor notenemy 33595 state rusty_smoke enda
+
+//
+// ------------------------------------------------------------
+// Cultist Laying
+// ------------------------------------------------------------
+//
+
+useractor notenemy 35585 action FIVE_ANG enda
+
+//
+// ------------------------------------------------------------
+// Kagura reading
+// ------------------------------------------------------------
+//
+
+spriteshadow 20196
+
+useractor notenemy 20196
+ifaction 0
+{
+sizeat 22 22
+action FIVE_ANG
+}
+
+
+ifaction FIVE_ANG
+	{
+	ifspritepal 0 ifn BASE_RESEARCH[1] 2 killit // Has the lab not been researched?
+	ifspritepal 3 ife BASE_RESEARCH[1] 2 killit
+	ifcount 300 { soundonce PAGE_TURN resetcount }
+	ife CHAR 17 ife CHARSELECT 0 killit
+	ifl VOLUME 3 killit
+	}
+enda
+
+//
+// ------------------------------------------------------------
+// Snowfall telescope
+// ------------------------------------------------------------
+//
+
+spriteshadow 20201
+
+useractor notenemy 20201
+ifaction 0
+	{
+	sizeat 22 22
+	gettimedate temp temp temp2 temp temp temp temp temp
+	ifg temp2 19 nullop else
+	ifl temp2 6 nullop else
+	killit
+	action FIVE_ANG
+	}
+ife TRIGGER_BASE_SCENE 8 killit
+
+ifpdistl 1536
+ ifmove 0
+   ifp pfacing
+	{
+	state speech_prompt
+	ifhitspace
+	 ifnosounds ife userdef.soundtoggle 1
+		{
+		set hit_key 30
+		ifg VOLUME 3 // episode 4
+			{
+			ifrnd 96 sound SF_AMCB1
+			else ifrnd 96 sound SF_AMCB2
+			else sound SF_AMCB3
+			}
+		else
+		sound SF_HELLO1
+	    move SAIDONCE
+		}
+	}
+
+ifaction FIVE_ANG
+{
+ife CHAR 14 ife CHARSELECT 0 killit
+ifl VOLUME 2 killit
+}
+enda
+
+//
+// ------------------------------------------------------------
+// Sang pondering his orb
+// ------------------------------------------------------------
+//
+
+spriteshadow 30187
+
+useractor notenemy 30187
+ifaction 0
+{
+sizeat 22 22
+action FIVE_ANG
+}
+ife TRIGGER_BASE_SCENE 8 killit
+
+ifpdistl 1536
+ ifmove 0
+   ifp pfacing
+	{
+	state speech_prompt
+	ifhitspace
+	 ifnosounds ife userdef.soundtoggle 1
+		{
+		set hit_key 30
+		sound S_HELLO1
+	    move SAIDONCE
+		}
+	}
+
+ifaction FIVE_ANG
+{
+ifspritepal 3
+	{
+	ife CHAR 4 ife CHARSELECT 0 killit
+	}
+}
+enda
+
+//
+// ------------------------------------------------------------
+// Zaxtor playing console
+// ------------------------------------------------------------
+//
+
+spriteshadow 14064
+
+useractor notenemy 14064
+ifaction 0
+{
+sizeat 22 22
+action FIVE_ANG
+}
+ife TRIGGER_BASE_SCENE 8 killit
+
+ifpdistl 1536
+ ifmove 0
+   ifp pfacing
+	{
+	state speech_prompt
+	ifhitspace
+	 ifnosounds ife userdef.soundtoggle 1
+		{
+		soundonce Z_HEY
+		set hit_key 30
+		move SAIDONCE
+		}
+	}
+
+ifaction FIVE_ANG
+{
+ife CHAR 1 ife CHARSELECT 0 killit
+}
+enda
+
+useractor notenemy 14069 // video game he's playing
+
+ife CHAR 1 ife CHARSELECT 0 killit
+
+ifaction 0
+	{
+	ifrnd 85 action ZERO
+	else ifrnd 170 action ONE
+	else action TWO
+	}
+
+enda
+
+//
+// ------------------------------------------------------------
+// James Chair
+// ------------------------------------------------------------
+//
+
+spriteshadow 30174
+spriteshadow 30179
+
+useractor notenemy 30174
+ifaction 0
+{
+sizeat 22 22
+action FIVE_ANG
+}
+
+ifpdistl 1536
+ ifmove 0
+   ifp pfacing
+	{
+	state speech_prompt
+	ifhitspace
+	 ifnosounds ife userdef.soundtoggle 1
+		{
+		set hit_key 30
+		}
+	}
+
+ifaction FIVE_ANG
+{
+ifn camerasprite -1
+ifpdistl 4096
+	{
+	ifrnd 1 soundonce MOUSE_CLICK_ON
+	ifcount 90 { ifrnd 8 soundonce MASH else soundonce TYPING_SOUND resetcount }
+	}
+ifspritepal 3
+	{
+	ife CHAR 0 ife CHARSELECT 0 { cactor 21559 sizeat 28 28 } // spawn empty chair if playing as James
+	else ifg VOLUME 1 { action 0 cactor 30179 } // replace with bionic arm James in ep3
+	}
+}
+enda
+
+spritenopal 30179
+
+useractor notenemy 30179
+ifaction 0
+{
+sizeat 24 24
+action EIGHT_ANG
+}
+
+ifpdistl 1536
+ ifmove 0
+   ifp pfacing
+	{
+	state speech_prompt
+	ifhitspace
+	 ifnosounds ife userdef.soundtoggle 1
+		{
+		set hit_key 30
+		}
+	}
+
+ifaction EIGHT_ANG
+{
+ifn camerasprite -1
+ifpdistl 4096
+	{
+	ifrnd 1 soundonce MOUSE_CLICK_ON
+	ifcount 90 { ifrnd 8 soundonce MASH else soundonce TYPING_SOUND resetcount }
+	}
+ifspritepal 3
+	{
+	ife CHAR 0 ife CHARSELECT 0 { action 0 cactor 21559 sizeat 28 28 } // spawn empty chair if playing as James
+	ife VOLUME 3 ife LEVEL 58 killit // James is gone in ep4+
+	ifg VOLUME 3 killit // James is gone in ep4+
+	}
+}
+enda
+
+//
+// ------------------------------------------------------------
+// Micky Scientist
+// ------------------------------------------------------------
+//
+
+action MICKY_THINK2 5 1 5
+
+useractor notenemy 18532 // bearded version
+ifaction 0
+{
+sizeat 22 22
+action FIVE_ANG
+}
+ife TRIGGER_BASE_SCENE 8 killit
+
+ifpdistl 1536
+ ifmove 0
+   ifp pfacing
+	{
+	state speech_prompt
+	ifhitspace
+	 ifnosounds ife userdef.soundtoggle 1
+		{
+		set hit_key 30
+		ife CHAR 17 ifrnd 64 soundonce MC_SCI_KG
+		else ifrnd 48 soundonce MC_SCI2
+		else ifrnd 48 soundonce MC_SCI3
+		else ifrnd 48 soundonce MC_SCI4
+		else soundonce MC_SCI1
+		}
+	}
+
+ifaction MICKY_THINK2
+{
+ifspritepal 3
+	{
+	ifrnd 8 action FIVE_ANG
+	}
+else
+	{
+	ife camerasprite -1 action FIVE_ANG
+	ifn speaker 13 action FIVE_ANG
+	}
+}
+
+ifaction FIVE_ANG
+{
+ifn camerasprite -1
+ ife speaker 13 action MICKY_THINK2
+ifspritepal 3
+	{
+	ife CHAR 13 ife CHARSELECT 0 killit // despawn if playing as micky
+	ife VOLUME 0 killit // despawn if in episode 1
+	ife VOLUME 1 ife LEVEL 1 killit // despawn if in first base map of episode 2
+	ifrnd 4 action MICKY_THINK2
+	}
+}
+enda
+
+action MICKY_THINK 247 1 5
+
+spriteshadow 16580
+
+useractor notenemy 16580
+ifaction 0
+{
+ifg VOLUME 3 cactor 18532
+else ife VOLUME 3 ife LEVEL 58 cactor 18532
+ifn yvel_saved 0
+	{
+	set alpha 254
+	state SPRITE_FADE
+	}
+sizeat 22 22
+ife extra_saved 1 cstat 32768
+action FIVE_ANG
+}
+ife TRIGGER_BASE_SCENE 8 killit
+ifspritepal 3
+	{
+	ifpdistl 1536
+	 ifmove 0
+	   ifp pfacing
+		ifle extra_saved 0
+		{
+		state speech_prompt
+		ifhitspace
+		 ifnosounds ife userdef.soundtoggle 1
+			{
+			set hit_key 30
+			ifrnd 48 soundonce MC_SCI2
+			else ifrnd 48 soundonce MC_SCI3
+			else ifrnd 48 soundonce MC_SCI4
+			else soundonce MC_SCI1
+			}
+		}
+	}
+
+ifaction MICKY_THINK
+{
+ifspritepal 3
+	{
+	ifrnd 8 action FIVE_ANG
+	}
+else
+	{
+	ife camerasprite -1 action FIVE_ANG
+	ifn speaker 13 action FIVE_ANG
+	}
+}
+
+
+ifaction FIVE_ANG
+{
+ifn camerasprite -1
+ ife speaker 13 action MICKY_THINK
+ifspritepal 3
+	{
+	ife CHAR 13 ife CHARSELECT 0 killit // despawn if playing as micky
+	ife VOLUME 0 killit // despawn if in episode 1
+	ife VOLUME 1 ife LEVEL 1 killit // despawn if in first base map of episode 2
+	ifrnd 4 action MICKY_THINK
+	}
+ifn hitag_saved 0
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		ife extra_saved 1 cstat 0 else killit
+		}
+	}
+ifn lotag_saved 0
+	{
+	checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		ife extra_saved 1 killit
+		}
+	}
+ifn xvel_saved 0
+	{
+	checkactivatormotion xvel_saved
+	ife RETURN 1 set ally_mag 2 // no need to make new vars
+	}
+ifn yvel_saved 0
+	{
+	checkactivatormotion yvel_saved
+	ife RETURN 1 { set temp4 254 set ally_mag 1 } // no need to make new vars
+	}
+}
+
+ife ally_mag 1
+	{
+	ifg temp4 0
+		{
+		sub temp4 8
+		set alpha temp4
+		state SPRITE_FADE
+		}
+	else { seta[].blend 0 cstat 0 set ally_mag 0 }
+	}
+
+ife ally_mag 2
+	{
+	ifl temp4 254 add temp4 8
+	else killit
+
+	set alpha temp4
+
+	state SPRITE_FADE
+	}
+
+enda
+
+
+//
+// ------------------------------------------------------------
+// Micky casual
+// ------------------------------------------------------------
+//
+
+action MICKY2_THINK 5 1 5
+action MICKY2_NUDGE 9200 1 5
+
+spriteshadow 18729
+
+useractor notenemy 18729
+state facing_code
+ifaction 0
+{
+sizeat 22 22
+ife extra_saved 1 cstat 32768
+action FIVE_ANG
+}
+
+ifaction MICKY2_THINK
+{
+ife camerasprite -1 action FIVE_ANG
+ifn speaker 13 action FIVE_ANG
+}
+
+ifaction MICKY2_NUDGE
+{
+ifn speaker 26 action FIVE_ANG
+}
+
+
+ifaction FIVE_ANG
+{
+ifn camerasprite -1
+ife speaker 13 action MICKY2_THINK
+ife speaker 28 action MICKY2_NUDGE
+
+ifn hitag_saved 0
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		ife extra_saved 1 cstat 0 else killit
+		}
+	}
+ifn lotag_saved 0
+	{
+	checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		ife extra_saved 1 killit
+		}
+	}
+}
+
+
+enda
+
+//
+// ------------------------------------------------------------
+// Micky with Helmet off
+// ------------------------------------------------------------
+//
+
+spriteshadow 16389
+
+useractor notenemy 16389
+ifaction 0
+{
+checkactivatormotion hitag_saved
+ife RETURN 1 killit
+}
+enda
+
+spriteshadow 16585
+
+action MICKY_INSPECT 9113 1 5
+
+action BEARDED_MICKY_NOHELM 1942 1 5
+
+useractor notenemy 16585
+ifaction 0
+	{
+	ifspritepal 9 break
+	ife extra_saved 1 cstat 32768
+	ifand CHAR_APP 128 action BEARDED_MICKY_NOHELM else
+	action FIVE_ANG
+	sizeat 23 23
+	}
+	
+ifaction MICKY_INSPECT ifn speaker 13 action FIVE_ANG
+
+ifaction FIVE_ANG
+{
+ife speaker 13 action MICKY_INSPECT
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	ife extra_saved 1
+		{
+		soundonce PUT_ON_EQUIP
+		cstat 0
+		}
+	else
+		{
+		set extra_saved 13
+		soundonce PUT_ON_EQUIP
+		action 0
+		cactor DUMMY_PLAYER
+		}
+	}
+}
+state facing_code
+enda
+
+spriteshadow 18527
+
+useractor notenemy 18527
+ifaction 0
+	{
+	ifspritepal 9 break
+	action FIVE_ANG
+	sizeat 23 23
+	}
+state facing_code
+state hide_cutscene
+enda
+
+spriteshadow 20888
+
+action SNOWFALL_RUB 20 1 5
+action SNOWFALL_READY -152 1 5
+
+useractor notenemy 20888
+ifaction 0
+	{
+	ifspritepal 9 break
+	ife extra_saved 1 cstat 32768
+	action FIVE_ANG
+	ifspritepal 27 nullop else
+	sizeat 23 23
+	}
+ife speaker 14 action SNOWFALL_RUB
+ifn speaker 14 action FIVE_ANG
+ife speaker 51 action SNOWFALL_READY
+state facing_code
+state hide_cutscene
+enda
+
+spriteshadow 26807
+
+action MICKY2_INSPECT 1127 1 5
+
+useractor notenemy 26807 // New suit Micky with helmet off
+ifaction 0
+	{
+	ifspritepal 9 break
+	ife extra_saved 1 cstat 32768
+	action FIVE_ANG
+	ifspritepal 27 nullop else
+	sizeat 21 21
+	}
+	
+ife speaker 13 action MICKY2_INSPECT
+ifaction MICKY2_INSPECT ifn speaker 13 action FIVE_ANG
+	
+state facing_code
+state hide_cutscene
+enda
+
+
+// *************************************************
+// G_ship hologram appear
+// *************************************************
+
+spritenoshade 16560 spritenopal 16560
+
+spritenoshade 19589 spritenopal 19589
+
+spritenoshade 19590 spritenopal 19590
+
+defstate hologram_appear
+ifaction 0
+	{
+	seta[].shade 30
+	ifactor 14233 sizeat 1 12 else
+	sizeat 1 16
+	checkactivatormotion hitag_saved
+	ife RETURN 1 { globalsound HOLOGRAM_APPEAR ifactor 14233 action FIVE_ANG else action ZERO }
+	}
+
+ifaction ZERO
+	{
+	sizeto 24 16
+	ifn sprite[].shade 0
+		{
+		geta[].shade temp
+		sub temp 1
+		seta[].shade temp
+		}
+	checkactivatormotion lotag_saved
+	ife RETURN 1 action FORM
+	}
+
+ifaction FIVE_ANG
+	{
+	sizeto 12 12
+	ifn sprite[].shade 0
+		{
+		geta[].shade temp
+		sub temp 1
+		seta[].shade temp
+		}
+	else set hitag_saved 0
+	checkactivatormotion lotag_saved
+	ife RETURN 1 action FORM
+	}
+
+ifaction FORM
+	{
+	ifactor 14233 sizeto 1 12 else
+	sizeto 1 16
+		geta[].shade temp
+		add temp 1
+		ifg temp 30 killit
+		seta[].shade temp
+	}
+ends
+
+useractor notenemy 16560 state hologram_appear enda
+useractor notenemy 19589 state hologram_appear enda
+useractor notenemy 19590 state hologram_appear enda
+
+spritenoshade 17300 spritenopal 17300
+
+useractor notenemy 17300
+ifaction 0
+	{
+	ifspritepal 3
+		{
+		seta[].shade 30
+		sizeat 26 1
+		checkactivatormotion lotag_saved
+		ife RETURN 1 { globalsound HOLOGRAM_APPEAR action ZERO }
+		}
+	}
+
+ifaction ZERO
+	{
+	sizeto 26 44
+	ifn sprite[].shade 0
+		{
+		geta[].shade temp
+		sub temp 1
+		seta[].shade temp
+		}
+	}
+
+enda
+
+//
+// ------------------------------------------------------------
+// Yakuza
+// ------------------------------------------------------------
+//
+
+useractor notenemy 19194
+ifaction 0
+{
+checkactivatormotion hitag_saved
+	ife RETURN 1 { set INTERNALCOUNT 0 action ONE }
+}
+
+ifaction ONE
+	{
+	add INTERNALCOUNT 1
+	ifg INTERNALCOUNT 160 killit
+	}
+
+enda
+
+//
+// ------------------------------------------------------------
+// mAGICIAN
+// ------------------------------------------------------------
+//
+
+useractor notenemy 25812
+ifaction 0 action FIVE_ANG
+enda
+
+
+//
+// ------------------------------------------------------------
+// mAGICIAN
+// ------------------------------------------------------------
+//
+
+useractor notenemy 9787
+ifaction 0 action FIVE_ANG
+enda
+
+//
+// ------------------------------------------------------------
+// EARTH CRASH
+// ------------------------------------------------------------
+//
+
+move EARTH_CRASH 12 0
+move EARTH_BACK -24
+
+useractor notenemy 17338
+ifaction 0 ifspritepal 21
+	{
+	sleeptime 0
+	checkactivatormotion 1000
+	ife RETURN 1 action ZERO
+	}
+
+ifaction ZERO
+	{
+	sleeptime 0
+	move EARTH_CRASH geth
+	checkactivatormotion 5108
+	ife RETURN 1 action FORM
+	}
+
+ifaction FORM
+	{
+	move EARTH_BACK geth
+	}
+
+enda
+
+//
+// ------------------------------------------------------------
+// NOCTURNE
+// ------------------------------------------------------------
+//
+
+move NOCT_UP 0 -16
+
+useractor notenemy 26111
+ifaction 0
+	{
+	sleeptime 0
+	checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		quake 104
+		screensound RUMBLE
+		action ZERO
+		resetcount
+		}
+	}
+
+ifaction ZERO
+	{
+	sleeptime 0
+	add INTERNALCOUNT 1
+	move NOCT_UP getv
+	ifg INTERNALCOUNT 300
+		{
+		espawn 15331
+		setactorvar[RETURN].hitag_saved 21695
+		action UNFORM
+		}
+	}
+
+ifaction UNFORM
+	{
+	move STOP
+	ife global_trigger 21694
+		{
+		cstat 2
+		set global_trigger 0
+		action FORM
+		}
+	}
+
+ifaction FORM
+	{
+	geta[].shade temp
+	add temp 2
+	ife temp 30 killit
+	seta[].shade temp
+	}
+
+enda
+
+//
+// ------------------------------------------------------------
+// ENGINEER
+// ------------------------------------------------------------
+//
+
+action ENG_GESTURE 5 1 5
+
+spriteshadow 26601
+spritenopal 26601
+
+useractor notenemy 26601
+fall
+ifaction 0
+	{
+	action FIVE_ANG
+	}
+
+ifaction FIVE_ANG
+	{
+	ife speaker 22 ifrnd 8 action ENG_GESTURE
+	}
+
+ifaction ENG_GESTURE
+	{
+	ifrnd 4 action FIVE_ANG
+	ifn speaker 22 action FIVE_ANG
+	}
+
+
+enda
+
+//
+// ------------------------------------------------------------
+// MINERVA
+// ------------------------------------------------------------
+//
+
+action MINUSACAR -1 1 5
+
+spriteshadow 25732
+
+useractor notenemy 25732
+fall
+ifaction 0
+	{
+	action MINUSACAR
+	sizeat 12 12
+	}
+state facing_code
+ifn lotag_saved 0
+	{
+	checkactivatormotion lotag_saved ife RETURN 1 killit
+	}
+enda
+
+// MINI SANG
+
+useractor notenemy 13208
+fall action MINUSACAR
+enda
+
+//
+// ------------------------------------------------------------
+// JANE
+// ------------------------------------------------------------
+//
+
+spriteshadow 12949
+
+useractor notenemy 12949
+ifaction 0
+	{
+	action FIVE_ANG
+	sizeat 22 22
+	}
+state facing_code
+enda
+
+spriteshadow 12954
+
+useractor notenemy 12954
+fall
+ifaction 0
+	{
+	action FIVE_ANG
+	sizeat 22 22
+	}
+state facing_code
+enda
+
+
+action JANE_ARMS -1421 1 5 1 8
+
+spriteshadow 29345
+
+useractor notenemy 29345
+ifaction 0 action FIVE_ANG
+ifaction FIVE_ANG ife speaker 12 action JANE_ARMS
+ifaction JANE_ARMS ifn speaker 12 action FIVE_ANG
+state facing_code
+enda
+
+
+// ******************************************************************************
+// Magnus Giesler
+// ******************************************************************************
+
+spriteshadow 14233
+spriteshadow 14238
+
+spritenoshade 14233
+spritenoshade 14238
+
+action MAGNUS_GESTURE 6849 1 5
+action MAGNUS_ARMS 6854 1 5
+action MAGNUS_POINT 6859 1 5
+
+useractor notenemy 14233 100 0
+	ifspritepal 8 ifn hitag_saved 0 state hologram_appear
+else
+	{
+	ifaction 0
+		{
+		sizeat 11 11
+		action FIVE_ANG
+
+		ife VOLUME 0
+			{
+			readarrayfromfile IW_COMPLETE F_IW_COMPLETE_AMCTC
+				ife IW_COMPLETE[2] 1 cactor 14238 // Did the player shoot Magnus in IW? Show headinjury if so
+			}
+		}	
+	ife speaker 39 action MAGNUS_GESTURE
+	ife speaker 40 action MAGNUS_ARMS
+	ife speaker 41 action MAGNUS_POINT
+	ifn speaker 39 ifaction MAGNUS_GESTURE action FIVE_ANG
+	ifn speaker 40 ifaction MAGNUS_ARMS action FIVE_ANG
+	ifn speaker 41 ifaction MAGNUS_POINT action FIVE_ANG
+	}	
+enda
+
+useractor notenemy 14238 100 0 ifaction 0 { sizeat 11 11 action FIVE_ANG } enda
+
+// SITTING SPRITES
+
+defstate sitting_civs
+ifaction 0
+	{
+	ifn hitag_saved 0 cstat 32768
+	action FIVE_ANG
+	}
+
+ifn hitag_saved 0
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		cstat 257
+		set hitag_saved 0
+		}
+	}
+ends
+
+useractor notenemy 30116 state sitting_civs enda
+useractor notenemy 30129 state sitting_civs enda
+useractor notenemy 30134 state sitting_civs enda
+
+spriteshadow 25830
+
+// Geoffrey
+useractor notenemy 2365 action FIVE_ANG
+ifg extra_saved 0
+ ife CHARSELECT 0
+	{
+	ife CHAR 6 killit
+		ifpdistl 1024
+		  ifp pfacing
+			ifmove 0
+			{
+			state speech_prompt
+			ifhitspace
+			  {
+			  ifrnd 128 sound GEO_SIT1
+			  else sound GEO_SIT2
+			  move SAIDONCE
+			  }
+			}
+	}
+enda
+
+useractor notenemy 2430 action FIVE_ANG ifspritepal 0 spritepal 21 enda // Zaxtor
+useractor notenemy 2435 action FIVE_ANG enda  // Mikko
+
+// Snowfall
+useractor notenemy 2512 action FIVE_ANG
+ifg extra_saved 0
+ ife CHARSELECT 0
+	{
+	ife CHAR 14 cstat 32768 else cstat 1
+	
+	ife extra_saved 2 // only appear once his Elysion quest is done
+		{
+		ifand ELYSION_QUEST 2048 { set extra_saved 1 cstat 1 } else cstat 32768
+		}
+
+		ifpdistl 1024
+		ifp pfacing
+		ifmove 0
+		{
+		state speech_prompt
+		ifhitspace
+		  {
+		  sound SF_HELLO1
+		  move SAIDONCE
+		  }
+		 }
+	}
+enda
+
+// Kagura
+useractor notenemy 25540 action FIVE_ANG
+ifspritepal 3
+ ife CHARSELECT 0
+	{
+	ife CHAR 17 killit
+	ifand ELYSION_QUEST 16384 spritepal 0 else killit
+	}
+enda
+
+action FIDO_SIT 0 2 5 1 12
+action FIDO_BARK 0 3 5 1 12
+
+// Fido
+spriteshadow 27536
+useractor notenemy 27536
+ifaction 0 action FIDO_SIT
+
+ife CHARSELECT 0
+ifg extra_saved 0
+	{
+	ife extra_saved 2 // only appear once snowfall's Elysion quest is done
+		{
+		ifand ELYSION_QUEST 2048 set extra_saved 1 else killit
+		}
+	}
+
+	ifpdistl 1024
+	 ifp pfacing
+	  ifaction FIDO_SIT
+		{
+		state speech_prompt
+		ifhitspace
+		 ifcount 90
+			  {
+			  setp[].weapon_pos 10
+			  sound RATTY
+			  sound FIDO_BARK5
+			  action FIDO_BARK
+			  resetcount
+			  }
+		}
+
+ifaction FIDO_BARK
+	{
+	ifactioncount 3 { action FIDO_SIT resetactioncount }
+	}
+
+enda
+
+// Ringworld James
+spriteshadow 27506
+
+useractor notenemy 27506 action FIVE_ANG
+ifg extra_saved 0
+ ife CHARSELECT 0
+	{
+	ife CHAR 0 killit
+	ife extra_saved 2 // only appear once his Elysion quest is done
+		{
+		ifand ELYSION_QUEST 4096 set extra_saved 1 else killit
+		}
+
+		ifpdistl 1024
+		ifp pfacing
+		ifmove 0
+		{
+		state speech_prompt
+		ifhitspace
+		  {
+		  move SAIDONCE
+		  }
+		 }
+	}
+
+enda
+
+useractor notenemy 8894 action FIVE_ANG enda // Rusty
+
+// NuSang
+useractor notenemy 2538 action FIVE_ANG ifspritepal 0 spritepal 21
+ifg extra_saved 0
+ ife CHARSELECT 0
+	{
+	ife CHAR 4 killit
+	ife extra_saved 2 // only appear once his Elysion quest is done
+		{
+		ifand ELYSION_QUEST 256 set extra_saved 1 else killit
+		}
+
+		ifpdistl 1024
+		ifp pfacing
+		ifmove 0
+		{
+		state speech_prompt
+		ifhitspace
+		  {
+		  sound S_HELLO1
+		  move SAIDONCE
+		  }
+		 }
+	}
+state hide_cutscene
+enda
+
+useractor notenemy 7001 action FIVE_ANG enda // Highwire
+useractor notenemy 7006 action FIVE_ANG enda // James
+
+useractor notenemy 26802 action FIVE_ANG enda // Micky
+useractor notenemy 31923 action FIVE_ANG enda // Snowfall
+useractor notenemy 7016 action FIVE_ANG enda // Jane
+useractor notenemy 7021 action FIVE_ANG ifspritepal 0 spritepal 21 enda // Merlijn
+
+useractor notenemy 7134 action FIVE_ANG enda // Micky
+
+// Bard Micky
+spriteshadow 29376
+useractor notenemy 29376
+
+ifaction 0 action FIVE_ANG
+
+ifspritepal 3
+ ife CHARSELECT 0
+	{
+	ife CHAR 13 killit // don't appear if playing as Micky
+	ifand ELYSION_QUEST 64 nullop else killit
+	}
+
+	ifpdistl 1024
+	 ifp pfacing
+		ifmove 0
+		{
+		state speech_prompt
+		ifhitspace
+		  {
+		  soundonce MC_SCI1
+		  move SAIDONCE
+		  }
+		 }
+
+	ifaction FIVE_ANG
+		{
+		ifrnd 1 action MICKY2_THINK
+		}
+
+	ifaction MICKY2_THINK
+		{
+		add INTERNALCOUNT 1
+		ifge INTERNALCOUNT 300 { action FIVE_ANG set INTERNALCOUNT 0 }
+		}
+
+enda
+
+// Bombshell
+useractor notenemy 9859 action FIVE_ANG
+
+ifspritepal 3
+ ife CHARSELECT 0
+	{
+	ife CHAR 10 killit // don't appear if playing as Bombshell
+	ifand ELYSION_QUEST 524288 spritepal 0 else killit
+	}
+
+enda
+
+// Minerva
+spriteshadow 25830
+useractor notenemy 25830 ifaction 0 { state animate_sprite_event set command 65536 action FIVE_ANG }
+
+ifg extra_saved 0
+ ife CHARSELECT 0
+	{
+	ife CHAR 0 killit
+	ife extra_saved 2 // only appear once James' Elysion quest is done
+		{
+		ifand ELYSION_QUEST 4096 set extra_saved 1 else killit
+		}
+
+		ifpdistl 1024
+		ifp pfacing
+		ifmove 0
+		{
+		state speech_prompt
+		ifhitspace
+		  {
+		  move SAIDONCE
+		  }
+		 }
+	}
+
+enda
+
+// Minerva sitting reading
+spriteshadow 26780
+useractor notenemy 26780 ifaction 0 { state animate_sprite_event set command 65536 action FIVE_ANG } enda
+
+// ARGO ------------------------------------------------------------
+
+useractor notenemy 26109
+ifspritepal 102 set command 128 // hologram
+enda
+
+// CYCLOID SHIP ------------------------------------------------------------
+
+useractor notenemy 23735
+ifspritepal 106 set command 128 // hologram
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy organ playing
+// ------------------------------------------------------------
+//
+
+
+useractor notenemy 18543
+ifaction 0
+	{
+	cstat 32768
+	checkactivatormotion 100
+		ife RETURN 1
+			{
+			cstat 0
+			ife CHAR 2 { sizeat 22 22 action TWO }
+			else ife CHAR 3 { sizeat 22 22 action FOUR }
+			else ife CHAR 17 { sizeat 20 20 action SIX }
+			else { sizeat 11 11 action ZERO }
+			}
+	}
+else
+	{
+	checkactivatormotion 101
+	 ife RETURN 1
+		{
+		ifaction ZERO globalsound MINI_SKYISL02
+		killit
+		}
+	}
+
+enda
+
+
+//
+// ------------------------------------------------------------
+// Dummy SMART suit
+// ------------------------------------------------------------
+//
+
+action SS_OPEN 0 9 1 1 24
+action SS_OPENED 9
+action SS_CLOSE 0 8 1 1 24
+action SS_CLOSED -10
+
+spriteshadow 23206
+
+useractor notenemy 23206
+  ifspritepal 3
+  {
+	 changespritestat THISACTOR 0
+	 break
+  }
+
+ifaction 0
+	{
+	ifcansee
+	 ifpdistl 2048
+		{
+		resetcount
+		action ZERO
+		}
+	}
+
+ifaction ZERO
+ ifcount 30
+	{
+	sound SMARTS_OPEN
+	action SS_OPEN
+	}
+ifaction SS_OPEN ifactioncount 9 action SS_OPENED
+
+ifaction SS_OPENED
+ ife CHAR 15
+	{
+	set pprompt_icon 5520
+	state use_prompt
+	 ifhitspace
+		{
+		operateactivators lotag_saved THISACTOR
+		operaterespawns lotag_saved
+		operatemasterswitches lotag_saved
+		cactor 23216
+		action 0
+		}
+	}
+
+enda
+
+spriteshadow 23216
+
+useractor notenemy 23216
+
+ifaction 0
+	{
+	resetcount
+	sound SMARTS_CLOSE
+	action SS_CLOSE
+	}
+
+ifaction SS_CLOSE
+ ifactioncount 8 action SS_CLOSED
+
+ ifaction SS_CLOSED
+	{
+	ifn hitag_saved 0 checkactivatormotion hitag_saved
+	ife RETURN 1 killit
+	}
+
+
+enda
+
+action SS2_SHUT 1 18 1 1 12
+action SS2_RDY 18
+
+spriteshadow 28631
+
+useractor notenemy 28631
+
+ifaction 0
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		sound SMARTS2_CLOSE
+		action SS2_SHUT
+		}
+	}
+
+ifaction SS2_SHUT
+ ifactioncount 18 { sound HELM_EQ action SS2_RDY }
+
+ifaction SS2_RDY
+	{
+	ifl INTERNALCOUNT 70 add INTERNALCOUNT 1
+	ife INTERNALCOUNT 45 screensound MC_PERFECT
+	}
+
+enda
+
+action SS3_SHUT 1 16 1 1 30
+action SS3_RDY 16
+
+spriteshadow 33709
+
+useractor notenemy 33709
+
+ifaction 0
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		sound SMARTS_CLOSE
+		action SS3_SHUT
+		}
+	}
+
+ifaction SS3_SHUT
+ ifactioncount 16 action SS3_RDY
+
+enda
+
+action SS4_SHUT 1 9 1 1 30
+action SS4_RDY 10
+
+spriteshadow 33610
+
+useractor notenemy 33610
+
+ifaction 0
+	{
+	ifpdistl 1536
+	 ifp pfacing
+		{
+		state use_prompt 
+		ifhitspace
+			{
+			operateactivators 604 THISACTOR
+			sound SMARTS_CLOSE
+			action SS4_SHUT
+			}
+		}
+	}
+
+ifaction SS4_SHUT
+ ifactioncount 9 action SS4_RDY
+ 
+ ifaction SS4_RDY
+	{
+	checkactivatormotion 605
+	ife RETURN 1 killit
+	}
+
+enda
+
+//
+// ------------------------------------------------------------
+// Naacal 
+// ------------------------------------------------------------
+//
+
+spriteshadow 29259
+
+action NAAC_GEST 2451 1 5
+action NAAC_POINT 2456 1 5
+
+useractor notenemy 29259
+ifaction 0 action FIVE_ANG
+ife speaker 35 action NAAC_GEST
+ife speaker 36 action NAAC_POINT
+ifn speaker 35 ifaction NAAC_GEST action FIVE_ANG
+ifn speaker 36 ifaction NAAC_POINT action FIVE_ANG
+enda
+
+//
+// ------------------------------------------------------------
+// Natalie Scientist
+// ------------------------------------------------------------
+//
+
+spriteshadow 33728
+
+useractor notenemy 33728
+ifaction 0
+	{
+	ifspritepal 3 action FIVE_ANG
+	else
+		{
+		cstat 32768
+		ifand BEAT_EPISODES[5] 2 // beat beaumont?
+			{
+			cstat 0
+			operateactivators 32054 THISACTOR
+			operatemasterswitches 32054
+			action FIVE_ANG
+			}
+		}
+	}
+enda
+
+// poster
+
+useractor notenemy 33733
+ifand BEAT_EPISODES[5] 2 nullop else killit
+enda
+
+//
+// ------------------------------------------------------------
+// Beyond Victim
+// ------------------------------------------------------------
+//
+
+action BLOOD_BUT 5 1 5 1 24
+
+action STOP_HEADBUT 0 1 5
+
+spriteshadow 33739
+spritenopal 33739
+
+useractor notenemy 33739
+
+ifaction 0 { geta[].ang temp4 action FIVE_ANG }
+
+ifaction FIVE_ANG
+	{
+	move STOP
+	ifactioncount 10 
+			{ 
+			action BLOOD_BUT 
+			sound BLOODBUT 			
+			espawn BLOOD
+			geta[].z temp
+			sub temp 11288
+			seta[RETURN].z temp
+			resetactioncount
+			}
+	}
+
+ifaction BLOOD_BUT
+	{
+	ifactioncount 5 action FIVE_ANG
+	ifpdistl 4096 ifp pfacing add INTERNALCOUNT 1
+	else ifg INTERNALCOUNT 0 sub INTERNALCOUNT 1
+	ifge INTERNALCOUNT 90 action STOP_HEADBUT
+	}
+	
+ifaction STOP_HEADBUT
+	{
+	move STOP faceplayerslow
+	ifpdistg 4096 { seta[].ang temp4 action FIVE_ANG set INTERNALCOUNT 0 resetactioncount }
+	}
+
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy alt James
+// ------------------------------------------------------------
+//
+
+action JHELMET_PUTON 5 3 1 1 24
+
+useractor notenemy 23032
+ifaction 0 { spritepal 12 action FIVE_ANG }
+
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	add INTERNALCOUNT 1
+	soundonce JMOVE1
+	globalsound DOOMED
+	move STOP faceplayer
+	}
+
+checkactivatormotion lotag_saved
+ife RETURN 1
+	{
+	action JHELMET_PUTON
+	soundonce JMOVE2
+	}
+
+ifaction JHELMET_PUTON ifactioncount 3 { soundonce HELM_EQ action MINUSONE }
+
+	checkactivatormotion extra_saved
+	ife RETURN 1
+		{
+		action ZERO
+		spritepal 12
+		strength 2000
+		cactor 23031
+		}
+
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Maiden
+// ------------------------------------------------------------
+//
+
+useractor notenemy 27043
+ifaction 0 action FIVE_ANG
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy RockSpirit
+// ------------------------------------------------------------
+//
+
+useractor notenemy 27049
+ifaction 0 action FIVE_ANG
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Servator
+// ------------------------------------------------------------
+//
+
+useractor notenemy 22099
+ifaction 0 action FIVE_ANG
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy drone
+// ------------------------------------------------------------
+//
+
+action DRONE_DUMMY -1 1 7
+
+useractor notenemy 1881
+ifaction 0 action DRONE_DUMMY
+enda
+
+action DRONE_BDUMMY -2 1 5
+
+useractor notenemy 9313
+ifaction 0 action DRONE_BDUMMY
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Snowfall
+// ------------------------------------------------------------
+//
+
+spriteshadow 29339
+
+useractor notenemy 29339
+ifaction 0 action FIVE_ANG
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Sang
+// ------------------------------------------------------------
+//
+
+spriteshadow 10287
+
+action NEWSANG 13521 1 5
+
+useractor notenemy 10287
+sleeptime 0
+ifaction 0
+	{
+	ifspritepal 9 nullop else
+	spawn 6200
+	ifspritepal 9 spritepal 21
+	action FIVE_ANG
+	}
+
+ifaction FIVE_ANG
+	{
+	checkactivatormotion 605
+	ife RETURN 1
+		{
+		startcutscene 1309
+		orvar CHAR_APP 2 // sang skin upgrade
+		spawn 8433
+		spawn 18623
+		action NEWSANG
+		}
+	}
+
+enda
+
+useractor notenemy 23745
+
+ifaction 0
+{
+checkactivatormotion hitag_saved
+ife RETURN 1 killit
+}
+
+enda
+
+spriteshadow 24011
+
+action SANG_WAG -20 1 5
+action SANG_GESTURE -15 1 5
+action SANG_READY -188 1 5
+
+useractor notenemy 24011 // crusader sang idle
+ifaction 0 action FIVE_ANG
+ife speaker 4 action SANG_WAG
+ife speaker 26 action SANG_GESTURE
+ifaction SANG_WAG ifn speaker 4 action FIVE_ANG
+ifaction SANG_GESTURE ifn speaker 26 action FIVE_ANG
+ife speaker 51 { ifaction SANG_READY nullop else { sound PICK_STAFF action SANG_READY } }
+state hide_cutscene
+state facing_code
+enda
+
+// ------------------------------------------------------------
+// Dummy Rosa
+// ------------------------------------------------------------
+
+spriteshadow 34560
+
+useractor notenemy 34560
+ifaction 0 action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+// ------------------------------------------------------------
+// Dummy Wheaton
+// ------------------------------------------------------------
+
+spriteshadow 35946
+
+action WHEATON_GUNUP 5 1 5
+action WHEATON_INSPECT 363 1 5
+
+useractor notenemy 35946
+ifaction 0 action FIVE_ANG
+ife speaker 18 action WHEATON_GUNUP
+ife speaker 34 action WHEATON_INSPECT
+ifn speaker 18 ifaction WHEATON_GUNUP action FIVE_ANG
+ifn speaker 34 ifaction WHEATON_INSPECT action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+// ------------------------------------------------------------
+// Dummy Eva woodgreen
+// ------------------------------------------------------------
+
+action SYNN_DUMMY -1 1 5 1 1
+
+spriteshadow 8926
+
+useractor notenemy 8926
+ifaction 0
+	{
+	spritepal 49
+	ifspritepal 10 cstat 0 else
+	cstat 32768
+	action SYNN_DUMMY
+	}
+ifaction SYNN_DUMMY
+	{
+	checkactivatormotion 900
+	ife RETURN 1 cstat 0
+	}
+state facing_code
+enda
+
+//
+// ------------------------------------------------------------
+// Casual Kagura
+// ------------------------------------------------------------
+//
+
+spriteshadow 27124
+
+useractor notenemy 27124
+ifaction 0 action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy dumas
+// ------------------------------------------------------------
+//
+
+spriteshadow 25802
+spriteshadow 25807
+
+useractor notenemy 25802
+ifaction 0 action FIVE_ANG
+state facing_code
+enda
+
+useractor notenemy 25807
+ifaction 0 action FIVE_ANG
+state facing_code
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Zaxtor
+// ------------------------------------------------------------
+//
+
+action ZAXTOR_FOLD -55 1 5
+action ZAXTOR_READY -110 1 5
+
+useractor notenemy 5611
+ifaction 0 action FIVE_ANG
+ifspritepal 0 spritepal 21
+ife speaker 1 action ZAXTOR_FOLD
+ifaction ZAXTOR_FOLD ifn speaker 1 action FIVE_ANG
+ife speaker 51 action ZAXTOR_READY
+state hide_cutscene
+state facing_code
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy armless James
+// ------------------------------------------------------------
+//
+
+spriteshadow 19158
+
+useractor notenemy 19158
+ifaction 0 action FIVE_ANG
+state facing_code
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Geoffrey
+// ------------------------------------------------------------
+//
+
+spriteshadow 6456
+
+action GEOFF_PHONE 25 1 5
+
+useractor notenemy 6456
+ifspritepal 9 break
+sizeat 22 22
+ifaction 0 action FIVE_ANG
+ife speaker 6 action GEOFF_PHONE
+ifn speaker 6 action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Merlijn
+// ------------------------------------------------------------
+//
+
+spriteshadow 6425
+
+action MERLIJN_INSPECT 318 1 5
+
+useractor notenemy 6425
+
+ifspritepal 0 spritepal 21
+ifaction 0 action FIVE_ANG
+ife speaker 2 action MERLIJN_INSPECT
+ifn speaker 2 ifaction MERLIJN_INSPECT action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+spriteshadow 26447
+
+useractor notenemy 26447
+ifspritepal 0 spritepal 21
+ifaction 0 action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+spriteshadow 31670
+
+action MERLIJN_FOLD 5 1 5
+action MERLIJN_FIST 5 1 10
+
+useractor notenemy 31670
+ifspritepal 0 spritepal 21
+ifaction 0 action FIVE_ANG
+ife speaker 2 action MERLIJN_FOLD
+ife speaker 38 action MERLIJN_FIST
+ifn speaker 2 ifaction MERLIJN_FOLD action FIVE_ANG
+ifn speaker 38 ifaction MERLIJN_FIST action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Highwire
+// ------------------------------------------------------------
+//
+
+spriteshadow 6073
+
+action AHIGHW_PALM 1685 1 5
+
+useractor notenemy 6073
+ifaction 0 action FIVE_ANG
+ife speaker 3 action AHIGHW_PALM
+ifaction AHIGHW_PALM ifn speaker 3 action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+spriteshadow 6019
+
+action AHIGHW_WATCH 15368 1 5
+action AHIGHW_HAT 15373 1 5
+action HIGHW_READY -6 1 5
+
+useractor notenemy 6019 // Armoured idle
+ifaction 0 action FIVE_ANG
+ife speaker 3 action AHIGHW_HAT
+ife speaker 31 action AHIGHW_WATCH
+ifaction AHIGHW_HAT ifn speaker 3 action FIVE_ANG
+ifaction AHIGHW_WATCH ifn speaker 31 action FIVE_ANG
+ife speaker 51 action HIGHW_READY
+state hide_cutscene
+state facing_code
+enda
+
+spriteshadow 30072
+
+useractor notenemy 30072 // Condolences Highwire
+ifaction 0 action FIVE_ANG
+enda
+
+spriteshadow 30121
+
+action AHIGHW2_HAT -3740 1 5
+
+useractor notenemy 30121 // SMART idle
+ifaction 0 action FIVE_ANG
+ife speaker 3 action AHIGHW2_HAT
+ifaction AHIGHW2_HAT ifn speaker 3 action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+
+//
+// ------------------------------------------------------------
+// Dummy Rusty
+// ------------------------------------------------------------
+//
+
+spriteshadow 6676
+
+action RUSTY_LOOK 37 1 5
+
+useractor notenemy 6676
+ifspritepal 0 spritepal 12
+ifaction 0 action FIVE_ANG
+ife speaker 5 action RUSTY_LOOK
+ifn speaker 5 ifaction RUSTY_LOOK action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+spriteshadow 27864
+
+action RUSTY_RDY 5 1 5
+
+useractor notenemy 27864 // Rust-D
+ifaction 0 action FIVE_ANG
+ife speaker 51 { ifaction RUSTY_RDY nullop else { sound SELECT_PISTOL action RUSTY_RDY } }
+state hide_cutscene
+state facing_code
+enda
+
+action RUSTY_PALM 10 1 5
+
+useractor notenemy 27472 // Rust-D peace
+ifaction 0 action FIVE_ANG
+ife speaker 5 action RUSTY_RDY
+ife speaker 37 action RUSTY_PALM
+ifn speaker 5 ifaction RUSTY_RDY action FIVE_ANG
+ifn speaker 37 ifaction RUSTY_PALM action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Kagura
+// ------------------------------------------------------------
+//
+
+spriteshadow 27136
+spriteshadow 27141
+spriteshadow 27146
+
+action KAG_ARMS -750 1 5
+action KAG_FIDG -745 1 5
+action KAG_INTRO -740 1 5
+
+useractor notenemy 27136 // Kagura idle no sword
+ifaction 0 action FIVE_ANG 
+ife speaker 17 action KAG_ARMS
+ife speaker 32 action KAG_FIDG
+ife speaker 33 action KAG_INTRO
+ifaction KAG_ARMS ifn speaker 17 action FIVE_ANG
+ifaction KAG_FIDG ifn speaker 32 action FIVE_ANG
+ifaction KAG_INTRO ifn speaker 33 action FIVE_ANG
+state facing_code 
+state hide_cutscene 
+enda
+
+useractor notenemy 27141 ifaction 0 action FIVE_ANG state facing_code state hide_cutscene ife speaker 51 { sound DRAW_SWORD2 cactor 27146 } enda // Kagura idle sword
+useractor notenemy 27146 ifaction 0 action FIVE_ANG state facing_code state hide_cutscene enda // Kagura sword ready
+useractor notenemy 27124 ifaction 0 action FIVE_ANG state facing_code state hide_cutscene enda // Kagura casual
+
+
+//
+// ------------------------------------------------------------
+// Dummy Kagura
+// ------------------------------------------------------------
+//
+
+action KR_IDLE -1 1 5
+action KR_SWORD 4 1 5
+action KR_SWING 29 2 5 1 16
+
+useractor notenemy 27142
+ifaction 0 action KR_IDLE 
+
+ifaction KR_IDLE { checkactivatormotion 7654 ife RETURN 1 { sound DRAW_SWORD action KR_SWORD } }
+ifaction KR_SWORD 
+	{
+	add INTERNALCOUNT 1
+	ifge INTERNALCOUNT 202 seta[].ang 0
+	ifge INTERNALCOUNT 232 { sound KAG_SW action KR_SWING }
+	}
+ifaction KR_SWING
+	{
+	ifactioncount 2
+		{
+		globalsound TELEPORT_IN
+		espawn 18623
+		seta[RETURN].pal 2
+		killit
+		}
+	}
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Old Sang
+// ------------------------------------------------------------
+//
+
+spriteshadow 13207
+
+action OSANG_GESTURE -7000 1 5
+
+useractor notenemy 13207
+sizeat 22 22
+ifaction 0 { state spawn_bat action FIVE_ANG }
+ife speaker 26 action OSANG_GESTURE
+ifn speaker 26 ifaction OSANG_GESTURE action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy James arm
+// ------------------------------------------------------------
+//
+
+useractor notenemy 19163
+ifaction 0
+{
+	cstat 32768
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+	{
+		cstat 0
+		action ZERO
+	}
+}
+
+ifaction ZERO
+{
+	add INTERNALCOUNT 1
+	ife INTERNALCOUNT 45
+	{
+		palfrom 32 64 64 64
+		soundonce GRABTHROAT
+	}
+
+	ife INTERNALCOUNT 50
+	{
+		soundonce JGASP
+		set INTERNALCOUNT 0
+		action ONE
+	}
+}
+
+ifaction ONE
+{
+	add INTERNALCOUNT 1
+	ife INTERNALCOUNT 25 sound PATCOS_1
+	ifg INTERNALCOUNT 55
+	{
+		action TWO
+		sound ENDSEQVOL2SND2
+		set INTERNALCOUNT 0
+	}
+}
+ifaction TWO
+{
+	add INTERNALCOUNT 1
+	ifg INTERNALCOUNT 65
+	{
+		palfrom 16 64 0 0
+		stopsound ENDSEQVOL2SND2
+		soundonce ARM_TEAR
+		set INTERNALCOUNT 0
+		action THREE
+	}
+}
+ifaction THREE
+{
+	add INTERNALCOUNT 1
+	// note: ife, not ifg - or we spawn a bunch of arms :-)
+	ife INTERNALCOUNT 5
+	{
+		guts HUMAN_ARM 1
+		sound GIB_LAND2
+	}
+
+	// don't cut away too quickly
+	ifg INTERNALCOUNT 500
+	{
+		set INTERNALCOUNT 0
+		action FOUR
+	}
+}
+ifaction FOUR
+{
+	add INTERNALCOUNT 1
+	ifg INTERNALCOUNT 5
+	{
+		action FIVE
+		set INTERNALCOUNT 0
+	}
+}
+
+enda
+
+useractor notenemy 19155
+
+ifaction 0
+{
+checkactivatormotion hitag_saved
+ife RETURN 1 action ZERO
+}
+
+ifaction ZERO
+{
+add INTERNALCOUNT 1
+ifg INTERNALCOUNT 255 { action ONE set INTERNALCOUNT 0 }
+}
+
+ifaction ONE
+{
+add INTERNALCOUNT 1
+ifg INTERNALCOUNT 20 action FORM
+}
+
+ifaction FORM
+{
+set INTERNALCOUNT 0
+checkactivatormotion 824
+ife RETURN 1 
+	{
+	cactor 35317
+	action 0
+	}
+}
+
+enda
+
+action JAMES_CHECK 1 9 1 1 16
+action JAMES_CHECKED 9
+
+useractor notenemy 35317
+ifaction 0
+	{
+	action JAMES_CHECK
+	resetactioncount
+	soundonce JMOVE2
+	}
+	
+ifaction JAMES_CHECK ifactioncount 9 action JAMES_CHECKED
+	
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Bikers
+// ------------------------------------------------------------
+//
+
+action BIKER_DRAW_GUN 5 6 1 1 8
+
+defstate BIKER_TURN
+ifaction 0 action FIVE_ANG
+
+ifaction FIVE_ANG
+	{
+	ifn hitag_saved 0
+		{
+		checkactivatormotion hitag_saved
+		ife RETURN 1
+			{
+			geta[].ang temp
+			add temp 1024
+			seta[].ang temp
+			action ACAR2
+			}
+		}
+
+	ifactor 17268
+		{
+		ifn lotag_saved 0
+			{
+			checkactivatormotion lotag_saved
+			ife RETURN 1
+				{
+				soundonce SELECT_WEAPON
+				action BIKER_DRAW_GUN
+				}
+			}
+		}
+
+	}
+
+ifaction ACAR2
+	{
+	checkactivatormotion extra_saved
+	ife RETURN 1 killit
+	}
+
+ends
+
+spriteshadow 17258
+
+useractor notenemy 17258 state BIKER_TURN enda
+
+spriteshadow 17263
+
+useractor notenemy 17263 state BIKER_TURN enda
+
+spriteshadow 17268
+
+// action BIKER_DRAW_GUN 5 4 1 1 8
+action BIKER_DRAWN 13 1
+action BIKER_LETDOWN 11 1 1 1 8
+action BIKER_LETDOWNED 11 1
+action BIKER_FIRE 12 2 1 1 8
+action BIKER_FIRED 13 1
+
+
+useractor notenemy 17268
+state BIKER_TURN
+
+ifaction BIKER_DRAW_GUN
+	{
+	ifactioncount 5 { sound SAWNOFF_LOAD action BIKER_DRAWN }
+	}
+
+ifaction BIKER_DRAWN
+	{
+	checkactivatormotion extra_saved
+	ife RETURN 1 action BIKER_LETDOWN
+	}
+
+ifaction BIKER_LETDOWN
+	{
+	ifactioncount 3 { sound CY_FIGHTER_SHUTDOWN action BIKER_LETDOWNED }
+	}
+
+ifaction BIKER_LETDOWNED
+	{
+	checkactivatormotion xvel_saved
+	ife RETURN 1
+		{
+		sound R870FIRE
+		ife PERFMODE 1
+			{
+			set gunsmoke_z 7844
+			set gunsmoke_angle 128
+			state spawn_gunsmoke_z
+			set gunsmoke_z 6044
+			espawn 16115
+			state spawn_muzzleflash
+			}
+		action BIKER_FIRE
+		}
+	}
+
+ifaction BIKER_FIRE
+	{
+	ifactioncount 2 action BIKER_FIRED
+	}
+enda
+
+spriteshadow 1708
+
+action BEFOREHEADEX -8 1 5 1 12
+action HEADEX -3 5 1 1 8
+action HEADEXD 1
+
+useractor notenemy 1708
+fall
+ifaction 0
+	{
+	sizeat 26 26
+	cstat 32768
+	checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		cstat 257
+		globalsound PRED_RECOG
+		action BEFOREHEADEX
+		}
+	}
+
+ifaction BEFOREHEADEX
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		globalsound DECAPITATE
+		guts JIBS6 4
+		guts JIBS2 2
+		guts JIBS5 1
+		action HEADEX
+		}
+	}
+
+ifaction HEADEX
+	{
+	ifactioncount 5 { state BODY_FALL_NOISES spawn BLOODPOOL action HEADEXD }
+	}
+
+enda
+
+//
+// ------------------------------------------------------------
+// Svedr statue
+// ------------------------------------------------------------
+//
+
+spriteshadow 28025
+
+useractor notenemy 28025 ifaction 0 action FIVE_ANG enda
+
+//
+// ------------------------------------------------------------
+// Mikko standing
+// ------------------------------------------------------------
+//
+
+spriteshadow 20074
+
+action MIKKO_KNUCKLE -2564 1 5
+action MIKKO_READY -13142 1 5
+
+useractor notenemy 20074 ifaction 0 action FIVE_ANG 
+ifaction FIVE_ANG ife speaker 7 { sound PLYR_CRACK_FIRST action MIKKO_KNUCKLE }
+ifaction MIKKO_KNUCKLE ifn speaker 7 action FIVE_ANG
+ife speaker 51 { ifaction MIKKO_READY nullop else { sound SELECT_ASSAULTR action MIKKO_READY } }
+state hide_cutscene 
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Peter Davids
+// ------------------------------------------------------------
+//
+
+spriteshadow 16891
+
+useractor notenemy 16891
+ifaction 0
+{
+sizeat 24 24
+ifspawnedby 14 { spawn TRANSPORTERBEAM sizeat 24 24 globalsound SOMETHINGHITFORCE }
+action FIVE_ANG
+}
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Russian soldier
+// ------------------------------------------------------------
+//
+
+
+spriteshadow 9012
+
+useractor notenemy 9012
+action FIVE_ANG
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Beyonder
+// ------------------------------------------------------------
+//
+
+useractor notenemy 12667 action FIVE_ANG enda
+useractor notenemy 12682 action FIVE_ANG enda
+
+//
+// ------------------------------------------------------------
+// Dummy Cycloid Emperor
+// ------------------------------------------------------------
+//
+
+action DUMMY_CY_GETUP -0 1 2 -1 0
+
+useractor notenemy 2695
+
+ifaction 0
+	{
+	checkactivatormotion hitag_saved
+	 ife RETURN 1
+		{
+		action DUMMY_CY_GETUP
+		resetactioncount
+		}
+	}
+
+ifaction DUMMY_CY_GETUP
+	{
+	ifactioncount 24
+		{
+		starttrack 47
+		quake 26
+		globalsound BOS2_ROAM
+		espawn BOSS2
+		seta[RETURN].extra 1500
+		setactorvar[RETURN].lotag_saved lotag_saved
+		killit
+		}
+	}
+
+
+enda
+
+//
+// ------------------------------------------------------------
+// Dummy Cycloid High Emperor
+// ------------------------------------------------------------
+//
+
+
+spriteshadow 15626
+
+action DUMMY_CY_WALK -10 4 5 1 14
+
+useractor notenemy 15626
+fall
+
+ifaction 0
+{
+action FIVE_ANG
+}
+
+ifaction FIVE_ANG
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		globalsound BOS2_RECOG
+		action DUMMY_CY_WALK
+		ifspritepal 3
+			{
+			geta[].ang temp
+			sub temp 1024
+			seta[].ang temp
+			}
+		}
+	}
+
+ifaction DUMMY_CY_WALK
+	{
+	move BOSS2WALKVELS geth
+	add INTERNALCOUNT_2 1
+	ifg INTERNALCOUNT_2 16 { ifrnd 128 soundonce BIG_BOSS_WALK2 else soundonce BIG_BOSS_WALK1 quake 8 set INTERNALCOUNT_2 0 }
+	add INTERNALCOUNT 1
+	ifg INTERNALCOUNT 60
+		{
+		action FIVE_ANG
+		move STOP
+		spawn TRANSPORTERBEAM
+		globalsound SOMETHINGHITFORCE
+		seta[].blend 255
+		seta[].htflags 5
+		seta[].cstat 2
+		seta[].shade -32
+		action FORM
+		}
+	}
+
+ifaction FORM
+	{
+	geta[].shade temp
+	add temp 2
+	ifg temp 90
+		{
+		operateactivators lotag_saved THISACTOR
+		operaterespawns lotag_saved
+		operatemasterswitches lotag_saved
+		killit
+		}
+	seta[].shade temp
+	}
+
+enda
+
+
+
+//
+// ------------------------------------------------------------
+// Dummy MJ12 soldier
+// ------------------------------------------------------------
+//
+
+
+spriteshadow 15020
+
+useractor notenemy 15020
+action FIVE_ANG
+enda
+
+
+//
+// ------------------------------------------------------------
+// Dummy James
+// ------------------------------------------------------------
+//
+
+useractor notenemy 27848 action FIVE_ANG state facing_code enda // James
+
+spriteshadow 11023
+
+action FRAME8 0 1 8
+
+useractor notenemy 11023 // Dummy James sleep
+sizeat 22 22
+action FRAME8
+enda
+
+
+spriteshadow 12026
+
+useractor notenemy 12026 // Dummy James carrying Lilith
+ifn camerasprite -1 cstat 0 else cstat 32768
+ife STORY_TRIGGER2 1 action ONE else action ZERO
+state facing_code
+enda
+
+spriteshadow 9017
+
+action AJAMES_GESTURE -3722 1 5
+
+useractor notenemy 9017 // Dummy James2
+ifspritepal 9 break
+sizeat 22 22
+ifspritepal 3 nullop else
+ifand CHAR_APP 1 cactor 25635
+ife speaker 0 action AJAMES_GESTURE else
+action FIVE_ANG
+state hide_cutscene
+state facing_code
+enda
+
+spriteshadow 27392
+
+useractor notenemy 27392
+ifaction 0 action FIVE_ANG
+state facing_code
+enda
+
+
+spriteshadow 25635
+
+action AJAMES_ARM 187 1 8
+action AJAMES_ARM_G 55 1 8
+action AJAMES_ARM_F -4256 1 8
+
+useractor notenemy 25635 // Dummy James2 bionic arm
+ifspritepal 9 break
+sizeat 22 22
+ifaction 0 action AJAMES_ARM
+ife speaker 0 action AJAMES_ARM_G
+ife speaker 30 action AJAMES_ARM_F
+ifaction AJAMES_ARM_G ifn speaker 0 action AJAMES_ARM
+ifaction AJAMES_ARM_F ifn speaker 30 action AJAMES_ARM
+state hide_cutscene
+state facing_code
+enda
+
+spriteshadow 27498
+
+action RINGW_J_GESTURE 23 1 5
+
+useractor notenemy 27498 // Ringworld James
+sizeat 22 22
+ifaction 0 action EIGHT_ANG
+ife speaker 0 action RINGW_J_GESTURE
+ifn speaker 0 ifaction RINGW_J_GESTURE action EIGHT_ANG
+state hide_cutscene
+state facing_code
+enda
+
+
+spriteshadow 5363
+
+useractor notenemy 5363 // Dummy injured James
+ifaction 0
+	{
+	cstat 32768
+	checkactivatormotion 812
+	 ife RETURN 1
+		{
+		cstat 0
+		action ZERO
+		}
+	}
+enda
+
+
+
+//
+// ------------------------------------------------------------
+// Action Highwire! With ducking and rolling positions!
+// ------------------------------------------------------------
+//
+
+spriteshadow 13204
+
+action HIGH_IDLE 7316
+action HIGH_CROUCH 7317
+action HIGH_RCROUCH 7317
+action HIGH_SHOOT 7318
+action HIGH_ROLL 7319 6 1 1 15
+
+move HIGHROLL 100 geth
+
+useractor notenemy 13204
+fall
+sizeat 24 24
+
+ifn camerasprite -1 cstat 0 else cstat 32768
+
+ifaction 0
+{
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	action HIGH_IDLE
+	resetcount
+	}
+}
+
+ifaction HIGH_IDLE
+{
+ifcount 26
+	{
+	action HIGH_CROUCH
+	resetcount
+	}
+}
+
+ifaction HIGH_CROUCH
+{
+checkactivatormotion lotag_saved
+ife RETURN 1
+	{
+	action HIGH_ROLL
+	move HIGHROLL geth
+	soundonce P_ROLL
+	}
+}
+
+ifaction HIGH_ROLL
+{
+ifactioncount 4 move STOP
+ifactioncount 6
+	{
+	move STOP
+	action HIGH_RCROUCH
+	set temp9 0
+	}
+}
+
+ifaction HIGH_RCROUCH
+{
+
+
+ifactioncount 4
+	{
+	ifg slot1_mag 0
+		{
+		move STOP
+		action HIGH_SHOOT
+		ife SPECIALIST_EQUIPMENT[106] 2 globalsound SURV_FIR
+		else ife SPECIALIST_EQUIPMENT[10] 2 globalsound KASHTAN_FIRE
+		else ife SPECIALIST_EQUIPMENT[39] 2 globalsound SKORP_FIRE
+		else ife SPECIALIST_EQUIPMENT[32] 2 globalsound AUTOMAG_FIRE
+		else globalsound TOKAROVFIRE
+		set gunsmoke_angle -512
+		shoot FAKE_BULLET
+		state spawn_gunsmoke
+		flash
+		state npc_pistolshell
+		sub slot1_mag 1
+		add temp9 1
+		resetactioncount
+		}
+	else
+	ife slot1_mag 0
+		{
+		move STOP
+		globalsound DRY_FIRE
+		globalsound ROHSHIT
+		action HIGH_CROUCH
+		resetactioncount
+		}
+
+	}
+}
+
+ifaction HIGH_SHOOT
+{
+ifactioncount 2 { ifg temp9 2 action HIGH_CROUCH else action HIGH_RCROUCH resetactioncount }
+}
+
+enda
+
+//
+// ------------------------------------------------------------
+// Action Doctor! With pointing his gun and disappearing poses!
+// ------------------------------------------------------------
+//
+
+spriteshadow 11174
+
+useractor notenemy 11174
+sizeat 22 22
+
+ifaction 0 action FIVE_ANG
+
+ife lotag_saved 0
+{
+ifn camerasprite -1  cstat 257 else cstat 32768
+}
+
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	spawn 8433
+	soundonce PRIEST_APPEAR
+	killit
+	}
+
+enda
+
+// Alejandro
+spriteshadow 8568
+spritenvg 8568
+useractor notenemy 8568 100 0 ifaction 0 { sizeat 26 26 action FIVE_ANG } state spawn_cold_breathe enda
+
+// No armour James
+useractor notenemy 11003 100 0
+ifaction 0
+	{
+	ifand CHAR_APP 1 cactor 25630
+	ifspritepal 4 nullop else sizeat 23 23
+	action FIVE_ANG
+	}
+state spawn_cold_breathe
+enda
+
+// No armour bionic arm James
+useractor notenemy 25630 100 0
+ifaction 0
+	{
+	ifspritepal 4 nullop else sizeat 23 23
+	action FIVE_ANG
+	}
+state spawn_cold_breathe
+enda
+
+//
+// ------------------------------------------------------------
+// Micky begins Gabe
+// ------------------------------------------------------------
+//
+
+action KNOCK 0 2 1 1 48
+action GABE_IDLE -8512 1 5
+
+useractor notenemy 16687
+
+ifmove 0
+{
+ifpdistg 6144 action GABE_IDLE
+else { ifaction KNOCK nullop else action KNOCK }
+}
+else ifmove STOP action GABE_IDLE
+
+ifaction KNOCK
+{
+ifactioncount 2 resetactioncount else
+ifactioncount 1 soundonce UW_GLASS
+checkactivatormotion 20106
+ife RETURN 1 move STOP
+}
+
+enda
+
+//
+// ------------------------------------------------------------
+// Action Fascist! With gunbelt and running like a chickenshit!
+// ------------------------------------------------------------
+//
+
+action D_VILMOS_IDLE 7333 1 5 1 1
+action D_VILMOS_DRAWB 7359 1 5 1 15
+action D_VILMOS_SHOOTB 7364 1 5 1 10
+action D_VILMOS_FIRED 7359 1 5 1 10
+action D_VILMOS_RUN 7339 4 5 1 10
+
+move VILMOS_RUN 140
+
+spriteshadow 13147
+
+useractor notenemy 13147
+sizeat 24 24
+
+ifn camerasprite -1 cstat 0 else cstat 32768
+
+ifaction 0 { action D_VILMOS_IDLE resetcount }
+
+ifaction D_VILMOS_IDLE
+{
+checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		action D_VILMOS_DRAWB
+		soundonce SELECT_WEAPON
+		resetactioncount
+		}
+}
+
+ifaction D_VILMOS_DRAWB
+{
+ifactioncount 3
+	{
+	move STOP
+	globalsound S1911_FIRE
+	shoot FAKE_BULLET
+	set gunsmoke_angle 0
+	state spawn_gunsmoke
+	flash
+	state npc_pistolshell
+	action D_VILMOS_SHOOTB
+	resetactioncount
+	}
+}
+
+ifaction D_VILMOS_SHOOTB
+{
+ifactioncount 2 { action D_VILMOS_FIRED resetactioncount }
+}
+
+ifaction D_VILMOS_FIRED
+{
+ifcount 78
+	{
+	geta[].ang temp2
+	sub temp2 512
+	seta[].ang temp2
+	action D_VILMOS_RUN
+	move VILMOS_RUN geth
+	resetcount
+	}
+}
+
+ifaction D_VILMOS_RUN
+{
+ifcount 13 { ifrnd 128 sound NPC_STEP1 else sound NPC_STEP2 resetcount }
+ifnotmoving killit
+}
+
+
+
+enda

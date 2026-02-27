@@ -1,0 +1,2021 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Loadout equipment and melee tabs
+--------------------------------------------------------------------------------
+*/
+
+defstate def_arm_pic
+	ife INFO_SEL 0 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 5229 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 1 rotatesprite disp_temp7 disp_temp8 45000 0 54 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 2 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 4975 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 3 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 5999 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 4 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6638 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 5 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6868 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 6 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6637 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 7 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 7084 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 9 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 115 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 10 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 14590 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 11 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6638 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 12 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 SUIT_BATTERY DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 13 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 16638 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 14 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 20989 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 16 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 32459 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 17 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 27388 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 18 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 35844 DP_SHADE DP_PAL 0 0 0 xdim ydim
+ends
+defstate DISP_chest_loadout
+		ife CHEST_LOADOUT[INFO_SEL] 1 // Body armour
+			{
+			set DP_PAL 0
+			set DP_SHADE 0
+			state def_arm_pic
+			}
+		ife CHEST_LOADOUT[INFO_SEL] 4 myospalx disp_temp7 disp_temp8 117 0 0 0 // Spirit protection vest
+		ife CHEST_LOADOUT[INFO_SEL] 5 rotatesprite disp_temp7 disp_temp8 16000 0 22730 DP_SHADE DP_PAL 0 0 0 xdim ydim
+ends
+defstate DISP_belt_loadout
+	ife BELT_LOADOUT[INFO_SEL] 1 rotatesprite disp_temp7 disp_temp8 24384 0 6871 0 0 0 0 0 xdim ydim // Rusty's throwing star belt
+	ife BELT_LOADOUT[INFO_SEL] 2 rotatesprite disp_temp7 disp_temp8 24384 0 5228 0 0 0 0 0 xdim ydim // James' shield belt
+	ife BELT_LOADOUT[INFO_SEL] 5 rotatesprite disp_temp7 disp_temp8 QUARTERSIZE 0 10234 0 0 0 0 0 xdim ydim // Shotgun belt
+ends
+defstate def_boot_pic
+	ife INFO_SEL 0 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 5235 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 1 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 61 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 2 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 4968 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 3 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 6002 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 4 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 6375 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 5 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 6866 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 6 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 61 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 7 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 7087 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 9 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 6375 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 10 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 10292 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 11 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 4968 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 12 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 12925 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 13 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 JUMPBOOTS_PICKUP DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 14 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 20990 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 16 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 32468 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 17 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 27384 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 18 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 35842 DP_SHADE DP_PAL 0 0 0 xdim ydim
+ends
+defstate DISP_boot_loadout
+	ife BOOTS_LOADOUT[INFO_SEL] 1
+			{
+			set DP_PAL 0
+			set DP_SHADE 0
+			state def_boot_pic
+			}
+	ife BOOTS_LOADOUT[INFO_SEL] 2 myospalx disp_temp7 disp_temp8 FLIPPER 0 0 0 // flippers
+ends
+defstate def_heat_pic
+	ife INFO_SEL 0 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 5347 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 1 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 68 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 2 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 5028 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 3 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6053 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 4 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6374 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 5 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6877 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 6 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6631 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 7 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 7086 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 9 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6374 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 10 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 68 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 11 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 5028 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 12 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 12916 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 13 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 16564 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 14 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 20980 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 16 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 32469 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 17 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 27387 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 18 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 35843 DP_SHADE DP_PAL 0 0 0 xdim ydim
+ends
+defstate def_night_pic
+	ife INFO_SEL 0 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 5234 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 1 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 59 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 2 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 5031 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 3 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6004 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 4 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6387 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 5 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6870 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 6 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6563 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 7 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 7088 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 9 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6387 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 10 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 59 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 11 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 5031 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 12 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 12927 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 13 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 16636 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 14 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 20987 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 16 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 32469 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 17 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 27386 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 18 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 35843 DP_SHADE DP_PAL 0 0 0 xdim ydim
+ends
+defstate DISP_helmet_loadout
+	ife HELMET_LOADOUT[INFO_SEL] 1 // ballistic
+		{
+		rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 22758 0 0 0 0 0 xdim ydim
+		}
+	ife HELMET_LOADOUT[INFO_SEL] 2 // Heat
+		{
+		set DP_SHADE 0
+		set DP_PAL 0
+		state def_heat_pic
+		}
+	ife HELMET_LOADOUT[INFO_SEL] 3 // Night
+		{
+		set DP_SHADE 0
+		set DP_PAL 0
+		state def_night_pic
+		}
+	ife HELMET_LOADOUT[INFO_SEL] 4 // ghost goggles
+		{
+		rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 GHOST_GOGGLES 0 0 0 0 0 xdim ydim
+		}
+	ife HELMET_LOADOUT[INFO_SEL] 6 // Bandana?
+		{
+		rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6562 0 0 0 0 0 xdim ydim
+		}
+ends
+defstate def_faid_pic
+	ife INFO_SEL 0 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 5230 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 1 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 53 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 2 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 4977 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 3 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6000 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 4 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6377 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 5 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6869 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 6 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6565 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 7 rotatesprite disp_temp7 disp_temp8 45000 0 7085 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 9 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 6377 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 10 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 53 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 11 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 4977 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 12 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 12923 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 13 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 16637 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 14 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 20988 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 16 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 32447 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 17 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 27391 DP_SHADE DP_PAL 0 0 0 xdim ydim
+	ife INFO_SEL 18 rotatesprite disp_temp7 disp_temp8 HALFSIZE 0 36072 DP_SHADE DP_PAL 0 0 0 xdim ydim	
+ends
+
+defstate DISP_equipment_loadout
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 2 // First aid kit
+		{
+		set DP_SHADE 0
+		set DP_PAL 0
+		state def_faid_pic
+		}
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 3 rotatesprite disp_temp7 disp_temp8 14000 0 22750 0 0 0 0 0 xdim ydim // riot shield
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 4 rotatesprite disp_temp7 disp_temp8 18000 0 4976 0 0 0 0 0 xdim ydim // Merlijn's shield
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 5 rotatesprite disp_temp7 disp_temp8 18000 0 5511 0 0 0 0 0 xdim ydim // Zaxtor's hologram
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 6 rotatesprite disp_temp7 disp_temp8 24000 0 6003 0 0 0 0 0 xdim ydim // Highwire's radio
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 7 rotatesprite disp_temp7 disp_temp8 24000 0 6373 0 0 0 0 0 xdim ydim // Sang's mirror orb
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 8 rotatesprite disp_temp7 disp_temp8 24000 0 7091 0 0 0 0 0 xdim ydim // Mikko's backpack
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 9 // Micky's turret
+		{
+		ife PERSONNEL_RESEARCH[2] 2 set disp_temp9 16 else set disp_temp9 0
+		ife PERSONNEL_RESEARCH[3] 2 rotatesprite disp_temp7 disp_temp8 24000 0 16551 0 disp_temp9 0 0 0 xdim ydim
+		else rotatesprite disp_temp7 disp_temp8 24000 0 16552 0 disp_temp9 0 0 0 xdim ydim
+		}
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 10 rotatesprite disp_temp7 disp_temp8 24000 0 20982 0 0 0 0 0 xdim ydim // Snowfall's Vajra device
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 11 rotatesprite disp_temp7 disp_temp8 24000 0 12926 0 0 0 0 0 xdim ydim // Jane's Arm Blade
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 12 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 12006 0 0 0 0 0 xdim ydim // Maarten's Book of Conjuration
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 13 rotatesprite disp_temp7 disp_temp8 24000 0 31199 0 0 0 0 0 xdim ydim // Bombshell's turret
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 14 rotatesprite disp_temp7 disp_temp8 24000 0 36074 0 0 0 0 0 xdim ydim // Wheaton's radio
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 15 rotatesprite disp_temp7 disp_temp8 24000 0 32472 0 0 0 0 0 xdim ydim // Rosa's vampiric bats
+	ife EQUIPMENT_LOADOUT[INFO_SEL] 16 rotatesprite disp_temp7 disp_temp8 24000 0 27383 0 0 0 0 0 xdim ydim // Kagura's ninja potion
+ends
+
+
+defstate DISP_melee_loadout
+		ife CHAR 0 ifand JAMES_UPGRADE 32768 set disp_temp9 29793
+		else ife CHAR 1 ifand ZAXTOR_UPGRADE 32768 set disp_temp9 29795
+		else ife CHAR 2 ifand MERLIJN_UPGRADE 32768 set disp_temp9 29797
+		else ife CHAR 3 ifand HIGHWIRE_UPGRADE 32768 set disp_temp9 29799
+		else ife CHAR 4 ifand SANG_UPGRADE 32768 set disp_temp9 29801
+		else ife CHAR 5 ifand RUSTY_UPGRADE 32768 set disp_temp9 29803
+		else ife CHAR 6 ifand GEOFFREY_UPGRADE 32768 set disp_temp9 29805
+		else ife CHAR 7 ifand MIKKO_UPGRADE 32768 set disp_temp9 29807
+		else ife CHAR 13 ifand MICKY_UPGRADE 32768 set disp_temp9 29809
+		else ife CHAR 14 ifand SNOWFALL_UPGRADE 32768 set disp_temp9 29811
+		else ife CHAR 17 ifand KAGURA_UPGRADE 32768 set disp_temp9 29813
+		else set disp_temp9 13558
+		ife MELEE_WEAPON_LOADOUT[INFO_SEL] 1 rotatesprite disp_temp7 disp_temp8 20000 0 disp_temp9 0 0 0 0 0 xdim ydim // Display the picture 1
+		ife MELEE_WEAPON_LOADOUT[INFO_SEL] 2 rotatesprite disp_temp7 disp_temp8 20000 0 13556 0 0 0 0 0 xdim ydim  // Display the picture 1
+		ife MELEE_WEAPON_LOADOUT[INFO_SEL] 3 rotatesprite disp_temp7 disp_temp8 20000 256 12233 0 0 0 0 0 xdim ydim
+		ife MELEE_WEAPON_LOADOUT[INFO_SEL] 4 rotatesprite disp_temp7 disp_temp8 20000 256 11118 0 0 0 0 0 xdim ydim
+ends
+
+
+defstate loadout_equipment_tab
+screentext STARTALPHANUM 12 190 29500 0 0 3035 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // instructions
+rotatesprite 286 97 HALFSIZE 0 13565 0 0 8 0 0 xdim ydim
+set SCROLL_POS_MAX 30
+state SCROLL_WHEEL
+rotatespritea 108 108 HALFSIZE 0 3055 23 0 0 -255 0 0 xdim ydim
+set disp_temp7 108
+set disp_temp8 108
+state DISP_equipment_loadout
+rotatespritea 158 173 HALFSIZE 0 3056 23 0 0 -255 0 0 xdim ydim
+set disp_temp7 158
+set disp_temp8 173
+state DISP_boot_loadout
+rotatespritea 158 146 HALFSIZE 0 3057 23 0 0 -255 0 0 xdim ydim
+set disp_temp7 158
+set disp_temp8 146
+state DISP_belt_loadout
+rotatespritea 158 122 HALFSIZE 0 3059 23 0 0 -255 0 0 xdim ydim
+set disp_temp7 158
+set disp_temp8 122
+state DISP_chest_loadout
+rotatespritea 158 90 HALFSIZE 0 3058 23 0 0 -255 0 0 xdim ydim
+set disp_temp7 158
+set disp_temp8 90
+state DISP_helmet_loadout
+	set gui_pos_x 12
+	set gui_pos_y 40
+	state SCROLL_POS
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 Unequip all
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce COMP_SELECT
+					setarray EQUIPMENT_LOADOUT[INFO_SEL] 0
+					setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 0
+					setarray CHEST_LOADOUT[INFO_SEL] 0
+					setarray CHEST_LOADOUT_COST[INFO_SEL] 0
+					setarray BELT_LOADOUT[INFO_SEL] 0
+					setarray BELT_LOADOUT_COST[INFO_SEL] 0
+					setarray HELMET_LOADOUT[INFO_SEL] 0
+					setarray HELMET_LOADOUT_COST[INFO_SEL] 0
+					setarray BOOTS_LOADOUT[INFO_SEL] 0
+					setarray BOOT_LOADOUT_COST[INFO_SEL] 0
+					}
+				}
+		}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Chest slot
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 400
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce PUT_ON_EQUIP
+					setarray CHEST_LOADOUT[INFO_SEL] 0
+					setarray CHEST_LOADOUT_COST[INFO_SEL] 0
+					}
+				}
+		}
+		ife INFO_SEL_3 400
+			{
+			qputs 1011 Chest equipment; generally for
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 protective gear.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		rotatesprite 12 gui_pos_y INVENSIZE 0 14795 0 12 0 0 0 xdim ydim // Icon
+		qputs 1011 -Body Armour
+		ife CHEST_LOADOUT[INFO_SEL] 1 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 401
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce PUT_ON_EQUIP
+					setarray CHEST_LOADOUT[INFO_SEL] 1
+					setarray CHEST_LOADOUT_COST[INFO_SEL] 1500
+					}
+				}
+		}
+		// 36 char limit per line
+		ife INFO_SEL_3 401
+			{
+			set disp_temp7 158
+			set disp_temp8 122
+			set DP_SHADE disp_pulse
+			set DP_PAL 67
+			state def_arm_pic
+			switch INFO_SEL
+			case 0
+			case 7
+				qputs 1011 This powered combat vest offers
+				screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 a fusion of ballistic protection with
+				screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 the perks of being able to recharge
+				screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 it as well. It offers a damage
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 reduction of 66%.
+				screentext STARTALPHANUM 95 65 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 Loadout cost: 1.5
+				screentext STARTALPHANUM 95 71 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ife PERSONNEL_RESEARCH[4] 2
+					{
+					qputs 1011 -Armour Strength upgrade
+					screentext STARTALPHANUM 95 77 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					}
+				ife PERSONNEL_RESEARCH[16] 2
+					{
+					qputs 1011 -Ablative Plating upgrade
+					screentext STARTALPHANUM 95 83 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					}
+				break
+			case 1
+				qputs 1011 Zaxtor's lightweight armoured vest;
+				screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 it will absorb a third of any kind of
+				screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 damage received; it also has
+				screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 fire-proof lining, halving the time
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 of lingering fire attacks.
+				screentext STARTALPHANUM 95 65 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 Loadout cost: 1.5
+				screentext STARTALPHANUM 95 71 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ife PERSONNEL_RESEARCH[16] 2
+					{
+					qputs 1011 -Ablative Plating upgrade
+					screentext STARTALPHANUM 95 77 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					}
+				break
+			case 2
+				qputs 1011 Merlijn's plated armour; it will
+				screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 absorb half of most damage, but is
+				screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 especially effective against close
+				screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 melee attacks, reducing damage down
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 to a sixth.
+				screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 Loadout cost: 1.5
+				screentext STARTALPHANUM 95 70 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ife PERSONNEL_RESEARCH[16] 2
+					{
+					qputs 1011 -Ablative Plating upgrade
+					screentext STARTALPHANUM 95 76 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					}
+				break
+			case 4
+				qputs 1011 Sang's enchanted chainmail offers
+				screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 half damage absorbation; it also
+				screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 offers much stronger protection
+				screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 against magical or supernatural
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 attacks.
+				screentext STARTALPHANUM 95 65 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 Loadout cost: 1.5
+				screentext STARTALPHANUM 95 71 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ife PERSONNEL_RESEARCH[16] 2
+					{
+					qputs 1011 -Ablative Plating upgrade
+					screentext STARTALPHANUM 95 77 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					}
+				break
+			case 13
+			case 12
+			case 14
+			case 18
+				qputs 1011 This agent's suit uses energy to
+				screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 protect the user; whilst weak against
+				screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 electrics, it otherwise absorbs
+				screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 4/5ths of all damage received, and
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 can use rechargers too.
+				screentext STARTALPHANUM 95 65 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 Loadout cost: 1.5
+				screentext STARTALPHANUM 95 71 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				break
+			default
+				qputs 1011 Will protect against the majority of
+				screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 attacks. Shotgun pellets and
+				screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 low-calibre bullets do reduced damage
+				screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 but explosions and armour-piercing
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 attacks will punch through.
+				screentext STARTALPHANUM 95 65 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 Loadout cost: 1.5
+				screentext STARTALPHANUM 95 71 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ife PERSONNEL_RESEARCH[4] 2
+					{
+					qputs 1011 -Armour Strength upgrade
+					screentext STARTALPHANUM 95 77 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					}
+				ife PERSONNEL_RESEARCH[16] 2
+					{
+					qputs 1011 -Ablative Plating upgrade
+					screentext STARTALPHANUM 95 83 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					}
+				break
+			endswitch
+			}
+		ife EQUIPMENT_RESEARCH[5] 2 // researched the spirit vest?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14795 0 0 0 0 0 xdim ydim // Icon
+			qputs 1011 -Spirit Vest
+			ife CHEST_LOADOUT[INFO_SEL] 4 set disp_temp4 32 else set disp_temp4 126
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set INFO_SEL_3 402
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click ife clicked 1
+						{
+						soundonce PUT_ON_EQUIP
+						setarray CHEST_LOADOUT[INFO_SEL] 4
+						setarray CHEST_LOADOUT_COST[INFO_SEL] 2000
+						}
+					}
+			}
+		}
+		ife INFO_SEL_3 402
+			{
+			rotatesprite 158 122 HALFSIZE 0 117 disp_pulse 67 0 0 0 xdim ydim
+			qputs 1011 Replaces Agent's default armour.
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 When used, it will provide spirit
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 protection as well as limited body
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 armour.
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 2
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		ife PERSONNEL_RESEARCH[22] 2 // researched the energy shield?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14795 0 30 0 0 0 xdim ydim // Icon
+			qputs 1011 -Energy Shield
+			ife CHEST_LOADOUT[INFO_SEL] 5 set disp_temp4 32 else set disp_temp4 126
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set INFO_SEL_3 403
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click ife clicked 1
+						{
+						soundonce PUT_ON_EQUIP
+						setarray CHEST_LOADOUT[INFO_SEL] 5
+						ife INFO_SEL 14 setarray CHEST_LOADOUT_COST[INFO_SEL] 2000
+						else ifg VOLUME 3 setarray CHEST_LOADOUT_COST[INFO_SEL] 4000
+						else setarray CHEST_LOADOUT_COST[INFO_SEL] 8000
+						}
+					}
+			}
+		}
+		ife INFO_SEL_3 403
+			{
+			ifge VOLUME 4
+				{
+				rotatesprite 158 122 22000 0 22730 disp_pulse 67 0 0 0 xdim ydim
+				qputs 1011 Dr Crisp has developed a small
+				screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 belt-sized shield that all agents now
+				screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 have by default; but this full-size
+				screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 variant can still be equipped for
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 extra shield capacity.
+				screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ife CHAR 14 qputs 1011 Loadout cost: 2
+				else qputs 1011 Loadout cost: 4
+				screentext STARTALPHANUM 95 70 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+			else
+				{
+				rotatesprite 158 122 22000 0 22730 disp_pulse 67 0 0 0 xdim ydim
+				qputs 1011 A recharging shield that protects
+				screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 against bullets and kinetic damage;
+				screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 spirit and melee attacks go straight
+				screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 through. You can give Snowfall one for
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 1/4th of the cost; any capacity
+				screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 upgrades will carry over.
+				screentext STARTALPHANUM 95 70 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ife CHAR 14 qputs 1011 Loadout cost: 2
+				else qputs 1011 Loadout cost: 8
+				screentext STARTALPHANUM 95 82 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+			}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Equipment slot
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 410
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce PUT_ON_EQUIP
+					setarray EQUIPMENT_LOADOUT[INFO_SEL] 0
+					setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 0
+					}
+				}
+		}
+		ife INFO_SEL_3 410
+			{
+			qputs 1011 General equipment, such as first-
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 aid kits.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		ife INFO_SEL 1 // Zaxtor?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14771 0 0 0 0 0 xdim ydim // Icon
+			qputs 1011 -Zaxtorhologram
+			ife EQUIPMENT_LOADOUT[INFO_SEL] 4 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 450
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray EQUIPMENT_LOADOUT[INFO_SEL] 5
+							setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 1000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 450
+						{
+						rotatesprite 108 108 20384 0 5511 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 The Zaxtorhologram will deploy a
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 hologram of Zaxtor that can confuse
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 and trick most enemies into attacking
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011  it.
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+		ife INFO_SEL 2 // Merlijn?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 3071 0 27 0 0 0 xdim ydim // Icon
+			qputs 1011 -Heavy shield
+			ife EQUIPMENT_LOADOUT[INFO_SEL] 4 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 434
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray EQUIPMENT_LOADOUT[INFO_SEL] 4
+							setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 4000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 434
+						{
+						rotatesprite 108 108 20384 0 4976 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 Merlijn's heavy shield; this can be
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 deployed at any time to replace his
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 current shield with a much stronger
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 variant.
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 4
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+		ife INFO_SEL 3 // Highwire?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14773 0 0 0 0 0 xdim ydim // Icon
+			qputs 1011 -Support Radio
+			ife EQUIPMENT_LOADOUT[INFO_SEL] 6 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 435
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray EQUIPMENT_LOADOUT[INFO_SEL] 6
+							setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 4000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 435
+						{
+						rotatesprite 108 108 20384 0 6003 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 Highwire's support radio; with this,
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 he can call in AMC soldiers as
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 temporary reinforcements; has two
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 charges.
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 4
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						ife BASE_RESEARCH[7] 2
+							{
+							qputs 1011 New Transport Craft upgrades
+							screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 -Can call in 3 Soldiers
+							screentext STARTALPHANUM 95 76 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 -Double duration
+							screentext STARTALPHANUM 95 82 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+						}
+	ife INFO_SEL 4 // Sang?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14779 0 0 0 0 0 xdim ydim // Icon
+			qputs 1011 -Mirror Orb
+			ife EQUIPMENT_LOADOUT[INFO_SEL] 6 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 436
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray EQUIPMENT_LOADOUT[INFO_SEL] 7
+							setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 6000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 436
+						{
+						rotatesprite 108 108 25384 0 6373 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 Sang's mirror orb reflects all damage
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011  and returs it to sender. It also
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 renders him invincible to most
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 attacks.
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 6
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+	ife INFO_SEL 7 // Mikko?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14827 0 0 0 0 0 xdim ydim // Icon
+			qputs 1011 -Ammo pack
+			ife EQUIPMENT_LOADOUT[INFO_SEL] 8 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 438
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray EQUIPMENT_LOADOUT[INFO_SEL] 8
+							setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 2000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 438
+						{
+						rotatesprite 108 108 25384 0 7091 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 A pack of MS-Corp ammunition; using
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 this will deploy a small bounty of
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 ammunition for many of Mikko's
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 weapons.
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 2
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+	ife INFO_SEL 9 // Cultist?
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ifg gui_pos_y 39 ifl gui_pos_y 187
+				{
+				rotatesprite 12 gui_pos_y INVENSIZE 0 14779 0 0 0 0 0 xdim ydim // Icon
+				qputs 1011 -Mirror Orb
+				ife EQUIPMENT_LOADOUT[INFO_SEL] 6 set disp_temp4 32 else set disp_temp4 30 // Character specific
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+				state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+							{
+							set INFO_SEL_3 445
+							screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+							state handle_click ife clicked 1
+								{
+								soundonce PUT_ON_EQUIP
+								setarray EQUIPMENT_LOADOUT[INFO_SEL] 7
+								setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 6000
+								}
+							}
+				}
+			}
+				ife INFO_SEL_3 445
+							{
+							rotatesprite 108 108 25384 0 6373 disp_pulse 67 0 0 0 xdim ydim
+							qputs 1011 Cultist's mirror orb reflects all
+							screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 damage and returns it to sender.
+							screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 It also renders him invincible to
+							screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 most attacks.
+							screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 Loadout cost: 6
+							screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+	ife INFO_SEL 10 // Bombshell?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14832 0 0 0 0 0 xdim ydim // Icon
+			qputs 1011 -Mini-Turret
+			ife EQUIPMENT_LOADOUT[INFO_SEL] 13 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 413
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray EQUIPMENT_LOADOUT[INFO_SEL] 13
+							setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 4000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 413
+						{
+						rotatesprite 108 108 25384 0 31199 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 Bombshell's portable mini-turret; this
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 small defense unit will fire on any 
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 enemies it can. Shares upgrades with 
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 allies.
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 4
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						ife PERSONNEL_RESEARCH[1] 2
+							{
+							qputs 1011 -Laser weapon upgrade
+							screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+						ife PERSONNEL_RESEARCH[2] 2
+							{
+							qputs 1011 -Improved armour upgrade
+							screentext STARTALPHANUM 95 76 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+						ife PERSONNEL_RESEARCH[3] 2
+							{
+							qputs 1011 -Improved magazine upgrade
+							screentext STARTALPHANUM 95 82 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+						}
+	ife INFO_SEL 11 // Maarten?
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ifg gui_pos_y 39 ifl gui_pos_y 187
+				{
+				rotatesprite 12 gui_pos_y INVENSIZE 0 14834 0 43 0 0 0 xdim ydim // Icon
+				qputs 1011 -Conjuration Book
+				ife EQUIPMENT_LOADOUT[INFO_SEL] 12 set disp_temp4 32 else set disp_temp4 30 // Character specific
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+				state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+							{
+							set INFO_SEL_3 447
+							screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+							state handle_click ife clicked 1
+								{
+								soundonce PUT_ON_EQUIP
+								setarray EQUIPMENT_LOADOUT[INFO_SEL] 12
+								setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 4000
+								}
+							}
+				}
+			}
+				ife INFO_SEL_3 447
+							{
+							rotatesprite 108 108 25384 0 12006 disp_pulse 67 0 0 0 xdim ydim
+							qputs 1011 Maarten's Book of Conjuration;
+							screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 using it will imbue Maarten with
+							screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 seemingly random protection and
+							screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 bolstering spells.
+							screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 Loadout cost: 4
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+	ife INFO_SEL 12 // Jane?
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ifg gui_pos_y 39 ifl gui_pos_y 187
+				{
+				rotatesprite 12 gui_pos_y INVENSIZE 0 14835 0 0 0 0 0 xdim ydim // Icon
+				qputs 1011 -Arm Blade
+				ife EQUIPMENT_LOADOUT[INFO_SEL] 11 set disp_temp4 32 else set disp_temp4 30 // Character specific
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+				state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+							{
+							set INFO_SEL_3 446
+							screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+							state handle_click ife clicked 1
+								{
+								soundonce PUT_ON_EQUIP
+								setarray EQUIPMENT_LOADOUT[INFO_SEL] 11
+								setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 4000
+								}
+							}
+				}
+			}
+				ife INFO_SEL_3 446
+							{
+							rotatesprite 108 108 25384 1536 12926 disp_pulse 67 0 0 0 xdim ydim
+							qputs 1011 Jane's Arm Blade; this advanced
+							screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 device creates an all damaging sword
+							screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 of pure energy.
+							screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 Loadout cost: 4
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+	ife INFO_SEL 13 // Micky?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14832 0 0 0 0 0 xdim ydim // Icon
+			qputs 1011 -Mini-Turret
+			ife EQUIPMENT_LOADOUT[INFO_SEL] 9 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 439
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray EQUIPMENT_LOADOUT[INFO_SEL] 9
+							setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 4000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 439
+						{
+						ife PERSONNEL_RESEARCH[3] 2 rotatesprite 108 108 25384 0 16551 disp_pulse 67 0 0 0 xdim ydim
+						else rotatesprite 108 108 25384 0 16552 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 Micky's portable mini-turret; this
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 small defense unit will fire on any 
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 enemies it can. Shares upgrades with 
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 allies.
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 4
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						ife PERSONNEL_RESEARCH[1] 2
+							{
+							qputs 1011 -Laser weapon upgrade
+							screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+						ife PERSONNEL_RESEARCH[2] 2
+							{
+							qputs 1011 -Improved armour upgrade
+							screentext STARTALPHANUM 95 76 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+						ife PERSONNEL_RESEARCH[3] 2
+							{
+							qputs 1011 -Improved magazine upgrade
+							screentext STARTALPHANUM 95 82 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+						}
+	ife INFO_SEL 14 // Snowfall?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14803 0 0 0 0 0 xdim ydim // Icon
+			ifand BEAT_EPISODES[3] 65536 qputs 1011 -Vajra Device
+			else qputs 1011 -Psionic-shield
+			ife EQUIPMENT_LOADOUT[INFO_SEL] 10 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 4400
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray EQUIPMENT_LOADOUT[INFO_SEL] 10
+							setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 8000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 4400
+						{
+						rotatesprite 108 108 25384 0 20982 disp_pulse 67 0 0 0 xdim ydim
+						ifand BEAT_EPISODES[3] 65536
+							{
+							qputs 1011 The Vajra device, from Snowfall's
+							screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 alternate timeline; we cannot
+							screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 reproduce it, but we can at least
+							screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 keep Snowfall's one recharged.
+							screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 Loadout cost: 8
+							screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+						else
+							{
+							qputs 1011 A strange device that Snowfall
+							screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 is oddly protective of; we
+							screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 can only guess that it gives
+							screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 protection against psychic attacks.
+							screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 Loadout cost: 8
+							screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+						}
+	ife INFO_SEL 16 // Rosa?
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ifg gui_pos_y 39 ifl gui_pos_y 187
+				{
+				rotatesprite 12 gui_pos_y INVENSIZE 0 14754 0 30 0 0 0 xdim ydim // Icon
+				qputs 1011 -Vampiric Bats
+				ife EQUIPMENT_LOADOUT[INFO_SEL] 15 set disp_temp4 32 else set disp_temp4 30 // Character specific
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+				state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+							{
+							set INFO_SEL_3 415
+							screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+							state handle_click ife clicked 1
+								{
+								soundonce PUT_ON_EQUIP
+								setarray EQUIPMENT_LOADOUT[INFO_SEL] 15
+								setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 4000
+								}
+							}
+				}
+			}
+				ife INFO_SEL_3 415
+							{
+							rotatesprite 108 108 25384 0 32472 disp_pulse 67 0 0 0 xdim ydim
+							qputs 1011 Vampiric Bats; summonst a swarm
+							screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 of friendly bats that drain the
+							screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 enemies health for Rosa.
+							screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 Loadout cost: 4
+							screentext STARTALPHANUM 95 58 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+	ife INFO_SEL 17 // Kagura?
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ifg gui_pos_y 39 ifl gui_pos_y 187
+				{
+				rotatesprite 12 gui_pos_y INVENSIZE 0 14806 0 30 0 0 0 xdim ydim // Icon
+				qputs 1011 -Ninja potion
+				ife EQUIPMENT_LOADOUT[INFO_SEL] 16 set disp_temp4 32 else set disp_temp4 30 // Character specific
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+				state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 416
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray EQUIPMENT_LOADOUT[INFO_SEL] 16
+							setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 4000
+							}
+						}
+				}
+			}
+				ife INFO_SEL_3 416
+						{
+						rotatesprite 108 108 25384 0 27383 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 Kagura's ninja potion; with this,
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 she can summon friendly ninjas
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 temporary; has two charges.
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 4
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						ife BASE_RESEARCH[8] 2
+							{
+								qputs 1011 -Can call in 3 ninjas
+								screentext STARTALPHANUM 95 64 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+						}
+	ife INFO_SEL 18 // Wheaton?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14773 0 0 0 0 0 xdim ydim // Icon
+			qputs 1011 -Support Radio
+			ife EQUIPMENT_LOADOUT[INFO_SEL] 14 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 414
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray EQUIPMENT_LOADOUT[INFO_SEL] 14
+							setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 4000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 414
+						{
+						rotatesprite 108 108 20384 0 36074 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 Wheaton's support radio; with this,
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 he can call in EAF soldiers as
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 temporary reinforcements; has four
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 charges.
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 4
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		rotatesprite 12 gui_pos_y INVENSIZE 0 14828 0 0 0 0 0 xdim ydim // Icon
+		qputs 1011 -First-aid kit
+		ife EQUIPMENT_LOADOUT[INFO_SEL] 2 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 411
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce PUT_ON_EQUIP
+					setarray EQUIPMENT_LOADOUT[INFO_SEL] 2
+					setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 2000
+					}
+				}
+		}
+		ife INFO_SEL_3 411
+			{
+			set DP_SHADE disp_pulse
+			set DP_PAL 67
+			set disp_temp7 108
+			set disp_temp8 108
+			state def_faid_pic
+			qputs 1011 The first-aid kit will heal up to
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 100 units of health, but must be
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 activated manually.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 2
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ife PERSONNEL_RESEARCH[5] 2
+				{
+				qputs 1011 -Anti-toxin upgrade
+				screentext STARTALPHANUM 95 64 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+			ife PERSONNEL_RESEARCH[12] 2
+				{
+				qputs 1011 -Medical converter upgrade
+				screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+			ife PERSONNEL_RESEARCH[13] 2
+				{
+				qputs 1011 -Emergency Foam upgrade
+				screentext STARTALPHANUM 95 76 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+			ife PERSONNEL_RESEARCH[19] 2
+				{
+				qputs 1011 -Defrosting Kit upgrade
+				screentext STARTALPHANUM 95 82 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+			}
+	ife EQUIPMENT_FOUND[4] 1
+	{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		rotatesprite 12 gui_pos_y INVENSIZE 0 3071 0 12 0 0 0 xdim ydim // Icon
+		qputs 1011 -Riot shield
+		ife EQUIPMENT_LOADOUT[INFO_SEL] 3 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 412
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce PUT_ON_EQUIP
+					setarray EQUIPMENT_LOADOUT[INFO_SEL] 3
+					setarray EQUIPMENT_LOADOUT_COST[INFO_SEL] 1500
+					}
+				}
+		}
+	}
+		ife INFO_SEL_3 412
+			{
+			rotatesprite 108 108 14000 0 22750 disp_pulse 67 0 0 0 xdim ydim
+			qputs 1011 A strong riot shield that will stop
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 nearly all projectiles; Merlijn can
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 also use this before his own shield.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 1.5
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Head slot
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 420
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce PUT_ON_EQUIP
+					setarray HELMET_LOADOUT[INFO_SEL] 0
+					setarray HELMET_LOADOUT_COST[INFO_SEL] 0
+					}
+				}
+		}
+		ife INFO_SEL_3 420
+			{
+			qputs 1011 Equipment for the head, such as
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 night-vision goggles or masks.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		ife INFO_SEL 6 // Rusty?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14825 0 25 0 0 0 xdim ydim // Icon
+			qputs 1011 -Bandanna
+			ife HELMET_LOADOUT[INFO_SEL] 6 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 437
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray HELMET_LOADOUT[INFO_SEL] 6
+							setarray HELMET_LOADOUT_COST[INFO_SEL] 6000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 437
+						{
+						rotatesprite 158 90 20384 0 6568 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 A strange bandanna Geoffrey found
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 on Mars; for a very brief amount
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 of time, it provides infinite ammo.
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 6
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		rotatesprite 12 gui_pos_y INVENSIZE 0 14830 0 21 0 0 0 xdim ydim // Icon
+		qputs 1011 -Heat-Vision
+		ife HELMET_LOADOUT[INFO_SEL] 2 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 423
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce PUT_ON_EQUIP
+					setarray HELMET_LOADOUT[INFO_SEL] 2
+					setarray HELMET_LOADOUT_COST[INFO_SEL] 1000
+					}
+				}
+		}
+		ife INFO_SEL_3 423
+			{
+			set DP_SHADE disp_pulse
+			set DP_PAL 67
+			set disp_temp7 158
+			set disp_temp8 90
+			state def_heat_pic
+			qputs 1011 Helps to spot enemies in dark areas.
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Has a limited battery however.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 1
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ife PERSONNEL_RESEARCH[RS_P_HNRECHARGINGBATTERY] 2
+				{
+				qputs 1011 -Recharging battery upgrade
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+			ife PERSONNEL_RESEARCH[RS_P_VISIONMODE] 2
+				{
+				qputs 1011 -Night Toggle ^32(hold item button to switch)
+				screentext STARTALPHANUM 95 64 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+			}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		rotatesprite 12 gui_pos_y INVENSIZE 0 14830 0 11 0 0 0 xdim ydim // Icon
+		qputs 1011 -Night-Vision
+		ife HELMET_LOADOUT[INFO_SEL] 3 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 421
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce PUT_ON_EQUIP
+					setarray HELMET_LOADOUT[INFO_SEL] 3
+					setarray HELMET_LOADOUT_COST[INFO_SEL] 1000
+					}
+				}
+		}
+		ife INFO_SEL_3 421
+			{
+			set DP_SHADE disp_pulse
+			set DP_PAL 67
+			set disp_temp7 158
+			set disp_temp8 90
+			state def_night_pic
+			qputs 1011 Helps vision in low-light conditions.
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Has a limited battery however.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 1
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ife PERSONNEL_RESEARCH[RS_P_HNRECHARGINGBATTERY] 2
+				{
+				qputs 1011 -Recharging battery upgrade
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+			ife PERSONNEL_RESEARCH[RS_P_VISIONMODE] 2
+				{
+				qputs 1011 -Heat Toggle ^32(hold item button to switch)
+				screentext STARTALPHANUM 95 64 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+			}
+		ife EQUIPMENT_FOUND[3] 1 // found the ballistic mask?
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14829 0 27 0 0 0 xdim ydim // Icon
+			qputs 1011 -Ballistic Mask
+			ife HELMET_LOADOUT[INFO_SEL] 1 set disp_temp4 32 else set disp_temp4 126
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set INFO_SEL_3 422
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click ife clicked 1
+						{
+						soundonce PUT_ON_EQUIP
+						setarray HELMET_LOADOUT[INFO_SEL] 1
+						setarray HELMET_LOADOUT_COST[INFO_SEL] 250
+						}
+					}
+			}
+		}
+		ife INFO_SEL_3 422
+			{
+			rotatesprite 158 90 HALFSIZE 0 22758 disp_pulse 67 0 0 0 xdim ydim
+			qputs 1011 Protects your face, and prevents
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 hits from obscuring your vision.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 0.25
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		ife EQUIPMENT_FOUND[6] 1 // found the ghost goggles?
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14830 0 12 0 0 0 xdim ydim // Icon
+			qputs 1011 -Ghost Goggles
+			ife HELMET_LOADOUT[INFO_SEL] 4 set disp_temp4 32 else set disp_temp4 126
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set INFO_SEL_3 424
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click ife clicked 1
+						{
+						soundonce PUT_ON_EQUIP
+						setarray HELMET_LOADOUT[INFO_SEL] 4
+						setarray HELMET_LOADOUT_COST[INFO_SEL] 1750
+						}
+					}
+			}
+		}
+		ife INFO_SEL_3 424
+			{
+			rotatesprite 158 90 HALFSIZE 0 GHOST_GOGGLES disp_pulse 67 0 0 0 xdim ydim
+			qputs 1011 Ghosts will show up in your vision,
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 and some puzzles may also be
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 revealed...
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 1.75
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Belt slot
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 430
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce PUT_ON_EQUIP
+					setarray BELT_LOADOUT[INFO_SEL] 0
+					setarray BELT_LOADOUT_COST[INFO_SEL] 0
+					}
+				}
+		}
+		ife INFO_SEL_3 430
+			{
+			qputs 1011 Equipment for the belt.
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		ife INFO_SEL 5 // Rusty?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14825 0 27 0 0 0 xdim ydim // Icon
+			qputs 1011 -Throwing Stars
+			ife BELT_LOADOUT[INFO_SEL] 1 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 432
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray BELT_LOADOUT[INFO_SEL] 1
+							setarray BELT_LOADOUT_COST[INFO_SEL] 1000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 432
+						{
+						rotatesprite 158 146 20384 0 6871 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 Rusty's personal throwing star belt;
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 fires an arc of silver stars in front
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 of himself when activated;
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Has 3 charges.
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+		ife INFO_SEL 0 // James?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14825 0 30 0 0 0 xdim ydim // Icon
+			qputs 1011 -Forcefield belt
+			ife BELT_LOADOUT[INFO_SEL] 2 set disp_temp4 32 else set disp_temp4 30 // Character specific
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 433
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray BELT_LOADOUT[INFO_SEL] 2
+							setarray BELT_LOADOUT_COST[INFO_SEL] 4000
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 433
+						{
+						rotatesprite 158 146 20384 0 5228 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 James' forcefield belt; it throws up
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 an invincible wall that protects
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 against projectiles; useless against
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 explosives.
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 4
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+		ife EQUIPMENT_FOUND[1] 1 // found the shotgun loader?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 14825 0 0 0 0 0 xdim ydim // Icon
+			qputs 1011 -Shotgun loader
+			ife BELT_LOADOUT[INFO_SEL] 5 set disp_temp4 32 else set disp_temp4 126
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+						{
+						set INFO_SEL_3 431
+						screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+						state handle_click ife clicked 1
+							{
+							soundonce PUT_ON_EQUIP
+							setarray BELT_LOADOUT[INFO_SEL] 5
+							setarray BELT_LOADOUT_COST[INFO_SEL] 750
+							}
+						}
+			}
+		}
+			ife INFO_SEL_3 431
+						{
+						rotatesprite 158 146 16384 0 10234 disp_pulse 67 0 0 0 xdim ydim
+						qputs 1011 This belt, when equipped, will make
+						screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 reloading shotguns shell by shell
+						screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 much faster; it'll also increase
+						screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 max standard shell capacity by 20%.
+						screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 0.75
+						screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+	add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Boots slot
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 440
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce PUT_ON_EQUIP
+					setarray BOOTS_LOADOUT[INFO_SEL] 0
+					setarray BOOT_LOADOUT_COST[INFO_SEL] 0
+					}
+				}
+		}
+		ife INFO_SEL_3 440
+			{
+			qputs 1011 Equipment for the feet, such as
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 protective boots.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		rotatesprite 12 gui_pos_y INVENSIZE 0 3039 0 21 0 0 0 xdim ydim // Icon
+		qputs 1011 -Protective Boots
+		ife BOOTS_LOADOUT[INFO_SEL] 1 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 441
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce PUT_ON_EQUIP
+					setarray BOOTS_LOADOUT[INFO_SEL] 1
+					setarray BOOT_LOADOUT_COST[INFO_SEL] 1500
+					}
+				}
+		}
+		ife INFO_SEL_3 441
+			{
+			set disp_temp7 158
+			set disp_temp8 173
+			set DP_SHADE disp_pulse
+			set DP_PAL 67
+				state def_boot_pic
+			qputs 1011 Protective boots that will protect
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 against acidic surfaces, slime, etc.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 1.5
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ife PERSONNEL_RESEARCH[26] 2
+			    {
+				qputs 1011 -Acid Protection upgrade
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			    }
+			}
+		ife EQUIPMENT_FOUND[5] 1 // found the flippers?
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			rotatesprite 12 gui_pos_y INVENSIZE 0 3039 0 1 0 0 0 xdim ydim // Icon
+			qputs 1011 -Flippers
+			ife BOOTS_LOADOUT[INFO_SEL] 2 set disp_temp4 32 else set disp_temp4 126
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 40
+			 ifg gui_pos_x_temp -40
+			  ifl gui_pos_y_temp 3
+			   ifg gui_pos_y_temp -3
+					{
+					set INFO_SEL_3 442
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click ife clicked 1
+						{
+						soundonce PUT_ON_EQUIP
+						setarray BOOTS_LOADOUT[INFO_SEL] 2
+						setarray BOOT_LOADOUT_COST[INFO_SEL] 500
+						}
+					}
+			}
+		}
+		ife INFO_SEL_3 442
+			{
+			rotatesprite 158 173 HALFSIZE 0 FLIPPER disp_pulse 67 0 0 0 xdim ydim
+			qputs 1011 Allows you to swim much faster whilst
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 underwater.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 0.5
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+ends
+
+defstate loadout_melee_tab
+screentext STARTALPHANUM 12 190 29500 0 0 3035 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // instructions
+rotatesprite 286 97 HALFSIZE 0 13563 0 0 8 0 0 xdim ydim
+		set disp_temp7 289
+		set disp_temp8 146
+	set gui_pos_x 12
+	set gui_pos_y 40
+		state CURSOR_OVER_ITEM
+		qputs 1011 Unequip item
+		ifand BITS_PRESS 64 nullop else set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce KNIFE_SWING
+					setarray MELEE_WEAPON_LOADOUT[INFO_SEL] 0
+					setarray MELEE_LOADOUT_COST[INFO_SEL] 0
+					}
+				}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		// Combat Knife
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14835 0 0 0 0 0 xdim ydim // Icon
+		ife MELEE_WEAPON_LOADOUT[INFO_SEL] 1 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 275 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 300
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 275 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				ife INFO_SEL 0 ifand JAMES_UPGRADE 32768 set disp_temp9 29793
+				else ife INFO_SEL 1 ifand ZAXTOR_UPGRADE 32768 set disp_temp9 29795
+				else ife INFO_SEL 2 ifand MERLIJN_UPGRADE 32768 set disp_temp9 29797
+				else ife INFO_SEL 3 ifand HIGHWIRE_UPGRADE 32768 set disp_temp9 29799
+				else ife INFO_SEL 4 ifand SANG_UPGRADE 32768 set disp_temp9 29801
+				else ife INFO_SEL 5 ifand RUSTY_UPGRADE 32768 set disp_temp9 29803
+				else ife INFO_SEL 6 ifand GEOFFREY_UPGRADE 32768 set disp_temp9 29805
+				else ife INFO_SEL 7 ifand MIKKO_UPGRADE 32768 set disp_temp9 29807
+				else ife INFO_SEL 13 ifand MICKY_UPGRADE 32768 set disp_temp9 29809
+				else ife INFO_SEL 14 ifand SNOWFALL_UPGRADE 32768 set disp_temp9 29811
+				else ife INFO_SEL 17 ifand KAGURA_UPGRADE 32768 set disp_temp9 29813
+				else set disp_temp9 13558
+				rotatesprite 280 146 INVENSIZE 0 disp_temp9 0 0 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce KNIFE_SWING
+					setarray MELEE_WEAPON_LOADOUT[INFO_SEL] 1
+					setarray MELEE_LOADOUT_COST[INFO_SEL] 250
+					}
+				}
+		ife INFO_SEL_3 300
+			{
+			qputs 1011 A knife suited for close combat;
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 effective against most targets, but
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 very poor against body armour.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 0.25
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_SOFT
+			state gun_dam_type_disp
+			}
+		add gui_pos_y 7
+	ife EQUIPMENT_RESEARCH[7] 2
+		{
+		state CURSOR_OVER_ITEM
+		// Silver Knife
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14835 0 27 0 0 0 xdim ydim // Icon
+		ife MELEE_WEAPON_LOADOUT[INFO_SEL] 2 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 276 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 301
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 276 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				rotatesprite 280 144 INVENSIZE 0 13556 0 0 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce KNIFE_SWING
+					setarray MELEE_WEAPON_LOADOUT[INFO_SEL] 2
+					setarray MELEE_LOADOUT_COST[INFO_SEL] 500
+					}
+				}
+		}
+		else
+		ifand BITS_PRESS 64 nullop else gametextz STARTALPHANUM 40 54 1407 15 19 0 0 0 xdim ydim HALFSIZE // display blank lines
+		ife INFO_SEL_3 301
+			{
+			qputs 1011 A silver knife; excellent against
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 supernatural and magical targets, but
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 deals less damage to mundane enemies
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 as a result.
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 0.5
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_SILVER
+			state gun_dam_type_disp
+			}
+		add gui_pos_y 7
+	ife EQUIPMENT_FOUND[2] 1 // Combat shovel?
+		{
+		state CURSOR_OVER_ITEM
+		qputs 1011 Combat Shovel
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14835 0 0 0 0 0 xdim ydim // Icon
+		ife MELEE_WEAPON_LOADOUT[INFO_SEL] 3 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 302
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				rotatesprite 280 144 INVENSIZE 0 12233 0 0 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SHOVEL_SWING
+					setarray MELEE_WEAPON_LOADOUT[INFO_SEL] 3
+					setarray MELEE_LOADOUT_COST[INFO_SEL] 750
+					}
+				}
+		}
+		else
+		ifand BITS_PRESS 64 nullop else {
+set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1407 15 19 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+}
+		ife INFO_SEL_3 302
+			{
+			qputs 1011 A compact shovel with a serrated
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 edge, making it play double duty as
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 a strong melee weapon and also a
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 digging tool.
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 0.75
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_STANDARD
+			state gun_dam_type_disp
+			}
+		add gui_pos_y 7
+	ife EQUIPMENT_FOUND[9] 1 // Ice Pickaxe?
+		{
+		state CURSOR_OVER_ITEM
+		qputs 1011 Ice Axe
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14835 0 0 0 0 0 xdim ydim // Icon
+		ife MELEE_WEAPON_LOADOUT[INFO_SEL] 4 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 303
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SHOVEL_SWING
+					setarray MELEE_WEAPON_LOADOUT[INFO_SEL] 4
+					setarray MELEE_LOADOUT_COST[INFO_SEL] 750
+					}
+				}
+		}
+		else
+		ifand BITS_PRESS 64 nullop else {
+set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1407 15 19 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+}
+		ife INFO_SEL_3 303
+			{
+			rotatesprite 280 144 INVENSIZE 0 11118 0 0 0 0 0 xdim ydim
+			qputs 1011 Can be used to climb certain icy
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 surfaces; there's an urban legend of
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 a crazy psychopathic noblewoman who
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 butchered a tribe of island natives
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 with one of these.
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Loadout cost: 0.75
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_STANDARD
+			state gun_dam_type_disp
+			}
+
+ends

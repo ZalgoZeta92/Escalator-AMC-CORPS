@@ -1,0 +1,583 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++			   Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+This file contains the alt-fire code for temp weapons; character weapons are
+included here and stored separately in states in their character CON files.
+--------------------------------------------------------------------------------
+*/
+
+defstate flash_scan_code
+	ife kickbackpic 0
+		ife flash_scan_coold 0
+		{
+		sound FLASHL flash shoot FLASH_PROJ set visor_face 20 set flash_scan_coold 1
+		}		
+ends
+
+onevent EVENT_LOOKLEFT
+	set RETURN 1
+
+	ife allow_fire NO break
+	ifp pshrunk break
+	ifn player[].weapon_pos 0 break
+	ifn PCINTER 0 break
+
+ife userdef[].overhead_on 2
+	{
+	getp[].zoom temp
+	sub temp 64
+	clamp temp 48 2048
+	setp[].zoom temp
+	}
+	
+	ife userdef[].overhead_on 2 break
+	
+	ife alt_fire_type 1 state holozoom_altfire
+	else ife alt_fire_type 2 state scope_altfire
+	else ife alt_fire_type 3 state toggle_laser_sight
+	else ife alt_fire_type 4 state toggle_duel_tube
+	else ife alt_fire_type 5 state flash_scan_code
+	else ife alt_fire_type 6 state toggle_suppressor
+	else ife alt_fire_type 7 state masterkey_firing
+	else ife alt_fire_type 8 state scifi_scope_altfire
+	else ife alt_fire_type 9 state toggle_bipod
+
+	ife CHAR 9 // CULTIST ==================================================================================================================================================================
+	{
+	ife cur_weap 2 // Sawn off double barrel mode
+	   ife kickbackpic 0
+	   {
+		getp[].ammo_amount 2 alt_temp1
+		 ifg alt_temp1 1
+			{
+			ifl slot2_mag 2
+				{
+				setp[].kickback_pic 6
+				setp[].reloading 1
+				}
+			else
+				{
+				setp[].kickback_pic 1
+				xorvar gun_firemode 256
+				sub alt_temp1 1
+				setp[].ammo_amount 2 alt_temp1
+				}
+			}
+	   }
+	}
+// temp weapon alt fire types
+	ife cur_weap 0
+	{
+
+	ife temp_weap 6 // convert shotgun shells to main gun
+	 ifg normal_ammo 0
+		{
+		ifand AMMO_TYPES[0] 66629 nullop else
+		 ife kickbackpic 0
+			{
+			switch CHAR
+				case C_JAMES
+				case C_ZAXTOR
+				case C_HIGHWIRE
+				case C_RUSTY
+				case C_GEOFFREY
+				case C_MIKKO
+				case C_CULTIST
+				case C_BOMBSHELL
+				case C_JANE
+				case C_SNOWFALL
+				case C_ROSA
+				case C_WHEATON
+					gmaxammo 2 temp3
+					ifl player[].ammo_amount 2 temp3
+						{
+						quote 8603
+						setplayer[].kickback_pic 6
+						set kickbackpic_2 1
+						}
+					break
+				case C_MICKY
+					ife SPECIALIST_EQUIPMENT[58] 2 // using Whiplash shotguns?
+						{
+						gmaxammo 2 temp3
+						ifl player[].ammo_amount 2 temp3
+							{
+							quote 8603
+							setplayer[].kickback_pic 6
+							set kickbackpic_2 1
+							}
+						}
+					break
+				default
+					break
+			endswitch
+			}
+		}
+		
+	ife temp_weap 56 // convert shotgun shells to main gun
+	 ifg normal_ammo 0
+		{
+		ifand AMMO_TYPES[0] 66629 nullop else
+		 ife kickbackpic 0
+			{
+			switch CHAR
+				case C_JAMES
+				case C_ZAXTOR
+				case C_HIGHWIRE
+				case C_RUSTY
+				case C_GEOFFREY
+				case C_MIKKO
+				case C_CULTIST
+				case C_BOMBSHELL
+				case C_JANE
+				case C_SNOWFALL
+				case C_ROSA
+					gmaxammo 2 temp3
+					ifl player[].ammo_amount 2 temp3
+						{
+						quote 8603
+						setplayer[].kickback_pic 6
+						set kickbackpic_2 1
+						}
+					break
+				default
+					break
+			endswitch
+			}
+		}
+		
+	ife temp_weap 14
+	{
+	  ifand BITS_PRESS 64
+	   ife kickbackpic 0
+		ifcount 13
+		{
+		ifand gun_firemode 2147483648 nullop else
+			{
+			soundonce RED_COMPBEEP
+			xor gun_firemode 2147483648
+			resetcount
+			}
+		}
+	}
+
+	ife temp_weap 10 // Sawn off double barrel mode
+	   ife kickbackpic 0
+	   {
+	   ifand AMMO_TYPES[cur_weap] 1
+	   {
+			ifg explosive_shells 1
+				{
+				ifl temp_wep_mag 2
+					{
+					setp[].kickback_pic 6
+					setp[].reloading 1
+					}
+				else
+					{
+					setp[].kickback_pic 1
+					xorvar gun_firemode 256
+					}
+				}
+	   }
+	   else
+	   ifand AMMO_TYPES[cur_weap] 4
+		   {
+			 ifg flechete_shells 1
+				{
+				ifl temp_wep_mag 2
+					{
+					setp[].kickback_pic 6
+					setp[].reloading 1
+					}
+				else
+					{
+					setp[].kickback_pic 1
+					xorvar gun_firemode 256
+					}
+				}
+			}
+
+	   else
+		   {
+			getp[].ammo_amount 0 alt_temp1
+			 ifg alt_temp1 1
+				{
+				ifl temp_wep_mag 2
+					{
+					setp[].kickback_pic 6
+					setp[].reloading 1
+					}
+				else
+					{
+					setp[].kickback_pic 1
+					xorvar gun_firemode 256
+					ifand AMMO_TYPES[cur_weap] 1 nullop else
+					ifand AMMO_TYPES[cur_weap] 4 nullop else
+						{
+						sub alt_temp1 1
+						setp[].ammo_amount 0 alt_temp1
+						}
+					}
+				}
+			}
+	   }
+
+	  ife temp_weap 12 // Riot gun firing mode
+	   ife kickbackpic 0
+		{
+			ifcount 13
+			{
+				// From tesla to normal, only possible if ammo left
+				ifand AMMO_TYPES[cur_weap] 8
+				  ifg normal_ammo 0
+				{
+					sound RIOTGUN_COCK
+					setarray AMMO_TYPES[cur_weap] 0
+				}
+				// Quadruple shots to tesla
+				else ifand gun_firemode 16
+				  ifg tesla_ammo 0
+				{
+					sound RIOTGUN_COCK
+					xorvar gun_firemode 16
+					setarray AMMO_TYPES[cur_weap] 8
+				}
+				// Normal to quadruple shots
+				else ifg normal_ammo 0
+				{
+					sound RIOTGUN_COCK
+					xorvar gun_firemode 16
+				}
+				resetcount
+			}
+		}
+
+	  ife temp_weap 9 // Riot gun firing mode
+	   ife kickbackpic 0
+		{
+		ifcount 13
+			{
+			sound BRUISER_FLAME
+			setp[].kickback_pic 1
+			orvar gun_firemode 524288
+			resetcount
+			}
+		}
+
+	  ife temp_weap 27 // Riot gun firing mode
+	   ife kickbackpic 0
+		{
+		ifcount 13
+			{
+			ifg tesla_ammo 0 { sound RIOTGUN_COCK ifand AMMO_TYPES[cur_weap] 8 quote 285 else quote 226 xorvar AMMO_TYPE 8 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+			resetcount
+			}
+		}
+	  ife temp_weap 30 // Dart Gun Micro Torpedo
+	   ife kickbackpic 0
+	   {
+		ifinwater
+			{
+			 ifg micro_torpedo 0
+			 {
+			  ife gl_countd 0
+					{
+					set gl_countd 30
+					sub micro_torpedo 1
+					}
+			 }
+			 else soundonce DRY_FIRE
+			}
+		else soundonce DRY_FIRE
+		}
+
+	  ife temp_weap 48 // rotary bolt launcher
+	   ife kickbackpic_2 0
+		ifg p_orange_mana 0
+		set kickbackpic_2 1
+
+	  ife temp_weap 49 // Magic Axe
+	   ife kickbackpic_2 0
+		ifg p_green_mana 1
+			set kickbackpic_2 1
+
+
+		ife temp_weap 50 // ringworld crossbow
+		 ife kickbackpic_2 0
+			{
+			// silver bolts
+			ifand AMMO_TYPES[cur_weap] 16 { ifg p_blue_mana 1 set kickbackpic_2 1 }
+
+			// tek bolts
+			else ifand AMMO_TYPES[cur_weap] 8192 { ifg p_orange_mana 0 set kickbackpic_2 1 }
+
+			// void bolts
+			else ifand AMMO_TYPES[cur_weap] 16384 { ifg p_purple_mana 0 set kickbackpic_2 1 }
+
+			// normal bolts
+			else { ifg p_green_mana 0 set kickbackpic_2 1  }
+			}
+
+		ife temp_weap 51 // vorpal sword
+		 ife kickbackpic 0
+		 ifg p_purple_mana 0
+		{
+		ifcount 16
+			{
+		   soundonce SUMMON
+		  palfrom 40 40 40 40
+		  spawn 29814
+		  spawn 29814
+		  spawn 29814
+		  spawn 29814
+		  spawn 29814
+		   state lower_weapon
+			resetcount
+			sub p_purple_mana 1
+			}
+		}
+
+ife temp_weap 31 // M60's bipod
+		{
+		ifp pstanding
+			{
+			state checkwall
+			ife WALL_CLOSE 1
+				{
+				ifcount 16
+					{
+					espawn 3630
+					set temp3 player[].posx
+					add temp3 256
+					rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+					seta[RETURN].x temp5
+					seta[RETURN].y temp6
+						state lower_weapon
+						xorvar gun_firemode 512
+						soundonce PUT_ON_EQUIP
+						resetcount
+					}
+				}
+			}
+		}
+
+ife temp_weap 32 // Zilla Missile Launcher modes
+	   ife kickbackpic 0
+		{
+		ifcount 13
+			{
+			ifand gun_firemode_two 2 { ifle normal_ammo 0 ifle heat_seek_card 0 nullop else { sound WEAP_FIRE_MODE xorvar gun_firemode_two 2 } }
+			else
+			ifand gun_firemode_two 1 // if player on heat seeking already
+			{
+				sound WEAP_FIRE_MODE
+				ifg atomic_bomb 0 // Go to Nuke mode if they have the briefcase
+				{
+					stopsound WEAP_FIRE_MODE
+					sound ZIL_NUK
+					ifg gl_countd 0 set gl_countd 0
+					xorvar gun_firemode_two 2
+					xorvar gun_firemode_two 1
+				}
+				else xorvar gun_firemode_two 1 // Turn off heatseeking mode if they don't
+			}
+			else
+			{
+				ifg heat_seek_card 0 { sound WEAP_FIRE_MODE xorvar gun_firemode_two 1 } // Go to heat if they have heat seeking card
+				else ifg atomic_bomb 0 // Go to Nuke if they have a Nuke
+				{
+					sound ZIL_NUK
+					ifg gl_countd 0 set gl_countd 0
+					xorvar gun_firemode_two 2
+				}
+			}
+			resetcount
+			}
+		}
+
+ife temp_weap 33 // Goro gead modes
+	   ife kickbackpic 0
+		ife MELEE_RESEARCH[6] 2
+		{
+		ifcount 13
+			{
+			ifand gun_firemode_two 4 { quote 414 sound BLOOD_SPURT xorvar gun_firemode_two 4 xorvar gun_firemode_two 8 }
+			else
+			ifand gun_firemode_two 8
+				{
+				quote 413
+				sound BLOOD_SPURT
+				xorvar gun_firemode_two 8
+				}
+			else
+				{
+				quote 415
+				sound BLOOD_SPURT
+				xorvar gun_firemode_two 4
+				}
+			resetcount
+			}
+		}
+
+
+	  ife temp_weap 34 // RG-Minigun mk2 warm up
+		{
+		ifcount 13
+			{
+			sound WEAP_FIRE_MODE
+			xorvar gun_firemode_two 16
+			resetcount
+			}
+		}
+
+	ife temp_weap 47 // Engy SMG?
+		{
+		 ife player[].kickback_pic 0
+		  ife kickbackpic_2 0
+			  {
+			  ifg temp_wep_mag 9
+			   ifg player[].ammo_amount 0 9
+				{
+				getp[].ammo_amount 0 hold_ammo_temp
+				setplayer[].kickback_pic 2
+				sub hold_ammo_temp 10
+				setp[].ammo_amount 0 hold_ammo_temp
+				sub temp_wep_mag 10
+				set gun_spread 30
+				shoot CRYSTAL_SPIKE shoot CRYSTAL_SPIKE shoot CRYSTAL_SPIKE shoot CRYSTAL_SPIKE shoot CRYSTAL_SPIKE
+				shoot CRYSTAL_SPIKE shoot CRYSTAL_SPIKE shoot CRYSTAL_SPIKE shoot CRYSTAL_SPIKE shoot CRYSTAL_SPIKE
+				set gun_pushb_disp 15
+				set kickbackpic_2 15
+				}
+			else
+			state dry_fire
+			}
+		}
+
+		set ammo_forweaponidx 0
+		state ammo_getaltdefs
+		ifn ammo_remaining -1
+		{
+			set ammo_forweaponidx 0
+			set ammo_doreduce 1
+			state ammo_getaltdefs
+		}
+	}
+
+	// Dropping dynamite/bomb on floor code
+	ife cur_weap 8
+	ife kickbackpic 0
+		{
+		switch CHAR
+		case 6
+		getp[].ammo_amount 8 alt_temp1
+		ifg alt_temp1 0
+			{
+			sound GRENBOUNCE
+			getp[].i alt_temp2
+			espawn DISCBOMBFLOOR2
+			seta[RETURN].owner alt_temp2
+			getp[].ammo_amount 8 alt_temp2
+			sub alt_temp2 1
+			setp[].ammo_amount 8 alt_temp2
+			setp[].kickback_pic 10
+			}
+		break
+		default
+		break
+		endswitch
+		}
+
+	ife cur_weap 5
+	ife kickbackpic 0
+		{
+		switch CHAR
+		case 6
+		getp[].ammo_amount 5 alt_temp1
+		ifg alt_temp1 0
+		ife player[].weapon_pos 0
+			{
+			sound GRENBOUNCE
+			getp[].i alt_temp3
+			espawn DISCBOMBFLOOR
+			seta[RETURN].owner alt_temp3
+			getp[].ammo_amount 5 alt_temp2
+			ifn PS_ITEM 2 sub alt_temp2 1
+			setp[].ammo_amount 5 alt_temp2
+			state lower_weapon
+			}
+		break
+		default
+		break
+		endswitch
+		}
+
+	ife cur_weap 10
+	ife kickbackpic 0
+		{
+		switch CHAR
+		case 4
+		getp[].ammo_amount 5 alt_temp1
+		ifg alt_temp1 0
+		ife player[].weapon_pos 0
+			{
+			sound TNT_BOUNCE
+			getp[].i alt_temp2
+			espawn DYNAMITEONFLOOR
+			seta[RETURN].owner alt_temp2
+			getp[].ammo_amount 5 alt_temp2
+			sub alt_temp2 1
+			setp[].ammo_amount 5 alt_temp2
+			state lower_weapon
+			}
+		break
+		case 13
+		getp[].ammo_amount 5 alt_temp1
+		ifg alt_temp1 0
+			{
+			sound MC_GREN_BOUNCE
+			getp[].i alt_temp3
+			espawn MC_GRENADE_ONFLOOR
+			seta[RETURN].owner alt_temp3
+			getp[].ammo_amount 5 alt_temp2
+			sub alt_temp2 1
+			setp[].ammo_amount 5 alt_temp2
+			state lower_weapon
+			setp[].curr_weapon 10
+			}
+		break
+		default
+		break
+		endswitch
+		}
+
+state james_alt_fire
+state zaxtor_alt_fire
+state merlijn_alt_fire
+// state bombshell_alt_fire
+state rosa_alt_fire
+state highwire_alt_fire
+state sang_alt_fire
+state rusty_alt_fire
+state geoff_alt_fire
+state mikko_alt_fire
+state maarten_alt_fire
+state jane_alt_fire
+state micky_alt_fire
+state snowfall_alt_fire
+state kagura_alt_fire
+state wheaton_alt_fire
+
+endevent
+
+// END ALTERNATE FIRE KEY=============================================================================

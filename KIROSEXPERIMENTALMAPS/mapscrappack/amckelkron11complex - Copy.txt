@@ -1,0 +1,83 @@
+=============================================================================================================================
+This map is intended for Allied Military Complex (Short: AMC) Total Conversion only. Loading other mods or default will not work.
+=============================================================================================================================
+
+Title			: AMC Space Wars
+
+Date Finished	: 
+
+(Design 1)  10/30/2020
+
+(Second Update) 10/31/2021
+
+- Fixed accurate shading. Realign textures. Move enemy position to corrected areas.
+- Adding simple items.
+
+Filename		: AMCearthorbit1.map
+
+Authors			: Ultrakiroxei (himself)
+
+Email Address	: Contact him by either (Discord or Moddb); otherwise Kiroxeipro@gmail.com
+
+Description		: Details of the map are assured. Ultrakiroxei's second experimental super-gigantic scale map version.
+
+More			: More Details.
+
+
+
+
+Misc. Author Info	: Comment
+
+Ultrakiroxei		: The Space Wars is my second experimental map I've builted. I want to come up idea of creating a long battle in space. So I lay out a 
+
+
+
+;
+
+Story/Plot			: 
+
+Milky Way Galaxy; Sol Star System ; Planet: Earth Orbit; 
+
+(Alliance Military Complex + Mikko Sandt Corps + Solar System Expedition X 120th Imperial Galactic Foreign Legion + Cynthias Galactic Squadron 5406th)
+
+	The war of the Milky Way dispute has begun. Interlocal Superlocal Cluster Joint Association and Imperial Galactic Group Forces have fought for the battle of the galactic group. The Imperial Galactic Foreign Legion hyperspace their way to the Milky Way Galaxy. They began to establish a colony outside the perimeter of the galaxy arms.
+
+
+
+
+
+Additional Credits to	:
+
+Eduke32 Developers
+AMC TC Developers
+If anything I missed something please notify me.
+
+
+
+
+
+
+Misc. Requirements	:
+
+* Game Information
+
+Players				: 1
+Single Player		: Yes
+Cooperate Player	: No
+
+
+
+
+Important Installation	: Please put this file into the AMC TC Directory or your simple custom folder. This map is not compatible with any kinds of mods.
+
+
+
+* Notice *
+This map is only intended to play AMC TC Mods only; otherwise, individuals will have to edit the map for their own.
+Everyone has their own responsibility for themselves.
+
+If you notice some flaws; please notify me.
+
+P.S.
+
+Don't cheat players, or else the maps are coming to get you! ;)

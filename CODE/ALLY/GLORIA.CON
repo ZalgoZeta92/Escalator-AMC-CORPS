@@ -1,0 +1,450 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Gloria actor code
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile GLORIA
+
+action A_GLORIA_IDLE 0 1 5 1 11
+action A_GLORIA_READY 25 1 5 1 10
+action A_GLORIA_MOVE 5 4 5 1 11
+action A_GLORIA_RELOAD 35 1 5 1 11
+action A_GLORIA_FIRE 25 1 5 1 20
+action A_GLORIA_DYING 50 5 1 1 11
+action A_GLORIA_DEAD 54 1 1 1 1
+
+move M_GLORIA_MOVE 266
+move M_GLORIA_MOVESLOW 128
+
+// Copies, used with different movflags
+move M_GLORIA_MOVEJUMP 266
+move M_GLORIA_MOVEFALL 266
+
+spriteshadow GLORIA
+spritenvg GLORIA
+
+defstate GLORIA_voice
+	ifvarg ALLY_VOICE 0
+	{
+		subvar ALLY_VOICE 1
+		ife ALLY_VOICE 1
+		{
+			ifrnd 96
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5190
+					qputs 7501 ^60Gloria: ^0Let's get out of here.
+					set ally_subt 45
+				}
+				sound GS_LETSGO
+			}
+			else
+			ifrnd 96
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5191
+					qputs 7501 ^60Gloria: ^0I'm behind you.
+					set ally_subt 45
+				}
+				sound GS_BEHIND
+			}
+		else
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5192
+					qputs 7501 ^60Gloria: ^0Alright, alright...
+					set ally_subt 68
+				}
+				sound GS_ALRIGHT
+			}
+		}
+	}
+	else ifvarl ALLY_VOICE 0
+	{
+		addvar ALLY_VOICE 1
+		ife ALLY_VOICE -1
+		{
+		ifrnd 96
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5192
+					qputs 7501 ^60Gloria: ^0Alright, whatever.
+					set ally_subt 90
+				}
+				sound GS_WHATEV
+			}
+		else
+		ifrnd 96
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5192
+					qputs 7501 ^60Gloria: ^0Don't leave me hanging.
+					set ally_subt 68
+				}
+				sound GS_DONTLE
+			}
+		else
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5192
+					qputs 7501 ^60Gloria: ^0Ugh, I'll sit tight.
+					set ally_subt 90
+				}
+				sound GS_SITTIG
+			}
+		}
+	}
+ends
+
+useractor notenemy GLORIA
+	fall
+
+	ifaction 0
+	{
+		seta[].htwaterzoffset 8
+		spritepal 49
+		spawn SHOOTME2
+		set max_health 16384
+		strength 16384
+		setvar ally_mag 30
+		sizeat 22 22
+		action A_GLORIA_IDLE
+	}
+
+	ifl sprite[].extra 16000
+		seta[].extra 16384
+		
+	state player_walkthru
+
+
+	state spawn_cold_breathe
+
+	state actor_knockback_state
+	xor element_type FLOOR_DAMAGE
+	xor element_type FIRE_DAMAGE
+	xor element_type ICE_DAMAGE
+	xor element_type SPIRIT_DAMAGE
+
+
+	state GLORIA_voice
+
+	ifaction A_GLORIA_DEAD
+	{
+		move STOP
+		strength 0
+		break
+	}
+	else ifaction A_GLORIA_DYING
+	{
+		move STOP
+		ifactioncount 6 { state BODY_FALL_NOISES action A_GLORIA_DEAD }
+	}
+	else ifaction A_GLORIA_FIRE
+	{
+		move STOP
+		state checkfortarget
+		ifn my_target -1
+		{
+			ifactioncount 3
+			{
+				state fronttowardstarget
+				set HITSCAN_TO_SHOOT ZRIFLESHOTU
+				set HITSCAN_FIRING_SOUND SAWNOFF_FIRE1
+				state sang_enemyShootHitscanNoTargetSeek
+				state sang_enemyShootHitscanNoTargetSeek
+				state sang_enemyShootHitscanNoTargetSeek
+				state sang_enemyShootHitscanNoTargetSeek
+				state sang_enemyShootHitscanNoTargetSeek
+				state sang_enemyShootHitscanNoTargetSeek
+				state sang_enemyShootHitscanNoTargetSeek
+				state sang_enemyShootHitscanNoTargetSeek
+
+				ife PERFMODE 1
+				 ifcansee
+				{
+					set gunsmoke_z 7244
+					set gunsmoke_angle 256
+					state spawn_gunsmoke_z
+					set gunsmoke_z 7044
+					state spawn_enemy_ARFLASH
+					state spawn_muzzleflash
+					state npc_rifleshell
+				}
+
+				ife ally_mag 30 set ally_mag 15 else set ally_mag 0
+				resetactioncount
+				ife ally_mag 0 
+					{ 
+					state npc_shotgun_shell 
+					state npc_shotgun_shell 
+					sound SAWNOFF_COCK 
+						ifrnd 16 
+								{
+								ifrnd 128
+									{
+										ife ally_subt 0
+										{
+											qstrcpy 7501 5192
+											qputs 7501 ^60Gloria: ^0Ugh, I'm out!
+											set ally_subt 68
+										}
+										sound GS_OUT
+									}
+								else
+									{
+										ife ally_subt 0
+										{
+											qstrcpy 7501 5192
+											qputs 7501 ^60Gloria: ^0Gotta reload!
+											set ally_subt 68
+										}
+										sound GS_RELOAD
+									}
+								}
+					action A_GLORIA_RELOAD 
+					}
+			}
+		}
+
+		ife my_target -1
+			{
+			ifrnd 32
+				{
+				ife ally_subt 0
+					{
+					qstrcpy 7501 5186
+					qputs 7501 ^60Gloria: ^0Awesome!
+					set ally_subt 31
+					}
+				soundonce GS_AWES
+				}
+			else ifrnd 32
+				{
+				ife ally_subt 0
+					{
+					qstrcpy 7501 5187
+					qputs 7501 ^60Gloria: ^0Bite me!
+					set ally_subt 45
+					}
+				soundonce GS_BITEME
+				}
+			else ifrnd 32
+				{
+				ife ally_subt 0
+					{
+					qstrcpy 7501 5188
+					qputs 7501 ^60Gloria: ^0Eat this!
+					set ally_subt 68
+					}
+				soundonce GS_EATTH
+				}
+			else ifrnd 32
+				{
+				ife ally_subt 0
+					{
+					qstrcpy 7501 5188
+					qputs 7501 ^60Gloria: ^0Kiss my ass!
+					set ally_subt 68
+					}
+				soundonce GS_KISSASS
+				}
+			else ifrnd 32
+				{
+				ife ally_subt 0
+					{
+					qstrcpy 7501 5188
+					qputs 7501 ^60Gloria: ^0Try me, fuckface.
+					set ally_subt 68
+					}
+				soundonce GS_TRYME
+				}
+			else ifrnd 32
+				{
+				ife ally_subt 0
+					{
+					qstrcpy 7501 5188
+					qputs 7501 ^60Gloria: ^0Who else wants some?!
+					set ally_subt 68
+					}
+				soundonce GS_WANTS
+				}
+			action A_GLORIA_READY
+			}
+	}
+	else ifaction A_GLORIA_MOVE
+	{
+		ifmove M_GLORIA_MOVE nullop
+		else move M_GLORIA_MOVE geth
+		
+		state special_npc_teleport
+
+		state checkfortarget
+		ifactioncount 3
+		{
+			state npc_footsteps
+			resetactioncount
+		}
+
+		ifn my_target -1
+		{
+		action A_GLORIA_FIRE
+		resetactioncount
+		}
+		else
+			state faceplayerstate
+
+		ifnotmoving operate
+		ifpdistl 1736 
+		{ 
+		ifphealthl 25 
+		ifrnd 16 
+				{
+				ifrnd 128
+					{
+						ife ally_subt 0
+						{
+							qstrcpy 7501 5192
+							qputs 7501 ^60Gloria: ^0Lemme guess..."Aint' got time to bleed"?
+							set ally_subt 134
+						}
+						sound GS_TIMEBL
+					}
+				else
+					{
+						ife ally_subt 0
+						{
+							qstrcpy 7501 5192
+							qputs 7501 ^60Gloria: ^0Yo, you've seen better days.
+							set ally_subt 90
+						}
+						sound GS_BETTERD
+					}
+				}
+		action A_GLORIA_READY
+		}
+	}
+	else ifaction A_GLORIA_RELOAD
+	{
+		move STOP
+
+		addvar ally_mag 1
+		ife ally_mag 15 sound SAWNOFF_LOAD
+		ife ally_mag 30 action A_GLORIA_MOVE
+	}
+	else ifaction A_GLORIA_READY
+	{
+		move STOP
+		sleeptime 0
+		ifn camerasprite -1
+			move STOP faceplayer
+		else
+			state rand_lookaround
+
+		addvar temp7 1
+		ife FOLLOW_PLAYER 1
+		{
+			ifpdistg 1735
+			 ifcansee
+			  ifcanseetarget
+			   action A_GLORIA_MOVE
+		}
+		state checkfortarget
+		ifn my_target -1
+		{
+			action A_GLORIA_FIRE
+			resetactioncount
+		}
+
+		ifrnd 1 action A_GLORIA_IDLE
+
+		ifstrength 16384 ifcount 6 { addstrength 10 resetcount }
+	}
+	else ifaction A_GLORIA_IDLE
+	{
+		move STOP
+		sleeptime 0
+		ifn camerasprite -1
+			move STOP faceplayer
+		else
+			state rand_lookaround
+
+		addvar temp7 1
+		ife FOLLOW_PLAYER 1
+		{
+			ifpdistg 1735
+			 ifcansee
+			  ifcanseetarget
+			   action A_GLORIA_MOVE
+		}
+		state checkfortarget
+		ifn my_target -1
+		{
+			action A_GLORIA_FIRE
+			resetactioncount
+		}
+
+		ifstrength 1499 ifcount 6 { addstrength 1 resetcount }
+	}
+
+
+	ifvarn lotag_saved 0
+	{
+		checkactivatormotion lotag_saved
+		ife RETURN 1 killit
+	}
+
+	ifvarn xvel_saved 0
+	{
+		checkactivatormotion xvel_saved
+		ife RETURN 1 killit
+	}
+
+
+	state player_follow_commands
+
+	ifvarg spirit_damage 0 subvar spirit_damage 2
+
+	ifhitweapon
+	{
+		spawn BLOOD
+		state actor_knockback_state
+		state random_wall_jibs
+		state NEWGUNEFFECTS
+		ifvarg spirit_damage 10 setvar spirit_damage 10
+		ifdead
+		{
+			state rf
+			state clear_ally_death
+			action A_GLORIA_DYING
+			ifrnd 76 spawn BLOODPOOL
+
+			/* disable babysitting
+			ifmultiplayer nullop
+			else
+			{
+				palfrom 63 63 63 63
+				setvar SLO_MO_SHOWOFF 70
+				setvar FISSION_MAILED 1
+			}
+			*/
+		}
+	}
+enda

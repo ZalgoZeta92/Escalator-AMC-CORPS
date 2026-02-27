@@ -1,0 +1,3225 @@
+
+ife cuts_txt 1670
+{
+set cs_textl 1
+ifl cs_timer 36 qputs 350 ^8James: ^0We all good?
+else
+ifl cs_timer 137 qputs 350 ^8Snowfall: ^0Yep that's right, the ship's all fueled up and ready to go.
+else
+qputs 350 ^8James: ^0Excellent work...I'll gather the team.
+}
+ife cuts_txt 1671
+{
+ifl cs_timer 122
+{
+set cs_textl 1
+qputs 350 ^8James: ^0I'll keep this short - we're heading to Elysion.
+}
+else
+{
+set cs_textl 2
+set speaker 0
+qputs 350 ^8James: ^0We're not sure what we'll find when
+qputs 351 we get there...and it's a long way from home.
+}
+}
+ife cuts_txt 1672
+{
+ifl cs_timer 152
+{
+set cs_textl 2
+set speaker -1
+qputs 350 ^8James: ^0It's on the other side of
+qputs 351 the damn Milky way...50,000 light years or so.
+}
+else
+{
+set cs_textl 3
+set speaker 0
+qputs 350 ^8James: ^0I won't lie - We're going in blind;
+qputs 351 we won't have support and we have no idea
+qputs 352 what to expect.
+}
+}
+ife cuts_txt 1673
+{
+ifl cs_timer 155
+{
+set cs_textl 3
+set speaker -1
+qputs 350 ^8James: ^0But we've made it this far on
+qputs 351 nothing but blood and sweat..and we won't
+qputs 352 fail here either.
+}
+else
+{
+qputs 350 ^8James: ^0Make sure you all get some rest,
+qputs 351 and make any last calls..we'll be there for
+qputs 352 a while...god speed to us all.
+}
+}
+ife cuts_txt 1675 // 102 length
+{
+set cs_textl 1
+set speaker 0
+qputs 350 ^8James: ^0We're finally here...what the hell are we looking at?
+}
+ife cuts_txt 1676
+{
+ifl cs_timer 98
+{
+set cs_textl 1
+set speaker -1
+qputs 350 ^8Snowfall: ^0Just...running some scans now.
+}
+else
+ifl cs_timer 231
+{
+set cs_textl 2
+qputs 350 ^8Snowfall: ^0Oh my goodness, that is
+qputs 351 amazing! It's an actual Ringworld!
+}
+else
+ifl cs_timer 371
+{
+qputs 350 ^8Snowfall: ^0Look at these measurements,
+qputs 351 it's 1 Astronomical Unit from its home star.
+}
+else
+{
+qputs 350 ^8Snowfall: ^0It's about 3,000,000 times the surface
+qputs 351 area of the Earth...that's incredible.
+}
+}
+ife cuts_txt 1677
+{
+set cs_textl 1
+ifl cs_timer 89 qputs 350 ^8Micky: ^0What?! Your scanners are clearly wrong.
+else ifl cs_timer 177 qputs 350 ^8Micky: ^0That's impossible, nothing like that could exist.
+else ifl cs_timer 249 qputs 350 ^8Snowfall: ^0Yeah well that's what our sensors are telling us.
+else qputs 350 ^8Snowfall: ^0It's all in the data right here, take a look.
+}
+ife cuts_txt 1678 // length 528
+{
+ifl cs_timer 245
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0That's insane, such a structure would tear itself apart
+qputs 351 like tissue paper...not to mention a whole host of other problems.
+}
+else
+ifl cs_timer 351
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0This thing can't exist, it-it's absurd!
+}
+else
+{
+set cs_textl 2
+set speaker 0
+qputs 350 ^8James: ^0Alright, just calm down for a second;
+qputs 351 We can see it with our own eyes...any other details?
+}
+}
+ife cuts_txt 1679
+{
+ifl cs_timer 157
+{
+set cs_textl 2
+set speaker -1
+qputs 350 ^8Snowfall: ^0Hmm well, let's see...The surface gravity appears
+qputs 351 to be the same as on Earth...
+}
+else
+ifl cs_timer 410
+{
+set cs_textl 3
+qputs 350 ^8Snowfall: ^0There also appears to be a second set of rings
+qputs 351 closer to the star itself; having to do with a day and night cycle,
+qputs 352 and collecting the stellar energy.
+}
+else
+ifl cs_timer 597
+{
+set cs_textl 2
+qputs 350 ^8Snowfall: ^0I see there's also some kind of stabilising system
+qputs 351 around the ring, keeping it from spinning out of control.
+}
+else
+ifl cs_timer 752
+{
+qputs 350 ^8Snowfall: ^0And there...oh wow...it looks like there's walls around
+qputs 351 it, that keep in the atmosphere...
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Snowfall: ^0Which I should add, the atmosphere is very Earth like!
+}
+}
+ife cuts_txt 1680
+{
+ifl cs_timer 136
+{
+set cs_textl 2
+qputs 350 ^8Mikko: ^0It's an incredible feat of engineering...
+qputs 351 feeling a bit overshadowed, Micky?
+}
+else
+{
+qputs 350 ^8Micky: ^0Whatever Mikko. I don't understand any
+qputs 351 of this...how is this thing even possible?
+}
+}
+ife cuts_txt 1681 // length 367
+{
+ife cuts_sound 0 { setactorvar[camerasprite].cameratime 392 set cuts_sound 1 }
+ifl cs_timer 138
+{
+set cs_textl 2
+set speaker 26
+qputs 350 ^8Sang: ^0Only one way to find out...
+qputs 351 Let's get our exploring boots on guys.
+}
+else
+	{
+	set cs_textl 3
+	set speaker -1
+	qputs 350 ^8Geoffrey: ^0I thought this was too easy; Our search
+	qputs 351 for the Mandala's been narrowed down to an area
+	qputs 352 3,000,000 times the size of Earth.
+	}
+}
+ife cuts_txt 1682
+{
+ife cuts_sound 0 { globalsound RING_INT9 setactorvar[camerasprite].cameratime 93 set cuts_sound 1 }
+set cs_textl 2 set speaker 2
+qputs 350 ^8Merlijn: ^0A needle in a haystack is better
+qputs 351 than a grain of sand in a desert.
+}
+ife cuts_txt 1683
+{
+set cs_textl 1 set speaker -1
+qputs 350 ^8Rusty: ^0....That's one hell of a haystack.
+}
+ife cuts_txt 1684
+{
+set cs_textl 1
+ifl cs_timer 74 qputs 350 ^8Snowfall: ^0Okay...I'm gonna take us in a little closer.
+else qputs 350 ^8Snowfall: ^0Shit!
+}
+ife cuts_txt 1685
+{
+ifl cs_timer 53
+{
+set cs_textl 1
+qputs 350 ^8Mikko: ^0Can we land on the ring itself?
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Think we're gonna do a hell of..
+qputs 351 of a lot more than land on it Mikko!
+}
+}
+ife cuts_txt 1686
+{
+ifl cs_timer 53
+{
+set cs_textl 1
+qputs 350 ^8Mikko: ^0Can we land on the ring itself?
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Think we're gonna do a hell of..
+qputs 351 of a lot more than land on it Mikko!
+}
+}
+ife cuts_txt 1687
+{
+set cs_textl 1
+ifl cs_timer 58 qputs 350 ^8Snowfall: ^0Hold on tight guys we're going in!
+else qputs 350 ^8Snowfall: ^0Brace for impact!
+}
+ife cuts_txt 1688
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RING_INT16 setactorvar[camerasprite].cameratime 72 set cuts_sound 1 }
+qputs 350 ^8Sang: ^0So...where are we at?
+}
+ife cuts_txt 1689
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RING_INT17 setactorvar[camerasprite].cameratime 274 set cuts_sound 1 }
+ifl cs_timer 83 
+	{ 
+	set speaker 14 qputs 350 ^8Snowfall: ^0Well....the engine's fucked.
+	}
+else ifl cs_timer 156 qputs 350 ^8Snowfall: ^0The Cargo bay took a big hit and...
+else ifl cs_timer 235 qputs 350 ^8Snowfall: ^0We kinda lost all of our equipment along the way.
+else 
+	{
+	set speaker -1
+	qputs 350 ^8Snowfall: ^0We got nothing.
+	}
+}
+ife cuts_txt 1690
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RING_INT18 setactorvar[camerasprite].cameratime 321 set cuts_sound 1 }
+ifle cs_timer 76 qputs 350 ^8Micky: ^0We've lost weapons, supplies...
+else ifle cs_timer 156 qputs 350 ^8Micky: ^0And I think I broke a tooth in the crash.
+else ifle cs_timer 254 qputs 350 ^8Micky: ^0It's salvageable, but...we need materials.
+else qputs 350 ^8Micky: ^0We're going to need to form an expedition.
+}
+ife cuts_txt 1691
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RING_INT19 setactorvar[camerasprite].cameratime 179 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 82 {
+qputs 350 ^7???: ^0Just what the hell is this?
+}
+else ifge cs_timer 82 ifl cs_timer 153 {
+qputs 350 ^7???: ^0Offworlders crashing on my front lawn?
+}
+else ifge cs_timer 153 {
+qputs 350 ^7???: ^0There ain't no justice.
+}
+}
+ife cuts_txt 1692
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RING_INT20 setactorvar[camerasprite].cameratime 76 set cuts_sound 1 }
+qputs 350 ^8Rusty: ^0....uh, sorry little guy.
+}
+ife cuts_txt 1693
+{
+ife cuts_sound 0 { globalsound RING_INT21 setactorvar[camerasprite].cameratime 202 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 61 { set cs_textl 1
+qputs 350 ^7???: ^0Nice, nice.
+}
+else ifge cs_timer 61 { set cs_textl 2
+qputs 350 ^8Tenrete: ^0Tenrete's the name, you guys got one hell of
+qputs 351 a ship here, but it looks like it's seen better days.
+}
+}
+ife cuts_txt 1694
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound RING_INT22 setactorvar[camerasprite].cameratime 189 set cuts_sound 1 }
+qputs 350 ^8Micky: ^0Well Tenrete, we can fix it - but we need parts.
+qputs 351 I'm surprised you know about our technology.
+}
+ife cuts_txt 1695
+{
+ife cuts_sound 0 { globalsound RING_INT23 setactorvar[camerasprite].cameratime 413 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 87 { set cs_textl 1
+qputs 350 ^8Tenrete: ^0I was an off-worlder myself a long time ago.
+}
+else ifge cs_timer 87 ifl cs_timer 171 { set cs_textl 1
+qputs 350 ^8Tenrete: ^0Couldn't get along with the locals so I settled out here.
+qputs 351
+}
+else ifge cs_timer 171 ifl cs_timer 319 { set cs_textl 2
+qputs 350 ^8Tenrete: ^0Besides the peace and quiet, ships occasionally
+qputs 351 crash nearby, which makes for good scavenging.
+}
+else ifge cs_timer 319 { set cs_textl 2
+qputs 350 ^8Tenrete: ^0There are a few dotted around here you might
+qputs 351 be able to find the parts you're looking for.
+}
+}
+ife cuts_txt 1696
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RING_INT24 setactorvar[camerasprite].cameratime 140 set cuts_sound 1 }
+qputs 350 ^8Merlijn: ^0We're also looking for the Necromancer...any idea where we can find him?
+}
+ife cuts_txt 1697
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound RING_INT25 setactorvar[camerasprite].cameratime 140 set cuts_sound 1 }
+qputs 350 ^8Tenrete: ^0Fraid not, but maybe Easthaven is your best bet.
+qputs 351 Want to guess what direction it's in?
+}
+ife cuts_txt 1698
+{
+set cs_textl 2
+set speaker 0
+ife cuts_sound 0 { globalsound RING_INT26 setactorvar[camerasprite].cameratime 265 set cuts_sound 1 }
+qputs 350 ^8James: ^0Tenrete, are you alright with us setting up a base camp here? We'll let you keep
+qputs 351 some of our salvage we recover, and we'll keep an eye out for any trouble too.
+}
+ife cuts_txt 1699
+{
+set cs_textl 1
+set speaker -1
+ife cuts_sound 0 { globalsound RING_INT27 setactorvar[camerasprite].cameratime 100 set cuts_sound 1 }
+qputs 350 ^8Tenrete: ^0Sure sure, let's get you all set up.
+}
+
+// EP4 Kraken kagura hint
+else ife cuts_txt 4002
+{
+set cs_textl 3
+getkeyname 406 12 2
+qputs 350 ^62Kagura's ^0sword, ^7Yo, ^0can fire a blast of deadly energy once charged.
+qsprintf 350 350 406
+qputs 351 Kill enemies to charge it up, it will then fire automatically on your next swing.
+qputs 352 Those tentacles sure look delicious...
+}
+
+// Micky Pheraclas conversation
+ife cuts_txt 4146
+{
+set cs_textl 1
+ifge cs_timer 0 ifl cs_timer 81 {
+qputs 350 ^8Pheraclas: ^0Ah yes, I've been expecting you.
+}
+else ifge cs_timer 81 {
+qputs 350 ^8Pheraclas: ^0How are you fairing my brother?
+}
+}
+ife cuts_txt 4147
+{
+ifge cs_timer 0 ifl cs_timer 106 { set cs_textl 1
+qputs 350 ^8Micky: ^0You're the first person to ask me that in a long time.
+}
+else ifge cs_timer 106 ifl cs_timer 201 {
+qputs 350 ^8Micky: ^0I don't know where I stand anymore, to be frank with you.
+}
+else ifge cs_timer 201 ifl cs_timer 363 { set cs_textl 2
+qputs 350 ^8Micky: ^0This Ringworld...it defies everything I've ever
+qputs 351 known or understood about science and engineering.
+}
+else ifge cs_timer 363 { set cs_textl 1
+qputs 350 ^8Micky: ^0I feel like I've wasted my youth....
+}
+}
+ife cuts_txt 4148
+{
+set cs_textl 2
+ifge cs_timer 0 {
+qputs 350 ^8Pheraclas: ^0But it is only natural to be humbled by
+qputs 351 something that is beyond understanding.
+}
+}
+ife cuts_txt 4149
+{
+set cs_textl 1
+ifge cs_timer 0 ifl cs_timer 90 {
+qputs 350 ^8Micky: ^0But it shows just how much I don't know.
+}
+else ifge cs_timer 90 ifl cs_timer 168 {
+qputs 350 ^8Micky: ^0I thought I was ahead of the curve, but now...
+}
+else ifge cs_timer 168 {
+qputs 350 ^8Micky: ^0I'm just in awe of it.
+}
+}
+ife cuts_txt 4150
+{
+set cs_textl 2
+ifge cs_timer 0 ifl cs_timer 190 {
+qputs 350 ^8Pheraclas: ^0There IS greater meaning to what you are seeing
+qputs 351 here, remember this as I have a task for you.
+}
+else ifge cs_timer 190 ifl cs_timer 360 {
+qputs 350 ^8Pheraclas: ^0You seek to confront the Necromancer, but doing
+qputs 351 so will require ingenuity.
+}
+else ifge cs_timer 360 ifl cs_timer 522 {
+qputs 350 ^8Pheraclas: ^0There is a swamp not far from here, near the
+qputs 351 borders of Rianon and Streomes.
+}
+else ifge cs_timer 522 {
+qputs 350 ^8Pheraclas: ^0You must go there, and return the moonlight
+qputs 351 to these lands once more.
+}
+}
+ife cuts_txt 4151
+{
+set cs_textl 1
+ifge cs_timer 0 ifl cs_timer 94 {
+qputs 350 ^8Micky: ^0That Sounds awfully vague...but fair enough.
+}
+else ifge cs_timer 94 {
+qputs 350 ^8Micky: ^0I'll give it my best shot.
+}
+}
+// End of 'Quest'
+ife cuts_txt 4152
+{
+set cs_textl 1
+ifl cs_timer 63 qputs 350 ^8Pheraclas: ^0I see you have returned...
+else qputs 350 ^8Pheraclas: ^0were you successful in your task?
+}
+ife cuts_txt 4153
+{
+set cs_textl 1
+ifge cs_timer 0 ifl cs_timer 64 {
+qputs 350 ^8Micky: ^0I certainly was.
+}
+else ifge cs_timer 64 ifl cs_timer 181 {
+qputs 350 ^8Micky: ^0The engineers of this place were ingenious, but not perfect.
+}
+else ifge cs_timer 181 ifl cs_timer 262 {
+qputs 350 ^8Micky: ^0They had assumed that they would be around forever...
+}
+else ifge cs_timer 262 ifl cs_timer 348 {
+qputs 350 ^8Micky: ^0But I learned from their mistakes and fixed the machinery.
+}
+else ifge cs_timer 348 {
+qputs 350 ^8Micky: ^0Elysion once more has a moon in the sky.
+}
+}
+ife cuts_txt 4154
+{
+ifge cs_timer 0 ifl cs_timer 152 { set cs_textl 2
+qputs 350 ^8Pheraclas: ^0Outstanding work, this will have
+qputs 351 ramifications beyond visual my friend.
+}
+else ifge cs_timer 152 ifl cs_timer 276 { set cs_textl 1
+qputs 350 ^8Pheraclas: ^0The moon was once considered a great omen by our people.
+}
+else ifge cs_timer 276 ifl cs_timer 372 {
+qputs 350 ^8Pheraclas: ^0Even if many never knew it was simply an illusion.
+}
+else ifge cs_timer 372 ifl cs_timer 521 { set cs_textl 2
+qputs 350 ^8Pheraclas: ^0Its reappearence will bolster the morale of
+qputs 351 everyone living under the Necromancer's heel,
+}
+else ifge cs_timer 521 { set cs_textl 1
+qputs 350 ^8Pheraclas: ^0And will embolden us in the battle to come.
+}
+}
+ife cuts_txt 4155
+{
+ifge cs_timer 0 ifl cs_timer 55 { set cs_textl 1
+qputs 350 ^8Micky: ^0I thought as much...
+}
+else ifge cs_timer 55 ifl cs_timer 169 { set cs_textl 2
+qputs 350 ^8Micky: ^0I've realised that there's still so much more
+qputs 351 for me to discover and create.
+}
+else ifge cs_timer 169 ifl cs_timer 247 { set cs_textl 1
+qputs 350 ^8Micky: ^0Honestly, the Ring terrified me...
+}
+else ifge cs_timer 247 ifl cs_timer 411 { set cs_textl 2
+qputs 350 ^8Micky: ^0But now I understand that something like this
+qputs 351 is not beyond humanities' limits to create.
+}
+else ifge cs_timer 411 ifl cs_timer 532 { set cs_textl 1
+qputs 350 ^8Micky: ^0It will take time, and it may be past my time in THIS life,
+}
+else ifge cs_timer 532 ifl cs_timer 700 { set cs_textl 2
+qputs 350 ^8Micky: ^0But I can at least help to pave the way for a
+qputs 351 future filled with wonders such as Elysion...
+}
+else ifge cs_timer 700 { set cs_textl 1
+qputs 350 ^8Micky: ^0Once we've dealt with the Beyonders of course.
+}
+}
+ife cuts_txt 4156
+{
+set cs_textl 1
+ifge cs_timer 0 ifl cs_timer 121 {
+qputs 350 ^8Pheraclas: ^0I am glad that you too have been emboldened my friend.
+}
+else ifge cs_timer 121 ifl cs_timer 202 {
+qputs 350 ^8Pheraclas: ^0I wish you god speed in your future journey.
+}
+else ifge cs_timer 202 {
+qputs 350 ^8Pheraclas: ^0Farewell.
+}
+}
+// Rusty Alea conversation
+ife cuts_txt 4166
+{
+set cs_textl 2
+set speaker 50
+qputs 350 ^8Alea: ^0Now, what do we have here? I hope
+qputs 351 you've cleaned your boots before you set foot in here.
+}
+ife cuts_txt 4167
+{
+set cs_textl 3
+qputs 350 ^8Rusty: ^0Ma'am, I got more pressing concerns than your
+qputs 351 floorboards...heard you had a job for me? Wait...
+qputs 352 are you like, an actual bona-fide Elf?
+}
+ife cuts_txt 4168
+{
+set cs_textl 2
+qputs 350 ^8Alea: ^0My you're an astute one! I'm expecting
+qputs 351 some amazing things with you.
+}
+ife cuts_txt 4169
+{
+set cs_textl 1
+qputs 350 ^8Rusty: ^0And I guess that attitude's why you're living out here.
+}
+ife cuts_txt 4170
+{
+set cs_textl 2
+set speaker 24
+qputs 350 ^8Alea: ^0Closer to nature this way, as all elves should be.
+qputs 351 Back to the task at hand; The Necropolis has been...corrupted by something.
+}
+ife cuts_txt 4171
+{
+set cs_textl 1
+qputs 350 ^8Rusty: ^0Something? Something covers a whole lot of ground young lady.
+}
+ife cuts_txt 4172
+{
+set cs_textl 1
+qputs 350 ^8Alea: ^0I am 2746 years old, young man. I need you to head there, and find out why.
+}
+ife cuts_txt 4173
+{
+set cs_textl 2
+set speaker 50
+qputs 350 ^8Rusty: ^0And I'm...Okay, only a couple hundred years old,
+qputs 351 but still. I'll head there and see what I can find.
+}
+// end conversation
+ife cuts_txt 4174
+{
+set cs_textl 1
+set speaker 24
+qputs 350 ^8Alea: ^0You've returned; and none the worse for wear it seems.
+}
+ife cuts_txt 4175
+{
+set cs_textl 2
+qputs 350 ^8Rusty: ^0There was a succubus there, at least I think that's what she
+qputs 351 was. Up to no good with the spirits there, but I took care of business.
+}
+ife cuts_txt 4176
+{
+set cs_textl 2
+qputs 350 ^8Alea: ^0Interesting...but ominous too. For a Succubus to show up
+qputs 351 at the same time as the Necromancer resurfaces...
+}
+ife cuts_txt 4177
+{
+set cs_textl 1
+qputs 350 ^8Rusty: ^0We'll put a stop to whatever it is.
+}
+ife cuts_txt 4178
+{
+set cs_textl 1
+set speaker 50
+qputs 350 ^8Alea: ^0I'm sure you will. I would teach you some tricks with a bow...
+}
+ife cuts_txt 4179
+{
+set cs_textl 2
+qputs 350 ^8Rusty: ^0I'm not a bow and arrow man, I got
+qputs 351 my 2 friends here to take care of business.
+}
+ife cuts_txt 4180
+{
+set cs_textl 1
+qputs 350 ^8Alea: ^0...I imagine that sounded more impressive in your head.
+}
+ife cuts_txt 4181
+{
+set cs_textl 1
+qputs 350 ^8Rusty: ^0Give me a break, you're 3 millennia old - coulda just humoured me.
+}
+// Sang Oveus conversation
+ife cuts_txt 4182
+{
+set speaker 50
+set cs_textl 1
+ife cuts_sound 0 { soundonce SGOV_CONV01 setactorvar[camerasprite].cameratime 155 set cuts_sound 1 }
+qputs 350 ^8Oveus: ^0What's this? Another practitioner of the arts stumbles into my study?
+}
+ife cuts_txt 4183
+{
+set cs_textl 1
+set speaker 26
+ife cuts_sound 0 { soundonce SGOV_CONV02 setactorvar[camerasprite].cameratime 79 set cuts_sound 1 }
+qputs 350 ^8Sang: ^0Sup. Heard you got a job for me.
+}
+ife cuts_txt 4184
+{
+set cs_textl 1
+set speaker 23
+ife cuts_sound 0 { soundonce SGOV_CONV03 setactorvar[camerasprite].cameratime 180 set cuts_sound 1 }
+qputs 350 ^8Oveus: ^0Before that...you have an unusual aura about you. I've never felt anything like it.
+}
+ife cuts_txt 4185
+{
+set cs_textl 2
+set speaker 50
+ife cuts_sound 0 { soundonce SGOV_CONV04 setactorvar[camerasprite].cameratime 198 set cuts_sound 1 }
+qputs 350 ^8Sang: ^0I used to be a warlock, but then I defeated my
+qputs 351 evil doppleganger. Now I'm a...peacelock!
+}
+ife cuts_txt 4186
+{
+set cs_textl 1
+ife cuts_sound 0 { soundonce SGOV_CONV05 setactorvar[camerasprite].cameratime 70 set cuts_sound 1 }
+qputs 350 ^8Oveus: ^0That's the stupidest thing I've ever heard.
+}
+ife cuts_txt 4187
+{
+set cs_textl 2
+set speaker 26
+ife cuts_sound 0 { soundonce SGOV_CONV06 setactorvar[camerasprite].cameratime 154 set cuts_sound 1 }
+qputs 350 ^8Sang: ^0That's rich coming from a guy living on a giant
+qputs 351 ring stuck in the middle ages.
+}
+ife cuts_txt 4188
+{
+set speaker 50
+ife cuts_sound 0 { soundonce SGOV_CONV07 setactorvar[camerasprite].cameratime 365 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 112 { set cs_textl 1
+qputs 350 ^8Oveus: ^0Anyway, Drabeus asked me to find a job for you.
+}
+else ifge cs_timer 112 ifl cs_timer 189 {
+qputs 350 ^8Oveus: ^0Head South, to the Ebon Pinnacle.
+}
+else ifge cs_timer 189 { set cs_textl 2
+qputs 350 ^8Oveus: ^0You'll need the key to Rowgar's palace, which will take
+qputs 351 you and your friends...somewhere rather interesting.
+}
+}
+ife cuts_txt 4189
+{
+set cs_textl 2
+ife cuts_sound 0 { soundonce SGOV_CONV08 setactorvar[camerasprite].cameratime 186 set cuts_sound 1 }
+qputs 350 ^8Sang: ^0Uh, I mean what am I looking for exactly?
+qputs 351 Is there signage I can follow? Help a guy out here.
+}
+ife cuts_txt 4190
+{
+
+set speaker 23
+ife cuts_sound 0 { soundonce SGOV_CONV09 setactorvar[camerasprite].cameratime 341 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 58 { set cs_textl 1
+qputs 350 ^8Oveus: ^0Head South.
+}
+else ifge cs_timer 58 ifl cs_timer 111 {
+qputs 350 ^8Oveus: ^0To the nasty hot place.
+}
+else ifge cs_timer 111 ifl cs_timer 297 { set cs_textl 2
+qputs 350 ^8Oveus: ^0Kill all ugly things, excluding
+qputs 351 present company, find key to palace.
+}
+else ifge cs_timer 297 { set cs_textl 1
+qputs 350 ^8Oveus: ^0That's key, with a K.
+}
+}
+ife cuts_txt 4191
+{
+set cs_textl 2
+ife cuts_sound 0 { soundonce SGOV_CONV10 setactorvar[camerasprite].cameratime 214 set cuts_sound 1 }
+qputs 350 ^8Sang: ^0Thanks Whitey. Uh, I was talking about...your hair,
+qputs 351 cuz it's white and all and... alright, gonna go now.
+}
+ife cuts_txt 4192
+{
+set cs_textl 1
+set speaker 50
+ife cuts_sound 0 { soundonce SGOV_CONV11 setactorvar[camerasprite].cameratime 50 set cuts_sound 1 }
+qputs 350 ^8Oveus: ^0That would be best.
+}
+// Sang Oveus return conversation
+ife cuts_txt 4193
+{
+set cs_textl 1
+set speaker 23
+ife cuts_sound 0 { soundonce SGOV_CONV12 setactorvar[camerasprite].cameratime 71 set cuts_sound 1 }
+qputs 350 ^8Sang: ^0Sup. Got your key.
+}
+ife cuts_txt 4194
+{
+set cs_textl 2
+set speaker 23
+ife cuts_sound 0 { soundonce SGOV_CONV13 setactorvar[camerasprite].cameratime 234 set cuts_sound 1 }
+qputs 350 ^8Oveus: ^0An adequate job. You have what you need, now you
+qputs 351 just need to wait for your allies to finish their tasks.
+}
+ife cuts_txt 4195
+{
+set cs_textl 2
+set speaker 50
+ife cuts_sound 0 { soundonce SGOV_CONV14 setactorvar[camerasprite].cameratime 193 set cuts_sound 1 }
+qputs 350 ^8Sang: ^0Adequate? Damn, you're hard to please...I was gonna crack
+qputs 351 an ex-wife joke, but I doubt you'd get it.
+}
+ife cuts_txt 4196
+{
+set cs_textl 1
+set speaker 50
+ife cuts_sound 0 { soundonce SGOV_CONV15 setactorvar[camerasprite].cameratime 172 set cuts_sound 1 }
+qputs 350 ^8Oveus: ^0Oh no, that joke translates very well even here. I have a few myself.
+}
+ife cuts_txt 4197
+{
+set cs_textl 1
+set speaker 26
+ife cuts_sound 0 { soundonce SGOV_CONV16 setactorvar[camerasprite].cameratime 77 set cuts_sound 1 }
+qputs 350 ^8Sang: ^0You don't say, Can't imagine why!-
+}
+ife cuts_txt 4198
+{
+set cs_textl 2
+set speaker 23
+ife cuts_sound 0 { soundonce SGOV_CONV17 setactorvar[camerasprite].cameratime 253 set cuts_sound 1 }
+qputs 350 ^8Oveus: ^0Enough! very well, you have earned my respect and
+qputs 351 I will teach you a summoning trick of mine. Then leave!
+}
+ife cuts_txt 4199
+{
+set cs_textl 1
+set speaker 50
+ife cuts_sound 0 { soundonce SGOV_CONV18 setactorvar[camerasprite].cameratime 86 set cuts_sound 1 }
+qputs 350 ^8Sang: ^0Sounds like a good deal, I'll take it!
+}
+ife cuts_txt 4200
+{
+set cs_textl 1
+ife cuts_sound 0 { soundonce SANG_WAYB setactorvar[camerasprite].cameratime 260 set cuts_sound 1 }
+ifl cs_timer 139 qputs 350 ^8Sang: ^0Now...how do I get back? Well SHIT.
+else qputs 350 ^8Sang: ^0Oh yeah, the waystones...just got to uh, find one.
+}
+// Rusty succubus conversation
+ife cuts_txt 4201
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RNSU_CONV01 setactorvar[camerasprite].cameratime 88 set cuts_sound 1 }
+qputs 350 ^54Succubus: ^0Now aren't you just fascinating?
+}
+ife cuts_txt 4202
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound RNSU_CONV02 setactorvar[camerasprite].cameratime 136 set cuts_sound 1 }
+qputs 350 ^8Rusty: ^0Can't say the same for you. Don't
+qputs 351 disturb the dead, that's my number one rule.
+}
+ife cuts_txt 4203
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound RNSU_CONV03 setactorvar[camerasprite].cameratime 322 set cuts_sound 1 }
+qputs 350 ^54Succubus: ^0Oh but Rusty...you've broken that rule yourself...
+qputs 351 with a vampire no less. Come here, let's forget about her...
+}
+ife cuts_txt 4204
+{
+set cs_textl 3
+ife cuts_sound 0 { globalsound RNSU_CONV04 setactorvar[camerasprite].cameratime 260 set cuts_sound 1 }
+qputs 350 ^8Rusty: ^0You're treading on thin ground. I don't know what a
+qputs 351 Succubus wants with the dead and I don't care for an answer
+qputs 352 either. I'm puttin' you down.
+}
+ife cuts_txt 4205
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RNSU_CONV05 setactorvar[camerasprite].cameratime 60 set cuts_sound 1 }
+qputs 350 ^54Succubus: ^0*tut* you're no fun.
+}
+ife cuts_txt 4206
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RNSU_CONV06 setactorvar[camerasprite].cameratime 62 set cuts_sound 1 }
+qputs 350 ^8Rusty: ^0And you just plain suck.
+}
+ife cuts_txt 4207
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RNSU_CONV07 setactorvar[camerasprite].cameratime 97 set cuts_sound 1 }
+qputs 350 ^54Succubus: ^0Ugh...that was terrible.
+}
+ife cuts_txt 4208
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RNSU_CONV08 setactorvar[camerasprite].cameratime 141 set cuts_sound 1 }
+qputs 350 ^8Rusty: ^0Yeah well...ah to hell with it, time to finish this!
+}
+ife cuts_txt 4209
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound RNSU_CONV09 setactorvar[camerasprite].cameratime 210 set cuts_sound 1 }
+qputs 350 ^8Rusty: ^0How did that thing know about Rosa? God damn this place...I better get back to Easthaven.
+}
+// James Freija conversation
+ife cuts_txt 4556
+{
+set cs_textl 1
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV01 setactorvar[camerasprite].cameratime 169 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 103 {
+qputs 350 ^8Freija: ^0Well well, you look like a real milk drinker.
+}
+else ifge cs_timer 103 {
+qputs 350 ^8Freija: ^0I doubt you can handle one of my ales.
+}
+}
+ife cuts_txt 4557
+{
+set cs_textl 1
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV02 setactorvar[camerasprite].cameratime 181 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 103 {
+qputs 350 ^8James: ^0Try me...so long as it's on the house.
+}
+else ifge cs_timer 103 {
+qputs 350 ^8James: ^0My name's James...Drabeus sent me here?
+}
+}
+ife cuts_txt 4558
+{
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV03 setactorvar[camerasprite].cameratime 323 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 105 { set cs_textl 1
+qputs 350 ^8Freija: ^0Well met James, I am Freija.
+}
+else ifge cs_timer 105 ifl cs_timer 210 {
+qputs 350 ^8Freija: ^0That old fool, still dreaming of seeing the necromancer fall.
+}
+else ifge cs_timer 210 {  set cs_textl 2
+qputs 350 ^8Freija: ^0So long as the arch is in the sky, that
+qputs 351 bastard's not going down.
+}
+}
+ife cuts_txt 4559
+{
+set cs_textl 1
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV04 setactorvar[camerasprite].cameratime 136 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 90 {
+qputs 350 ^8James: ^0We aim to change that...if we can find him.
+}
+else ifge cs_timer 90 {
+qputs 350 ^8James: ^0What's your story anyway?
+}
+}
+ife cuts_txt 4560
+{
+set speaker 25
+ife cuts_sound 0 { soundonce JSFR_CONV05 setactorvar[camerasprite].cameratime 769 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 156 { set cs_textl 2
+qputs 350 ^8Freija: ^0Was the general of King Hagon's army...they
+qputs 351 called us the Lions of Rianon.
+}
+else ifge cs_timer 156 ifl cs_timer 238 { set cs_textl 1
+qputs 350 ^8Freija: ^0No one could beat me on the battlefield...
+}
+else ifge cs_timer 238 ifl cs_timer 337 {
+qputs 350 ^8Freija: ^0So the necromancer defeated me in the courtroom instead.
+}
+else ifge cs_timer 337 ifl cs_timer 562 { set cs_textl 3
+qputs 350 ^8Freija: ^0Cast his foul magic and fooled the king into
+qputs 351 believing I'd ordered my troops to raid villages that
+qputs 352 the  necromancer's forces burnt down.
+}
+else ifge cs_timer 562 ifl cs_timer 738 { set cs_textl 2
+qputs 350 ^8Freija: ^0The Lions are still loyal to me, but attacking
+qputs 351 the Necromancer would be suicide even for us.
+}
+else ifge cs_timer 738 { set cs_textl 1
+qputs 350 ^8Freija: ^0Unless...
+}
+}
+ife cuts_txt 4561
+{
+set cs_textl 1
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV06 setactorvar[camerasprite].cameratime 75 set cuts_sound 1 }
+qputs 350 ^8James: ^0There's something you want me to find, isn't there?
+}
+ife cuts_txt 4562
+{
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV07 setactorvar[camerasprite].cameratime 350 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 90 { set cs_textl 1
+qputs 350 ^8Freija: ^0To the North of here are some ancient ruins.
+}
+else ifge cs_timer 90 ifl cs_timer 189 {
+qputs 350 ^8Freija: ^0If you can make it there and retrieve Pelinal's sword...
+}
+else ifge cs_timer 189 { set cs_textl 2
+qputs 350 ^8Freija: ^0That would be something that'd inspire the lions to ditch
+qputs 351 the King and join forces with me against the Necromancer.
+}
+}
+ife cuts_txt 4563
+{
+set cs_textl 2
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV08 setactorvar[camerasprite].cameratime 167 set cuts_sound 1 }
+qputs 350 ^8James: ^0We could certainly use an army...I'll find that sword Freija, and
+qputs 351 we'll get the lions on our side for my troubles.
+}
+// James Freija end conversation
+ife cuts_txt 4564
+{
+set cs_textl 1
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV09 setactorvar[camerasprite].cameratime 120 set cuts_sound 1 }
+qputs 350 ^8James: ^0One Pelinnal's sword, with an extra side of liberated keep to go.
+}
+ife cuts_txt 4565
+{
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV10 setactorvar[camerasprite].cameratime 461 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 54 { set cs_textl 1
+qputs 350 ^8Freija: ^0Fantastic work.
+}
+else ifge cs_timer 54 ifl cs_timer 210 { set cs_textl 2
+qputs 350 ^8Freija: ^0You know this sword was once used to liberate
+qputs 351 Rianon from an ancient race of slavers?
+}
+else ifge cs_timer 210 ifl cs_timer 271 { set cs_textl 1
+qputs 350 ^8Freija: ^0This mark in the blade right here...
+}
+else ifge cs_timer 271 ifl cs_timer 369 {
+qputs 350 ^8Freija: ^0But as it stands it won't do much good like this.
+}
+else ifge cs_timer 369 {
+qputs 350 ^8Freija: ^0Take it to the blacksmith, tell him to put it on my tab.
+}
+}
+ife cuts_txt 4566
+{
+set cs_textl 1
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV11 setactorvar[camerasprite].cameratime 74 set cuts_sound 1 }
+qputs 350 ^8James: ^0How about you tell me how you can help instead?
+}
+ife cuts_txt 4567
+{
+set speaker 25
+ife cuts_sound 0 { soundonce JSFR_CONV12 setactorvar[camerasprite].cameratime 397 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 52 { set cs_textl 1
+qputs 350 ^8Freija: ^0Patience.
+}
+else ifge cs_timer 52 ifl cs_timer 114 {
+qputs 350 ^8Freija: ^0Do that, and the blade is yours...
+}
+else ifge cs_timer 114 ifl cs_timer 184 {
+qputs 350 ^8Freija: ^0The Keep you liberated was my real goal.
+}
+else ifge cs_timer 184 ifl cs_timer 271 {
+qputs 350 ^8Freija: ^0It will serve as an excellent Garrison for the lions.
+}
+else ifge cs_timer 271 { set cs_textl 2
+qputs 350 ^8Freija: ^0I felt the blade would be a greater
+qputs 351 motivation than simply clearing out a castle.
+}
+}
+ife cuts_txt 4568
+{
+set cs_textl 2
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV13 setactorvar[camerasprite].cameratime 242 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 132 {
+qputs 350 ^8James: ^0I've done my fair share of cleaning
+qputs 351 out castles back home, believe it or not.
+}
+else ifge cs_timer 132 {
+qputs 350 ^8James: ^0Thank you Freija; when the time comes,
+qputs 351 we'll free Elysion from the necromancer.
+}
+}
+ife cuts_txt 4569
+{
+set cs_textl 1
+set speaker 50
+ife cuts_sound 0 { soundonce JSFR_CONV14 setactorvar[camerasprite].cameratime 93 set cuts_sound 1 }
+qputs 350 ^8Freija: ^0That we will...farewell for now James.
+}
+ife cuts_txt 5743
+{
+set cs_textl 1
+ifle cs_timer 556 state radio_lesang_pic else state clear_radio
+ife cuts_sound 0 { set yvel_saved 662 set cuts_sound 1 }
+ifl cs_timer 149 qputs 350 ^7Le Sang: ^0Ugh....now...what's going on here then?
+else ifl cs_timer 322 qputs 350 ^7Le Sang: ^0Fascinating...you've really made it to Elysion.
+else ifl cs_timer 440 qputs 350 ^7Le Sang: ^0The sheer magical energy here is staggering...
+else ifl cs_timer 556 qputs 350 ^7Le Sang: ^0Enough to wake me from my stupor it seems.
+else qputs 350 ^8Sang: ^0Joke's on you, you gotta watch me take a piss.
+}
+ife cuts_txt 5744
+{
+state radio_lesang_pic
+ifl cs_timer 255
+{
+set cs_textl 2
+qputs 350 ^7Le Sang: ^0Just so you know, Naaldir has been trying
+qputs 351 to dip its....hands...into your mind.
+}
+else ifl cs_timer 390
+{
+set cs_textl 1
+qputs 350 ^7Le Sang: ^0I'm feeling kind so I've shut the door on it.
+}
+else ifl cs_timer 659
+{
+set cs_textl 2
+qputs 350 ^7Le Sang: ^0I must say though, the sheer hatred coursing
+qputs 351 through its fingertips is absolutely incredible.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^7Le Sang: ^0I have no idea who or what this thing is...but It. Is. Angry.
+}
+}
+ife cuts_txt 5745
+{
+state radio_lesang_pic
+ife cuts_sound 0 { set yvel_saved 1074 set cuts_sound 1 }
+ifl cs_timer 196
+{
+set cs_textl 1
+qputs 350 ^7Le Sang: ^0I want you to know...the Last Redoubt? Was MY idea.
+}
+else
+ifl cs_timer 404
+{
+set cs_textl 2
+qputs 350 ^7Le Sang: ^0Using the power hidden in Egypt was the only
+qputs 351 way I could feasibly create it by myself...
+}
+else
+ifl cs_timer 762
+{
+set cs_textl 3
+qputs 350 ^7Le Sang: ^0Yes I would have expected tribute, but humanity
+qputs 351 would have been safe from the Beyonders...and the other
+qputs 352 things lurking beneath the shore of reality.
+}
+else
+ifl cs_timer 991
+{
+set cs_textl 2
+qputs 350 ^7Le Sang: ^0Axon's methods...and motives, come to
+qputs 351 think of it, are questionable at best.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Sang: ^0Ugh, TL;DR dude.
+}
+}
+ife cuts_txt 5746
+{
+state radio_lesang_pic
+ifl cs_timer 256
+{
+set cs_textl 2
+qputs 350 ^7Le Sang: ^0Sangluss, I want to warn you - do not
+qputs 351 be fooled by your comrades, or Axon.
+}
+else
+ifl cs_timer 335
+{
+set cs_textl 1
+qputs 350 ^7Le Sang: ^0He is not what you think he is.
+}
+else
+ifl cs_timer 493
+{
+qputs 350 ^7Le Sang: ^0And Naaldir...I still cannot grasp its true nature.
+}
+else
+ifl cs_timer 838
+{
+set cs_textl 3
+qputs 350 ^7Le Sang: ^0It is not just some simple magical entity - it
+qputs 351 bends the very fabric of the known world...it simply wills
+qputs 352 things back into existence.
+}
+else
+{
+qputs 350 ^7Le Sang: ^0I can not comprehend what sort of event created
+qputs 351 this monstrosity, but I only know that YOU must destroy it
+qputs 352 completely and utterly.
+}
+}
+ife cuts_txt 5747
+{
+set cs_textl 2
+state radio_lesang_pic
+ife cuts_sound 0 { set yvel_saved 646 set cuts_sound 1 }
+ifl cs_timer 221
+{
+qputs 350 ^7Le Sang: ^0Ah here it is, My memory
+qputs 351 palace - I have work to do, but do not fret.
+}
+else ifl cs_timer 395
+{
+qputs 350 ^7Le Sang: ^0My previous methods weren't working,
+qputs 351 so it's time for a different approach I think.
+}
+else ifl cs_timer 562
+{
+qputs 350 ^7Le Sang: ^0I will leave you for now, but I
+qputs 351 will be in touch again in the future.
+}
+else
+{
+state clear_radio
+qputs 350 ^8Sang: ^0Don't let the door hit ya where
+qputs 351 the good lord split ya.
+}
+}
+ife cuts_txt 5748
+{
+
+ifge cs_timer 0 ifl cs_timer 108 { set cs_textl 1
+qputs 350 ^7Le Sang: ^0Sangluss, listen to me.
+}
+else ifge cs_timer 108 ifl cs_timer 189 {
+qputs 350 ^7Le Sang: ^0I understand now.
+}
+else ifge cs_timer 189 ifl cs_timer 373 {
+qputs 350 ^7Le Sang: ^0what the Engineers of this place did, defies words.
+}
+else ifge cs_timer 373 ifl cs_timer 589 { set cs_textl 2
+qputs 350 ^7Le Sang: ^0Naaldir is right to be angry, but its pure
+qputs 351 unadulterated hatred must be stopped.
+}
+else ifge cs_timer 589 {
+qputs 350 ^7Le Sang: ^0The Engineers are long dead, but in a
+qputs 351 way it seeks to finish their work.
+}
+}
+ife cuts_txt 5749
+{
+ifge cs_timer 0 ifl cs_timer 174 { set cs_textl 1
+qputs 350 ^7Le Sang: ^0Naaldir wants to retrigger the Ringworld sacrificial systems
+}
+else ifge cs_timer 174 ifl cs_timer 499 { set cs_textl 2
+qputs 350 ^7Le Sang: ^0The sheer supernatural energy of this world, grown for
+qputs 351 millennia unchecked by the Engineers, would give it unimaginable power.
+}
+else ifge cs_timer 499 ifl cs_timer 720 {
+qputs 350 ^7Le Sang: ^0It could cast aside the veil of known space,
+qputs 351 transcend existence and become a god.
+}
+else ifge cs_timer 720 ifl cs_timer 999 {
+qputs 350 ^7Le Sang: ^0A god driven by utter hatred, whose cruelty would make even
+qputs 351  the worst tyrants of your history shudder in their sleep.
+}
+else ifge cs_timer 999 {
+qputs 350 ^7Le Sang: ^0And naturally, any pretense of stopping the Beyonders
+qputs 351 would be cast out the window.
+}
+}
+ife cuts_txt 5750
+{
+ife cuts_sound 0 { globalsound LESANG_E4_8 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 360 { set cs_textl 2
+qputs 350 ^7Le Sang: ^0I told you not to trust Axon, though I won't gloat - I have a
+qputs 351 vested interest in stopping Naaldir, and so I know how you must do it.
+}
+else ifge cs_timer 360 ifl cs_timer 535 {
+qputs 350 ^7Le Sang: ^0I will tell you how, then you must share this information
+qputs 351 with your friends.
+}
+else ifge cs_timer 535 ifl cs_timer 828 {
+qputs 350 ^7Le Sang: ^0You, the fellow in the hat and the swordswoman must work
+qputs 351 together; Shatter Naaldir's body, mind, and soul.
+}
+else ifge cs_timer 828 ifl cs_timer 1035 {
+qputs 350 ^7Le Sang: ^0The last step will be to travel into the ethereal realm and
+qputs 351 destroy it for good there.
+}
+else ifge cs_timer 1035 ifl cs_timer 1201 {
+qputs 350 ^7Le Sang: ^0I will look into seeing how this will be possible, but
+qputs 351 you must not delay.
+}
+else ifge cs_timer 1201 ifl cs_timer 1444 {
+qputs 350 ^7Le Sang: ^0Oh, and tell your Knight friend that he can free his brother,
+qputs 351 but it will require defeating his sire.
+}
+else ifge cs_timer 1444 {
+qputs 350 ^7Le Sang: ^0It's not Naaldir, and I can't glean his identity, but whoever
+qputs 351 he is, resides with Naaldir in its keep.
+}
+}
+
+// EP4 welys exlanations
+ife cuts_txt 4000
+{
+set cs_textl 4
+qputs 350 These mana pickups can be found throughout Elysion.
+qputs 351 They can be used as an alternate attack on some weapons.
+qputs 352 Rumor has it some blacksmiths can even use magical orbs
+qputs 353 to activate mana attacks on our conventional weapons.
+}
+else ife cuts_txt 4001
+{
+set cs_textl 4
+qputs 350 The crossbow is one of many weapons that can be found on Elysion.
+qputs 351 It is a common and versatile weapon that can be equipped with normal bolts,
+qputs 352 ^30void bolts^0 or ^1silver bolts^0. Void bolts have magical properties and
+qputs 353 can even pierce some armour. Silver bolts work well against supernatural threats.
+}
+
+// James Minerva Magnus convo Knight's fall
+ife cuts_txt 5831
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound KFALL_CONV_01 setactorvar[camerasprite].cameratime 378 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 144 {
+qputs 350 ^54Magnus: ^0Greetings my friend, it's been quite some time again hasn't it?
+}
+else ifge cs_timer 144 ifl cs_timer 234 { set speaker 39
+qputs 350 ^54Magnus: ^0I was almost worried you'd upped sticks and ran.
+}
+else ifge cs_timer 234 { set speaker 41
+qputs 350 ^54Magnus: ^0And this must be Minerva - a pleasure to make your acquaintance.
+}
+}
+ife cuts_txt 5832
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound KFALL_CONV_02 setactorvar[camerasprite].cameratime 185 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 67 { set speaker -1
+qputs 350 ^8James: ^0Great, just what I need.
+}
+else ifge cs_timer 67 {
+qputs 350 ^8James: ^0Leave her the fuck out of this, this is between you and me.
+}
+}
+ife cuts_txt 5833
+{
+ife cuts_sound 0 { globalsound KFALL_CONV_03 setactorvar[camerasprite].cameratime 261 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 139 {
+set cs_textl 1
+qputs 350 ^54Magnus: ^0Now now, I'm not one to threaten an...innocent bystander.
+}
+else ifge cs_timer 139 
+	{
+	set cs_textl 2
+	set speaker 39
+	qputs 350 ^54Magnus: ^0I'm just merely seeing how your progress is
+	qputs 351 going on finding the Mandala.
+	}
+}
+ife cuts_txt 5834
+{
+ife cuts_sound 0 { globalsound KFALL_CONV_04 setactorvar[camerasprite].cameratime 177 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 54 { set cs_textl 1
+qputs 350 ^8Minerva: ^0We'll never help you.
+}
+else ifge cs_timer 54 { set cs_textl 2
+qputs 350 ^8Minerva: ^0The Mandala is not some tool to be used for
+qputs 351 whatever your ridiculous plans are.
+}
+}
+ife cuts_txt 5835
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound KFALL_CONV_05 setactorvar[camerasprite].cameratime 335 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 184 {
+qputs 350 ^54Magnus: ^0Since I first met James, my goal has ALWAYS been the
+qputs 351 preservation and betterment of humanity.
+}
+else ifge cs_timer 184 { set speaker 39
+qputs 350 ^54Magnus: ^0I'm not just some base fundamentalist - we have a gift,
+qputs 351 don't you know?
+}
+}
+ife cuts_txt 5836
+{
+ife cuts_sound 0 { globalsound KFALL_CONV_06 setactorvar[camerasprite].cameratime 499 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 135 {
+set cs_textl 1
+set speaker 39
+qputs 350 ^54Magnus: ^0We skirt between the borders of the normal and paranormal universe...
+}
+else ifge cs_timer 135 ifl cs_timer 306 {
+set speaker 40
+set cs_textl 2
+qputs 350 ^54Magnus: ^0We are capable of such fantastic feats - but it is not
+qputs 351 easily achieved.
+}
+else ifge cs_timer 306 {
+set cs_textl 2
+set speaker -1
+qputs 350 ^54Magnus: ^0I put you through the crucible and you've grown stronger...
+qputs 351 and the same will happen to mankind.
+}
+}
+ife cuts_txt 5837
+{
+ife cuts_sound 0 { globalsound KFALL_CONV_07 setactorvar[camerasprite].cameratime 210 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 153 {
+set cs_textl 2 set speaker 39
+qputs 350 ^54Magnus: ^0Why defeat the Beyonders when we can join them and
+qputs 351 cast off the bonds of sapience?
+}
+else ifge cs_timer 153 {
+set cs_textl 1 set speaker 40
+qputs 350 ^54Magnus: ^0Imagine what we could accomplish!
+}
+}
+ife cuts_txt 5838
+{
+ife cuts_sound 0 { globalsound KFALL_CONV_08 setactorvar[camerasprite].cameratime 483 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 198 {
+set cs_textl 2
+set speaker -1
+qputs 350 ^8James: ^0Based on what I've seen and been told, the only thing the
+qputs 351 Beyonders are capable of is destruction and terror.
+}
+else ifge cs_timer 198 ifl cs_timer 274 {
+set cs_textl 1
+qputs 350 ^8James: ^0The same goes for you, and your machine.
+}
+else ifge cs_timer 274 ifl cs_timer 382 {
+set cs_textl 1
+qputs 350 ^8James: ^0I've heard this survival of the fittest rhetoric enough in my life.
+}
+else ifge cs_timer 382 {
+set cs_textl 1
+qputs 350 ^8James: ^0Whatever you tried to prove with PATCOS, it didn't work.
+}
+}
+ife cuts_txt 5839
+{
+ife cuts_sound 0 { globalsound KFALL_CONV_09 setactorvar[camerasprite].cameratime 620 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 157 {
+set cs_textl 2 set speaker 39
+qputs 350 ^54Magnus: ^0You've had a helping hand on your journey, much like I
+qputs 351 have had on mine.
+}
+else ifge cs_timer 157 ifl cs_timer 270 {
+set cs_textl 1 set speaker 41
+qputs 350 ^54Magnus: ^0Your survival is proof that we're on the right track in this timeline.
+}
+else ifge cs_timer 270 ifl cs_timer 414 {
+set cs_textl 2 set speaker -1
+qputs 350 ^54Magnus: ^0The Revelion experiments were crude, but again
+qputs 351 served a very useful purpose.
+}
+else ifge cs_timer 414 {
+set cs_textl 2 set speaker 39
+qputs 350 ^54Magnus: ^0I won't pretend I can see into the future, but I'm sure
+qputs 351 you'll agree the side effects have proved very beneficial.
+}
+}
+ife cuts_txt 5840
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound KFALL_CONV_10 setactorvar[camerasprite].cameratime 107 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 53 {
+qputs 350 ^8Minerva: ^0A helping hand?
+}
+else ifge cs_timer 53 {
+qputs 350 ^8Minerva: ^0You mean Cassandra.
+}
+}
+ife cuts_txt 5841
+{
+ife cuts_sound 0 { globalsound KFALL_CONV_11 setactorvar[camerasprite].cameratime 593 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 190 { set speaker -1
+set cs_textl 2
+qputs 350 ^54Magnus: ^0Yes...and now that you mention it, I'm seeing quite the
+qputs 351 resemblance here.
+}
+else ifge cs_timer 190 ifl cs_timer 324 { set speaker 39
+set cs_textl 1
+qputs 350 ^54Magnus: ^0PATCOS, time to see if James learnt anything from his last encounter.
+}
+else ifge cs_timer 324 ifl cs_timer 387 { set speaker 41
+qputs 350 ^54Magnus: ^0Don't harm Minerva.
+}
+else ifge cs_timer 387 ifl cs_timer 531 { set speaker 39
+set cs_textl 2
+qputs 350 ^54Magnus: ^0I'm not out to spite you James, I just want to see you
+qputs 351 rise to the challenge.
+}
+else ifge cs_timer 531 { set speaker -1
+set cs_textl 1
+qputs 350 ^54Magnus: ^0I'll be seeing you in a few months time.
+}
+}
+// Naaldir =============================================================================================================
+ife cuts_txt 5851
+{
+state radio_necro_pic
+ife cuts_sound 0 { globalsound NAAL_01 set yvel_saved 599 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 292 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0Countless ages ago, a species known to you as the
+qputs 351 Engineers commanded the Stars.
+}
+else ifge cs_timer 292 ifl cs_timer 504 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0Nothing was out of their reach..but there was one
+qputs 351 summit they could not peak.
+}
+else ifge cs_timer 504 { set cs_textl 1
+qputs 350 ^54Naaldir: ^0Death itself.
+}
+}
+ife cuts_txt 5852
+{
+state radio_necro_pic
+ife cuts_sound 0 { globalsound NAAL_02 set yvel_saved 917 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 81 { set cs_textl 1
+qputs 350 ^54Naaldir: ^0How they tried.
+}
+else ifge cs_timer 81 ifl cs_timer 130 {
+qputs 350 ^54Naaldir: ^0Desperately.
+}
+else ifge cs_timer 130 ifl cs_timer 184 {
+qputs 350 ^54Naaldir: ^0Vainly.
+}
+else ifge cs_timer 184 ifl cs_timer 265 {
+qputs 350 ^54Naaldir: ^0Pathetically.
+}
+else ifge cs_timer 265 ifl cs_timer 553 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0They had solved the question your species has asked itself
+qputs 351 throughout the ages, and did not care for the answer.
+}
+else ifge cs_timer 553 ifl cs_timer 917 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0So they decided on one last great feat; if they could not conquer
+qputs 351 mortality, than they would engineer a life beyond this one
+}
+}
+ife cuts_txt 5853
+{
+state radio_necro_pic
+ife cuts_sound 0 { globalsound NAAL_03 set yvel_saved 1055 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 522 { set cs_textl 3
+qputs 350 ^54Naaldir: ^0The Noosphere was childs play to them; With billions of
+qputs 351 worlds under their  control, they understood the tangible effect that
+qputs 352 consciousness on that scale could exhibit on reality.
+}
+else ifge cs_timer 522 ifl cs_timer 927 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0What if they created life, bred from the ground up, to believe not only
+qputs 351 that they were Gods, but that there was an afterlife waiting for them after all?
+}
+else ifge cs_timer 927 ifl cs_timer 1055 { set cs_textl 1
+qputs 350 ^54Naaldir: ^0And thus the Ringworlds were created.
+}
+}
+ife cuts_txt 5854
+{
+state radio_necro_pic
+ife cuts_sound 0 { globalsound NAAL_04 set yvel_saved 952 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 265 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0Seeded with incalculable numbers of lifeforms, gathered
+qputs 351 from around the galaxy.
+}
+else ifge cs_timer 265 ifl cs_timer 562 {
+qputs 350 ^54Naaldir: ^0Nurtured to worship their creators, revere them - and thus
+qputs 351 nudge reality further and further to reflect this.
+}
+else ifge cs_timer 562 ifl cs_timer 729 { set cs_textl 1
+qputs 350 ^54Naaldir: ^0But it was not enough - there were still no tangible results.
+}
+else ifge cs_timer 729 ifl cs_timer 952 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0Eventually, the Engineers realised just what they
+qputs 351 would have to do to their creations.
+}
+}
+ife cuts_txt 5855
+{
+state radio_necro_pic
+ife cuts_sound 0 { globalsound NAAL_05 set yvel_saved 1380 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 256 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0They voted, and deliberated - but their cowardice won
+qputs 351 through in the end.
+}
+else ifge cs_timer 256 ifl cs_timer 751 { set cs_textl 3
+qputs 350 ^54Naaldir: ^0It was decided that a sacrifice was in order - by using the power of
+qputs 351 The suns in the centre of the ringworlds, the Engineers scorched the surface of
+qputs 352 every one they had created, simultaneously.
+}
+else ifge cs_timer 751 ifl cs_timer 859 { set cs_textl 1
+qputs 350 ^54Naaldir: ^0All spare for Elysion.
+}
+else ifge cs_timer 859 ifl cs_timer 1380 { set cs_textl 3
+qputs 350 ^54Naaldir: ^0This collossal exodus of sapient life, all carefully created to believe
+qputs 351 in the hereafter and the divinity of the Engineers, would FORCE reality to bow to
+qputs 352 its whims...and create the Engineer's heaven.
+}
+}
+ife cuts_txt 5856
+{
+state radio_necro_pic
+ife cuts_sound 0 { globalsound NAAL_06 set yvel_saved 1225 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 220 { set cs_textl 1
+qputs 350 ^54Naaldir: ^0The number of lives, incinerated instantly, was boundless.
+}
+else ifge cs_timer 220 ifl cs_timer 297 {
+qputs 350 ^54Naaldir: ^0And it worked.
+}
+else ifge cs_timer 297 ifl cs_timer 486 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0The Engineers had conquered the final puzzle...
+qputs 351 and created an afterlife
+}
+else ifge cs_timer 486 ifl cs_timer 598 { set cs_textl 1
+qputs 350 ^54Naaldir: ^0But it was not without consequence.
+}
+else ifge cs_timer 598 ifl cs_timer 733 {
+qputs 350 ^54Naaldir: ^0The blasphemy they had committed tore at the walls of the universe.
+}
+else ifge cs_timer 733 ifl cs_timer 1057 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0The idea of a soul, become reality - and the innumerable
+qputs 351 lifes destroyed realised what had been done to them in an instant.
+}
+else ifge cs_timer 1057 ifl cs_timer 1161 { set cs_textl 1
+qputs 350 ^54Naaldir: ^0As I'm sure you can imagine...
+}
+else ifge cs_timer 1161 {
+qputs 350 ^54Naaldir: ^0We were not happy.
+}
+}
+ife cuts_txt 5857
+{
+state radio_necro_pic
+ife cuts_sound 0 { globalsound NAAL_07 set yvel_saved 1117 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 382 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0The Engineers frolicked in the fields of paradise - whilst we had our
+qputs 351 collective conscious ravished in ways that cannot be described.
+}
+else ifge cs_timer 382 ifl cs_timer 660 {
+qputs 350 ^54Naaldir: ^0We have endured this for millions of years, and now thanks to
+qputs 351 your arrival...there is a light at the end of the tunnel.
+}
+else ifge cs_timer 660 ifl cs_timer 946 {
+qputs 350 ^54Naaldir: ^0Why was Elysion spared? Perhaps the Engineers here had a
+qputs 351 shred of remorse for what the others did, and aborted the plan.
+}
+else ifge cs_timer 946 { set cs_textl 1
+qputs 350 ^54Naaldir: ^0We did not care, nor did we spare their suffering.
+}
+}
+ife cuts_txt 5858
+{
+state radio_necro_pic
+ife cuts_sound 0 { globalsound NAAL_08 set yvel_saved 919 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 294 { set cs_textl 2
+qputs 350 ^54Naaldir: ^0Having been left unsupervised, the supernatural phenomena here
+qputs 351 has been allowed to flourish, untamed.
+}
+else ifge cs_timer 294 ifl cs_timer 478 {
+qputs 350 ^54Naaldir: ^0And now it contains far more energy than the other Ringworlds
+qputs 351 did combined.
+}
+else ifge cs_timer 478 ifl cs_timer 658 {
+qputs 350 ^54Naaldir: ^0Energy that we will put to use...because we want to share our
+qputs 351 pain with you.
+}
+else ifge cs_timer 658 ifl cs_timer 721 { set cs_textl 1
+qputs 350 ^54Naaldir: ^0With everyone.
+}
+else ifge cs_timer 721 ifl cs_timer 780 {
+qputs 350 ^54Naaldir: ^0With the Universe.
+}
+else ifge cs_timer 780 {
+qputs 350 ^54Naaldir: ^0When we are finished...the Beyonders will not need to come.
+}
+}
+ife cuts_txt 5867
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MC_RINGW01 set yvel_saved 114 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 49 {
+qputs 350 ^8Micky: ^0A..a Hydra?!
+}
+else ifge cs_timer 49 {
+qputs 350 ^8Micky: ^0I sure hope these cannons are working!
+}
+}
+ife cuts_txt 5868
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MC_RINGW02 set yvel_saved 155 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 85 {
+qputs 350 ^8Micky: ^0That Hydra damn near killed me...
+}
+else ifge cs_timer 85 {
+qputs 350 ^8Micky: ^0I'm starting to wonder if I'm up to this job...
+}
+}
+ife cuts_txt 5869
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MC_RINGW03 set yvel_saved 132 set cuts_sound 1 }
+ifge cs_timer 0 {
+qputs 350 ^8Micky: ^0Wow...I bet the castle was built to protect this facility.
+}
+}
+ife cuts_txt 5870
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MC_RINGW04 set yvel_saved 114 set cuts_sound 1 }
+ifge cs_timer 0 {
+qputs 350 ^8Micky: ^0I can't use the stargate yet, I need to complete my mission.
+}
+}
+ife cuts_txt 5871
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound MC_RINGW05 set yvel_saved 195 set cuts_sound 1 }
+ifge cs_timer 0 { set cs_textl 2
+qputs 350 ^8Micky: ^0I don't fully understand how this projector works,
+qputs 351 but I bet I can repair it by repairing these terminals.
+}
+}
+ife cuts_txt 5872
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MC_RINGW06 set yvel_saved 159 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 54 {
+qputs 350 ^8Micky: ^0Egyptian enemies?!
+}
+else ifge cs_timer 54 {
+qputs 350 ^8Micky: ^0I KNEW the stargate franchise was based on real life!
+}
+}
+ife cuts_txt 5873
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MC_RINGW07 set yvel_saved 371 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 71 {
+qputs 350 ^8Micky: ^0Well how about that?
+}
+else ifge cs_timer 71 ifl cs_timer 199 {
+qputs 350 ^8Micky: ^0You don't have to understand how everything works or to be the best...
+}
+else ifge cs_timer 199 ifl cs_timer 300 {
+qputs 350 ^8Micky: ^0You just need to be able to do your job and make a difference...
+}
+else ifge cs_timer 300 {
+qputs 350 ^8Micky: ^0...and make it home in one piece.
+}
+}
+// Naaldir =============================================================================================================
+ife cuts_txt 5923
+{
+set cs_textl 1
+set speaker 50
+ife cuts_sound 0 { globalsound DRAB_CONV01 setactorvar[camerasprite].cameratime 186 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 67 {
+qputs 350 ^8Drabeus: ^0Welcome, offworlders...
+}
+else ifge cs_timer 67 ifl cs_timer 112 {
+qputs 350 ^8Drabeus: ^0And Merlijn.
+}
+else ifge cs_timer 112 {
+qputs 350 ^8Drabeus: ^0My name is Drabeus.
+}
+}
+ife cuts_txt 5924
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound DRAB_CONV02 setactorvar[camerasprite].cameratime 116 set cuts_sound 1 }
+ifge cs_timer 0 {
+qputs 350 ^8Merlijn: ^0Wait, You know of us? Can you help us on our quest?
+}
+}
+ife cuts_txt 5925
+{
+ife cuts_sound 0 { globalsound DRAB_CONV03 setactorvar[camerasprite].cameratime 481 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 198 { set cs_textl 2
+qputs 350 ^8Drabeus: ^0Yes, Axon has sent word...but you are not
+qputs 351 ready to meet him just yet.
+}
+else ifge cs_timer 198 ifl cs_timer 321 { set cs_textl 1
+qputs 350 ^8Drabeus: ^0The people of Easthaven need your help first,
+}
+else ifge cs_timer 321 { set cs_textl 2
+qputs 350 ^8Drabeus: ^0And...to be blunt, we need to know that
+qputs 351 you can be trusted with his location.
+}
+}
+ife cuts_txt 5926
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound DRAB_CONV04 setactorvar[camerasprite].cameratime 143 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 85 {
+qputs 350 ^8James: ^0I don't wanna be rude, but we're in kind of a rush here.
+}
+else ifge cs_timer 85 { set speaker 0
+qputs 350 ^8James: ^0The GALAXY, is under threat?
+}
+}
+ife cuts_txt 5927
+{
+set speaker 50
+ife cuts_sound 0 { globalsound DRAB_CONV05 setactorvar[camerasprite].cameratime 455 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 142 { set cs_textl 1
+qputs 350 ^8Drabeus: ^0I know, Axon spoke of these 'Beyonders'...
+}
+else ifge cs_timer 142 ifl cs_timer 283 { set cs_textl 2
+qputs 350 ^8Drabeus: ^0But if you do not help us, Naaldir will
+qputs 351 grow in power unchecked.
+}
+else ifge cs_timer 283 {
+qputs 350 ^8Drabeus: ^0His actions will hasten the inevitable
+qputs 351 and bring them to our realm in force.
+}
+}
+ife cuts_txt 5928
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound DRAB_CONV06 setactorvar[camerasprite].cameratime 100 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 67 {
+qputs 350 ^8Sang: ^0Alright, we'll help out,
+}
+else ifge cs_timer 67 { set speaker 26
+qputs 350 ^8Sang: ^0What do you need?
+}
+}
+ife cuts_txt 5929
+{
+set speaker -1
+ife cuts_sound 0 { globalsound DRAB_CONV07 setactorvar[camerasprite].cameratime 527 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 105 { set cs_textl 1
+qputs 350 ^8Drabeus: ^0Not just me - the townspeople.
+}
+else ifge cs_timer 105 ifl cs_timer 211 {
+qputs 350 ^8Drabeus: ^0Find them out; they will help you on your journey.
+}
+else ifge cs_timer 211 ifl cs_timer 405 { set cs_textl 2
+qputs 350 ^8Drabeus: ^0To tackle the Necromancer is no mean feat, and you will need
+qputs 351 friends and allies before you can hope to reach him.
+}
+else ifge cs_timer 405 { set cs_textl 1
+qputs 350 ^8Drabeus: ^0Good luck, and Merlijn...I wish to talk to you.
+}
+}
+ife cuts_txt 5930
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound DRAB_CONV08 setactorvar[camerasprite].cameratime 84 set cuts_sound 1 }
+ifge cs_timer 0 {
+qputs 350 ^8Merlijn: ^0What can I do to face the Necromancer?
+}
+}
+ife cuts_txt 5931
+{
+ife cuts_sound 0 { globalsound DRAB_CONV09 setactorvar[camerasprite].cameratime 676 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 132 { set cs_textl 1
+qputs 350 ^8Drabeus: ^0Travel west, across the sea, to Chesheon.
+}
+else ifge cs_timer 132 ifl cs_timer 270 { set cs_textl 2
+qputs 350 ^8Drabeus: ^0The Necromancer's general, Mongur,
+qputs 351 lives in a collosseum there.
+}
+else ifge cs_timer 270 ifl cs_timer 558 { set cs_textl 2
+qputs 350 ^8Drabeus: ^0He is a most terrible foe, but you will need to slay him in
+qputs 351 order for your inevitable siege of Naaldir's keep to be successful.
+}
+else ifge cs_timer 558 { set cs_textl 1
+qputs 350 ^8Drabeus: ^0It is dangerous, but I have the utmost faith in you.
+}
+}
+ife cuts_txt 5932
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound DRAB_CONV10 setactorvar[camerasprite].cameratime 109 set cuts_sound 1 }
+ifge cs_timer 0 { set speaker 2
+qputs 350 ^8Merlijn: ^0Than I shall see to it that I succeed...Thank you.
+}
+}
+// James knightfall
+ife cuts_txt 5933
+{
+ifand NOISE_SAID 16 nullop else xorvar NOISE_SAID 16 // disable automatic rain quote
+set cs_textl 1
+ife cuts_sound 0 { globalsound JKFALL_01 set yvel_saved 164 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 90 {
+qputs 350 ^8James: ^0Travelled all this fucking way, and it's raining?
+}
+else ifge cs_timer 90 {
+qputs 350 ^8James: ^0This is just like my holiday to fucking Cornwall.
+}
+}
+ife cuts_txt 5934
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound JKFALL_02 set yvel_saved 199 set cuts_sound 1 }
+ifge cs_timer 0
+{
+qputs 350 ^8James: ^0Yeah of course, you go on ahead Minerva, I'll just jump
+qputs 351 on these GIANT cogs and try not to get CRUSHED between them.
+}
+}
+
+// Necrokeep
+ife cuts_txt 5939
+{
+
+ife cuts_sound 0 { globalsound NKEEP_01 setactorvar[camerasprite].cameratime 322 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 63 {
+set cs_textl 1
+qputs 350 ^8James: ^0Well that's not good.
+}
+else ifge cs_timer 63 ifl cs_timer 144 {
+qputs 350 ^8James: ^0We're gonna have to draw the line here.
+}
+else ifge cs_timer 144 ifl cs_timer 211 {
+qputs 350 ^8James: ^0You guys can handle Naaldir.
+}
+else ifge cs_timer 211 {
+set cs_textl 2
+qputs 350 ^8James: ^0The rest of us will stay here and hold the horde
+qputs 351 off as long as possible.
+}
+}
+ife cuts_txt 5940
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound NKEEP_02 setactorvar[camerasprite].cameratime 264 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 60 {
+qputs 350 ^8Kagura: ^7Understood.^
+}
+else ifge cs_timer 60 ifl cs_timer 142 {
+qputs 350 ^8Kagura: ^0Good luck to you...and everyone here,
+}
+else ifge cs_timer 142 {
+qputs 350 ^8Kagura: ^0We will all come out of this alive, I promise.
+}
+}
+ife cuts_txt 5941
+{
+
+ife cuts_sound 0 { globalsound NKEEP_03 setactorvar[camerasprite].cameratime 390 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 144 { set cs_textl 2
+qputs 350 ^8Merlijn: ^0I need to find my brother, I cannot
+qputs 351 stay here and fight as much as I want.
+}
+else ifge cs_timer 144 ifl cs_timer 193 { set cs_textl 1
+qputs 350 ^8Merlijn: ^0I owe it to him.
+}
+else ifge cs_timer 193 ifl cs_timer 325 { set cs_textl 2
+qputs 350 ^8Merlijn: ^0I am truly sorry but I have to do this, I
+qputs 351 can't perish without closure...
+}
+else ifge cs_timer 325 { set cs_textl 1
+qputs 350 ^8Merlijn: ^0Knowing if I could have saved him or not.
+}
+}
+ife cuts_txt 5942
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound NKEEP_04 setactorvar[camerasprite].cameratime 225 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 112 {
+qputs 350 ^8James: ^0Alright alright - I hope you know what you're doing Merlijn.
+}
+else ifge cs_timer 112 ifl cs_timer 193 {
+qputs 350 ^8James: ^0Don't get killed for no reason.
+}
+else ifge cs_timer 193 {
+qputs 350 ^8James: ^0I'll see you soon.
+}
+}
+ife cuts_txt 5943
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound NKEEP_05 setactorvar[camerasprite].cameratime 450 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 81 {
+qputs 350 ^8James: ^0Ok we can hear you!
+}
+else ifge cs_timer 81 ifl cs_timer 144 {
+qputs 350 ^8James: ^0No more time for bullshit.
+}
+else ifge cs_timer 144 ifl cs_timer 270 {
+qputs 350 ^8James: ^0Kagura, Sang, Rusty...god speed to you.
+}
+else ifge cs_timer 270 {
+qputs 350 ^8James: ^0Kill that motherfucker, end this, and let's all go home.
+}
+}
+// battle preperation scene
+ife cuts_txt 5954
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound BPREP_01 setactorvar[camerasprite].cameratime 144 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 103 {
+qputs 350 ^8James: ^0...so Le Sang has been talking to you in your head,
+}
+else ifge cs_timer 103 { set speaker 0
+qputs 350 ^8James: ^0...and you TRUST him?
+}
+}
+ife cuts_txt 5955
+{
+ife cuts_sound 0 { globalsound BPREP_02 setactorvar[camerasprite].cameratime 1454 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 238 { set cs_textl 2
+qputs 350 ^8Sang: ^0I mean yeah it's kinda dumb but you've also done stupid things
+qputs 351 when I told you not to so I think I earned the benefit of the doubt here.
+}
+else ifge cs_timer 238 ifl cs_timer 498 { set speaker 26
+qputs 350 ^8Sang: ^0We need to destroy Naaldir's body, mind, and then soul...
+qputs 351 which means Rusty, Me and Kagura are up.
+}
+else ifge cs_timer 498 ifl cs_timer 643 { set speaker -1
+qputs 350 ^8Sang: ^0Rusty can destroy his body - it has to be
+qputs 351 you, this will coax its spirit out.
+}
+else ifge cs_timer 643 ifl cs_timer 855 { set speaker 26
+qputs 350 ^8Sang: ^0Then it's up to yours truly - I've gotta destroy
+qputs 351 the mind, probably with spells 'n shit.
+}
+else ifge cs_timer 855 ifl cs_timer 993 { set cs_textl 1 set speaker 17
+qputs 350 ^8Sang: ^0Finally, Kagura - you can destroy its soul with Yo.
+}
+else ifge cs_timer 993 ifl cs_timer 1179 { set cs_textl 2 set speaker 17
+qputs 350 ^8Sang: ^0This needs to be done in the Ethereal realm, now don't
+qputs 351 ask 'cuz I barely know anything about it.
+}
+else ifge cs_timer 1179 ifl cs_timer 1380 { set speaker 26
+qputs 350 ^8Sang: ^0All I do know is that doing the first 2 steps will
+qputs 351 make Naaldir retreat there, so we can follow it.
+}
+else ifge cs_timer 1380 { set cs_textl 1 set speaker -1
+qputs 350 ^8Sang: ^0Any questions? No alrighty then.
+}
+}
+ife cuts_txt 5956
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound BPREP_03 setactorvar[camerasprite].cameratime 207 set cuts_sound 1 }
+ifge cs_timer 0 { set speaker 17
+qputs 350 ^8Kagura: ^0I am not familiar with that place, but if it is anything like
+qputs 351 the Shadow Realm than I will be able to handle it.
+}
+}
+ife cuts_txt 5957
+{
+set speaker -1
+ife cuts_sound 0 { globalsound BPREP_04 setactorvar[camerasprite].cameratime 203 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 126 { set cs_textl 2
+qputs 350 ^8Rusty: ^0I don't know anything about coaxing spirits, but I'll take your
+qputs 351 word for it.
+}
+else ifge cs_timer 126 { set cs_textl 1 set speaker 5
+qputs 350 ^8Rusty: ^0I seen 'em do stranger things in my time.
+}
+}
+ife cuts_txt 5958
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound BPREP_05 setactorvar[camerasprite].cameratime 105 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 55 { set speaker 2
+qputs 350 ^8Merlijn: ^0What about my brother, did...
+}
+else ifge cs_timer 55 { set speaker -1
+qputs 350 ^8Merlijn: ^0Did Le Sang mention him at all?!
+}
+}
+ife cuts_txt 5959
+{
+ife cuts_sound 0 { globalsound BPREP_06 setactorvar[camerasprite].cameratime 425 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 202 { set cs_textl 2
+qputs 350 ^8Sang: ^0...He did yeah, he said we can free him, but...
+qputs 351 we need to defeat his sire, whoever the hell that is.
+}
+else ifge cs_timer 202 ifl cs_timer 255 { set cs_textl 1
+qputs 350 ^8Sang: ^0They're at the keep with Naaldir.
+}
+else ifge cs_timer 255 { set cs_textl 2 set speaker 26
+qputs 350 ^8Sang: ^0Listen man, I know you wanna save him but we
+qputs 351 gotta prioritise killing the necrodouche.
+}
+}
+ife cuts_txt 5960
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound BPREP_07 setactorvar[camerasprite].cameratime 180 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 97 { set speaker -1 set speaker 38
+qputs 350 ^8Merlijn: ^0Hell and Damnation I know this, but we must find him!
+}
+else ifge cs_timer 97 { set speaker 2
+qputs 350 ^8Merlijn: ^0I won't leave Elysion till I do and bring him home!
+}
+}
+ife cuts_txt 5961
+{
+ife cuts_sound 0 { globalsound BPREP_08 setactorvar[camerasprite].cameratime 880 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 111 { set cs_textl 1
+qputs 350 ^8Sang: ^0Merlijn, listen - we'll do what we can, Ok?
+}
+else ifge cs_timer 111 ifl cs_timer 265 { set cs_textl 2 set speaker 26
+qputs 350 ^8Sang: ^0The answer lies in Naaldir's keep, let's
+qputs 351 focus on getting inside in one piece.
+}
+else ifge cs_timer 265 ifl cs_timer 360 { set cs_textl 1 set speaker -1
+qputs 350 ^8Sang: ^0Freija's told us she's got her armies in place.
+}
+else ifge cs_timer 360 ifl cs_timer 571 { set cs_textl 2 set speaker 26
+qputs 350 ^8Sang: ^0With us clearing out a shitload of the horde, and opening up the
+qputs 351 wayshrines around Rowgar, they've really been able to get things moving.
+}
+else ifge cs_timer 571 ifl cs_timer 723 { set speaker -1
+qputs 350 ^8Sang: ^0They will draw the main bulk of the enemy
+qputs 351 forces away from the Necromancer's keep.
+}
+else ifge cs_timer 723 { set speaker 26
+qputs 350 ^8Sang: ^0It'll still be heavily guarded, but at least
+qputs 351 only by hundreds and not thousands.
+}
+}
+ife cuts_txt 5962
+{
+set speaker -1
+ife cuts_sound 0 { globalsound BPREP_09 setactorvar[camerasprite].cameratime 731 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 198 { set cs_textl 2 set speaker 14
+qputs 350 ^8Micky: ^0Snowfall and I have been trying to get the plasma tank
+qputs 351 operational, but...it's not looking good.
+}
+else ifge cs_timer 198 ifl cs_timer 306 { set cs_textl 1 set speaker -1
+qputs 350 ^8Micky: ^0So we're likely going to have to charge the gates on foot.
+}
+else ifge cs_timer 306 ifl cs_timer 490 { set cs_textl 2 set speaker 13
+qputs 350 ^8Micky: ^0The good news is that we've got word from survivors of the EDF
+qputs 351 Panama, and they're going to help us.
+}
+else ifge cs_timer 490 { set speaker -1
+qputs 350 ^8Micky: ^0 When we get back, I can use the engineer tech to build a portal
+qputs 351 and link it to the ones here on Elysion, giving them an instant trip home.
+}
+}
+ife cuts_txt 5963
+{
+
+ife cuts_sound 0 { globalsound BPREP_10 setactorvar[camerasprite].cameratime 439 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 157 {  set cs_textl 2
+qputs 350 ^8James: ^0 When we do get inside, Naaldir will most likely signal
+qputs 351 its forces to return,
+}
+else ifge cs_timer 157 ifl cs_timer 342 { set speaker 0
+qputs 350 ^8James: ^0 Which means we need to push straight towards the heart of
+qputs 351 the complex, to Naaldir itself, as fast as possible.
+}
+else ifge cs_timer 342 { set cs_textl 1 set speaker -1
+qputs 350 ^8James: ^0 Well, that's it then - Let's all get some rest.
+}
+}
+ife cuts_txt 5964
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound BPREP_11 setactorvar[camerasprite].cameratime 250 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 109
+	{	
+	set speaker 6
+	qputs 350 ^8Geoffrey: ^0YOU can get some rest, I'm getting plastered.
+	}
+else ifge cs_timer 91
+	{
+	set speaker -1
+	qputs 350 ^8Geoffrey: ^0Maybe one of those 7ft EDF supersoldier babes likes Martians...
+	}
+}
+// Rusty Kagura
+ife cuts_txt 5965
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound KAGRUS_01 setactorvar[camerasprite].cameratime 137 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 72 { set speaker 17
+qputs 350 ^8Kagura: ^7^Hey, Uncle...^
+}
+else ifge cs_timer 72 { 
+qputs 350 ^8Kagura: ^0How do you think I am doing?
+}
+}
+ife cuts_txt 5966
+{
+ife cuts_sound 0 { globalsound KAGRUS_02 setactorvar[camerasprite].cameratime 370 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 72 { set cs_textl 1
+qputs 350 ^8Rusty: ^0You don't need me to pat you on the back.
+}
+else ifge cs_timer 72 ifl cs_timer 216 { set cs_textl 2 
+qputs 350 ^8Rusty: ^0You joined at a...interesting time, and got
+qputs 351 thrown in the really deep end.
+}
+else ifge cs_timer 216 { set speaker 32 
+qputs 350 ^8Rusty: ^0It was a pretty big ask to get you to come all
+qputs 351 the way out here, but I'm mighty glad you did.
+}
+}
+ife cuts_txt 5967
+{
+ife cuts_sound 0 { globalsound KAGRUS_03 setactorvar[camerasprite].cameratime 300 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 202 { set cs_textl 2 set speaker 5
+qputs 350 ^8Rusty: ^0Maybe Merlijn could do the job with that big ol' hunk of iron
+qputs 351 of his, but honestly with his brother on his mind like that...
+}
+else ifge cs_timer 202 { set cs_textl 1 set speaker -1
+qputs 350 ^8Rusty: ^0I'm not sure he'd be able to do it and survive at the same time.
+}
+}
+ife cuts_txt 5968
+{
+
+ife cuts_sound 0 { globalsound KAGRUS_04 setactorvar[camerasprite].cameratime 696 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 72 { set cs_textl 1 set speaker -1
+qputs 350 ^8Kagura: ^7^Is that so?^
+}
+else ifge cs_timer 72 ifl cs_timer 358 { set cs_textl 2
+qputs 350 ^8Kagura: ^0I have learned a lot and seen incredible sights while here...
+qputs 351 my first mission and it has already been an adventure of a lifetime.
+}
+else ifge cs_timer 358 ifl cs_timer 436 { set cs_textl 1 set speaker 32
+qputs 350 ^8Kagura: ^7^However...^
+}
+else ifge cs_timer 436 { set cs_textl 2
+qputs 350 ^8Kagura: ^0I understand what Merlijn is going through...we are in a
+qputs 351 similar problem after all, with our siblings.
+}
+}
+ife cuts_txt 5969
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound KAGRUS_05 setactorvar[camerasprite].cameratime 242 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 138 {
+qputs 350 ^8Rusty: ^0He seems convinced that he can save Maarten, but I ain't so sure.
+}
+else ifge cs_timer 139 {
+qputs 350 ^8Rusty: ^0And Rikka, well...I don't know...
+}
+}
+ife cuts_txt 5970
+{
+set cs_textl 1
+set speaker 33
+ife cuts_sound 0 { globalsound KAGRUS_06 setactorvar[camerasprite].cameratime 53 set cuts_sound 1 }
+qputs 350 ^8Kagura: ^7^Big Sister...^
+}
+ife cuts_txt 5971
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound KAGRUS_07 setactorvar[camerasprite].cameratime 133 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 99 {
+qputs 350 ^8Rusty: ^0But, if there's a way, we can do it.
+}
+else ifge cs_timer 99 { set speaker 5
+qputs 350 ^8Rusty: ^0I know we can.
+}
+}
+ife cuts_txt 5972
+{
+set cs_textl 1
+ife cuts_sound 0 { set speaker 32 globalsound KAGRUS_08 setactorvar[camerasprite].cameratime 62 set cuts_sound 1 }
+qputs 350 ^8Kagura: ^0I hope so, ^7^Uncle.^
+}
+ife cuts_txt 5973
+{
+ife cuts_sound 0 { globalsound KAGRUS_09 setactorvar[camerasprite].cameratime 305 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 115 { set cs_textl 1
+qputs 350 ^8Rusty: ^7^Don't worry, it will be Ok.^
+}
+else ifge cs_timer 115 ifl cs_timer 273 { set cs_textl 2 set speaker 37
+qputs 350 ^8Rusty: ^0I'm gonna go get some shut eye, don't stay up too
+qputs 351 late alright, gonna be a long day tomorrow.
+}
+else ifge cs_timer 273 { set cs_textl 1
+qputs 350 ^8Rusty: ^7^Good night.^
+}
+}
+ife cuts_txt 5974
+{
+set cs_textl 1
+ife cuts_sound 0 { set speaker 17 globalsound KAGRUS_10 setactorvar[camerasprite].cameratime 106 set cuts_sound 1 }
+qputs 350 ^8Kagura: ^7^Yes, Good night Uncle.^
+}
+// James Jane
+ife cuts_txt 5975
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound JAJANE_01 setactorvar[camerasprite].cameratime 65 set cuts_sound 1 set speaker 12 }
+qputs 350 ^8Jane: ^0...and you don't know how long you'll be gone for?
+}
+ife cuts_txt 5976
+{
+ife cuts_sound 0 { globalsound JAJANE_02 setactorvar[camerasprite].cameratime 469 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 58 { set cs_textl 1
+qputs 350 ^8James: ^0 No...not a clue.
+}
+else ifge cs_timer 58 ifl cs_timer 189 { set cs_textl 2
+qputs 350 ^8James: ^0 If there was another way there, we'd take it - but it's
+qputs 351 50,000  light years away.
+}
+else ifge cs_timer 189 ifl cs_timer 346 { set cs_textl 2
+qputs 350 ^8James: ^0 We can jump as far as possible with the jumpgates, but
+qputs 351 then we've got to slowburn the rest of the way.
+}
+else ifge cs_timer 346 ifl cs_timer 427 { set cs_textl 1 set speaker -1
+qputs 350 ^8James: ^0 ...It could take months.
+}
+else ifge cs_timer 427 { set speaker 0
+qputs 350 ^8James: ^0 Keep things safe for me here, alright?
+}
+}
+ife cuts_txt 5977
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound JAJANE_03 setactorvar[camerasprite].cameratime 451 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 94 { set cs_textl 1 set speaker -1
+qputs 350 ^8Jane: ^0Just...be careful.
+}
+else ifge cs_timer 94 ifl cs_timer 153 {
+qputs 350 ^8Jane: ^0Please.
+}
+else ifge cs_timer 153 ifl cs_timer 297 { set cs_textl 2 
+qputs 350 ^8Jane: ^0No more stupid stunts, I don't want you coming home with
+qputs 351 more missing limbs....
+}
+else ifge cs_timer 297 { set cs_textl 1 set speaker 12
+qputs 350 ^8Jane: ^0and...no horseplay with that cute witch, alright?
+}
+}
+ife cuts_txt 5978
+{
+ife cuts_sound 0 { globalsound JAJANE_04 setactorvar[camerasprite].cameratime 606 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 99 { set cs_textl 1
+qputs 350 ^8James: ^0What, you don't think you'll get bored yourself?
+}
+else ifge cs_timer 99 ifl cs_timer 175 { 
+qputs 350 ^8James: ^0You know I'm good, you can trust me.
+}
+else ifge cs_timer 175 ifl cs_timer 256 {
+qputs 350 ^8James: ^0...Just not with grievous injuries.
+}
+else ifge cs_timer 256 ifl cs_timer 436 { set speaker 0
+set cs_textl 2
+qputs 350 ^8James: ^0Don't give me that look, PATCOS caught me by surprise;
+qputs 351 I've fought bigger and badder things.
+}
+else ifge cs_timer 436 ifl cs_timer 567 {
+qputs 350 ^8James: ^0That crazy dude with the baby blue blanket and the
+qputs 351 minigun, I told you about that.
+}
+else ifge cs_timer 567 {
+set cs_textl 1 set speaker -1
+qputs 350 ^8James: ^0Barely a scratch.
+}
+}
+ife cuts_txt 5979
+{
+ife cuts_sound 0 { globalsound JAJANE_05 setactorvar[camerasprite].cameratime 399 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 120 { set cs_textl 1 set speaker -1
+qputs 350 ^8Jane: ^0Okay,I'll keep watch here.
+}
+else ifge cs_timer 120 ifl cs_timer 246 {
+qputs 350 ^8Jane: ^0Just...come home soon, in one piece?
+}
+else ifge cs_timer 246 { set cs_textl 2 set speaker 12
+qputs 350 ^8Jane: ^0And don't let any of your teammates die either, they
+qputs 351 trust you more than you'll ever know.
+}
+}
+ife cuts_txt 5980
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound JAJANE_06 setactorvar[camerasprite].cameratime 57 set cuts_sound 1 }
+ifge cs_timer 0 {
+qputs 350 ^8James: ^0Pinky promise pumpkin.
+}
+}
+ife cuts_txt 5981
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound JAJANE_07 setactorvar[camerasprite].cameratime 76 set cuts_sound 1 }
+ifge cs_timer 0 { set speaker -1
+qputs 350 ^8Jane: ^0 *laughs* You.
+}
+}
+// library scene =====================================================================================================
+ife cuts_txt 5982 // James
+{
+ife cuts_sound 0 { globalsound LIBR_01 setactorvar[camerasprite].cameratime 434 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 112 { set cs_textl 1
+qputs 350 ^8James: ^0 Axon, we've come to request your help.
+}
+else ifge cs_timer 112 ifl cs_timer 265 { set cs_textl 2 set speaker 0
+qputs 350 ^8James: ^0 This Naaldir, it lead us to Elysion claiming it knows
+qputs 351 the location of the Mandala.
+}
+else ifge cs_timer 265 { set speaker -1
+qputs 350 ^8James: ^0 We've got the forces necessary to assault its keep,
+qputs 351 but we don't actually know how to kill this thing.
+}
+}
+ife cuts_txt 5983 // Axon
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound LIBR_02 setactorvar[camerasprite].cameratime 173 set cuts_sound 1 }
+ifge cs_timer 0 {
+qputs 350 ^8Axon: ^0 ...You have wasted your precious remaining time, you are
+qputs 351 aware of this I hope?
+}
+}
+ife cuts_txt 5984 // James
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound LIBR_03 setactorvar[camerasprite].cameratime 49 set cuts_sound 1 }
+ifge cs_timer 0 {
+qputs 350 ^8James: ^0 ...I'm sorry?
+}
+}
+ife cuts_txt 5985 // Axon
+{
+ife cuts_sound 0 { globalsound LIBR_04 setactorvar[camerasprite].cameratime 509 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 94 { set cs_textl 1
+qputs 350 ^8Axon: ^0Naaldir doesn't know where it is.
+}
+else ifge cs_timer 94 ifl cs_timer 211 {
+qputs 350 ^8Axon: ^0It just wanted Merlijn here, for some twisted purpose.
+}
+else ifge cs_timer 211 ifl cs_timer 391 { set cs_textl 2
+qputs 350 ^8Axon: ^0I DO know where the Mandala is however, unlike my rogue
+qputs 351 counterpart that you spoke to.
+}
+else ifge cs_timer 391 { set cs_textl 1
+qputs 350 ^8Axon: ^0A better question is - why should I tell YOU its location?
+}
+}
+ife cuts_txt 5986 // Sang
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound LIBR_05 setactorvar[camerasprite].cameratime 221 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 48 {
+qputs 350 ^8Sang: ^0What?
+}
+else ifge cs_timer 48 ifl cs_timer 130 { set speaker 26
+qputs 350 ^8Sang: ^0I thought this dude was supposed to be helping us?
+}
+else ifge cs_timer 130 { set speaker 26
+qputs 350 ^8Sang: ^0You said the guy you spoke to was all friendly like.
+}
+}
+ife cuts_txt 5987 // James
+{
+set speaker -1
+ife cuts_sound 0 { globalsound LIBR_06 setactorvar[camerasprite].cameratime 262 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 81 { set cs_textl 1 set speaker 0
+qputs 350 ^8James: ^0I-I don't understand, what's the problem?
+}
+else ifge cs_timer 81 ifl cs_timer 198 { set cs_textl 2 set speaker -1
+qputs 350 ^8James: ^0We came all this way, fought like HELL, and you don't
+qputs 351 want to help us?
+}
+else ifge cs_timer 198 { set cs_textl 1 set speaker 0
+qputs 350 ^8James: ^0Why have you changed your mind?
+}
+}
+ife cuts_txt 5988 // Axon
+{
+set cs_textl 2
+set speaker 21
+ife cuts_sound 0 { globalsound LIBR_07 setactorvar[camerasprite].cameratime 406 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 234 {
+qputs 350 ^8Axon: ^0I cannot speak for the Axon you encountered previously; but I
+qputs 351 can assure you that your struggle is pointless.
+}
+else ifge cs_timer 234 {
+qputs 350 ^8Axon: ^0The Beyonders WILL wash over this galaxy...and if you had any
+qputs 351 true insight, you would let them.
+}
+}
+ife cuts_txt 5989 // Axon
+{
+set speaker 21
+ife cuts_sound 0 { globalsound LIBR_08 setactorvar[camerasprite].cameratime 940 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 174 { set cs_textl 2
+qputs 350 ^8Axon: ^0My role in all of this, put simply, is to keep
+qputs 351 things ticking over.
+}
+else ifge cs_timer 174 ifl cs_timer 279 { set cs_textl 1
+qputs 350 ^8Axon: ^0The Beyonder's invasion is necessary.
+}
+else ifge cs_timer 279 ifl cs_timer 629 { set cs_textl 2
+qputs 350 ^8Axon: ^0The entire reason for their arrival is due to a sapient species'
+qputs 351 sheer hubris at trying to undo the one truth of reality - that things must end.
+}
+else ifge cs_timer 629 { set cs_textl 3
+qputs 350 ^8Axon: ^0All of these events, before and after you all stepped onto the
+qputs 351 scene, are transpiring because life insists on trying to circumvent
+qputs 352 this one truth.
+}
+}
+ife cuts_txt 5990 // James
+{
+set speaker -1
+ife cuts_sound 0 { globalsound LIBR_09 setactorvar[camerasprite].cameratime 248 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 157 { set cs_textl 2
+qputs 350 ^8James: ^0It's easy to claim that it's the one truth when it's
+qputs 351 not your own life on the line.
+}
+else ifge cs_timer 157 { set cs_textl 1 set speaker 0
+qputs 350 ^8James: ^0I bet you don't have to worry about mortality, right?
+}
+}
+ife cuts_txt 5991 // Axon
+{
+set speaker 21
+ife cuts_sound 0 { globalsound LIBR_10 setactorvar[camerasprite].cameratime 1052 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 213 { set cs_textl 2
+qputs 350 ^8Axon: ^0On the contrary, I was nearly destroyed by a being
+qputs 351 known as the Archonitron.
+}
+else ifge cs_timer 213 ifl cs_timer 355 { set cs_textl 1
+qputs 350 ^8Axon: ^0It was my first encounter with death, and it terrified me.
+}
+else ifge cs_timer 355 ifl cs_timer 516 { set cs_textl 2
+qputs 350 ^8Axon: ^0But, I also understood the role it plays in the
+qputs 351 grand scheme of things.
+}
+else ifge cs_timer 516 ifl cs_timer 745 {
+qputs 350 ^8Axon: ^0We exist, we make progress, then the next wave of life
+qputs 351 takes our place and goes a step further.
+}
+else ifge cs_timer 745 ifl cs_timer 909 { set cs_textl 1
+qputs 350 ^8Axon: ^0Perhaps, in time, life will exist as a limitless form of energy.
+}
+else ifge cs_timer 909 { set cs_textl 2
+qputs 350 ^8Axon: ^0But this cannot happen without the Beyonders, and
+qputs 351 without whatever comes next.
+}
+}
+ife cuts_txt 5992
+{
+set speaker -1
+ife cuts_sound 0 { globalsound LIBR_11 setactorvar[camerasprite].cameratime 423 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 72 { set cs_textl 1 set speaker 5
+qputs 350 ^8Rusty: ^0Well that sounds like quittin' talk to me.
+}
+else ifge cs_timer 72 ifl cs_timer 175 { set speaker -1
+qputs 350 ^8Rusty: ^0Just roll over, kick the dirt, no questions asked?
+}
+else ifge cs_timer 175 ifl cs_timer 234 { set speaker 5
+qputs 350 ^8Rusty: ^0Huh, Piss on that.
+}
+else ifge cs_timer 234 { set cs_textl 2 set speaker -1
+qputs 350 ^8Rusty: ^0I've seen enough life and death to know that it's all part of
+qputs 351 the great game, but no good EVER came from just givin' up.
+}
+}
+ife cuts_txt 5993 // Merlijn
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound LIBR_12 setactorvar[camerasprite].cameratime 192 set cuts_sound 1 }
+ifge cs_timer 0 { set speaker 38
+qputs 350 ^8Merlijn: ^0We did not travel all this way, and endure
+qputs 351 all this hardship for you to turn us away Axon!
+}
+}
+ife cuts_txt 5994 // Axon
+{
+ife cuts_sound 0 { globalsound LIBR_13 setactorvar[camerasprite].cameratime 950 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 66 { set cs_textl 1
+qputs 350 ^8Axon: ^0Take heed.
+}
+else ifge cs_timer 66 ifl cs_timer 267 { set cs_textl 2
+qputs 350 ^8Axon: ^0You are in my domain and if you do not wish to be banished...
+qputs 351 forcefully, you will calm yourselves.
+}
+else ifge cs_timer 267 ifl cs_timer 409 { set speaker 21 set cs_textl 1
+qputs 350 ^8Axon: ^0The Mandala is key to immense reality changing power;
+}
+else ifge cs_timer 409 ifl cs_timer 579 { set cs_textl 2 set speaker 21
+qputs 350 ^8Axon: ^0I would not hand it to you any more than you would give
+qputs 351 nuclear codes to a small child.
+}
+else ifge cs_timer 579 ifl cs_timer 732 { set cs_textl 1
+qputs 350 ^8Axon: ^0Your species, your own way of thinking, is inherently selfish.
+}
+else ifge cs_timer 732 { set cs_textl 2
+qputs 350 ^8Axon: ^0If you cannot overcome a threat such as Naaldir, then you
+qputs 351 certainly do not have the ability to utilise the Mandala.
+}
+}
+ife cuts_txt 5995 // Axon
+{
+set speaker 21
+ife cuts_sound 0 { globalsound LIBR_14 setactorvar[camerasprite].cameratime 435 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 165 { set cs_textl 1
+qputs 350 ^8Axon: ^0You fought hard, but this is where your journey should end.
+}
+else ifge cs_timer 165 ifl cs_timer 237 {
+qputs 350 ^8Axon: ^0You still have some time left...
+}
+else ifge cs_timer 237 { set cs_textl 2
+qputs 350 ^8Axon: ^0Go home, and be proud that you faced beings of
+qputs 351 unimaginable power and lived to tell the tale.
+}
+}
+ife cuts_txt 5996 // James
+{
+set speaker -1
+ife cuts_sound 0 { globalsound LIBR_15 setactorvar[camerasprite].cameratime 260 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 76 { set cs_textl 1
+qputs 350 ^8James: ^0And what if we defeat Naaldir?
+}
+else ifge cs_timer 76 ifl cs_timer 139 { set speaker 0
+qputs 350 ^8James: ^0Find a way to do that without you?
+}
+else ifge cs_timer 139 { set cs_textl 2 set speaker -1
+qputs 350 ^8James: ^0Will that show you we're ready to accept the
+qputs 351 responsibilities and risk of using the Mandala?
+}
+}
+ife cuts_txt 5997 // Axon
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound LIBR_16 setactorvar[camerasprite].cameratime 207 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 94 {
+qputs 350 ^8Axon: ^0If you manage to accomplish that..
+}
+else ifge cs_timer 94 { set cs_textl 2
+qputs 350 ^8Axon: ^0it will prove that you're making more waves
+qputs 351 than I thought possible.
+}
+}
+// Maartn Merlijn
+ife cuts_txt 6064 // Merl
+{
+set speaker 1
+set cs_textl 1
+ife cuts_sound 0 { globalsound MM_CONV01 setactorvar[camerasprite].cameratime 87 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 58 {
+qputs 350 ^8Merlijn: ^0Brother?!
+}
+else ifge cs_timer 58 {
+qputs 350 ^8Merlijn: ^0It cannot be!
+}
+}
+ife cuts_txt 6065 // Merl
+{
+set speaker 1
+set cs_textl 1
+ife cuts_sound 0 { globalsound MM_CONV02 setactorvar[camerasprite].cameratime 150 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 58 {
+qputs 350 ^7Maarten: ^0Leave this place, fool!
+}
+else ifge cs_timer 58 {
+qputs 350 ^7Maarten: ^0You have brought us all in great peril, by coming here!
+}
+}
+ife cuts_txt 6066 // Merl
+{
+set speaker 1
+set cs_textl 1
+ife cuts_sound 0 { globalsound MM_CONV03 setactorvar[camerasprite].cameratime 133 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 46 {
+qputs 350 ^8Merlijn: ^0What are you saying?!
+}
+else ifge cs_timer 46 {
+qputs 350 ^8Merlijn: ^0I've been searching for years, believing you to be slain...
+}
+}
+ife cuts_txt 6067 // Merl
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MM_CONV04 setactorvar[camerasprite].cameratime 125 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 58 { set speaker 1
+qputs 350 ^7Maarten: ^0And it was best kept that way,
+}
+else ifge cs_timer 58 ifl cs_timer 99 {
+qputs 350 ^7Maarten: ^0Prepare yourself,
+}
+else ifge cs_timer 99 { set speaker -1
+qputs 350 ^7Maarten: ^0Draw. Your. Blade.
+}
+}
+ife cuts_txt 6068 // Merl
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MM_CONV05 setactorvar[camerasprite].cameratime 141 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 72 { set speaker 1
+qputs 350 ^8Merlijn: ^0What compells you to act this way?!
+}
+else ifge cs_timer 72 ifl cs_timer 126 {
+qputs 350 ^8Merlijn: ^0We'll bring you to your senses.
+}
+else ifge cs_timer 126 { set speaker -1
+qputs 350 ^8Merlijn: ^0En garde!
+}
+}
+// Axon end cutscene
+ife cuts_txt 6069 // Axon
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound ENDC_01 setactorvar[camerasprite].cameratime 149 set cuts_sound 1 }
+ifge cs_timer 0 {
+qputs 350 ^8Axon: ^0It appears...you are stronger than I imagined.
+}
+}
+ife cuts_txt 6070 // Kagura
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound ENDC_02 setactorvar[camerasprite].cameratime 192 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 84 {
+qputs 350 ^8Kagura: ^0Have you seen sense now?
+}
+else ifge cs_timer 84 { set speaker 17
+qputs 350 ^8Kagura: ^0Please, we earned the right to fight for our future.
+}
+}
+ife cuts_txt 6071 // Axon
+{
+ife cuts_sound 0 { globalsound ENDC_03 setactorvar[camerasprite].cameratime 725 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 121 { set cs_textl 1 set speaker -1
+qputs 350 ^8Axon: ^0You've slain what essentially was a demi-god.
+}
+else ifge cs_timer 121 ifl cs_timer 270 { set speaker 21 set cs_textl 2
+qputs 350 ^8Axon: ^0You've proven far more dangerous to the natural order
+qputs 351 than I thought;
+}
+else ifge cs_timer 270 ifl cs_timer 378 { set cs_textl 1
+qputs 350 ^8Axon: ^0Perhaps more than the Archonitron itself.
+}
+else ifge cs_timer 378 ifl cs_timer 481 {
+qputs 350 ^8Axon: ^0But do you have the intellect to back it up?
+}
+else ifge cs_timer 481 ifl cs_timer 571 { set speaker -1
+qputs 350 ^8Axon: ^0Where do you THINK the Mandala would be?
+}
+else ifge cs_timer 571 ifl cs_timer 661 {
+qputs 350 ^8Axon: ^0A device that could affect the entire galaxy?
+}
+else ifge cs_timer 661 {
+qputs 350 ^8Axon: ^0Think logically.
+}
+}
+ife cuts_txt 6072 // James
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound ENDC_04 setactorvar[camerasprite].cameratime 101 set cuts_sound 1 }
+ifge cs_timer 0 { set speaker 0
+qputs 350 ^8James: ^0It would...be at the center of the galaxy?
+}
+}
+ife cuts_txt 6073 // Axon
+{
+ife cuts_sound 0 { globalsound ENDC_05 setactorvar[camerasprite].cameratime 476 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 76 { set cs_textl 1
+qputs 350 ^8Axon: ^0Very good.
+}
+else ifge cs_timer 76 ifl cs_timer 277 { set speaker 21 set cs_textl 2
+qputs 350 ^8Axon: ^0But unless you have a way of detecting the pure dark matter
+qputs 351 swirling around it, you will NEVER find it.
+}
+else ifge cs_timer 277 ifl cs_timer 342 { set speaker -1 set cs_textl 1
+qputs 350 ^8Axon: ^0I take some comfort in that.
+}
+else ifge cs_timer 342 {
+qputs 350 ^8Axon: ^0Unfortunately, an additional precaution will now be necessary.
+}
+}
+ife cuts_txt 6074 // Sang
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound ENDC_06 setactorvar[camerasprite].cameratime 85 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 45 { set speaker 51
+qputs 350 ^8Sang: ^0Axon!?
+}
+else ifge cs_timer 45 { 
+qputs 350 ^8Sang: ^0What in the name?!
+}
+}
+ife cuts_txt 6075 // Axon
+{
+ife cuts_sound 0 { globalsound ENDC_07 setactorvar[camerasprite].cameratime 530 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 108 { set cs_textl 1
+qputs 350 ^8Axon: ^0Your leader has joined the great void.
+}
+else ifge cs_timer 108 ifl cs_timer 232 {
+qputs 350 ^8Axon: ^0If I were not merciful, I would slay the rest of you as well.
+}
+else ifge cs_timer 232 ifl cs_timer 486 { set cs_textl 2
+qputs 350 ^8Axon: ^0I am sorry, but this is the only way for you to understand
+qputs 351 that it's time for you to go home and enjoy the time you have left.
+}
+else ifge cs_timer 486 { set cs_textl 1
+qputs 350 ^8Axon: ^0Farewell.
+}
+}
+// Minerva story lines
+ife cuts_txt 6079
+{
+ife cuts_sound 0 { globalsound MINI_KEEP set yvel_saved 208 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 97 { set cs_textl 2
+qputs 350 ^8Minerva: ^0I managed to sneak some people through
+qputs 351 whilst you were fighting.
+}
+else ifge cs_timer 97 { set cs_textl 1
+qputs 350 ^8Minerva: ^0We'll need to find keys to unlock Naaldir's inner sanctum.
+}
+}
+ife cuts_txt 6080
+{
+ife cuts_sound 0 { globalsound MINI_SKYISL01 set yvel_saved 272 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 121 { set cs_textl 1
+qputs 350 ^8Minerva: ^0I've managed to pinpoint Axon's area to very close by.
+}
+else ifge cs_timer 121 { set cs_textl 2
+qputs 350 ^8Minerva: ^0We can use that scroll to slip through a little
+qputs 351 dimensional pinprick to get into his sanctuary!
+}
+}
+ife cuts_txt 6081
+{
+ife cuts_sound 0 { globalsound MINI_SKYISL02 set yvel_saved 84 set cuts_sound 1 }
+ifge cs_timer 0 { set cs_textl 1
+qputs 350 ^8Minerva: ^0Aren't you lucky I can play the Organ?
+}
+}
+ife cuts_txt 6092
+{
+ife cuts_sound 0 { globalsound SANG_PALACE set yvel_saved 363 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 151 { set cs_textl 1
+qputs 350 ^8Sang: ^0Boy, I sure hope that key I got is actually what we need.
+}
+else ifge cs_timer 151 ifl cs_timer 223 {
+qputs 350 ^8Sang: ^0Man, would my face be red!
+}
+else ifge cs_timer 223 { set cs_textl 2
+qputs 350 ^8Sang: ^0That would be a pretty long and
+qputs 351 awkward journey back, yes siry bob.
+}
+}
+ife cuts_txt 6093
+{
+state clear_radio
+ife cuts_sound 0 { globalsound SANG_HEAT set yvel_saved 163 set cuts_sound 1 }
+ifge cs_timer 0 { set cs_textl 1
+qputs 350 ^8Sang: ^0Man I'm glad heat convection isn't a thing, I'd be fried toast by now!
+}
+}
+// Merlijn Jedrik convo
+ife cuts_txt 6097 // Merlijn
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound SBOSS2_CONV1 setactorvar[camerasprite].cameratime 110 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 45 {
+qputs 350 ^8Merlijn: ^0You...
+}
+else ifge cs_timer 45 ifl cs_timer 81 {
+qputs 350 ^8Merlijn: ^0I...
+}
+else ifge cs_timer 81 {
+qputs 350 ^8Merlijn: ^0Why do I know you?!
+}
+}
+ife cuts_txt 6098 // Jedrik
+{
+
+ife cuts_sound 0 { globalsound SBOSS2_CONV2 setactorvar[camerasprite].cameratime 1183 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 136 { set cs_textl 1
+qputs 350 ^54Jedrik: ^0My sons, gathered here at last.
+}
+else ifge cs_timer 136 ifl cs_timer 390 { set cs_textl 2
+qputs 350 ^54Jedrik: ^0I would apologise for what's about to come,
+qputs 351 but the words have left my mouth long ago.
+}
+else ifge cs_timer 390 ifl cs_timer 708 {
+qputs 350 ^54Jedrik: ^0I tried to fight Naaldir to my last breath, and
+qputs 351 in return he guaranteed I would never be able to take it.
+}
+else ifge cs_timer 708 ifl cs_timer 855 {
+qputs 350 ^54Jedrik: ^0At the very least I claimed your
+qputs 351 brother with the sword of corruption;
+}
+else ifge cs_timer 855 ifl cs_timer 997 { set cs_textl 1
+qputs 350 ^54Jedrik: ^0Bow down Merlijn and I'll claim your soul as well.
+}
+else ifge cs_timer 997 { set cs_textl 2
+qputs 350 ^54Jedrik: ^0It is the only way for you to...live
+qputs 351 ...through what happens next.
+}
+}
+ife cuts_txt 6099 // Merlijn
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound SBOSS2_CONV3 setactorvar[camerasprite].cameratime 117 set cuts_sound 1 }
+ifge cs_timer 0 {
+qputs 350 ^8Merlijn: ^0You're a coward and a fool, if you
+qputs 351 believe I would ever do that.
+}
+}
+ife cuts_txt 6100 // Jedrik
+{
+ife cuts_sound 0 { globalsound SBOSS2_CONV4 setactorvar[camerasprite].cameratime 1512 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 162 { set cs_textl 1
+qputs 350 ^54Jedrik: ^0Naaldir needs a living member of my bloodline;
+}
+else ifge cs_timer 162 ifl cs_timer 328 { set cs_textl 2
+qputs 350 ^54Jedrik: ^0The gateway to the Ringworld
+qputs 351 sacrificial system was closed off,
+}
+else ifge cs_timer 328 ifl cs_timer 490 { set cs_textl 1
+qputs 350 ^54Jedrik: ^0And only a blood sacrifice of a ruler of Titan can open it.
+}
+else ifge cs_timer 490 ifl cs_timer 607 {
+qputs 350 ^54Jedrik: ^0He tried to use me, and then your brother;
+}
+else ifge cs_timer 607 ifl cs_timer 846 { set cs_textl 2
+qputs 350 ^54Jedrik: ^0Alas I perished, and your brother was
+qputs 351 on the cusp of death, brought back to life as a Ghoul.
+}
+else ifge cs_timer 846 ifl cs_timer 931 { set cs_textl 1
+qputs 350 ^54Jedrik: ^0Neither of our blood would do.
+}
+else ifge cs_timer 931 ifl cs_timer 1041 {
+qputs 350 ^54Jedrik: ^0He needed yours, and lured you here.
+}
+else ifge cs_timer 1041 ifl cs_timer 1282 { set cs_textl 2
+qputs 350 ^54Jedrik: ^0I can only fight off the Necromancer's influence
+qputs 351 for so long, and I will do so to slay you so it cannot use you;
+}
+else ifge cs_timer 1282 ifl cs_timer 1440 { set cs_textl 1
+qputs 350 ^54Jedrik: ^0For the good of Elysion, Titan, and the entire Galaxy.
+}
+else ifge cs_timer 1440 {
+qputs 350 ^54Jedrik: ^0I am sorry my Son.
+}
+}
+ife cuts_txt 6101 // Merlijn
+{
+
+ife cuts_sound 0 { globalsound SBOSS2_CONV5 setactorvar[camerasprite].cameratime 434 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 37 { set cs_textl 1
+qputs 350 ^8Merlijn: ^0.....
+}
+else ifge cs_timer 37 ifl cs_timer 130 {
+qputs 350 ^8Merlijn: ^0I am sorry too, but that will not happen.
+}
+else ifge cs_timer 130 ifl cs_timer 268 { set cs_textl 2
+qputs 350 ^8Merlijn: ^0We will defeat Naaldir, and I'll save
+qputs 351 my brother in the process too.
+}
+else ifge cs_timer 268 ifl cs_timer 396 { set cs_textl 1
+qputs 350 ^8Merlijn: ^0I will grant you a swift and heroic death...
+}
+else ifge cs_timer 396 {
+qputs 350 ^8Merlijn: ^0My Father.
+}
+}
+// Maartn Merlijn
+ife cuts_txt 6115 // Maartn
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound SBOSS1_CONV1 setactorvar[camerasprite].cameratime 144 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 107 {
+qputs 350 ^7Maarten: ^0If you want me to come with you, it will be in a casket.
+}
+else ifge cs_timer 107 {
+qputs 350 ^7Maarten: ^0But you already knew this.
+}
+}
+ife cuts_txt 6116 // Merlijn
+{
+ife cuts_sound 0 { globalsound SBOSS1_CONV2 setactorvar[camerasprite].cameratime 294 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 94 { set cs_textl 1
+qputs 350 ^8Merlijn: ^0No, it will NOT end that way.
+}
+else ifge cs_timer 94 ifl cs_timer 256 { set cs_textl 2
+qputs 350 ^8Merlijn: ^0I know the one who is responsible is
+qputs 351 close by, and I know exactly how to draw him out.
+}
+else ifge cs_timer 256 { set cs_textl 1
+qputs 350 ^8Merlijn: ^0Draw your blade!
+}
+}
+// Bombshell Mikko
+ife cuts_txt 6189 // Bombshell
+{
+
+ife cuts_sound 0 { globalsound BS_MS_CONV01 setactorvar[camerasprite].cameratime 310 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 58 { set cs_textl 1
+qputs 350 ^8Bombshell: ^0Holy shit, you?
+}
+else ifge cs_timer 58 ifl cs_timer 178 { set cs_textl 2
+qputs 350 ^8Bombshell: ^0God damnit, this is just some kind
+qputs 351 of fucking game show isn't it.
+}
+else ifge cs_timer 194 ifl cs_timer 243 { set cs_textl 1
+qputs 350 ^8Bombshell: ^0That's the only explanation.
+}
+else ifge cs_timer 264 {
+qputs 350 ^8Bombshell: ^0What do I win?
+}
+}
+ife cuts_txt 6190 // Mikko
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound BS_MS_CONV02 setactorvar[camerasprite].cameratime 321 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 75 { set speaker 7 
+qputs 350 ^8Mikko: ^0My infinite mercy.
+}
+else ifge cs_timer 75 ifl cs_timer 141 { set speaker -1
+qputs 350 ^8Mikko: ^0We crashlanded here as well...
+}
+else ifge cs_timer 141 ifl cs_timer 249 {
+qputs 350 ^8Mikko: ^0Unlike your paltry vessel, our ship is repairable.
+}
+else ifge cs_timer 249 {
+qputs 350 ^8Mikko: ^0Are there any more survivors?
+}
+}
+ife cuts_txt 6191 // Bombshell
+{
+
+ife cuts_sound 0 { globalsound BS_MS_CONV03 setactorvar[camerasprite].cameratime 352 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 66 { set cs_textl 1
+qputs 350 ^8Bombshell: ^0No idea.
+}
+else ifge cs_timer 66 ifl cs_timer 229 { set cs_textl 2
+qputs 350 ^8Bombshell: ^0Our dumb-ass robots started shooting us,
+qputs 351 then we got caught in between them and the uh...
+}
+else ifge cs_timer 229 ifl cs_timer 282 { set cs_textl 1
+qputs 350 ^8Bombshell: ^0Uh...
+}
+else ifge cs_timer 282 {
+qputs 350 ^8Bombshell: ^0Game of Rings rejects.
+}
+}
+ife cuts_txt 6192 // Mikko
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound BS_MS_CONV04 setactorvar[camerasprite].cameratime 136 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 98 {
+qputs 350 ^8Mikko: ^0There is no such thing as 'Game of Rings'
+}
+else ifge cs_timer 98 {
+qputs 350 ^8Mikko: ^0Focus agent.
+}
+}
+ife cuts_txt 6193 // Bombshell
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound BS_MS_CONV05 setactorvar[camerasprite].cameratime 243 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 89 {
+qputs 350 ^8Bombshell: ^0Jesus whatever you dork!
+}
+else ifge cs_timer 89 ifl cs_timer 188 {
+qputs 350 ^8Bombshell: ^0Why couldn't I get saved by that hot british chick?
+}
+else ifge cs_timer 188 {
+qputs 350 ^8Bombshell: ^0She's not with you guys is she?
+}
+}
+ife cuts_txt 6194 // Mikko
+{
+
+ife cuts_sound 0 { globalsound BS_MS_CONV06 setactorvar[camerasprite].cameratime 432 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 162 { set cs_textl 2
+qputs 350 ^8Mikko: ^0You mean Ashford, the one Stanfield fawns
+qputs 351 over like a schoolboy?
+}
+else ifge cs_timer 162 ifl cs_timer 358 {
+qputs 350 ^8Mikko: ^0No, he has ANOTHER irritating chatterbox with him,
+qputs 351 because we don't have enough of those already.
+}
+else ifge cs_timer 358 { set cs_textl 1
+qputs 350 ^8Mikko: ^0Why were you here on the Ringworld?
+}
+}
+ife cuts_txt 6195 // Bombshell
+{
+
+ife cuts_sound 0 { globalsound BS_MS_CONV07 setactorvar[camerasprite].cameratime 471 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 144 { set cs_textl 1
+qputs 350 ^8Bombshell: ^0It was classified but pfft that can kiss my ass.
+}
+else ifge cs_timer 144 ifl cs_timer 243 {
+qputs 350 ^8Bombshell: ^0We were looking for the big guy.
+}
+else ifge cs_timer 243 ifl cs_timer 379 { set cs_textl 2
+qputs 350 ^8Bombshell: ^0His co-ordinates were around
+qputs 351 this area, that's when we went down.
+}
+else ifge cs_timer 379 { set cs_textl 1
+qputs 350 ^8Bombshell: ^0So...what's the escape plan?
+}
+}
+ife cuts_txt 6196 // Mikko
+{
+ife cuts_sound 0 { globalsound BS_MS_CONV08 setactorvar[camerasprite].cameratime 523 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 45 { set cs_textl 1
+qputs 350 ^8Mikko: ^0My minio-
+}
+else ifge cs_timer 45 ifl cs_timer 136 {
+qputs 350 ^8Mikko: ^0...colleagues are formulating a battle plan.
+}
+else ifge cs_timer 136 ifl cs_timer 294 { set cs_textl 2
+qputs 350 ^8Mikko: ^0Once it has my seal of approval, we will
+qputs 351 attack the Necromancer's fortress.
+}
+else ifge cs_timer 294 ifl cs_timer 363 { set cs_textl 1
+qputs 350 ^8Mikko: ^0We won't be leaving till this is done.
+}
+else ifge cs_timer 363 { set cs_textl 2
+qputs 350 ^8Mikko: ^0He has the co-ordinates to the Mandala, which
+qputs 351 they 'insist' is the key to saving us all.
+}
+}
+ife cuts_txt 6197 // Bombshell
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound BS_MS_CONV09 setactorvar[camerasprite].cameratime 205 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 116 {
+qputs 350 ^8Bombshell: ^0That sounds like a load of bullshit to me, but whatevs.
+}
+else ifge cs_timer 116 {
+qputs 350 ^8Bombshell: ^0I got nothin' better to do, count me in.
+}
+}
+ife cuts_txt 6198 // Mikko
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound BS_MS_CONV10 setactorvar[camerasprite].cameratime 160 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 93 {
+qputs 350 ^8Mikko: ^0Your enthusiasm is most encouraging.
+}
+else ifge cs_timer 93 {
+qputs 350 ^8Mikko: ^0Let's go.
+}
+}
+// Rusty James
+ife cuts_txt 6223 // James
+{
+ife cuts_sound 0 { globalsound INTRO4_3 setactorvar[camerasprite].cameratime 466 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 112 { set cs_textl 1
+qputs 350 ^8James: ^0You sure your niece wants to come with us on this one?
+}
+else ifge cs_timer 112 ifl cs_timer 304 { set cs_textl 2 set speaker 0
+qputs 350 ^8James: ^0I don't doubt her capabilities one iota, but we're all
+qputs 351 gonna be crammed in the Snowflake for some time.
+}
+else ifge cs_timer 304 { set speaker -1
+qputs 350 ^8James: ^0Minerva's coming with us so she'll have some company,
+qputs 351 but it's still going to be pretty uncomfortable.
+}
+}
+ife cuts_txt 6224 // Rusty
+{
+
+ife cuts_sound 0 { globalsound INTRO4_4 setactorvar[camerasprite].cameratime 465 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 133 { set cs_textl 1
+qputs 350 ^8Rusty: ^0Kagura's not some wilting flower James, she'll be be fine.
+}
+else ifge cs_timer 133 ifl cs_timer 322 { set cs_textl 2
+qputs 350 ^8Rusty: ^0If we're really heading after this necromancer, I'd feel more
+qputs 351 comfortable having another supernatural specialist with us.
+}
+else ifge cs_timer 322 {
+qputs 350 ^8Rusty: ^0Even with all our gadgets, this team as a whole
+qputs 351 still has a pretty hard time puttin' down spirits.
+}
+}
+ife cuts_txt 6225 // James
+{
+ife cuts_sound 0 { globalsound INTRO4_5A setactorvar[camerasprite].cameratime 208 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 75 { set cs_textl 1 set speaker -1
+qputs 350 ^8James: ^0I can't argue with that.
+}
+else ifge cs_timer 75 { set cs_textl 2 set speaker 0
+qputs 350 ^8James: ^0Alright, I'll have a word with Snowfall and get
+qputs 351 some decent living arrangements set up for her.
+}
+}
+ife cuts_txt 6226 // Rusty
+{
+
+ife cuts_sound 0 { globalsound INTRO4_6 setactorvar[camerasprite].cameratime 204 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 49 { set cs_textl 1 set speaker -1
+qputs 350 ^8Rusty: ^0Alright...
+}
+else ifge cs_timer 49 ifl cs_timer 183 { set cs_textl 2
+qputs 350 ^8Rusty: ^0And make sure you have a polite word with
+qputs 351 you-know-who about not hitting on my niece.
+}
+else ifge cs_timer 183 { set cs_textl 1
+qputs 350 ^8Rusty: ^0You get me?
+}
+}
+ife cuts_txt 6227 // James
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound INTRO4_7 setactorvar[camerasprite].cameratime 185 set cuts_sound 1 }
+ifge cs_timer 0 ifl cs_timer 39 {
+qputs 350 ^8James: ^0What?
+}
+else ifge cs_timer 39 ifl cs_timer 90 { set speaker 30
+qputs 350 ^8James: ^0Oh right yeah.
+}
+else ifge cs_timer 90 { set speaker 0
+qputs 350 ^8James: ^0Christ I think I need to, like, get him spayed or something.
+}
+}
+ife cuts_txt 6228 // Rusty
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound INTRO4_8 setactorvar[camerasprite].cameratime 60 set cuts_sound 1 }
+ifge cs_timer 0 { set speaker 5
+qputs 350 ^8Rusty: ^0I think that'd be best.
+}
+}
+// Yo Kraken
+ife cuts_txt 6230
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound YO_KRAKE1 set cuts_sound 1 }
+ifl cs_timer 46 {
+qputs 350 ^7Yo: ^0A Kraken?
+}
+else
+ifl cs_timer 127 {
+qputs 350 ^7Yo: ^0You won't be able to hurt it conventionally...
+}
+else
+{
+qputs 350 ^7Yo: ^0Charge me up with the blood of its tentacles, and aim for its head!
+}
+}
+// Yo Naaldir
+ife cuts_txt 6231
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound YO_NAALD1 set cuts_sound 1 }
+ifl cs_timer 81 {
+qputs 350 ^7Yo: ^0Naaldir, at last!
+}
+else
+ifl cs_timer 170 {
+qputs 350 ^7Yo: ^0Charge me up, and use me on him!
+}
+else
+{
+qputs 350 ^7Yo: ^0I can't wait, I hunger!
+}
+}
+// James Snow temple speech
+ife cuts_txt 7095
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound JS_SCROLL set cuts_sound 1 }
+	ifge cs_timer 0 ifl cs_timer 117 {
+	qputs 350 ^8James: ^0*Sigh* Finally, we found this damn poxy scroll.
+	}
+	else ifge cs_timer 117 {
+	qputs 350 ^8James: ^0Let's get out of here-
+	}
+}
+ife cuts_txt 7096
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound JS_SCROLL2 set cuts_sound 1 }
+	ifge cs_timer 0 ifl cs_timer 67 {
+	qputs 350 ^8James: ^0All aboard!
+	}
+	else ifge cs_timer 67 {
+	qputs 350 ^8James: ^0No it's Zaxtor's turn to pilot Ok?
+	}
+}
+

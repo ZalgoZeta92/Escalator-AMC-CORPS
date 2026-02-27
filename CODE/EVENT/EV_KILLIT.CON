@@ -1,0 +1,778 @@
+onevent EVENT_KILLIT
+
+switch sprite[].picnum
+	case MJ12_MECH_LEG
+		spawn MJ12_MECH_LEG_FLOOR
+		break
+	case MJ12_MECH_ARM
+		spawn MJ12_MECH_ARM_FLOOR
+		break	
+	case SPELL1
+		ifpdistlvar opt_particle_distance
+			{
+			setprojectile[SPARK2].pal sprite[].pal
+			shoot SPARK2
+			setprojectile[SPARK2].pal 0
+			}
+		break
+	case SPELL7
+		ifpdistlvar opt_particle_distance
+			{
+			setprojectile[SPARK].pal 2
+			shoot SPARK
+			setprojectile[SPARK].pal 0
+			}
+		break
+	case SNOWFALL_DISC
+		sound BEAMSABRE_CLASH
+		geta[].htmovflag temp
+		state PROJ_HIT_SOUNDS
+		ifpdistlvar opt_particle_distance
+			{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2 shoot SPARK2 shoot SPARK2 shoot SPARK2
+			}
+		break
+	case SAWBLADE
+		sound SAWBL_IMP
+		geta[].htmovflag temp
+		state PROJ_HIT_SOUNDS
+		ifpdistlvar opt_particle_distance
+			{
+			shoot SPARK shoot SPARK shoot SPARK shoot SPARK shoot SPARK shoot SPARK
+			}
+		break
+	case SAWBLADE_BOUNCE
+		sound SAWBL_IMP2
+		geta[].htmovflag temp
+		state PROJ_HIT_SOUNDS
+		ifpdistlvar opt_particle_distance
+			{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2 shoot SPARK2 shoot SPARK2 shoot SPARK2
+			}
+		break
+	case JEDRIK_SHIELD
+		sound SAWBL_IMP2
+		geta[].htmovflag temp
+		state PROJ_HIT_SOUNDS
+		ifpdistlvar opt_particle_distance
+			{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2 shoot SPARK2 shoot SPARK2 shoot SPARK2
+			}
+		move STOP faceplayer
+		shoot JEDRIK_SH_RETURN
+		break
+	case 10561
+		quake 26
+		spawn BIG_SMOKE
+		shoot ROCKDEB_1 shoot ROCKDEB_1 shoot ROCKDEB_1 shoot ROCKDEB_1 shoot ROCKDEB_1 shoot ROCKDEB_1
+		shoot ROCKDEB_1 shoot ROCKDEB_1 shoot ROCKDEB_1 shoot ROCKDEB_1 shoot ROCKDEB_1 shoot ROCKDEB_1		
+		set RETURN 0
+		break
+	case JEDRIK_SH_RETURN
+		ifpdistl 2048
+		 ife CHAR 2
+			{
+			sound JEDR_SH
+			set gun_recoil 12
+			setp[].gotweapon 8 1
+			setp[].ammo_amount 8 1
+			set merlijn_shield 300
+			set m_shieldtype 2
+			set throwing -1
+			}
+		else spawn 39075
+		set RETURN 0
+		break
+	case CAMERALIGHT
+	case MOVIECAMERA
+		sound VENT_BUST
+		ifn hitag_saved 0 setarray LIGHT_OPEN[hitag_saved] 2
+		set RETURN 0
+		break
+	case MOLOTOV
+		sound GLASS_BREAKING
+		ifpdistlvar opt_particle_distance lotsofglass 5
+		set RETURN 0
+		break
+	case CAR_DOOR
+		spawn CARDOOR_FLOOR
+		set RETURN 0
+		break
+	case CAR_WHEEL
+		spawn CARWHEEL_FLOOR
+		set RETURN 0
+		break
+	case WATERFALL_SPRITES
+		espawn 18138
+		seta[RETURN].pal sprite[].pal
+		randvar temp 2048
+		seta[RETURN].ang temp
+		espawn 12247
+		seta[RETURN].pal sprite[].pal
+		seta[RETURN].z sector[].floorz
+		randvar temp 2048
+		seta[RETURN].ang temp
+		set RETURN 0
+		break
+	case CANWITHSOMETHING
+		  state rats
+		  state roaches
+		set RETURN 0
+		break
+	case PARAD_TORSO_FLY
+	case CULTIST_TORSO_FLY
+	case MJ12_TORSO_FLY
+	case ORC_TORSO_FLY
+	case LIZTR_TORSO_FLY
+	case ZOMBIE_TORSO_FLY
+	case BEYZED_TORSO_FLY
+	case THOTH_TORSO_FLY
+	case NAZI_TORSO_FLY
+	case MERC_TORSO_FLY
+	case CHEM_TORSO_FLY
+	seta[].mdflags 16
+	espawn 2284
+	ifactor ORC_TORSO_FLY seta[RETURN].pal 8
+	geta[].htmovflag temp3
+	geta[].owner myowner
+		ifl temp3 -16384
+		 ifg temp3 -32768 // hitting a wall?
+			{
+			state random_wall_jibs
+			ifactor PARAD_TORSO_FLY espawn 30419
+			ifactor CULTIST_TORSO_FLY espawn 30426
+			ifactor MJ12_TORSO_FLY espawn 30433
+			ifactor ORC_TORSO_FLY espawn 30449
+			ifactor LIZTR_TORSO_FLY espawn 30456
+			ifactor ZOMBIE_TORSO_FLY espawn 30463
+			ifactor BEYZED_TORSO_FLY espawn BEYOND_ZED_CRAWL
+			ifactor THOTH_TORSO_FLY { money 5 espawn 30702 }
+			ifactor NAZI_TORSO_FLY espawn 30709
+			ifactor MERC_TORSO_FLY espawn 30716
+			ifactor CHEM_TORSO_FLY espawn 32898
+			setav[RETURN].actor_pal actor_pal
+			seta[RETURN].pal sprite[].pal
+			set RETURN 0
+			}
+			else
+			{
+			ifactor PARAD_TORSO_FLY espawn 30419
+			ifactor CULTIST_TORSO_FLY espawn 30426
+			ifactor MJ12_TORSO_FLY espawn 30433
+			ifactor ORC_TORSO_FLY espawn 30449
+			ifactor LIZTR_TORSO_FLY espawn 30456
+			ifactor ZOMBIE_TORSO_FLY espawn 30463
+			ifactor BEYZED_TORSO_FLY espawn BEYOND_ZED_CRAWL
+			ifactor THOTH_TORSO_FLY { money 5 espawn 30702 }
+			ifactor NAZI_TORSO_FLY espawn 30709
+			ifactor MERC_TORSO_FLY espawn 30716
+			ifactor CHEM_TORSO_FLY espawn 32898
+			setav[RETURN].actor_pal actor_pal
+			seta[RETURN].pal sprite[].pal
+			set RETURN 0
+			}
+	break
+	case ORC_CORPSE_FLY
+	case ARCHER_CORPSE_FLY
+	case CULTIST_CORPSE_FLY
+	case PARAD_CORPSE_FLY
+	case PSHOTG_CORPSE_FLY
+	case THOTH_CORPSE_FLY
+	case TRIAD_CORPSE_FLY
+	case NINJA_CORPSE_FLY
+	case LIZTROOP_CORPSE_FLY
+	case ZOMBIE_CORPSE_FLY
+	case GIMPY_CORPSE_FLY
+		state BODY_FALL_NOISES
+		seta[].mdflags 16
+		spawn 2284
+		geta[].htmovflag temp3
+		geta[].owner myowner
+		getactor[myowner].htpicnum temp2
+		ife temp2 BALLISTIC_KNIFE set actor_return 1 else 
+		ife temp2 BALLISTIC_SKNIFE set actor_return 1 else 
+		ife temp2 SILVER_STAKE set actor_return 1 else 
+		ife temp2 BOLT_PROJECTILE set actor_return 1 else 
+		ife temp2 18067 set actor_return 1 else 
+		ife temp2 18072 set actor_return 1 else
+		set actor_return 0
+		ifactor TRIAD_CORPSE_FLY ife actor_pal 49 set actor_return 0 // too lazy to mess around with all this lol
+		ifl temp3 -16384
+		 ifg temp3 -32768 // hitting a wall?
+			{
+			state random_wall_jibs
+			ifactor ORC_CORPSE_FLY { ife actor_return 1 espawn ORC_PINNED else espawn ORC_CORPSE_SIT }
+			ifactor ARCHER_CORPSE_FLY { ife actor_return 1 espawn ARCHER_PINNED else espawn ARCHER_CORPSE_SIT }
+			ifactor CULTIST_CORPSE_FLY { ife actor_return 1 espawn CULTIST_PINNED else espawn CULTIST_CORPSE_SIT } 
+			ifactor PSHOTG_CORPSE_FLY espawn PSHOTG_CORPSE_SIT
+			ifactor PARAD_CORPSE_FLY { ife actor_return 1 espawn PARAD_PINNED else espawn PARAD_CORPSE_SIT }
+			ifactor THOTH_CORPSE_FLY { ife actor_return 1 espawn THOTH_PINNED else espawn THOTH_CORPSE_SIT } 
+			ifactor TRIAD_CORPSE_FLY { ife actor_return 1 espawn TRIAD_PINNED else espawn TRIAD_CORPSE_SIT }
+			ifactor NINJA_CORPSE_FLY { ife actor_return 1 espawn NINJA_PINNED else espawn NINJA_CORPSE_SIT }
+			ifactor LIZTROOP_CORPSE_FLY { ife actor_return 1 espawn LIZTROOP_PINNED else espawn LIZTROOP_CORPSE_SIT }
+			ifactor ZOMBIE_CORPSE_FLY espawn 9901
+			ifactor GIMPY_CORPSE_FLY espawn GIMPY_CORPSE_SIT
+			geta[].ang temp
+			sub temp 1024
+			seta[RETURN].ang temp
+			seta[RETURN].pal sprite[].pal
+			setav[RETURN].actor_pal actor_pal
+			}
+			else
+			{
+			ifactor ORC_CORPSE_FLY espawn 24446
+			ifactor ARCHER_CORPSE_FLY espawn 24487
+			ifactor CULTIST_CORPSE_FLY espawn 7776
+			ifactor PARAD_CORPSE_FLY espawn 18728
+			ifactor PSHOTG_CORPSE_FLY espawn 33497
+			ifactor THOTH_CORPSE_FLY espawn 12600
+			ifactor TRIAD_CORPSE_FLY espawn 3992
+			ifactor NINJA_CORPSE_FLY espawn 14949
+			ifactor LIZTROOP_CORPSE_FLY espawn 1709
+			ifactor ZOMBIE_CORPSE_FLY espawn 9901
+			ifactor GIMPY_CORPSE_FLY espawn 38429
+			setav[RETURN].actor_pal actor_pal
+			seta[RETURN].pal sprite[].pal
+			}
+			set RETURN 0
+	break
+	// A masterswitch gets "killed" when it starts to move. So using this event we can notify subscribers of this
+	case MASTERSWITCH
+	{
+		for ms_temp sprofstat 1
+		{
+			getav[ms_temp].MASTERSWITCH_SUBSCRIBE ms_temp2
+
+			ife ms_temp2 sprite[].lotag
+				setav[ms_temp].MASTERSWITCH_RETURN 1
+		}
+
+		// for sector effectors
+		for ms_temp sprofstat 3
+		{
+			getav[ms_temp].MASTERSWITCH_SUBSCRIBE ms_temp2
+
+			ife ms_temp2 sprite[].lotag
+				setav[ms_temp].MASTERSWITCH_RETURN 1
+		}
+	}
+		break
+	case TRIPBOMB
+		ifspawnedby APLAYER
+		 ife CHAR 1
+			{
+			globalsound ZAX_BOMB_EXPL
+			}
+		break
+	case SEENINE
+		ifspritepal 3
+			{
+			stopsound PIPEBOMB_EXPLODE
+			globalsound DISTANT_EXPLOSION
+			screensound DISTANT_EXPLOSION
+			}
+		ifspritepal 5 stopsound PIPEBOMB_EXPLODE
+		ifspritepal 9
+			{
+			stopsound PIPEBOMB_EXPLODE
+			globalsound MISSILE_LAUNCH
+			screensound MISSILE_LAUNCH
+			}
+
+		set RETURN 0
+		break
+	case WATERDRIP
+		ifspritepal 10
+			{
+			espawn 2379
+			seta[RETURN].pal 10
+			// seta[RETURN].cstat sprite[].cstat
+			seta[RETURN].shade sprite[].shade
+			spawn 2284
+			soundonce BLOOD_DRIP
+			}
+		else
+		ifspritepal 2
+			{
+			espawn 2379
+			seta[RETURN].pal 10
+			// seta[RETURN].cstat sprite[].cstat
+			seta[RETURN].shade sprite[].shade
+			spawn 2284
+			soundonce BLOOD_DRIP
+			}
+		else
+		{
+		espawn 2379
+		seta[RETURN].pal sprite[].pal
+		// seta[RETURN].cstat sprite[].cstat
+		seta[RETURN].shade sprite[].shade
+		}
+		set RETURN 0
+		break
+	case 1031
+	case 1032
+	case 1033
+		espawn 3714
+		seta[RETURN].z sector[].floorz
+		seta[RETURN].pal sprite[].pal
+		set RETURN 0
+	break
+	case 198
+	case 14094
+		sound GLASS_BREAK3
+		ifpdistlvar opt_particle_distance lotsofglass 25
+		set RETURN 0
+	break
+	case JIBS1
+	case JIBS2
+	case JIBS3
+	case JIBS4
+	case JIBS5
+	case LIZMANHEAD1
+	case LIZMANARM1
+	case LIZMANLEG1
+	case HEADJIB1
+	case ARMJIB1
+	case LEGJIB1
+	case HUMAN_TORSO
+		state random_wall_jibs
+		set RETURN 0
+	break
+	case 13383
+	case 13404
+	case 19
+	case 4961
+	case 12053
+	case 27370
+	case 19802
+	case 16076
+	case 14604
+	case 14605
+	case 4912
+	case 4960
+	case 4959
+	case 6874
+	case 6875
+	case 4963
+	case 12203
+	case 12204
+	case 20194
+	case 11741
+	case 11742
+	case CHAINSAW_PROJ
+		// melee hit sounds
+	geta[].htmovflag temp3
+	geta[].owner myowner
+	ifl temp3 -16384
+	 ifg temp3 -32768 // hitting a wall?
+		{
+		add temp3 32768 // add 32768 to get the wall's number
+		getw[temp3].picnum FLOORTEX
+		state CHECKSTEPS
+		state MELEE_HIT_SOUNDS
+		}
+		else
+	ifl temp3 32768
+	 ifg temp3 16384 // hitting a floor/ceiling?
+		{
+		sub temp3 16384
+		state getfloordist
+		ifl z 32 gets[temp3].floorpicnum FLOORTEX
+		else gets[temp3].ceilingpicnum FLOORTEX
+		state CHECKSTEPS
+		state MELEE_HIT_SOUNDS
+		}
+		else
+		ifn temp3 0
+		{
+		spawn 8433
+		shoot SPARK
+		shoot SPARK
+		ifrnd 96 sound METSWIPE else
+		ifrnd 96 sound METSWIPE2 else
+		sound METSWIPE3
+		}
+	set RETURN 0
+break
+case JIBS6
+	ifn sprite[].sectnum -1 ifn sprite[].sectnum 4096 spawn 2284
+	state random_wall_jibs
+	set RETURN 0
+break
+case CRACK1
+case CRACK2
+case CRACK3
+case CRACK4
+	set destruct_trigger hitag_saved
+	operateactivators hitag_saved 0
+	operaterespawns hitag_saved
+	operatemasterswitches hitag_saved
+	set RETURN 0
+break
+case 18067 // dagger
+case 18072 // golden dagger
+	geta[].htmovflag temp
+
+	state PROJ_HIT_SOUNDS
+
+	add temp 16384
+	ifl temp 16384 ifg temp -1
+	{
+		ifactor 18067 espawn 18069 // spawn dagger
+		ifactor 18072 espawn 18074 // spawn golden dagger
+		setactorvar[RETURN].myowner temp
+		setactorvar[RETURN].temp2 sprite[temp].htang
+		geta[temp].z temp5
+		sub temp5 sprite[].z
+		setactorvar[RETURN].temp5 temp5
+		seta[RETURN].shade sector[].floorshade
+	}
+	set RETURN 0
+break
+case KAG_BLAST_RIGHT
+case KAG_BLAST_LEFT
+case ICE_BLAST
+case CANNONBALL
+	ifspawnedby SKNIGHT nullop
+	else ifspawnedby MONGUR nullop
+	else ifspawnedby JEDRIK nullop
+	// The intention of this block is to have the projectile hit the target, then go through to the next one
+	else
+	{
+		geta[].htmovflag temp
+		geta[].owner myowner
+		add temp 16384
+		ifl temp 16384 ifg temp -1
+
+
+		ifle sprite[temp].extra sprite[].extra
+		 ifg sprite[temp].extra 0
+			{
+				geta[temp].picnum temp2
+				ife temp2 KRAKEN nullop
+				else
+				{
+					geta[temp].cstat temp4
+					seta[temp].cstat 32768
+					ifactor CANNONBALL eshoot CANNONBALL else
+					ifactor ICE_BLAST eshoot ICE_BLAST else
+					ifactor KAG_BLAST_LEFT eshoot KAG_BLAST_LEFT else
+					eshoot KAG_BLAST_RIGHT
+					seta[temp].cstat temp4
+					seta[RETURN].zvel sprite[].zvel
+					seta[RETURN].owner myowner
+					seta[RETURN].ang sprite[].ang
+					seta[RETURN].z sprite[].z
+				}
+			}
+	}
+	set RETURN 0
+
+	break
+case ENEMY_BULLET
+case ENEMY_SHOTGUN
+case 5125
+case GAUSS_HIGH
+case GAUSS_MED
+case GAUSS_LOW
+case MAGP_HIGH
+case MAGP_MED
+case MAGP_LOW
+	geta[].htmovflag temp
+		set temp3 temp
+		ifl temp3 -16384
+		 ifg temp3 -32768 // hitting a wall?
+			{
+			add temp3 32768 // add 32768 to get the wall's number
+			getw[temp3].picnum FLOORTEX
+			state CHECKSTEPS
+			state bullet_hit_sounds
+			}
+			else
+		ifl temp3 32768
+		 ifg temp3 16384 // hitting a floor/ceiling?
+			{
+			sub temp3 16384
+			state getfloordist
+			ifl z 32 gets[temp3].floorpicnum FLOORTEX
+			else gets[temp3].ceilingpicnum FLOORTEX
+			state CHECKSTEPS
+			state bullet_hit_sounds
+			}
+	set RETURN 0
+	break
+case XBOW_BOLT // Bolt
+case AUTOBOW_BOLT // Autobow bolt
+	geta[].htmovflag temp
+	state PROJ_HIT_SOUNDS
+
+	add temp 16384
+	ifl temp 16384 ifg temp -1
+	{
+	ifrnd 128
+		{
+		eshoot XBOW_BOLT
+		seta[RETURN].ang sprite[].ang
+		getthisprojectile[RETURN].EXTRA temp3
+		div temp3 2
+		setthisprojectile[RETURN].EXTRA temp3
+		getthisprojectile[RETURN].VEL temp3
+		div temp3 2
+		setthisprojectile[RETURN].VEL temp3
+		}
+	else
+		{
+		espawn 12283 // spawn bolt
+		setactorvar[RETURN].myowner temp
+		setactorvar[RETURN].temp2 sprite[temp].htang
+		geta[temp].z temp5
+		sub temp5 sprite[].z
+		setactorvar[RETURN].temp5 temp5
+		seta[RETURN].shade sector[].floorshade
+		}
+	}
+	set RETURN 0
+break
+case ARROW_PROJ // Arrow
+case 18096 // Compound arrow
+case 12232 // silver bolt
+case SILVER_STAKE
+case BALLISTIC_KNIFE
+case BALLISTIC_SKNIFE
+	geta[].htmovflag temp
+	state PROJ_HIT_SOUNDS
+
+	add temp 16384
+	ifl temp 16384 ifg temp -1
+	{
+		ifactor ARROW_PROJ espawn 12284 // spawn arrow
+		ifactor 18096 espawn 18097
+		ifactor 12232 espawn 12282 // spawn silver bolt
+		setactorvar[RETURN].myowner temp
+		setactorvar[RETURN].temp2 sprite[temp].htang
+		geta[temp].z temp5
+		sub temp5 sprite[].z
+		setactorvar[RETURN].temp5 temp5
+		seta[RETURN].shade sector[].floorshade
+	}
+	set RETURN 0
+break
+case FLARE_PROJ
+	stopactorsound THISACTOR FLARE_L
+	geta[].htmovflag temp
+	add temp 16384
+	ifl temp 16384 ifg temp -1
+	{
+	getav[temp].faction_flag temp8
+	ifand temp8 ALLIED_FACTION_FLAG nullop 
+	else 
+		{
+		espawn FLARE_IMBED 
+		setav[RETURN].myowner temp
+		}
+	}
+	else { spawn GORO_FLAME_EX sound FLARE_EXP shoot SPARK shoot SPARK shoot SPARK }
+	set RETURN 0
+break
+case IN_MINE_DART
+	espawn 7790
+	seta[RETURN].pal 2
+	seta[RETURN].owner sprite[].owner
+	set RETURN 0
+break
+case MINE_DART
+	espawn 7790
+	seta[RETURN].owner sprite[].owner
+	set RETURN 0
+break
+case M_TRAP_THROW
+	espawn M_TRAP_IDLE
+	seta[RETURN].owner sprite[].owner
+	set RETURN 0
+break
+case MC_TRAP_THROW
+	espawn MC_TRAP_IDLE
+	seta[RETURN].owner sprite[].owner
+	set RETURN 0
+break
+case R_TRAP_THROW
+	espawn R_TRAP_IDLE
+	seta[RETURN].owner sprite[].owner
+	set RETURN 0
+break
+case PROXBUNDLE
+	ifand gun_firemode 32 espawn PROXONFLOOR_2
+	else espawn PROXONFLOOR
+	seta[RETURN].owner sprite[].owner
+	set RETURN 0
+break
+case PRIEST_BLAST
+	ifpdistlvar opt_particle_distance
+		{
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+	set RETURN 0
+break
+case CRYSTAL_SPIKE
+	spritepal 102
+	ifpdistlvar opt_particle_distance lotsofglass 1
+	set RETURN 0
+break
+case 6826 // nails
+case LAVA_NAIL
+case 3789 // throwing star
+case 3790 // throwing star
+case 7470 // throwing star
+	geta[].htmovflag temp
+	ifn ally_mag 4 state PROJ_HIT_SOUNDS
+	ifpdistlvar opt_particle_distance
+		{
+		shoot SPARK
+		shoot SPARK
+		}
+	set RETURN 0
+break
+case 6816 // enchanted nails
+	geta[].htmovflag temp
+	ifn ally_mag 4 state PROJ_HIT_SOUNDS
+	ifpdistlvar opt_particle_distance
+		{
+		shoot SPARK2
+		shoot SPARK2
+		}
+	set RETURN 0
+break
+case 29020
+	ifspawnedby HYDRA nullop else
+		{
+		ifactorsound THISACTOR WATER_RUSH stopactorsound THISACTOR WATER_RUSH
+		}
+break
+case BRUISERFIREBALL
+case HADESBLASTH
+	ifpdistlvar opt_particle_distance
+		{
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+break
+case 22610
+case SPELL2
+case 20943
+case REDM_BLAST
+	ifpdistlvar opt_particle_distance
+		{
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK2
+		shoot SPARK
+		}
+break
+case FIREWALL_BOMB
+case GP30_NADE
+case GEO_NADE
+case 5968
+case JRGL_PROJ
+case FORTYMM_NADE
+case 2606
+case GOLD_SPELL2
+case 19807
+	ifpdistlvar opt_particle_distance
+		{
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		}
+	set RETURN 0
+	break
+case TORPEDO
+case MISSILE
+	ifspawnedby APLAYER
+	 ifpdistlvar opt_particle_distance
+		{
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		spawn BIG_SMOKE2
+		spawn BIG_SMOKE2
+		spawn BIG_SMOKE2
+		spawn 8433
+		}
+	set RETURN 0
+break
+case RPG
+	ifspawnedby APLAYER
+	 ifpdistlvar opt_particle_distance
+		{
+		ife CHAR 1
+		 ife cur_weap 7
+			{
+			}
+			else
+				{
+			shoot SPARK
+			shoot SPARK
+			shoot SPARK
+			shoot SPARK
+				}
+		ife temp_weap 16
+		 ife cur_weap 0
+			{
+			spawn BIG_SMOKE2
+			spawn BIG_SMOKE2
+			spawn 8433
+			}
+		ife CHAR 10
+		 ife cur_weap 7
+			{
+			spawn BIG_SMOKE2
+			spawn BIG_SMOKE2
+			spawn 8433
+			}
+		ife CHAR 12
+		 ife cur_weap 7
+			{
+			spawn BIG_SMOKE2
+			spawn BIG_SMOKE2
+			spawn 8433
+			}
+		}
+	set RETURN 0
+break
+case DOMELITE
+	espawn 3179
+	seta[RETURN].xrepeat sprite[].xrepeat
+	seta[RETURN].yrepeat sprite[].yrepeat
+	seta[RETURN].cstat sprite[].cstat
+	seta[RETURN].pal sprite[].pal
+	set RETURN 0
+break
+case HANGLIGHT
+	sound VENT_BUST
+	espawn 3180
+	sound GLASS_HEAVYBREAK
+	ifpdistlvar opt_particle_distance
+		{
+		lotsofglass 3
+		shoot SPARK shoot SPARK shoot SPARK
+		}
+	seta[RETURN].xrepeat sprite[].xrepeat
+	seta[RETURN].yrepeat sprite[].yrepeat
+	seta[RETURN].cstat sprite[].cstat
+	setarray LIGHT_OPEN[hitag_saved] 2
+	set RETURN 0
+break
+case POT1
+case POT2
+	spawn BROWNSTAIN sound VENT_BUST set RETURN 0
+break
+endswitch
+endevent

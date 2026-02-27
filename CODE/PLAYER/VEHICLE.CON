@@ -1,0 +1,896 @@
+defstate player_vehicle_code
+ifn player_using_horse -1
+{
+action BOAT_USE
+state spawn_cold_breathe
+setp[].over_shoulder_on 0
+}
+
+ifn player_using_hovercraft -1
+{
+action BOAT_USE
+getp[].horiz temp
+clamp temp 25 299
+setp[].horiz temp
+geta[].htextra temp
+ifg temp -1
+	{
+	geta[player_using_hovercraft].extra temp2
+	sub temp2 temp
+	seta[player_using_hovercraft].extra temp2
+	seta[].htextra -1
+	}
+
+ifg hc_missile_fire 0 sub hc_missile_fire 1
+
+	ifand BITS_PRESS 4
+	{
+	espawn SOUND_SPRITE
+	state SPAWN_IN_PLAYER_FRONT
+	setactorvar[RETURN].temp AUTOTURRET_FIRE
+	set temp3 player[].posx
+	add temp3 1024
+	rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+	getp[].cursectnum upd_sect
+	updatesector temp5 temp6 upd_sect
+	getp[].posz temp
+	add temp 3048
+	seta[].z temp
+	eshoot FIRELASER
+	ife upd_sect -1 action ZERO else
+		{
+		setsprite RETURN temp5 temp6 temp
+		}
+	}
+
+	ifand BITS_PRESS 16384
+	ifcount 13
+	{
+	sound WEAP_FIRE_MODE
+	xorvar gun_firemode 262144
+	resetcount
+	}
+
+	ifand BITS_PRESS 64
+	 ife hc_missile_fire 0
+	{
+	sound MISSILE_LAUNCH
+	set temp3 player[].posx
+	add temp3 512
+	rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+	getp[].cursectnum upd_sect
+	updatesector temp5 temp6 upd_sect
+	getp[].posz temp
+	add temp 2048
+	seta[].z temp
+	ifand gun_firemode 262144
+		{
+		eshoot MISSILE
+		setthisprojectile[RETURN].hitradius 4500
+		setthisprojectile[RETURN].workslike 98306
+		setthisprojectile[RETURN].pal 14
+		setthisprojectile[RETURN].vel 975
+		setthisprojectile[RETURN].xrepeat 40
+		setthisprojectile[RETURN].yrepeat 40
+		setthisprojectile[RETURN].extra 500
+		seta[RETURN].extra 500
+		setthisprojectile[RETURN].extra_rand 125
+		setthisprojectile[RETURN].isound EXPLOSION_BIG
+		setthisprojectile[RETURN].spawns BIG_EXPLOSION
+		}
+	else
+		{
+		setprojectile[HOMING_MISSILE].cstat 128
+		eshoot HOMING_MISSILE
+		setprojectile[HOMING_MISSILE].cstat 385
+		seta[RETURN].extra 300
+		setthisprojectile[RETURN].extra 300
+		}
+	ife upd_sect -1 action ZERO else
+		{
+		setsprite RETURN temp5 temp6 temp
+		}
+	set hc_missile_fire 20
+	}
+
+}
+
+// HOVERTANK FIRING CODE
+ifn player_using_hovertank -1
+{
+	action HOVERTANK_USE
+	set fire_damage 0
+	state lower_weapon
+	setp[].movement_lock 15
+
+	setp[].jumping_toggle 0
+	setp[].jumping_counter 0
+	setp[].hard_landing 0
+	setp[].jetpack_on 11
+
+	ifg hc_missile_fire 0 sub hc_missile_fire 1
+	ifg mech_maingun_fire 0 sub mech_maingun_fire 1
+
+		ifand BITS_PRESS 4
+		ife mech_maingun_fire 0
+		{
+			sound HOVERTANK_FIRE
+			set gun_recoil 4
+			set temp3 player[].posx
+			add temp3 2048
+			rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+			getp[].cursectnum upd_sect
+			updatesector temp5 temp6 upd_sect
+			getp[].posz temp
+			// Uncommenting this means projectiles fly above smaller enemy's heads, which is really annoying
+			// sub temp 4096
+			seta[].z temp
+			eshoot CYCLOID_PLASMA
+			seta[RETURN].extra 1600
+			setthisprojectile[RETURN].hitradius 4096
+			setthisprojectile[RETURN].extra 1600
+			setthisprojectile[RETURN].velmult 8
+			ife upd_sect -1 action ZERO else
+			{
+				setsprite RETURN temp5 temp6 temp
+			}
+			ife CHAR 18 set mech_maingun_fire 30 else
+			set mech_maingun_fire 40
+		}
+
+		ifand BITS_PRESS 64
+		 ife hc_missile_fire 0
+		{
+			sound HOVERTANK_MISSILE
+			set temp3 player[].posx
+			add temp3 2048
+			rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+			updatesector temp5 temp6 temp7
+			getp[].posz temp
+			sub temp 2048
+			seta[].z temp
+			eshoot HOMING_MISSILE
+			setthisprojectile[RETURN].hitradius 4096
+			seta[RETURN].extra 200
+			setthisprojectile[RETURN].extra 200
+			setthisprojectile[RETURN].velmult 4
+			ife temp7 -1 action ZERO else
+			{
+			setsprite RETURN temp5 temp6 temp
+			}
+			ife CHAR 18 set hc_missile_fire 6 else
+			set hc_missile_fire 8
+		}
+}
+
+ifn player_using_VR_tank -1
+{
+action VR_TANK_USE
+set fire_damage 0
+state lower_weapon
+setp[].movement_lock 15
+seta[].htextra -1
+
+setp[].jumping_toggle 0
+setp[].jumping_counter 0
+setp[].hard_landing 0
+setp[].jetpack_on 11
+
+ifg hc_missile_fire 0 sub hc_missile_fire 1
+ifg mech_maingun_fire 0 sub mech_maingun_fire 1
+
+	ifand BITS_PRESS 4
+	ife mech_maingun_fire 0
+	{
+	sound RETRO_DOORC
+	set gun_recoil 4
+	set temp3 player[].posx
+	add temp3 2048
+	rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+	updatesector temp5 temp6 temp7
+	getp[].posz temp
+	sub temp 4096
+	seta[].z temp
+	eshoot CYCLOID_PLASMA
+	seta[RETURN].extra 1600
+	setthisprojectile[RETURN].hitradius 4096
+	setthisprojectile[RETURN].isound RETRO_BOOM
+	setthisprojectile[RETURN].velmult 2
+	ife temp7 -1 action ZERO else
+		{
+		setsprite RETURN temp5 temp6 temp
+		}
+	ife CHAR 18 set mech_maingun_fire 30 else
+	set mech_maingun_fire 40
+	}
+
+	ifand BITS_PRESS 64
+	 ife hc_missile_fire 0
+	{
+	sound RETRO_DOORC
+	set temp3 player[].posx
+	add temp3 2048
+	rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+	updatesector temp5 temp6 temp7
+	getp[].posz temp
+	sub temp 2048
+	seta[].z temp
+	eshoot HOMING_MISSILE
+	setthisprojectile[RETURN].hitradius 4096
+	seta[RETURN].extra 200
+	setthisprojectile[RETURN].extra 200
+	setthisprojectile[RETURN].velmult 4
+	ife temp7 -1 action ZERO else
+	{
+	setsprite RETURN temp5 temp6 temp
+	}
+	ife CHAR 18 set hc_missile_fire 6 else
+	set hc_missile_fire 8
+	}
+
+}
+
+ifn player_using_fighter -1
+{
+action FIGHTER_USE
+set fire_damage 0
+state lower_weapon
+setp[].movement_lock 15
+geta[].htextra temp
+ifg temp -1
+	{
+	geta[player_using_fighter].extra temp2
+	sub temp2 temp
+	seta[player_using_fighter].extra temp2
+	seta[].htextra -1
+	}
+
+setp[].jumping_toggle 0
+setp[].jumping_counter 0
+setp[].hard_landing 0
+setp[].jetpack_on 11
+
+ifg hc_missile_fire 0 sub hc_missile_fire 1
+ifg mech_maingun_fire 0 sub mech_maingun_fire 1
+
+	ifand BITS_PRESS 4
+	ife mech_maingun_fire 0
+	{
+	sound CY_FIGHTER_FIRE
+
+	set temp3 player[].posx
+	add temp3 2048
+	rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+	updatesector temp5 temp6 temp7
+	getp[].posz temp
+	sub temp 4096
+	seta[].z temp
+	setprojectile[MDF_PLASMA].pal 8
+	eshoot MDF_PLASMA
+	setprojectile[MDF_PLASMA].pal 0
+	ife temp7 -1 action ZERO else
+		{
+		setsprite RETURN temp5 temp6 temp
+		}
+	set mech_maingun_fire 2
+	}
+
+	ifand BITS_PRESS 64
+	 ife hc_missile_fire 0
+	{
+	sound CY_FIGHTER_MISSILE
+	set temp3 player[].posx
+	add temp3 2048
+	rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+	updatesector temp5 temp6 temp7
+	getp[].posz temp
+	sub temp 2048
+	seta[].z temp
+	eshoot HOMING_MISSILE
+	seta[RETURN].extra 300
+	setthisprojectile[RETURN].hitradius 4096
+	setthisprojectile[RETURN].extra 300
+	setthisprojectile[RETURN].velmult 4
+	ife temp7 -1 action ZERO else
+		{
+		setsprite RETURN temp5 temp6 temp
+		}
+	ife CHAR 18 set hc_missile_fire 16 else
+	set hc_missile_fire 32
+	}
+
+}
+
+ifn player_using_jet -1
+{
+action JET_USE
+set fire_damage 0
+state lower_weapon
+setp[].movement_lock 15
+geta[].htextra temp
+ifg temp -1
+	{
+	geta[player_using_jet].extra temp2
+	sub temp2 temp
+	seta[player_using_jet].extra temp2
+	seta[].htextra -1
+	}
+
+setp[].jumping_toggle 0
+setp[].jumping_counter 0
+setp[].hard_landing 0
+setp[].jetpack_on 11
+
+ifg hc_missile_fire 0 sub hc_missile_fire 1
+ifg mech_maingun_fire 0 sub mech_maingun_fire 1
+
+	ifand BITS_PRESS 4
+	ife mech_maingun_fire 0
+	{
+	sound EAFJ_MG
+
+	ifg actorvar[player_using_jet].forward_accelerate 500
+		{
+		set temp3 player[].posx
+		add temp3 2048
+		rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+		updatesector temp5 temp6 temp7
+		getp[].posz temp
+		add temp 8192
+		setp[].posz temp
+		setprojectile[ENEMY_BULLET].velmult 8
+		eshoot ENEMY_BULLET
+		eshoot ENEMY_BULLET
+		setprojectile[ENEMY_BULLET].velmult 2
+		ife temp7 -1 action ZERO else
+			{
+			setsprite RETURN temp5 temp6 player[].posz
+			}
+		getp[].posz temp
+		sub temp 8192
+		setp[].posz temp
+		}
+	else
+		{
+		getp[].posz temp
+		add temp 16384
+		setp[].posz temp
+		setprojectile[ENEMY_BULLET].velmult 2
+		eshoot ENEMY_BULLET
+		eshoot ENEMY_BULLET
+		setprojectile[ENEMY_BULLET].velmult 2
+		getp[].posz temp
+		sub temp 16384
+		setp[].posz temp
+		}
+	set mech_maingun_fire 2
+	}
+
+	ifand BITS_PRESS 64
+	 ife hc_missile_fire 0
+	{
+	sound EAFJ_FM
+	set temp3 player[].posx
+	add temp3 2048
+	rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+	updatesector temp5 temp6 temp7
+	getp[].posz temp
+	add temp 2048
+	seta[].z temp
+	eshoot HOMING_MISSILE
+	seta[RETURN].extra 300
+	setthisprojectile[RETURN].hitradius 4096
+	setthisprojectile[RETURN].extra 300
+	setthisprojectile[RETURN].velmult 4
+	ife temp7 -1 action ZERO else
+		{
+		setsprite RETURN temp5 temp6 temp
+		}
+	ife CHAR 18 set hc_missile_fire 16 else
+	set hc_missile_fire 32
+	}
+
+}
+
+ifn player_using_submarine -1
+{
+	action SUBMARINE_USE
+	set fire_damage 0
+	state lower_weapon
+	setp[].movement_lock 15
+	setp[].airleft 390
+	geta[].htextra temp
+	ifg temp -1
+	{
+		geta[player_using_submarine].extra temp2
+		sub temp2 temp
+		seta[player_using_submarine].extra temp2
+		seta[].htextra -1
+	}
+
+	setp[].jumping_toggle 0
+	setp[].jumping_counter 0
+	setp[].hard_landing 0
+
+	ifg hc_missile_fire 0 sub hc_missile_fire 1
+	ifg mech_maingun_fire 0 sub mech_maingun_fire 1
+
+	ifand BITS_PRESS 4
+	  ife mech_maingun_fire 0
+	{
+		sound ENGY_SMG_FIRE
+
+		set temp3 player[].posx
+		add temp3 2048
+		rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+		updatesector temp5 temp6 temp7
+		getp[].posz temp
+
+		// if not underwater, z pos needs to be manipulated a bit
+		gets[].lotag temp2
+		ife temp2 2
+			nullop
+		else
+			sub temp 4096
+
+		seta[].z temp
+		eshoot MDF_PLASMA
+		getp[].posz temp
+		seta[].z temp
+
+		setthisprojectile[RETURN].velmult 12
+		setthisprojectile[RETURN].pal 8
+		ife temp7 -1 action ZERO else
+		{
+			setsprite RETURN temp5 temp6 temp
+		}
+		set mech_maingun_fire 2
+	}
+
+	ifand BITS_PRESS 64
+	  ife hc_missile_fire 0
+	{
+		sound SUBM_FIRE
+		set temp3 player[].posx
+		add temp3 2048
+		rotatepoint player[].posx player[].posy temp3 player[].posy player[].ang temp5 temp6
+		updatesector temp5 temp6 temp7
+		getp[].posz temp
+
+		// if not underwater, z pos needs to be manipulated a bit
+		gets[].lotag temp2
+		ife temp2 2
+			nullop
+		else
+			sub temp 2048
+
+		seta[].z temp
+
+		eshoot TORPEDO
+		getp[].posz temp
+		seta[].z temp
+
+		seta[RETURN].extra 300
+		setthisprojectile[RETURN].hitradius 4096
+		setthisprojectile[RETURN].extra 300
+		setthisprojectile[RETURN].velmult 4
+		ife temp7 -1 action ZERO else
+		{
+			setsprite RETURN temp5 temp6 temp
+		}
+		ife CHAR 18 set hc_missile_fire 16 else
+		set hc_missile_fire 32
+	}
+}
+
+ ifn ANGLE 0 // If player is in the tank?
+	{
+	  cstat 32768
+	  // setp[].over_shoulder_on 0
+	  setp[].weapon_pos -9
+	  setp[].pyoff 0
+
+	  geta[SET].z x
+	  add x -8192
+	  setp[].posz x
+
+	  getp[].pyoff x
+	  add x -14336
+	  setp[].pyoff x
+	  setp[].opyoff x
+
+	  geta[SET].x x
+	  setp[].posx x
+	  geta[SET].y y
+	  setp[].posy y
+
+	ifand BITS_PRESS 16384
+	 ifcount 13
+		{
+		sound WEAP_FIRE_MODE
+		xorvar gun_firemode 262144
+		resetcount
+		}
+
+	  set GUN_ACCURACY 24
+
+	  ifand BITS_PRESS 64
+	  ife TANK_MACHINEGUN 0
+	  {
+		  set gunsmoke_angle 116
+		  state spawn_gunsmoke
+		  eshoot RIFLESHELL
+		  geta[RETURN].z temp
+		  sub temp 12000
+		  seta[RETURN].z temp
+		  flash
+		  shoot RIFLESHOT
+		  shoot FAKE_BULLET
+		  espawn SOUND_SPRITE state SPAWN_IN_PLAYER_FRONT setactorvar[RETURN].temp TANK_MGUN
+		  set TANK_MACHINEGUN 8
+	  }
+	  // This makes the view shoot up when using the tank machine gun to simulate recoil
+	  ifg TANK_MACHINEGUN 0
+		{
+		ifg TANK_MACHINEGUN 4 { getp[].horiz temp add temp 1 setp[].horiz temp }
+		else { getp[].horiz temp sub temp 1 setp[].horiz temp }
+		sub TANK_MACHINEGUN 1
+		}
+	  ifhitspace
+	  {
+		ife ANGLE 1
+		{
+		  set player_in_vehicle 0
+		  soundonce TANK_STOP
+		  stopsound TANK_ENGINE
+		  stopsound TANK_TREAD
+		  stopsound TANK_ROTATE
+		  palfrom 63 0 0 0
+		  cstat 257
+		  getp[].posz x
+		  add x -14336
+		  setp[].posz x
+		  setp[].weapon_pos 0
+		  setactorvar[SET].ANGLE -3
+		  set ANGLE 0
+		}
+	  }
+	  else
+		set ANGLE 1
+	  seta[].htextra -1
+	}
+
+ifn player_using_mech -1
+	{
+	ifg mech_hud_shake 0 sub mech_hud_shake 1
+	action PMECH_IDLE
+	set fire_damage 0
+	ifg sprite[].htextra -1
+		{
+		geta[player_using_mech].extra temp2
+		sub temp2 sprite[].htextra
+		seta[player_using_mech].extra temp2
+		seta[].htextra -1
+		}
+	setp[].falling_counter 0
+	ifg hc_missile_fire 0 sub hc_missile_fire 1
+	ifg mech_maingun_fire 0 sub mech_maingun_fire 1
+
+	// can't fire guns whilst sprinting
+	ifand BITS_PRESS P_SPRINTING nullop else
+		{
+		ifand BITS_PRESS 4
+		ife mech_maingun_fire 0
+			ife hc_missile_fire 0
+			{
+			sound MELTAGUN_FIRE
+			set gun_recoil 8
+			shoot 9359 shoot 9359 shoot 9359 shoot 9359 shoot 9359 shoot 9359 shoot 9359 shoot 9359
+			shoot 9359 shoot 9359 shoot 9359 shoot 9359 shoot 9359 shoot 9359 shoot 9359 shoot 9359
+			set mech_maingun_fire 27
+			}
+
+			ifand BITS_PRESS 2
+			{
+			set gun_recoil 2
+			espawn SOUND_SPRITE state SPAWN_IN_PLAYER_FRONT setactorvar[RETURN].temp AUTOTURRET_FIRE
+			shoot FIRELASER
+			}
+
+			ifand BITS_PRESS 64
+			 ife hc_missile_fire 0
+			  ife mech_maingun_fire 0
+			{
+			sound MISSILE_LAUNCH
+			eshoot MISSILE
+
+				set temp3 sprite[].x
+				add temp3 256
+				geta[].ang temp4
+				add temp4 256
+				rotatepoint sprite[].x sprite[].y temp3 sprite[].y temp4 temp5 temp6
+				seta[RETURN].x temp5
+				seta[RETURN].y temp6
+				geta[].z temp
+				sub temp 14096
+				seta[RETURN].z temp
+
+			sound MISSILE_LAUNCH
+			eshoot MISSILE
+
+				set temp3 sprite[].x
+				add temp3 256
+				geta[].ang temp4
+				sub temp4 256
+				rotatepoint sprite[].x sprite[].y temp3 sprite[].y temp4 temp5 temp6
+				seta[RETURN].x temp5
+				seta[RETURN].y temp6
+
+				geta[].z temp
+				sub temp 14096
+				seta[RETURN].z temp
+
+			ife CHAR 18 set hc_missile_fire 16 else
+			set hc_missile_fire 32
+			}
+		}
+
+	}
+
+ifn player_using_EAF_mech -1
+	{
+	ifg mech_hud_shake 0 sub mech_hud_shake 1
+	action PMECH_IDLE
+	set fire_damage 0
+	ifg sprite[].htextra -1
+		{
+		geta[player_using_EAF_mech].extra temp2
+		sub temp2 sprite[].htextra
+		seta[player_using_EAF_mech].extra temp2
+		seta[].htextra -1
+		}
+	setp[].falling_counter 0
+	ifg hc_missile_fire 0 sub hc_missile_fire 1
+	ifg mech_maingun_fire 0 sub mech_maingun_fire 1
+
+	// can't fire guns whilst sprinting
+	ifand BITS_PRESS P_SPRINTING nullop else
+		{
+		ifand BITS_PRESS 4
+		ife mech_maingun_fire 0
+			{
+			sound EAFJ_MG
+			ifand player[].player_par 1 setprojectile[GAUSS_LOW].offset -224 // alternate offset
+			shoot GAUSS_LOW
+			setprojectile[GAUSS_LOW].offset 224
+			set mech_maingun_fire 1
+			}
+
+			ifand BITS_PRESS 64
+			 ife hc_missile_fire 0
+			{
+			sound PLASRG_FIRE
+			eshoot CYCLOID_PLASMA
+
+				set temp3 sprite[].x
+				add temp3 256
+				geta[].ang temp4
+				add temp4 256
+				rotatepoint sprite[].x sprite[].y temp3 sprite[].y temp4 temp5 temp6
+				seta[RETURN].x temp5
+				seta[RETURN].y temp6
+				geta[].z temp
+				sub temp 10240
+				seta[RETURN].z temp
+
+			set hc_missile_fire 24
+			}
+		}
+
+	}
+
+// Using Mounted minigun
+
+ifn using_turret -1
+	{
+	ife turret_type 0 // minigun
+		{
+		getav[using_turret].stationary_gun_ammo current_sg_ammo
+		state lower_weapon
+		setp[].kickback_pic 0
+		setp[].movement_lock 15
+		ifand BITS_PRESS 4
+		 ifg current_sg_ammo 0
+			{
+			flash
+			setprojectile[ARMOUR_PIERCING_SHOT].decal -1
+			shoot ARMOUR_PIERCING_SHOT
+			shoot ARMOUR_PIERCING_SHOT
+			shoot ARMOUR_PIERCING_SHOT
+			shoot ARMOUR_PIERCING_SHOT
+			shoot ARMOUR_PIERCING_SHOT
+			shoot FAKE_BULLET
+			shoot FAKE_BULLET
+			shoot FAKE_BULLET
+			shoot FAKE_BULLET
+			shoot FAKE_BULLET
+			setprojectile[ARMOUR_PIERCING_SHOT].decal BULLETHOLE
+			soundonce MINIGUN_FIRE
+			setprojectile[RIFLESHELL].spawns -1
+			setprojectile[RIFLESHELL].bounces 2
+			shoot RIFLESHELL
+			shoot RIFLESHELL
+			shoot RIFLESHELL
+			setprojectile[RIFLESHELL].spawns RIFLESHELLF
+			setprojectile[RIFLESHELL].bounces 6
+			ifl firing_count 128 add firing_count 1
+			sub current_sg_ammo 3
+			ifl current_sg_ammo 0 set current_sg_ammo 0
+			setactorvar[using_turret].stationary_gun_ammo current_sg_ammo
+			set gun_recoil 6
+			}
+		else { stopactorsound THISACTOR MINIGUN_FIRE set temp6 0 ifg firing_count 0 sub firing_count 1 }
+		}
+	else
+	ife turret_type 1 // 50cal
+		{
+		getav[using_turret].stationary_gun_ammo current_sg_ammo
+		getav[using_turret].gun_turret_shield gun_turret_sh_temp
+		state lower_weapon
+		setp[].kickback_pic 0
+		setp[].movement_lock 15
+
+		setp[].posx sprite[using_turret].x
+		setp[].posy sprite[using_turret].y
+		geta[using_turret].z temp4
+		sub temp4 8192
+		setp[].posz temp4
+		geta[].htextra damage_temp
+		ifg damage_temp -1
+				{
+				ifg gun_turret_sh_temp 0
+						{
+						ifrnd 128 sound SHIELDHIT2 else sound SHIELDHIT
+						sub gun_turret_sh_temp damage_temp
+						setactorvar[using_turret].gun_turret_shield gun_turret_sh_temp
+						div damage_temp 2
+						ifg damage_temp 10 set damage_temp 10
+						set shield_shake damage_temp
+						set damage_temp 0
+						seta[].htextra -1
+						ifl gun_turret_shield 1
+							{
+							wackplayer
+							globalsound SHIELD_DESTROY
+							palfrom 20 20 0 0
+							setactorvar[using_turret].gun_turret_shield 0
+							}
+						}
+				}
+			ifand BITS_PRESS 4
+			 ifg current_sg_ammo 0
+			  ife firing_count 0
+				{
+				flash
+				setprojectile[22442].offset 14354
+				shoot 22442
+				setprojectile[22442].offset 448
+				espawn SOUND_SPRITE state SPAWN_IN_PLAYER_FRONT setactorvar[RETURN].temp FIFTY_T_FIRE
+				set shield_shake 5
+				set gun_recoil 10
+				shoot FIFTY_CAL_SHELL
+				set firing_count 5
+				sub current_sg_ammo 1
+				ifl current_sg_ammo 0 set current_sg_ammo 0
+				setactorvar[using_turret].stationary_gun_ammo current_sg_ammo
+				set gun_recoil 10
+				}
+			else { ifg firing_count 0 sub firing_count 1 ifl firing_count 0 set firing_count 0 }
+		}
+	else
+	ife turret_type 2 // magic ballista
+		{
+		getav[using_turret].stationary_gun_ammo current_sg_ammo
+		getav[using_turret].gun_turret_shield gun_turret_sh_temp
+		state lower_weapon
+		setp[].kickback_pic 0
+		setp[].movement_lock 15
+
+		setp[].posx sprite[using_turret].x
+		setp[].posy sprite[using_turret].y
+		geta[using_turret].z temp4
+		sub temp4 8192
+		setp[].posz temp4
+		geta[using_turret].sectnum upd_sect
+		updatesectorz sprite[using_turret].x sprite[using_turret].y sprite[].z upd_sect
+			ifn upd_sect -1 changespritesect THISACTOR upd_sect
+
+			ifand BITS_PRESS 4
+			 ifg current_sg_ammo 0
+			  ife firing_count 0
+				{
+				sound VOID_FIRE
+				set gun_recoil 10
+				setprojectile[VOID_BOLT].offset 14354
+				setprojectile[VOID_BOLT].extra 200
+				shoot VOID_BOLT
+				setprojectile[VOID_BOLT].extra 75
+				setprojectile[VOID_BOLT].offset 224
+				set firing_count 5
+				sub current_sg_ammo 1
+				ifl current_sg_ammo 0 set current_sg_ammo 0
+				setactorvar[using_turret].stationary_gun_ammo current_sg_ammo
+				set gun_recoil 6
+				}
+			else { ifg firing_count 0 sub firing_count 1 ifl firing_count 0 set firing_count 0 }
+		}
+	else
+	ife turret_type 3 // big ballista
+		{
+		getav[using_turret].stationary_gun_ammo current_sg_ammo
+		getav[using_turret].gun_turret_shield gun_turret_sh_temp
+		state lower_weapon
+		setp[].kickback_pic 0
+		setp[].movement_lock 15
+
+		setp[].posx sprite[using_turret].x
+		setp[].posy sprite[using_turret].y
+		geta[using_turret].z temp4
+		sub temp4 8192
+		setp[].posz temp4
+			ifand BITS_PRESS 4
+			 ifg current_sg_ammo 0
+			  ife firing_count 0
+				{
+				sound BALLIST_FIRE
+				setprojectile[BALLIST_BOLT].offset 14354
+				shoot BALLIST_BOLT
+				setprojectile[BALLIST_BOLT].offset 224
+				set firing_count 25
+				sub current_sg_ammo 1
+				ifl current_sg_ammo 0 set current_sg_ammo 0
+				setactorvar[using_turret].stationary_gun_ammo current_sg_ammo
+				set gun_recoil 16
+				}
+			else
+				{
+				ifg firing_count 0 sub firing_count 1
+				ifl firing_count 0 set firing_count 0
+				ife firing_count 20 sound BALLIST_LOAD
+				}
+		}
+	else
+	ife turret_type 4 // cannon
+		{
+		getav[using_turret].stationary_gun_ammo current_sg_ammo
+		getav[using_turret].gun_turret_shield gun_turret_sh_temp
+		state lower_weapon
+		setp[].kickback_pic 0
+		setp[].movement_lock 15
+
+		setp[].posx sprite[using_turret].x
+		setp[].posy sprite[using_turret].y
+
+			ifand BITS_PRESS 4
+			 ifg current_sg_ammo 0
+			  ife firing_count 0
+				{
+				sound CANN_FIRE
+				setprojectile[CANNONBALL].offset 14354
+				shoot CANNONBALL
+				setprojectile[CANNONBALL].offset 224
+				set firing_count 15
+				sub current_sg_ammo 1
+				ifl current_sg_ammo 0 set current_sg_ammo 0
+				setactorvar[using_turret].stationary_gun_ammo current_sg_ammo
+				set gun_recoil 30
+				}
+			else
+				{
+				ifg firing_count 0 sub firing_count 1
+				ifl firing_count 0 set firing_count 0
+				}
+		}
+	}
+
+ends

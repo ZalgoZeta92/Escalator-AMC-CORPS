@@ -1,0 +1,617 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+action A_PE_NOSFERATU_START 0 0 5 1 12
+action A_PE_NOSFERATU_IDLE 0 0 5 1 12
+action A_PE_NOSFERATU_SEEK 5 4 5 1 16
+action A_PE_NOSFERATU_SHRUNK 5 4 5 1 16
+action A_PE_NOSFERATU_ATTACK 25 3 5 1 12
+action A_PE_NOSFERATU_PREPBATS 65 6 1 1 12
+action A_PE_NOSFERATU_BATS 40 1 5 1 0
+action A_PE_NOSFERATU_DASH_T 40 1 5 1 0
+action A_PE_NOSFERATU_DASH 40 1 5 1 0
+action A_PE_NOSFERATU_ATTACK2 45 3 5 1 12
+action A_PE_NOSFERATU_DRAIN 60 1 5 1 0
+action A_PE_NOSFERATU_PAIN 65 0 1 1 8
+action A_PE_NOSFERATU_FREEZE 65 0 1 1 8
+action A_PE_NOSFERATU_GROW 65 0 1 1 8
+action A_PE_NOSFERATU_DYING 65 6 1 1 12
+
+move M_PE_NOSFERATU_WALK 128
+move M_PE_NOSFERATU_BATS 385
+move M_PE_NOSFERATU_DASH 512
+
+damageeventtile PE_NOSFERATU
+
+defstate nosferatu_dashvels
+	set movesprite_customvels 1
+	cos movesprite_xvel movesprite_angvar
+	sin movesprite_yvel movesprite_angvar
+	set movesprite_shift 4
+	shiftr movesprite_xvel movesprite_shift
+	shiftr movesprite_yvel movesprite_shift
+
+	set temp movesprite_xvel
+	set temp2 movesprite_yvel
+
+	div temp 12
+	div temp2 12
+
+	add movesprite_xvel temp
+	add movesprite_yvel temp2
+ends
+
+defstate nosferatu_dash_hit
+	// TODO FOR WHATEVER REASON THAT I TRULY DON'T KNOW, movesprite return is usually 0 even if the player just clearly runs into and clips the VULTURE
+	// Just add a distance check as a failsafe. Guess you'll still get hit if you're behind or to the side of it but hopefully that shouldn't come up too often??
+	dist temp THISACTOR my_target
+	
+	ifl temp 1024
+	{
+			ife my_target PLAYER_IDENTITY
+				ifn SWORD_BLOCK 0
+				 ifp pfacing
+					{
+					state enemy_parry_code
+					action A_PE_NOSFERATU_PAIN
+					break
+					}
+			else 
+					{
+					sound RIPPER_SCRATCH
+
+					// random amount of damage
+					set temp2 25
+					rand temp3 10
+					add temp2 temp3
+					seta[my_target].htextra temp2
+					
+					action A_PE_NOSFERATU_SEEK
+								}
+	}
+	
+	// sprite hit, give it some damage
+	else ifge RETURN 49152
+	{
+		geta[RETURN].picnum temp
+		ifn temp PE_NOSFERATU
+		{
+			ife my_target PLAYER_IDENTITY
+			ifn SWORD_BLOCK 0
+			 ifp pfacing
+					{
+					state enemy_parry_code
+					action A_PE_NOSFERATU_PAIN
+					break
+					}
+				else 
+					{
+					set temp RETURN
+					sub temp 49152
+					sound RIPPER_SCRATCH
+					// random amount of damage
+					set temp2 25
+					rand temp3 10
+					add temp2 temp3
+					seta[temp].htextra temp2
+					action A_PE_NOSFERATU_SEEK
+					}
+		}
+		else
+			action A_PE_NOSFERATU_SEEK
+	}
+	
+	// Ran into anything else
+	else ifn RETURN 0
+		action A_PE_NOSFERATU_SEEK
+ends
+
+// nosferatu_swarm moved to variables.con since its used for Rosa too
+
+useractor enemy PE_NOSFERATU 1500 A_PE_NOSFERATU_START
+	fall
+	ifaction A_PE_NOSFERATU_START
+	{
+		cstat 257
+		spriteflags NORMAL_ENEMY
+		set actor_type TYPE_SUPERNATURAL
+		strength 1500
+		spritepal 21
+		sizeat 28 28
+		set blood_type 0 // defaults to 0 which is red
+		geta[].pal actor_pal
+		espawn SHOOTME 
+		seta[RETURN].pal 1
+		state monst_glow
+		action A_PE_NOSFERATU_IDLE
+	}
+
+	state actor_knockback_state
+	xor element_type FLOOR_DAMAGE
+	xor element_type FIRE_DAMAGE
+	xor element_type ICE_DAMAGE
+	xor element_type SPIRIT_DAMAGE
+
+	ifg enemy_cooldown1 0
+		sub enemy_cooldown1 1
+		
+	// if bats, can't be damaged
+	ifaction A_PE_NOSFERATU_PREPBATS
+		seta[].htextra -1
+	else ifaction A_PE_NOSFERATU_BATS
+		seta[].htextra -1
+	
+
+	ifaction A_PE_NOSFERATU_IDLE
+	{
+		move STOP
+		state checkfortarget
+		ifn my_target -1 
+		{
+			ifrnd 128 sound NOSF_RCG1 else sound NOSF_RCG2
+			
+			action A_PE_NOSFERATU_SEEK
+		}
+	}
+
+	else ifaction A_PE_NOSFERATU_SEEK
+	{
+		ifmove M_PE_NOSFERATU_WALK nullop 
+		else move M_PE_NOSFERATU_WALK geth
+			
+		state checkfortarget
+		
+		ifrnd 64
+		  ife enemy_cooldown1 0
+		{
+			set INTERNALCOUNT 0
+			action A_PE_NOSFERATU_PREPBATS
+		}
+		ifn my_target -1
+		{
+			ldist temp THISACTOR my_target
+			ifl temp 1024 
+			{
+				set INTERNALCOUNT 0
+				ifrnd 64 action A_PE_NOSFERATU_ATTACK
+				else ifrnd 64 action A_PE_NOSFERATU_ATTACK2
+				else action A_PE_NOSFERATU_ATTACK
+			}
+			else
+			{
+				// Target acquired, skill setting can still affect decision to shoot.
+				state SKILL_SHOOT_LEVELADJUST
+				ifl RANDOM_CHANCE SKILLCHANCE 
+					action A_PE_NOSFERATU_DRAIN
+			}
+		}
+		
+	}
+	else ifaction A_PE_NOSFERATU_SHRUNK
+	{
+		ifmove M_PE_NOSFERATU_WALK nullop 
+		else move M_PE_NOSFERATU_WALK geth fleeenemy
+			
+		ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+			state new_shrunkcode
+		else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+		{
+			state unshrink
+			sizeto 28 28
+		}
+		else // after regrow, switch back to regular action
+		{
+			state endshrunkenstate
+			action A_PE_NOSFERATU_SEEK
+		}
+	}
+	else ifaction A_PE_NOSFERATU_ATTACK
+	{
+		move STOP
+		state fronttowardstarget
+
+		ifactioncount 3
+		{
+			state checkfortarget
+			
+			ife my_target -1
+				action A_PE_NOSFERATU_SEEK
+			else
+			{
+				ldist temp THISACTOR my_target
+				ifg temp 1024
+					action A_PE_NOSFERATU_SEEK
+				else ifrnd 64
+					resetactioncount
+				else
+					action A_PE_NOSFERATU_ATTACK2
+			}
+		}
+		else ifactioncount 2
+		{
+			ife INTERNALCOUNT 0
+			{
+				add INTERNALCOUNT 1
+
+				// TODO some projectile
+				ifrnd 128 sound DGR_SLSH1
+				else sound DGR_SLSH2
+
+				// if player is close enough play scratch sound
+				ldist temp THISACTOR my_target
+				ifle temp 1024
+				{
+				ife my_target PLAYER_IDENTITY
+					ifn SWORD_BLOCK 0
+					 ifp pfacing
+						{
+						state enemy_parry_code
+						action A_PE_NOSFERATU_PAIN
+						break
+						}
+					else 
+					{
+					sound RIPPER_SCRATCH
+					set temp 20
+					rand temp2 25
+					add temp temp2
+					seta[my_target].htextra temp
+					seta[my_target].htpicnum 17663
+					}
+				}
+			}
+		}
+		else ifactioncount 1
+			set INTERNALCOUNT 0
+	}
+	else ifaction A_PE_NOSFERATU_PREPBATS
+	{
+		move STOP
+		
+		ife nosferatu_swarm 0
+		{
+			soundonce BATS_FLYBY
+			set nosferatu_swarm 1
+			set INTERNALCOUNT 1
+		}
+		
+		ife nosferatu_swarm 1
+		{
+			add INTERNALCOUNT 1
+			ifge INTERNALCOUNT 5
+			ifle INTERNALCOUNT_2 30
+			{
+				add INTERNALCOUNT_2 1
+				espawn PE_NOSFERATU_BAT setav[RETURN].owner_saved THISACTOR
+				espawn PE_NOSFERATU_BAT setav[RETURN].owner_saved THISACTOR
+				set INTERNALCOUNT 0
+			}
+		}
+		
+		ifactioncount 6
+		{
+			cstat 32768
+			set INTERNALCOUNT 0
+			action A_PE_NOSFERATU_BATS
+		}
+	}
+	else ifaction A_PE_NOSFERATU_BATS
+	{
+		ifmove M_PE_NOSFERATU_BATS nullop
+		else move M_PE_NOSFERATU_BATS geth
+		
+		// TODO vertical movement
+		
+		state checkfortarget
+		
+		set enemy_cooldown1 120
+		
+		add INTERNALCOUNT 1
+		
+		ifge INTERNALCOUNT 150
+		{
+			set nosferatu_swarm 0
+			cstat 257
+			set INTERNALCOUNT 0
+			stopsound BATS_FLYBY
+			sound UNMADE
+			action A_PE_NOSFERATU_SEEK
+		}
+		else ifn my_target -1
+		{
+			state fronttowardstarget
+			
+			ldist temp THISACTOR my_target
+			ifl temp 2048 
+			{
+				set nosferatu_swarm 0
+				cstat 257
+				stopsound BATS_FLYBY
+				sound UNMADE
+				set INTERNALCOUNT 0
+				action A_PE_NOSFERATU_DASH_T
+				ifrnd 128 sound NOSF_ATCK1 else sound NOSF_ATCK2
+			}
+		}
+	}
+	else ifaction A_PE_NOSFERATU_DASH_T
+	{
+		move STOP
+		state fronttowardstarget
+		
+		add INTERNALCOUNT 1
+		
+		ifge INTERNALCOUNT 10
+		{
+			set INTERNALCOUNT 0
+			geta[].ang movesprite_angvar
+			state nosferatu_dashvels
+			action A_PE_NOSFERATU_DASH
+		}
+	}
+	else ifaction A_PE_NOSFERATU_DASH
+	{
+		state movesprite_state
+		set enemy_cooldown1 120
+		
+		add INTERNALCOUNT 1
+		
+		ifge INTERNALCOUNT 15
+			action A_PE_NOSFERATU_SEEK
+		else
+			state nosferatu_dash_hit
+	}
+	else ifaction A_PE_NOSFERATU_ATTACK2
+	{
+		move STOP
+		state fronttowardstarget
+
+		ifactioncount 3
+		{
+			state checkfortarget
+			
+			ife my_target -1
+				action A_PE_NOSFERATU_SEEK
+			else
+			{
+				ldist temp THISACTOR my_target
+				ifg temp 1024
+					action A_PE_NOSFERATU_SEEK
+				else ifrnd 64
+					resetactioncount
+				else
+					action A_PE_NOSFERATU_ATTACK
+			}
+		}
+		else ifactioncount 2
+		{
+			ife INTERNALCOUNT 0
+			{
+				add INTERNALCOUNT 1
+
+				// TODO some projectile
+				ifrnd 128 sound DGR_SLSH1
+				else sound DGR_SLSH2
+
+				// if player is close enough play scratch sound
+				ldist temp THISACTOR my_target
+				ifle temp 1024
+				{
+				ife my_target PLAYER_IDENTITY
+					ifn SWORD_BLOCK 0
+					 ifp pfacing
+						{
+						state enemy_parry_code
+						action A_PE_NOSFERATU_PAIN
+						break
+						}
+					else 
+					{
+					sound RIPPER_SCRATCH
+					set temp 20
+					rand temp2 25
+					add temp temp2
+					seta[my_target].htextra temp
+					seta[my_target].htpicnum 17663
+					}
+				}
+			}
+		}
+		else ifactioncount 1
+			set INTERNALCOUNT 0
+	}
+	else ifaction A_PE_NOSFERATU_DRAIN
+	{
+		move STOP
+		state fronttowardstarget
+		
+		
+	ife my_target -1
+		action A_PE_NOSFERATU_SEEK
+	
+	state fronttowardstarget
+	ifactioncount 2
+		{
+		set PROJECTILE_STRENGTH 4
+		set PROJECTILE_TO_SHOOT SPELL7
+		set PROJECTILE_FIRING_SOUND 583
+		set PROJECTILE_OFFSET -64
+		set PROJECTILE_ZOFFSET 2048
+		state sang_enemyShootProjectile
+		resetactioncount
+		}
+	ifrnd 16 action A_PE_NOSFERATU_SEEK
+	}
+	else ifaction A_PE_NOSFERATU_PAIN
+	{
+		sub PAIN_AMOUNT 1
+		move STOP
+		ife PAIN_AMOUNT 0
+		{
+			ifdead action A_PE_NOSFERATU_DYING 
+			else action A_PE_NOSFERATU_SEEK
+		}
+	}
+	else ifaction A_PE_NOSFERATU_FREEZE state frozen_code
+	else ifaction A_PE_NOSFERATU_GROW
+	{
+		move STOP
+		state genericgrowcode
+	}
+
+	else ifaction A_PE_NOSFERATU_DYING
+	{
+		move STOP // optional, could also keep momentum by not applying a move action here, or mess with angle or something
+		strength 0
+		ifactioncount 6 { state rf killit }
+	}
+
+	ifhitweapon
+	{
+		state NEWGUNEFFECTS
+		guts JIBS6 1
+		state random_wall_jibs
+		ifdead
+		{
+			addkills 1
+			state rf
+			ifand proj_udata 8192
+			{
+				 ifrnd 4 { spawn ELECTROCUTE_MARV soundonce MALE_ELECT1 } else spawn ELECTROCUTE_GUY
+				 shoot SPARK2 shoot SPARK2 shoot SPARK2
+				 killit
+			}
+			else ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_PE_NOSFERATU_GROW break }
+			else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_PE_NOSFERATU_FREEZE } 
+			else
+			{
+				sound NOSF_DIE1
+				action A_PE_NOSFERATU_DYING
+				spawn BLOODPOOL
+			}
+		}
+			
+		else // not dead
+		{
+			ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_PE_NOSFERATU_SHRUNK }
+			
+			else ifg PAIN_AMOUNT 0 { ifrnd 128 sound NOSF_PN1 else sound NOSF_PN2 action A_PE_NOSFERATU_PAIN }
+			else ifrnd 32 { state PAIN_SKILL_LEVELADJUST ifrnd 128 sound NOSF_PN1 else sound NOSF_PN2 action A_PE_NOSFERATU_PAIN }
+			// if they were idle, getting hit ALWAYS wakes them up
+			else ifaction A_PE_NOSFERATU_IDLE { state PAIN_SKILL_LEVELADJUST ifrnd 128 sound NOSF_PN1 else sound NOSF_PN2 action A_PE_NOSFERATU_PAIN }
+		}
+	}
+
+	state checksquished
+
+enda
+
+action BATFLY_1 0 5 1 1 12
+action BATFLY_2 0 5 1 1 16
+action BATFLY_3 0 5 1 1 20
+
+useractor notenemy PE_NOSFERATU_BAT
+	ifmove 0
+	{
+		sizeat 8 8
+		geta[].z z 
+		rand temp 12000
+		add temp 4096
+		sub z temp
+		seta[].z z
+		seta[].mdflags 16
+		set command 32768
+		
+		// Startpoint randomized
+		geta[owner_saved].x mx
+		geta[owner_saved].y my
+		
+		set temp4 mx
+		rand temp4 2048
+		ifrnd 64 sub temp4 1024
+		
+		// randomly rotate around this point
+		rotatepoint mx my sprite[].x my temp4 temp5 temp6
+		geta[].sectnum upd_sect
+		updatesectorz temp5 temp6 sprite[].z upd_sect
+		
+		ifn upd_sect -1 
+		{
+			changespritesect THISACTOR upd_sect
+			seta[].x temp5
+			seta[].y temp6
+		}
+		
+		move BATS_FLY geth randomangle
+		ifrnd 96 action BATFLY_1
+		else ifrnd 96 action BATFLY_2
+		else action BATFLY_3
+	}
+
+	// Expected owner: PE_NOSFERATU actor
+	getav[owner_saved].nosferatu_swarm nosferatu_swarm
+	
+	ifrnd 64
+	ife nosferatu_swarm 0
+	{
+		spawn GUNSMOKE
+		ifrnd 32 sound BFLYBY_01
+		else ifrnd 32 sound BFLYBY_02
+		else ifrnd 32 sound BFLYBY_03
+		else sound BFLYBY_01
+		killit
+	}
+	
+	ifmove BATS_FLY
+	{
+		move BATS_FLY geth randomangle
+		
+		ifrnd 64
+		{
+			geta[owner_saved].ang angvar
+			seta[].ang angvar
+		}
+	
+		// if too far away, back to center
+		ldist temp THISACTOR owner_saved
+		geta[owner_saved].x mx
+		geta[owner_saved].y my
+		geta[owner_saved].z mz
+		ifge temp 2048
+		{
+			seta[].x mx
+			seta[].y my
+			
+			rand temp 12000
+			add temp 4096
+			sub mz temp
+			seta[].z mz
+		}
+	}
+enda

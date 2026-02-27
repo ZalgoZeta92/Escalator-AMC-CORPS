@@ -1,0 +1,222 @@
+action A_MUMMY_START 0 0 5 1 12
+action A_MUMMY_IDLE 0 0 5 1 12
+action A_MUMMY_ATTACK 25 3 5 1 16
+action A_MUMMY_PAIN 40 0 1 1 8
+action A_MUMMY_FREEZE 40 0 1 1 8
+action A_MUMMY_GROW 40 0 1 1 8
+action A_MUMMY_DYING 41 5 1 1 12
+action A_MUMMY_DEAD 46
+action A_MUMMY_SEEK 5 4 5 1 12
+action A_MUMMY_SHRUNK 5 4 5 1 12
+
+move M_MUMMY_WALK 120
+
+damageeventtile MUMMY
+useractor enemystayput MUMMY 250 A_MUMMY_START
+   cactor MUMMY
+enda
+
+useractor enemy MUMMY 250 A_MUMMY_START
+fall
+ifaction A_MUMMY_START
+{
+	cstat 257
+	strength 250
+	sizeat 26 26
+	set blood_type 5 // defaults to 0 which is red
+	set actor_type TYPE_SUPERNATURAL // defaults to 0, either remove or change this to desired armour type
+	geta[].pal actor_pal
+	state monst_glow
+	action A_MUMMY_IDLE
+	espawn SHOOTME
+	seta[RETURN].pal 1
+}
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+
+ifaction A_MUMMY_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1
+	{
+		// play alert sound here
+
+		action A_MUMMY_SEEK
+	}
+}
+
+else ifaction A_MUMMY_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_MUMMY_DYING
+		else action A_MUMMY_SEEK
+	}
+}
+else ifaction A_MUMMY_FREEZE state frozen_code
+else ifaction A_MUMMY_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+
+else ifaction A_MUMMY_DYING
+{
+	strength 0
+	ifactioncount 5 { state rf action A_MUMMY_DEAD }
+}
+
+else ifaction A_MUMMY_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+
+else ifaction A_MUMMY_SEEK
+{
+	ifmove M_MUMMY_WALK nullop
+	else move M_MUMMY_WALK geth
+
+	state checkfortarget
+
+	ifn my_target -1
+	{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+
+		ifl RANDOM_CHANCE SKILLCHANCE
+		{
+			set ally_mag 0
+			action A_MUMMY_ATTACK
+		}
+	}
+}
+else ifaction A_MUMMY_SHRUNK
+{
+    ifmove M_MUMMY_WALK nullop
+	else move M_MUMMY_WALK geth fleeenemy
+
+	ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+		state new_shrunkcode
+	else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+	{
+		state unshrink
+		sizeto 50 50
+	}
+	else // after regrow, switch back to regular action
+	{
+		state endshrunkenstate
+		action A_MUMMY_SEEK
+	}
+}
+else
+ifaction A_MUMMY_ATTACK
+	{
+
+	ife my_target PLAYER_IDENTITY
+	{
+		ifrnd 200
+			move STOP faceplayersmart
+		else
+		{
+			move STOP
+			state fronttowardstarget
+		}
+	}
+	else
+	{
+		move STOP
+		state fronttowardstarget
+	}
+
+	ife friendlyfire 0
+		ifn wallinbetween 1
+	{
+		ifactioncount 2
+			{
+			set PROJECTILE_ZOFFSET 3072
+			set PROJECTILE_TO_SHOOT 12712
+			set PROJECTILE_FIRING_SOUND OGR_STAFF
+			state sang_enemyShootProjectile
+			add ally_mag 1
+			resetactioncount
+			}
+		ifge ally_mag 5 action A_MUMMY_SEEK
+		}
+	}
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_MUMMY_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_MUMMY_FREEZE }
+		else ifg fire_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			ifrnd 128 sound ZSOLD_DIE1
+			else sound ZSOLD_DIE2
+			spawn ONFIREGUY
+			killit
+		}
+		else ifg spirit_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 1
+			guts JIBS3 6
+			spawn SPIRIT_DEATH_GUY
+			killit
+		}
+		else ifg energy_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 4
+			guts JIBS3 6
+			spawn DISINTIGRATE_GUY
+			killit
+		}
+		else
+		{
+			sound BERSERK_DIE
+			spawn BIG_SMOKE2
+			action A_MUMMY_DYING
+			spawn SPIRIT_DEATH_GUY
+			spawn BLOODPOOL
+		}
+	}
+
+	else // not dead
+	{
+		ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_MUMMY_SHRUNK }
+
+		else ifg PAIN_AMOUNT 0 { sound BERSERK_PAIN action A_MUMMY_PAIN }
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST sound BERSERK_PAIN action A_MUMMY_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_MUMMY_IDLE { state PAIN_SKILL_LEVELADJUST sound BERSERK_PAIN action A_MUMMY_PAIN }
+	}
+}
+
+state checksquished
+
+enda

@@ -1,0 +1,560 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Contains the arrays used to save and read player equipment when swapping characters
+--------------------------------------------------------------------------------
+*/
+
+defstate save_player_equipment
+setarray temp_equip[43] temp_weap // Temp weapon
+setarray temp_equip[113] normal_ammo // Temp weapon ammo
+getp[].ammo_amount 0 temp
+setarray temp_equip[1] temp
+getp[].gotweapon 1 temp // Pistol
+setarray temp_equip[2] temp
+getp[].ammo_amount 1 temp
+setarray temp_equip[3] temp
+getp[].gotweapon 2 temp // Shotgun
+setarray temp_equip[4] temp
+getp[].ammo_amount 2 temp
+setarray temp_equip[5] temp
+getp[].gotweapon 3 temp // Shotgun
+setarray temp_equip[6] temp
+getp[].ammo_amount 3 temp // Chaingun
+setarray temp_equip[7] temp
+getp[].gotweapon 4 temp // RPG
+setarray temp_equip[8] temp
+getp[].ammo_amount 4 temp
+setarray temp_equip[9] temp
+
+getp[].ammo_amount 5 temp // grenade ammo
+setarray temp_equip[10] temp
+getp[].gotweapon 6 temp // Shrinker
+setarray temp_equip[11] temp
+getp[].ammo_amount 6 temp
+setarray temp_equip[12] temp
+getp[].gotweapon 7 temp // Devistator
+setarray temp_equip[13] temp
+getp[].ammo_amount 7 temp
+setarray temp_equip[14] temp
+getp[].ammo_amount 8 temp // Tripbomb
+setarray temp_equip[15] temp
+getp[].gotweapon 9 temp // Freezer
+setarray temp_equip[16] temp
+getp[].ammo_amount 9 temp
+setarray temp_equip[17] temp
+getp[].gotweapon 11 temp // Expander
+setarray temp_equip[18] temp
+getp[].ammo_amount 11 temp
+setarray temp_equip[19] temp
+setarray temp_equip[20] PHEALTH
+setarray temp_equip[21] pmax_health
+setarray temp_equip[22] PARMOUR
+setarray temp_equip[23] P_SPIRIT_ARMOUR
+
+setarray temp_equip[25] gun_firemode
+setarray temp_equip[26] guns_akimbo
+setarray temp_equip[27] GOT_EXPLOSIVE
+setarray temp_equip[28] AIR_FILTER
+setarray temp_equip[29] slot1_mag
+setarray temp_equip[30] slot3_mag
+setarray temp_equip[31] RUNEKEYS
+setarray temp_equip[32] ACCESSKEY2
+setarray temp_equip[33] PLUGKEY
+setarray temp_equip[34] HELLGKEYS
+setarray temp_equip[35] OLDKEYS
+getp[].boot_amount temp
+setarray temp_equip[36] temp
+getp[].heat_amount temp
+setarray temp_equip[37] temp
+getp[].holoduke_amount temp
+setarray temp_equip[38] temp
+getp[].jetpack_amount temp
+setarray temp_equip[39] temp
+getp[].scuba_amount temp
+setarray temp_equip[40] temp
+getp[].firstaid_amount temp
+setarray temp_equip[41] temp
+getp[].steroids_amount temp
+setarray temp_equip[42] temp
+getp[].got_access temp
+setarray temp_equip[44] temp
+setarray temp_equip[45] GENERIC_KEYS
+setarray temp_equip[46] silver_ammo
+setarray temp_equip[47] explosive_shells
+setarray temp_equip[48] FIRE_SUIT
+setarray temp_equip[49] GAS_MASK
+setarray temp_equip[50] tesla_ammo
+setarray temp_equip[51] SCARABKEYS
+setarray temp_equip[52] COGS
+setarray temp_equip[53] P_FIRE_ARMOUR
+setarray temp_equip[54] TOOLBOX
+setarray temp_equip[55] flechete_shells
+setarray temp_equip[56] silver_bolts
+setarray temp_equip[57] NORMAL_KEYS
+setarray temp_equip[58] micro_torpedo
+setarray temp_equip[59] magnum_shells
+setarray temp_equip[60] heat_seek_card
+setarray temp_equip[61] atomic_bomb
+setarray temp_equip[62] DUP_missile_ammo
+setarray temp_equip[63] SW_KEYS
+setarray temp_equip[64] fortymm_grenades
+setarray temp_equip[65] fortymm_shells
+setarray temp_equip[66] fortymm_MIA_shells
+setarray temp_equip[67] fortymm_plasma
+setarray temp_equip[68] fortymm_caseless
+setarray temp_equip[69] fortymm_electro
+setarray temp_equip[70] fortymm_slug
+setarray temp_equip[71] fortymm_cryo
+setarray temp_equip[72] ROPE
+setarray temp_equip[73] slot2_mag
+setarray temp_equip[74] alt_slot2_mag
+setarray temp_equip[75] dragon_shells
+setarray temp_equip[76] GOT_KNIFE
+setarray temp_equip[77] riot_shield
+setarray temp_equip[78] gun_firemode_two
+setarray temp_equip[79] P_HAS_SHIELD
+setarray temp_equip[80] silverb_shells
+setarray temp_equip[81] SPACE_SUIT
+setarray temp_equip[82] inspace 
+
+ife CHAR C_JAMES copy temp_equip[0] James_equip[0] 256
+else ife CHAR C_ZAXTOR copy temp_equip[0] Zaxtor_equip[0] 256
+else ife CHAR C_MERLIJN copy temp_equip[0] Merlijn_equip[0] 256
+else ife CHAR C_HIGHWIRE copy temp_equip[0] Highwire_equip[0] 256
+else ife CHAR C_SANG copy temp_equip[0] Sang_equip[0] 256
+else ife CHAR C_RUSTY copy temp_equip[0] Rusty_equip[0] 256
+else ife CHAR C_GEOFFREY copy temp_equip[0] Geoffrey_equip[0] 256
+else ife CHAR C_MIKKO copy temp_equip[0] Mikko_equip[0] 256
+else ife CHAR C_CULTIST copy temp_equip[0] Cultist_equip[0] 256
+else ife CHAR C_BOMBSHELL copy temp_equip[0] Bombshell_equip[0] 256
+else ife CHAR C_MAARTEN copy temp_equip[0] Maarten_equip[0] 256
+else ife CHAR C_MICKY copy temp_equip[0] Micky_equip[0] 256
+else ife CHAR C_SNOWFALL copy temp_equip[0] Snowfall_equip[0] 256
+else ife CHAR C_ROSA copy temp_equip[0] Rosa_equip[0] 256
+else ife CHAR C_KAGURA copy temp_equip[0] Kagura_equip[0] 256
+else ife CHAR C_WHEATON copy temp_equip[0] Wheaton_equip[0] 256
+else ife CHAR C_JANE copy temp_equip[0] Jane_equip[0] 256
+ends
+
+defstate read_player_equipment
+
+ife CHAR C_JAMES copy James_equip[0] temp_equip[0] 256
+else ife CHAR C_ZAXTOR copy Zaxtor_equip[0] temp_equip[0] 256
+else ife CHAR C_MERLIJN copy Merlijn_equip[0] temp_equip[0] 256
+else ife CHAR C_HIGHWIRE copy Highwire_equip[0] temp_equip[0] 256
+else ife CHAR C_SANG copy Sang_equip[0] temp_equip[0] 256
+else ife CHAR C_RUSTY copy Rusty_equip[0] temp_equip[0] 256
+else ife CHAR C_GEOFFREY copy Geoffrey_equip[0] temp_equip[0] 256
+else ife CHAR C_MIKKO copy Mikko_equip[0] temp_equip[0] 256
+else ife CHAR C_CULTIST copy Cultist_equip[0] temp_equip[0] 256
+else ife CHAR C_BOMBSHELL copy Bombshell_equip[0] temp_equip[0] 256
+else ife CHAR C_MAARTEN copy Maarten_equip[0] temp_equip[0] 256
+else ife CHAR C_MICKY copy Micky_equip[0] temp_equip[0] 256
+else ife CHAR C_SNOWFALL copy Snowfall_equip[0] temp_equip[0] 256
+else ife CHAR C_ROSA copy Rosa_equip[0] temp_equip[0] 256
+else ife CHAR C_KAGURA copy Kagura_equip[0] temp_equip[0] 256
+else ife CHAR C_WHEATON copy Wheaton_equip[0] temp_equip[0] 256
+else ife CHAR C_JANE copy Jane_equip[0] temp_equip[0] 256
+
+set temp_weap temp_equip[43]
+ife temp_weap 44 set JUGGERN_SUIT 1 else set JUGGERN_SUIT 0
+set normal_ammo temp_equip[113]
+setp[].ammo_amount 0 temp_equip[1]
+setp[].gotweapon 1 temp_equip[2]
+setp[].ammo_amount 1 temp_equip[3]
+setp[].gotweapon 2 temp_equip[4]
+setp[].ammo_amount 2 temp_equip[5]
+setp[].gotweapon 3 temp_equip[6]
+setp[].ammo_amount 3 temp_equip[7]
+setp[].gotweapon 4 temp_equip[8] // RPG
+setp[].ammo_amount 4 temp_equip[9]
+
+setp[].ammo_amount 5 temp_equip[10] // grenade ammo
+ifg Player_equip[10] 0 setp[].gotweapon 5 1
+
+setp[].gotweapon 6 temp_equip[11] // Shrinker
+setp[].ammo_amount 6 temp_equip[12]
+setp[].gotweapon 7 temp_equip[13] // Devistator
+setp[].ammo_amount 7 temp_equip[14]
+setp[].ammo_amount 8 temp_equip[15] // Tripbomb
+setp[].gotweapon 9 temp_equip[16] // Freezer
+setp[].ammo_amount 9 temp_equip[17]
+setp[].gotweapon 11 temp_equip[18] // Expander
+setp[].ammo_amount 11 temp_equip[19]
+
+set p_def_health_char CHAR
+state player_default_health 
+ife ARTIFACTS_LOADOUT[CHAR] 11 add p_default_health 20
+ife MEAL_BUFF[CHAR] 1 add p_default_health 10
+ife temp_equip[20] 0 setarray temp_equip[20] p_default_health
+seta[PLAYER_IDENTITY].extra temp_equip[20] // set player initial health
+set PHEALTH temp_equip[20]
+
+ife temp_equip[21] 0 setarray temp_equip[21] p_default_health
+setp[].max_player_health temp_equip[21] // set player initial max health
+set pmax_health temp_equip[21]
+
+setp[].shield_amount temp_equip[22]
+set P_SPIRIT_ARMOUR temp_equip[23]
+set P_FIRE_ARMOUR temp_equip[53]
+
+set gun_firemode temp_equip[25]
+set guns_akimbo temp_equip[26]
+set GOT_EXPLOSIVE temp_equip[27]
+set AIR_FILTER temp_equip[28]
+set slot1_mag temp_equip[29]
+set slot3_mag temp_equip[30]
+set RUNEKEYS temp_equip[31]
+set ACCESSKEY2 temp_equip[32]
+set PLUGKEY temp_equip[33]
+set HELLGKEYS temp_equip[34]
+set OLDKEYS temp_equip[35]
+set GENERIC_KEYS temp_equip[45]
+setp[].got_access temp_equip[44]
+setp[].boot_amount temp_equip[36]
+setp[].heat_amount temp_equip[37]
+setp[].holoduke_amount temp_equip[38]
+setp[].jetpack_amount temp_equip[39]
+setp[].scuba_amount temp_equip[40]
+setp[].firstaid_amount temp_equip[41]
+setp[].steroids_amount temp_equip[42]
+set silver_ammo temp_equip[46]
+set explosive_shells temp_equip[47]
+set FIRE_SUIT temp_equip[48]
+set GAS_MASK temp_equip[49]
+set tesla_ammo temp_equip[50]
+set SCARABKEYS temp_equip[51]
+set COGS temp_equip[52]
+set TOOLBOX temp_equip[54]
+set flechete_shells temp_equip[55]
+set silver_bolts temp_equip[56]
+set NORMAL_KEYS temp_equip[57]
+set micro_torpedo temp_equip[58]
+set magnum_shells temp_equip[59]
+set heat_seek_card temp_equip[60]
+set atomic_bomb temp_equip[61]
+set DUP_missile_ammo temp_equip[62]
+set SW_KEYS temp_equip[63]
+set fortymm_grenades temp_equip[64]
+set fortymm_shells temp_equip[65]
+set fortymm_MIA_shells temp_equip[66]
+set fortymm_plasma temp_equip[67]
+set fortymm_caseless temp_equip[68]
+set fortymm_electro temp_equip[69]
+set fortymm_slug temp_equip[70]
+set fortymm_cryo temp_equip[71]
+set ROPE temp_equip[72]
+set slot2_mag temp_equip[73]
+set alt_slot2_mag temp_equip[74]
+set dragon_shells temp_equip[75]
+set GOT_KNIFE temp_equip[76]
+set riot_shield temp_equip[77]
+set gun_firemode_two temp_equip[78]
+set P_HAS_SHIELD temp_equip[79]
+set silverb_shells temp_equip[80]
+set SPACE_SUIT temp_equip[81] 
+set inspace temp_equip[82] 
+resizearray temp_equip 0
+resizearray temp_equip 128
+ends
+
+// This is for level transitions rather than mid-level character swapping
+// it saves the player's immediate equipment and gives it back on the level transition
+defstate player_save_equipment
+setarray Player_equip[43] temp_weap // Temp weapon
+getp[].ammo_amount 0 temp
+setarray Player_equip[1] temp
+setarray Player_equip[113] normal_ammo
+getp[].gotweapon 1 temp // Pistol
+setarray Player_equip[2] temp
+getp[].ammo_amount 1 temp
+setarray Player_equip[3] temp
+getp[].gotweapon 2 temp // Shotgun
+setarray Player_equip[4] temp
+getp[].ammo_amount 2 temp
+setarray Player_equip[5] temp
+getp[].gotweapon 3 temp // Shotgun
+setarray Player_equip[6] temp
+getp[].ammo_amount 3 temp // Chaingun
+setarray Player_equip[7] temp
+getp[].gotweapon 4 temp // RPG
+setarray Player_equip[8] temp
+getp[].ammo_amount 4 temp
+setarray Player_equip[9] temp
+getp[].ammo_amount 5 temp // Pipebomb
+setarray Player_equip[10] temp
+getp[].gotweapon 6 temp // Shrinker
+setarray Player_equip[11] temp
+getp[].ammo_amount 6 temp
+setarray Player_equip[12] temp
+getp[].gotweapon 7 temp // Devistator
+setarray Player_equip[13] temp
+getp[].ammo_amount 7 temp
+setarray Player_equip[14] temp
+getp[].ammo_amount 8 temp // Tripbomb
+setarray Player_equip[15] temp
+getp[].gotweapon 9 temp // Freezer
+setarray Player_equip[16] temp
+getp[].ammo_amount 9 temp
+setarray Player_equip[17] temp
+getp[].gotweapon 11 temp // Expander
+setarray Player_equip[18] temp
+getp[].ammo_amount 11 temp
+setarray Player_equip[19] temp
+setarray Player_equip[20] PHEALTH
+setarray Player_equip[21] pmax_health
+setarray Player_equip[22] PARMOUR
+
+setarray Player_equip[23] P_SPIRIT_ARMOUR
+
+setarray Player_equip[25] gun_firemode
+setarray Player_equip[26] guns_akimbo
+setarray Player_equip[27] GOT_EXPLOSIVE
+setarray Player_equip[28] AIR_FILTER
+setarray Player_equip[29] slot1_mag
+setarray Player_equip[30] slot3_mag
+setarray Player_equip[31] RUNEKEYS
+setarray Player_equip[32] ACCESSKEY2
+setarray Player_equip[33] PLUGKEY
+setarray Player_equip[34] HELLGKEYS
+setarray Player_equip[35] OLDKEYS
+
+getp[].boot_amount temp
+setarray Player_equip[36] temp
+getp[].heat_amount temp
+setarray Player_equip[37] temp
+getp[].holoduke_amount temp
+setarray Player_equip[38] temp
+getp[].jetpack_amount temp
+setarray Player_equip[39] temp
+getp[].scuba_amount temp
+setarray Player_equip[40] temp
+getp[].firstaid_amount temp
+setarray Player_equip[41] temp
+getp[].steroids_amount temp
+setarray Player_equip[42] temp
+getp[].got_access temp
+setarray Player_equip[44] temp
+
+setarray Player_equip[45] GENERIC_KEYS
+setarray Player_equip[46] silver_ammo
+setarray Player_equip[47] explosive_shells
+setarray Player_equip[48] FIRE_SUIT
+setarray Player_equip[49] GAS_MASK
+setarray Player_equip[50] tesla_ammo
+setarray Player_equip[51] SCARABKEYS
+setarray Player_equip[52] COGS
+setarray Player_equip[53] P_FIRE_ARMOUR
+setarray Player_equip[54] TOOLBOX
+setarray Player_equip[55] flechete_shells
+setarray Player_equip[56] silver_bolts
+setarray Player_equip[57] NORMAL_KEYS
+setarray Player_equip[58] micro_torpedo
+setarray Player_equip[59] magnum_shells
+setarray Player_equip[60] heat_seek_card
+setarray Player_equip[61] atomic_bomb
+setarray Player_equip[62] DUP_missile_ammo
+setarray Player_equip[63] SW_KEYS
+setarray Player_equip[64] fortymm_grenades
+setarray Player_equip[65] fortymm_shells
+setarray Player_equip[66] fortymm_MIA_shells
+setarray Player_equip[67] fortymm_plasma
+setarray Player_equip[68] fortymm_caseless
+setarray Player_equip[69] fortymm_electro
+setarray Player_equip[70] fortymm_slug
+setarray Player_equip[71] fortymm_cryo
+setarray Player_equip[72] ROPE
+setarray Player_equip[73] EGYPT_KEYS
+setarray Player_equip[74] EGYPT_ARTIFACTS
+setarray Player_equip[75] dragon_shells
+setarray Player_equip[76] GOT_KNIFE
+setarray Player_equip[77] riot_shield
+setarray Player_equip[78] incend_ammo
+setarray Player_equip[79] silverb_shells
+
+setarray Player_equip[80] AMMO_TYPES[0]
+setarray Player_equip[81] AMMO_TYPES[1]
+setarray Player_equip[82] AMMO_TYPES[2]
+setarray Player_equip[83] AMMO_TYPES[3]
+setarray Player_equip[84] AMMO_TYPES[4]
+setarray Player_equip[85] AMMO_TYPES[5]
+setarray Player_equip[86] AMMO_TYPES[6]
+setarray Player_equip[87] AMMO_TYPES[7]
+setarray Player_equip[88] AMMO_TYPES[8]
+setarray Player_equip[89] AMMO_TYPES[9]
+setarray Player_equip[90] AMMO_TYPES[10]
+setarray Player_equip[91] AMMO_TYPES[11]
+setarray Player_equip[92] AMMO_TYPES[12]
+setarray Player_equip[93] AMMO_TYPES[13]
+setarray Player_equip[94] AMMO_TYPES[14]
+setarray Player_equip[95] AMMO_TYPES[15]
+setarray Player_equip[97] SWIPECARDS
+setarray Player_equip[98] GOT_FIREWALL
+setarray Player_equip[99] GOT_FLIPPER
+
+setarray Player_equip[100] temp_wep_mag
+
+setarray Player_equip[102] slot2_mag
+setarray Player_equip[103] alt_slot2_mag
+
+setarray Player_equip[105] slot4_mag
+setarray Player_equip[106] slot6_mag
+setarray Player_equip[108] slot7_mag
+setarray Player_equip[109] slot9_mag
+setarray Player_equip[107] slot11_mag
+
+setarray Player_equip[111] ALTMAG
+
+setarray Player_equip[119] player[].curr_weapon
+setarray Player_equip[121] player[].actors_killed
+setarray Player_equip[122] booster_amount
+setarray Player_equip[123] booster_item
+
+setarray secret_count[LEVEL] player[].secret_rooms
+ends
+
+defstate player_read_equipment
+set temp_weap Player_equip[43]
+setp[].ammo_amount 0 Player_equip[1]
+set normal_ammo Player_equip[113]
+setp[].gotweapon 1 Player_equip[2]
+setp[].ammo_amount 1 Player_equip[3]
+setp[].gotweapon 2 Player_equip[4]
+setp[].ammo_amount 2 Player_equip[5]
+setp[].gotweapon 3 Player_equip[6]
+setp[].ammo_amount 3 Player_equip[7]
+setp[].gotweapon 4 Player_equip[8] // RPG
+setp[].ammo_amount 4 Player_equip[9]
+setp[].ammo_amount 5 Player_equip[10] // Pipebomb
+ifg Player_equip[10] 0 setp[].gotweapon 5 1
+setp[].gotweapon 6 Player_equip[11] // Shrinker
+setp[].ammo_amount 6 Player_equip[12]
+setp[].gotweapon 7 Player_equip[13] // Devistator
+setp[].ammo_amount 7 Player_equip[14]
+setp[].ammo_amount 8 Player_equip[15] // Tripbomb
+setp[].gotweapon 9 Player_equip[16] // Freezer
+setp[].ammo_amount 9 Player_equip[17]
+setp[].gotweapon 11 Player_equip[18] // Expander
+setp[].ammo_amount 11 Player_equip[19]
+
+getp[].i PLAYER_IDENTITY
+ife Player_equip[20] 0 setarray Player_equip[20] 100
+seta[PLAYER_IDENTITY].extra Player_equip[20]
+set PHEALTH Player_equip[20]
+
+ife Player_equip[21] 0 setarray Player_equip[21] 100
+setp[].max_player_health Player_equip[21]
+set pmax_health Player_equip[21]
+
+setp[].shield_amount Player_equip[22]
+
+set P_SPIRIT_ARMOUR Player_equip[23]
+set P_FIRE_ARMOUR Player_equip[53]
+
+set gun_firemode Player_equip[25]
+set guns_akimbo Player_equip[26]
+set GOT_EXPLOSIVE Player_equip[27]
+set AIR_FILTER Player_equip[28]
+set slot1_mag Player_equip[29]
+set slot3_mag Player_equip[30]
+set RUNEKEYS Player_equip[31]
+set ACCESSKEY2 Player_equip[32]
+set PLUGKEY Player_equip[33]
+set HELLGKEYS Player_equip[34]
+set OLDKEYS Player_equip[35]
+set GENERIC_KEYS Player_equip[45]
+
+setp[].got_access Player_equip[44]
+setp[].boot_amount Player_equip[36]
+setp[].heat_amount Player_equip[37]
+setp[].holoduke_amount Player_equip[38]
+setp[].jetpack_amount Player_equip[39]
+setp[].scuba_amount Player_equip[40]
+setp[].firstaid_amount Player_equip[41]
+setp[].steroids_amount Player_equip[42]
+
+set silver_ammo Player_equip[46]
+set explosive_shells Player_equip[47]
+set FIRE_SUIT Player_equip[48]
+set GAS_MASK Player_equip[49]
+set tesla_ammo Player_equip[50]
+set SCARABKEYS Player_equip[51]
+set COGS Player_equip[52]
+set TOOLBOX Player_equip[54]
+set flechete_shells Player_equip[55]
+set silver_bolts Player_equip[56]
+set NORMAL_KEYS Player_equip[57]
+set micro_torpedo Player_equip[58]
+set magnum_shells Player_equip[59]
+set heat_seek_card Player_equip[60]
+set atomic_bomb Player_equip[61]
+set DUP_missile_ammo Player_equip[62]
+set SW_KEYS Player_equip[63]
+set fortymm_grenades Player_equip[64]
+set fortymm_shells Player_equip[65]
+set fortymm_MIA_shells Player_equip[66]
+set fortymm_plasma Player_equip[67]
+set fortymm_caseless Player_equip[68]
+set fortymm_electro Player_equip[69]
+set fortymm_slug Player_equip[70]
+set fortymm_cryo Player_equip[71]
+set ROPE Player_equip[72]
+set EGYPT_KEYS Player_equip[73]
+set EGYPT_ARTIFACTS Player_equip[74]
+set dragon_shells Player_equip[75]
+set GOT_KNIFE Player_equip[76]
+set riot_shield Player_equip[77]
+set incend_ammo Player_equip[78]
+set silverb_shells Player_equip[79]
+
+set SWIPECARDS Player_equip[97]
+set GOT_FIREWALL Player_equip[98]
+set GOT_FLIPPER Player_equip[99]
+
+setarray AMMO_TYPES[0] Player_equip[80]
+setarray AMMO_TYPES[1] Player_equip[81]
+setarray AMMO_TYPES[2] Player_equip[82]
+setarray AMMO_TYPES[3] Player_equip[83]
+setarray AMMO_TYPES[4] Player_equip[84]
+setarray AMMO_TYPES[5] Player_equip[85]
+setarray AMMO_TYPES[6] Player_equip[86]
+setarray AMMO_TYPES[7] Player_equip[87]
+setarray AMMO_TYPES[8] Player_equip[88]
+setarray AMMO_TYPES[9] Player_equip[89]
+setarray AMMO_TYPES[10] Player_equip[90]
+setarray AMMO_TYPES[11] Player_equip[91]
+setarray AMMO_TYPES[12] Player_equip[92]
+setarray AMMO_TYPES[13] Player_equip[93]
+setarray AMMO_TYPES[14] Player_equip[94]
+setarray AMMO_TYPES[15] Player_equip[95]
+
+set temp_wep_mag Player_equip[100]
+
+set slot2_mag Player_equip[102]
+set alt_slot2_mag Player_equip[103]
+
+set slot4_mag Player_equip[105]
+set slot6_mag Player_equip[106]
+set slot11_mag Player_equip[107]
+set slot7_mag Player_equip[108]
+set slot9_mag Player_equip[109]
+set ALTMAG Player_equip[111]
+
+setp[].curr_weapon Player_equip[119]
+setp[].secret_rooms secret_count[LEVEL]
+getp[].actors_killed temp2
+add temp2 Player_equip[121]
+setp[].actors_killed temp2
+set booster_amount Player_equip[122]
+set booster_item Player_equip[123] 
+ends

@@ -1,0 +1,195 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+--------------------------------------------------------------------------------
+*/
+
+defstate tw_katana_code
+    setarray WEAPON_TILE[0] SWORDSPRITE
+    set gun_mag -1
+    set GUN_VOLUME -1
+    set GUN_SIZE 1
+    set GUN_HANDS 2
+    set GUN_ACCURACY 32
+    set GUN_MAX_SPREAD 0
+    set GUN_AMMO_TYPES 0
+    set WEAPON0_WORKSLIKE 0
+    set WEAPON0_TOTALTIME 15
+    set WEAPON0_HOLDDELAY 3
+    set WEAPON0_FIREDELAY 8
+    set WEAPON0_FIRESOUND 4
+    set WEAPON0_SELECTSOUND SELECT_MELEE
+    set WEAPON0_INITIALSOUND 4
+	ife MELEE_RESEARCH[RS_D_SHADOW_NINJA] 2 set WEAPON0_SHOOTS 27370
+    else set WEAPON0_SHOOTS 12053
+    set WEAPON0_SHOTSPERBURST 1
+    set WEAPON0_FLAGS 260
+    setarray weap_special[0] 16384
+
+    ife cur_weap 0
+    {
+    set weapon_type 2
+	state player_block_sword
+
+        ife kickbackpic 0
+            {
+            set sword_anim 0
+            ife player[].weapon_pos 1 ifrnd 64 state CHAR_DRAW_SWORD
+            }
+
+        ife kickbackpic 6 state katana_swing_sounds
+
+        ife kickbackpic 8 ifg SWORD_RAMP 0 eshoot 12053 setthisprojectile[RETURN].userdata 72
+
+        ife kickbackpic 13
+        {
+        randvar sword_anim 2
+        ifand BITS_PRESS 4 setp[].kickback_pic 5
+        }
+    }
+
+
+ends
+
+
+defstate tw_mopweapon_code
+    setarray WEAPON_TILE[0] MOPSPRITE
+    set gun_mag -1
+    set GUN_VOLUME -1
+    set GUN_SIZE 1
+    set GUN_HANDS 2
+    set GUN_ACCURACY 32
+    set GUN_MAX_SPREAD 0
+    set GUN_AMMO_TYPES 0
+    set WEAPON0_WORKSLIKE 0
+    set WEAPON0_TOTALTIME 15
+    set WEAPON0_HOLDDELAY 3
+    set WEAPON0_FIREDELAY 8
+    set WEAPON0_FIRESOUND 4
+    set WEAPON0_INITIALSOUND 4
+    set WEAPON0_SHOOTS 12054
+    set WEAPON0_SHOTSPERBURST 1
+    set WEAPON0_FLAGS 260
+    set WEAPON0_SELECTSOUND SELECT_MYSTIC
+    setarray weap_special[0] 16384
+
+    ife cur_weap 0
+    {
+	state player_block_sword
+	
+    set weapon_type 2
+        ife kickbackpic 0  set sword_anim 0
+
+        ife kickbackpic 6 state katana_swing_sounds
+
+        ife kickbackpic 13
+        {
+        randvar sword_anim 2
+        ifand BITS_PRESS 4 setp[].kickback_pic 5
+        }
+    }
+ends
+
+defstate tw_swkatana_code
+    setarray WEAPON_TILE[0] 12200
+    set WEAPON0_WORKSLIKE 0
+    set WEAPON0_TOTALTIME 15
+    set WEAPON0_HOLDDELAY 3
+    set WEAPON0_FIREDELAY 8
+    set WEAPON0_FIRESOUND 4
+    set WEAPON0_INITIALSOUND 4
+    set WEAPON0_SHOOTS 27370
+    set WEAPON0_SHOTSPERBURST 1
+    set WEAPON0_FLAGS 260
+    setarray weap_special[0] 16384
+
+    set WEAPON0_SELECTSOUND SELECT_MELEE
+
+    ife cur_weap 0
+    {
+    set gun_mag -1
+    set weapon_type 2
+    set GUN_VOLUME -1
+    set GUN_SIZE 1
+    set GUN_HANDS 2
+    set GUN_ACCURACY 32
+    set GUN_MAX_SPREAD 0
+    set GUN_AMMO_TYPES 0
+
+    ifl p_stamina pmax_stamina add p_stamina 1 // infinite sprint
+
+    iffloordistl 16 ifl player[].falling_counter 60 setp[].falling_counter 0 // no fall damage
+
+    state player_block_sword
+
+        ife kickbackpic 0
+            {
+            set sword_anim 0
+            ife player[].weapon_pos 1 ifrnd 64 state CHAR_DRAW_SWORD
+            }
+
+        ife kickbackpic 6 state katana_swing_sounds
+
+        ife kickbackpic 8 { eshoot 27370 setthisprojectile[RETURN].userdata 72 }
+
+        ife kickbackpic 13
+        {
+        randvar sword_anim 2
+        ifand BITS_PRESS 4 setp[].kickback_pic 5
+        }
+    }
+ends
+
+defstate tw_beamsabre_code
+    setarray WEAPON_TILE[0] 20101
+
+    set WEAPON0_WORKSLIKE 0
+    set WEAPON0_TOTALTIME 15
+    set WEAPON0_HOLDDELAY 3
+    set WEAPON0_FIREDELAY 8
+    set WEAPON0_FIRESOUND 4
+    set WEAPON0_INITIALSOUND 4
+    set WEAPON0_SHOOTS 19027
+    set WEAPON0_SHOTSPERBURST 1
+    set WEAPON0_FLAGS 260
+    setarray weap_special[0] 16384
+
+    set WEAPON0_SELECTSOUND SELECT_MELEE
+
+    ife cur_weap 0
+    {
+    set weapon_type 1
+    set gun_mag -1
+    set GUN_VOLUME -1
+    set GUN_SIZE 1
+    set GUN_HANDS 2
+    set GUN_ACCURACY 32
+    set GUN_MAX_SPREAD 0
+    set GUN_AMMO_TYPES 0
+    
+	state player_block_sword
+	
+        ife kickbackpic 0
+            {
+            set sword_anim 0
+            ife player[].weapon_pos 1 ifrnd 64 state CHAR_DRAW_SWORD
+            }
+
+        ife kickbackpic 6 sound BEAMSABRE_SWING
+
+        ife kickbackpic 13
+        {
+        randvar sword_anim 2
+        ifand BITS_PRESS 4 setp[].kickback_pic 5
+        }
+    }
+ends

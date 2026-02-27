@@ -1,0 +1,1660 @@
+onevent EVENT_GAME
+ife sprite[].mdflags 1 seta[].mdflags 17 else
+seta[].mdflags 16
+ifg energy_damage 0
+{
+	sub energy_damage 30
+	clamp energy_damage 0 200
+}
+
+ifand element_type FIRE_DAMAGE state actor_fire_damage
+ifand element_type ICE_DAMAGE state actor_ice_damage
+ifand element_type SPIRIT_DAMAGE state actor_spirit_damage
+ifand element_type FLOOR_DAMAGE state actor_floor_damage
+
+ifg effect_countd 0 // effects, for things like fire, heals, buffs, .etc
+	{
+	ifand effect_type 1 // on fire
+		{
+		ifrnd 128 // this triggers 50% of the time, just a bit less performance intensive
+			{
+			espawn 14040
+			geta[].x temp
+			randvar temp2 128
+			ifrnd 128 add temp temp2 else sub temp temp2
+			seta[RETURN].x temp
+
+			geta[].y temp
+			randvar temp2 128
+			ifrnd 128 add temp temp2 else sub temp temp2
+			seta[RETURN].y temp
+
+			geta[].z temp
+			ifactor SPIDER2 sub temp 1024 else
+			sub temp 1024
+			randvar temp2 2048
+			sub temp temp2
+			seta[RETURN].z temp
+			}
+		}
+	ifand effect_type 2 // ally heal
+		{
+		ifrnd 128 // this triggers 50% of the time, just a bit less performance intensive
+			{
+			set temp3 sprite[].x
+			randvarvar temp4 256
+			add temp3 temp4
+			randvar temp4 2048
+			rotatepoint sprite[].x sprite[].y temp3 sprite[].y temp4 temp5 temp6
+			espawn 18574
+			seta[RETURN].x temp5
+			seta[RETURN].y temp6
+			geta[RETURN].z temp7
+			sub temp7 4096
+			seta[RETURN].z temp7
+			seta[RETURN].pal 8
+			}
+		}
+	sub effect_countd 1
+	}
+	else set effect_type 0
+
+ifactor EGG ife opt_no_facehuggers YES killit
+ifactor GREENSLIME
+	{
+	seta[].mdflags 16
+	ife opt_no_facehuggers YES killit
+	}
+
+ife weather_type 2
+	{
+	geta[].zvel temp
+	ifg temp 0 div temp 2
+	seta[].zvel temp
+	}
+else
+ife weather_type 3 // no gravity
+{
+	switch sprite[].picnum
+		case FIRELASER
+			break
+		default
+			geta[].zvel temp
+			ifg temp 0 div temp 20
+			seta[].zvel temp
+			break
+	endswitch
+}
+else
+ifand sector[].ceilingstat 16384 // low gravity
+{
+	switch sprite[].picnum
+		case FIRELASER
+			break
+		default
+			geta[].zvel temp
+			ifg temp 0 div temp 2
+			seta[].zvel temp
+			break
+	endswitch
+}
+else
+ifand sector[].ceilingstat 32768 // no gravity
+{
+	switch sprite[].picnum
+		case FIRELASER
+			break
+		default
+			geta[].zvel temp
+			ifg temp 0 div temp 20
+			seta[].zvel temp
+			break
+	endswitch
+}
+
+ifactor LASERLINE
+{
+cstator 2
+seta[].blend 255
+}
+
+ifactor 1234 // 'money' on the floor
+{
+add INTERNALCOUNT 1
+ifge INTERNALCOUNT 600 cstator 2
+ifge INTERNALCOUNT 630 cstator 512
+ifge INTERNALCOUNT 660 sizeat 0 0
+}
+
+ifg dazed_count 0
+	{
+	sub dazed_count 1
+	ifdead set dazed_count 0
+	ife sprite[].statnum 1
+	 ifand MONSTER_FLAGS 2 // human?
+	  ifg sprite[].extra 0
+		{
+		switch CHAR
+		case C_ROSA
+		case C_MAARTEN
+			ifpdistl 1536
+			 ifp palive
+			  ifp pfacing
+				{
+				ife CHAR C_ROSA set pprompt_icon 23420
+				else ife CHAR C_MAARTEN set pprompt_icon 23421
+				set player_use 0
+				ife use_action_allowed 1
+					{
+					ife CHAR C_MAARTEN sound ZOMBIE_BITE
+					else sound DRINKSOME
+					state red_flash
+					addphealth 15
+					set gun_recoil 15
+					seta[].htextra 150
+					state setIgnoreUse
+					}
+				}
+			break
+		endswitch
+		}
+	}
+
+ifactor FIFTY_CAL_TURRET
+{
+ifn hitag_saved 0
+	{
+	sleeptime 0
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		ifaction FIVE_ANG nullop else
+			{
+			action FIVE_ANG
+			sound PES_DEAD
+			setactorsoundpitch THISACTOR PES_DEAD 512
+			soundonce FIFTY_T_BEEP
+			stopsound AUTOTURRET_SCAN
+			}
+		}
+	}
+}
+ife sprite[].statnum 1
+	{
+	ifg END_LEVEL 0 ifg sprite[].extra 0 sleeptime 32767
+	/* floor reflection code, left in but not working because I am bad into math
+	ifactor 4733 break
+	gets[].extra temp2
+		ife temp2 128
+			{
+			ife sprite[].cstat 32768 nullop else
+				{
+				ifn temp9 5
+					{
+					espawn 4733
+					seta[RETURN].owner THISACTOR
+					setactorvar[RETURN].myowner THISACTOR
+					set temp9 5
+					}
+				}
+			}
+		*/
+		// this makes any flipped enemy instantly stick to the ceiling
+		ifand sprite[].cstat 8
+		ifg sprite[].extra 0
+		{
+		ifactor GREENSLIME nullop
+		else ifactor ROTATEGUN nullop
+		else ifactor AUTO_TURRET nullop
+		else ifactor SHARK nullop
+		else ifactor BLOOD nullop
+		else ifactor SPIDER2 nullop // spider will handle this itself
+		else
+			{
+			gets[].ceilingz temp
+			ifactor BEYOND_HEAD add temp 4096 else
+			add temp 11000
+			seta[].z temp
+			}
+		}
+	 }
+
+ifvarvare MELEE_LOCKED_ON THISACTOR
+	{
+	ifl UPPER_CUT 20
+		{
+		seta[].xvel 0
+		}
+	}
+
+ife opt_random_enemy YES
+ ife VOLUME 0
+  ife LEVEL 7
+{
+	set global_faction 1
+	ifactor LIZTROOP
+	{
+		ifai 0
+			{
+			rand temp 90
+			ifl temp 10 cactor CULTIST
+			else ifl temp 20 cactor ZSCIEN
+			else ifl temp 30 cactor SHADE
+			else ifl temp 40 cactor TRIAD
+			else ifl temp 50 cactor ZSOLDIER
+			else ifl temp 60 cactor ZSOLDIER2
+			else ifl temp 70 cactor PE_TROOP
+			else ifl temp 80 cactor ORC
+			}
+	}
+
+	ifactor PIGCOP
+	{
+		ifai 0
+			{
+			rand temp 85
+			ifspritepal 13 cactor PIG_SF
+			else ifl temp 10 { cactor CULTIST spritepal 10 }
+			else ifl temp 20 cactor MERC
+			else ifl temp 30 cactor INFERNAL
+			else ifl temp 40 cactor SATYR
+			else ifl temp 50 cactor PIGCOP_RIOT
+			else ifl temp 60 { cactor GUARDIAN spritepal 11 }
+			else ifl temp 70 cactor ARCHER
+			else ifl temp 75 cactor PIG_SF
+			}
+	}
+
+	ifactor PIGCOPSTAYPUT
+	{
+		ifai 0
+			{
+			ifrnd 64 { cactor TRIADSTAYPUT spritepal 16 }
+			else ifrnd 64 { cactor CULTISTSTAYPUT spritepal 10 }
+			else ifrnd 64 cactor MERCSTAYPUT
+			else ifrnd 64 cactor MERC2STAYPUT
+			else ifrnd 64 cactor ARCHER_STAYPUT
+			}
+	}
+
+
+	ifactor PIGCOPDIVE
+	{
+		ifai 0
+			{
+			ifrnd 48 { cactor CULTIST spritepal 10 }
+			else ifrnd 48 cactor MERC
+			else ifrnd 48 cactor MERC2
+			else ifrnd 48 cactor FASCIST
+			else ifrnd 48 { cactor GUARDIAN spritepal 11 }
+			else ifrnd 48 cactor SATYR
+			}
+	}
+
+	ifactor LIZMAN
+	{
+		ifai 0
+			{
+			rand temp 125
+			ifl temp 10 cactor ZCHAING
+			else ifl temp 20 cactor CULT_HMG
+			else ifl temp 30 cactor FASCIST
+			else ifl temp 40 cactor NINJA
+			else ifl temp 50 cactor MJ12_TROOP
+			else ifl temp 60 cactor NAZI
+			else ifl temp 75 { cactor TRIAD spritepal 49 }
+			else ifl temp 80 { cactor CULTIST spritepal 49 }
+			else ifl temp 95 { cactor FASCIST spritepal 24 }
+			else ifl temp 100 { cactor ZCHAING spritepal 24 }
+			else ifl temp 105 { cactor ZSOLDIER spritepal 24 }
+			else ifl temp 110 { cactor ZSOLDIER2 spritepal 24 }
+			else ifl temp 115 cactor ELITE_LIZMAN
+			}
+	}
+
+	ifactor OCTABRAIN
+	{
+		ifai 0
+			{
+			ifrnd 63 cactor SORCERER
+			else ifrnd 95 cactor HADESPHERE
+			}
+	}
+
+	ifactor COMMANDER
+	{
+		ifai 0
+			{
+			ifspritepal 24 cactor ADV_COMMANDER
+			ifrnd 47 cactor CYBERTOUR
+			else ifrnd 47 cactor BRUISER
+			else ifrnd 95 { cactor PITFIEND strength 350 }
+			else ifrnd 47 cactor LPOWERSUIT
+			}
+	}
+
+	ifactor NEWBEAST
+	{
+		ifai 0
+			{
+			ifrnd 63 cactor RIPPER
+			else ifrnd 63 cactor BERSERKER
+			else ifrnd 63 cactor OGRE
+			else ifrnd 31 cactor MAMANO
+			else ifrnd 32 cactor SPIRIT
+			else ifrnd 16 cactor CHRYSSALID
+			}
+	}
+
+	ifactor BATTLELORD
+	{
+		ifai 0
+		{
+			ifspritepal 0
+			{
+				ifrnd 15 { cactor HPOWERSUIT }
+				else ifrnd 23 { cactor DARKAVATAR }
+				else ifrnd 31 { cactor CYBERDEMON }
+			}
+			else
+			{
+				ifrnd 63 cactor MAEPHISTO
+				else ifrnd 63 cactor SENTRY
+				else ifrnd 63 { cactor MISTERH spritepal 41 }
+			}
+		}
+	}
+
+	ifactor BOSS2
+	{
+		ifai 0
+		ifspritepal 0
+			{
+				ifrnd 15 { cactor HPOWERSUIT }
+				else ifrnd 23 { cactor DARKAVATAR }
+				else ifrnd 31 { cactor CYBERDEMON }
+			}
+	}
+
+	ifactor BOSS3
+	{
+		ifai 0
+		ifspritepal 0
+			{
+				ifrnd 15 { cactor HPOWERSUIT }
+				else ifrnd 23 { cactor DARKAVATAR }
+				else ifrnd 31 { cactor CYBERDEMON }
+				else ifrnd 31 { cactor TROLL }
+			}
+	}
+
+	ifactor BOSS4
+	{
+		ifai 0
+		ifspritepal 0
+			{
+				ifrnd 15 { cactor HPOWERSUIT }
+				else ifrnd 23 { cactor DARKAVATAR }
+				else ifrnd 31 { cactor CYBERDEMON }
+				else ifrnd 31 { cactor TROLL }
+			}
+	}
+
+}
+
+ifactor TRANSPORTERSTAR
+{
+ifspawnedby RESPAWN
+	{
+	geta[].owner temp
+	geta[temp].hitag temp2
+	switch temp2
+	case SATYR
+	case SATYR_STAYPUT
+	case SHADE
+	case SHADESTAYPUT
+	case FLESHWIZARD
+	case FLESHWIZARDSTAYPUT
+	case BRUISER
+	case BRUISERSTAYPUT
+	case HADESPHERE
+	case HADESPHERESTAYPUT
+	case 8576
+	case CULTIST
+	case CULTISTSTAYPUT
+	case AMCSHIP
+	case AMCSHIP2
+	case 15329
+	case 8924
+	case 8922
+	case WATERBUBBLE
+	case FIRE
+	case FIRE2
+	case FIRE3
+	case BURNING
+	case BURNING2
+	case VLADMIR
+	case ZOMBIE
+	case 10510
+	case 12267
+	case 3665
+		seta[].xrepeat 1
+		seta[].yrepeat 1
+		break
+	default
+		break
+	endswitch
+	}
+}
+
+ifactor CAMERA1
+{
+ifn sprite[].hitag 0 ifg sprite[].xrepeat 8 ifg sprite[].yrepeat 8 soundonce CAMERA_MOVE
+ifg temp5 0
+	{
+	sub temp5 1
+	ife PCAMERA 0 set PCAMERA 1
+	ife extra_saved 1
+		{
+
+		getinput[].horz temp
+		ifg temp 0
+		{
+		getu .mouseflip temp2
+
+		geta[].shade temp4
+		ifl temp4 120
+			{
+			ife temp2 0 sub temp4 temp else
+			add temp4 temp
+			ifg temp4 120 set temp4 120
+			seta[].shade temp4
+			set temp9 1
+			}
+		}
+		else
+		ifl temp 0
+		{
+		getu .mouseflip temp2
+
+		geta[].shade temp4
+		ifg temp4 -120
+			{
+			ife temp2 0 sub temp4 temp else
+			add temp4 temp
+			ifl temp4 -120 set temp4 -120
+			seta[].shade temp4
+			set temp9 1
+			}
+		}
+		else set temp9 0
+
+
+		getinput[].avel temp
+		geta[].ang temp4
+		getinput[temp6].extbits temp7
+		getinput[temp6].bits temp8
+		ifn temp 0
+			{
+			add temp4 temp
+			seta[].ang temp4
+			set temp9 1
+			}
+		else set temp9 0
+
+			ifand temp7 16
+				{
+				set temp9 1
+				geta[].ang temp4
+				sub temp4 16
+				seta[].ang temp4
+				}
+			else
+			ifand temp7 32
+				{
+				set temp9 1
+				geta[].ang temp4
+				add temp4 16
+				seta[].ang temp4
+				}
+			else
+			ifand temp8 8192
+				{
+				geta[].shade temp4
+				ifl temp4 114
+					{
+					set temp9 1
+					add temp4 4
+					seta[].shade temp4
+					}
+				}
+			else
+			ifand temp8 16384
+				{
+				geta[].shade temp4
+				ifg temp4 -118
+					{
+					set temp9 1
+					sub temp4 4
+					seta[].shade temp4
+					}
+				}
+			else
+			ifand temp8 8
+				{
+				geta[].shade temp4
+				ifl temp4 114
+					{
+					set temp9 1
+					add temp4 4
+					seta[].shade temp4
+					}
+				}
+			else
+			ifand temp8 16
+				{
+				geta[].shade temp4
+				ifg temp4 -118
+					{
+					set temp9 1
+					sub temp4 4
+					seta[].shade temp4
+					}
+				}
+			else set temp9 0
+			}
+	ife temp9 0 stopactorsound THISACTOR CAMERA_MOVE
+	else ife temp9 1 soundonce CAMERA_MOVE
+
+	}
+}
+
+ifactor H_GRENADE
+	{
+	add INTERNALCOUNT 1
+	ife INTERNALCOUNT 13 { shoot SPARK sound RGD_POP }
+	}
+
+ifactor APLAYER
+{
+	getplayervar[THISACTOR].drop_cooldown temp
+	ifg temp 0
+		sub temp 1
+
+	setplayervar[THISACTOR].drop_cooldown temp
+
+	getp[].newowner CAMID
+	ifn CAMID -1
+	{
+		setactorvar[CAMID].temp5 3
+		geta[].yvel temp9
+		setactorvar[CAMID].temp6 temp9
+	}
+	ife PCAMERA 1 { ifmultiplayer nullop else spawn DUMMY_PLAYER set PCAMERA 2 }
+	ife PCAMERA 2
+	{
+	ife CAMID -1 set PCAMERA 0
+	}
+
+}
+
+
+ifactor MUSICANDSFX
+{
+ifn camerasprite -1 sleeptime 0
+ifg sprite[].hitag 32767 seta[].hitag 32767
+ife sprite[].lotag 74
+ ife sprite[].hitag 0
+  seta[].hitag 716
+
+ife opt_streamer_mode YES
+	{
+	ife sprite[].lotag LTS_MUFF seta[].lotag 227
+	ife sprite[].lotag LTS_FADE seta[].lotag WIND_AMBIENCE
+	}
+
+ifn xvel_saved 0
+	{
+	checkactivatormotion xvel_saved
+		ife RETURN 1 killit
+	}
+
+ifg extra_saved 0
+ifpdistl 16192
+	{
+	switch sector[].lotag
+		case 16
+		case 18
+			gets[].floorzgoal temp6
+			break
+		case 17
+		case 19
+			gets[].ceilingzgoal temp6
+			break
+		default
+			ifspritepal 0 gets[].floorzgoal temp6
+			else ifspritepal 2 gets[].ceilingzgoal temp6
+			break
+	endswitch
+	ife temp6 0 { ifactorsound THISACTOR extra_saved nullop
+	else ifactorsound THISACTOR sprite[].lotag nullop else soundvar extra_saved }
+	else ife temp6 -1 ifactorsound THISACTOR sprite[].hitag stopactorsound THISACTOR extra_saved
+	}
+
+ifspritepal 8
+	{
+	geta[].x temp
+	geta[].y temp2
+
+	sub temp skybox_x
+	sub temp2 skybox_y
+
+	ifl temp 2048
+	ifg temp -2048
+	ifl temp2 2048
+	ifg temp2 -2048
+		{
+		ife temp3 0
+			{
+			globalsoundvar sprite[].lotag
+			set temp3 1
+			}
+		}
+	else ife temp3 1
+		{
+		stopsoundvar sprite[].lotag
+		set temp3 0
+		}
+	}
+
+}
+
+ifactor TOUCHPLATE
+{
+ifspritepal 11
+	{
+	checkactivatormotion sprite[].lotag
+	 ife RETURN 1
+		{
+		killit
+		}
+	}
+}
+
+ifactor ACTIVATOR
+{
+ifspritepal 10
+	{
+	checkactivatormotion sprite[].lotag
+		ife RETURN 1
+			{
+			set FORCEFIELD_TURNOFF sprite[].lotag
+			}
+	}
+ifspritepal 123
+	{
+	checkactivatormotion sprite[].lotag
+		ife RETURN 1
+			{
+			set FORCEFIELD_TURNOFF sprite[].lotag
+			inv FORCEFIELD_TURNOFF
+			seta[].lotag 0
+			}
+	}
+}
+
+ifactor SECTOREFFECTOR
+	state runSectorEffectorLogic
+
+ifactor BULLETHOLE
+	{
+	ifaction 0
+		{
+		geta[].owner temp
+		geta[temp].extra temp2
+		div temp2 4
+		ifl temp2 4 set temp2 4 // sets a minimum size
+		ifg temp2 16 set temp2 16 // sets a maximum size
+		seta[].xrepeat temp2
+		seta[].yrepeat temp2
+		cstator 192
+		ifrnd 128 cstator 8
+		action ZERO
+		}
+	}
+
+// EVENT_GAME SWITCH STATEMENT
+
+switch sprite[].picnum
+case SLIMEPROJ
+	seta[].mdflags 16
+	ifspawnedby GOLEM spritepal 8
+	break
+case TOILET
+case STALL
+case NUKEBUTTON
+case HANDPRINTSWITCH
+case 1156
+case ALIENSWITCH
+case 1143
+case MULTISWITCH
+case 147
+case 148
+case 149
+case ACCESSSWITCH
+case ACCESSSWITCH2
+case PULLSWITCH
+case 1123
+case HANDSWITCH
+case 1112
+case SLOTDOOR
+case 133
+case LIGHTSWITCH
+case 135
+case SPACELIGHTSWITCH
+case 139
+case SPACEDOORSWITCH
+case 137
+case FRANKENSTINESWITCH
+case 141
+case LIGHTSWITCH2
+case 713
+case POWERSWITCH1
+case 861
+case LOCKSWITCH1
+case 863
+case POWERSWITCH2
+case 865
+case DIPSWITCH
+case 163
+case DIPSWITCH2
+case 165
+case TECHSWITCH
+case 167
+case DIPSWITCH3
+case 169
+	ifpdistl HARDCODE_DISTANCE ifp pfacing ifg sprite[].lotag 0 ifcansee state use_prompt
+	break
+case WATERFOUNTAIN
+	ifpdistl HARDCODE_DISTANCE ifp pfacing ifcansee state drink_prompt
+	break
+case VIEWSCREEN
+case VIEWSCREEN2
+	ifpdistl HARDCODE_DISTANCE ifp pfacing ifg sprite[].hitag 0 ifcansee state use_prompt
+	state animate_sprite_event
+	break
+case ENEMY_BULLET
+case ENEMY_SHOTGUN
+	ifpdistl 4096
+		{
+		ifspawnedby APLAYER nullop else
+		ifspritepal 27 nullop else // sub-sonic bullets don't make bullet crack noise
+		ifspritepal 8 nullop else // allies don't make sounds so as to not overwhelm players
+		ife ally_mag 0
+			{
+			ifrnd 85 sound BFLYBY_01
+			else ifrnd 170 sound BFLYBY_02
+			else sound BFLYBY_03
+			set ally_mag 1
+			}
+		}
+	break
+case CHAIR1
+case CHAIR2
+	action 0
+	espawn 3219
+	seta[RETURN].xrepeat sprite[].xrepeat
+	seta[RETURN].yrepeat sprite[].yrepeat
+	sizeat 1 1
+	killit
+	break
+case SAWBLADE_BOUNCE
+	ifactorsound THISACTOR SAWBLADE_SP nullop else sound SAWBLADE_SP
+	break
+case QUIETUS_BLAST
+	ifspawnedby APLAYER
+		{
+		ife CHAR 11 spritepal 177
+		ifpdistl 1536 cstat 32768 else cstat 130
+		}
+	break
+case 9395
+case 12902
+case 6544
+case 6633
+	ife INVASION 1 killit
+	break
+case MISSILE
+	ifspawnedby HPOWERSUIT strength 500
+	break
+case GASBURST
+	ifspawnedby APLAYER ifpdistl 1024 cstat 32768 else cstat 130
+	break
+case 22442
+	ifpdistl 2048 cstat 32768
+	else cstat 2
+	break
+case MICRO_MISSILE
+	ifspawnedby PITFIEND
+		{
+		seta[].extra 20
+		setthisprojectile[].extra 20
+		}
+	ifspawnedby CYBERALIEN
+		{
+		seta[].extra 20
+		setthisprojectile[].extra 20
+		}
+	ifspawnedby CYBERTOUR
+		{
+		seta[].extra 20
+		setthisprojectile[].extra 20
+		}
+	ifspawnedby HPOWERSUIT
+		{
+		seta[].extra 20
+		setthisprojectile[].extra 20
+		}
+break
+case CYCLOID_PLASMA // Cycloid plasma
+	spawn PROJECTILE_FLARE
+	ifspawnedby APLAYER
+	 ifn player_in_vehicle 0
+		{
+		seta[].extra 1200
+		setthisprojectile[].extra 1200
+		}
+break
+case RUBYBLAST
+	ifspawnedby PE_ELDER
+		{
+		seta[].extra 30
+		setthisprojectile[].extra 30
+		}
+break
+case 12782
+	action ANUBIS_AXE_FRAMES
+break
+case DUMMY_PLAYER
+	ifand zvel_saved 1 seta[].z zpos_saved
+break
+case COFFEEMUG
+case JOLLYMEAL
+case 4546
+case 4547
+case 4548
+	ife extra_saved 1
+		{
+		seta[].z zpos_saved
+		}
+break
+case OOZ2
+	ifcount 512
+	killit
+break
+case RESPAWN
+	geta[].extra extra_saved
+	geta[].xvel xvel_saved
+	geta[].yvel yvel_saved
+	geta[].zvel zvel_saved
+	break
+case FORCERIPPLE
+sizeat 8 8
+break
+case SPARK
+case SPARK2
+	ifpdistgvar opt_particle_distance killit
+	seta[].cstat 514
+	seta[].blend 255
+	state model_pitch
+	geta[].shade temp
+	ifpdistg 16384 add temp 6 else
+	add temp 3
+	seta[].shade temp
+	ifge temp 30 killit
+break
+case SWOODSCRAP
+case WOODSCRAP
+case ICE_DEBRIS
+case ROCKDEB_1
+case ROCKDEB_3
+case ROCKDEB_4
+case SROCKDEB_4
+case CLUSTER_BOMB
+case CLUSTER_BOMB2
+	seta[].mdflags 16
+break
+case JEDRIK_SHIELD
+	geta[].htmovflag temp
+	add temp 16384
+	ifl temp 16384 ifg temp -1
+	ifn temp myowner
+	{
+		seta[temp].htowner myowner // should trigger the friendly fire stuff
+		seta[temp].htextra 200
+		seta[temp].htpicnum SAWBLADE
+		sound SHIELD_BASH
+	}
+break
+case FIRSTGUNSPRITE
+case SHOTGUNSPRITE
+case CHAINGUNSPRITE
+case RPGSPRITE
+case 3689
+// case HEAVYHBOMB
+case SHRINKERSPRITE
+case TRIPBOMBSPRITE
+case DEVISTATORSPRITE
+case FREEZESPRITE
+case AMMO
+case SHOTGUNAMMO
+case BATTERYAMMO
+case RPGAMMO
+case HBOMBAMMO
+case CRYSTALAMMO
+case GROWAMMO
+case DEVISTATORAMMO
+case FREEZEAMMO
+case SHIELD
+case FIRSTAID
+case STEROIDS
+case AIRTANK
+case HEATSENSOR
+case JETPACK
+case BOOTS
+case HOLODUKE
+changespritestat THISACTOR 1
+break
+case 2930 // Letters for Rusty's shades
+case 2931
+case 2932
+case 2933
+case 2934
+case 2935
+case 2936
+case 2937
+case 2938
+case 2939
+case 2940
+case 2941
+case 2942
+case 2943
+case 2944
+case 2945
+case 2946
+case 2947
+case 2948
+case 2949
+case 2950
+case 2951
+case 2952
+case 2953
+case 2954
+case 2955
+case 2956
+case 2957
+case 2958
+case 2959
+case 2960
+case 2961
+case 2962
+case 2963
+case 2964
+case 2965
+geta[].yvel temp
+ife temp 1
+	{
+	ife CHAR 5
+	 {
+	 getp[].heat_on temp2
+	 ife temp2 1
+		{
+		cstat 16
+		}
+	 else cstat 32768
+	 }
+	 else cstat 32768
+	}
+break
+case JIBS1
+case JIBS2
+case JIBS3
+case JIBS4
+case JIBS5
+case JIBS6
+case LIZMANHEAD1
+case LIZMANARM1
+case LIZMANLEG1
+case HEADJIB1
+case ARMJIB1
+case LEGJIB1
+case HUMAN_TORSO
+ifactor HUMAN_TORSO sizeat 36 36 else
+ifactor JIBS2 sizeat 8 8 else
+ifactor JIBS3 sizeat 16 16 else
+ifactor JIBS4 sizeat 16 16 else
+ifactor JIBS5 sizeat 16 16 else
+ifactor JIBS6 sizeat 16 16 else
+ sizeat 24 24
+ ife actorvar[myowner].blood_type 4 killit
+ife TIMEZONE 8 { spawn 6142 spawn 6142 spawn 6142 killit }
+ife TIMEZONE 22 ifspawnedby CULT_FLAME { spritepal 177 spawn 5150 spawn 5150 spawn 5150 killit }
+state getceildist
+ifl z 0
+ ifn ally_temp -1
+	{
+	ifn sector[].ceilingslope 0 killit
+	ifinwater killit
+	espawn 2284
+	seta[RETURN].pal sprite[].pal
+	setactorvar[RETURN].ally_temp 1
+	killit
+	}
+iffloordistl 8
+ ifn actorvar[myowner].blood_type 4
+	{
+	ifactor JIBS6
+		{
+		ifrnd 128 sound BLD_SPLASH1
+		else ifrnd 128 sound BLD_SPLASH2
+		else sound BLD_SPLASH3
+		}
+		else { ifrnd 128 sound GIB_LAND2 else sound GIB_LAND1 }
+	changespritestat THISACTOR 1
+	state rf
+	ifmultiplayer nullop else
+		{
+		espawn 2284
+		seta[RETURN].pal sprite[].pal
+		}
+	ifn actorvar[myowner].blood_type 4
+		{
+		ifactor JIBS1 seta[].picnum 2249
+		ifactor JIBS2 seta[].picnum 2254
+		ifactor JIBS3 seta[].picnum 2259
+		ifactor JIBS4 seta[].picnum 2264
+		ifactor JIBS5 seta[].picnum 2269
+		ifactor JIBS6 seta[].picnum 2284
+		ifactor LIZMANHEAD1 seta[].picnum 2214
+		ifactor LIZMANARM1 seta[].picnum 2215
+		ifactor LIZMANLEG1 seta[].picnum 2216
+		ifactor HEADJIB1 seta[].picnum 1769
+		ifactor ARMJIB1 seta[].picnum 1773
+		ifactor LEGJIB1 seta[].picnum 1777
+		ifactor HUMAN_TORSO seta[].picnum 1519
+		ifactor HUMAN_ARM seta[].picnum 1534
+		}
+	}
+break
+case BRUISERFIREBALL
+	spawn PROJECTILE_FLARE
+break
+case 7163
+case 7160
+case 7162
+case SPELL4
+case SPELL5
+case SPELL14
+case SHRINKSPARK
+case MIA_BLAST
+case PRIEST_BLAST
+case LAVABALL
+case HEAT_SINK
+case 9115
+case 12712
+	spawn PROJECTILE_FLARE
+break
+case HOMING_MISSILE /*Set up with faction flag to prevent each of the faction actors missile homing direct to player.*/
+
+	ifspawnedby SCORPIONESS
+		{
+		seta[].extra 25
+		setthisprojectile[].extra 25
+		set faction_flag 2048
+		}
+		else
+	ifspawnedby CYBERALIEN
+		{
+		seta[].extra 25
+		setthisprojectile[].extra 25
+		set faction_flag 8
+		}
+		else
+	ifspawnedby LIZBOSS
+		{
+		seta[].extra 25
+		setthisprojectile[].extra 25
+		set faction_flag 8
+		}
+		else
+	ifspawnedby CYBERTOUR
+		{
+		seta[].extra 25
+		setthisprojectile[].extra 25
+		set faction_flag 16
+		}
+		else
+	ifspawnedby MJ12_MECH /*Added to prevent missile homing to the player.*/
+		{
+		seta[].extra 25
+		setthisprojectile[].extra 25
+		set faction_flag 512
+		}
+		else
+			// HEATSEEKER
+			ifspawnedby APLAYER
+			{
+				seta[].cstat 0
+				set faction_flag ALLIED_FACTION_FLAG // needed for target check to run correctly
+				set weight_increase 0 // don't contribute to weight score
+
+				add INTERNALCOUNT 1
+
+				ifg INTERNALCOUNT 2
+				{
+					geta[].ang angvar_backup
+
+					ife my_target -1
+						state checkfortarget
+
+					geta[].ang angvar
+
+					// don't do an instant 180, turn more gradually
+					ifg angvar_backup angvar
+					{
+						sub angvar_backup 16
+						ifl angvar_backup angvar
+							set angvar_backup angvar
+					}
+					else ifl angvar_backup angvar
+					{
+						add angvar_backup 16
+						ifg angvar_backup angvar
+							set angvar_backup angvar
+					}
+
+					seta[].ang angvar_backup
+
+					set INTERNALCOUNT 0
+				}
+
+				ifn my_target -1
+				{
+					// if the coordinates overlap long enough then there's a bug, just destroy the missile
+					ldist temp THISACTOR my_target
+
+					ifl temp 1024
+						add INTERNALCOUNT_2 1
+
+					// seems to get stuck on TROR layers rarely
+					ifnotmoving
+						set INTERNALCOUNT_2 15
+
+					ifge INTERNALCOUNT_2 15
+					{
+						hitradius 1024 35 75 112 150
+						spawn MISSILE_EXPLOSION
+						sound RPG_EXPLODE
+						killit
+					}
+
+					ifn player_in_vehicle 1 ifcansee set PLAYER_VOICEOVER 22
+					soundonce HEAT_SEEK
+
+					geta[].ang angvar_backup
+					state fronttowardstarget
+					geta[].ang angvar
+
+					// don't do an instant 180, turn more gradually
+					ifg angvar_backup angvar
+					{
+						sub angvar_backup 64
+						ifl angvar_backup angvar
+							set angvar_backup angvar
+					}
+					else ifl angvar_backup angvar
+					{
+						add angvar_backup 64
+						ifg angvar_backup angvar
+							set angvar_backup angvar
+					}
+
+					seta[].ang angvar_backup
+
+					set PROJECTILE_VEL 700
+
+					// z offset = sprite height / 2
+					set temp2 my_target
+					state getspriteheight
+					div return_getspriteheight 2
+					set CALCZ_TARGET_OFFSET return_getspriteheight
+					state calczvel
+					seta[].zvel temp3
+				}
+			}
+			else
+				{
+					ifpdistg 16384 set temp2 -256
+					else ifpdistg 10240 set temp2 -128
+					else ifpdistg 8192 set temp2 0
+					else ifpdistg 6144 set temp2 128
+					else ifpdistg 4096 set temp2 256
+					else ifpdistg 2048 set temp2 384
+					else set temp2 512
+					soundonce HEAT_SEEK
+					setactorsoundpitch THISACTOR HEAT_SEEK temp2
+
+					ifpdistg 2048
+					 ife temp8 0
+						{
+						getp[].posx mx
+						getp[].posy my
+						geta[].x x
+						geta[].y y
+						sub mx x
+						sub my y
+						getangle angvar mx my
+						seta[].ang angvar
+						getp[].posz temp2
+						geta[].z temp
+						ifvarvarl temp temp2 { add temp 40 seta[].z temp }
+						ifvarvarg temp temp2 { sub temp 40 seta[].z temp }
+						}
+					else
+					set temp8 1
+				}
+break
+case 6221
+case HADESBLASTH
+	ifspawnedby HADESPHERE /*Added to prevent Hadesblast homing to the player.*/
+		{
+		seta[].extra 26
+		setthisprojectile[].extra 26
+		set faction_flag 16
+		}
+break
+case 12717
+case 30081
+		spawn PROJECTILE_FLARE
+		ifpdistl 4096 set temp3 1
+		ifactor 6221
+			{
+			seta[].blend 255
+			seta[].shade -127
+			}
+		ifn temp3 1
+			{
+			getp[].posx mx
+			getp[].posy my
+			geta[].x x
+			geta[].y y
+			sub mx x
+			sub my y
+			getangle angvar mx my
+			seta[].ang angvar
+			getp[].posz temp2
+			geta[].z temp
+			ifvarvarl temp temp2 { add temp 40 seta[].z temp }
+			ifvarvarg temp temp2 { sub temp 40 seta[].z temp }
+			}
+break
+case JEDRIK_SH_RETURN
+			getp[].posx mx
+			getp[].posy my
+			geta[].x x
+			geta[].y y
+			sub mx x
+			sub my y
+			getangle angvar mx my
+			seta[].ang angvar
+			getp[].posz temp2
+			geta[].z temp
+			ifvarvarl temp temp2 { add temp 40 seta[].z temp }
+			ifvarvarg temp temp2 { sub temp 40 seta[].z temp }
+break
+case 7047
+case 22828
+case 15175
+
+	cstat 130
+	seta[].blend 255
+
+	seta[].shade -127
+
+	// this tanks framerate if there's even a few projectiles visible at the same timer
+	ifrnd 32
+	{
+		spawn PROJECTILE_FLARE
+		shoot SPARK
+	}
+break
+case CHARMED_DYNA
+case POP_ROCKS
+	ifactorsound THISACTOR DYNAMITEFUSE nullop else sound DYNAMITEFUSE
+	shoot SPARK2
+break
+case FLARE_PROJ
+	ifactorsound THISACTOR FLARE_L nullop else sound FLARE_L
+	shoot SPARK
+break
+case BLACK_POWD_BOMB
+case DYNAMITESTICK
+case EXP_CROSSBOW
+	ifactorsound THISACTOR DYNAMITEFUSE nullop else sound DYNAMITEFUSE
+	shoot SPARK
+break
+case RAINSPRITE
+	sleeptime 0
+break
+case BOTTLE4
+ifpdistl 812
+ifp palive
+   ifp pfacing
+	ifhitspace
+	 ifl INEBRIATION 800
+	{
+	quote 134
+	sound DRINKSOME
+	palfrom 16 0 32
+
+		ife CHAR 3 addphealth 5 else
+		ife CHAR 9
+			{
+			getp[].shield_amount temp
+			add temp 2
+			clamp temp 0 200
+			setp[].shield_amount temp
+			addphealth 5
+			}
+			else
+		addphealth 2
+
+	  ife CHAR 0 add INEBRIATION 100
+	ife CHAR 1 add INEBRIATION 150
+	  ife CHAR 2 add INEBRIATION 50
+	  ife CHAR 3 add INEBRIATION 25
+	  ife CHAR 4 add INEBRIATION 200
+	ife CHAR 5 add INEBRIATION 150
+	  ife CHAR 6 add INEBRIATION 150
+	ife CHAR 7 add INEBRIATION 100
+	ife CHAR 9 add INEBRIATION 0
+	ife CHAR 10 add INEBRIATION 25
+	ife CHAR 11 add INEBRIATION 50
+	ife CHAR 12 add INEBRIATION 100
+	ife CHAR 13 add INEBRIATION 300
+	ife CHAR 14 add INEBRIATION 10
+	ife CHAR 17
+		{
+		ifrnd 8 sound YO_DRUNK
+		add INEBRIATION 150
+		}
+	ife CHAR 18 add INEBRIATION 175
+	killit
+	}
+  break
+ case BOTTLE2
+ case BOTTLE3
+ case BOTTLE13
+case BOTTLE14
+case BOTTLE15
+case BOTTLE16
+case BOTTLE17
+case BOTTLE18
+ifpdistl 812
+ifp palive
+   ifp pfacing
+	ifhitspace
+	 ifl INEBRIATION 600
+	{
+	quote 134
+	sound DRINKSOME
+	palfrom 16 0 32
+
+		ife CHAR 3 addphealth 5 else
+		ife CHAR 9
+			{
+			getp[].shield_amount temp
+			add temp 2
+			clamp temp 0 200
+			setp[].shield_amount temp
+			addphealth 5
+			}
+			else
+		addphealth 2
+
+	  ife CHAR 0 add INEBRIATION 100
+	ife CHAR 1 add INEBRIATION 150
+	  ife CHAR 2 add INEBRIATION 50
+	  ife CHAR 3 add INEBRIATION 100
+	  ife CHAR 4 add INEBRIATION 200
+	ife CHAR 5 add INEBRIATION 150
+	  ife CHAR 6 add INEBRIATION 150
+	ife CHAR 7 add INEBRIATION 100
+	ife CHAR 9 add INEBRIATION 0
+	ife CHAR 10 add INEBRIATION 25
+	ife CHAR 11 add INEBRIATION 50
+	ife CHAR 12 add INEBRIATION 100
+	ife CHAR 13 add INEBRIATION 300
+	ife CHAR 14 add INEBRIATION 10
+	ife CHAR 17 add INEBRIATION 150
+	ife CHAR 18 add INEBRIATION 175
+	killit
+	}
+  break
+ case 22610
+ case 22536
+ case 27372
+ case 6204
+ case 29076
+   ifspawnedby APLAYER { ifpdistl HIDE_PARTICLE cstat 32768 else cstat 130 }
+   state littlerandtraj
+  break
+ case RPG
+	ifspawnedby APLAYER
+	{
+	ife CHAR 1
+	ife cur_weap 7
+	 ife SPECIALIST_EQUIPMENT[52] 2
+	 {
+	 spawn FLAME_THROW
+	state littlerandtraj
+	 }
+	ife CHAR 13
+	ife cur_weap 4
+	ifn tracker -1
+		{
+		iffloordistl 8 set tracker -1
+		add INTERNALCOUNT 1
+		ifl INTERNALCOUNT 150
+			{
+			set mx p_hitx
+			set my p_hity
+			geta[].x x
+			geta[].y y
+			sub mx x
+			sub my y
+			getangle angvar mx my
+			seta[].ang angvar
+
+			ifn tracker -1
+				{
+				soundonce RED_COMPBEEP
+				ldist temp THISACTOR tracker
+				geta[].z temp2
+				sub temp2 8192 // Offset the Z. Assumes the center of the actor is the same as the player
+				geta[tracker].z temp3
+				sub temp3 8592 // Offset the Z. assumes the center of the actor is the same as the player
+				sub temp3 temp2
+				shiftvarl temp3 8
+				ifn temp 0 div temp3 temp
+				seta[].zvel temp3
+				}
+			}
+		}
+	ife cur_weap 0
+	 ife temp_weap 16
+		{
+		spawn GUNSMOKE
+		}
+	}
+	ifspawnedby BOSS3
+	{
+	geta[].owner temp
+	geta[temp].pal temp2
+	 ifn temp2 0 { sizeat 20 20 }
+	}
+	ifspawnedby BOSS5
+	{
+	sizeat 20 20
+	}
+	 ifspawnedby COMMANDER
+	{
+	geta[].owner temp
+	geta[temp].pal temp2
+	 ife temp2 20 { sizeat 14 14 }
+	}
+	gets[].floorpal temp
+	seta[].pal temp
+  break
+ case BLOODPOOL
+	seta[].shade sector[].floorshade
+	gets[].floorpal temp
+	ife temp 1 seta[].pal temp
+	ife actorvar[myowner].blood_type 4 killit
+	ifspawnedby PE_SENTRY killit
+	ifspawnedby SENTRY killit
+	break
+ case PROXBUNDLE
+ geta[].owner myowner
+ ifspawnedby APLAYER
+	 {
+	ifg remote_detonate 0
+				{
+				spawn EXPLOSION2
+				globalsound LASERTRIP_EXPLODE
+				hitradius 3500 75 150 300 600
+				debris SCRAP2 3
+				killit
+				}
+	}
+ break
+ case DYNAMITEBUNDLE
+ geta[].owner myowner
+ ifspawnedby APLAYER
+	 {
+	ifg remote_detonate 0
+				{
+				spawn EXPLOSION2
+				globalsound PIPEBOMB_EXPLODE
+				hitradius PIPEBOMBRADIUS 80 90 100 HANDBOMB_WEAPON_STRENGTH
+				killit
+				}
+	}
+ break
+ case RPG7_ROCKET
+ ifspawnedby APLAYER
+	 {
+	ifg remote_detonate 0
+	 ifpdistg 4096
+				{
+				spawn BIG_EXPLOSION
+				hitradius 4096 150 300 450 600
+				set remote_detonate 0
+				killit
+				}
+	}
+   break
+ case MC_GRENADE
+ case Z_GRENADE
+ geta[].owner myowner
+ ifspawnedby APLAYER
+ {
+   ife CHAR 1
+	  {
+	  getav[myowner].P_CHAR temp
+	  state FINDMONSTERS
+	  }
+		ifg remote_detonate 0
+			{
+			spawn EXPLOSION2
+			globalsound PIPEBOMB_EXPLODE
+			hitradius PIPEBOMBRADIUS 80 90 100 HANDBOMB_WEAPON_STRENGTH
+			killit
+			}
+}
+   break
+ case DYNAMITEONFLOOR
+ geta[].owner myowner
+	 ifspawnedby APLAYER
+	 {
+	 ifg remote_detonate 0
+				{
+				spawn EXPLOSION2
+				globalsound PIPEBOMB_EXPLODE
+				hitradius PIPEBOMBRADIUS 80 90 100 HANDBOMB_WEAPON_STRENGTH
+				killit
+				}
+	}
+ else
+	  ifspawnedby DYNAMITEBUNDLE
+	  {
+	 ifg remote_detonate 0
+				{
+				spawn EXPLOSION2
+				globalsound PIPEBOMB_EXPLODE
+				hitradius PIPEBOMBRADIUS 80 90 100 HANDBOMB_WEAPON_STRENGTH
+				killit
+				}
+	  }
+   break
+case Z_GRENADE_ONFLOOR
+	 geta[].owner myowner
+		 ifspawnedby APLAYER
+		 {
+		ifg remote_detonate 0
+					{
+					spawn EXPLOSION2
+					globalsound PIPEBOMB_EXPLODE
+					hitradius PIPEBOMBRADIUS 80 90 100 HANDBOMB_WEAPON_STRENGTH
+					killit
+					}
+		}
+	 else
+		  ifspawnedby Z_GRENADE
+		  {
+		ifg remote_detonate 0
+					{
+					spawn EXPLOSION2
+					globalsound PIPEBOMB_EXPLODE
+					hitradius PIPEBOMBRADIUS 80 90 100 HANDBOMB_WEAPON_STRENGTH
+					killit
+					}
+		  }
+   break
+case MC_GRENADE_ONFLOOR
+ geta[].owner myowner
+	 ifspawnedby APLAYER
+	 {
+	ifg remote_detonate 0
+				{
+				spawn EXPLOSION2
+				globalsound PIPEBOMB_EXPLODE
+				hitradius PIPEBOMBRADIUS 80 90 100 HANDBOMB_WEAPON_STRENGTH
+				killit
+				}
+	}
+ else
+	  ifspawnedby MC_GRENADE
+	  {
+	 ifg remote_detonate 0
+				{
+				spawn EXPLOSION2
+				globalsound PIPEBOMB_EXPLODE
+				hitradius PIPEBOMBRADIUS 80 90 100 HANDBOMB_WEAPON_STRENGTH
+				killit
+				}
+	  }
+   break
+endswitch
+
+endevent

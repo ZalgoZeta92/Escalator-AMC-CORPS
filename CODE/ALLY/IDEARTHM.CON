@@ -1,0 +1,348 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Iron Division Earth Mother
+--------------------------------------------------------------------------------
+*/
+
+action A_IDEARTHM_FROZEN 25 1 5 1 10
+action A_IDEARTHM_FLOAT 5 1 5 1 10
+action A_IDEARTHM_FLOATSTOP 0 1 5 1 10
+action A_IDEARTHM_FLOATUP 5 1 5 1 10
+action A_IDEARTHM_FLOATDOWN 5 1 5 1 10
+action A_IDEARTHM_ATTACK 10 3 5 1 20
+action A_IDEARTHM_CAST 10 3 5 1 20
+action A_IDEARTHM_PAIN 25 1 5 1 10
+action A_IDEARTHM_TELEPORT 5 1 5 1 10
+action A_IDEARTHM_DIE 25 5 1 1 15
+
+move M_IDEARTHM_FLOAT 210
+
+defstate IDEARTHM_checktarget
+	state checkfortarget
+
+	ifn my_target -1
+	{
+		
+			soundonce PRI_RDY
+			action A_IDEARTHM_ATTACK
+
+	}
+	else ife ally_mag 0 ifrnd 8 action A_IDEARTHM_CAST
+ends
+
+defstate IDEARTM_voice
+	ifvarg ALLY_VOICE 0
+	{
+		subvar ALLY_VOICE 1
+		ife ALLY_VOICE 1
+		{
+			ifrnd 128
+			{
+				ife ally_subt 0
+                {
+					qstrcpy 7501 5215
+					set ally_subt 34
+                }
+				sound DARKE_ROGER2
+			}
+			else
+			{
+				ife ally_subt 0
+                {
+					qstrcpy 7501 5217
+					set ally_subt 28
+                }
+				sound DARKE_ROGER4
+			}
+		}
+	}
+	else ifvarl ALLY_VOICE 0
+	{
+		addvar ALLY_VOICE 1
+		ife ALLY_VOICE -1
+		{
+		ifrnd 128
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5214
+					// 7501 ^60Bombshell: ^0Got it.
+					set ally_subt 25
+				}
+				sound DARKE_ROGER1
+			}
+		else
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5216
+					// 7501 ^60Bombshell: ^0Got it.
+					set ally_subt 25
+				}
+				sound DARKE_ROGER3
+			}
+		}
+	}
+ends
+
+
+
+useractor notenemy ID_EARTHM
+
+	ifaction 0
+	{
+		seta[].htwaterzoffset 8
+		spritepal 40
+		seta[].mdflags 16
+		set command 32768
+		spawn SHOOTME2
+		strength 8000
+		set max_health 8000
+		set support_actor 7
+		sizeat 21 21
+		action A_IDEARTHM_FLOAT
+		ifg extra_saved 0 state startfollowplayer
+
+			set INTERNALCOUNT_3 -1
+
+		cstat 256
+	}
+
+	ifn INTERNALCOUNT_3 -1
+	{
+		ifg INTERNALCOUNT_3 0 sub INTERNALCOUNT_3 1
+		else ife INTERNALCOUNT_3 0
+		{
+			globalsound UNMADE
+			spawn SKULLEXPLOSION
+			state removefollower
+			killit
+		}
+	}
+	
+	seta[].htextra -1
+
+	ifg targetlock 0 sub targetlock 1
+	ifg ally_mag 0 sub ally_mag 1
+
+	ifaction A_IDEARTHM_FROZEN
+		state frozen_code
+	else ifaction A_IDEARTHM_DIE
+	{
+		move STOP
+		cstat 0
+		spriteflags 7
+		seta[].shade -64
+		ifactioncount 7 fall
+		ifactioncount 8 killit
+	}
+	else ifaction A_IDEARTHM_PAIN
+	{
+		move STOP
+		ifactioncount 3
+			action A_IDEARTHM_FLOAT
+	}
+	else ifaction A_IDEARTHM_CAST
+	{
+		move STOP
+
+			ifactioncount 3
+			{
+			sound CSPELL
+			state nu_heal_allies
+			set ally_mag 150
+			action A_IDEARTHM_FLOAT
+			}
+	}
+	else ifaction A_IDEARTHM_ATTACK
+	{
+		move STOP
+
+		ife my_target -1
+			action A_IDEARTHM_FLOAT
+		else
+		{
+			state fronttowardstarget
+
+			spriteflags 7
+			seta[].shade -64
+
+			ifactioncount 3
+			{
+				set PROJECTILE_TO_SHOOT PRIEST_BLAST
+				set PROJECTILE_FIRING_SOUND PRI_FIRE
+				state sang_enemyShootProjectile
+				ifn RETURN -1 
+                                    setthisprojectile[RETURN].extra 140
+
+				action A_IDEARTHM_FLOAT
+			}
+		}
+	}
+	else ifaction A_IDEARTHM_FLOATSTOP
+	{
+		move STOP
+
+		state rand_lookaround
+		
+		ifstrength 8000
+		  ifcount 6
+		{
+			addstrength 10
+			resetcount
+		}
+
+		ifpdistg 1568
+		  ife FOLLOW_PLAYER 1
+			action A_IDEARTHM_FLOAT
+		else
+			state IDEARTHM_checktarget
+	}
+	else ifaction A_IDEARTHM_FLOAT
+	{
+		ifmove M_IDEARTHM_FLOAT nullop
+		else move M_IDEARTHM_FLOAT geth faceplayer
+
+		ife FOLLOW_PLAYER 0
+			action A_IDEARTHM_FLOATSTOP
+
+		sizeto 21 21
+		spriteflags 3
+
+		state IDEARTHM_checktarget
+
+		ifpdistg 8098
+		  ife my_target -1
+		  ifrnd 16
+		{
+			getp[].posx temp
+			getp[].posy temp2
+			set temp3 temp
+			add temp3 1024
+			randvar temp4 2048
+			rotatepoint temp temp2 temp3 temp2 temp4 temp5 temp6
+			updatesector temp5 temp6 temp7
+			ifn temp7 -1
+			{
+				set INTERNALCOUNT 0
+				action A_IDEARTHM_TELEPORT
+				resetcount
+			}
+		}
+		else ifrnd 128
+		{
+			ifp phigher
+				action A_IDEARTHM_FLOATUP
+			else
+			{
+				geta[].z z
+				getp[].posz temp
+				ifg temp z
+					action A_IDEARTHM_FLOATDOWN
+			}
+		}
+		else ifpdistl 1568
+			action A_IDEARTHM_FLOATSTOP
+	}
+	else ifaction A_IDEARTHM_TELEPORT
+	{
+		move STOP faceplayer
+
+		add INTERNALCOUNT 1
+		spawn FRAMEEFFECT1
+		ife INTERNALCOUNT 4 { cstat 2 sizeto 2 24 }
+		ife INTERNALCOUNT 26
+		{
+			cstat 32768
+			getp[].posx temp
+			getp[].posy temp2
+			set temp3 temp
+			add temp3 1024
+			randvar temp4 2048
+			rotatepoint temp temp2 temp3 temp2 temp4 temp5 temp6
+			updatesector temp5 temp6 temp7
+			ifn temp7 -1
+			{
+				spawn 8433
+				seta[].x temp5
+				seta[].y temp6
+				getp[].posz temp8
+				sub temp8 1754
+				seta[].z temp8
+			}
+			else
+			{
+				cstat 257
+				sizeat 24 24
+				action A_IDEARTHM_FLOAT
+			}
+		}
+		ife INTERNALCOUNT 27 { soundonce PRIEST_APPEAR cstat 2 sizeto 21 21 spawn 8433 }
+		ife INTERNALCOUNT 40 { cstat 257 sizeat 24 24 action A_IDEARTHM_FLOAT }
+	}
+	else ifaction A_IDEARTHM_FLOATUP
+	{
+		ifmove M_SORCERER_FLOATUP nullop
+		else move M_SORCERER_FLOATUP geth getv faceplayer
+
+		state IDEARTHM_checktarget
+
+		ifrnd 16
+			action A_IDEARTHM_FLOAT
+	}
+	else ifaction A_IDEARTHM_FLOATDOWN
+	{
+		ifmove M_SORCERER_FLOATDOWN nullop
+		else move M_SORCERER_FLOATDOWN geth getv faceplayer
+
+		state IDEARTHM_checktarget
+
+		ifrnd 16
+			action A_IDEARTHM_FLOAT
+	}
+
+	state IDEARTM_voice
+	state actor_knockback_state
+	
+	state player_follow_commands
+
+	ifhitweapon
+	{
+		ifrnd 128 soundonce DARKE_PAIN1
+		else soundonce DARKE_PAIN2
+		spawn BLOOD
+		guts JIBS6 1
+		state random_wall_jibs
+		ifwasweapon RPG
+			seta[].xvel 5
+
+		ifdead
+		{
+			state clear_ally_death
+			ifwasweapon 7159 { spritepal 1 strength 1 sound SOMETHINGFROZE action A_IDEARTHM_FROZEN }
+			else ifwasweapon 6875 { set WEP3_BLOODY 21 sound STAB_01 }
+			else ifwasweapon FREEZEBLAST { spritepal 1 strength 1 sound SOMETHINGFROZE action A_IDEARTHM_FROZEN }
+			else
+			{
+				ifrnd 96 sound DARKE_DIE1
+				else ifrnd 96 sound DARKE_DIE2
+				else sound DARKE_DIE3
+				action A_IDEARTHM_DIE
+				state rf
+			}
+		}
+		else ifrnd 16
+			action A_IDEARTHM_PAIN
+	}
+enda

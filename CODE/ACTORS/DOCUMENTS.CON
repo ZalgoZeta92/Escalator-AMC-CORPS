@@ -1,0 +1,594 @@
+
+// ------------------------------------------------------------
+// DOCUMENTS
+// ------------------------------------------------------------
+
+defstate document_evidence
+
+			ife DOCUMENT 7670 // Are they reading the Dis Base mission sheet?
+				{
+				readgamevar EVIDENCE
+				ifand EVIDENCE 2 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 2
+						savegamevar EVIDENCE
+						soundonce READ_DOCUMENT
+						add TREASURE_FOUND 4
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ife DOCUMENT 7671 // Are they reading the gate opening sheet?
+				{
+				readgamevar EVIDENCE
+				ifand EVIDENCE 64 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 64
+						savegamevar EVIDENCE
+						soundonce READ_DOCUMENT
+						add TREASURE_FOUND 4
+						quote 220
+						set DOCUMENT -1
+
+						killit
+						}
+				}
+			ife DOCUMENT 9696 // Are they reading the 'For Providence' stock sheet?
+				{
+				readgamevar EVIDENCE
+				ifand EVIDENCE 4 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 4
+						savegamevar EVIDENCE
+						soundonce READ_DOCUMENT
+						add TREASURE_FOUND 4
+						quote 220
+						set DOCUMENT -1
+
+						killit
+						}
+				}
+			ife DOCUMENT 9748 // Are they reading the 'For Providence' paradigm sheet?
+				{
+				readgamevar EVIDENCE
+				ifand EVIDENCE 1024 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 1024
+						savegamevar EVIDENCE
+						soundonce READ_DOCUMENT
+						add TREASURE_FOUND 4
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ife DOCUMENT 9705 // Are they reading the 'Snow base' letter from Robinson?
+				{
+				readgamevar EVIDENCE
+				ifand EVIDENCE 8 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 8
+						savegamevar EVIDENCE
+						soundonce READ_DOCUMENT
+						add TREASURE_FOUND 4
+						quote 220
+						set DOCUMENT -1
+
+						killit
+						}
+				}
+			ife DOCUMENT 9706 // Are they reading the 'Snow base' letter from Costanza?
+				{
+				readgamevar EVIDENCE
+				ifand EVIDENCE 16 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 16
+						savegamevar EVIDENCE
+						soundonce READ_DOCUMENT
+						add TREASURE_FOUND 4
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ifg DOCUMENT 9709 // Are they reading Lilith's diary from Providence?
+			 ifl DOCUMENT 9714
+				{
+				set STORY_TRIGGER1 1
+				readgamevar EVIDENCE
+				ifand EVIDENCE 32 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 32
+						savegamevar EVIDENCE
+						soundonce BOOK_CLOSE
+						add TREASURE_FOUND 4
+						quote 220
+						set DOCUMENT -1
+						set MAXPAGES 0
+						killit
+						}
+				}
+			ife DOCUMENT 13848 // Are they reading the 'med-lab' letter from megabase?
+				{
+				readgamevar EVIDENCE
+				ifand EVIDENCE 128 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 128
+						savegamevar EVIDENCE
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ife DOCUMENT 13849 // Are they reading the 'precog-lab' letter from megabase?
+				{
+				readgamevar EVIDENCE
+				ifand EVIDENCE 256 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 256
+						savegamevar EVIDENCE
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+
+						killit
+						}
+				}
+			ife lotag_saved TRENT_MSG1 // Are they listening to Trenton's message to Jekyl?
+				{
+				readgamevar EVIDENCE
+				ifand EVIDENCE 2048 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 2048
+						savegamevar EVIDENCE
+						add TREASURE_FOUND 4
+						soundonce AUDIO_LOG
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ife lotag_saved TRENT_MSG2 // Are they listening to Trenton's message to Jekyl?
+				{
+				readgamevar EVIDENCE
+				ifand EVIDENCE 4096 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 4096
+						savegamevar EVIDENCE
+						add TREASURE_FOUND 4
+						soundonce AUDIO_LOG
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ifg DOCUMENT 13912 // Are they reading Dr Jekyl's diary?
+			 ifl DOCUMENT 13916
+				{
+				readgamevar EVIDENCE
+				ifand EVIDENCE 512 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE 512
+						savegamevar EVIDENCE
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+
+						killit
+						}
+				}
+
+			// ======================================================
+			// EPISODE 2 DOCUMENTS
+			// ======================================================
+
+			ife DOCUMENT 17028 // Are they reading the letter to Yeung from Cheung?
+				{
+				readgamevar EVIDENCE_EP2
+				set GOT_PASSWORD 1
+				ifand EVIDENCE_EP2 1 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP2 1
+						savegamevar EVIDENCE_EP2
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ife DOCUMENT 17253 // Are they reading the note to Cheung about Yakuza?
+				{
+				readgamevar EVIDENCE_EP2
+				ifand EVIDENCE_EP2 32 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP2 32
+						savegamevar EVIDENCE_EP2
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ife DOCUMENT 17255 // Are they reading the note from Cheung to Yoshima?
+				{
+				readgamevar EVIDENCE_EP2
+				ifand EVIDENCE_EP2 16 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP2 16
+						savegamevar EVIDENCE_EP2
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ife DOCUMENT 18396 // Are they reading the password to the EAF file?
+				{
+				readgamevar EVIDENCE_EP2
+				set GOT_PASSWORD 2
+				ifand EVIDENCE_EP2 4 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP2 4
+						savegamevar EVIDENCE_EP2
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ife DOCUMENT 17325 // Are they reading captain's diary
+				{
+				readgamevar EVIDENCE_EP2
+				ifand EVIDENCE_EP2 64 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP2 64
+						savegamevar EVIDENCE_EP2
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ife DOCUMENT 17257 // Are they reading the PC password thing 2?
+				{
+				readgamevar EVIDENCE_EP2
+				set GOT_PASSWORD 3
+				ifand EVIDENCE_EP2 128 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP2 128
+						savegamevar EVIDENCE_EP2
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ifg DOCUMENT 18338 // Are they reading the PATCOS project info?
+			ifl DOCUMENT 18342
+				{
+				readgamevar EVIDENCE_EP2
+				ifand EVIDENCE_EP2 1024 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP2 1024
+						savegamevar EVIDENCE_EP2
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ifg DOCUMENT 20148 // Are they reading the Zeta base beyonder file?
+			ifl DOCUMENT 20154
+				{
+				readgamevar EVIDENCE_EP2
+				ifand EVIDENCE_EP2 2048 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP2 2048
+						savegamevar EVIDENCE_EP2
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+
+			// ======================================================
+			// EPISODE 3 DOCUMENTS
+			// ======================================================
+			ife DOCUMENT 23737 // Are they reading the Gorrilla diary?
+				{
+				readgamevar EVIDENCE_EP3
+				ifand EVIDENCE_EP3 1 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP3 1
+						savegamevar EVIDENCE_EP3
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+
+			ife DOCUMENT 23801 // Are they reading the substance 34 report?
+				{
+				readgamevar EVIDENCE_EP3
+				ifand EVIDENCE_EP3 8 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP3 8
+						savegamevar EVIDENCE_EP3
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+
+			ife DOCUMENT 23804 // Are they reading the Shrinker theory?
+				{
+				readgamevar EVIDENCE_EP3
+				ifand EVIDENCE_EP3 16 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP3 16
+						savegamevar EVIDENCE_EP3
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+
+			ife DOCUMENT 23805 // Are they reading the SMART suit info?
+				{
+				readgamevar EVIDENCE_EP3
+				ifand EVIDENCE_EP3 32 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP3 32
+						savegamevar EVIDENCE_EP3
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+
+			ife DOCUMENT 20479 // Are they reading the Alien queen info?
+				{
+				readgamevar EVIDENCE_EP3
+				ifand EVIDENCE_EP3 64 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP3 64
+						savegamevar EVIDENCE_EP3
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			// ======================================================
+			// EPISODE 5 DOCUMENTS
+			// ======================================================
+			ifge DOCUMENT 26099 // Are they reading the dean's confession
+			ifle DOCUMENT 26100
+				{
+				readgamevar EVIDENCE_EP5
+				ifand EVIDENCE_EP5 1 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP5 1
+						savegamevar EVIDENCE_EP5
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+			ife DOCUMENT 38823 // Are they reading the dean's confession
+				{
+				readgamevar EVIDENCE_EP5
+				ifand EVIDENCE_EP5 128 set DOCUMENT -1
+					else
+						{
+						xorvar EVIDENCE_EP5 128
+						savegamevar EVIDENCE_EP5
+						add TREASURE_FOUND 4
+						soundonce READ_DOCUMENT
+						quote 220
+						set DOCUMENT -1
+						killit
+						}
+				}
+
+ends
+
+action DOC_SHEET -5300
+action DOC_CLIPBOARD -210
+action DOC_BOOK -1708
+
+var document_read -1 2
+useractor notenemy 9695
+sleeptime 0
+ifaction 0
+{
+espawn 3798
+set actor_return RETURN
+set temp9 0
+ifspritepal 1
+	{
+	spritepal 0
+	action DOC_SHEET
+	}
+else
+ifspritepal 2
+	{
+	spritepal 0
+	action DOC_CLIPBOARD
+	}
+else
+ifspritepal 3
+	{
+	spritepal 0
+	action DOC_BOOK
+	}
+else
+	{
+	action ZERO
+	cstat 32768
+	}
+}
+
+ife temp9 0
+{
+ifpdistl 2048
+	ifrnd 8 spawn GLINT
+	else
+ifrnd 4 spawn GLINT
+}
+
+ifn owner_saved -1
+{
+checkactivatormotion owner_saved
+ife RETURN 1
+	{
+	set temp9 1
+	ifn lotag_saved 0 soundoncevar lotag_saved
+	set DOCUMENT hitag_saved
+	ife extra_saved -1 set MAXPAGES 0
+	ifg extra_saved 0 { set MAXPAGES extra_saved set PAGENUMBER 0 }
+		ifn zvel_saved 0 set document_scale zvel_saved
+		else set document_scale -1
+		
+	set document_read THISACTOR
+
+	ifaction DOC_BOOK set PAGETURNSOUND 1199 else
+	set PAGETURNSOUND xvel_saved
+	lockplayer 13
+	seta[actor_return].pal 13
+	state setIgnoreUse
+	}
+	
+	ife document_read THISACTOR
+	 ife use_action_allowed 1
+		{
+		ifn lotag_saved 0 soundoncevar lotag_saved
+		state document_evidence
+		set DOCUMENT -1
+		set MAXPAGES 0
+		set PAGETURNSOUND 0
+		set temp9 1
+		set document_read -1
+		state setIgnoreUse
+		}
+	
+}
+else
+ifpdistl 1024
+{
+ifn DOCUMENT -1
+	{
+	ife DOCUMENT 7935 // audio log?
+		{
+		ifactorsound THISACTOR lotag_saved
+			setmusicvolume 25
+			else
+			{
+			sound AUDIO_LOG
+			setmusicvolume 100
+			state document_evidence
+			set DOCUMENT -1
+			set MAXPAGES 0
+			set PAGETURNSOUND 0
+			set temp9 1
+			resetcount
+			}
+		}
+	ife use_action_allowed 1
+		{
+		ifaction DOC_BOOK soundonce BOOK_CLOSE
+		else ifspritepal 5 soundonce BOOK_CLOSE
+		state document_evidence
+		set DOCUMENT -1
+		set MAXPAGES 0
+		set PAGETURNSOUND 0
+		set temp9 1
+		seta[actor_return].pal 13
+		state setIgnoreUse
+		}
+	}
+else
+ ifp pfacing
+  ifcansee
+  ife DOCUMENT -1
+  {
+   state read_prompt
+   ife use_action_allowed 1
+		{
+		set hit_key 30
+		set temp9 1
+		ifaction DOC_BOOK soundonce BOOK_OPEN
+		else ifspritepal 5 soundonce BOOK_OPEN
+		else ifn lotag_saved 0 soundoncevar lotag_saved
+		else soundonce READ_DOCUMENT
+		set DOCUMENT hitag_saved
+		ife extra_saved -1 set MAXPAGES 0
+		ifg extra_saved 0 { set MAXPAGES extra_saved set PAGENUMBER 0 }
+		ifn zvel_saved 0 set document_scale zvel_saved
+		else set document_scale -1
+
+		// A bit hacky - add yvel_saved to STORY_TRIGGER2, only when triggered for the first time
+		// Use this to tie map story progression to whether or not the player found certain documents
+		ife document_read -1
+			ifg yvel_saved 0 { add STORY_TRIGGER2 yvel_saved }
+		set document_read THISACTOR
+
+		ifaction DOC_BOOK set PAGETURNSOUND 1199 else
+		set PAGETURNSOUND xvel_saved
+		lockplayer 13
+		state setIgnoreUse
+		}
+   }
+}
+enda

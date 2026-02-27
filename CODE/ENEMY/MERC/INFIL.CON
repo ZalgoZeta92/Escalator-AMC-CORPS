@@ -1,0 +1,175 @@
+// ===========================================
+// INFIL ACTOR FOR EASE OF ADDING IN ENEMIES
+// ============================================
+
+action A_INFIL_START 0 1 5 1 12 // Starting frame, different from the idle frame
+action A_INFIL_IDLE 0 1 5 1 12
+action A_INFIL_DEAD 34
+action A_INFIL_DYING 30 5 1 1 12
+action A_INFIL_EXPLODE 30
+
+action A_INFIL_SEEK 0 4 5 1 12
+action A_INFIL_ATTACK 20 2 5 1 4
+
+move M_INFIL_WALK 126
+
+damageeventtile INFILTRATOR
+
+useractor enemy INFILTRATOR 2000 A_INFIL_START
+fall
+ifaction A_INFIL_START
+{
+	cstat 257
+	strength 2000
+	sizeat 28 25
+	ifspawnedby HPOWERSUIT set zvel_saved 1000
+	geta[].pal actor_pal
+	state monst_glow
+	espawn SHOOTME // Controls stuff like fire damage, targetting, .etc .etc - still used as a backup for the ally fighting stuff in-case an actor isn't set up with it yet
+	seta[RETURN].pal 1 // basically done just to make it clear that this actor is onboarded to the new targetting stuff, and is using SHOOTME for other purposes
+	action A_INFIL_IDLE
+}
+
+ife boss_stage -1 
+	{
+	set blood_type 1 // defaults to 0 which is red
+	set actor_type 0 
+	}
+else ife boss_stage 1 set actor_type TYPE_ARMOURED
+else ife boss_stage 2 
+	{
+	set blood_type 0 // defaults to 0 which is red
+	set actor_type TYPE_ROBOTIC
+	}
+
+state actor_knockback_state
+
+ifstrength 750 set boss_stage 2
+else ifstrength 1250 set boss_stage 1
+else set boss_stage -1
+
+ifaction A_INFIL_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1 
+	{
+		// play alert sound here
+		
+		action A_INFIL_SEEK
+	}
+}
+
+ifn zvel_saved 0 ifl sprite[].extra zvel_saved 
+	{
+	spawn TRANSPORTERSTAR
+	sound SOMETHINGHITFORCE
+	shoot SPARK2 shoot SPARK2 shoot SPARK2 shoot SPARK2
+	killit
+	}
+
+// Death & dying
+else ifaction A_INFIL_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+else ifaction A_INFIL_DYING
+{
+	strength 0
+	ifactioncount 5 { state rf state BODY_FALL_NOISES action A_INFIL_DEAD }
+}
+else ifaction A_INFIL_EXPLODE
+{
+	strength 0
+	ifactioncount 1 
+		{
+		shoot SPARK2
+		shoot SPARK2
+		state spawnpartset
+		espawn EXPLOSION2
+		ifpdistg 16384 globalsound DISTANT_EXPLOSION else sound ROBOT_EXPLODE
+		set PLAYER_VOICEOVER 33
+		state spawnpartset
+		addkills 1
+		state spawnpartset
+		seta[RETURN].pal sprite[].pal
+		add z 4096
+		seta[].z z
+		state termspawnlegparts
+		ifrnd SPAWNAMMOODDS spawn PHPLASMA_SPRITE
+		killit		
+		}
+}
+
+else ifaction A_INFIL_SEEK
+{
+	ifmove M_INFIL_WALK nullop 
+	else move M_INFIL_WALK geth
+	set ally_mag 0
+	state checkfortarget
+	
+	ife boss_stage 2 state terminatorstepcode
+	
+	ifn my_target -1
+	{
+		state SKILL_SHOOT_LEVELADJUST
+		
+		ifl RANDOM_CHANCE SKILLCHANCE 
+		{
+			ldist temp THISACTOR my_target
+			ifl temp 16384 action A_INFIL_ATTACK
+		}
+	}
+}
+
+else ifaction A_INFIL_ATTACK
+{
+	move STOP
+	state new_validatetarget
+	
+	ife my_target -1
+		action A_INFIL_SEEK
+	
+	state fronttowardstarget
+	
+	ifactioncount 2
+	{
+		set PROJECTILE_OFFSET -224
+		set PROJECTILE_FIRING_SOUND LASERSHOOT
+		set PROJECTILE_TO_SHOOT PLASMAPROJ
+		state sang_enemyShootProjectile
+		add ally_mag 1
+		ife my_target -1 action A_INFIL_SEEK
+		else ifg ally_mag 5 action A_INFIL_SEEK
+		resetactioncount
+	}
+}
+	
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	//spawn BLOOD
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+		ife boss_stage 2 action A_INFIL_EXPLODE else
+		action A_INFIL_DYING
+		spawn BLOODPOOL
+	}
+}
+
+state checksquished
+
+enda

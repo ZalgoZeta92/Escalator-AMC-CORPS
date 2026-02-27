@@ -1,0 +1,331 @@
+// ===========================================
+// SHADOW NINJA
+// ============================================
+
+action A_SHADOW_NINJA_START 0 1 5 1 12 // Starting frame, different from the idle frame
+action A_SHADOW_NINJA_IDLE 0 1 5 1 12
+
+action A_SHADOW_NINJA_DEAD 60
+action A_SHADOW_NINJA_DYING 55 5 1 1 12
+action A_SHADOW_NINJA_FREEZE 55 1 1 1 8
+
+action A_SHADOW_NINJA_GROW 55 1 1 1 8
+action A_SHADOW_NINJA_SHRUNK 5 4 5 1 12
+action A_SHADOW_NINJA_PAIN 55 1 1 1 8
+
+action A_SHADOW_NINJA_SEEK 5 4 5 1 12
+action A_SHADOW_NINJA_ATTACK 25 3 5 1 8
+action A_SHADOW_NINJA_THROW 40 3 5 1 16
+
+move M_SHADOW_NINJA_WALK 176
+
+damageeventtile SHADOW_NINJA
+
+// Insert stayput thing here
+useractor enemystayput SHADOW_NINJA_STAYPUT 150 A_SHADOW_NINJA_START
+	cactor SHADOW_NINJA
+enda
+
+useractor enemy SHADOW_NINJA 150 A_SHADOW_NINJA_START
+fall
+
+ifn INTERNALCOUNT -1
+ ife actor_pal 10
+	{
+		ifg INTERNALCOUNT 0 sub INTERNALCOUNT 1
+		else ife INTERNALCOUNT 0
+			{
+			globalsound TELEPORT_IN
+			espawn 18623
+			seta[RETURN].pal 1
+			killit
+			}
+	}
+
+
+ifaction A_SHADOW_NINJA_START
+{
+	cstat 257
+	strength 150
+	sizeat 24 24
+	set MONSTER_FLAGS 6
+	set blood_type 1
+	set actor_type TYPE_SUPERNATURAL
+	ifspritepal 0 spritepal 16
+	geta[].pal actor_pal
+	ife actor_pal 10 set faction_flag 1024
+	state monst_glow
+	ifspawnedby APLAYER
+		{
+		strength 1000
+		espawn 18623
+		seta[RETURN].pal 1
+		set INTERNALCOUNT 960
+		}
+	else set INTERNALCOUNT -1
+	espawn SHOOTME // Controls stuff like fire damage, targetting, .etc .etc - still used as a backup for the ally fighting stuff in-case an actor isn't set up with it yet
+	seta[RETURN].pal 1 // basically done just to make it clear that this actor is onboarded to the new targetting stuff, and is using SHOOTME for other purposes
+	action A_SHADOW_NINJA_IDLE
+}
+
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+state actor_knockback_state
+
+ifaction A_SHADOW_NINJA_IDLE nullop
+else ifaction A_SHADOW_NINJA_DYING nullop
+else ifaction A_SHADOW_NINJA_DEAD nullop
+else ifaction A_SHADOW_NINJA_PAIN nullop
+else state handlecloak
+
+ifg enemy_cooldown1 0 sub enemy_cooldown1 1
+
+ifaction A_SHADOW_NINJA_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1
+	{
+		// play alert sound here
+
+		action A_SHADOW_NINJA_SEEK
+	}
+}
+
+// Death & dying
+else ifaction A_SHADOW_NINJA_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+else ifaction A_SHADOW_NINJA_DYING
+{
+	strength 0
+	ifactioncount 5 { state rf state BODY_FALL_NOISES espawn 16368 seta[RETURN].pal 1 action A_SHADOW_NINJA_DEAD }
+}
+
+// Status effects
+else ifaction A_SHADOW_NINJA_FREEZE state frozen_code
+else ifaction A_SHADOW_NINJA_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+else ifaction A_SHADOW_NINJA_SHRUNK
+{
+	ifmove M_SHADOW_NINJA_WALK { } // need to do this cause we're not using ai routines anymore
+	else
+		move M_SHADOW_NINJA_WALK geth fleeenemy
+
+	ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+		state new_shrunkcode
+	else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+	{
+		state unshrink
+		sizeto 25 25
+	}
+	else // after regrow, switch back to regular action
+	{
+		state endshrunkenstate
+		action A_SHADOW_NINJA_SEEK
+	}
+}
+
+else ifaction A_SHADOW_NINJA_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_SHADOW_NINJA_DYING
+		else action A_SHADOW_NINJA_SEEK
+	}
+}
+
+else ifaction A_SHADOW_NINJA_SEEK
+{
+	ifmove M_SHADOW_NINJA_WALK nullop
+	else move M_SHADOW_NINJA_WALK geth
+
+	state checkfortarget
+
+	ifn my_target -1
+	{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+		ldist temp THISACTOR my_target
+		ifl temp 1280 action A_SHADOW_NINJA_ATTACK
+		else ifl RANDOM_CHANCE SKILLCHANCE action A_SHADOW_NINJA_THROW
+	}
+}
+else ifaction A_SHADOW_NINJA_THROW
+	{
+	move STOP
+	state new_validatetarget
+	ife my_target -1 action A_SHADOW_NINJA_SEEK
+	state fronttowardstarget
+	ifactioncount 2
+		{
+		set PROJECTILE_FIRING_SOUND THROWSOMET
+		set PROJECTILE_TO_SHOOT 3789
+		state sang_enemyShootProjectile
+		// shoot 3789
+		set PROJECTILE_FIRING_SOUND THROWSOMET
+		set PROJECTILE_TO_SHOOT 3789
+		state sang_enemyShootProjectile
+		ifn RETURN -1
+                {
+                    geta[RETURN].ang temp
+                    add temp 32
+                    seta[RETURN].ang temp
+		}
+                set PROJECTILE_FIRING_SOUND THROWSOMET
+		set PROJECTILE_TO_SHOOT 3789
+		state sang_enemyShootProjectile
+		ifn RETURN -1
+                {
+                    geta[RETURN].ang temp
+                    sub temp 32
+                    seta[RETURN].ang temp
+		}
+                action A_SHADOW_NINJA_SEEK
+		}
+	}
+
+else ifaction A_SHADOW_NINJA_ATTACK
+{
+move STOP
+	state checkfortarget
+	ife my_target -1 action A_SHADOW_NINJA_SEEK
+	else
+		{
+		state fronttowardstarget
+		dist temp THISACTOR my_target // if found, get distance
+		ifactioncount 1 soundonce SNJ_ATCK1
+		 ifactioncount 3
+			{
+			ife my_target PLAYER_IDENTITY
+			 ifpdistl 1536
+				ifn SWORD_BLOCK 0
+				 ifp pfacing
+					{
+					state enemy_parry_code
+					action A_SHADOW_NINJA_PAIN
+					break
+					}
+			else
+					{
+					ifn my_target PLAYER_IDENTITY
+						setprojectile[17849].WORKSLIKE 2125890
+					else
+						setprojectile[17849].WORKSLIKE 2129986
+
+					setprojectile[17849].RANGE 4
+					shoot 17849
+					setprojectile[17849].WORKSLIKE 2129986
+					}
+			ifg temp 1536 action A_SHADOW_NINJA_SEEK
+			resetactioncount
+			}
+		}
+}
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	//spawn BLOOD
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+
+
+		ifand proj_udata 8192
+			 {
+			 ifrnd 4 { spawn ELECTROCUTE_MARV soundonce MALE_ELECT1 } else spawn ELECTROCUTE_GUY
+			 shoot SPARK2 shoot SPARK2 shoot SPARK2
+			 killit
+			 }
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_SHADOW_NINJA_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_SHADOW_NINJA_FREEZE }
+		else ifg fire_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			ifrnd 128 sound ZSOLD_DIE1
+			else sound ZSOLD_DIE2
+			spawn ONFIREGUY
+			killit
+		}
+		else ife HEADSHOT 2
+		{
+			ifg fire_damage 0 set fire_damage 0
+			ifrnd 32 state trigger_showoff
+			state jib_sounds
+			state decap_sounds
+			shoot NJIB
+			shoot NJIB
+			guts JIBS6 3
+			guts JIBS2 2
+			action A_SHADOW_NINJA_DYING
+		}
+		else ifg spirit_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 1
+			guts JIBS3 6
+			spawn SPIRIT_DEATH_GUY
+			killit
+		}
+		else ifg energy_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 4
+			guts JIBS3 6
+			spawn DISINTIGRATE_GUY
+			killit
+		}
+		else
+		{
+			sound SNJ_DIE
+			action A_SHADOW_NINJA_DYING
+			spawn BLOODPOOL
+		}
+
+	ife temp_weap 0 spawn SWORDSPRITE
+	else ifrnd 8 spawn SWORDSPRITE
+
+	ifphealthl 50
+		{
+		state SKILL_LEVELADJUST
+		ifl RANDOM_CHANCE SKILLCHANCE spawn HPOWDER
+		}
+
+	}
+
+	else // not dead
+	{
+		ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_SHADOW_NINJA_SHRUNK }
+
+		ifg PAIN_AMOUNT 0 { sound SNJ_PAIN action A_SHADOW_NINJA_PAIN }
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST sound SNJ_PAIN action A_SHADOW_NINJA_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_SHADOW_NINJA_IDLE { state PAIN_SKILL_LEVELADJUST sound SNJ_PAIN action A_SHADOW_NINJA_PAIN }
+	}
+}
+
+state checksquished
+
+enda

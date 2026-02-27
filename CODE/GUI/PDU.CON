@@ -1,0 +1,1335 @@
+defstate agent_name_pdu
+	ife CHAR 0 gametextz STARTALPHANUM 60 30 1003 10 2 0 0 0 xdim ydim 42252
+	ife CHAR 1 gametextz STARTALPHANUM 60 30 1004 10 2 0 0 0 xdim ydim 42252
+	ife CHAR 2 gametextz STARTALPHANUM 60 30 1005 10 2 0 0 0 xdim ydim 42252
+	ife CHAR 3
+		{
+		ife TIMEZONE 1 gametextz STARTALPHANUM 60 30 1218 10 2 0 0 0 xdim ydim 42252
+		else gametextz STARTALPHANUM 60 30 1006 10 2 0 0 0 xdim ydim 42252
+		}
+	ife CHAR 4 gametextz STARTALPHANUM 60 30 1007 10 2 0 0 0 xdim ydim 42252
+	ife CHAR 5 gametextz STARTALPHANUM 60 30 1008 10 2 0 0 0 xdim ydim 42252
+	ife CHAR 6 gametextz STARTALPHANUM 60 30 1009 10 2 0 0 0 xdim ydim 42252
+	ife CHAR 7 gametextz STARTALPHANUM 60 30 1010 10 2 0 0 0 xdim ydim 42252
+	ife CHAR 9 gametextz STARTALPHANUM 60 30 1212 10 2 0 0 0 xdim ydim 42252
+	ife CHAR 10 gametextz STARTALPHANUM 60 30 1213 10 2 0 0 0 xdim ydim 42252
+	ife CHAR 11 gametextz STARTALPHANUM 60 30 1214 10 2 0 0 0 xdim ydim 42252
+	ife CHAR 12 gametextz STARTALPHANUM 60 30 1215 10 2 0 0 0 xdim ydim 42252
+	ife CHAR 13
+		{
+		ife TIMEZONE 2 gametextz STARTALPHANUM 60 30 1221 10 2 0 0 0 xdim ydim 42252
+		else gametextz STARTALPHANUM 60 30 1216 10 2 0 0 0 xdim ydim 42252
+		}
+	ife CHAR 14
+		{
+		ife TIMEZONE 5 gametextz STARTALPHANUM 60 30 1219 10 2 0 0 0 xdim ydim 42252
+		else gametextz STARTALPHANUM 60 30 1217 10 2 0 0 0 xdim ydim 42252
+		}
+	ife CHAR 17 gametextz STARTALPHANUM 60 30 1222 10 2 0 0 0 xdim ydim 42252
+ends
+
+defstate display_pdu
+ifn MISSION_UP 0
+ ife TIMEZONE 13 // James' photo of Jane in the Abyss
+ {
+ ife LEVEL 5 rotatesprite 160 MISSIONPOS 34734 0 19935 shade wep_pal 4096 0 0 xdim ydim // judgment
+ else ife LEVEL 12 rotatesprite 160 MISSIONPOS 34734 0 19935 shade wep_pal 4096 0 0 xdim ydim // justice
+ else ife LEVEL 9 rotatesprite 160 MISSIONPOS 34734 0 19936 shade wep_pal 4096 0 0 xdim ydim // carcosa
+ else ife LEVEL 10 rotatesprite 160 MISSIONPOS 34734 0 19937 shade wep_pal 4096 0 0 xdim ydim // worlds collide
+ else ife LEVEL 14 rotatesprite 160 MISSIONPOS 34734 0 19938 shade wep_pal 4096 0 0 xdim ydim // Black Manse
+ else rotatesprite 160 MISSIONPOS 34734 0 19939 shade wep_pal 4096 0 0 xdim ydim // the rest
+ ife MISSIONPOS 100
+	 {
+	 set disp_temp MISSIONPOS
+	 add disp_temp 80
+	 rotatesprite 210 disp_temp NORMALSIZE 0 CHOLDING_R shade arm_pal 4096 0 0 xdim ydim
+	 }
+ }
+else
+ifn MISSION_UP 0
+{
+set disp_temp5 0
+ife MISSIONSCREEN 0 // Mission screen
+	{
+	set disp_temp 3611
+	set disp_temp2 3261
+	}
+else
+ife MISSIONSCREEN 1 // Item screen
+	{
+	set disp_temp 3631
+	set disp_temp2 3262
+	}
+else
+ife MISSIONSCREEN 2 // key screen
+	{
+	set disp_temp 3631
+	set disp_temp2 3263
+	}
+else
+ife MISSIONSCREEN 3 // ammo types
+	{
+	set disp_temp 3631
+	set disp_temp2 3264
+	}
+else
+ife MISSIONSCREEN 4 // stat screen
+	{
+	set disp_temp 3611
+	set disp_temp2 3265
+	}
+else
+ife MISSIONSCREEN 5 // Scanner
+{
+	minitext 30 20 326 0 126
+	ife scan_mode 0 { minitext 30 27 324 0 124 minitext 30 34 327 0 125 }
+	else ife scan_mode 1 { minitext 30 27 325 0 124 minitext 30 34 328 0 125 }
+	else ife scan_mode 2 { minitext 30 27 343 0 124 minitext 30 34 329 0 125 }
+	ifg scan_mode 0 
+	{ 
+		qputs 342 Available supplies: %d 
+		qsprintf 342 342 SUPPLY_LEVEL 
+		minitext 30 41 342 0 32 
+	}
+	set disp_temp 10332
+	ife MISSIONPOS 100 { set disp_temp4 0 set disp_temp5 4129 } else { set disp_temp4 20 set disp_temp5 4096 }
+	guniqhudid 50
+	rotatesprite 160 MISSIONPOS 34734 0 10333 disp_temp4 0 disp_temp5 0 0 xdim ydim
+	set disp_temp2 3266
+	
+	ifge scan_mode 1
+	{
+		ifg airdrop_cooldown 0
+		{
+			ifg airdrop_cooldown 0 rotatespritea 106 140 6320 1751 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 20 rotatespritea 106 140 6320 1648 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 40 rotatespritea 106 140 6320 1545 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 60 rotatespritea 106 140 6320 1442 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 80 rotatespritea 106 140 6320 1339 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 100 rotatespritea 106 140 6320 1236 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 120 rotatespritea 106 140 6320 1133 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 140 rotatespritea 106 140 6320 1030 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 160 rotatespritea 106 140 6320 927 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 180 rotatespritea 106 140 6320 824 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 200 rotatespritea 106 140 6320 721 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 220 rotatespritea 106 140 6320 618 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 240 rotatespritea 106 140 6320 515 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 260 rotatespritea 106 140 6320 412 12948 0 23 265 -255 0 0 xdim ydim
+			ifg airdrop_cooldown 280 rotatespritea 106 140 6320 309 12948 0 23 265 -255 0 0 xdim ydim
+		}
+		else ifand BITS_PRESS 4 ifg hold_down 0
+		{
+			rotatespritea 106 140 6320 1853 12948 0 125 264 -255 0 0 xdim ydim
+			ifg hold_down 3 rotatespritea 106 140 6320 1751 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 6 rotatespritea 106 140 6320 1648 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 9 rotatespritea 106 140 6320 1545 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 12 rotatespritea 106 140 6320 1442 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 15 rotatespritea 106 140 6320 1339 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 18 rotatespritea 106 140 6320 1236 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 21 rotatespritea 106 140 6320 1133 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 24 rotatespritea 106 140 6320 1030 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 27 rotatespritea 106 140 6320 927 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 30 rotatespritea 106 140 6320 824 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 33 rotatespritea 106 140 6320 721 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 36 rotatespritea 106 140 6320 618 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 39 rotatespritea 106 140 6320 515 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 42 rotatespritea 106 140 6320 412 12948 0 125 265 -255 0 0 xdim ydim
+			ifg hold_down 45 rotatespritea 106 140 6320 309 12948 0 125 265 -255 0 0 xdim ydim
+
+			rotatespritea 106 140 6320 206 12948 15 125 265 -255 0 0 xdim ydim
+		}
+	}
+}
+
+
+guniqhudid 51
+rotatesprite 160 MISSIONPOS 34734 0 disp_temp 0 0 4096 0 0 xdim ydim
+guniqhudid 52
+ife CHAR 9 rotatesprite 160 MISSIONPOS 34734 0 12140 shade pal 4096 0 0 xdim ydim
+else rotatesprite 160 MISSIONPOS 34734 0 10332 shade pal 4096 0 0 xdim ydim
+ife MISSIONPOS 100
+ ifn MISSIONSCREEN 5
+{
+guniqhudid 53
+ifn mission_scare 0
+	{
+	guniqhudid 55
+	  rotatespritea 160 100 88000 0 11013 20 0 4096 -255 0 0 xdim ydim
+	  guniqhudid 56
+	  rotatespritea 110 100 10384 0 21341 0 0 4096 -255 0 0 xdim ydim // SPOOPY
+	  guniqhudid 57
+	  rotatespritea 210 100 10384 0 21341 0 0 4096 -255 0 0 xdim ydim // SPOOPY
+	  guniqhudid 53
+	}
+else ifn tl_pic -1 rotatespritea 160 100 40734 0 tl_pic 20 0 4096 -255 0 0 xdim ydim // translator pic
+else ife CHAR 9 rotatespritea 160 100 40734 0 12139 20 0 4096 -255 0 0 xdim ydim // Cultist
+else ife CHAR 10 rotatespritea 160 100 40734 0 12163 20 0 4096 -255 0 0 xdim ydim // Bombshell
+else ife CHAR 12 ifl VOLUME 4 rotatespritea 160 100 40734 0 12163 20 0 4096 -255 0 0 xdim ydim // Jane before she joins AMC
+else ife CHAR 16 rotatespritea 160 100 40734 0 32478 20 0 4096 -255 0 0 xdim ydim // Rosa
+else ife CHAR 3 ife TIMEZONE 1 rotatespritea 160 100 40734 0 12163 20 0 4096 -255 0 0 xdim ydim // Highwire revolution
+else ife CHAR 18 ife VOLUME 4 ife LEVEL 23 rotatespritea 160 100 40734 0 8121 20 0 4096 -255 0 0 xdim ydim // Wheaton Shipyard
+else ife CHAR 18 ife VOLUME 4 ife LEVEL 24 rotatespritea 160 100 40734 0 8121 20 0 4096 -255 0 0 xdim ydim // Wheaton Shipyard
+else ife TIMEZONE 5 rotatespritea 160 100 40734 0 23669 20 0 4096 -255 0 0 xdim ydim // Snowfall future
+else ife TIMEZONE 6 rotatespritea 160 100 40734 0 23669 20 0 4096 -255 0 0 xdim ydim // Snowfall VR future
+else ife TIMEZONE 2 // Micky begins
+	{
+	ife CHAR 0 rotatespritea 160 100 40734 0 12163 20 0 4096 -255 0 0 xdim ydim // James IW flashback
+	else rotatespritea 160 100 56734 0 12141 20 0 4096 -255 0 0 xdim ydim // Adelaide
+	}
+else
+	{
+	  add WHEEL_ROTATE 1
+	  ifg WHEEL_ROTATE 2048 set WHEEL_ROTATE 0
+	  rotatespritea 160 100 40734 WHEEL_ROTATE 12256 20 0 4096 -255 0 0 xdim ydim // AMC LOGO
+	}
+guniqhudid 54
+rotatespritea 56 132 34734 0 disp_temp2 disp_pulse 21 4096 -255 0 0 xdim ydim
+ife RADIO_CONTACT YES
+	{
+	guniqhudid 55
+	ifoutside set disp_temp 3246 else set disp_temp 3247
+	rotatesprite 291 51 34734 0 disp_temp 0 0 4096 0 0 xdim ydim
+	}
+	
+ife airdrop_available 1 nullop else
+	{
+	guniqhudid 56
+	rotatesprite 291 65 34734 0 3244 0 0 4096 0 0 xdim ydim
+	}
+	
+guniqhudid 0
+// Mission button
+set gui_pos_x 52
+set gui_pos_y 95
+state CURSOR_OVER_ITEM
+ ifn MISSIONSCREEN 0
+	ifl gui_pos_x_temp 25
+	 ifg gui_pos_x_temp -25
+		ifl gui_pos_y_temp 6
+		 ifg gui_pos_y_temp -6
+			{
+			rotatespritea 56 132 34734 0 3261 disp_pulse 21 0 -255 0 0 xdim ydim
+			ifand BITS_PRESS 4
+				{
+				sound PDU_MOVE
+				set MISSIONSCREEN 0
+				}
+			}
+
+// item button
+set gui_pos_y 108
+state CURSOR_OVER_ITEM
+ ifn MISSIONSCREEN 1
+	ifl gui_pos_x_temp 25
+	 ifg gui_pos_x_temp -25
+		ifl gui_pos_y_temp 6
+		 ifg gui_pos_y_temp -6
+			{
+			rotatespritea 56 132 34734 0 3262 disp_pulse 21 0 -255 0 0 xdim ydim
+			ifand BITS_PRESS 4
+				{
+				sound PDU_MOVE
+				set MISSIONSCREEN 1
+				}
+			}
+
+// key button
+set gui_pos_y 119
+state CURSOR_OVER_ITEM
+ ifn MISSIONSCREEN 2
+	ifl gui_pos_x_temp 25
+	 ifg gui_pos_x_temp -25
+		ifl gui_pos_y_temp 6
+		 ifg gui_pos_y_temp -6
+			{
+			rotatespritea 56 132 34734 0 3263 disp_pulse 21 0 -255 0 0 xdim ydim
+			ifand BITS_PRESS 4
+				{
+				sound PDU_MOVE
+				set MISSIONSCREEN 2
+				}
+			}
+
+// special ammo button
+set gui_pos_y 132
+state CURSOR_OVER_ITEM
+ ifn MISSIONSCREEN 3
+	ifl gui_pos_x_temp 25
+	 ifg gui_pos_x_temp -25
+		ifl gui_pos_y_temp 6
+		 ifg gui_pos_y_temp -6
+			{
+			rotatespritea 56 132 34734 0 3264 disp_pulse 21 0 -255 0 0 xdim ydim
+			ifand BITS_PRESS 4
+				{
+				sound PDU_MOVE
+				set MISSIONSCREEN 3
+				}
+			}
+
+// stats button
+set gui_pos_y 145
+state CURSOR_OVER_ITEM
+ ifn MISSIONSCREEN 4
+	ifl gui_pos_x_temp 25
+	 ifg gui_pos_x_temp -25
+		ifl gui_pos_y_temp 6
+		 ifg gui_pos_y_temp -6
+			{
+			rotatespritea 56 132 34734 0 3265 disp_pulse 21 0 -255 0 0 xdim ydim
+			ifand BITS_PRESS 4
+				{
+				sound PDU_MOVE
+				set MISSIONSCREEN 4
+				}
+			}
+
+// scan button
+set gui_pos_y 157
+state CURSOR_OVER_ITEM
+ ifn MISSIONSCREEN 5
+	ifl gui_pos_x_temp 25
+	 ifg gui_pos_x_temp -25
+		ifl gui_pos_y_temp 6
+		 ifg gui_pos_y_temp -6
+			{
+			rotatespritea 56 132 34734 0 3266 disp_pulse 21 0 -255 0 0 xdim ydim
+			ifand BITS_PRESS 4
+				{
+				sound PDU_MOVE
+				set MISSIONSCREEN 5
+				}
+			}
+
+// abort mission button
+set gui_pos_y 171
+state CURSOR_OVER_ITEM
+	ifl gui_pos_x_temp 25
+	 ifg gui_pos_x_temp -25
+		ifl gui_pos_y_temp 8
+		 ifg gui_pos_y_temp -8
+			{
+			rotatespritea 56 132 34734 0 3267 disp_pulse 21 0 -255 0 0 xdim ydim
+			set mouse_hint 580 // refers to quote in user.con
+			sub mouse_hint_timer 2
+			}
+
+
+}
+guniqhudid 57
+set disp_temp MISSIONPOS
+add disp_temp 80
+	ife FIRE_SUIT 1 rotatesprite 310 disp_temp DOUBLESIZE 0 9436 shade 13 4096 0 0 xdim ydim
+	else ife JUGGERN_SUIT 1 rotatesprite 310 disp_temp DOUBLESIZE 0 9429 shade pal 4096 0 0 xdim ydim
+	else ife SPACE_SUIT 1 rotatesprite 310 disp_temp DOUBLESIZE 0 23085 shade pal 4096 0 0 xdim ydim
+	else rotatesprite 310 disp_temp NORMALSIZE 0 CHOLDING_R shade arm_pal 4096 0 0 xdim ydim
+guniqhudid 0
+ife MISSIONPOS 100
+	{
+	getp[].palookup pal
+
+	ife MISSIONSCREEN 0 // Mission text!
+		{
+		state agent_name_pdu
+		ifn mission_scare 0
+			{
+			ife mission_scare 1 { screensound I_SEE_YOU set mission_scare 2 }
+			ifrnd 84 qputs 340 ^2USELESS USELESS USELESS USELESS USELESS
+			else ifrnd 127 qputs 340 ^2JOIN US JOIN ME JOIN US JOIN ME JOIN US
+			else qputs 340 ^2COME TO US COME TO ME COME TO US COME TO ME
+			screentext STARTALPHANUM 25 40 34252 0 0 340 0 2 16 0 2 0 1 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 25 45 34252 0 0 340 0 2 16 0 2 0 1 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 25 50 34252 0 0 340 0 2 16 0 2 0 1 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 25 55 34252 0 0 340 0 2 16 0 2 0 1 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 25 60 34252 0 0 340 0 2 16 0 2 0 1 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 25 65 34252 0 0 340 0 2 16 0 2 0 1 1 0 0 0 xdim ydim
+			}
+		else
+			{
+			screentext STARTALPHANUM 25 40 30720 0 0 330 0 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 25 45 30720 0 0 331 0 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 25 50 30720 0 0 332 0 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 25 55 30720 0 0 333 0 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 25 60 30720 0 0 334 0 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 25 65 30720 0 0 335 0 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			}
+
+		gettimedate disp_temp disp_temp2 disp_temp3 disp_temp4 disp_temp5 disp_temp6 disp_temp7 disp_temp7
+		digitalnumber 2837 100 175 disp_temp3 0 21 0 0 0 xdim ydim // Hours
+		myospal 105 175 2847 0 0 21
+		ifl disp_temp2 10 // Add the extra '0' infront of the number
+				{
+				myospal 115 175 2837 0 0 21
+				digitalnumber 2837 125 175 disp_temp2 0 21 0 0 0 xdim ydim // minutes
+				}
+				else
+			digitalnumber 2837 120 175 disp_temp2 0 21 0 0 0 xdim ydim // minutes
+		myospal 130 175 2847 0 0 21
+			ifl disp_temp 10 // Add the extra '0' infront of the number
+				{
+				myospal 140 175 2837 0 0 21
+				digitalnumber 2837 150 175 disp_temp 0 21 0 0 0 xdim ydim // minutes
+				}
+			else
+			digitalnumber 2837 145 175 disp_temp 0 21 0 0 0 xdim ydim // seconds
+
+		digitalnumber 2837 184 175 disp_temp4 0 21 0 0 0 xdim ydim // Day
+		myospal 192 175 2836 0 0 21
+		add disp_temp5 1
+		digitalnumber 2837 205 175 disp_temp5 0 21 0 0 0 xdim ydim // Month
+		myospal 210 175 2836 0 0 21
+		digitalnumber 2837 240 175 disp_temp6 0 21 0 0 0 xdim ydim // Year
+
+		}
+	else
+	ife MISSIONSCREEN 1 // Inventory display
+		{
+		set gui_pos_x 45
+		set gui_pos_y 35
+		ifg GOT_EXPLOSIVE 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 22000 0 C4_EXPLOSIVE 0 0 0 0 0 xdim ydim
+			digitalnumber 2837 gui_pos_x gui_pos_y GOT_EXPLOSIVE 0 32 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3020 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+
+		add gui_pos_x 31
+		ife AIR_FILTER 1
+			{
+			rotatesprite gui_pos_x gui_pos_y 22000 0 REBREATHER 0 0 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3023 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+
+		add gui_pos_x 31
+		ife GOT_FLIPPER 1
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 FLIPPER 0 0 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3100 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+
+		add gui_pos_x 30
+		ifg GAS_MASK 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 40768 0 GASMASK 0 0 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3025 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+
+		add gui_pos_x 29
+		ifg COGS 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 42768 0 COG_PICKUP 0 0 0 0 0 xdim ydim
+			digitalnumber 2837 gui_pos_x gui_pos_y COGS 0 32 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3027 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+
+		add gui_pos_x 31
+		ife TOOLBOX 1
+			{
+			rotatesprite gui_pos_x gui_pos_y 28000 0 TOOLBOX_PICKUP 0 0 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3028 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+
+		add gui_pos_x 30
+		ife ROPE 1
+			{
+			rotatesprite gui_pos_x gui_pos_y 16000 0 ROPE_PICKUP 0 0 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3102 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+
+		add gui_pos_x 30
+		ifand EGYPT_ARTIFACTS 1
+			{
+			rotatesprite gui_pos_x gui_pos_y 14000 0 16835 0 0 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3101 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+
+		set gui_pos_x 44
+		add gui_pos_y 30
+		ifand EGYPT_ARTIFACTS 2
+			{
+			rotatesprite gui_pos_x gui_pos_y 18000 0 16836 0 0 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3103 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+
+		add gui_pos_x 31
+		ifand EGYPT_ARTIFACTS 4
+			{
+			rotatesprite gui_pos_x gui_pos_y 16000 0 16837 0 0 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3104 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+
+		add gui_pos_x 31
+		ifand EGYPT_ARTIFACTS 8
+			{
+			rotatesprite gui_pos_x gui_pos_y 16000 0 16838 0 0 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3105 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+
+
+
+		add gui_pos_x 31
+		ife AIRSTRIKE_MARKER 1
+			{
+			rotatesprite gui_pos_x gui_pos_y 16000 0 ASTRIKE_MARKER 0 0 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3106 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+
+		add gui_pos_x 31
+		ife GOT_FIREWALL 1
+			{
+			rotatesprite gui_pos_x gui_pos_y 16000 0 FIREWALL_CHIP 0 0 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3107 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+
+		add gui_pos_x 30
+			ifpinventory GET_FIRSTAID 0
+			{
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 c_medikit 0 0 0 0 0 xdim ydim
+			getp[].firstaid_amount disp_temp2
+			digitalnumber 2837 gui_pos_x gui_pos_y disp_temp2 0 27 0 0 0 xdim ydim
+			}
+
+		add gui_pos_x 30
+			ifpinventory GET_BOOTS 0
+			{
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 c_boots 0 0 0 0 0 xdim ydim
+			getp[].boot_amount disp_temp2
+			div disp_temp2 2
+			digitalnumber 2837 gui_pos_x gui_pos_y disp_temp2 0 27 0 0 0 xdim ydim
+			}
+
+		add gui_pos_x 30
+			ifg player[].holoduke_amount 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 22000 0 c_holoduke 0 0 0 0 0 xdim ydim
+			div disp_temp2 24
+			digitalnumber 2837 gui_pos_x gui_pos_y disp_temp2 0 27 0 0 0 xdim ydim
+			}
+
+		set gui_pos_x 107
+		add gui_pos_y 30
+			ifpinventory GET_JETPACK 0
+			{
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 c_jetpack 0 0 0 0 0 xdim ydim
+			getp[].jetpack_amount disp_temp2
+			div disp_temp2 16
+			digitalnumber 2837 gui_pos_x gui_pos_y disp_temp2 0 27 0 0 0 xdim ydim
+			}
+		add gui_pos_x 30
+			ifpinventory GET_HEATS 0
+			{
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 disp_nvg 0 0 0 0 0 xdim ydim
+			getp[].heat_amount disp_temp2
+			div disp_temp2 48
+			digitalnumber 2837 gui_pos_x gui_pos_y disp_temp2 0 27 0 0 0 xdim ydim
+			}
+		add gui_pos_x 30
+			ifpinventory GET_SCUBA 0
+			{
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 c_scuba 0 0 0 0 0 xdim ydim
+			getp[].scuba_amount disp_temp2
+			ife CHAR 0 div disp_temp2 128 else div disp_temp2 64
+			digitalnumber 2837 gui_pos_x gui_pos_y disp_temp2 0 27 0 0 0 xdim ydim
+			}
+		add gui_pos_x 31
+			ifpinventory GET_STEROIDS 0
+			{
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 c_steroids 0 0 0 0 0 xdim ydim
+			getp[].steroids_amount disp_temp2
+			div disp_temp2 4
+			digitalnumber 2837 gui_pos_x gui_pos_y disp_temp2 0 27 0 0 0 xdim ydim
+			}
+		}
+	else
+	ife MISSIONSCREEN 2 // Check keys!
+		{
+		ifg PLUGKEY 0
+			{
+			set gui_pos_x 46 
+			set gui_pos_y 37
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3109 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			ifand PLUGKEY 1 rotatesprite 42 33 22000 0 3463 0 0 0 0 0 xdim ydim
+			ifand PLUGKEY 2 rotatesprite 46 37 22000 0 3464 0 0 0 0 0 xdim ydim
+			ifand PLUGKEY 4 rotatesprite 50 41 22000 0 3465 0 0 0 0 0 xdim ydim
+			}
+		
+		ifand player[].got_access 1 rotatesprite 72 32 22000 0 60 0 0 0 0 0 xdim ydim
+		ifand player[].got_access 2 rotatesprite 76 36 22000 0 60 0 21 0 0 0 xdim ydim
+		ifand player[].got_access 4 rotatesprite 80 40 22000 0 60 0 23 0 0 0 xdim ydim
+		ifand ACCESSKEY2 1 rotatesprite 102 32 22000 0 60 0 12 0 0 0 xdim ydim
+		ifand ACCESSKEY2 2 rotatesprite 106 36 22000 0 60 0 11 0 0 0 xdim ydim
+		ifand ACCESSKEY2 4 rotatesprite 110 40 22000 0 60 0 15 0 0 0 xdim ydim
+		ifand ACCESSKEY2 8 rotatesprite 133 32 22000 0 60 0 49 0 0 0 xdim ydim
+		ifand ACCESSKEY2 16 rotatesprite 137 36 22000 0 60 0 10 0 0 0 xdim ydim
+		ifand ACCESSKEY2 32 rotatesprite 141 40 22000 0 60 0 22 0 0 0 xdim ydim
+		ifand ACCESSKEY2 64 rotatesprite 168 36 22000 0 60 0 16 0 0 0 xdim ydim
+
+		ifand RUNEKEYS 1 rotatesprite 193 32 22000 0 66 0 0 0 0 0 xdim ydim
+		ifand RUNEKEYS 2 rotatesprite 197 36 22000 0 66 0 21 0 0 0 xdim ydim
+		ifand RUNEKEYS 4 rotatesprite 201 40 22000 0 66 0 23 0 0 0 xdim ydim
+
+		ifand RUNEKEYS 8 rotatesprite 223 32 22000 0 66 0 12 0 0 0 xdim ydim
+		ifand RUNEKEYS 16 rotatesprite 227 36 22000 0 66 0 11 0 0 0 xdim ydim
+		ifand RUNEKEYS 32 rotatesprite 231 40 22000 0 66 0 49 0 0 0 xdim ydim
+
+		ifand SCARABKEYS 1 rotatesprite 252 31 12000 0 10088 0 0 0 0 0 xdim ydim
+		ifand SCARABKEYS 2 rotatesprite 258 31 12000 0 10088 0 21 0 0 0 xdim ydim
+		ifand SCARABKEYS 4 rotatesprite 264 31 12000 0 10088 0 23 0 0 0 xdim ydim
+		ifand SCARABKEYS 8 rotatesprite 255 41 12000 0 10088 0 11 0 0 0 xdim ydim
+		ifand SCARABKEYS 16 rotatesprite 261 41 12000 0 10088 0 49 0 0 0 xdim ydim
+
+		ifand SCARABKEYS 32 rotatesprite 40 62 12000 0 10088 0 35 0 0 0 xdim ydim
+		ifand SCARABKEYS 64 rotatesprite 51 62 12000 0 10088 0 15 0 0 0 xdim ydim
+		ifand SCARABKEYS 128 rotatesprite 43 74 12000 0 10088 0 37 0 0 0 xdim ydim
+		ifand SCARABKEYS 256 rotatesprite 54 74 12000 0 10088 0 12 0 0 0 xdim ydim
+
+		ifand OLDKEYS 1 rotatesprite 76 66 26000 0 7952 0 0 0 0 0 xdim ydim
+		ifand OLDKEYS 2 rotatesprite 107 66 26000 0 7953 0 0 0 0 0 xdim ydim
+		ifand OLDKEYS 4 rotatesprite 138 66 26000 0 7954 0 0 0 0 0 xdim ydim
+		ifand OLDKEYS 8 rotatesprite 169 66 26000 0 7955 0 0 0 0 0 xdim ydim
+		ifand OLDKEYS 16 rotatesprite 198 66 26000 0 7956 0 0 0 0 0 xdim ydim
+		ifand OLDKEYS 32 rotatesprite 228 66 26000 0 7941 0 0 0 0 0 xdim ydim
+
+		ifand ABYSS_KEYS 1 rotatesprite 254 63 16000 0 ABYSS_KEY 0 0 0 0 0 xdim ydim
+		ifand ABYSS_KEYS 2 rotatesprite 258 67 16000 0 ABYSS_KEY 0 21 0 0 0 xdim ydim
+		ifand ABYSS_KEYS 4 rotatesprite 262 71 16000 0 ABYSS_KEY 0 23 0 0 0 xdim ydim
+
+		ifand ABYSS_KEYS 8 rotatesprite 107 92 16000 0 ABYSS_KEY 0 11 0 0 0 xdim ydim
+		ifand ABYSS_KEYS 16 rotatesprite 107 102 16000 0 ABYSS_KEY 0 49 0 0 0 xdim ydim
+
+		ifand SW_KEYS 1 rotatesprite 130 92 25000 0 SW_TECHCARD 0 0 0 0 0 xdim ydim
+		ifand SW_KEYS 2 rotatesprite 130 101 25000 0 SW_TECHCARD 0 10 0 0 0 xdim ydim
+		ifand SW_KEYS 4 rotatesprite 144 92 25000 0 SW_TECHCARD 0 11 0 0 0 xdim ydim
+		ifand SW_KEYS 8 rotatesprite 144 101 25000 0 SW_TECHCARD 0 23 0 0 0 xdim ydim
+
+		ifand SW_KEYS 16 rotatesprite 167 87 16000 0 SW_OLDKEY 0 15 0 0 0 xdim ydim
+		ifand SW_KEYS 32 rotatesprite 167 93 16000 0 SW_OLDKEY 0 12 0 0 0 xdim ydim
+		ifand SW_KEYS 64 rotatesprite 167 99 16000 0 SW_OLDKEY 0 83 0 0 0 xdim ydim
+		ifand SW_KEYS 128 rotatesprite 167 105 16000 0 SW_OLDKEY 0 10 0 0 0 xdim ydim
+
+		ifand NORMAL_KEYS 1 rotatesprite 198 97 26000 0 DIAMOND_KEY 0 0 0 0 0 xdim ydim
+		ifand NORMAL_KEYS 2 rotatesprite 228 97 26000 0 CLUB_KEY 0 0 0 0 0 xdim ydim
+		ifand NORMAL_KEYS 4 rotatesprite 258 97 26000 0 SPADE_KEY 0 0 0 0 0 xdim ydim
+		ifand NORMAL_KEYS 8 rotatesprite 107 128 26000 0 HEART_KEY 0 0 0 0 0 xdim ydim
+		ifand NORMAL_KEYS 16 rotatesprite 138 128 26000 0 NORMAL_KEY5 0 0 0 0 0 xdim ydim
+
+		ifg GENERIC_KEYS 0
+		{
+			rotatesprite 169 128 28000 0 GENERICKEY 0 0 0 0 0 xdim ydim
+			digitalnumber 2472 169 134 GENERIC_KEYS 0 0 0 0 0 xdim ydim
+		}
+
+		ifand temple_key 1 rotatesprite 198 126 20000 0 22377 0 0 0 0 0 xdim ydim
+		else ifand temple_key 2 rotatesprite 198 126 20000 0 22378 0 0 0 0 0 xdim ydim
+		else ifand temple_key 4 rotatesprite 198 126 20000 0 22376 0 0 0 0 0 xdim ydim
+
+
+		ifand HELLGKEYS 1 rotatesprite 220 122 16000 0 7663 0 0 0 0 0 xdim ydim
+		ifand HELLGKEYS 2 rotatesprite 235 122 16000 0 7664 0 0 0 0 0 xdim ydim
+		ifand HELLGKEYS 4 rotatesprite 228 133 16000 0 7665 0 0 0 0 0 xdim ydim
+
+		ifand HELLGKEYS 8 rotatesprite 252 126 16000 0 7666 0 0 0 0 0 xdim ydim
+		ifand HELLGKEYS 16 rotatesprite 265 126 16000 0 7667 0 0 0 0 0 xdim ydim
+
+		ife SWIPECARDS 64 
+			{
+			set gui_pos_x 106 
+			set gui_pos_y 157
+			rotatesprite 106 157 24000 0 SWIPE_MASTER 0 0 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3108 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+		else
+		{
+		ifand SWIPECARDS 1 rotatesprite 102 154 15000 0 SWIPE_CARD 0 0 0 0 0 xdim ydim
+		ifand SWIPECARDS 2 rotatesprite 107 158 15000 0 SWIPE_CARD 0 21 0 0 0 xdim ydim
+		ifand SWIPECARDS 4 rotatesprite 111 162 15000 0 SWIPE_CARD 0 23 0 0 0 xdim ydim
+		ifand SWIPECARDS 8 rotatesprite 133 154 15000 0 SWIPE_CARD 0 12 0 0 0 xdim ydim
+		ifand SWIPECARDS 16 rotatesprite 138 158 15000 0 SWIPE_CARD 0 11 0 0 0 xdim ydim
+		ifand SWIPECARDS 32 rotatesprite 142 162 15000 0 SWIPE_CARD 0 49 0 0 0 xdim ydim
+		}
+
+
+		}
+	else
+	ife MISSIONSCREEN 3 // ammo display
+		{
+		set gui_pos_x 45
+		set gui_pos_y 35
+		ifg dragon_shells 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 28000 0 DRAGONS_SHELLS 0 0 0 0 0 xdim ydim
+			ifand GUN_AMMO_TYPES 64 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y dragon_shells 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3034 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+		add gui_pos_x 31
+		ifg silver_ammo 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 28000 0 SILVERAMMO_DRUM 0 0 0 0 0 xdim ydim
+			ifand GUN_AMMO_TYPES 2 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y silver_ammo 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3021 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+		add gui_pos_x 31
+		ifg explosive_shells 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 28000 0 EXPL_SHELLS 0 0 0 0 0 xdim ydim
+			ifand GUN_AMMO_TYPES 1 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y explosive_shells 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3022 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+
+		add gui_pos_x 31
+		ifg tesla_ammo 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 22000 0 TESLA_AMMO_SPRITE 0 0 0 0 0 xdim ydim
+			ifand GUN_AMMO_TYPES 8 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y tesla_ammo 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3026 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+
+		add gui_pos_x 31
+		ifg flechete_shells 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 28000 0 FLECHETE_SHELLS 0 0 0 0 0 xdim ydim
+			ifand GUN_AMMO_TYPES 1 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y flechete_shells 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3029 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+
+		add gui_pos_x 29
+		ifg silver_bolts 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 28000 0 SILVER_CROSSBOW_BOLTS 0 0 0 0 0 xdim ydim
+			ifand GUN_AMMO_TYPES 16 ifand AMMO_TYPES[cur_weap] 16 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y silver_bolts 0 disp_temp9 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 3030 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+
+		add gui_pos_x 31
+		ifg micro_torpedo 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 22000 0 MICRO_TORPEDO_PACK 0 0 0 0 0 xdim ydim
+			ife cur_weap 0 ife temp_weap 30 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y micro_torpedo 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 3031 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+
+		add gui_pos_x 30
+		ifg magnum_shells 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 28000 0 MAGNUM_SHELLS 0 0 0 0 0 xdim ydim
+			ifand GUN_AMMO_TYPES 4 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y magnum_shells 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 3032 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+
+		set gui_pos_x 45
+		add gui_pos_y 30
+		ifg HEAT_SINKS 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 6542 0 0 0 0 0 xdim ydim
+			digitalnumber 2837 gui_pos_x gui_pos_y HEAT_SINKS 0 27 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 3033 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+
+		add gui_pos_x 31
+		ifg heat_seek_card 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 HEAT_SEEK_CARD_PICKUP 0 0 0 0 0 xdim ydim
+			ife cur_weap 0 ife temp_weap 32 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y heat_seek_card 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 5000 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+
+		add gui_pos_x 31
+		ifg atomic_bomb 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 ATOMIC_BOMB_PICKUP 0 0 0 0 0 xdim ydim
+			ife cur_weap 0 ife temp_weap 32 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y atomic_bomb 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 5001 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+
+		add gui_pos_x 31
+		ifg DUP_missile_ammo 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 DUP_MISSILES_PICKUP 0 0 0 0 0 xdim ydim
+			ife cur_weap 0 ife temp_weap 32 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y DUP_missile_ammo 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 5002 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+
+		add gui_pos_x 31
+		ifg fortymm_grenades 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 5411 0 0 0 0 0 xdim ydim
+			ifand weap_special[cur_weap] 2 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y fortymm_grenades 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 5003 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+
+		add gui_pos_x 29
+		ifg fortymm_caseless 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 6128 0 0 0 0 0 xdim ydim
+			ifand weap_special[cur_weap] 8 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y fortymm_caseless 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 5004 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+
+		add gui_pos_x 31
+		ifg fortymm_slug 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 6129 0 0 0 0 0 xdim ydim
+			ifand weap_special[cur_weap] 8 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y fortymm_slug 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 5008 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+
+		add gui_pos_x 30
+		ifg fortymm_MIA_shells 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 5463 0 0 0 0 0 xdim ydim
+			ifand weap_special[cur_weap] 2 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y fortymm_MIA_shells 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 5006 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+		set gui_pos_x 107
+		add gui_pos_y 30
+		ifg fortymm_plasma 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 5476 0 0 0 0 0 xdim ydim
+			ifand weap_special[cur_weap] 2 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y fortymm_plasma 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 5007 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+		add gui_pos_x 29
+		ifg fortymm_shells 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 FORTYMM_SHELLS 0 0 0 0 0 xdim ydim
+			ifand weap_special[cur_weap] 2 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y fortymm_shells 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 5005 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+		add gui_pos_x 31
+		ifg fortymm_electro 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 FORTYMM_ELECTRO 0 0 0 0 0 xdim ydim
+			ifand weap_special[cur_weap] 8 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y fortymm_electro 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 5009 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+		add gui_pos_x 31
+		ifg fortymm_cryo 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 FORTYMM_CRYO 0 0 0 0 0 xdim ydim
+			ifand weap_special[cur_weap] 8 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y fortymm_cryo 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+				ifl gui_pos_x_temp 10
+				 ifg gui_pos_x_temp -10
+					ifl gui_pos_y_temp 10
+					 ifg gui_pos_y_temp -10
+						{
+						set mouse_hint 5010 // refers to quote in user.con
+						sub mouse_hint_timer 2
+						}
+			}
+		add gui_pos_x 29
+		ifg void_bolts 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 VOID_CROSSBOW_BOLTS 0 0 0 0 0 xdim ydim
+			ifand GUN_AMMO_TYPES 16 ifand AMMO_TYPES[cur_weap] 16384 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y void_bolts 0 disp_temp9 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 5011 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+		set gui_pos_x 107
+		add gui_pos_y 30
+		ifg p_blue_mana 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 BLUE_MANA_PICKUP 0 0 0 0 0 xdim ydim
+			digitalnumber 2837 gui_pos_x gui_pos_y p_blue_mana 0 27 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 5012 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+		add gui_pos_x 31
+		ifg p_green_mana 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 GREEN_MANA_PICKUP 0 0 0 0 0 xdim ydim
+			digitalnumber 2837 gui_pos_x gui_pos_y p_green_mana 0 27 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 5013 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+		add gui_pos_x 31
+		ifg p_orange_mana 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 ORANGE_MANA_PICKUP 0 0 0 0 0 xdim ydim
+			digitalnumber 2837 gui_pos_x gui_pos_y p_orange_mana 0 27 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 5014 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+		add gui_pos_x 31
+		ifg p_purple_mana 0
+			{
+			rotatesprite gui_pos_x gui_pos_y HALFSIZE 0 PURPLE_MANA_PICKUP 0 0 0 0 0 xdim ydim
+			digitalnumber 2837 gui_pos_x gui_pos_y p_purple_mana 0 27 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 5015 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+			}
+		add gui_pos_x 31
+		ifg incend_ammo 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 28000 0 INCEND_AMMO_DRUM 0 0 0 0 0 xdim ydim
+			ifand GUN_AMMO_TYPES 2 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y incend_ammo 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 1735 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+
+		add gui_pos_x 31
+		ifg silverb_shells 0
+			{
+			rotatesprite gui_pos_x gui_pos_y 28000 0 SILVERBALL_SHELLS 0 0 0 0 0 xdim ydim
+			ifand GUN_AMMO_TYPES 64 set disp_temp9 32 else set disp_temp9 27
+			digitalnumber 2837 gui_pos_x gui_pos_y silverb_shells 0 disp_temp9 0 0 0 xdim ydim
+
+			state CURSOR_OVER_ITEM
+			ifl gui_pos_x_temp 10
+			 ifg gui_pos_x_temp -10
+			  ifl gui_pos_y_temp 10
+				ifg gui_pos_y_temp -10
+				{
+				set mouse_hint 1763 // refers to quote in user.con
+				sub mouse_hint_timer 2
+				}
+
+			}
+		}
+	else
+	ife MISSIONSCREEN 4 // Player status!
+		{
+		state agent_name_pdu
+		qputs 409 Health: %ld
+		qsprintf 409 409 PHEALTH
+		ifg PHEALTH pmax_health set disp_temp 8 else set disp_temp 21
+		gametextz STARTALPHANUM 60 40 409 0 disp_temp 0 0 0 xdim ydim 42252
+		qputs 409 Max Health: %ld
+		qsprintf 409 409 pmax_health
+		gametextz STARTALPHANUM 60 50 409 0 27 0 0 0 xdim ydim 42252
+
+		qputs 409 Armour: %ld
+		qsprintf 409 409 PARMOUR
+		gametextz STARTALPHANUM 317 40 409 0 27 0 0 0 xdim ydim 42252
+
+		qputs 409 Spirit Armour: %ld
+		qsprintf 409 409 P_SPIRIT_ARMOUR
+		gametextz STARTALPHANUM 317 50 409 0 1 0 0 0 xdim ydim 42252
+
+		qputs 409 Fire Armour: %ld
+		qsprintf 409 409 P_FIRE_ARMOUR
+		gametextz STARTALPHANUM 60 60 409 0 2 0 0 0 xdim ydim 42252
+		
+		ife movement_level 2 qputs 409 Movement Lvl: Superhuman
+		else ife movement_level 1 qputs 409 Movement Lvl: Heroic
+		else ife movement_level 0 qputs 409 Movement Lvl: Standard
+		gametextz STARTALPHANUM 60 70 409 0 8 0 0 0 xdim ydim 42252
+		
+		ife player_dodge 2 qputs 409 Dodge Lvl: Air dodge
+		else ife player_dodge 1 qputs 409 Dodge Lvl: Side dodge
+		else ife player_dodge 0 qputs 409 Dodge Lvl: Roll
+		gametextz STARTALPHANUM 317 70 409 0 2 0 0 0 xdim ydim 42252
+		
+		ife MEAL_BUFF[CHAR] 1 qputs 409 Meal Buff: +10 max HP
+		else ife MEAL_BUFF[CHAR] 2 qputs 409 Meal Buff: +5% run speed
+		else ife MEAL_BUFF[CHAR] 3 qputs 409 Meal Buff: +50% fire reduction
+		else ife MEAL_BUFF[CHAR] 4 qputs 409 Meal Buff: +25 spirit shield
+		else ife MEAL_BUFF[CHAR] 5 qputs 409 Meal Buff: +50% ice reduction
+		else qputs 409 No Meal Buff :(
+		gametextz STARTALPHANUM 60 80 409 0 32 0 0 0 xdim ydim 42252
+		
+		qputs 409 Supply Lvl: %ld
+		qsprintf 409 409 SUPPLY_LEVEL
+		gametextz STARTALPHANUM 190 90 409 0 28 0 0 0 xdim ydim 42252
+
+		qputs 409 Budget: %ld
+		qsprintf 409 409 AMC_BUDGET
+		gametextz STARTALPHANUM 190 100 409 0 125 0 0 0 xdim ydim 42252
+
+		ife cheated 1 gametextz STARTALPHANUM 190 165 8500 0 8 0 0 0 xdim ydim 42252
+
+		qputs 2090 POLYMERS: %d
+		qsprintf 2090 2090 POLYMERS
+		gametextz STARTALPHANUM 190 176 2090 0 1 0 0 0 xdim ydim 42252
+		}
+
+	}
+}
+ends

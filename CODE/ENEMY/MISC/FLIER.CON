@@ -1,0 +1,825 @@
+damageeventtile EDF_FLIER
+
+action A_EDF_FLIER_START 0 1 7 1 12
+action A_EDF_FLIER_IDLE 0 1 7 1 12
+action A_EDF_FLIER_SEEK 0 1 7 1 12
+action A_EDF_FLIER_CRASHING 0 1 7 1 12
+action A_EDF_FLIER_FIRE_MINES 0 1 7 1 12
+action A_EDF_FLIER_FIRE_MINIGUN 7 2 7 -1 8
+action A_EDF_FLIER_FIRE_HEATMISSILE 7 2 7 -1 32
+action A_EDF_FLIER_BANKLEFT 14 1 7 1 12 // I don't know if "bank" is the correct term but meh
+action A_EDF_FLIER_BANKRIGHT 21 1 7 1 12
+// frames starting from 28 are same as above but with damage, this will be handled via tsprite offset
+// except death:
+action A_EDF_FLIER_DEAD 56 1
+
+appendevent EVENT_ANIMATESPRITES
+	// offset damage boss stage tilenum
+	ifactor EDF_FLIER
+	{
+		geta[].extra temp
+
+		ifg temp 0
+		{
+			gettspr[].tsprpicnum temp
+			geta[].extra temp2
+
+			ifle temp2 5000
+			{
+				add temp 28
+				settspr[].tsprpicnum temp
+			}
+		}
+	}
+endevent
+
+// HOMING TRACKING BEAM =================================================================
+
+spritenopal 19674
+spritenoshade 19674
+
+useractor notenemy 19674
+
+ifaction 0
+	{
+	seta[].shade -127
+	seta[].blend 255
+	cstator 2
+	sizeat 200 200
+	action ZERO
+	}
+	
+ifaction ZERO
+	{
+	ifle sprite[myowner].extra 100 killit
+	ifg INTERNALCOUNT 0 // cooldown
+		{
+		seta[].shade 40
+		sub INTERNALCOUNT 1
+		}
+	else seta[].shade -127
+		
+	ifspawnedby EDF_FLIER
+		{
+		setsprite THISACTOR sprite[myowner].x sprite[myowner].y sprite[myowner].z
+		}
+	 set x player[].posx
+	 set y player[].posy
+	 sub x sprite[].x
+	 sub y sprite[].y
+	 getangle temp x y
+	 seta[].ang temp
+	 move STOP faceplayer
+	 geta[].z temp3
+	 getp[].posz temp2
+	 sub temp3 2048
+	 sub temp3 temp2 // temp3 = zdist
+
+	 ldist temp4 THISACTOR player[].i
+	 ife temp4 0 // prevent divide by zero
+	 set temp4 1
+
+	 // temp 5 = working var
+	 // zvel = zdist * (proj vel / xy dist)
+	 set temp5 temp3
+	 div temp5 temp4
+
+	 set temp3 temp5 // temp3 is expected output variable
+	 shiftl temp3 4
+	 inv temp3
+	 seta[].pitch temp3
+	ifpdistl 8192
+	 ife INTERNALCOUNT 0
+		{
+		geta[].xrepeat temp2
+		sub temp2 4
+		clamp temp2 8 200
+		seta[].xrepeat temp2
+		ife temp2 8 // if beam is locked on, set flier to fire homing missile
+			{
+			setactorvar[myowner].enemy_attack 2
+			globalsound FLIER_LOCK
+			set INTERNALCOUNT 300 // start cooldown
+			}
+		}
+	else
+		{
+		geta[].xrepeat temp2
+		add temp2 4
+		clamp temp2 8 200
+		seta[].xrepeat temp2
+		}
+	}
+
+enda
+
+
+
+defstate edf_flier_asplode_flight
+	// TODO slightly randomize position of explosion?
+	spawn EXPLOSION2
+	spawn BIG_EXPLOSION
+	globalsound RPG_EXPLODE
+	shoot SPARK shoot SPARK shoot SPARK shoot SPARK shoot SPARK
+	// TODO metal impact sounds or something
+ends
+
+defstate edf_flier_asplode_final
+	state edf_flier_asplode_flight
+	shoot TERMLEGPART1
+	shoot TERMLEGPART2
+	shoot TERMLEGPART1
+	shoot TERMLEGPART2
+	shoot TERMLEGPART1
+	shoot TERMLEGPART2
+	shoot TERMLEGPART1
+	shoot TERMLEGPART2
+	debris SCRAP1 40
+	debris SCRAP2 32
+	debris SCRAP3 32
+	debris SCRAP4 32
+	debris SCRAP5 32
+	
+	// spawn the firewall chip and put it on the player
+	ifn actor_pal 13 
+		{
+		espawn FIREWALL_CHIP
+		seta[RETURN].x player[].posx
+		seta[RETURN].y player[].posy
+		seta[RETURN].z player[].posz
+		changespritesect RETURN player[].cursectnum
+		espawn 3063
+		seta[RETURN].x player[].posx
+		seta[RETURN].y player[].posy
+		seta[RETURN].z player[].posz
+		changespritesect RETURN player[].cursectnum
+		}
+	
+	action A_EDF_FLIER_DEAD
+ends
+
+defstate edf_flier_movestraight
+	set PROJECTILE_VEL 240
+	
+	ifaction A_EDF_FLIER_FIRE_MINES
+		set CALCZ_TARGET_OFFSET 32768
+	else
+		set CALCZ_TARGET_OFFSET 16384
+	
+	state calczvel
+	set movesprite_zvel temp3
+	set movesprite_angvar angvar
+	set movesprite_customvels 1
+	cos movesprite_xvel movesprite_angvar
+	sin movesprite_yvel movesprite_angvar
+	set movesprite_shift 6
+	shiftr movesprite_xvel movesprite_shift
+	shiftr movesprite_yvel movesprite_shift
+	seta[].ang movesprite_angvar
+	state movesprite_state
+ends
+
+defstate edf_flier_movebank
+	geta[].ang movesprite_angvar
+	
+	// if banking towards the player, go up cause we might get stuck on the fence
+	ife my_target PLAYER_IDENTITY
+	{
+		set CALCZ_TARGET_OFFSET 65535
+		state calczvel
+		set movesprite_zvel temp3
+	}
+	else
+	{
+		set CALCZ_TARGET_OFFSET 0
+		state calczvel
+		set movesprite_zvel temp3
+	}
+	set movesprite_customvels 1
+	cos movesprite_xvel movesprite_angvar
+	sin movesprite_yvel movesprite_angvar
+	set movesprite_shift 7
+	shiftr movesprite_xvel movesprite_shift
+	shiftr movesprite_yvel movesprite_shift
+	seta[].ang movesprite_angvar
+	state movesprite_state
+ends
+
+defstate edf_flier_bankleft
+	// input: angvar is where we need to end up
+	geta[].ang temp
+	
+	ifle enemy_cooldown1 0
+		sub temp 10
+	else 
+		sub temp 20
+	seta[].ang temp
+	
+	// if temp is within x units of angvar then go back to flying straight
+	sub temp angvar
+	abs temp
+
+	ifle temp 20
+	{
+		seta[].ang angvar
+		
+		ifdead
+			action A_EDF_FLIER_CRASHING
+		else
+			action A_EDF_FLIER_SEEK
+	}
+	else ifnotmoving
+	{
+		seta[].ang angvar
+		ifdead
+			action A_EDF_FLIER_CRASHING
+		else
+			action A_EDF_FLIER_SEEK
+	}
+	else
+	{
+		ifdead
+		{
+			ife next_point -1
+			{
+				state edf_flier_asplode_final
+			}
+			else
+			{
+				ldist temp THISACTOR next_point
+				ifle temp 3000
+					state edf_flier_asplode_final
+				else
+					state edf_flier_movebank
+			}
+		}
+		else
+			state edf_flier_movebank
+	}
+ends
+
+defstate edf_flier_bankright
+	// input: angvar is where we need to end up
+	geta[].ang temp
+	ifle enemy_cooldown1 0
+		add temp 10
+	else 
+		add temp 20
+	seta[].ang temp
+	
+	// if temp is within x units of angvar then go back to flying straight
+	sub temp angvar
+	abs temp
+	
+	ifle temp 20
+	{
+		seta[].ang angvar
+		
+		ifdead
+			action A_EDF_FLIER_CRASHING
+		else
+			action A_EDF_FLIER_SEEK
+	}
+	else ifnotmoving
+	{
+		seta[].ang angvar
+		ifdead
+			action A_EDF_FLIER_CRASHING
+		else
+			action A_EDF_FLIER_SEEK
+	}
+	else
+	{
+		ifdead
+		{
+			ife next_point -1
+			{
+				state edf_flier_asplode_final
+			}
+			else
+			{
+				ldist temp THISACTOR next_point
+				ifle temp 3000
+					state edf_flier_asplode_final
+				else
+					state edf_flier_movebank
+			}
+		}
+		else
+			state edf_flier_movebank
+	}
+ends
+
+defstate edf_flier_onlotagpath
+	sleeptime 0
+	
+	state anglePathToNextLotag
+	set my_target next_point
+
+	// if the next point is on the right or left, bank appropriately
+	geta[].ang temp
+	getav[my_target].lotag_saved temp2 
+	
+	set MAX_ANGLE_DIFF 256
+	set ANGLE_A temp
+	set ANGLE_B angvar
+	state check_max_angle_diff
+	
+	ifn RETURN 0
+	{
+		// if we're here it means we must bank. Now we need to know if it's left or right.
+		// I don't trust this check entirely atm, will improve later		
+		ifl ANGLE_B ANGLE_A
+			action A_EDF_FLIER_BANKLEFT
+		else
+			action A_EDF_FLIER_BANKRIGHT
+	}
+	else
+		state edf_flier_movestraight
+ends
+
+defstate edf_flier_hunting
+	sleeptime 0
+	set my_target PLAYER_IDENTITY
+	
+	// Don't recheck target, assume constant (will work for the geoffrey boss fight but likely needs adjustments for other scenarios)
+	state angleToPlayer
+	seta[].ang angvar
+
+	// a bit of a hack really, but the flier on Mu has hitag 1 to follow a smartpoint track sub + I don't want it to move straight towards the player
+	// so just don't to that if hitag is 1...
+	
+	ifn hitag_saved 1
+		state edf_flier_movestraight
+	
+	// needs to be checked first since this attack is now set by the tracking beam
+	ife enemy_attack 2
+	{
+		set INTERNALCOUNT_2 0
+		globalsound FLIER_ATCK
+		action A_EDF_FLIER_FIRE_HEATMISSILE
+	}
+	else
+	{
+		// enemy_attack = 0 => minigun attack => except if player is too close, but if it's far enough away launch a sneaky missile. This is to discourage the player from camping near the flier at some "optimal" distance.
+		// enemy_attack = 1 => mine drop attack
+		// enemy_attack = 2 => heat seeking missile attack
+		ldist temp THISACTOR my_target
+		ifrnd 96
+		{
+			ifl temp 4000
+				set enemy_attack 1
+			else
+				set enemy_attack 0
+		}
+		else 
+		{
+			ifl temp 4000
+				set enemy_attack 1
+			else
+				set enemy_attack 0
+		}
+			
+		ife enemy_attack 0
+		{
+			set INTERNALCOUNT_2 0
+			globalsound FLIER_ATCK
+			ifrnd 16 sound FLIER_HOT
+			action A_EDF_FLIER_FIRE_MINIGUN
+		}
+		else ife enemy_attack 1
+			action A_EDF_FLIER_FIRE_MINES
+	}
+ends
+
+// When crashing force orientation towards smartpoint lotag 9999
+defstate edf_flier_crashing
+	sleeptime 0
+	set smartpoint_lotag_handled 9999	
+	state anglePathToForcedLotag
+	set my_target next_point
+	
+	ifn next_point -1 // flukes can happen
+	{
+		// reached the point
+		ldist temp THISACTOR next_point
+		ifle temp 3000
+		{
+			state edf_flier_asplode_final
+		}
+		else
+		{
+			// if the next point is on the right or left, bank appropriately
+			geta[].ang temp
+			set MAX_ANGLE_DIFF 256
+			set ANGLE_A temp
+			set ANGLE_B angvar
+			state check_max_angle_diff
+			
+			ifn RETURN 0
+			{
+				// if we're here it means we must bank. Now we need to know if it's left or right.
+				// I don't trust this check entirely atm, will improve later
+				ifl ANGLE_B ANGLE_A
+					action A_EDF_FLIER_BANKLEFT
+				else
+					action A_EDF_FLIER_BANKRIGHT
+			}
+			else
+				state edf_flier_movestraight
+		}
+	}
+	
+	// Failsafe
+	ifnotmoving
+	{
+		state edf_flier_asplode_final
+	}
+ends
+
+useractor enemy EDF_FLIER 10000 A_EDF_FLIER_START
+	ifg enemy_cooldown1 0
+		sub enemy_cooldown1 1
+
+	// chopper sound
+	ifaction A_EDF_FLIER_DEAD
+	{
+		stopactorsound THISACTOR FLIER_ENG
+		stopactorsound THISACTOR HELI_DIST
+	}
+	else
+	{
+		ifactorsound THISACTOR FLIER_ENG nullop else sound FLIER_ENG
+		ifactorsound THISACTOR HELI_DIST nullop else sound HELI_DIST	
+	}
+	
+	// beeping sound on death
+	ifdead
+	{
+		ifaction A_EDF_FLIER_DEAD nullop
+		else ifsound FLIER_BEEP nullop
+		else
+		{
+			stopactorsound THISACTOR MINIGUN_FIRE
+			stopactorsound THISACTOR MINIGUN_SPIN
+		
+			sound FLIER_BEEP
+			globalsound FLIER_BEEP
+		}
+	}
+	
+	// random explosions on death
+	ifdead
+	{
+		ifaction A_EDF_FLIER_DEAD nullop
+		else ifrnd 64
+			state edf_flier_asplode_flight
+	}
+	
+	// health effects stuff
+	ifaction A_EDF_FLIER_DEAD nullop
+	else
+	{
+		geta[].extra temp
+		
+		ifl temp 8000
+			ife boss_stage 1
+		{
+			spawn 19674
+			set boss_stage 2
+		}
+		
+		ifl temp 5000
+		{
+			// spawn some smoke
+			ifrnd 64 { espawn BIG_SMOKE2 geta[RETURN].z temp8 sub temp8 12000 seta[RETURN].z temp8 }
+		}
+		
+		ifl temp 2000
+		{
+			ifrnd 64 { shoot SPARK }
+		}
+	}
+	
+	ifaction A_EDF_FLIER_START
+	{
+		cstat 257
+		strength 10000
+		seta[].mdflags 16
+		sizeat 40 40
+		geta[].pal actor_pal
+		set blood_type 4
+		// It might be too tedious to have this be a boss with special armor but leaving this in for now
+		set actor_type TYPE_ROBOTIC
+		spriteflags ENEMY_NOBLOOD
+		ifn actor_pal 13 globalsound FLIER_RCG
+		
+		state monst_glow
+		set CURBOSS THISACTOR
+		set boss_stage 1
+		action A_EDF_FLIER_IDLE
+	}
+	else ifaction A_EDF_FLIER_IDLE
+	{
+		move STOP
+		state checkfortarget
+		
+		set smartpoint_track_sub hitag_saved
+		ifn my_target -1 
+		{
+			// play alert sound here
+			action A_EDF_FLIER_SEEK
+			state anglePathToNextLotag
+			seta[].ang angvar
+		}
+	}
+	else ifaction A_EDF_FLIER_SEEK
+	{
+		add INTERNALCOUNT 1
+		
+		// toggle between following the lotag path and chasing the player directly
+		ife boss_stage 2
+		  ifle INTERNALCOUNT 15
+		{
+			add INTERNALCOUNT 1
+			state edf_flier_onlotagpath
+		}
+		else ife boss_stage 1
+		  ifle INTERNALCOUNT 30
+		{
+			add INTERNALCOUNT 1
+			state edf_flier_onlotagpath
+		}
+		else
+		{
+			// if can't see the target or too far away, follow lotag path anyway
+			geta[].ang angvar_backup
+			state checkfortarget
+			seta[].ang angvar_backup
+			
+			ife my_target -1
+				state edf_flier_onlotagpath
+			else
+			{
+				ldist temp THISACTOR my_target
+				ifg temp 35000
+					state edf_flier_onlotagpath
+				else ifle enemy_cooldown1 0
+				{
+					ife boss_stage 1
+						set enemy_cooldown1 120
+					else ife boss_stage 2
+						set enemy_cooldown1 240
+					state edf_flier_hunting
+				}
+				else
+					state edf_flier_onlotagpath
+			}
+		}
+	}
+	else ifaction A_EDF_FLIER_CRASHING
+	{
+		state edf_flier_crashing
+	}
+	else ifaction A_EDF_FLIER_FIRE_MINES
+	{
+		// TODO should move a little faster
+		state angleToPlayer
+		state edf_flier_movestraight
+		
+		ldist temp THISACTOR my_target
+		ifl temp 4000
+		{
+			sub enemy_cooldown1 1
+			
+			ife boss_stage 2
+			  ifrnd 16
+			{
+				sound FLIER_BOMB
+				espawn EDF_FLIER_MINE
+				seta[RETURN].pal 107
+			}
+			else ifrnd 48
+			{
+				sound FLIER_BOMB
+				espawn EDF_FLIER_MINE
+			}
+		}
+		
+		// go back to passive path
+		ifle enemy_cooldown1 0
+		{
+			set enemy_cooldown1 100
+			set INTERNALCOUNT 0
+			sound FLIER_PACK
+			action A_EDF_FLIER_SEEK
+		}
+	}
+	else ifaction A_EDF_FLIER_FIRE_MINIGUN
+	{
+		ifactorsound THISACTOR MINIGUN_SPIN nullop else sound MINIGUN_SPIN
+		
+		state angleToPlayer
+		
+		ifn hitag_saved 1 // hack
+			state edf_flier_movestraight
+		
+		ifn my_target -1
+			ldist temp THISACTOR my_target
+		else
+			set temp 0
+		
+		ifactioncount 1
+		{
+			// abort attack early if player is too close by
+			ifl temp 2000
+			{
+				set INTERNALCOUNT_2 26
+				set enemy_cooldown1 0
+			}
+		
+			ife INTERNALCOUNT_2 0
+			{
+				ifg temp 2000
+				{
+					// TODO this needs telegraphing, will sort out later
+					set CALCZ_TARGET_OFFSET 4096
+					set PROJECTILE_TO_SHOOT MICRO_MISSILE
+					set PROJECTILE_FIRING_SOUND FLIER_MISSL
+					state sang_enemyShootProjectile
+				}
+			
+			}
+			add INTERNALCOUNT_2 1
+			ifactorsound THISACTOR MINIGUN_FIRE nullop else sound MINIGUN_FIRE
+			set CALCZ_TARGET_OFFSET -10000
+			set PROJECTILE_TO_SHOOT ENEMY_BULLET
+			set PROJECTILE_FIRING_SOUND -1
+			state sang_enemyShootProjectile
+			state sang_enemyShootProjectile
+			state sang_enemyShootProjectile
+			resetactioncount
+		}
+		
+		ifge INTERNALCOUNT_2 26
+		{
+			// go back to passive path
+			ifle enemy_cooldown1 0
+				set INTERNALCOUNT 0
+			
+			ifactorsound THISACTOR MINIGUN_FIRE stopactorsound THISACTOR MINIGUN_FIRE
+			ifactorsound THISACTOR MINIGUN_SPIN stopactorsound THISACTOR MINIGUN_SPIN
+			
+			set enemy_cooldown1 100
+			action A_EDF_FLIER_SEEK
+		}
+	}
+	else ifaction A_EDF_FLIER_FIRE_HEATMISSILE
+	{
+		state angleToPlayer
+		
+		ifn hitag_saved 1 // hack
+			state edf_flier_movestraight
+		
+		ifactioncount 1
+		{
+			add INTERNALCOUNT_2 1
+			set CALCZ_TARGET_OFFSET 0
+			
+			set PROJECTILE_TO_SHOOT HOMING_MISSILE
+			set PROJECTILE_FIRING_SOUND FLIER_MISSL
+			state sang_enemyShootProjectile
+			resetactioncount
+		}
+		
+		ifge INTERNALCOUNT_2 4
+		{
+			set enemy_cooldown1 0
+			set INTERNALCOUNT 0
+			action A_EDF_FLIER_SEEK
+			set enemy_attack 0
+		}
+	}
+	else ifaction A_EDF_FLIER_BANKLEFT
+	{
+		add INTERNALCOUNT 1
+		state edf_flier_onlotagpath
+		
+		ifaction A_EDF_FLIER_BANKLEFT
+			state edf_flier_bankleft
+		else ifaction A_EDF_FLIER_BANKRIGHT
+			nullop
+		else ifdead
+			action A_EDF_FLIER_CRASHING
+		else
+			action A_EDF_FLIER_SEEK
+	}
+	else ifaction A_EDF_FLIER_BANKRIGHT
+	{
+		add INTERNALCOUNT 1
+		
+		state edf_flier_onlotagpath
+		
+		ifaction A_EDF_FLIER_BANKLEFT
+			nullop
+		else ifaction A_EDF_FLIER_BANKRIGHT
+			state edf_flier_bankright
+		else ifdead
+			action A_EDF_FLIER_CRASHING
+		else
+			action A_EDF_FLIER_SEEK
+	}
+	else ifaction A_EDF_FLIER_DEAD
+	{
+		iffloordistl 8 ife playsound 0 { sound CARSMASH set playsound 1 ifpdistl 8192 quake 13 }
+		fall
+		move STOP
+	}
+	
+	ifhitweapon 
+	{
+	ifrnd 4 sound FLIER_UFIRE
+		ifaction A_EDF_FLIER_DEAD nullop
+		else ifaction A_EDF_FLIER_CRASHING nullop
+		else
+		{	
+			ifdead
+			{
+				cstat 0
+				globalsound FLIER_DIE
+				action A_EDF_FLIER_CRASHING
+			}
+		}
+	}
+enda
+
+spritenopal EDF_FLIER_MINE
+spritenoshade EDF_FLIER_MINE
+spriteshadow EDF_FLIER_MINE
+useractor notenemy EDF_FLIER_MINE
+	fall
+	
+	ifaction 0
+	{
+		cstat 0
+		
+		sizeat 30 30
+		iffloordistl 1024
+		{
+			set INTERNALCOUNT 0
+			action SEVEN_ANG
+		}
+	}
+	else ifaction SEVEN_ANG
+	{
+		// pal moves towards the player
+		ifspritepal 107
+		{
+			seta[].shade -127
+			state angleToPlayer
+			set movesprite_zvel 0
+			set movesprite_angvar angvar
+			set movesprite_customvels 1
+			cos movesprite_xvel movesprite_angvar
+			sin movesprite_yvel movesprite_angvar
+			set movesprite_shift 6
+			shiftr movesprite_xvel movesprite_shift
+			shiftr movesprite_yvel movesprite_shift
+			seta[].ang movesprite_angvar
+			state movesprite_state
+		}
+		else
+		{
+		seta[].pal sector[].floorpal
+		seta[].shade sector[].floorshade
+		}
+		
+		add INTERNALCOUNT 1
+		
+		// Beep sound is temporary
+		ife INTERNALCOUNT 10
+			sound FLIER_MBEEP
+		else ife INTERNALCOUNT 30
+			sound FLIER_MBEEP
+		else ife INTERNALCOUNT 40
+			sound FLIER_MBEEP
+		else ife INTERNALCOUNT 50
+			sound FLIER_MBEEP
+		else ife INTERNALCOUNT 55
+			sound FLIER_MBEEP
+		else ife INTERNALCOUNT 60
+			sound FLIER_MBEEP	
+		else ife INTERNALCOUNT 65
+			sound FLIER_MBEEP		
+		else ife INTERNALCOUNT 70
+			sound FLIER_MBEEP		
+		else ife INTERNALCOUNT 75
+		{
+			sound FLIER_MBEEP
+			spawn BIG_EXPLOSION
+			globalsound RPG_EXPLODE
+			hitradius 2048 16 24 64 128
+			killit
+		}
+	}
+enda

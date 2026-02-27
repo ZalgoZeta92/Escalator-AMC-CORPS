@@ -1,0 +1,908 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Contains code pertaining to player armour
+--------------------------------------------------------------------------------
+*/
+
+
+// energy shield stuff is contained in player.con!
+// look for 'energy shield stuff'
+
+defstate emp_hitstuff
+palfrom 20 40 0 0
+ifrnd 96 set PLAYER_VOICEOVER 58
+seta[].htextra -1
+
+ifl SKILL_LEVEL 2 set emp_damage 90
+else ife SKILL_LEVEL 2 set emp_damage 150
+else ife SKILL_LEVEL 3 set emp_damage 180
+else ife SKILL_LEVEL 4 set emp_damage 240
+else ife SKILL_LEVEL 5 set emp_damage 300
+ends
+
+defstate cursed_hitstuff
+ife ARTIFACTS_LOADOUT[CHAR] 3 // Minerva's amulet?
+ifrnd 16 // has a rare chance of nullifying the damage
+{
+set artifact_used 60
+seta[].htextra -1
+palfrom 20 0 0 40
+soundonce SPARM_PROTECT
+}
+else
+ife CHAR 14
+ifn player[].holoduke_on -1 // Snowfall's psi-shield?
+	{
+	seta[].htextra -1
+	palfrom 20 0 0 40
+	soundonce SPARM_PROTECT
+	}
+else
+ifg P_SPIRIT_ARMOUR 0
+	{
+	sub P_SPIRIT_ARMOUR damage_temp
+	seta[].htextra -1
+	palfrom 20 0 0 40
+	set mindshield_cooldown 150
+	soundonce SPARM_PROTECT
+	ifl P_SPIRIT_ARMOUR 0 set P_SPIRIT_ARMOUR 0
+	}
+else
+{
+sound P_CURSED
+palfrom 20 40 0 40
+ifrnd 96 set PLAYER_VOICEOVER 49
+ife MYSTICAL_RESEARCH[4] 2 // Siren Ward?
+	{
+	ifl SKILL_LEVEL 2 set CURSED 60
+	else ife SKILL_LEVEL 2 set CURSED 105
+	else ife SKILL_LEVEL 3 set CURSED 126
+	else ife SKILL_LEVEL 4 set CURSED 168
+	else ife SKILL_LEVEL 5 set CURSED 210
+	}
+else
+	{
+	ifl SKILL_LEVEL 2 set CURSED 90
+	else ife SKILL_LEVEL 2 set CURSED 150
+	else ife SKILL_LEVEL 3 set CURSED 180
+	else ife SKILL_LEVEL 4 set CURSED 240
+	else ife SKILL_LEVEL 5 set CURSED 300
+	}
+ife CHAR 4 ifg PARMOUR 0 div CURSED 2
+}
+ends
+
+defstate spirit_armour_hitstuff
+ife ARTIFACTS_LOADOUT[CHAR] 3 // Minerva's amulet?
+	{
+	ifrnd 6 // has a very rare chance of nullifying the damage
+		{
+		set artifact_used 60
+		seta[].htextra -1
+		palfrom 20 0 0 40
+		soundonce SPARM_PROTECT
+		}
+	}
+ifg P_SPIRIT_ARMOUR 0
+	{
+	sub P_SPIRIT_ARMOUR damage_temp
+	seta[].htextra -1
+	palfrom 20 0 0 40
+	soundonce SPARM_PROTECT
+	set mindshield_cooldown 150
+	ifl P_SPIRIT_ARMOUR 0 set P_SPIRIT_ARMOUR 0
+	}
+ife CHAR 13 ifand CHAR_APP 256
+	{
+	set PERCENTAGE_IN damage_temp 
+	set PERCENTAGE_PERCENT 80
+	state getpercentage
+	set damage_temp PERCENTAGE_OUT
+	}
+ife CHAR 4 ifg PARMOUR 0 div damage_temp 2
+ends
+
+
+defstate player_energy_shield
+ife P_HAS_SHIELD 0 ifg P_ENERGYSHIELD 0 set P_ENERGYSHIELD 0
+
+ifg P_HAS_SHIELD 0 // player has energy shield?
+ifg totalclock 10
+ife camerasprite -1 // cutscene not rolling?
+ifp palive
+{
+ifg VOLUME 3 // episodes 5 + 6 have better shields
+	{
+	ife PERSONNEL_RESEARCH[23] 2 // energy shield upgrade?
+		{
+		// only apply upgrade if player has also equipped shield
+		ifn CHAR -1 ife CHEST_LOADOUT[CHAR] 5 set P_MAX_SHIELD 75
+		else set P_MAX_SHIELD 50
+		}
+		else set P_MAX_SHIELD 50
+	}
+else
+	{
+	ife PERSONNEL_RESEARCH[23] 2 // energy shield upgrade?
+		{
+		// only apply upgrade if player has also equipped shield
+		ife CHEST_LOADOUT[CHAR] 5 set P_MAX_SHIELD 50
+		else set P_MAX_SHIELD 25
+		}
+		else set P_MAX_SHIELD 25
+	}
+clamp P_ENERGYSHIELD 0 P_MAX_SHIELD
+ifg P_ENERGYSHIELD 0
+	{
+	geta[].htextra temp6
+	ifg temp6 0
+		{
+		geta[].htpicnum PROJ_HIT_TYPE
+		ifand tiledata[PROJ_HIT_TYPE].gameflags 8 getprojectile[PROJ_HIT_TYPE].userdata proj_udata else set proj_udata 0
+		
+		ifand proj_udata 2097152 state emp_hitstuff
+		else ifand proj_udata 1 mul temp6 2
+		else ife PROJ_HIT_TYPE COOLEXPLOSION1 set proj_udata 16384
+
+	   state HIT_IND_ARM
+	   geta[].htang temp
+	   sub temp sprite[].ang
+	   set PHITANGLE temp
+	   // spirit and curse attacks go through energy shields
+	   ifand proj_udata 16384 nullop else
+	   ifand proj_udata 262144 nullop else
+	   ifand proj_udata 131072 nullop else
+			{
+			seta[].htextra -1
+			set shield_reg_disp -10
+
+			// plasma/energy and electrical attacks do x2 damage to shields
+			ifand proj_udata 8193 mul temp6 2
+
+			sub P_ENERGYSHIELD temp6
+			ifl P_ENERGYSHIELD 1
+				{
+				screensound ESHIELD_BREAK
+				set shield_reg_disp -25
+				set P_ENERGYSHIELD 0
+				set PLAYER_VOICEOVER 55
+				}
+			set P_REC_DELAY 450
+			}
+		}
+	}
+ifl P_ENERGYSHIELD P_MAX_SHIELD
+	{
+	ifg P_REC_DELAY 0
+		{
+		ife PERSONNEL_RESEARCH[24] 2
+			{
+			geta[THISACTOR].xvel temp3
+			div temp3 75
+			ifl temp3 1 set temp3 1
+			sub P_REC_DELAY temp3
+			}
+		else
+		 sub P_REC_DELAY 1
+		}
+	else ifl P_REC_DELAY 1
+		{
+		ifp pstanding nullop else
+		soundonce ESHEILD_CHARGING
+		add P_ENERGYSHIELD 1
+		ife P_ENERGYSHIELD P_MAX_SHIELD
+			{
+			set shield_reg_disp 30
+			stopsound ESHEILD_CHARGING
+			sound ESHIELD_RECHARGE
+			}
+		}
+	}
+}
+ends
+
+defstate shield_stuff
+getp[].ang temp7
+add temp7 1024
+getincangle temp4 sprite[].htang temp7
+ifand temp4 2147483648
+{
+xorvar temp4 -1 // bitfield: 4294967295
+add temp4 1
+}
+ifg riot_shield 0
+ifg shield_up 0
+{
+ifl temp4 225 // is angle between them less than 200?
+	{
+	ifand proj_udata 131072 div damage_temp 4 // melee damage is much weaker against shields
+	ife temp2 HOLLOW_POINT_SHOT div damage_temp 6 // soft bullets damage are sixthed
+	ife temp2 GREENLASERSHOT div damage_temp 6 // soft damage are sixthed
+	ife temp2 SHOTGUN div damage_temp 4 // shotgun pellets don't penetrate armour as much
+	ife temp2 ENEMY_SHOTGUN div damage_temp 4 // shotgun pellets don't penetrate armour as much
+	ife temp2 F45_CALIBRE div damage_temp 3 // .45 don't penetrate armour as much
+	ife temp2 NINEMM_CALIBRE div damage_temp 2 // 9mm bullets don't penetrate armour as much
+	ife temp2 ARMOUR_PIERCING_SHOT mul damage_temp 2 // AP bullets wreck armour
+	ife temp2 MPLASMA div damage_temp 2 // plasma doesn't work as well against body armour
+	ife temp2 MDF_PLASMA div damage_temp 2 // plasma doesn't work as well against body armour
+	ife temp2 5372 div damage_temp 2  // plasma doesn't work as well against body armour
+	ifg damage_temp 50 set CUS_WACK 1
+	ife shield_type 1 sound HITWOOD
+	else ife shield_type 2 sound SOMETHINGHITFORCE
+	else
+		{
+		ifrnd 96 sound RIOTSHIELD_HIT1
+		else ifrnd 96 sound RIOTSHIELD_HIT2
+		else sound RIOTSHIELD_HIT3
+		}
+	sub riot_shield damage_temp
+	div damage_temp 2
+	ifg damage_temp 10 set damage_temp 10
+	set shield_shake damage_temp
+	set damage_temp 0
+	seta[].htextra -1
+	ifl riot_shield 1
+		{
+		set CUS_WACK 4
+		ife shield_type 1 
+			{
+			shoot WOODSCRAP shoot WOODSCRAP shoot WOODSCRAP shoot WOODSCRAP
+			globalsound WOODBREAK 
+			}
+			else
+		ife shield_type 2 
+			{
+			shoot SPARK shoot SPARK shoot SPARK shoot SPARK
+			globalsound FFIELD_OFF 
+			}
+			else
+			{
+			globalsound RIOTSHIELD_BREAK
+			lotsofglass 16
+			}
+		ife MELEE_RESEARCH[RS_D_SHIELD_SPIKE] 2 
+			{
+			sound NAILGUN2_FIRE
+			shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ
+			shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ
+			}
+		set riot_shield 0
+		set shield_up 0
+		palfrom 20 20 0 0
+		}
+	}
+}
+else
+ife CHAR 11 // Maartn?
+{
+ifl temp4 512 // is angle between them less than 512?
+	{
+	ifg merl_shieldup 0
+	ifg maartn_shield 0
+		{
+		ifand proj_udata 131072
+			{
+			ifge shield_bash 15 { sound SH_PARRY set damage_temp 0 } else
+			div damage_temp 4 // melee damage is much weaker against shields
+			}
+		ife temp2 HOLLOW_POINT_SHOT div damage_temp 6 // soft bullets damage are sixthed
+		ife temp2 GREENLASERSHOT div damage_temp 6 // soft damage are sixthed
+		ife temp2 SHOTGUN div damage_temp 4 // shotgun pellets don't penetrate armour as much
+		ife temp2 ENEMY_SHOTGUN div damage_temp 4 // shotgun pellets don't penetrate armour as much
+		ife temp2 F45_CALIBRE div damage_temp 3 // .45 don't penetrate armour as much
+		ife temp2 NINEMM_CALIBRE div damage_temp 2 // 9mm bullets don't penetrate armour as much
+		ife temp2 ARMOUR_PIERCING_SHOT mul damage_temp 2 // AP bullets wreck armour
+		ife temp2 MPLASMA div damage_temp 2 // plasma doesn't work as well against body armour
+		ife temp2 MDF_PLASMA div damage_temp 2 // plasma doesn't work as well against body armour
+		ife temp2 5372 div damage_temp 2  // plasma doesn't work as well against body armour
+		ifg damage_temp 50 set CUS_WACK 1
+		ifg damage_temp 0
+			{
+			ifrnd 128 sound SHIELDHIT2 else sound SHIELDHIT
+			}
+		sub maartn_shield damage_temp
+		div damage_temp 2
+		ifg damage_temp 10 set damage_temp 10
+		set shield_shake damage_temp
+		set damage_temp 0
+		seta[].htextra -1
+		ifl maartn_shield 1
+			{
+			set CUS_WACK 2
+			globalsound SHIELD_DESTROY
+			set maartn_shield 0
+			ife MELEE_RESEARCH[RS_D_SHIELD_SPIKE] 2 
+				{
+				sound NAILGUN2_FIRE
+				shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ
+				shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ
+				}
+			palfrom 20 20 0 0
+			}
+		}
+	}
+}
+else
+ife CHAR C_MERLIJN
+{
+ife m_shieldtype 0 set temp5 275 
+else ife m_shieldtype 1 set temp5 512
+else ife m_shieldtype 2 set temp5 768
+
+ifl temp4 temp5 // angle between them less than the desired amount?
+	{
+	ifg merl_shieldup 0
+	ifg merlijn_shield 0
+		{
+		ifand proj_udata 131072
+			{
+			ifge shield_bash 15 { sound SH_PARRY set damage_temp 0 } else
+			div damage_temp 4 // melee damage is much weaker against shields
+			}
+		ife temp2 HOLLOW_POINT_SHOT div damage_temp 6 // soft bullets damage are sixthed
+		ife temp2 GREENLASERSHOT div damage_temp 6 // soft damage are sixthed
+		ife temp2 SHOTGUN div damage_temp 4 // shotgun pellets don't penetrate armour as much
+		ife temp2 ENEMY_SHOTGUN div damage_temp 4 // shotgun pellets don't penetrate armour as much
+		ife temp2 F45_CALIBRE div damage_temp 3 // .45 don't penetrate armour as much
+		ife temp2 NINEMM_CALIBRE div damage_temp 2 // 9mm bullets don't penetrate armour as much
+		ife temp2 ARMOUR_PIERCING_SHOT mul damage_temp 2 // AP bullets wreck armour
+		ife temp2 MPLASMA div damage_temp 2 // plasma doesn't work as well against body armour
+		ife temp2 MDF_PLASMA div damage_temp 2 // plasma doesn't work as well against body armour
+		ife temp2 5372 div damage_temp 2  // plasma doesn't work as well against body armour
+		ifrnd 32 set CUS_WACK 1
+		ifg damage_temp 0
+			{
+			ifrnd 128 sound SHIELDHIT2 else sound SHIELDHIT
+			}
+		sub merlijn_shield damage_temp
+		div damage_temp 2
+		ifg damage_temp 10 set damage_temp 10
+		set shield_shake damage_temp
+		set damage_temp 0
+		seta[].htextra -1
+		ifl merlijn_shield 1
+			{
+			set CUS_WACK 2
+			globalsound SHIELD_DESTROY
+			ife MELEE_RESEARCH[RS_D_SHIELD_SPIKE] 2 
+				{
+				sound NAILGUN2_FIRE
+				shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ
+				shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ shoot SPIKE_PROJ
+				}
+			palfrom 20 20 0 0
+			set merlijn_shield 0
+			}
+		}
+	}
+}
+ends
+
+defstate suit_armour_stuff
+state nanobot_state
+geta[].htextra damage_temp
+ifg damage_temp 0 // if the actor is set to take some damage from a weapon...
+{
+set nanobot_cooldown 150
+geta[].htpicnum temp2
+ifand tiledata[temp2].gameflags 8 getprojectile[temp2].userdata proj_udata else
+ife temp2 COOLEXPLOSION1 set proj_udata 16384 else set proj_udata 0
+
+ife CHAR 14
+ifn player[].holoduke_on -1 // Snowfall's psi-shield?
+	{
+	ifand proj_udata 278528
+		{
+		seta[].htextra -1
+		palfrom 20 0 0 40
+		soundonce SPARM_PROTECT
+		}
+	else ife temp2 COOLEXPLOSION1 // manual check for octabrain attack
+		{
+		seta[].htextra -1
+		palfrom 20 0 0 40
+		soundonce SPARM_PROTECT
+		}
+	}
+
+ifand proj_udata 2 state fire_armour_hitstuff
+else ifand proj_udata 16384 state spirit_armour_hitstuff
+else ifand proj_udata 262144 state cursed_hitstuff
+else ifand proj_udata 524288 set BLINDED 120
+else ifand proj_udata 2097152 state emp_hitstuff
+else ife temp2 COOLEXPLOSION1 state spirit_armour_hitstuff
+else
+	{
+	state shield_stuff
+	ifand proj_udata 16 sound LASER_IMPACT
+	ifg player[].shield_amount 0
+		{
+		getp[].shield_amount armour_temp
+		ifand proj_udata 32 nullop else
+		ifand proj_udata 64 nullop else
+			{
+			mul damage_temp 10
+			div damage_temp 13 // does an initial 25% flat reduction
+			}
+		ifand proj_udata 128 div damage_temp 2
+		set ARM_BLEEDOFF damage_temp
+		ifand proj_udata 32 div ARM_BLEEDOFF 3 else // AP spreads 33% to HP
+		ifand proj_udata 8192 div ARM_BLEEDOFF 2 else // Electric spreads 50% to HP
+		div ARM_BLEEDOFF 5 // spread 20% to HP
+		sub damage_temp ARM_BLEEDOFF // 1/5 damage goes to Jane/Micky/Snowfall
+		sub armour_temp damage_temp // 4/5 damage goes to shield
+		ifl armour_temp 0 setp[].shield_amount 0 else
+		setp[].shield_amount armour_temp
+		ifg ARM_BLEEDOFF 0
+			{
+			seta[].htextra ARM_BLEEDOFF
+			set ARM_BLEEDOFF 0
+			}
+		else
+		seta[].htextra -1
+
+		state HIT_IND_ARM
+		}
+	}
+}
+ends
+
+defstate body_armour_stuff
+geta[].htextra damage_temp
+ifg damage_temp 0 // if the actor is set to take some damage from a weapon...
+{
+geta[].htpicnum temp2
+ifand tiledata[temp2].gameflags 8 getprojectile[temp2].userdata proj_udata else set proj_udata 0
+ifand proj_udata 2 state fire_armour_hitstuff
+else ifand proj_udata 16384 state spirit_armour_hitstuff
+else ifand proj_udata 262144 state cursed_hitstuff
+else ifand proj_udata 524288 set BLINDED 120
+else ifand proj_udata 2097152 state emp_hitstuff
+else ife temp2 COOLEXPLOSION1 state spirit_armour_hitstuff
+else ifand proj_udata 8 { set CUS_WACK 1 palfrom 40 40 0 0 }
+else
+{
+state shield_stuff
+ifand proj_udata 16 sound LASER_IMPACT
+ifg player[].shield_amount 0
+	{
+	getp[].shield_amount armour_temp
+	ife PERSONNEL_RESEARCH[4] 2 // player has the improved armour?
+		{
+		ife temp2 HOLLOW_POINT_SHOT div damage_temp 3 // soft bullets damage are sixthed
+		ife temp2 GREENLASERSHOT div damage_temp 3 // soft damage are sixthed
+		ife temp2 SHOTGUN div damage_temp 2 // shotgun pellets don't penetrate armour as much
+		ife temp2 ENEMY_BULLET div damage_temp 2
+		ife temp2 ENEMY_SHOTGUN div damage_temp 2 // shotgun pellets don't penetrate armour as much
+		ife temp2 F45_CALIBRE div damage_temp 2 // 45 bullets don't penetrate armour as much
+		ife temp2 NINEMM_CALIBRE div damage_temp 2
+		}
+	/*
+	ife PERSONNEL_RESEARCH[4] 2 // player has the improved armour?
+	{
+	ife temp2 HOLLOW_POINT_SHOT div damage_temp 4
+	ife temp2 GREENLASERSHOT div damage_temp 4
+	ife temp2 SHOTGUN div damage_temp 3
+	ife temp2 ENEMY_SHOTGUN div damage_temp 3
+	ife temp2 F45_CALIBRE div damage_temp 3
+	ife temp2 NINEMM_CALIBRE div damage_temp 3
+	}
+	else
+	{
+	ife temp2 HOLLOW_POINT_SHOT div damage_temp 3 // soft bullets damage are sixthed
+	ife temp2 GREENLASERSHOT div damage_temp 3 // soft damage are sixthed
+	ife temp2 SHOTGUN div damage_temp 2 // shotgun pellets don't penetrate armour as much
+	ife temp2 ENEMY_SHOTGUN div damage_temp 2 // shotgun pellets don't penetrate armour as much
+	ife temp2 F45_CALIBRE div damage_temp 2 // 45 bullets don't penetrate armour as much
+	}
+	*/
+	ifand proj_udata 32
+		{
+		div damage_temp 2 // AP goes through armour
+		set ARM_BLEEDOFF damage_temp
+		}
+	ife temp2 1670 // radius explosion
+		{
+		div damage_temp 2 // explosions go through armour
+		set ARM_BLEEDOFF damage_temp
+		}
+	ife temp2 2690 // missile
+		{
+		div damage_temp 2 // explosions go through armour
+		set ARM_BLEEDOFF damage_temp
+		}
+	ife temp2 2605 // RPG
+		{
+		div damage_temp 2 // explosions go through armour
+		set ARM_BLEEDOFF damage_temp
+		}
+	ife temp2 MPLASMA div damage_temp 2 // plasma doesn't work as well against body armour
+	ife temp2 MDF_PLASMA div damage_temp 2 // plasma doesn't work as well against body armour
+	ife temp2 5372 div damage_temp 2 // plasma doesn't work as well against body armour
+	sub armour_temp damage_temp
+	ifl armour_temp 0 setp[].shield_amount 0 else
+	setp[].shield_amount armour_temp
+	ifg ARM_BLEEDOFF 0
+		{
+		seta[].htextra ARM_BLEEDOFF
+		set ARM_BLEEDOFF 0
+		}
+	else
+	seta[].htextra -1
+
+	state HIT_IND_ARM
+	ifl armour_temp 0
+	ifn PERSONNEL_RESEARCH[16] 2 // player doesn't have the ablative plating research?
+		{
+		geta[].extra temp3
+		add temp3 armour_temp
+		seta[].extra temp3
+		setp[].shield_amount 0
+		palfrom 20 20 0 0
+		}
+	}
+}
+}
+ends
+
+defstate powered_vest_stuff
+geta[].htextra damage_temp
+	ifg damage_temp 0 // if the actor is set to take some damage from a weapon...
+	{
+	geta[].htpicnum temp2
+	ifand tiledata[temp2].gameflags 8 getprojectile[temp2].userdata proj_udata else set proj_udata 0
+	
+	ifand proj_udata 2 state fire_armour_hitstuff
+	else ifand proj_udata 16384 state spirit_armour_hitstuff
+	else ifand proj_udata 262144 state cursed_hitstuff
+	else ifand proj_udata 524288 set BLINDED 120
+	else ifand proj_udata 2097152 state emp_hitstuff
+	else ife temp2 COOLEXPLOSION1 state spirit_armour_hitstuff
+	else
+		{
+		state shield_stuff
+		ifand proj_udata 16 sound LASER_IMPACT
+		ifg player[].shield_amount 0
+		 ifg damage_temp 0
+			{
+			getp[].shield_amount armour_temp
+			ife CHAR 0
+			ifand CHAR_APP 1 // more armoured up James?
+				{
+				mul damage_temp 10
+				div damage_temp 13 // does an initial 25% flat reduction
+				}
+			else
+			ife CHAR 7
+			ifand CHAR_APP 8 // neo Mikko?
+				{
+				mul damage_temp 10
+				div damage_temp 13 // does an initial 25% flat reduction
+				}
+			else
+				{
+				mul damage_temp 10
+				div damage_temp 12 // does an initial 20% flat reduction
+				}
+			ife PERSONNEL_RESEARCH[4] 2 // player has the improved armour?
+				{
+				ife temp2 HOLLOW_POINT_SHOT div damage_temp 2
+				else ife temp2 GREENLASERSHOT div damage_temp 2
+				else ife temp2 ENEMY_BULLET div damage_temp 2
+				else ife temp2 SHOTGUN div damage_temp 2
+				else ife temp2 ENEMY_SHOTGUN div damage_temp 2
+				else ife temp2 F45_CALIBRE div damage_temp 2
+				else ifand proj_udata 128 div damage_temp 2
+				}
+			set ARM_BLEEDOFF damage_temp
+			div ARM_BLEEDOFF 3
+			sub damage_temp ARM_BLEEDOFF // 1/3 damage goes to player
+			sub armour_temp damage_temp // 2/3 damage goes to shield
+			ifl armour_temp 0 setp[].shield_amount 0 else
+			setp[].shield_amount armour_temp
+			ifg ARM_BLEEDOFF 0
+				{
+				seta[].htextra ARM_BLEEDOFF
+				set ARM_BLEEDOFF 0
+				}
+			else
+			seta[].htextra -1
+
+			state HIT_IND_ARM
+			ifl armour_temp 0
+			ifn PERSONNEL_RESEARCH[16] 2 // player doesn't have the ablative plating research?
+				{
+				geta[].extra temp3
+				add temp3 armour_temp
+				seta[].extra temp3
+				setp[].shield_amount 0
+				palfrom 20 20 0 0
+				}
+			}
+		}
+	}
+ends
+
+defstate light_armour_stuff
+	geta[].htextra damage_temp
+	ifg damage_temp 0 // if the actor is set to take some damage from a weapon...
+	{
+	geta[].htpicnum temp2
+	ifand tiledata[temp2].gameflags 8 getprojectile[temp2].userdata proj_udata else set proj_udata 0
+	ifand proj_udata 2 state fire_armour_hitstuff
+	else ifand proj_udata 16384 state spirit_armour_hitstuff
+	else ifand proj_udata 262144 state cursed_hitstuff
+	else ifand proj_udata 524288 set BLINDED 120
+	else ifand proj_udata 2097152 state emp_hitstuff
+	else ife temp2 COOLEXPLOSION1 state spirit_armour_hitstuff
+	else
+		{
+		state shield_stuff
+		ifand proj_udata 16 sound LASER_IMPACT
+		ifg player[].shield_amount 0
+			{
+			getp[].shield_amount armour_temp
+			ife armour_type 1 div damage_temp 2 // heavy armour takes 50%
+			else // take 30%
+				{
+				set PERCENTAGE_IN damage_temp 
+				set PERCENTAGE_PERCENT 30
+				state getpercentage
+				set damage_temp PERCENTAGE_OUT
+				}
+			set ARM_BLEEDOFF damage_temp
+			sub armour_temp damage_temp
+			ifl armour_temp 0 setp[].shield_amount 0 else
+			setp[].shield_amount armour_temp
+			ifg ARM_BLEEDOFF 0
+				{
+				seta[].htextra ARM_BLEEDOFF
+				set ARM_BLEEDOFF 0
+				}
+			else
+			seta[].htextra -1
+
+			state HIT_IND_ARM
+			ifl armour_temp 0
+			ifn PERSONNEL_RESEARCH[16] 2 // player doesn't have the ablative plating research?
+				{
+				geta[].extra temp3
+				add temp3 armour_temp
+				seta[].extra temp3
+				setp[].shield_amount 0
+				palfrom 20 20 0 0
+				}
+			}
+		}
+	}
+ends
+
+defstate ARMOUR_STUFF
+switch CHAR
+case C_JAMES // James' armour
+	ifand CHAR_APP 512 state light_armour_stuff
+	else state powered_vest_stuff
+	break	
+case C_MIKKO
+case C_WHEATON 
+	state powered_vest_stuff
+	break
+case C_ZAXTOR
+case C_BOMBSHELL
+case C_ROSA
+case C_KAGURA
+	state light_armour_stuff
+	break
+case C_MERLIJN
+case C_MAARTEN
+	geta[].htextra damage_temp
+	ifg damage_temp 0 // if the player is set to take some damage from a weapon...
+	{
+	ife CHAR C_MERLIJN
+	{
+	ifp pboosted div damage_temp 2 // stoneskin
+	ifand CHAR_APP 4 // Berserker Merlijn? protects him the more hurt he is
+		{
+		ifl PHEALTH 125
+			{
+			mul damage_temp 10
+			div damage_temp 13 // does an initial 25% flat reduction
+			}
+		else
+		ifl PHEALTH 75
+			{
+			mul damage_temp 10
+			div damage_temp 15 // does an initial 33% flat reduction
+			}
+		else
+		ifl PHEALTH 50
+			{
+			mul damage_temp 10
+			div damage_temp 20 // does an initial 50% flat reduction
+			}
+		ifl PHEALTH 75 
+		 ife player_ability_2 0
+		  ife player_dead 0
+			{
+			seta[].htextra -1
+			seta[].extra 125
+			quake 26
+			ifrnd 128 sound M_MELEE_1 else sound M_MELEE_2
+			palfrom 40 64
+			ife MYSTICAL_RESEARCH[RS_M_DRAGONRAGE] 2
+				{
+			    spawn 17361
+                espawn 17361 setactorvar[RETURN].temp4 205
+                espawn 17361 setactorvar[RETURN].temp4 510
+                espawn 17361 setactorvar[RETURN].temp4 715
+                espawn 17361 setactorvar[RETURN].temp4 920
+                espawn 17361 setactorvar[RETURN].temp4 1125
+                espawn 17361 setactorvar[RETURN].temp4 1330
+                espawn 17361 setactorvar[RETURN].temp4 1535
+                espawn 17361 setactorvar[RETURN].temp4 1740
+                espawn 17361 setactorvar[RETURN].temp4 1945
+				}
+			set player_berserking 450
+			ife MELEE_RESEARCH[8] 2 set player_ability_2 600 else
+			set player_ability_2 900
+			}
+		ifg player_berserking 0 div damage_temp 3
+		}
+	else
+	ife MELEE_RESEARCH[8] 2 // Merlijn berserk research
+		{
+		ifl PHEALTH 75 ife player_ability_2 0
+			{
+			seta[].htextra -1
+			seta[].extra 75
+			quake 26
+			ifrnd 128 sound M_MELEE_1 else sound M_MELEE_2
+			palfrom 40 64
+			ife MYSTICAL_RESEARCH[RS_M_DRAGONRAGE] 2
+				{
+			    spawn 17361
+                espawn 17361 setactorvar[RETURN].temp4 205
+                espawn 17361 setactorvar[RETURN].temp4 510
+                espawn 17361 setactorvar[RETURN].temp4 715
+                espawn 17361 setactorvar[RETURN].temp4 920
+                espawn 17361 setactorvar[RETURN].temp4 1125
+                espawn 17361 setactorvar[RETURN].temp4 1330
+                espawn 17361 setactorvar[RETURN].temp4 1535
+                espawn 17361 setactorvar[RETURN].temp4 1740
+                espawn 17361 setactorvar[RETURN].temp4 1945
+				}
+			set player_berserking 450
+			set player_ability_2 900
+			}
+		ifg player_berserking 0 div damage_temp 3
+		}
+	}
+	geta[].htpicnum temp2
+	ifand tiledata[temp2].gameflags 8 getprojectile[temp2].userdata proj_udata else set proj_udata 0
+	ifand proj_udata 2 state fire_armour_hitstuff
+	else ifand proj_udata 16384 state spirit_armour_hitstuff
+	else ifand proj_udata 262144 state cursed_hitstuff
+	else ifand proj_udata 524288 palfrom 40 0 0 0
+	else ifand proj_udata 2097152 state emp_hitstuff
+	else ife temp2 COOLEXPLOSION1 state spirit_armour_hitstuff
+	else
+		{
+		state shield_stuff
+		ifg player[].shield_amount 0
+			{
+			getp[].shield_amount armour_temp
+			ifand proj_udata 64 // armour negating?
+				{
+				ifand proj_udata 131072 div damage_temp 2 // Merlijn's armour should still protect a bit against this so it's not useless
+				}
+			else
+				{
+				ifand proj_udata 131072 div damage_temp 6 else // Merlijn's armour is extra effective against melee attacks
+				div damage_temp 2
+				}
+			set ARM_BLEEDOFF damage_temp
+			sub armour_temp damage_temp
+			ifl armour_temp 0 setp[].shield_amount 0 else
+			setp[].shield_amount armour_temp
+			ifg ARM_BLEEDOFF 0
+				{
+				seta[].htextra ARM_BLEEDOFF
+				set ARM_BLEEDOFF 0
+				}
+			else
+			seta[].htextra -1
+
+			state HIT_IND_ARM
+
+			ifl armour_temp 0
+			ifn PERSONNEL_RESEARCH[16] 2 // player doesn't have the ablative plating research?
+				{
+				geta[].extra temp3
+				add temp3 armour_temp
+				seta[].extra temp3
+				setp[].shield_amount 0
+				palfrom 20 20 0 0
+				}
+			}
+		}
+	}
+	break
+case 4 // Sang
+	geta[].htextra damage_temp
+	ifg damage_temp 0 // if the player is set to take some damage from a weapon...
+	{
+	geta[].htpicnum temp2
+	ifand tiledata[temp2].gameflags 8 getprojectile[temp2].userdata proj_udata else set proj_udata 0
+	ifand proj_udata 2 state fire_armour_hitstuff
+	else ifand proj_udata 16384 state spirit_armour_hitstuff
+	else ifand proj_udata 262144 state cursed_hitstuff
+	else ifand proj_udata 524288 palfrom 40 0 0 0
+	else ifand proj_udata 2097152 state emp_hitstuff
+	else ife temp2 COOLEXPLOSION1 state spirit_armour_hitstuff
+	else
+		{
+		state shield_stuff
+		ifg player[].shield_amount 0
+			{
+			getp[].shield_amount armour_temp
+			ifand CHAR_APP 2 // armoured sang?
+				{
+				mul damage_temp 10
+				div damage_temp 13 // does an initial 25% flat reduction
+				}
+			ifand proj_udata 16384 div damage_temp 3 else // Sang's armour is extra effective against spirit attacks
+			ifand proj_udata 262144 div damage_temp 3 else // Sang's armour is extra effective against cursed attacks
+			div damage_temp 2
+			set ARM_BLEEDOFF damage_temp
+			sub armour_temp damage_temp
+			ifl armour_temp 0 setp[].shield_amount 0 else
+			setp[].shield_amount armour_temp
+			ifg ARM_BLEEDOFF 0
+			{
+			seta[].htextra ARM_BLEEDOFF
+			set ARM_BLEEDOFF 0
+			}
+			else
+			seta[].htextra -1
+
+			state HIT_IND_ARM
+
+			ifl armour_temp 0
+			ifn PERSONNEL_RESEARCH[16] 2 // player doesn't have the ablative plating research?
+				{
+				geta[].extra temp3
+				add temp3 armour_temp
+				seta[].extra temp3
+				setp[].shield_amount 0
+				palfrom 20 20 0 0
+				}
+			}
+		}
+	}
+	break
+case 3
+	ifand CHAR_APP 16 state suit_armour_stuff
+	else state body_armour_stuff
+	break
+case 5
+case 6
+case 9
+	state body_armour_stuff
+	break
+case 12 // Jane
+case 13 // Micky
+case 14 // Snowfall
+	state suit_armour_stuff
+	break
+endswitch
+ends

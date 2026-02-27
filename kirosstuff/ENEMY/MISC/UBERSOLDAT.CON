@@ -1,0 +1,323 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+
+// ===========================================
+// UBERSOLDAT ACTOR
+// ============================================
+
+damageeventtile UBER_SOLDAT
+
+action A_UBERSOLDAT_START 0 1 5 1 12 // Starting frame, different from the idle frame
+action A_UBERSOLDAT_IDLE 0 1 5 1 12
+
+action A_UBERSOLDAT_DEAD 39
+action A_UBERSOLDAT_DYING 35 5 1 1 16
+
+action A_UBERSOLDAT_FREEZE 35 1 1 1 8
+action A_UBERSOLDAT_GROW 35 1 1 1 8
+
+action A_UBERSOLDAT_SHRUNK 0 4 5 1 12
+
+action A_UBERSOLDAT_PAIN 35 1 1 1 8
+
+action A_UBERSOLDAT_SEEK 5 4 5 1 12
+action A_UBERSOLDAT_SPINUP 25 1 5 1 12
+action A_UBERSOLDAT_ATTACK 25 2 5 1 4
+
+move M_UBERSOLDAT_WALK 126
+
+useractor enemystayput UBER_SOLDAT_STAYPUT 700 A_UBERSOLDAT_START
+cactor UBER_SOLDAT
+enda
+
+useractor enemy UBER_SOLDAT 700 A_UBERSOLDAT_START
+fall
+ifaction A_UBERSOLDAT_START
+{
+	cstat 257
+	set actor_type TYPE_ARMOURED_HELMET
+	strength 700
+	sizeat 30 28
+	state monst_glow
+	ife actor_pal 0 geta[].pal actor_pal
+	espawn SHOOTME // Controls stuff like fire damage, targetting, .etc .etc - still used as a backup for the ally fighting stuff in-case an actor isn't set up with it yet
+	seta[RETURN].pal 1 // basically done just to make it clear that this actor is onboarded to the new targetting stuff, and is using SHOOTME for other purposes
+	ife actor_pal 10 set faction_flag 2
+	action A_UBERSOLDAT_IDLE
+}
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifg INTERNALCOUNT_3 0 sub INTERNALCOUNT_3 1
+
+ifaction A_UBERSOLDAT_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1
+	{
+		randvar temp6 30
+		ifl temp6 10 soundonce UBS_SP1
+		else ifl temp6 20 soundonce UBS_SP2
+		else soundonce UBS_SP3
+		action A_UBERSOLDAT_SEEK
+	}
+}
+
+// Death & dying
+else ifaction A_UBERSOLDAT_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+else ifaction A_UBERSOLDAT_DYING
+{
+	move STOP // optional, could also keep momentum by not applying a move action here, or mess with angle or something
+	strength 0
+	ifactioncount 5 { state rf state BODY_FALL_NOISES action A_UBERSOLDAT_DEAD }
+}
+
+// Status effects
+else ifaction A_UBERSOLDAT_FREEZE state frozen_code
+else ifaction A_UBERSOLDAT_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+else ifaction A_UBERSOLDAT_SHRUNK
+{
+	ifmove M_UBERSOLDAT_WALK { } // need to do this cause we're not using ai routines anymore
+	else
+		move M_UBERSOLDAT_WALK geth fleeenemy
+
+	ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+		state new_shrunkcode
+	else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+	{
+		state unshrink
+		sizeto 25 25
+	}
+	else // after regrow, switch back to regular action
+	{
+		state endshrunkenstate
+		action A_UBERSOLDAT_SEEK
+	}
+}
+
+else ifaction A_UBERSOLDAT_PAIN
+{
+	stopactorsound THISACTOR MINIGUN_FIRE
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_UBERSOLDAT_DYING
+		else action A_UBERSOLDAT_SEEK
+	}
+}
+
+else ifaction A_UBERSOLDAT_SEEK
+{
+	ifmove M_UBERSOLDAT_WALK nullop
+	else move M_UBERSOLDAT_WALK geth
+
+	state checkfortarget
+
+		ife INTERNALCOUNT_3 0
+			{
+			randvar temp8 40
+			ifl temp8 10 sound SUIT_STEP1 else
+			ifl temp8 20 sound SUIT_STEP2 else
+			ifl temp8 30 sound SUIT_STEP3 else
+			sound SUIT_STEP4
+			set INTERNALCOUNT_3 20
+			}
+
+	ifg ally_mag 0 sub ally_mag 1
+
+	ifn my_target -1
+	ife ally_mag 0
+	{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+
+		ifl RANDOM_CHANCE SKILLCHANCE
+		{
+			// Assume target still acquired, is rechecked on next tic anyway
+
+			// Optional: apply dist check to target
+			// Basically any check here to decide whether or not to ATTACK goes. But there is no need to check for my_target again.
+			// my_target can be the player or another target, the actor shouldn't care about that (for now)
+			ldist temp THISACTOR my_target
+			action A_UBERSOLDAT_SPINUP
+		}
+	}
+	else
+	ife my_target -1 ifp pdead action A_UBERSOLDAT_IDLE
+}
+else ifaction A_UBERSOLDAT_SPINUP
+{
+	state fronttowardstarget
+	move STOP
+	soundonce CHAIN_RATTLE
+	ifactioncount 4 action A_UBERSOLDAT_ATTACK
+}
+
+else ifaction A_UBERSOLDAT_ATTACK
+{
+	move STOP
+	state new_validatetarget
+
+	ife my_target -1
+	 ifge ally_mag 45
+		{
+		soundonce CHAIN_RATTLE
+		action A_UBERSOLDAT_SEEK
+		}
+
+	state fronttowardstarget
+
+	ifactioncount 2
+	{
+	set PROJECTILE_TO_SHOOT ENEMY_BULLET
+	set PROJECTILE_FIRING_SOUND MG42_FIRE
+	state sang_enemyShootProjectile
+	state sang_enemyShootProjectile
+	shoot FAKE_BULLET
+	shoot FAKE_BULLET
+		add ally_mag 1
+		globalsound DISTANT_RIFLE
+		ife PERFMODE 1
+		 ifcansee
+			{
+			shoot SHELL_LINK
+			set gunsmoke_z 6096
+			set gunsmoke_angle 256
+			state spawn_gunsmoke_z
+			state npc_rifleshell
+			set gunsmoke_z 6096
+			state spawn_enemy_ARFLASH
+			state spawn_muzzleflash
+			}
+		ifge ally_mag 45
+			{
+			soundonce CHAIN_RATTLE
+			action A_UBERSOLDAT_SEEK
+			}
+		else
+		action A_UBERSOLDAT_ATTACK
+	}
+}
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	//spawn BLOOD
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_UBERSOLDAT_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_UBERSOLDAT_FREEZE }
+		else ifg fire_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			ifrnd 128 sound ZSOLD_DIE1
+			else sound ZSOLD_DIE2
+			spawn ONFIREGUY
+			killit
+		}
+		else ife HEADSHOT 2
+		{
+			ifg fire_damage 0 set fire_damage 0
+			ifrnd 32 state trigger_showoff
+			state jib_sounds
+			state decap_sounds
+			shoot NJIB
+			shoot NJIB
+			guts JIBS6 3
+			guts JIBS2 2
+			action A_UBERSOLDAT_DYING
+		}
+		else ifg spirit_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 1
+			guts JIBS3 6
+			spawn SPIRIT_DEATH_GUY
+			killit
+		}
+		else ifg energy_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 4
+			guts JIBS3 6
+			spawn DISINTIGRATE_GUY
+			killit
+		}
+		else
+		{
+			sound UBS_DIE
+			action A_UBERSOLDAT_DYING
+			spawn BLOODPOOL
+		}
+
+	ifrnd 96
+		{
+		espawn MG42_SPRITE randvar temp 50 add temp 25 setav[RETURN].yvel_saved temp
+		}
+	}
+
+	else // not dead
+	{
+		ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_UBERSOLDAT_SHRUNK }
+
+		ifg PAIN_AMOUNT 0 { sound UBS_PAIN action A_UBERSOLDAT_PAIN }
+		else ifrnd 16 ifstrength 200 { state PAIN_SKILL_LEVELADJUST sound UBS_PAIN action A_UBERSOLDAT_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_UBERSOLDAT_IDLE { state PAIN_SKILL_LEVELADJUST sound UBS_PAIN action A_UBERSOLDAT_PAIN }
+	}
+}
+
+state checksquished
+
+enda

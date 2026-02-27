@@ -1,0 +1,3245 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++			   Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+This file defines the behavior for the custom keybinds, and all kinds of special
+controls that aren't normally available in Duke3D, such as sliding, flying kicks,
+mantling, etc.
+--------------------------------------------------------------------------------
+*/
+
+onevent EVENT_QUICKKICK
+ifg player_bike 0 ifcount 13 { set RETURN 1 ife bike_mode 0 set bike_mode 1 else set bike_mode 0 resetcount } else
+ife FIRE_SUIT 1 ifn CHAR 12 set RETURN 1 else
+ife SPACE_SUIT 1 ifn CHAR 12 ifn CHAR 13 ifn CHAR 14 set RETURN 1 else
+ife MISSION_UP 1 set RETURN 1 else
+ifn ANGLE 0 set RETURN 1 else
+ife weapon_bayonet 1 set RETURN 1 else
+ife on_zipline 1 set RETURN 1 else
+ifl KNIFE_ATTACK 27 set RETURN 1 else
+ifl ROUNDHOUSE_KICK 27 set RETURN 1 else
+ifl SLIDE_KICK 27 set RETURN 1 else
+ifl SPIN_KICK 12 set RETURN 1 else
+ifl TWIRL_KICK 20 set RETURN 1 else
+ifl FLYING_KICK 26 set RETURN 1 else
+ifl DROP_KICK 26 set RETURN 1 else
+ifl ROLL_LEFT 13 set RETURN 1 else
+ifl ROLL_RIGHT 13 set RETURN 1 else
+ifl ROLL_BACKWARDS 26 set RETURN 1 else
+ifn shotgun_struggle -1 set RETURN 1 else
+ifg troll_struggle -1 set RETURN 1 else
+ifg succubus_struggle -1 set RETURN 1 else
+ifg chainsaw_struggle -1 set RETURN 1 else
+ifn phantasm_stick -1 set RETURN 1 else
+ifn player_in_vehicle 0 set RETURN 1 else
+ifg phantom_ride 0 set RETURN 1 else
+set RETURN 0
+endevent
+
+defstate temp1_ammo
+getp[].ammo_amount 1 temp add temp 1 setp[].ammo_amount 1 temp
+ends
+
+defstate temp3_ammo
+getp[].ammo_amount 3 temp add temp 1 setp[].ammo_amount 3 temp
+ends
+
+defstate empty_shotgun	
+  ifn gun_mag -1
+	 {
+	 ife cur_weap 0 set temp_wep_mag 0
+	 ife CHAR 0 ife cur_weap 9 set ALTMAG 0
+	 ife CHAR 0 ife cur_weap 2 set slot2_mag 0
+	 ife CHAR 1 ife cur_weap 2 set slot2_mag 0
+	 ife CHAR 3 ife cur_weap 2 { set slot2_mag 0 set alt_slot2_mag 0 }
+	 ife CHAR 5 ife cur_weap 2 set slot2_mag 0
+	 ife CHAR 7 ife cur_weap 2 set slot2_mag 0
+	 ife CHAR 9 ife cur_weap 2 set slot2_mag 0
+	 ife CHAR 12 ife cur_weap 2 set slot2_mag 0
+	 ife CHAR 16 ife cur_weap 2 set slot2_mag 0
+	 ife CHAR C_WHEATON ife cur_weap 2 set slot2_mag 0
+	 ife cur_weap 2 ifand weap_special[2] 4 set alt_slot2_mag 0
+	 }
+ends
+
+/*
+// this event exits menus when the "escape" key is pressed
+// disabled for now because it might cause issues
+onevent EVENT_CHANGEMENU
+	set temp 0
+	ife RETURN 50
+		set temp 1
+	else ife RETURN 100
+		set temp 1
+
+	ifn temp 0
+	ifg PCINTER 0
+	{
+		set RETURN -2
+		set INFO_SEL 0
+		set PCINTER 0
+		set MOUSEUP 0
+	}
+endevent
+
+// could use this event to change the sound
+// onevent EVENT_OPENMENUSOUND
+// endevent
+*/
+
+// emergency failsafe, if some dialogue gets stuck, can be reset with quick kick key
+onevent EVENT_QUICKKICK
+	ifg PCINTER 0
+	{
+		set INFO_SEL 0
+		set PCINTER 0
+		set MOUSEUP 0
+	}
+endevent
+
+// ===========================================================================================================GRENADE KEY =====================================================================================
+// this handles "throw grenade"
+onevent EVENT_ALTFIRE
+	set RETURN 1
+endevent
+// ===========================================================================================================GRENADE KEY =====================================================================================
+onevent EVENT_TURNAROUND // Sprint key
+set RETURN -1
+endevent
+
+onevent EVENT_CROUCH
+ifg cameratype 1 set RETURN 1 // lock this movement if camera type is 2
+else ifn shotgun_struggle -1 set RETURN 1
+else ifg troll_struggle -1 set RETURN 1
+else ifg succubus_struggle -1 set RETURN 1
+else ifl SLIDE_KICK 27 set RETURN 1
+else ifg phantom_ride 0 set RETURN 1
+else
+ife CROUCH 0
+	{
+		switch CHAR
+		case 0
+		case 7
+		case 10
+			ifrnd 64 soundonce JMOVE1 else
+			ifrnd 64 soundonce JMOVE2 else
+			ifrnd 64 soundonce JMOVE3 else
+			soundonce JMOVE4
+			set MOVESOUND 1
+		break
+		endswitch
+	add wepsway_y 10
+	set CROUCH 1
+	}
+endevent
+
+onevent EVENT_JUMP
+ifg cameratype 1 set RETURN 1 // lock this movement if camera type is 2
+else ifn using_turret -1 set RETURN 1 // lock if using mounted minigun
+else ifn player_in_vehicle 0 set RETURN 1
+else ifn shotgun_struggle -1 set RETURN 1
+else ifg succubus_struggle -1 set RETURN 1
+else ifg troll_struggle -1 set RETURN 1
+else ife CHARSELECT 1 set RETURN 1
+else ifn PCINTER 0 set RETURN 1
+else
+	{
+	sub wepsway_y 10
+
+	set playsound 4
+	ife FIRE_SUIT 1 soundonce SERVO
+	switch STEPSOUNDFX
+	case 0
+	case 15
+	case 18
+		sound DEF_JUMP
+		break
+	case 1
+	case 23
+		sound WOOD_JUMP
+		break
+	case 11
+	case 34
+		sound CONC_JUMP
+		break
+	case 26
+	case 27
+	case 33
+		sound GRAV_JUMP
+		break
+	case 4
+	case 10
+	case 20
+	case 21
+	case 22
+	case 32
+		sound LVS_JUMP
+		break	
+	case 2
+	case 3
+	case 14
+	case 17
+	case 24
+	case 31
+		sound MTL_JUMP
+		break	
+	case 8
+	case 28
+		sound SNOW_JUMP
+		break
+	case 5
+		sound TILE_JUMP
+		break
+	default 
+		sound DEF_JUMP
+		break
+	endswitch
+
+	ife CHAR 0
+		{
+		ifand BITS_PRESS P_SPRINTING { ifrnd 128 set playsound JEXERT2 else set playsound JEXERT }
+		soundonce JJUMP
+		}
+	else
+	ife CHAR 2
+		{
+		ifrnd 128 sound H_ARMOUR_S1 else
+		sound H_ARMOUR_S2
+		ifand BITS_PRESS P_SPRINTING set playsound M_JUMP
+		}
+	else
+	ife CHAR 3 ifand BITS_PRESS P_SPRINTING set playsound R_JUMP
+	else
+	ife CHAR 4
+	 ifand BITS_PRESS P_SPRINTING
+		{
+		ifrnd 128 set playsound SEXERT else
+		ifrnd 128 set playsound SEXERT2 else
+		set playsound SEXERT3
+		}
+	else
+	ife CHAR 6
+	 ifand BITS_PRESS P_SPRINTING
+		{
+		ifrnd 128 set playsound G_JUMP else set playsound G_JUMP2
+		}
+	else ife CHAR 9 ifand BITS_PRESS P_SPRINTING set playsound CULTIST_JUMP
+	else ife CHAR 10 ifand BITS_PRESS P_SPRINTING 
+		{
+		ifrnd 128 set playsound BS_JUMP else
+		ifrnd 128 set playsound BS_JUMP2 else
+		set playsound BS_JUMP3
+		}
+	else ife CHAR 11 ifand BITS_PRESS P_SPRINTING set playsound MT_JUMP1
+	else ife CHAR 12 ifand BITS_PRESS P_SPRINTING set playsound JANE_JUMP
+	else ife CHAR 13 ifand BITS_PRESS P_SPRINTING
+		{
+		ifrnd 128 set playsound MC_JUMP else set playsound MC_JUMP2
+		}
+	else ife CHAR 14 ifand BITS_PRESS P_SPRINTING
+		{
+		ifrnd 128 set playsound SF_JUMP1 else set playsound SF_JUMP2
+		}
+	else ife CHAR 15 ifand BITS_PRESS P_SPRINTING
+		{
+		ifrnd 128 set playsound MC_NS_JUMP else set playsound MC_NS_JUMP2
+		}
+	else ife CHAR 16 ifand BITS_PRESS P_SPRINTING
+		{
+		ifrnd 96 set playsound RA_JUMP
+		else ifrnd 96 set playsound RA_JUMP2
+		else set playsound RA_JUMP3
+		}
+	else ife CHAR 17 ifand BITS_PRESS P_SPRINTING
+		{
+		ifrnd 96 set playsound KG_JUMP1
+		else ifrnd 96 set playsound KG_JUMP2
+		else set playsound KG_JUMP3
+		}
+	else ife CHAR C_WHEATON ifand BITS_PRESS P_SPRINTING
+		{
+		ifrnd 128 set playsound WH_EX
+		else set playsound WH_EX2
+		}
+
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	set playsound 0
+
+	}
+endevent
+
+
+// MISSION KEY
+
+var scanner_toggle 0 1
+
+onevent EVENT_HOLSTER
+set RETURN 1
+ifinwater break
+ife injured 1 break
+setp[].holster_weapon 0
+setp[].weapon_pos 0
+ifn COMM_LINK 0
+ifn COMM_COUNTD 0
+	{
+	globalsound OP_COMM_LINK
+	set activatetext COMM_LINK
+	operateactivators COMM_LINK THISACTOR
+	ifl COMM_COUNTD -30 set COMM_COUNTD -30
+	else ifg COMM_COUNTD 30 set COMM_COUNTD 30
+	set COMM_LINK 0
+	set hit_key 30
+	}
+else
+ife COMM_COUNTD 0
+ife player_bike 0
+ife camerasprite -1
+ife IN_DREAM 0
+ife PCINTER 0
+ifn TIMEZONE 6
+ife show_rs_ui 0
+ife show_bst_ui 0
+		{
+		ifn mission_update 0 { set MISSIONSCREEN 0 set hit_key 30 set mission_update 0 }
+		ife MISSION_UP 0 ife MISSIONPOS 320 set MISSION_UP 1
+		else ife MISSION_UP 1 ife MISSIONPOS 100 ife scanner_toggle 0 set MISSION_UP 2
+		}
+endevent
+
+onevent EVENT_USESTEROIDS
+ifn camerasprite -1 set RETURN 1
+	switch CHAR
+	case 0
+	case 16
+		ifl player[].steroids_amount 400 { set booster_item 0 setplayer[].steroids_amount 401 stopsound J_INJECTION sound SLOMO_OFF }
+		else ifge player[].steroids_amount 400 { set booster_item 1 setplayer[].steroids_amount 399 sound SLOMO_ON }
+		break
+	endswitch
+endevent
+
+onevent EVENT_USEJETPACK
+ifn camerasprite -1 set RETURN 1
+ifinwater set RETURN 1
+ifn CONTROL_VR -1 set RETURN 1
+endevent
+
+onevent EVENT_USENIGHTVISION
+ifn camerasprite -1 set RETURN 1
+getp[].heat_amount temp2
+ifg temp2 0
+{
+getp[].heat_on temp
+ife temp 1 { set screen_pal_override 10 palfrom 30 0 0 0 }
+ife HELMET_LOADOUT[CHAR] 4 { ife temp 1 sound GHOSTGOGGLES_OFF else sound GHOSTGOGGLES_ON }
+else ife CHAR 0 { ife temp 1 sound JAMES_HEATOFF else sound JAMES_HEATON }
+else ife CHAR 1 { ife temp 1 sound ZAX_NVG_OFF else sound ZAX_NVG_ON }
+else ife CHAR 3
+{
+ifand CHAR_APP 16 { ife temp 1 sound R2_HOFF else sound R2_HON }
+else { ife temp 1 sound HIGH_HEATOFF else sound HIGH_HEATON }
+}
+else ife CHAR 4 { sound SHEAT_EYEGLASS ife temp 1 setactorsoundpitch THISACTOR SHEAT_EYEGLASS -256 }
+else ife CHAR 6 { ife temp 1 sound GEO_HEATOFF else sound GEO_HEATON }
+else ife CHAR 7 { ife temp 1 sound MIK_HEATOFF else sound MIK_HEATON }
+else ife CHAR 9 { sound SHEAT_EYEGLASS ife temp 1 setactorsoundpitch THISACTOR SHEAT_EYEGLASS -256 }
+else ife CHAR 10 { ife temp 1 sound HIGH_HEATOFF else sound HIGH_HEATON }
+else ife CHAR 13 { ife temp 1 sound MC_NVG_OFF else sound MC_NVG_ON }
+else ife CHAR 14 { ife temp 1 sound SF_NVG_OFF else sound SF_NVG_ON }
+else ife CHAR 17 { ife temp 1 sound KG_NVG_OFF else sound KG_NVG_ON }
+else { ife temp 1 sound NITEVISION_OFF else sound NITEVISION_ON }
+}
+endevent
+
+defstate stop_throw
+ife cur_weap 5
+ifg kickbackpic 4
+ifl kickbackpic 20
+	{
+	sound SELECT_WEAPON
+	setplayer[].kickback_pic 0
+	}
+ends
+
+defstate handle_weapon_switching
+
+	state stop_throw
+
+	ife CHAR 2
+	 ife cur_weap 4
+		{
+		ifl kickbackpic 16 setp[].kickback_pic 0
+		}
+
+	ifg shotgun_load 0 { setp[].kickback_pic 0 setp[].reloading 0 set shotgun_load 0 }
+	ifand gun_firemode 16384 xorvar gun_firemode 16384
+	ifand gun_firemode 512 xorvar gun_firemode 512
+
+	ifn gl_countd 0 set RETURN -1
+	ife MISSION_UP 1 set RETURN -1
+	ife show_rs_ui 1 set RETURN -1
+	ife show_bst_ui 1 set RETURN -1
+ends
+
+onevent EVENT_NEXTWEAPON
+	state handle_weapon_switching
+
+	ifn scope 0
+		{
+			set RETURN -1
+			ifl ZOOMAMOUNT 6 { sound SCOPE_ZOOM add ZOOMAMOUNT 1  }
+		}
+	ife userdef[].overhead_on 2
+		{
+		getp[].zoom temp
+		sub temp 256
+		clamp temp 48 2048
+		setp[].zoom temp
+		}
+
+	ifn player_using_hovercraft -1 { ifl hc_gear 6 add hc_gear 1 set RETURN -1 }
+	ifn player_using_fighter -1 { ifl hc_gear 6 add hc_gear 1 set RETURN -1 }
+	ifn player_using_jet -1 { ifl hc_gear 6 add hc_gear 1 set RETURN -1 }
+	ifn player_using_submarine -1 { ifl hc_gear 6 add hc_gear 1 set RETURN -1 }
+	ifn player_using_hovertank -1 { ifl hc_gear 6 add hc_gear 1 set RETURN -1 }
+	ifn player_using_VR_tank -1 { ifl hc_gear 6 add hc_gear 1 set RETURN -1 }
+endevent
+
+onevent EVENT_PREVIOUSWEAPON
+	state handle_weapon_switching
+
+	ifn scope 0
+		{
+			set RETURN -1
+			ifg ZOOMAMOUNT 0 { sound SCOPE_ZOOM sub ZOOMAMOUNT 1  }
+		}
+	ife userdef[].overhead_on 2
+		{
+		getp[].zoom temp
+		add temp 256
+		clamp temp 48 2048
+		setp[].zoom temp
+		}
+	ifn player_using_hovercraft -1 { ifg hc_gear 0 sub hc_gear 1 set RETURN -1 }
+	ifn player_using_fighter -1 { ifg hc_gear 0 sub hc_gear 1 set RETURN -1 }
+	ifn player_using_jet -1 { ifg hc_gear 0 sub hc_gear 1 set RETURN -1 }
+	ifn player_using_submarine -1 { ifg hc_gear 0 sub hc_gear 1 set RETURN -1 }
+	ifn player_using_hovertank -1 { ifg hc_gear 0 sub hc_gear 1 set RETURN -1 }
+	ifn player_using_VR_tank -1 { ifg hc_gear 0 sub hc_gear 1 set RETURN -1 }
+
+endevent
+
+
+// /=========================================================================================
+
+include CODE/INPUT/RELOAD.CON
+
+// FIRE KEY============================================================================================
+
+defstate shoot_cased_grenades
+	ifand AMMO_TYPES[cur_weap] 32
+	ifg fortymm_shells 0
+		{
+		set gl_countd 46
+		eshoot 16005
+		setthisprojectile[RETURN].bounces 3
+		setthisprojectile[RETURN].pal 21
+		setthisprojectile[RETURN].extra 300
+		setthisprojectile[RETURN].vel 900
+		setthisprojectile[RETURN].drop -80
+		setthisprojectile[RETURN].hitradius 3096
+		soundvar temp9
+		sub fortymm_shells 1
+		resetcount
+		}
+	else
+	ifand AMMO_TYPES[cur_weap] 128
+	ifg fortymm_MIA_shells 0
+		{
+		set gl_countd 46
+		shoot MIA_BLAST
+		soundvar temp9
+		sub fortymm_MIA_shells 1
+		resetcount
+		}
+	else
+	ifand AMMO_TYPES[cur_weap] 256
+	ifg fortymm_plasma 0
+		{
+		set gl_countd 46
+		shoot CYCLOID_PLASMA
+		sound ZAX_CY_PLAS
+		soundvar temp9
+		sub fortymm_plasma 1
+		resetcount
+		}
+	else
+	ifg fortymm_grenades 0
+		{
+		set gl_countd 46
+		shoot FORTYMM_NADE
+		soundvar temp9
+		ife CHAR 0 ife SPECIALIST_EQUIPMENT[77] 2 { getplayer[].ammo_amount 4 fortymm_grenades sub fortymm_grenades 1 setplayer[].ammo_amount 4 fortymm_grenades }
+		sub fortymm_grenades 1
+		resetcount
+		}
+	else state dry_fire
+ends
+
+defstate shoot_caseless_grenades
+	ifand AMMO_TYPES[cur_weap] 512
+	ifg fortymm_slug 0
+		{
+		set gl_countd 46
+		shoot 5125
+		sound SLUGFIRE
+		soundvar temp9
+		sub fortymm_slug 1
+		resetcount
+		}
+	else
+	ifand AMMO_TYPES[cur_weap] 2048
+	ifg fortymm_electro 0
+		{
+		set gl_countd 46
+		shoot 22610
+		shoot 22610
+		shoot 22610
+		shoot 22610
+		shoot 22610
+		soundvar temp9
+		sound MANACLE_FIRE
+		sub fortymm_electro 1
+		resetcount
+		}
+	else
+	ifand AMMO_TYPES[cur_weap] 4096
+	ifg fortymm_cryo 0
+		{
+		set gl_countd 46
+		shoot 7162
+		soundvar temp9
+		sound GREMGUN_ICE
+		sub fortymm_cryo 1
+		resetcount
+		}
+	else
+	ifg fortymm_caseless 0
+		{
+		set gl_countd 46
+		shoot GP30_NADE
+		soundvar temp9
+		sub fortymm_caseless 1
+		resetcount
+		}
+	else state dry_fire
+ends
+
+include CODE/INPUT/FIRE.CON
+
+defstate MEDIKIT_USE
+ifg MEDIKIT_USING 0
+	{
+		ifp pdead break
+	switch CHAR
+	case C_JAMES
+	case C_BOMBSHELL
+		set itemsound JAMES_FIRSTAID break
+	case C_ZAXTOR
+	case C_MIKKO
+		set itemsound MED_GEL break
+	case C_MERLIJN 
+	case C_MAARTEN
+	case C_KAGURA
+		set itemsound DRINKELIXER break
+	case C_HIGHWIRE
+	case C_MICKY
+	case 15
+		set itemsound HIGH_FIRSTAID break
+	case 4
+	case 9 
+		set itemsound SANG_FIRSTAID break
+	case 5 
+	case C_ROSA
+		set itemsound DRINKSOME break
+	case 6
+	case C_JANE
+		set itemsound GEO_MEDIUSE break
+	case 14
+		set itemsound SF_HEAL break
+	endswitch
+	soundoncevar itemsound
+
+	getp[].firstaid_amount temp8
+	mul temp8 2
+	setactorsoundpitch THISACTOR itemsound temp8
+
+	ife MYSTICAL_RESEARCH[5] 2 // improved kit speed?
+		{
+		getp[].firstaid_amount temp8
+		sub temp8 2
+		ifl temp8 0 set temp8 0
+		setp[].firstaid_amount temp8
+
+		ife PHEALTH pmax_health
+			{
+			getp[].firstaid_amount temp7
+			add temp7 MEDIKIT_USING
+			setp[].firstaid_amount temp7
+			set MEDIKIT_USING 0
+			}
+
+		geta[].extra temp4
+		add temp4 2
+		seta[].extra temp4
+		sub MEDIKIT_USING 2
+		ifl MEDIKIT_USING 0 set MEDIKIT_USING 0
+		}
+
+	else
+		{
+		getp[].firstaid_amount temp8
+		sub temp8 1
+		setp[].firstaid_amount temp8
+
+		ife PHEALTH pmax_health
+			{
+			getp[].firstaid_amount temp7
+			add temp7 MEDIKIT_USING
+			setp[].firstaid_amount temp7
+			set MEDIKIT_USING 0
+			}
+
+		geta[].extra temp4
+		add temp4 1
+		seta[].extra temp4
+		sub MEDIKIT_USING 1
+		}
+
+	}
+ends
+
+onevent EVENT_USEMEDKIT
+set RETURN 1
+ifl MEDIKIT_USING 0 set MEDIKIT_USING 0
+
+ifn CURSED 0 { palfrom 20 40 0 40 soundonce P_CURSED }
+
+ife CURSED 0
+ifg player[].firstaid_amount 0
+ifl PHEALTH pmax_health
+ife MEDIKIT_USING 0
+{
+	set OXYGEN_HIT 0
+	getp[].firstaid_amount temp8
+	set temp3 PHEALTH
+	set temp2 pmax_health
+	sub temp2 temp3
+	sub temp8 temp2
+	ifl temp8 0 { add temp2 temp8 set temp8 0 setp[].inven_icon 0 }
+	ifmultiplayer set MEDIKIT_USING temp2
+	else
+	ife SKILL_LEVEL 1 // Apply it instantly if on easy
+		{
+		geta[PLAYER_IDENTITY].extra temp4
+		add temp4 temp2
+		seta[PLAYER_IDENTITY].extra temp4
+		setp[].firstaid_amount temp8
+		}
+		else set MEDIKIT_USING temp2
+
+
+	ifg flash_banged 0 set flash_banged 0
+
+	ifp pdead set MEDIKIT_USING 0
+
+	ife PERSONNEL_RESEARCH[33] 2 // emergency shield
+		{
+		set P_REC_DELAY 0
+		}
+
+	ife PERSONNEL_RESEARCH[13] 2 // medical foam?
+	 ifg fire_damage 0
+		{
+		set fire_damage 0
+		palfrom 10 0 0 10
+		}
+
+	ife PERSONNEL_RESEARCH[19] 2 // de-thawing kit
+	 ifg ice_damage 0
+		{
+		set screen_pal_override 10
+		set ice_damage 0
+		palfrom 10 0 0 10
+		}
+
+	ife PERSONNEL_RESEARCH[5] 2 // anti-toxin?
+	{
+	ifg INEBRIATION 0 set INEBRIATION 0 // instant deboozing
+	 ifg BLINDED 0
+		{
+		set BLINDED 0
+		palfrom 10 0 0 10
+		}
+	}
+
+	ife INVEN_REPLACE 1 soundonce EATSOME
+	else
+	{
+	 ife CHAR 0 soundonce J_USEMEDKIT
+	 ife CHAR 1 soundonce ZAHH
+	 ife CHAR 2 soundonce DRINKELIXER
+	 ife CHAR 3 soundonce RAHH
+	 ife CHAR 4 soundonce SAHH
+	 ife CHAR 5 soundonce DRINKSOME
+	 ife CHAR 6 soundonce GEO_MEDIKIT
+	 ife CHAR 10 soundonce BS_AHH
+	 ife CHAR 11 soundonce DRINKELIXER
+	 ife CHAR 12 soundonce JA_AHH
+	 ife CHAR 14 soundonce SF_MEDIKIT
+	 ife CHAR 17 soundonce DRINKELIXER
+	 ife CHAR C_WHEATON soundonce WH_HEAL
+	}
+}
+
+endevent
+
+defstate CHARSELLEFT
+ife CHARSELECT 1
+{
+	ifl CHARSHADE 10
+	{
+	sound SELECT
+	set CHARSHADE 20
+	ifg CHAR 7 set CHAR 0 else
+	ifg CHAR 3 { sub CHAR 1 ifl CHAR 4 set CHAR 7 } else
+	ifg CHAR -1 { sub CHAR 1 ifl CHAR 0 set CHAR 3 }
+}
+}
+ends
+
+defstate CHARSELRIGHT
+ife CHARSELECT 1
+{
+	ifl CHARSHADE 10
+	{
+	sound SELECT
+	set CHARSHADE 20
+	ifg CHAR 7 set CHAR 0 else
+	ifg CHAR 3 { add CHAR 1 ifg CHAR 7 set CHAR 4 } else
+	ifg CHAR -1 { add CHAR 1 ifg CHAR 3 set CHAR 0 }
+	}
+}
+ends
+
+defstate CHARSELLUPDOWN
+ife CHARSELECT 1
+{
+	ifl CHARSHADE 10
+	{
+	sound SELECT
+	set CHARSHADE 20
+	ifg CHAR 7 set CHAR 4
+	sub CHAR 4 ifl CHAR 0 add CHAR 8
+	}
+}
+ends
+
+defstate JMOVESOUND
+ ife MOVESOUND 0
+  ife MOUSEUP 0
+   ife DOCUMENT -1
+	ife CHARSELECT 0
+	 ife MISSION_UP 0
+	  ifn userdef[].scrollmode 1
+	{
+switch CHAR
+case 0
+case 7
+case 10
+	ifrnd 64 soundonce JMOVE1 else
+	ifrnd 64 soundonce JMOVE2 else
+	ifrnd 64 soundonce JMOVE3 else
+	soundonce JMOVE4
+	set MOVESOUND 1
+break
+endswitch
+	}
+ends
+
+
+onevent EVENT_STRAFELEFT state JMOVESOUND state CHARSELLEFT endevent
+onevent EVENT_TURNLEFT ifl input[].avel -30 ife player[].invdisptime 0 ifg wepsway_x -12 { sub wepsway_x 4 } // state CHARSELLEFT
+endevent
+
+onevent EVENT_MOVEBACKWARD
+state CHARSELLUPDOWN
+state JMOVESOUND
+
+set bpress 2
+
+ifg onladder 0 ifp palive
+{
+	set RETURN -1
+	set temp RUNNINGSPEED
+	ife LADDERTYPE 0
+	{
+	div temp 50
+	sub temp 512
+	}
+	else
+	{
+	div temp 25
+	}
+	set laddervel temp
+}
+
+endevent
+
+onevent EVENT_MOVEFORWARD
+state CHARSELLUPDOWN
+state JMOVESOUND
+
+set fpress 2
+
+ifg onladder 0 ifp palive
+{
+	set RETURN -1
+	ifp ponground
+	{
+		getp[].posz z
+		sub z 3500
+		setp[].posz z
+	}
+	set temp RUNNINGSPEED
+	div temp -50
+	set laddervel temp
+}
+
+endevent
+
+onevent EVENT_AIMUP
+set RETURN 1
+ifcount 13
+	{
+	ife cur_weap 0 sound WEAPON0_SELECTSOUND
+	ife cur_weap 1 sound WEAPON1_SELECTSOUND
+	ife cur_weap 2 sound WEAPON2_SELECTSOUND
+	ife cur_weap 3 sound WEAPON3_SELECTSOUND
+	ife cur_weap 4 sound WEAPON4_SELECTSOUND
+	ife cur_weap 5 sound WEAPON5_SELECTSOUND
+	ife cur_weap 6 sound WEAPON6_SELECTSOUND
+	ife cur_weap 7 sound WEAPON7_SELECTSOUND
+	ife cur_weap 8 sound WEAPON8_SELECTSOUND
+	ife cur_weap 9 sound WEAPON9_SELECTSOUND
+	ife cur_weap 10 sound WEAPON10_SELECTSOUND
+	ife cur_weap 11 sound WEAPON11_SELECTSOUND
+	ife player[].holster_weapon 1
+		setplayer[].holster_weapon 0
+	else setplayer[].holster_weapon 1
+	resetcount
+	}
+endevent
+
+onevent EVENT_AIMDOWN state CHARSELLUPDOWN endevent
+
+onevent EVENT_STRAFERIGHT state JMOVESOUND state CHARSELRIGHT endevent
+onevent EVENT_TURNRIGHT ifg input[].avel 30 ife player[].invdisptime 0 ifl wepsway_x 12 add wepsway_x 4	 // state CHARSELRIGHT
+endevent
+
+defstate RADIO_WAIT_SOUNDS
+ife CHAR 0 set playsound J_WAIT
+ife CHAR 1 set playsound Z_WAIT
+ife CHAR 2 set playsound M_WAIT
+ife CHAR 3 set playsound R_WAIT
+ife CHAR 4 set playsound S_WAIT
+ife CHAR 5 set playsound RN_WAIT
+ife CHAR 6 { ifrnd 128 set playsound G_WAIT else set playsound G_WAIT2 }
+ife CHAR 7 set playsound MS_WAIT
+ife CHAR 13 set playsound MC_WAIT
+ife CHAR 14 set playsound SF_WAIT
+ife CHAR 15 set playsound MC_WAIT
+ife CHAR 17 set playsound KG_WAIT
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+ends
+
+defstate RADIO_FOLLOW_SOUNDS
+ife CHAR 0 set playsound J_FOLLOW
+ife CHAR 1 set playsound Z_FOLLOW
+ife CHAR 2 set playsound M_FOLLOW
+ife CHAR 3 set playsound R_FOLLOW
+ife CHAR 4 set playsound S_FOLLOW
+ife CHAR 5 set playsound RN_FOLLOW
+ife CHAR 6 set playsound G_FOLLOW
+ife CHAR 7 set playsound MS_FOLLOW
+ife CHAR 13 set playsound MC_FOLLOW
+ife CHAR 14 set playsound SF_FOLLOW
+ife CHAR 15 set playsound MC_FOLLOW
+ife CHAR 17 set playsound KG_FOLLOW
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+ends
+
+defstate RADIO_BACKUP_SOUNDS
+ife CHAR 0 set playsound J_BACKUP
+ife CHAR 1 set playsound Z_BACKUP
+ife CHAR 2 set playsound M_BACKUP
+ife CHAR 3 set playsound R_BACKUP
+ife CHAR 4 set playsound S_BACKUP
+ife CHAR 5 set playsound RN_BACKUP
+ife CHAR 6 set playsound G_BACKUP
+ife CHAR 7 set playsound MS_BACKUP
+ife CHAR 13 set playsound MC_BACKUP
+ife CHAR 14 set playsound SF_HELPME
+ife CHAR 15 set playsound MC_BACKUP
+ife CHAR 17 set playsound KG_NEEDBAK
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+ends
+
+defstate RADIO_COVER_SOUNDS
+ife CHAR 0 set playsound J_COVER
+ife CHAR 1 set playsound Z_COVER
+ife CHAR 2 set playsound M_COVER
+ife CHAR 3 set playsound R_COVER
+ife CHAR 4 set playsound S_COVER
+ife CHAR 5 set playsound RN_COVER
+ife CHAR 6 set playsound G_COVER
+ife CHAR 7 set playsound MS_COVER
+ife CHAR 13 set playsound MC_COVER
+ife CHAR 14 set playsound SF_COVER
+ife CHAR 15 set playsound MC_COVER
+ife CHAR 17 set playsound KG_COVME
+ife CHAR 18 set playsound WH_COVER
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+ends
+
+defstate STOP_WEAPON_CHANGE // disable weapon switching if any of these are true
+ife userdef[].overhead_on 2 set RETURN -1 else
+ife P_SWHEEL 1 set RETURN -1 else
+ifn scope 0 set RETURN -1 else
+ifn loading 0 set RETURN -1 else
+ifg CHOKE 0 set RETURN -1 else
+ifg troll_struggle -1 set RETURN 1 else
+ifg succubus_struggle -1 set RETURN 1 else
+ifn PCINTER 0 set RETURN -1 else
+ifn camerasprite -1 set RETURN -1 else
+// ife player_in_vehicle 1 set RETURN -1 else
+ifg shotgun_struggle -1 set RETURN 1 else
+ifn phantasm_stick -1 set RETURN -1 else
+ife MISSION_UP 1 set RETURN -1 else
+ifand gun_firemode 16384 set RETURN -1 else
+ifl UPPER_CUT 20 set RETURN -1 else
+ifg GUN_CHARGE 0 set RETURN -1
+ends
+
+onevent EVENT_CHANGEWEAPON
+set gunsmoke_disp 40
+set gunsmoke_disp2 40
+set firekey_indicator 30
+set kickbackpic_2 0
+set kickbackpic_3 0
+set alt_fire_type 0
+set reload_frame 6 // reset to default
+set reload_frame_partial 0 // reset to default
+set reload_type 0 // reset to default
+set SWORD_BLOCK 0
+
+ifand gun_firemode 2147483648 // reset MIA cancel
+	{
+	set INTERNALCOUNT 519
+	xor gun_firemode 2147483648
+	}
+
+ife temp_weap 40 stopsound ZRAILGUN_IDLE
+ife temp_weap 17 stopsound CHAINSAW_IDLE
+ife CHAR 6 stopsound RAILGUN_AMB
+ife CHAR 12 stopsound PLASRG_AMB
+ife CHAR 14 stopsound SF_LG_HUM
+state STOP_WEAPON_CHANGE
+
+ifg fire_mode_menu 0 set RETURN -1
+ifn gl_countd 0 set RETURN -1
+
+ifn RETURN -1 set weap_show 130
+
+set AMMO_TYPE AMMO_TYPES[cur_weap]
+
+ife hide_xhair 1 set hide_xhair 0
+
+ife weapon_bayonet 1 set weapon_bayonet 0
+ifand gun_firemode 16384 { set hide_xhair 0 xorvar gun_firemode 16384 }
+ifand gun_firemode 131072 { set hide_xhair 0 xorvar gun_firemode 131072 }
+ifand gun_firemode 32768 xorvar gun_firemode 32768
+
+endevent
+
+defstate disable_weap_key
+ifn PCINTER 0 set RETURN -1
+state stop_throw
+state STOP_WEAPON_CHANGE
+ends
+
+defstate toggle_cased_gl
+	ife player[].weapon_pos 0
+	{
+		ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+		{ quote 272 xorvar gun_firemode 32768 }
+		set weap_show 130
+		state lower_weapon
+		soundonce WEAP_FIRE_MODE
+	}
+	set fire_mode_menu 0
+	set RETURN -1
+ends
+
+onevent EVENT_WEAPKEY1 // JAMES OR FOOT
+state disable_weap_key
+	ife CHARSELECT 1
+	{
+		ifl CHARSHADE 10
+		{
+		sound SELECT
+		set CHARSHADE 20
+		set CHAR 0
+		}
+	}
+
+  ife cur_weap 0
+  ife fire_mode_menu 0
+  {
+   ifand GUN_AMMO_TYPES 32
+	{
+		ife player[].weapon_pos 0
+		{
+			// Switching from GL to standard attack
+			ifand gun_firemode 32768
+			{
+				quote 273
+				xor gun_firemode 32768
+			}
+			// Switching from standard attack to GL
+			else
+			{
+				or gun_firemode 32768
+				quote 272
+			}
+			
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+		}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+	else
+   ifand GUN_AMMO_TYPES 64
+	{
+		ife player[].weapon_pos 0
+		{
+			// Switching from GL to standard attack
+			ifand gun_firemode 32768
+			{
+				quote 273
+				xor gun_firemode 32768
+			}
+			// Switching from standard attack to GL
+			else
+			{
+				or gun_firemode 32768
+				quote 272
+			}
+			
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+		}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+	else
+   ifand GUN_AMMO_TYPES 2048
+	{
+		ife player[].weapon_pos 0
+			{
+			ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+			{ quote 272 xorvar gun_firemode 32768 }
+			ifand gun_firemode 16384 xorvar gun_firemode 16384
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+			}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+	else
+   ifand GUN_AMMO_TYPES 4096
+	{
+			ife player[].weapon_pos 0
+			{
+			ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+			{ quote 272 xorvar gun_firemode 32768 }
+			ifand gun_firemode 16384 xorvar gun_firemode 16384
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+			}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+   }
+
+
+ife fire_mode_menu 1
+ifand GUN_AMMO_TYPES 1
+ifg explosive_shells 0
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		{
+		ife cur_weap 9
+		ifand weap_special[9] 4
+			{
+			ifand AMMO_TYPES[cur_weap] 4 { xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 add flechete_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 64 { xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 add magnum_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 1024 { xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 add dragon_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 65536 { xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 add silverb_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 1 break else { quote 207 xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+			getp[].ammo_amount 2 temp3 add temp3 ALTMAG setp[].ammo_amount 2 temp3 }
+			set ALTMAG 0
+			state lower_weapon
+			}
+			else
+			ifn cur_weap 0
+		ifand gun_firemode_two 8
+			{
+			set AMMO_TYPE_2 AMMO_TYPES[15]
+			ifand AMMO_TYPES[15] 4 { xorvar AMMO_TYPE_2 4 setarray AMMO_TYPES[15] AMMO_TYPE_2 add flechete_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 64 { xorvar AMMO_TYPE_2 64 setarray AMMO_TYPES[15] AMMO_TYPE_2 add magnum_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 1024 { xorvar AMMO_TYPE_2 1024 setarray AMMO_TYPES[15] AMMO_TYPE_2 add dragon_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 65536 { xorvar AMMO_TYPE_2 65536 setarray AMMO_TYPES[15] AMMO_TYPE_2 add silverb_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 1 break else { quote 207 xorvar AMMO_TYPE_2 1 setarray AMMO_TYPES[15] AMMO_TYPE_2
+			getp[].ammo_amount 2 temp3 add temp3 alt_slot2_mag setp[].ammo_amount 2 temp3 }
+			state lower_weapon
+				ifn gun_mag -1
+					{
+					ife CHAR 0 ife cur_weap 2 set alt_slot2_mag 0
+					ife CHAR 7 ife cur_weap 2 set alt_slot2_mag 0
+					ife CHAR 12 ife cur_weap 2 set alt_slot2_mag 0
+					}
+			}
+		else
+			{
+			ifand AMMO_TYPES[cur_weap] 4
+				{
+				set AMMO_TYPE AMMO_TYPES[cur_weap]
+				xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1 ifn cur_weap 0 { ifand weap_special[2] 4 add flechete_shells alt_slot2_mag else add flechete_shells slot2_mag }
+				}
+			ifand AMMO_TYPES[cur_weap] 64
+				{
+				xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1 ifn cur_weap 0 { ifand weap_special[2] 4 add magnum_shells alt_slot2_mag else add magnum_shells slot2_mag }
+				}
+			ifand AMMO_TYPES[cur_weap] 1024
+				{
+				xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1 ifn cur_weap 0 { ifand weap_special[2] 4 add dragon_shells alt_slot2_mag else add dragon_shells slot2_mag }
+				}
+			ifand AMMO_TYPES[cur_weap] 65536
+				{
+				xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1 ifn cur_weap 0 { ifand weap_special[2] 4 add silverb_shells alt_slot2_mag else add silverb_shells slot2_mag }
+				}
+			ifand AMMO_TYPES[cur_weap] 1 break else
+				{
+				quote 207 xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1
+				 ifn cur_weap 0
+					{
+					ifn CHAR 9
+						{
+						getp[].ammo_amount 2 temp3
+						ifand weap_special[2] 4 add temp3 alt_slot2_mag else
+						add temp3 slot2_mag
+						setp[].ammo_amount 2 temp3
+						}
+					}
+				}
+			state lower_weapon
+			state empty_shotgun	 
+			}
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 2
+ifg silver_ammo 0 // 45 silver bullets
+ife kickbackpic 0
+	{
+	set AMMO_TYPE AMMO_TYPES[cur_weap]
+	ife player[].weapon_pos 0
+		{
+		ifand AMMO_TYPE 32768 xor AMMO_TYPE 32768
+		ifand AMMO_TYPES[cur_weap] 2 nullop else
+		{ quote 205 xorvar AMMO_TYPE 2 setarray AMMO_TYPES[cur_weap] AMMO_TYPE state lower_weapon }
+		}
+	ife CHAR 0
+		{
+		ife cur_weap 1 { ife JAMES_1911 1 set slot1_mag 0 }
+		ife cur_weap 3 { ife SPECIALIST_EQUIPMENT[55] 2 set slot3_mag 0 }
+		}
+	ife CHAR 13
+		{
+		ife cur_weap 1 { ife SPECIALIST_EQUIPMENT[60] 2 set slot1_mag 0 }
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 3 // Assault Rifle GL
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		{
+		ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+		{ quote 272 xorvar gun_firemode 32768 }
+		state lower_weapon
+		soundonce WEAP_FIRE_MODE
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 4
+ifg silver_bolts 0 // Crossbow silver bolts
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		{
+			ifand AMMO_TYPES[cur_weap] 16 nullop 
+			else
+			{ 
+				quote 278 
+				setarray AMMO_TYPES[cur_weap] 16 
+				state lower_weapon
+			}
+			ife cur_weap 0 setp[].ammo_amount 0 silver_bolts
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 6 // DUP missile
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		ifand GUN_AMMO_TYPES 512
+		ifand gun_firemode_two 4
+		{
+		soundonce WEAP_FIRE_MODE
+		xorvar gun_firemode_two 4
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 7 // 40mm standard shell
+ife kickbackpic 0
+	{
+		ifand AMMO_TYPES[cur_weap] 32 { xorvar AMMO_TYPE 32 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		else ifand AMMO_TYPES[cur_weap] 128 { xorvar AMMO_TYPE 128 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		else ifand AMMO_TYPES[cur_weap] 256 { xorvar AMMO_TYPE 256 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		else break
+		state lower_weapon
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 8 // 40mm caseless grenade
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		{
+			ifand AMMO_TYPES[cur_weap] 64 
+				nullop 
+			else 
+			{ 
+				set AMMO_TYPE 64 
+				setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				or gun_firemode 32768
+			}
+		}
+		state lower_weapon
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+else
+ife voice_comm_menu 9
+{
+set RETURN -1
+set voice_comm_menu 1
+}
+else
+ife voice_comm_menu 5
+{
+set RETURN -1
+ifrnd 128 state RADIO_FOLLOW_SOUNDS
+else state RADIO_BACKUP_SOUNDS
+setactorvar[ALLYSLOT1].FOLLOW_PLAYER 1
+setactorvar[ALLYSLOT1].ALLY_VOICE 45
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 6
+{
+set RETURN -1
+ifrnd 128 state RADIO_FOLLOW_SOUNDS
+else state RADIO_BACKUP_SOUNDS
+setactorvar[ALLYSLOT2].FOLLOW_PLAYER 1
+setactorvar[ALLYSLOT2].ALLY_VOICE 45
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 7
+{
+set RETURN -1
+ifrnd 128 state RADIO_FOLLOW_SOUNDS
+else state RADIO_BACKUP_SOUNDS
+setactorvar[ALLYSLOT3].FOLLOW_PLAYER 1
+setactorvar[ALLYSLOT3].ALLY_VOICE 45
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 8
+{
+set RETURN -1
+ifrnd 128 state RADIO_FOLLOW_SOUNDS
+else state RADIO_BACKUP_SOUNDS
+setactorvar[ALLYSLOT4].FOLLOW_PLAYER 1
+setactorvar[ALLYSLOT4].ALLY_VOICE 45
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 1 // Roger
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_ROGER
+	ife CHAR 1 set playsound Z_ROGER
+	ife CHAR 2 set playsound M_ROGER
+	ife CHAR 3 set playsound R_ROGER
+	ife CHAR 4 set playsound S_ROGER
+	ife CHAR 5 set playsound RN_ROGER
+	ife CHAR 6 set playsound G_ROGER
+	ife CHAR 7 set playsound MS_ROGER
+	ife CHAR 12 set playsound JA_ROGER
+	ife CHAR 13 set playsound MC_ROGER
+	ife CHAR 14 set playsound SF_ROGER
+	ife CHAR 15 set playsound MC_ROGER
+	ife CHAR 17 { ifrnd 128 set playsound KG_ROGER1 else set playsound KG_ROGTAT }
+	ife CHAR 18 set playsound WH_AFF
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 640
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 2 // Thanks
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_THANKS
+	ife CHAR 1 set playsound Z_THANKS
+	ife CHAR 2 set playsound M_THANKS
+	ife CHAR 3 set playsound R_THANKS
+	ife CHAR 4 set playsound S_THANKS
+	ife CHAR 5 set playsound RN_THANKS
+	ife CHAR 6 set playsound G_THANKS
+	ife CHAR 7 set playsound MS_THANKS
+	ife CHAR 13 set playsound MC_THANKS
+	ife CHAR 14 set playsound SF_THANKS
+	ife CHAR 15 set playsound MC_THANKS
+	ife CHAR 17 { ifrnd 127 set playsound KG_THANKS2 else set playsound KG_THANKY }
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 648
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 3 // Affirimitive
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_AFFIRM
+	ife CHAR 1 set playsound Z_AFFIRM
+	ife CHAR 2 set playsound M_AFFIRM
+	ife CHAR 3 set playsound R_AFFIRM
+	ife CHAR 4 set playsound S_AFFIRM
+	ife CHAR 5 set playsound RN_AFFIRM
+	ife CHAR 6 set playsound G_AFFIRM
+	ife CHAR 7 set playsound MS_AFFIRM
+	ife CHAR 13 set playsound MC_AFFIRM
+	ife CHAR 15 set playsound MC_AFFIRM
+	ife CHAR 17 { ifrnd 127 set playsound KG_YES1 else set playsound KG_AFF }
+	ife CHAR 18 set playsound WH_AFF
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 656
+	userquote 356
+set voice_comm_menu 0
+}
+endevent
+
+onevent EVENT_WEAPKEY2 // ZAXTOR OR PISTOL
+state disable_weap_key
+	ife CHARSELECT 1
+	{
+	ifand TRIGGER_BASE_SCENE 8 nullop else
+		ifl CHARSHADE 10
+		{
+		sound SELECT
+		set CHARSHADE 20
+		set CHAR 1
+		}
+	}
+
+  ife cur_weap 1
+  ife fire_mode_menu 0
+  {
+   ifand GUN_AMMO_TYPES 32
+	{
+		ife player[].weapon_pos 0
+			{
+			ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+			{ quote 272 xorvar gun_firemode 32768 }
+			ifand gun_firemode 16384 xorvar gun_firemode 16384
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+			}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+	else
+   ifand GUN_AMMO_TYPES 64
+	{
+		ife player[].weapon_pos 0
+			{
+			ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+			{ quote 272 xorvar gun_firemode 32768 }
+			ifand gun_firemode 16384 xorvar gun_firemode 16384
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+			}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+	else
+   ifand GUN_AMMO_TYPES 2048
+	{
+		ife player[].weapon_pos 0
+			{
+			ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+			{ quote 272 xorvar gun_firemode 32768 }
+			ifand gun_firemode 16384 xorvar gun_firemode 16384
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+			}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+	else
+   ifand GUN_AMMO_TYPES 4096
+	{
+			ife player[].weapon_pos 0
+			{
+			ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+			{ quote 272 xorvar gun_firemode 32768 }
+			ifand gun_firemode 16384 xorvar gun_firemode 16384
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+			}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+   }
+
+ife fire_mode_menu 1
+ifand GUN_AMMO_TYPES 1
+ifg flechete_shells 0
+ife kickbackpic 0
+	{
+	ife player[].weapon_pos 0
+		{
+		ife cur_weap 9
+		ifand weap_special[9] 4
+			{
+			ifand AMMO_TYPES[cur_weap] 1 { xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add explosive_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 64 { xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add magnum_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 1024 { xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add dragon_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 65536 { xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add silverb_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 4 break else { quote 268 xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+			getp[].ammo_amount 2 temp3 add temp3 ALTMAG setp[].ammo_amount 2 temp3 }
+			set ALTMAG 0
+			state lower_weapon
+			}
+			else
+		ifn cur_weap 0
+	ifand gun_firemode_two 8
+			{
+			set AMMO_TYPE_2 AMMO_TYPES[15]
+			ifand AMMO_TYPES[15] 1 { xorvar AMMO_TYPE_2 1 setarray AMMO_TYPES[15] AMMO_TYPE_2 add explosive_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 64 { xorvar AMMO_TYPE_2 64 setarray AMMO_TYPES[15] AMMO_TYPE_2 add magnum_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 1024 { xorvar AMMO_TYPE_2 1024 setarray AMMO_TYPES[15] AMMO_TYPE_2 add dragon_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 65536 { xorvar AMMO_TYPE_2 65536 setarray AMMO_TYPES[15] AMMO_TYPE_2 add silverb_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 4 break else { quote 268 xorvar AMMO_TYPE_2 4 setarray AMMO_TYPES[15] AMMO_TYPE_2
+			getp[].ammo_amount 2 temp3 add temp3 alt_slot2_mag setp[].ammo_amount 2 temp3 }
+			state lower_weapon
+			ifn gun_mag -1
+				{
+				ife CHAR 0 ife cur_weap 2 set alt_slot2_mag 0
+				ife CHAR 7 ife cur_weap 2 set alt_slot2_mag 0
+				ife CHAR 12 ife cur_weap 2 set alt_slot2_mag 0
+				}
+			}
+		else
+			{
+			set AMMO_TYPE AMMO_TYPES[cur_weap]
+			ifand AMMO_TYPES[cur_weap] 1  // using explosive shells?
+				{
+				xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1 ifn cur_weap 0 { ifand weap_special[2] 4 add explosive_shells alt_slot2_mag else add explosive_shells slot2_mag }
+				}
+			ifand AMMO_TYPES[cur_weap] 64 // using magnum shells?
+				{
+				xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1
+					ifn cur_weap 0
+					{ ifand weap_special[2] 4 add magnum_shells alt_slot2_mag else add magnum_shells slot2_mag }
+				}
+			ifand AMMO_TYPES[cur_weap] 1024 // using dragon shells?
+				{
+				xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1
+					ifn cur_weap 0
+					{ ifand weap_special[2] 4 add dragon_shells alt_slot2_mag else add dragon_shells slot2_mag }
+				}
+			ifand AMMO_TYPES[cur_weap] 65536 // using silver ball bearing shells
+				{
+				xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1
+					ifn cur_weap 0
+					{ ifand weap_special[2] 4 add silverb_shells alt_slot2_mag else add silverb_shells slot2_mag }
+				}
+			ifand AMMO_TYPES[cur_weap] 4 break else // using Flechette shells
+				{
+				quote 268 xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1
+				 ifn cur_weap 0
+					{
+					ifn CHAR 9
+						{
+						getp[].ammo_amount 2 temp3
+						ifand weap_special[2] 4 add temp3 alt_slot2_mag else
+						add temp3 slot2_mag
+						setp[].ammo_amount 2 temp3
+						}
+					}
+				}
+			state lower_weapon
+			state empty_shotgun
+			}
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+	ife fire_mode_menu 2 // Tommy Gun ammo
+	ife kickbackpic 0
+	{
+		set temp 0
+
+		// normal_ammo is used for temp weapons, cur_ammo on normal weapons. sucks but was needed to get around hardcoded fuckery
+		// I'll have a proper look later.
+		ifg normal_ammo 0
+			set temp 1
+		else ifn cur_weap 0 ifg cur_ammo 0
+			set temp 1
+
+		ife player[].weapon_pos 0
+		{
+			ifand AMMO_TYPES[cur_weap] 2
+			{
+				xorvar AMMO_TYPE 2
+				setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				quote 206
+				state lower_weapon
+				setp[].ammo_amount 0 normal_ammo
+			}
+			ifand AMMO_TYPES[cur_weap] 32768
+			{
+				xorvar AMMO_TYPE 32768
+				setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				quote 206
+				state lower_weapon
+				setp[].ammo_amount 0 normal_ammo
+			}
+		}
+
+		ife CHAR C_JAMES
+		{
+			ife cur_weap 1 { ife JAMES_1911 1 set slot1_mag 0 }
+			ife cur_weap 3 { ife SPECIALIST_EQUIPMENT[55] 2 set slot3_mag 0 }
+		}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+else
+ife fire_mode_menu 4 // crossbow normal bolts
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		{
+			ifand AMMO_TYPES[cur_weap] 0 nullop
+			else
+			{
+				quote 279
+				setarray AMMO_TYPES[cur_weap] 0
+				state lower_weapon
+			}
+			ife cur_weap 0 setp[].ammo_amount 0 normal_ammo
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 6 // DUP missile
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		ifand GUN_AMMO_TYPES 512
+		ifg DUP_missile_ammo 0
+		{
+		ifand gun_firemode_two 4 break else
+			{
+			soundonce WEAP_FIRE_MODE
+			xorvar gun_firemode_two 4
+			}
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 7 // 40mm HE shell
+ifg fortymm_shells 0
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		{
+			ifand AMMO_TYPES[cur_weap] 32 
+				nullop 
+			else 
+			{ 
+				set AMMO_TYPE 32 
+				setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				or gun_firemode 32768
+			}
+		}
+		state lower_weapon
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+else
+ife fire_mode_menu 8 // 40mm caseless slug
+ifg fortymm_slug 0
+ife kickbackpic 0
+	{
+		ifand AMMO_TYPES[cur_weap] 512 break else { xorvar AMMO_TYPE 512 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		ifand AMMO_TYPES[cur_weap] 2048 { xorvar AMMO_TYPE 2048 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		ifand AMMO_TYPES[cur_weap] 4096 { xorvar AMMO_TYPE 4096 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		state lower_weapon
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife voice_comm_menu 9
+{
+set RETURN -1
+set force_taunt 13
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 5 // Wait
+{
+set RETURN -1
+ifrnd 128 state RADIO_WAIT_SOUNDS
+else state RADIO_COVER_SOUNDS
+setactorvar[ALLYSLOT1].FOLLOW_PLAYER 0
+setactorvar[ALLYSLOT1].ALLY_VOICE -45
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 6 // Wait
+{
+set RETURN -1
+ifrnd 128 state RADIO_WAIT_SOUNDS
+else state RADIO_COVER_SOUNDS
+setactorvar[ALLYSLOT2].FOLLOW_PLAYER 0
+setactorvar[ALLYSLOT2].ALLY_VOICE -45
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 7 // Wait
+{
+set RETURN -1
+ifrnd 128 state RADIO_WAIT_SOUNDS
+else state RADIO_COVER_SOUNDS
+setactorvar[ALLYSLOT3].FOLLOW_PLAYER 0
+setactorvar[ALLYSLOT3].ALLY_VOICE -45
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 8 // Wait
+{
+set RETURN -1
+ifrnd 128 state RADIO_WAIT_SOUNDS
+else state RADIO_COVER_SOUNDS
+setactorvar[ALLYSLOT4].FOLLOW_PLAYER 0
+setactorvar[ALLYSLOT4].ALLY_VOICE -45
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 1 // Wait
+{
+set RETURN -1
+state RADIO_WAIT_SOUNDS
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 641
+	userquote 356
+
+ifn ALLYSLOT1 -1 { setactorvar[ALLYSLOT1].FOLLOW_PLAYER 0 setactorvar[ALLYSLOT1].ALLY_VOICE -45 }
+ifn ALLYSLOT2 -1 { setactorvar[ALLYSLOT2].FOLLOW_PLAYER 0 setactorvar[ALLYSLOT2].ALLY_VOICE -45 }
+ifn ALLYSLOT3 -1 { setactorvar[ALLYSLOT3].FOLLOW_PLAYER 0 setactorvar[ALLYSLOT3].ALLY_VOICE -45 }
+ifn ALLYSLOT4 -1 { setactorvar[ALLYSLOT4].FOLLOW_PLAYER 0 setactorvar[ALLYSLOT4].ALLY_VOICE -45 }
+ifn ALLYSLOT5 -1 { setactorvar[ALLYSLOT5].FOLLOW_PLAYER 0 setactorvar[ALLYSLOT5].ALLY_VOICE -45 }
+ifn ALLYSLOT6 -1 { setactorvar[ALLYSLOT6].FOLLOW_PLAYER 0 setactorvar[ALLYSLOT6].ALLY_VOICE -45 }
+ifn ALLYSLOT7 -1 { setactorvar[ALLYSLOT7].FOLLOW_PLAYER 0 setactorvar[ALLYSLOT7].ALLY_VOICE -45 }
+ifn ALLYSLOT8 -1 { setactorvar[ALLYSLOT8].FOLLOW_PLAYER 0 setactorvar[ALLYSLOT8].ALLY_VOICE -45 }
+
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 2 // Follow
+{
+set RETURN -1
+state RADIO_FOLLOW_SOUNDS
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 649
+	userquote 356
+
+ifn ALLYSLOT1 -1 { setactorvar[ALLYSLOT1].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT1].ALLY_VOICE 45 }
+ifn ALLYSLOT2 -1 { setactorvar[ALLYSLOT2].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT2].ALLY_VOICE 45 }
+ifn ALLYSLOT3 -1 { setactorvar[ALLYSLOT3].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT3].ALLY_VOICE 45 }
+ifn ALLYSLOT4 -1 { setactorvar[ALLYSLOT4].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT4].ALLY_VOICE 45 }
+ifn ALLYSLOT5 -1 { setactorvar[ALLYSLOT5].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT5].ALLY_VOICE 45 }
+ifn ALLYSLOT6 -1 { setactorvar[ALLYSLOT6].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT6].ALLY_VOICE 45 }
+ifn ALLYSLOT7 -1 { setactorvar[ALLYSLOT7].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT7].ALLY_VOICE 45 }
+ifn ALLYSLOT8 -1 { setactorvar[ALLYSLOT8].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT8].ALLY_VOICE 45 }
+
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 3 // Negative
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_NEGATIVE
+	ife CHAR 1 set playsound Z_NEGATIVE
+	ife CHAR 2 set playsound M_NEGATIVE
+	ife CHAR 3 set playsound R_NEGATIVE
+	ife CHAR 4 set playsound S_NEGATIVE
+	ife CHAR 5 set playsound RN_NEGATIVE
+	ife CHAR 6 set playsound G_NEGATIVE
+	ife CHAR 7 set playsound MS_NEGATIVE
+	ife CHAR 13 set playsound MC_NEGATIVE
+	ife CHAR 15 set playsound MC_NEGATIVE
+	ife CHAR 17 set playsound KG_NO
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 657
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ifand weap_special[1] 1 // Toggle duel pistols
+{
+ife cur_weap 1
+ife player[].weapon_pos 0
+	{
+	ife CHAR 14 ifg GUN_CHARGE 0 break
+	ifand guns_akimbo 4
+		{
+		soundvar WEAPON1_SELECTSOUND
+		xorvar gun_firemode 64
+		state lower_weapon
+		set weap_show 130
+		}
+	}
+}
+
+endevent
+
+onevent EVENT_WEAPKEY3 // MERLIJN OR SHOTGUN
+state disable_weap_key
+
+ife CHARSELECT 1
+	{
+	ifand TRIGGER_BASE_SCENE 8 nullop else
+		ifl CHARSHADE 10
+		{
+		sound SELECT
+		set CHARSHADE 20
+		set CHAR 2
+		}
+	}
+
+ife CHAR 4
+ ife cur_weap 2
+  ifand BASE_COSMETICS 16 // bought Arcane spellbook?
+	{
+	ife player[].weapon_pos 0
+		{
+		ife SPECIALIST_EQUIPMENT[17] 2 // ice spell
+			{
+			ife SPECIALIST_EQUIPMENT[31] 1 // fire spell
+				{
+				setarray SPECIALIST_EQUIPMENT[31] 2 // enable fire spell
+				setarray SPECIALIST_EQUIPMENT[17] 1 // disable ice spell
+				}
+			else
+			ife SPECIALIST_EQUIPMENT[64] 1 // gold spell
+				{
+				setarray SPECIALIST_EQUIPMENT[64] 2 // enable gold spell
+				setarray SPECIALIST_EQUIPMENT[17] 1 // disable ice spell
+
+				}
+			else
+				setarray SPECIALIST_EQUIPMENT[17] 1 // disable ice spell, enabling thunder spell since its the default
+			setp[].weapon_pos 10
+			}
+		else
+		ife SPECIALIST_EQUIPMENT[31] 2 // fire spell
+			{
+			ife SPECIALIST_EQUIPMENT[64] 1 // gold spell
+				{
+				setarray SPECIALIST_EQUIPMENT[64] 2 // enable gold spell
+				setarray SPECIALIST_EQUIPMENT[31] 1 // disable fire spell
+				}
+			else
+				setarray SPECIALIST_EQUIPMENT[31] 1 // disable fire spell, enabling thunder spell since its the default
+			setp[].weapon_pos 10
+			}
+		else
+		ife SPECIALIST_EQUIPMENT[64] 2 // gold spell
+			{
+			setarray SPECIALIST_EQUIPMENT[64] 1 // disable gold spell, enabling thunder spell since its the default
+			setp[].weapon_pos 10
+			}
+		else // thunder spell
+			{
+			ife SPECIALIST_EQUIPMENT[17] 1 // ice spell
+				{
+				setarray SPECIALIST_EQUIPMENT[17] 2 // enable fire spell
+				setp[].weapon_pos 10
+				}
+			else
+			ife SPECIALIST_EQUIPMENT[31] 1 // fire spell
+				{
+				setarray SPECIALIST_EQUIPMENT[31] 2 // enable fire spell
+				setp[].weapon_pos 10
+				}
+			else
+			ife SPECIALIST_EQUIPMENT[64] 1 // gold spell
+				{
+				setarray SPECIALIST_EQUIPMENT[64] 2 // enable gold spell
+				}
+			setp[].weapon_pos 10
+			}
+		}
+	}
+
+// =======================================
+// SHOTGUN STUFF
+// ========================================
+ife fire_mode_menu 1
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		{
+		ife cur_weap 9
+		ifand weap_special[9] 4
+			{
+			set AMMO_TYPE AMMO_TYPES[cur_weap]
+			ifand AMMO_TYPES[cur_weap] 1 { quote 208 xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add explosive_shells ALTMAG }
+			else ifand AMMO_TYPES[cur_weap] 4 { quote 208 xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add flechete_shells ALTMAG }
+			else ifand AMMO_TYPES[cur_weap] 64 { quote 208 xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add magnum_shells ALTMAG }
+			else ifand AMMO_TYPES[cur_weap] 1024 { quote 208 xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add dragon_shells ALTMAG }
+			else ifand AMMO_TYPES[cur_weap] 65536 { quote 208 xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add silverb_shells ALTMAG }
+			else break
+			set ALTMAG 0
+			state lower_weapon
+			}
+			else
+		ifn cur_weap 0
+		ifand gun_firemode_two 8
+			{
+			set AMMO_TYPE_2 AMMO_TYPES[15]
+			ifand AMMO_TYPES[15] 1 { quote 208 xorvar AMMO_TYPE_2 1 setarray AMMO_TYPES[15] AMMO_TYPE_2 add explosive_shells alt_slot2_mag }
+			else ifand AMMO_TYPES[15] 4 { quote 208 xorvar AMMO_TYPE_2 4 setarray AMMO_TYPES[15] AMMO_TYPE_2 add flechete_shells alt_slot2_mag }
+			else ifand AMMO_TYPES[15] 64 { quote 208 xorvar AMMO_TYPE_2 64 setarray AMMO_TYPES[15] AMMO_TYPE_2 add magnum_shells alt_slot2_mag }
+			else ifand AMMO_TYPES[15] 1024 { quote 208 xorvar AMMO_TYPE_2 1024 setarray AMMO_TYPES[15] AMMO_TYPE_2 add dragon_shells alt_slot2_mag }
+			else ifand AMMO_TYPES[15] 65536 { quote 208 xorvar AMMO_TYPE_2 65536 setarray AMMO_TYPES[15] AMMO_TYPE_2 add silverb_shells alt_slot2_mag }
+			else break
+			ifn gun_mag -1
+				{
+				ife CHAR 0 ife cur_weap 2 set alt_slot2_mag 0
+				ife CHAR 7 ife cur_weap 2 set alt_slot2_mag 0
+				ife CHAR 12 ife cur_weap 2 set alt_slot2_mag 0
+				}
+			state lower_weapon
+			}
+			else
+			{
+				// Switch to regular shells. Unload currently used ammo in mag and put back into respective special ammo pools
+				set AMMO_TYPE AMMO_TYPES[cur_weap]
+				ifand AMMO_TYPES[cur_weap] 1
+				{
+					xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+					ifn gun_mag -1
+					 ifn cur_weap 0
+					{
+						ifand weap_special[2] 4 add explosive_shells alt_slot2_mag
+						else add explosive_shells slot2_mag
+					}
+				}
+				else ifand AMMO_TYPES[cur_weap] 4
+				{
+					xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+					ifn gun_mag -1 ifn cur_weap 0 { ifand weap_special[2] 4 add flechete_shells alt_slot2_mag else add flechete_shells slot2_mag  }
+				}
+				else ifand AMMO_TYPES[cur_weap] 64
+				{
+					xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+					ifn gun_mag -1 ifn cur_weap 0 { ifand weap_special[2] 4 add magnum_shells alt_slot2_mag else add magnum_shells slot2_mag }
+				}
+				else ifand AMMO_TYPES[cur_weap] 1024
+				{
+					xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+					ifn gun_mag -1 ifn cur_weap 0 { ifand weap_special[2] 4 add dragon_shells alt_slot2_mag else add dragon_shells slot2_mag }
+				}
+				else ifand AMMO_TYPES[cur_weap] 65536
+				{
+					xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+					ifn gun_mag -1 ifn cur_weap 0 { ifand weap_special[2] 4 add silverb_shells alt_slot2_mag else add silverb_shells slot2_mag }
+				}
+				else
+					break
+				state lower_weapon
+				state empty_shotgun
+				// Ugly place to put this but can't make heads or tails of this code atm
+				ife cur_weap 0
+				{
+					quote 208
+					setp[].ammo_amount 0 normal_ammo
+				}
+			}
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 2
+ifg incend_ammo 0 // 45 incend bullets
+ife kickbackpic 0
+	{
+	set AMMO_TYPE AMMO_TYPES[cur_weap]
+	ife player[].weapon_pos 0
+		{
+		ifand AMMO_TYPE 2 xor AMMO_TYPE 2
+		ifand AMMO_TYPES[cur_weap] 32768 nullop else
+		{ quote 522 xorvar AMMO_TYPE 32768 setarray AMMO_TYPES[cur_weap] AMMO_TYPE state lower_weapon }
+		}
+	ife CHAR 0
+		{
+		ife cur_weap 1 { ife JAMES_1911 1 set slot1_mag 0 }
+		ife cur_weap 3 { ife SPECIALIST_EQUIPMENT[55] 2 set slot3_mag 0 }
+		}
+	ife CHAR 13
+		{
+		ife cur_weap 1 { ife SPECIALIST_EQUIPMENT[60] 2 set slot1_mag 0 }
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 4
+ifg void_bolts 0 // Crossbow void bolts
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		{
+			ifand AMMO_TYPES[cur_weap] 16384 nullop 
+			else
+			{ 
+				quote 412 
+				setarray AMMO_TYPES[cur_weap] 16384 
+				state lower_weapon
+			}
+			ife cur_weap 0 setp[].ammo_amount 0 void_bolts
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 7 // 40mm MIA shell
+ifg fortymm_MIA_shells 0
+ife kickbackpic 0
+	{
+	set AMMO_TYPE AMMO_TYPES[cur_weap]
+	ifand AMMO_TYPES[cur_weap] 128 nullop else { xorvar AMMO_TYPE 128 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+	ifand AMMO_TYPES[cur_weap] 32 { xorvar AMMO_TYPE 32 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+	ifand AMMO_TYPES[cur_weap] 256 { xorvar AMMO_TYPE 256 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+	state lower_weapon
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 8 // 40mm electro grenade
+ifg fortymm_electro 0
+ife kickbackpic 0
+	{
+	set AMMO_TYPE AMMO_TYPES[cur_weap]
+	ifand AMMO_TYPES[cur_weap] 512 { xorvar AMMO_TYPE 512 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+	ifand AMMO_TYPES[cur_weap] 2048 break else { xorvar AMMO_TYPE 2048 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+	ifand AMMO_TYPES[cur_weap] 4096 { xorvar AMMO_TYPE 4096 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+	state lower_weapon
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife voice_comm_menu 9 // Ally 1
+ifn ALLYSLOT1 -1
+{
+set RETURN -1
+set voice_comm_menu 5
+}
+else
+ife voice_comm_menu 5 // Dismissed!
+{
+set RETURN -1
+setactorvar[ALLYSLOT1].FOLLOW_PLAYER 0
+setactorvar[ALLYSLOT1].ALLY_VOICE -45
+set ALLYSLOT1 -1
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 6 // Dismissed!
+{
+set RETURN -1
+setactorvar[ALLYSLOT2].FOLLOW_PLAYER 0
+setactorvar[ALLYSLOT2].ALLY_VOICE -45
+set ALLYSLOT2 -1
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 7 // Dismissed!
+{
+set RETURN -1
+setactorvar[ALLYSLOT3].FOLLOW_PLAYER 0
+setactorvar[ALLYSLOT3].ALLY_VOICE -45
+set ALLYSLOT3 -1
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 8 // Dismissed!
+	{
+	set RETURN -1
+	setactorvar[ALLYSLOT4].FOLLOW_PLAYER 0
+	setactorvar[ALLYSLOT4].ALLY_VOICE -45
+	set ALLYSLOT4 -1
+	set voice_comm_menu 0
+	}
+else
+ife voice_comm_menu 1 // Cover me!
+	{
+	set RETURN -1
+	state RADIO_COVER_SOUNDS
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 642
+	userquote 356
+	ifn ALLYSLOT1 -1 { setactorvar[ALLYSLOT1].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT1].ALLY_VOICE 45 }
+	ifn ALLYSLOT2 -1 { setactorvar[ALLYSLOT2].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT2].ALLY_VOICE 45 }
+	ifn ALLYSLOT3 -1 { setactorvar[ALLYSLOT3].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT3].ALLY_VOICE 45 }
+	ifn ALLYSLOT4 -1 { setactorvar[ALLYSLOT4].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT4].ALLY_VOICE 45 }
+	ifn ALLYSLOT5 -1 { setactorvar[ALLYSLOT5].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT5].ALLY_VOICE 45 }
+	ifn ALLYSLOT6 -1 { setactorvar[ALLYSLOT6].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT6].ALLY_VOICE 45 }
+	ifn ALLYSLOT7 -1 { setactorvar[ALLYSLOT7].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT7].ALLY_VOICE 45 }
+	ifn ALLYSLOT8 -1 { setactorvar[ALLYSLOT8].FOLLOW_PLAYER 1 setactorvar[ALLYSLOT8].ALLY_VOICE 45 }
+	set voice_comm_menu 0
+	}
+else
+ife voice_comm_menu 2 // Watch out!
+	{
+	set RETURN -1
+	ife CHAR 0 set playsound J_WOUT
+	ife CHAR 1 set playsound Z_WOUT
+	ife CHAR 2 set playsound M_WOUT
+	ife CHAR 3 set playsound R_WOUT
+	ife CHAR 4 set playsound S_WOUT
+	ife CHAR 5 set playsound RN_WOUT
+	ife CHAR 6 set playsound G_WOUT
+	ife CHAR 7 set playsound MS_WOUT
+	ife CHAR 13 set playsound MC_WOUT
+	ife CHAR 14 set playsound SF_WOUT
+	ife CHAR 15 set playsound MC_WOUT
+	ife CHAR 17 set playsound KG_WATCHOUT
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 650
+	userquote 356
+	set voice_comm_menu 0
+	}
+else
+ife voice_comm_menu 3 // Resupplying
+	{
+	set RETURN -1
+	ife CHAR 0 set playsound J_RESUPPLY
+	ife CHAR 1 set playsound Z_RESUPPLY
+	ife CHAR 2 set playsound M_RESUPPLY
+	ife CHAR 3 set playsound R_RESUPPLY
+	ife CHAR 4 set playsound S_RESUPPLY
+	ife CHAR 5 set playsound RN_RESUPPLY
+	ife CHAR 6 set playsound G_RESUPPLY
+	ife CHAR 7 set playsound MS_RESUPPLY
+	ife CHAR 13 set playsound MC_RESUPPLY
+	ife CHAR 15 set playsound MC_RESUPPLY
+	ife CHAR 17 set playsound KG_RESUPPLY
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 658
+	userquote 356
+	set voice_comm_menu 0
+	}
+else
+ife CHAR 13 // Toggle Micky's duel shotgun
+	{
+	ife cur_weap 2
+	ife SPECIALIST_EQUIPMENT[58] 2
+	ifcount 16
+		{
+		ifand guns_akimbo 8
+			{
+			soundvar WEAPON2_SELECTSOUND
+			xorvar gun_firemode_two 64
+			state lower_weapon
+			set weap_show 130
+			resetcount
+			}
+		}
+	}
+else
+ife CHAR 14 // Toggle Snowfall's duel shotgun
+	{
+	ife cur_weap 2
+	ifcount 16
+		{
+		ifand guns_akimbo 8
+			{
+			soundvar WEAPON2_SELECTSOUND
+			xorvar gun_firemode_two 64
+			state lower_weapon
+			set weap_show 130
+			resetcount
+			}
+		}
+	}
+endevent
+
+onevent EVENT_WEAPKEY4 // HIGHWIRE/CHAINGUN
+state disable_weap_key
+
+	ife CHARSELECT 1
+		{
+		ifand TRIGGER_BASE_SCENE 8 nullop else
+			ifl CHARSHADE 10
+			{
+			sound SELECT
+			set CHARSHADE 20
+			set CHAR 3
+			}
+		}
+
+ife fire_mode_menu 1
+ifand GUN_AMMO_TYPES 4
+ifg magnum_shells 0
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		{
+		ife cur_weap 9
+		ifand weap_special[9] 4
+			{
+			ifand AMMO_TYPES[cur_weap] 1 { xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add explosive_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 4 { xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add flechete_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 1024 { xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add dragon_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 65536 { xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add silverb_shells ALTMAG }
+			
+			ifand AMMO_TYPES[cur_weap] 64 break else { quote 286 xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+			getp[].ammo_amount 2 temp3 add temp3 ALTMAG setp[].ammo_amount 2 temp3 }
+			set ALTMAG 0
+			state lower_weapon
+			}
+			else
+		ifn cur_weap 0
+		ifand gun_firemode_two 8
+			{
+			set AMMO_TYPE_2 AMMO_TYPES[15]
+			ifand AMMO_TYPES[15] 1 { xorvar AMMO_TYPE_2 1 setarray AMMO_TYPES[15] AMMO_TYPE_2 add explosive_shells alt_slot2_mag  }
+			ifand AMMO_TYPES[15] 4 { xorvar AMMO_TYPE_2 4 setarray AMMO_TYPES[15] AMMO_TYPE_2 add flechete_shells alt_slot2_mag  }
+			ifand AMMO_TYPES[15] 1024 { xorvar AMMO_TYPE_2 1024 setarray AMMO_TYPES[15] AMMO_TYPE_2 add dragon_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 65536 { xorvar AMMO_TYPE_2 65536 setarray AMMO_TYPES[15] AMMO_TYPE_2 add silverb_shells alt_slot2_mag }
+			
+			ifand AMMO_TYPES[15] 64 break else { quote 286 xorvar AMMO_TYPE_2 64 setarray AMMO_TYPES[15] AMMO_TYPE_2
+			getp[].ammo_amount 2 temp3 add temp3 alt_slot2_mag setp[].ammo_amount 2 temp3 }
+			state lower_weapon
+			ifn gun_mag -1
+				{
+				ife CHAR 0 ife cur_weap 2 set alt_slot2_mag 0
+				ife CHAR 7 ife cur_weap 2 set alt_slot2_mag 0
+				ife CHAR 12 ife cur_weap 2 set alt_slot2_mag 0
+				}
+			}
+		else
+			{
+			ifand AMMO_TYPES[cur_weap] 1
+				{ xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add explosive_shells slot2_mag }
+			ifand AMMO_TYPES[cur_weap] 4
+				{ xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add flechete_shells slot2_mag }
+			ifand AMMO_TYPES[cur_weap] 1024
+				{ xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add dragon_shells slot2_mag }
+			ifand AMMO_TYPES[cur_weap] 65536
+				{ xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add silverb_shells slot2_mag }
+				
+			ifand AMMO_TYPES[cur_weap] 64 break else
+				{
+				quote 286 xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1 ifn cur_weap 0 { getp[].ammo_amount 2 temp3 add temp3 slot2_mag setp[].ammo_amount 2 temp3 }
+				}
+			state lower_weapon
+			state empty_shotgun
+			}
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 7 // 40mm Plasma shell
+ifg fortymm_plasma 0
+ife kickbackpic 0
+	{
+		ifand AMMO_TYPES[cur_weap] 256 break else { xorvar AMMO_TYPE 256 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		ifand AMMO_TYPES[cur_weap] 32 { xorvar AMMO_TYPE 32 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		ifand AMMO_TYPES[cur_weap] 128 { xorvar AMMO_TYPE 128 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		state lower_weapon
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife fire_mode_menu 8 // 40mm cryo grenade
+ifg fortymm_cryo 0
+ife kickbackpic 0
+	{
+		ifand AMMO_TYPES[cur_weap] 512 { xorvar AMMO_TYPE 512 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		ifand AMMO_TYPES[cur_weap] 2048 { xorvar AMMO_TYPE 2048 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		ifand AMMO_TYPES[cur_weap] 4096 break else { xorvar AMMO_TYPE 4096 setarray AMMO_TYPES[cur_weap] AMMO_TYPE }
+		state lower_weapon
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+else
+ife voice_comm_menu 9 // Ally 2
+ifn ALLYSLOT2 -1
+{
+set RETURN -1
+set voice_comm_menu 6
+}
+else
+ife voice_comm_menu 5 // cease/start attacking!
+	{
+	set RETURN -1
+	getav[ALLYSLOT1].ALLY_ORDER temp3
+	ifand temp3 1 xorvar temp3 1 else orvar temp3 1
+	setactorvar[ALLYSLOT1].ALLY_ORDER temp3
+	set voice_comm_menu 0
+	}
+else
+ife voice_comm_menu 6 // cease/start attacking!
+	{
+	set RETURN -1
+	getav[ALLYSLOT2].ALLY_ORDER temp3
+	ifand temp3 1 xorvar temp3 1 else orvar temp3 1
+	setactorvar[ALLYSLOT2].ALLY_ORDER temp3
+	set voice_comm_menu 0
+	}
+else
+ife voice_comm_menu 7 // cease/start attacking!
+	{
+	set RETURN -1
+	getav[ALLYSLOT3].ALLY_ORDER temp3
+	ifand temp3 1 xorvar temp3 1 else orvar temp3 1
+	setactorvar[ALLYSLOT3].ALLY_ORDER temp3
+	set voice_comm_menu 0
+	}
+else
+ife voice_comm_menu 8 // cease/start attacking!
+	{
+	set RETURN -1
+	getav[ALLYSLOT4].ALLY_ORDER temp3
+	ifand temp3 1 xorvar temp3 1 else orvar temp3 1
+	setactorvar[ALLYSLOT4].ALLY_ORDER temp3
+	set voice_comm_menu 0
+	}
+else
+ife voice_comm_menu 1 // Incoming
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_INCOMING
+	ife CHAR 1 set playsound Z_INCOMING
+	ife CHAR 2 set playsound M_INCOMING
+	ife CHAR 3 set playsound R_INCOMING
+	ife CHAR 4 set playsound S_INCOMING
+	ife CHAR 5 set playsound RN_INCOMING
+	ife CHAR 6 set playsound G_INCOMING
+	ife CHAR 7 set playsound MS_INCOMING
+	ife CHAR 12 set playsound JA_INCOMING
+	ife CHAR 13 set playsound MC_INCOMING
+	ife CHAR 15 set playsound MC_INCOMING
+	ife CHAR 17 set playsound KG_INCOM
+	ife CHAR 18 set playsound WH_INCOM
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 643
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 2 // Supplies
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_SUPPLIES
+	ife CHAR 1 set playsound Z_SUPPLIES
+	ife CHAR 2 set playsound M_SUPPLIES
+	ife CHAR 3 set playsound R_SUPPLIES
+	ife CHAR 4 set playsound S_SUPPLIES
+	ife CHAR 5 set playsound RN_SUPPLIES
+	ife CHAR 6 set playsound G_SUPPLIES
+	ife CHAR 7 set playsound MS_SUPPLIES
+	ife CHAR 13 set playsound MC_SUPPLIES
+	ife CHAR 15 set playsound MC_SUPPLIES
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 651
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 3 // Got your back!
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_GYBACK
+	ife CHAR 1 set playsound Z_GYBACK
+	ife CHAR 2 set playsound M_GYBACK
+	ife CHAR 3 set playsound R_GYBACK
+	ife CHAR 4 set playsound S_GYBACK
+	ife CHAR 5 set playsound RN_GYBACK
+	ife CHAR 6 set playsound G_GYBACK
+	ife CHAR 7 set playsound MS_GYBACK
+	ife CHAR 13 set playsound MC_GYBACK
+	ife CHAR 15 set playsound MC_GYBACK
+	ife CHAR 17 set playsound KG_GOTURBAK
+	ife CHAR 18 set playsound WH_GYBACK
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 659
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ife cur_weap 3
+ ifcount 16
+ {
+ ifand weap_special[3] 1 // can be toggled?
+		{
+		ifand guns_akimbo 2 // if they have akimbo
+			{
+			soundvar WEAPON3_SELECTSOUND
+			xorvar gun_firemode 1024
+			set weap_show 130
+			state lower_weapon
+			sound SELECT_WEAPON
+			}
+		}
+ ifand weap_special[3] 2 state toggle_cased_gl
+ ifand weap_special[3] 8 state toggle_cased_gl
+ resetcount
+ }
+endevent
+
+onevent EVENT_WEAPKEY5 // SANGLUSS
+state disable_weap_key
+ife CHARSELECT 1
+{
+ifand TRIGGER_BASE_SCENE 8 nullop else
+	ifl CHARSHADE 10
+	{
+	sound SELECT
+	set CHARSHADE 20
+	set CHAR 4
+	}
+}
+
+ife fire_mode_menu 1
+ifand GUN_AMMO_TYPES 4
+ifg dragon_shells 0
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		{
+		ife cur_weap 9
+		ifand weap_special[9] 4
+			{
+			ifand AMMO_TYPES[cur_weap] 1 { xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add explosive_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 4 { xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add flechete_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 64 { xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add magnum_shells ALTMAG }
+			ifand AMMO_TYPES[cur_weap] 65536 { xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add silverb_shells ALTMAG }
+			
+			ifand AMMO_TYPES[cur_weap] 1024 break else { quote 297 xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+			getp[].ammo_amount 2 temp3 add temp3 ALTMAG setp[].ammo_amount 2 temp3 }
+			set ALTMAG 0
+			state lower_weapon
+			}
+			else
+		ifn cur_weap 0
+		ifand gun_firemode_two 8
+			{
+			set AMMO_TYPE_2 AMMO_TYPES[15]
+			ifand AMMO_TYPES[15] 1 { xorvar AMMO_TYPE_2 1 setarray AMMO_TYPES[15] AMMO_TYPE_2 add explosive_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 4 { xorvar AMMO_TYPE_2 4 setarray AMMO_TYPES[15] AMMO_TYPE_2 add flechete_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 64 { xorvar AMMO_TYPE_2 64 setarray AMMO_TYPES[15] AMMO_TYPE_2 add magnum_shells alt_slot2_mag }
+			ifand AMMO_TYPES[15] 65536 { xorvar AMMO_TYPE_2 65536 setarray AMMO_TYPES[15] AMMO_TYPE_2 add silverb_shells alt_slot2_mag }
+			
+			ifand AMMO_TYPES[15] 1024 break else { quote 297 xorvar AMMO_TYPE_2 1024 setarray AMMO_TYPES[15] AMMO_TYPE_2
+			getp[].ammo_amount 2 temp3 add temp3 alt_slot2_mag setp[].ammo_amount 2 temp3 }
+			state lower_weapon
+			ifn gun_mag -1
+				{
+				ife CHAR 0 ife cur_weap 2 set alt_slot2_mag 0
+				ife CHAR 7 ife cur_weap 2 set alt_slot2_mag 0
+				ife CHAR 12 ife cur_weap 2 set alt_slot2_mag 0
+				}
+			}
+		else
+			{
+			ifand AMMO_TYPES[cur_weap] 1
+				{ xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add explosive_shells slot2_mag }
+			ifand AMMO_TYPES[cur_weap] 4
+				{ xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add flechete_shells slot2_mag }
+			ifand AMMO_TYPES[cur_weap] 64
+				{ xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add magnum_shells slot2_mag }
+			ifand AMMO_TYPES[cur_weap] 65536
+				{ xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add silverb_shells slot2_mag }
+				
+			ifand AMMO_TYPES[cur_weap] 1024 break else
+				{
+				quote 297 xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1 ifn cur_weap 0 { getp[].ammo_amount 2 temp3 add temp3 slot2_mag setp[].ammo_amount 2 temp3 }
+				}
+			state lower_weapon
+			state empty_shotgun
+			}
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+
+ife voice_comm_menu 9 // Ally 3
+ifn ALLYSLOT3 -1
+{
+set RETURN -1
+set voice_comm_menu 7
+}
+else
+ife voice_comm_menu 1 // Backup
+{
+set RETURN -1
+state RADIO_BACKUP_SOUNDS
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 644
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 2 // Low on health
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_LHEALTH
+	ife CHAR 1 set playsound Z_LHEALTH
+	ife CHAR 2 set playsound M_LHEALTH
+	ife CHAR 3 set playsound R_LHEALTH
+	ife CHAR 4 set playsound S_LHEALTH
+	ife CHAR 5 set playsound RN_LHEALTH
+	ife CHAR 6 set playsound G_LHEALTH
+	ife CHAR 7 set playsound MS_LHEALTH
+	ife CHAR 13 set playsound MC_LHEALTH
+	ife CHAR 14 set playsound SF_LHEALTH
+	ife CHAR 15 set playsound MC_LHEALTH
+	ife CHAR 17 set playsound KG_HEALTHLOW
+	ife CHAR 18 set playsound WH_LHEA
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 652
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 3 // Let's move out
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_MOVEOUT
+	ife CHAR 1 set playsound Z_MOVEOUT
+	ife CHAR 2 set playsound M_MOVEOUT
+	ife CHAR 3 set playsound R_MOVEOUT
+	ife CHAR 4 set playsound S_MOVEOUT
+	ife CHAR 5 set playsound RN_MOVEOUT
+	ife CHAR 6 set playsound G_MOVEOUT
+	ife CHAR 7 set playsound MS_MOVEOUT
+	ife CHAR 13 set playsound MC_MOVEOUT
+	ife CHAR 15 set playsound MC_MOVEOUT
+	ife CHAR 17 set playsound KG_LETSMOVE
+	ife CHAR 18 set playsound WH_MOVEO
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 660
+	userquote 356
+set voice_comm_menu 0
+}
+endevent
+
+onevent EVENT_WEAPKEY6 // RUSTY
+state disable_weap_key
+	ife CHARSELECT 1
+		{
+		ifand TRIGGER_BASE_SCENE 8 nullop else
+			ifl CHARSHADE 10
+			{
+			sound SELECT
+			set CHARSHADE 20
+			set CHAR 5
+			}
+		}
+
+ife fire_mode_menu 1
+ifand GUN_AMMO_TYPES 4
+ifg silverb_shells 0
+ife kickbackpic 0
+	{
+		ife player[].weapon_pos 0
+		{
+		ife cur_weap 9
+		ifand weap_special[9] 4
+			{
+			ifand AMMO_TYPES[cur_weap] 65536 break else { quote 320 xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+			getp[].ammo_amount 2 temp3 add temp3 ALTMAG setp[].ammo_amount 2 temp3 }
+
+			ifand AMMO_TYPES[cur_weap] 1 { xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add explosive_shells ALTMAG }
+			else ifand AMMO_TYPES[cur_weap] 4 { xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add flechete_shells ALTMAG }
+			else ifand AMMO_TYPES[cur_weap] 64 { xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add magnum_shells ALTMAG }
+			else ifand AMMO_TYPES[cur_weap] 1024 { xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE add dragon_shells ALTMAG }
+			set ALTMAG 0
+			state lower_weapon
+			}
+			else
+		ifn cur_weap 0
+		ifand gun_firemode_two 8
+			{
+			set AMMO_TYPE_2 AMMO_TYPES[15]
+			ifand AMMO_TYPES[15] 65536 break else { quote 320 xorvar AMMO_TYPE_2 65536 setarray AMMO_TYPES[15] AMMO_TYPE_2
+			getp[].ammo_amount 2 temp3 add temp3 alt_slot2_mag setp[].ammo_amount 2 temp3 }
+
+			ifand AMMO_TYPES[15] 1 { xorvar AMMO_TYPE_2 1 setarray AMMO_TYPES[15] AMMO_TYPE_2 add explosive_shells alt_slot2_mag }
+			else ifand AMMO_TYPES[15] 4 { xorvar AMMO_TYPE_2 4 setarray AMMO_TYPES[15] AMMO_TYPE_2 add flechete_shells alt_slot2_mag }
+			else ifand AMMO_TYPES[15] 64 { xorvar AMMO_TYPE_2 64 setarray AMMO_TYPES[15] AMMO_TYPE_2 add magnum_shells alt_slot2_mag }
+			else ifand AMMO_TYPES[15] 1024 { xorvar AMMO_TYPE_2 1024 setarray AMMO_TYPES[15] AMMO_TYPE_2 add dragon_shells alt_slot2_mag }
+			state lower_weapon
+			ifn gun_mag -1
+				{
+				ife CHAR 0 ife cur_weap 2 set alt_slot2_mag 0
+				ife CHAR 7 ife cur_weap 2 set alt_slot2_mag 0
+				ife CHAR 12 ife cur_weap 2 set alt_slot2_mag 0
+				}
+			}
+		else
+			{
+			ifand AMMO_TYPES[cur_weap] 65536 break else
+				{
+				quote 320 xorvar AMMO_TYPE 65536 setarray AMMO_TYPES[cur_weap] AMMO_TYPE
+				ifn gun_mag -1 ifn cur_weap 0 { getp[].ammo_amount 2 temp3 add temp3 slot2_mag setp[].ammo_amount 2 temp3 }
+				}
+			ifand AMMO_TYPES[cur_weap] 1
+				{ xorvar AMMO_TYPE 1 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add explosive_shells slot2_mag }
+			else ifand AMMO_TYPES[cur_weap] 4
+				{ xorvar AMMO_TYPE 4 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add flechete_shells slot2_mag }
+			else ifand AMMO_TYPES[cur_weap] 64
+				{ xorvar AMMO_TYPE 64 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add magnum_shells slot2_mag }
+			else ifand AMMO_TYPES[cur_weap] 1024
+				{ xorvar AMMO_TYPE 1024 setarray AMMO_TYPES[cur_weap] AMMO_TYPE ifn gun_mag -1 ifn cur_weap 0 add dragon_shells slot2_mag }
+			state lower_weapon
+			state empty_shotgun
+			}
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+	}
+
+ife voice_comm_menu 9 // Ally 3
+ifn ALLYSLOT4 -1
+	{
+	set RETURN -1
+	set voice_comm_menu 8
+	}
+else
+ife voice_comm_menu 1 // Reloading
+	{
+	set RETURN -1
+	ife CHAR 0 set playsound J_RELOAD
+	ife CHAR 1 set playsound Z_RELOAD
+	ife CHAR 2 set playsound M_RELOAD
+	ife CHAR 3 set playsound R_RELOAD
+	ife CHAR 4 set playsound S_RELOAD
+	ife CHAR 5 set playsound RN_RELOAD
+	ife CHAR 6 set playsound G_RELOAD
+	ife CHAR 7 set playsound MS_RELOAD
+	ife CHAR 13 set playsound MC_RELOAD
+	ife CHAR 15 set playsound MC_RELOAD
+	ife CHAR 17 set playsound KG_RELOADING
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 645
+	userquote 356
+	set voice_comm_menu 0
+	}
+else
+ife voice_comm_menu 2 // low on ammo
+	{
+	set RETURN -1
+	ife CHAR 0 set playsound J_LAMMO
+	ife CHAR 1 set playsound Z_LAMMO
+	ife CHAR 2 set playsound M_LAMMO
+	ife CHAR 3 set playsound R_LAMMO
+	ife CHAR 4 set playsound S_LAMMO
+	ife CHAR 5 set playsound RN_LAMMO
+	ife CHAR 6 set playsound G_LAMMO
+	ife CHAR 7 set playsound MS_LAMMO
+	ife CHAR 13 set playsound MC_LAMMO
+	ife CHAR 14 set playsound SF_LAMMO
+	ife CHAR 15 set playsound MC_LAMMO
+	ife CHAR 17 set playsound KG_LOWAMMO
+	ife CHAR 18 set playsound WH_LAMM
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 653
+	userquote 356
+set voice_comm_menu 0
+	}
+else
+ife voice_comm_menu 3 // Lend me a hand
+	{
+	set RETURN -1
+	ife CHAR 0 set playsound J_HELPME
+	ife CHAR 1 set playsound Z_HELPME
+	ife CHAR 2 set playsound M_HELPME
+	ife CHAR 3 set playsound R_HELPME
+	ife CHAR 4 set playsound S_HELPME
+	ife CHAR 5 set playsound RN_HELPME
+	ife CHAR 6 set playsound G_HELPME
+	ife CHAR 7 set playsound MS_HELPME
+	ife CHAR 13 set playsound MC_HELPME
+	ife CHAR 14 set playsound SF_HELPME
+	ife CHAR 15 set playsound MC_HELPME
+	ife CHAR 17 set playsound KG_HELPME
+	ife CHAR 18 set playsound WH_HELP
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 661
+	userquote 356
+	set voice_comm_menu 0
+	}
+endevent
+
+onevent EVENT_WEAPKEY7 // GEOFFREY
+state disable_weap_key
+	ife CHARSELECT 1
+		{
+		ifand TRIGGER_BASE_SCENE 8 nullop else
+			ifl CHARSHADE 10
+			{
+			sound SELECT
+			set CHARSHADE 20
+			set CHAR 6
+			}
+		}
+
+ife voice_comm_menu 1 // on my way
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_ONMYWAY
+	ife CHAR 1 set playsound Z_ONMYWAY
+	ife CHAR 2 set playsound M_ONMYWAY
+	ife CHAR 3 set playsound R_ONMYWAY
+	ife CHAR 4 set playsound S_ONMYWAY
+	ife CHAR 5 set playsound RN_ONMYWAY
+	ife CHAR 6 set playsound G_ONMYWAY
+	ife CHAR 7 set playsound MS_ONMYWAY
+	ife CHAR 13 set playsound MC_ONMYWAY
+	ife CHAR 15 set playsound MC_ONMYWAY
+	ife CHAR 17
+	{
+		ifrnd 128 set playsound KG_YES2
+		else set playsound KG_ONMYWAY
+	}
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 646
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 2 // hit the switch
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_SWITCH
+	ife CHAR 1 set playsound Z_SWITCH
+	ife CHAR 2 set playsound M_SWITCHH
+	ife CHAR 3 set playsound R_SWITCH
+	ife CHAR 4 set playsound S_SWITCH
+	ife CHAR 5 set playsound RN_SWITCH
+	ife CHAR 6 set playsound G_SWITCH
+	ife CHAR 7 set playsound MS_SWITCH
+	ife CHAR 13 set playsound MC_SWITCH
+	ife CHAR 14 set playsound SF_SWITCH
+	ife CHAR 15 set playsound MC_SWITCH
+	ife CHAR 17 set playsound KG_SWITCHPRESS
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 654
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 3 // Dead end
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_DEADEND
+	ife CHAR 1 set playsound Z_DEADEND
+	ife CHAR 2 set playsound M_DEADEND
+	ife CHAR 3 set playsound R_DEADEND
+	ife CHAR 4 set playsound S_DEADEND
+	ife CHAR 5 set playsound RN_DEADEND
+	ife CHAR 6 set playsound G_DEADEND
+	ife CHAR 7 set playsound MS_DEADEND
+	ife CHAR 13 set playsound MC_DEADEND
+	ife CHAR 15 set playsound MC_DEADEND
+	ife CHAR 17 set playsound KG_DEADEND
+	ife CHAR 18 set playsound WH_DEADE
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 662
+	userquote 356
+set voice_comm_menu 0
+}
+
+endevent
+
+onevent EVENT_WEAPKEY8 // MIKKO
+state disable_weap_key
+ife CHARSELECT 1
+{
+ifand TRIGGER_BASE_SCENE 8 nullop else
+	ifl CHARSHADE 10
+	{
+	sound SELECT
+	set CHARSHADE 20
+	set CHAR 7
+	}
+}
+
+ife voice_comm_menu 1 // Nice work
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_NICEWORK
+	ife CHAR 1 set playsound Z_NICEWORK
+	ife CHAR 2 set playsound M_NICEWORK
+	ife CHAR 3 set playsound R_NICEWORK
+	ife CHAR 4 set playsound S_NICEWORK
+	ife CHAR 5 set playsound RN_NICEWORK
+	ife CHAR 6 set playsound G_NICEWORK
+	ife CHAR 7 set playsound MS_NICEWORK
+	ife CHAR 13 set playsound MC_NICEWORK
+	ife CHAR 14 set playsound SF_NICE
+	ife CHAR 15 set playsound MC_NICEWORK
+	ife CHAR 17 set playsound KG_NICEWORK
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 647
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 2 // We can blow this up
+{
+set RETURN -1
+	ife CHAR 0 set playsound J_BLOWUP
+	ife CHAR 1 set playsound Z_BLOWUP
+	ife CHAR 2 set playsound M_BLOWUP
+	ife CHAR 3 set playsound R_BLOWUP
+	ife CHAR 4 set playsound S_BLOWUP
+	ife CHAR 5 set playsound RN_BLOWUP
+	ife CHAR 6 set playsound G_BLOWUP
+	ife CHAR 7 set playsound MS_BLOWUP
+	ife CHAR 13 set playsound MC_BLOWUP
+	ife CHAR 15 set playsound MC_BLOWUP
+	ife CHAR 17 set playsound KG_BLOWUP
+	ife CHAR 18 set playsound WH_BLOWUP
+	soundoncevar playsound
+	ife fake_shrunk 1 setactorsoundpitch THISACTOR playsound 512
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 655
+	userquote 356
+set voice_comm_menu 0
+}
+else
+ife voice_comm_menu 3 // Got the key
+{
+set RETURN -1
+state RADIO_KEY_SOUNDS
+	ifmultiplayer
+		qgetsysstr 356 STR_PLAYERNAME
+	else
+		state get_player_name_from_char
+	qstrcat 356 663
+	userquote 356
+set voice_comm_menu 0
+}
+
+ife CHAR 0
+  ife cur_weap 7 // Toggle James's GL mode
+	{
+	 ife SPECIALIST_EQUIPMENT[78] 2 // Using the G36?
+	   {
+		ife player[].weapon_pos 0
+			{
+			ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+			{ quote 272 xorvar gun_firemode 32768 }
+			ifand gun_firemode 16384 xorvar gun_firemode 16384
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+			}
+		set fire_mode_menu 0
+		set RETURN -1
+		}
+	 ife SPECIALIST_EQUIPMENT[45] 2 // Using the LR300?
+	   {
+			ife player[].weapon_pos 0
+			{
+			ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+			{ quote 272 xorvar gun_firemode 32768 }
+			ifand gun_firemode 16384 xorvar gun_firemode 16384
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+			}
+		set fire_mode_menu 0
+		set RETURN -1
+		}
+	}
+endevent
+
+onevent EVENT_WEAPKEY9 // More/previous for voice menu
+state disable_weap_key
+
+	ife CHARSELECT 1
+	 ife ep2_new_char 1
+	{
+	ifand TRIGGER_BASE_SCENE 8 nullop else
+		ifl CHARSHADE 10
+		{
+		sound SELECT
+		set CHARSHADE 20
+		set CHAR 13
+		}
+	}
+
+ife voice_comm_menu 1
+	{
+	set RETURN -1
+	set voice_comm_menu 2
+	}
+else
+ife voice_comm_menu 2
+	{
+	set RETURN -1
+	set voice_comm_menu 3
+	}
+else
+ife voice_comm_menu 3
+	{
+	set RETURN -1
+	set voice_comm_menu 1
+	}
+else ife kickbackpic 0
+{
+	ife fire_mode_menu 7 // switch to normal mode
+	{
+		ife player[].weapon_pos 0
+		{
+			quote 273
+			xorvar gun_firemode 32768
+			setarray AMMO_TYPES[cur_weap] 0
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+		}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+	else ife fire_mode_menu 8 // switch to normal mode
+	{
+		ife player[].weapon_pos 0
+		{
+			quote 273
+			xorvar gun_firemode 32768
+			setarray AMMO_TYPES[cur_weap] 0
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+		}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+}
+endevent
+
+// ===================================================================================================================================================================
+
+onevent EVENT_WEAPKEY10 // Cancel voice/firemode menu
+state disable_weap_key
+
+	ife CHARSELECT 1
+	 ife ep3_new_char 1
+	{
+	ifand TRIGGER_BASE_SCENE 8 nullop else
+		ifl CHARSHADE 10
+		{
+		sound SELECT
+		set CHARSHADE 20
+		set CHAR 14
+		}
+	}
+
+ifn voice_comm_menu 0
+	{
+	set RETURN -1
+	set voice_comm_menu 0
+	}
+ifn fire_mode_menu 0
+	{
+	set RETURN -1
+	set fire_mode_menu 0
+	}
+
+ife CHAR 0
+ ife SPECIALIST_EQUIPMENT[22] 2 // Using the AN-94?
+  ife cur_weap 9 // Toggle James's GL mode
+	{
+		ife player[].weapon_pos 0
+			{
+			ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+			{ quote 272 xorvar gun_firemode 32768 }
+			ifand gun_firemode 16384 xorvar gun_firemode 16384
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+			}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+
+ife CHAR 0
+ ife SPECIALIST_EQUIPMENT[72] 2 // Using the Gilboa?
+  ife cur_weap 9 // Toggle James's GL mode
+	{
+		ife player[].weapon_pos 0
+			{
+			ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+			{ quote 272 xorvar gun_firemode 32768 }
+			ifand gun_firemode 16384 xorvar gun_firemode 16384
+			set weap_show 130
+			state lower_weapon
+			soundonce WEAP_FIRE_MODE
+			}
+		set fire_mode_menu 0
+		set RETURN -1
+	}
+
+ife CHAR 5
+ ife cur_weap 9 // Toggle Rusty's GL mode
+{
+	ife player[].weapon_pos 0
+		{
+		ifand gun_firemode 32768 { quote 273 xorvar gun_firemode 32768 } else
+		{ quote 272 xorvar gun_firemode 32768 }
+		ifand gun_firemode 16384 xorvar gun_firemode 16384
+		set weap_show 130
+		state lower_weapon
+		soundonce WEAP_FIRE_MODE
+		}
+	set fire_mode_menu 0
+	set RETURN -1
+}
+endevent
+
+onevent EVENT_PROCESSINPUT
+getinput[].bits BITS_PRESS
+getinput[].extbits EXTBITS_PRESS
+
+
+ifand EXTBITS_PRESS 1 ifvare mantling 1 { soundonce JMOVE5 setvar mantling 2 }
+
+ifand BITS_PRESS 1
+{
+	ifvare mantling 1 { soundonce JMOVE5 setvar mantling 2 }
+	ifg onladder 0
+	{
+		set onladder -6
+		setp[].jumping_toggle 1
+		setp[].jumping_counter 181
+	}
+	else
+	ife PERSONNEL_RESEARCH[18] 2 // Cycloid jetpack controls
+	{
+	ifg player[].jumping_counter 1440
+	  ifg player[].jetpack_amount 0 
+	   ife player[].jumping_toggle 0
+		{
+		ifinwater break
+		sound PLYR_JETPACK_ON
+		setp[].jetpack_on 1
+		set JET_TOGGLE 1
+		}
+	else
+	ifg player[].falling_counter 8
+	 ifg player[].jetpack_amount 0
+		{
+		ifinwater break
+		sound PLYR_JETPACK_ON
+		setp[].falling_counter 0
+		setp[].poszv 0
+		setp[].jetpack_on 1
+		set JET_TOGGLE 1
+		}
+	}
+}
+ifand BITS_PRESS 2
+	{
+	ifvare mantling 1 setvar mantling 0
+		ifg onladder 0
+		{
+			set onladder -6
+			setp[].jumping_toggle 1
+		}
+	}
+endevent
+
+onevent EVENT_LOOKUP // Voice key
+set RETURN -1
+ifn fire_mode_menu 0 nullop else
+	{
+	ife voice_comm_menu 0 ife INTERNALCOUNT 0 { set voice_comm_menu 9 set INTERNALCOUNT 8 }
+	ife voice_comm_menu 9 ife INTERNALCOUNT 0 { set voice_comm_menu 1 set INTERNALCOUNT 8 }
+	ife voice_comm_menu 1 ife INTERNALCOUNT 0 { set voice_comm_menu 2 set INTERNALCOUNT 8 }
+	ife voice_comm_menu 2 ife INTERNALCOUNT 0 { set voice_comm_menu 3 set INTERNALCOUNT 8 }
+	ife voice_comm_menu 3 ife INTERNALCOUNT 0 { set voice_comm_menu 0 set INTERNALCOUNT 8 }
+	}
+ife player_in_vehicle 1 soundonce HORNSND
+endevent
+
+include CODE/INPUT/ALT_FIRE.CON
+
+// ===================================================================================================================================================================
+// FIRING MODE
+// ===================================================================================================================================================================
+
+onevent EVENT_LOOKDOWN // Change firing mode firemode menu
+set RETURN -1
+
+ifn voice_comm_menu 0 set voice_comm_menu 0 else
+ife fire_mode_menu 0 ife INTERNALCOUNT_3 0
+ ife player_in_vehicle 0
+	{
+	set AMMO_TYPE AMMO_TYPES[cur_weap]
+	ife GUN_AMMO_TYPES 0 soundonce COMP_INVALID
+	ifand GUN_AMMO_TYPES 1 set fire_mode_menu 1 // Shotgun Shell menu
+	ifand GUN_AMMO_TYPES 2 set fire_mode_menu 2 // Tommy menu
+	ifand GUN_AMMO_TYPES 16 set fire_mode_menu 4 // Bolt menu
+	ifand GUN_AMMO_TYPES 32 set fire_mode_menu 3 // Grenade launcher menu
+	ifand GUN_AMMO_TYPES 64 set fire_mode_menu 3 // Grenade launcher menu
+	ifand GUN_AMMO_TYPES 256 
+		{ 
+		ife player[].weapon_pos 0
+		ife cur_weap 8
+			{
+			soundonce PROX_TONE
+			state lower_weapon
+			ifand gun_firemode 32 userquote 740 else userquote 741
+			xorvar gun_firemode 32
+			}
+		}
+	ifand GUN_AMMO_TYPES 512 set fire_mode_menu 6 // zmissile menu
+	ifand GUN_AMMO_TYPES 2048 set fire_mode_menu 7 // 40mm cased menu
+	ifand GUN_AMMO_TYPES 4096 set fire_mode_menu 8 // 40 mm caseless menu
+	set INTERNALCOUNT_3 8
+	}
+ifn fire_mode_menu 0 ife INTERNALCOUNT_3 0 { set fire_mode_menu 0 set MOUSEUP 0 set INTERNALCOUNT_3 8 }
+
+endevent
+
+// INVENTORY WHEEL
+
+onevent EVENT_INVENTORYLEFT
+ife opt_old_item_sel NO
+	{
+	getp[].ang PANG
+	getp[].horiz PHORIZ
+	set P_SWHEEL 1
+	set RETURN 0
+	}
+endevent
+
+onevent EVENT_INVENTORYRIGHT
+ife opt_old_item_sel NO
+	{
+	getp[].ang PANG
+	getp[].horiz PHORIZ
+	set P_SWHEEL 1
+	set RETURN 0
+	}
+endevent

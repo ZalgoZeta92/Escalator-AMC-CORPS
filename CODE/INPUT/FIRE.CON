@@ -1,0 +1,1297 @@
+// ===============================EVENT DO FIRE==================
+
+defstate player_throwable_code
+ife cur_weap 5
+{
+switch CHAR
+case 0
+case 1
+case 2
+case 4
+case 6
+case 11
+case 13
+case 14
+ife kickbackpic 6
+ ifl bomb_throw_power 256
+	add bomb_throw_power 4
+ife kickbackpic 13 set bomb_throw_power 0
+break
+case 5
+case 9
+ife kickbackpic 6
+ ifl bomb_throw_power 256
+	add bomb_throw_power 4
+ife kickbackpic 21 set bomb_throw_power 0
+break
+case 3
+case 7
+case 10
+ife kickbackpic 18
+ ifl bomb_throw_power 256
+	add bomb_throw_power 4
+	ife kickbackpic 24 set bomb_throw_power 0
+break
+default
+set bomb_throw_power 0
+break
+endswitch
+}
+else
+ife cur_weap 8
+{
+ ife CHAR 0
+	{
+	ife SPECIALIST_EQUIPMENT[112] 2
+		{
+		ife kickbackpic 2 shoot ROCKET_PUNCH
+		}
+	else
+		{
+		ife kickbackpic 3
+			{
+			 ifand BITS_PRESS 4 setp[].kickback_pic 2
+			 ifl bomb_throw_power 256
+				add bomb_throw_power 4
+			}
+		ife kickbackpic 4 { ifg bomb_throw_power 96 soundonce JEXERT shoot PROXBUNDLE }
+		ife kickbackpic 13 set bomb_throw_power 0
+		}
+	}
+ ife CHAR 2
+	{
+	ife kickbackpic 4 
+		{
+		ife SPECIALIST_EQUIPMENT[178] 2
+			{
+			sound BIGTHROW
+			shoot JEDRIK_SHIELD
+			setp[].ammo_amount 8 0
+			setp[].gotweapon 8 0
+			set merlijn_shield 0
+			} 
+			else
+		shoot M_TRAP_THROW
+		}
+	ife kickbackpic 13 set bomb_throw_power 0
+	}
+ ife CHAR 3
+	{
+	ife SPECIALIST_EQUIPMENT[124] 2 { ife kickbackpic 2 shoot BALLISTIC_KNIFE }
+	ife SPECIALIST_EQUIPMENT[125] 2 { ife kickbackpic 2 shoot BALLISTIC_SKNIFE }
+	}
+ife CHAR 4
+	{
+	ife kickbackpic 4 spawn HEARTLEECHFLOAT
+	}
+ ife CHAR 5
+	{
+	// NOTE: for some reason ammo is not decreasing when throwing trap sphere, having to do it manually here
+	ife kickbackpic 4 
+		{
+		shoot R_TRAP_THROW
+		getp[].ammo_amount 8 alt_temp2
+		sub alt_temp2 1
+		setp[].ammo_amount 8 alt_temp2
+		}
+	ife kickbackpic 13 set bomb_throw_power 0
+	}
+ ife CHAR 6
+	{
+	ife kickbackpic 3
+		{
+		 ifand BITS_PRESS 4 setp[].kickback_pic 2
+		 ifl bomb_throw_power 256
+			add bomb_throw_power 4
+		}
+	ife kickbackpic 6 shoot DISCBOMB2
+	ife kickbackpic 13 set bomb_throw_power 0
+	}
+ ife CHAR 7
+	ife SPECIALIST_EQUIPMENT[114] 2
+		{
+		ife kickbackpic 8 shoot GOLD_MIKKO
+		}
+ ife CHAR 9
+		{
+		ife kickbackpic 8 shoot POP_ROCKS
+		}
+ ife CHAR 11
+	{
+	ife kickbackpic 4 shoot M_TRAP_THROW
+	ife kickbackpic 13 set bomb_throw_power 0
+	}
+ ife CHAR 12
+	ife SPECIALIST_EQUIPMENT[156] 2
+		{
+		ife kickbackpic 3
+			{
+			soundonce TES_BLCH
+			 ifand BITS_PRESS 4 setp[].kickback_pic 2
+			 else ifand EXTBITS_PRESS 64 setp[].kickback_pic 2
+			 ifl bomb_throw_power 256
+				add bomb_throw_power 4
+			setactorsoundpitch THISACTOR TES_BLCH bomb_throw_power
+			}
+		ife kickbackpic 4 
+			{
+			sound TES_BLAS
+			stopsound TES_BLCH
+			setactorsoundpitch THISACTOR TES_BLAS bomb_throw_power
+			setprojectile[TESLA_BALL].extra bomb_throw_power
+			set temp2 bomb_throw_power
+			mul temp2 2 
+			set temp3 900 
+			sub temp3 temp2 
+			setprojectile[TESLA_BALL].vel temp3
+			set temp2 bomb_throw_power
+			div temp2 8
+			setprojectile[TESLA_BALL].xrepeat temp2 
+			setprojectile[TESLA_BALL].yrepeat temp2 
+			set temp2 bomb_throw_power
+			mul temp2 16
+			setprojectile[TESLA_BALL].hitradius temp2
+			shoot TESLA_BALL
+			setprojectile[TESLA_BALL].extra 300 
+			setprojectile[TESLA_BALL].vel 300
+			setprojectile[TESLA_BALL].xrepeat 32
+			setprojectile[TESLA_BALL].yrepeat 32
+			setprojectile[TESLA_BALL].hitradius 2048
+			}
+		ife kickbackpic 13 set bomb_throw_power 0
+		}
+ ife CHAR 13
+	{
+	ife SPECIALIST_EQUIPMENT[113] 2
+		{
+		ife kickbackpic 2
+			{
+			shoot ICE_BEAM shoot ICE_BEAM shoot ICE_BEAM shoot ICE_BEAM shoot ICE_BEAM shoot ICE_BEAM shoot ICE_BEAM shoot ICE_BEAM shoot ICE_BEAM shoot ICE_BEAM
+			}
+		}
+	else
+		{
+		ife kickbackpic 11 shoot MC_TRAP_THROW
+		ife kickbackpic 13 set bomb_throw_power 0
+		}
+	}
+ ife CHAR 14
+	ife SPECIALIST_EQUIPMENT[115] 2
+		{
+		ife kickbackpic 7 shoot SNOWFALL_DISC
+		}
+ife CHAR 18
+	{
+	ife kickbackpic 4 { sound C4_ATTACH spawn CLAYMORE_ACTIVE }
+	}
+
+// KAGURA CARD ATTACKS
+ ife CHAR 17
+	{
+		ife kickbackpic 8
+		{
+			sound SERPGOD_MAGIC
+
+			// tmp_proj = projectile to fire
+			ifand gun_firemode_two 64
+				set temp2 27366
+			else ifand gun_firemode_two 32
+				set temp2 27365
+			else
+				set temp2 27364
+
+			sound SIREN_ATTACK
+			shoot temp2
+			eshoot temp2 geta[RETURN].ang temp add temp 128 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 256 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 384 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 512 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 640 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 768 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 896 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 1024 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 1152 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 1280 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 1408 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 1536 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 1664 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 1792 seta[RETURN].ang temp
+			eshoot temp2 geta[RETURN].ang temp add temp 1920 seta[RETURN].ang temp
+		}
+	}
+}
+else set bomb_throw_power 0
+ends
+
+onevent EVENT_DOFIRE
+ifg ALARM_DETECT 0
+ ifn GUN_VOLUME -1
+	add ALARM_COUNTER GUN_VOLUME
+
+// Geoffrey's Bandanna
+ife CHAR 6
+ife PS_ITEM 2
+{
+    // TODO special ammo types -- if not checked for, leads to increasing the normal ammo with the bandanna otherwise
+    ife cur_weap 0 
+    {
+        switch temp_weap
+        case 6 // police shotgun
+            add normal_ammo 1
+            break
+        case 10 // sawed-off shotgun
+            // TODO: secondary uses two shells -- how do we check for that?
+            add normal_ammo 1
+            break
+        case 11 // tommy gun
+            add normal_ammo 1
+            break
+        case 12 // riot gun (also affected?)
+            add normal_ammo 1
+            break
+        case 13 // crossbow
+            add normal_ammo 1
+            break
+        case 25 // M16? idk, it has a grenade launcher attachment
+            add normal_ammo 1
+            break
+        case 26 // another rifle with grenades
+            add normal_ammo 1
+            break
+        case 27 // minigun
+            add normal_ammo 1
+            break
+        case 32 // sw missile launcher
+            add normal_ammo 1
+            break
+        case 34 // minigun, again
+            add normal_ammo 1
+            break
+        case 50 // RW crossbow, has secondary green mana too
+            add normal_ammo 1
+            break
+        case 52 // rifle, same special ammo as tommy gun
+            add normal_ammo 1
+            break
+        case 54 // heavy machinegun
+            // TODO -- this one doesn't work with the below approach, and uses 2 ammo per shot. How to fix?
+            add normal_ammo 1
+            break
+        case 56 // another pump-action
+            add normal_ammo 1
+            break
+        case 0 // fist
+        case 17 // chainsaw
+        case 19 // sword
+        case 20 // mop
+        case 36 // I like, sword. That's a personal weapoin!
+        case 37 // lightsaber
+        case 49 // axe, has green mana secondary!
+        case 51 // another sword, has secondary mana
+            // no-op
+            break
+        case 21 // has reload. make clip infinite?
+        case 22 // has reload. make clip infinite?
+        case 30 // primary fire is covered, but has secondary torpedos
+        case 45 // has reload, make clip infinite?
+        case 46 // primary fire is covered, blue mana secondary
+        case 48 // primary fire is covered, has orange mana secondary
+        default // the remaining ones are covered by this, with no special interaction
+            getp[].ammo_amount cur_weap temp
+	    add temp 1
+	    setp[].ammo_amount cur_weap temp
+            break
+        endswitch
+    } 
+    else 
+    {
+            getp[].ammo_amount cur_weap temp
+	    add temp 1
+	    setp[].ammo_amount cur_weap temp
+    }
+}
+
+ifand GUN_AMMO_TYPES 1 // can this gun use shells?
+	{
+	ifn cur_weap 0
+	ife gun_firemode_two 8 // Using shotgun's second tube?
+		{
+		ife CHAR 0 ife cur_weap 9 break
+		ifand AMMO_TYPES[15] 1 // is the player using explosive shells?
+			{
+			ifl explosive_shells 1 ife kickbackpic 0 { set RETURN 1 quote 208 xorvar AMMO_TYPE_2 1 setarray AMMO_TYPES[15] AMMO_TYPE_2 }
+				getp[].ammo_amount cur_weap temp
+				add temp 1
+				setp[].ammo_amount cur_weap temp
+			}
+		ifand AMMO_TYPES[15] 4 // is the player using flechete shells?
+			{
+			ifl flechete_shells 1 ife kickbackpic 0 { set RETURN 1 quote 208 xorvar AMMO_TYPE_2 4 setarray AMMO_TYPES[15] AMMO_TYPE_2 }
+				getp[].ammo_amount cur_weap temp
+				add temp 1
+				setp[].ammo_amount cur_weap temp
+			}
+		}
+	else
+		{
+		ife CHAR 0 ife cur_weap 9 nullop else
+		ifand AMMO_TYPES[cur_weap] 1 // is the player using explosive shells?
+			{
+			ife cur_weap 0 ife temp_weap 10 nullop else
+				{
+				getp[].ammo_amount cur_weap temp
+				add temp 1
+				setp[].ammo_amount cur_weap temp
+				}
+			}
+
+		ife CHAR 0 ife cur_weap 9 nullop else
+		ifand AMMO_TYPES[cur_weap] 4 // is the player using flechete shells?
+			{
+			ife cur_weap 0 ife temp_weap 10 nullop else
+				{
+				getp[].ammo_amount cur_weap temp
+				add temp 1
+				setp[].ammo_amount cur_weap temp
+				}
+			}
+		}
+	}
+
+ifand GUN_AMMO_TYPES 4 // can this gun use advanced shells?
+	{
+	ifn cur_weap 0
+	ifand gun_firemode_two 8
+		{
+		ifand AMMO_TYPES[15] 64 // is the player using hi-power shells?
+			{
+			ife cur_weap 0 ife temp_weap 10 nullop else
+				{
+				getp[].ammo_amount cur_weap temp
+				add temp 1
+				setp[].ammo_amount cur_weap temp
+				}
+			}
+		ifand AMMO_TYPES[15] 1024 // is the player using hi-power shells?
+			{
+			ife cur_weap 0 ife temp_weap 10 nullop else
+				{
+				getp[].ammo_amount cur_weap temp
+				add temp 1
+				setp[].ammo_amount cur_weap temp
+				}
+			}
+		}
+	else
+		{
+		ife CHAR 0 ife cur_weap 9 nullop else
+		ifand AMMO_TYPES[cur_weap] 64 // is the player using hi-power shells?
+			{
+			ife cur_weap 0 ife temp_weap 10 nullop else
+				{
+				getp[].ammo_amount cur_weap temp
+				add temp 1
+				setp[].ammo_amount cur_weap temp
+				}
+			}
+		ife CHAR 0 ife cur_weap 9 nullop else
+		ifand AMMO_TYPES[cur_weap] 1024 // is the player using db shells?
+			{
+			ife cur_weap 0 ife temp_weap 10 nullop else
+				{
+				getp[].ammo_amount cur_weap temp
+				add temp 1
+				setp[].ammo_amount cur_weap temp
+				}
+			}
+		}
+	}
+
+ife cur_weap 0
+ifn temp_weap 0
+{
+	state handle_tempweapon_dofire
+}
+ife cur_weap 2
+	{
+	ife CHAR 10
+	ifvarn gun_mag -1 ifvarl gun_mag 6 ifn temp_weap 10 sound MAG_LOW
+	}
+ife cur_weap 3 // Machinegun
+	{
+	ifvarn gun_mag -1 ifvarl gun_mag 6 sound MAG_LOW
+	ife CHAR 1 // Zaxtor
+		{
+		randvar temp 1024
+		ife SPECIALIST_EQUIPMENT[126] 2 zshoot temp RIFLESHELL
+		else ife SPECIALIST_EQUIPMENT[70] 2 zshoot temp RIFLESHELL
+		else zshoot temp NINEMM_SHELL
+		}
+	else
+	ife CHAR 3 // Highwire
+		{
+		ifand gun_firemode 32768 nullop else
+			{
+			randvar temp 1024
+			ife SPECIALIST_EQUIPMENT[161] 2 zshoot temp SCIFI_SHELL else
+			zshoot temp RIFLESHELL
+			}
+		}
+	else
+	ife CHAR 4 // Sang
+		{
+		randvar temp 2048
+		ifand AMMO_TYPES[cur_weap] 2 ifg silver_ammo 0 { state temp3_ammo sub silver_ammo 1 }
+		ifand AMMO_TYPES[cur_weap] 32768 ifg incend_ammo 0 { state temp3_ammo sub incend_ammo 1 }
+		ifand gun_firemode 1024 sub slot3_mag 2 else sub slot3_mag 1
+		ife SPECIALIST_EQUIPMENT[6] 2 zshoot temp RIFLESHELL // If he's using the BAR shoot rifle shells
+		else ife SPECIALIST_EQUIPMENT[71] 2 zshoot temp RIFLESHELL // If he's using the BAR shoot rifle shells
+		else ife SPECIALIST_EQUIPMENT[34] 2 zshoot temp NINEMM_SHELL // If he's using the SR-2 shoot smaller shells to the right
+		else ife SPECIALIST_EQUIPMENT[16] 2 zshoot temp NINEMM_SHELL // If he's using the PPSH-41 shoot smaller shells to the right
+		else ife SPECIALIST_EQUIPMENT[74] 2 zshoot temp RIFLESHELL // If he's using the AK47 shoot rifle shells
+		else ife SPECIALIST_EQUIPMENT[92] 2 zshoot temp NINEMM_SHELL // If he's using the KRISS shoot smaller shells to the right
+		else ife SPECIALIST_EQUIPMENT[138] 2 zshoot temp SCIFI_SHELL // If he's using the Gauss SMG shoot scifi shells to the right
+		else
+			{
+			zshoot temp NINEMM_SHELL_LEFT
+			ifand gun_firemode 1024
+				{
+				randvar temp 1024
+				zshoot temp NINEMM_SHELL
+				}
+			}
+		}
+	else
+	ife CHAR 5 // Rusty
+		{
+		ife SPECIALIST_EQUIPMENT[163] 2 nullop
+		else ife SPECIALIST_EQUIPMENT[9] 2 sub slot3_mag 1
+		else
+			{
+			ife SPECIALIST_EQUIPMENT[27] 2 // ak74
+				{
+				ife weapon_bayonet 0
+					{
+					sub slot3_mag 1
+					randvar temp 1024
+					zshoot temp RIFLESHELL
+					}
+				else
+				ife weapon_bayonet 1
+					{
+					getp[].ammo_amount 3 temp
+					add temp 1
+					setp[].ammo_amount 3 temp
+					}
+				}
+				else
+				{
+				ife weapon_bayonet 0
+					{
+					ifand RUSTY_UPGRADE 2
+						{
+						randvar temp2 1024
+						zshoot temp2 SHELL_LINK
+						}
+						else sub slot3_mag 1
+					randvar temp 1024
+					zshoot temp RIFLESHELL
+					}
+				else
+				ife weapon_bayonet 1
+					{
+					getp[].ammo_amount 3 temp
+					add temp 1
+					setp[].ammo_amount 3 temp
+					}
+				}
+			}
+		}
+	else
+	ife CHAR 6 // Geoffrey
+		{
+		ife SPECIALIST_EQUIPMENT[81] 2
+			{
+			randvar temp 10
+			ife WEAPONS_RESEARCH[RS_W_COOLDOWN] 2 clamp temp 2 6 // Aludran blood cooling?
+			else clamp temp 2 10
+			set temp9 GUN_HEAT[cur_weap]
+			add temp9 temp
+			setarray GUN_HEAT[cur_weap] temp9
+			}
+		else
+		ife SPECIALIST_EQUIPMENT[12] 2
+			{
+			sub slot3_mag 4
+			randvar temp 1024
+			zshoot temp NINEMM_SHELL
+			randvar temp 1024
+			zshoot temp NINEMM_SHELL
+			randvar temp 1024
+			zshoot temp NINEMM_SHELL
+			randvar temp 1024
+			zshoot temp NINEMM_SHELL
+			}
+		else
+		 ife SPECIALIST_EQUIPMENT[95] 2
+			{
+			ife weapon_bayonet 0
+				{
+				sub slot3_mag 1
+				randvar temp 1024
+				zshoot temp RIFLESHELL
+				}
+			else
+			ife weapon_bayonet 1
+				{
+				getp[].ammo_amount 3 temp
+				add temp 1
+				setp[].ammo_amount 3 temp
+				}
+			}
+		 else
+			{
+			sub slot3_mag 1
+			randvar temp 1024
+			zshoot temp NINEMM_SHELL
+			}
+		}
+	else
+	ife CHAR 7 // Mikko
+		{
+		randvar temp 1024
+		ifand AMMO_TYPES[cur_weap] 2 ifg silver_ammo 0 sub silver_ammo 1
+		ifand AMMO_TYPES[cur_weap] 32768 ifg incend_ammo 0 sub incend_ammo 1
+		ife SPECIALIST_EQUIPMENT[21] 2 zshoot temp NINEMM_SHELL else
+		zshoot temp RIFLESHELL
+		sub slot3_mag 1
+		}
+	else
+	ife CHAR 9 // Cultist
+		{
+		randvar temp 1024
+		zshoot temp NINEMM_SHELL
+		ifand AMMO_TYPES[cur_weap] 2 ifg silver_ammo 0 { state temp3_ammo sub silver_ammo 1 }
+		ifand AMMO_TYPES[cur_weap] 32768 ifg incend_ammo 0 { state temp3_ammo sub incend_ammo 1 }
+		}
+	else
+	ife CHAR 10 // Bombshell
+		{
+		ifand gun_firemode 32768 nullop else
+			{
+			randvar temp 1024
+			zshoot temp RIFLESHELL
+			}
+		}
+	else
+	ife CHAR 12 // Jane
+		{
+		randvar temp 1024
+		zshoot temp RIFLESHELL
+		sub slot3_mag 1
+		}
+	else
+	ife CHAR 13 // Micky
+		{
+		ife SPECIALIST_EQUIPMENT[48] 2
+			{
+			randvar temp 10
+			ife WEAPONS_RESEARCH[RS_W_COOLDOWN] 2 clamp temp 2 6 // Aludran blood cooling?
+			else clamp temp 2 10
+			set temp9 GUN_HEAT[cur_weap]
+			add temp9 temp
+			setarray GUN_HEAT[cur_weap] temp9
+			}
+			else
+			{
+			sub slot3_mag 1
+			randvar temp 1024
+			ife SPECIALIST_EQUIPMENT[140] 2 zshoot temp SCIFI_SHELL 
+			else zshoot temp RIFLESHELL
+			}
+		}
+	else
+	ife CHAR 14 // snowfall
+		{
+		sub slot3_mag 1
+		ife SPECIALIST_EQUIPMENT[91] 2 nullop else
+			{
+			randvar temp 1024
+			zshoot temp SCIFI_SHELL
+			}
+		}
+	else
+	ife CHAR 16 // Rosamund
+		{
+		sub slot3_mag 1
+		randvar temp 1024
+		ife SPECIALIST_EQUIPMENT[151] 2 zshoot temp RIFLESHELL else
+		zshoot temp SRIFLESHELL
+		}
+	else
+	ife CHAR 17 // Kagura
+		{
+		ife SPECIALIST_EQUIPMENT[90] 2
+			{
+			randvar temp 1024
+			zshoot temp RIFLESHELL
+			}
+		else
+		sub slot3_mag 1
+		}
+	else
+	ife CHAR C_WHEATON
+		{
+		randvar temp 1024
+		zshoot temp RIFLESHELL
+		sub slot3_mag 1
+		}
+	else
+	ife CHAR 0 // James
+		{
+		ifn SPECIALIST_EQUIPMENT[15] 2 // not using energy bizon
+		ifn SPECIALIST_EQUIPMENT[110] 2 // not using plasma SMG
+			{
+			randvar temp 1024
+			ife SPECIALIST_EQUIPMENT[55] 2 ifand AMMO_TYPES[cur_weap] 2 zshoot temp SRIFLESHELL else
+			zshoot temp NINEMM_SHELL
+			}
+		ifand AMMO_TYPES[cur_weap] 2 ifg silver_ammo 0 { state temp3_ammo sub silver_ammo 1 }
+		ifand AMMO_TYPES[cur_weap] 32768 ifg incend_ammo 0 { state temp3_ammo sub incend_ammo 1 }
+		ifand gun_firemode 1024 { ifn SPECIALIST_EQUIPMENT[110] 2 zshoot temp NINEMM_SHELL_LEFT sub slot3_mag 2 } else sub slot3_mag 1
+		}
+}
+ife cur_weap 6
+	{
+	ifvarn gun_mag -1 ifvarl gun_mag 6 ifge max_slot6_mag 6 sound MAG_LOW
+	ife CHAR 17
+	 ifn SPECIALIST_EQUIPMENT[127] 2 // NOT using Tesla SMG?
+		{
+		sub slot6_mag 1
+		randvar temp 1024
+		zshoot temp NINEMM_SHELL
+		}
+	ife CHAR C_WHEATON
+	 ife SPECIALIST_EQUIPMENT[120] 2
+		{
+		ifvarn gun_mag -1 ifvarl gun_mag 6 sound MAG_LOW
+		sub slot6_mag 1
+		}
+	}
+ife cur_weap 7
+{
+ife CHAR 0
+	{
+	ifvarn gun_mag -1 ifvarl gun_mag 6 sound MAG_LOW
+	sub slot7_mag 1
+	randvar temp 1024
+	ife SPECIALIST_EQUIPMENT[142] 2 zshoot temp SCIFI_SHELL else
+	zshoot temp RIFLESHELL
+	}
+ife CHAR 7
+	{
+	ife SPECIALIST_EQUIPMENT[169] 2
+		{
+		randvar temp 10
+		ife WEAPONS_RESEARCH[RS_W_COOLDOWN] 2 clamp temp 2 7 // Aludran blood cooling?
+		else clamp temp 2 11
+		set temp9 GUN_HEAT[cur_weap]
+		add temp9 temp
+		setarray GUN_HEAT[cur_weap] temp9
+		}
+	}
+ife CHAR 9
+	{
+	ifvarn gun_mag -1 ifvarl gun_mag 6 sound MAG_LOW
+	randvar temp 1024
+	zshoot temp RIFLESHELL
+	}
+ife CHAR 12
+	{
+	ifvarn gun_mag -1 ifvarl gun_mag 6 sound MAG_LOW
+	randvar temp 1024
+	zshoot temp RIFLESHELL
+	}
+ife CHAR 17
+	{
+	ifvarn gun_mag -1 ifvarl gun_mag 3 sound MAG_LOW
+	randvar temp 1024
+	zshoot temp RIFLESHELL
+	}
+}
+ife cur_weap 9
+	{
+	ifvarn gun_mag -1 ifvarl gun_mag 6 ifg max_slot9_mag 6 sound MAG_LOW
+	ife CHAR 0
+	 ifn SPECIALIST_EQUIPMENT[121] 2 // not using the super nailgun?
+		{
+		randvar temp 1024
+		zshoot temp RIFLESHELL
+		ife SPECIALIST_EQUIPMENT[72] 2 // Gilboa fires 2 bullets
+			{
+			randvar temp 1024
+			zshoot temp RIFLESHELL
+			}
+		}
+	ife CHAR 3
+		{
+		sub slot9_mag 1
+		randvar temp 1024
+		zshoot temp RIFLESHELL
+		ife SPECIALIST_EQUIPMENT[35] 2
+			{
+			randvar temp 1024
+			zshoot temp SHELL_LINK
+			}
+		}
+	ife CHAR 6
+	 ife SPECIALIST_EQUIPMENT[141] 2 // using the Coatl HMG?
+		{
+		sub slot9_mag 1
+		randvar temp 1024
+		zshoot temp SCIFI_SHELL
+		}
+	ife CHAR 7
+		{
+		ife SPECIALIST_EQUIPMENT[33] 2 // Nailgun?
+		sub slot9_mag 1
+		
+		ife SPECIALIST_EQUIPMENT[19] 2
+			{
+			randvar temp 10
+			ife WEAPONS_RESEARCH[RS_W_COOLDOWN] 2 clamp temp 2 6 // Aludran blood cooling?
+			else clamp temp 2 10
+			set temp9 GUN_HEAT[cur_weap]
+			add temp9 temp
+			setarray GUN_HEAT[cur_weap] temp9
+			}
+		}
+	ife CHAR 13
+		{
+		ife SPECIALIST_EQUIPMENT[76] 2
+			{
+			randvar temp 10
+			ife WEAPONS_RESEARCH[RS_W_COOLDOWN] 2 clamp temp 2 7 // Aludran blood cooling?
+			else clamp temp 2 11
+			set temp9 GUN_HEAT[cur_weap]
+			add temp9 temp
+			setarray GUN_HEAT[cur_weap] temp9
+			}
+		}
+	ife CHAR 14
+		{
+		ife SPECIALIST_EQUIPMENT[165] 2 sub slot9_mag 1 
+		else 
+			{
+			randvar temp 1024
+			zshoot temp SHELL_LINK
+			}
+		randvar temp 1024
+		zshoot temp SCIFI_SHELL
+		}
+	ife CHAR 18
+		{
+		ife SPECIALIST_EQUIPMENT[147] 2
+			{
+			sub slot9_mag 1
+			randvar temp 1024
+			zshoot temp SCIFI_SHELL
+			}
+		}
+	}
+ife cur_weap 11
+	{
+	ife CHAR 17
+		{
+		ifvarn gun_mag -1 ifvarl gun_mag 6 sound MAG_LOW
+		sub slot11_mag 1
+		randvar temp 1024
+		zshoot temp RIFLESHELL
+		set temp9 GUN_HEAT[cur_weap]
+		add temp9 temp2
+		clamp temp9 0 60
+		setarray GUN_HEAT[cur_weap] temp9
+		}
+	}
+endevent
+
+onevent EVENT_PRESSEDFIRE
+
+ife CHARSELECT 0
+ife MOUSEUP 0
+{
+ife cur_weap 0
+	{
+		ifl temp_wep_mag 1
+			{
+			ife temp_weap 21 { state dry_fire set RETURN 1 }
+			ife temp_weap 22 { state dry_fire set RETURN 1 }
+			ife temp_weap 25 { state dry_fire set RETURN 1 }
+			ife temp_weap 26 { state dry_fire set RETURN 1 }
+			ife temp_weap 31 { state dry_fire set RETURN 1 }
+			ife temp_weap 35 { state dry_fire set RETURN 1 }
+			ife temp_weap 45 { state dry_fire set RETURN 1 }
+			ife temp_weap 47 { state dry_fire set RETURN 1 }
+			ife temp_weap 52 { state dry_fire set RETURN 1 }
+			ife temp_weap 53 { state dry_fire set RETURN 1 }
+			ife temp_weap 54 { state dry_fire set RETURN 1 }
+			}
+
+	ife temp_weap 25
+	 ife MOUSEUP 0
+		{
+		  ifand gun_firemode 32768
+			{
+			set RETURN -1
+			ife gl_countd 0
+			ifl kickbackpic 4
+			 ife player_in_vehicle 0
+			 ife player[].weapon_pos 0
+				{
+				set temp9 M203_GL
+				state shoot_cased_grenades
+				}
+			}
+		}
+
+	ife temp_weap 26
+	 ife MOUSEUP 0
+		{
+		  ifand gun_firemode 32768
+			{
+			set RETURN -1
+			ife gl_countd 0
+			ifl kickbackpic 4
+			 ife player_in_vehicle 0
+			 ife player[].weapon_pos 0
+				{
+				set temp9 AK47_GRENADEL
+				state shoot_caseless_grenades
+				}
+			}
+		}
+
+	ife temp_weap 32 ifg nuke_countd 0 ifand gun_firemode_two 2 set RETURN 1
+		}
+ife cur_weap 1
+	{
+	ife CHAR 1 // Zaxtor
+	 ifn SPECIALIST_EQUIPMENT[37] 2
+	  ifn SPECIALIST_EQUIPMENT[82] 2
+	   {
+	   ifand gun_firemode 32768
+			{
+			set RETURN -1
+			ife gl_countd 0
+			ifl kickbackpic 4
+			 ife player_in_vehicle 0
+			  ife player[].weapon_pos 0
+				{
+				set temp9 ZAX_GLFIRE
+				state shoot_cased_grenades
+				}
+			}
+	   }
+
+	 ifl slot1_mag 1
+	  ifn gun_mag -1
+		{
+		switch CHAR
+		case 0
+		case 1
+		case 3
+		case 5
+		case 6
+		case 7
+		case 10
+		case 13
+		case 15
+		case 16
+		case 18
+		 state dry_fire
+		 set RETURN 1
+		 break
+		default
+		 set RETURN 0
+		 break
+		endswitch
+		}
+	else ife gun_mag -1 ife player[].ammo_amount 1 0 { state dry_fire set RETURN 1 }
+	ife CHAR 14 ifg GUN_CHARGE 0 set RETURN 1
+	}
+else
+ife cur_weap 3 // Assault Rifles, SMGs, .etc
+ ife MOUSEUP 0
+	{
+	// grenade launcher code
+	  ife player_in_vehicle 0
+		ifl kickbackpic 4
+		  ife player[].weapon_pos 0
+		   ifand gun_firemode 32768
+			  {
+			  
+			 ifand weap_special[3] 2
+			 ife gl_countd 0
+					{
+					set temp9 M203_GL
+					state shoot_cased_grenades
+					}
+				else
+			  ifand weap_special[3] 8
+			  ife gl_countd 0
+					{
+					set temp9 AK47_GRENADEL
+					state shoot_caseless_grenades
+					}
+				set RETURN 1
+				}
+				
+	ife CHAR C_CULTIST
+	{
+		// If we're technically out of ammo for the weapon but have switched to a different ammo type for which ammo is remaining,
+		// this hack gets around the hardcoded trouble by adding + 1 to the ammo pool prior to firing.
+		// This hack is imperfect, as the value isn't subtracted after firing, but you need to really be focussing to notice it and it doesn't give you much of an advantage either so it's fine.
+		ifand AMMO_TYPES[cur_weap] 2 // silver
+		  ifg silver_ammo 0
+		{
+			getp[].ammo_amount 3 temp
+			ife temp 0
+				add temp 1
+			setp[].ammo_amount 3 temp
+		}
+
+		else ifand AMMO_TYPES[cur_weap] 32768 // incendiary
+		  ifg incend_ammo 0
+		{
+			getp[].ammo_amount 3 temp
+			ife temp 0
+				add temp 1
+			setp[].ammo_amount 3 temp
+		}
+	}
+
+	 ifle slot3_mag 0
+	  ifn gun_mag -1
+		{
+		switch CHAR
+		case 0
+		case 3
+		case 4
+		case 5
+		case 6
+		case 7
+		case 10
+		case 12
+		case 13
+		case 14
+		case 16
+		case 17
+		case 18
+		state dry_fire
+		set RETURN 1
+		break
+		default
+		set RETURN 0
+		break
+		endswitch
+		}
+	else ife gun_mag -1 ife player[].ammo_amount 3 0 { state dry_fire set RETURN 1 }
+	}
+else
+ife cur_weap 6 // =================================================================================================================================================================================
+ ifn gun_mag -1
+	{
+	 ifl slot6_mag 1 { state dry_fire set RETURN 1 }
+	 else ife gun_mag -1 ife player[].ammo_amount 6 0 { state dry_fire set RETURN 1 }
+	}
+else
+ife cur_weap 7
+	{
+	ife CHAR 0
+	 ife MOUSEUP 0
+	  ife player_in_vehicle 0
+	{
+		 ife SPECIALIST_EQUIPMENT[45] 2
+		  ifand gun_firemode 32768
+			{
+			set RETURN -1
+			ife gl_countd 0
+			ifl kickbackpic 4
+			 ife player[].weapon_pos 0
+				{
+				set temp9 M203_GL
+				state shoot_cased_grenades
+				}
+			}
+		else
+		 ife SPECIALIST_EQUIPMENT[78] 2
+		  ifand gun_firemode 32768
+			{
+			set RETURN -1
+			ife gl_countd 0
+			ifl kickbackpic 4
+			 ife player[].weapon_pos 0
+				{
+				set temp9 M203_GL
+				state shoot_cased_grenades
+				}
+			}
+		else
+	 ife slot7_mag 0
+		{
+		 state dry_fire
+		set RETURN -1
+		}
+	}
+	else
+	ifn gun_mag -1
+	 ife slot7_mag 0
+		{
+		 state dry_fire
+		set RETURN -1
+		}
+	else ife gun_mag -1 ife player[].ammo_amount 7 0 { state dry_fire set RETURN 1 }
+	else
+	set RETURN 0
+	}
+else
+ife cur_weap 9
+	{
+	// grenade launcher code
+	  ife player_in_vehicle 0
+		ifl kickbackpic 4
+		  ife player[].weapon_pos 0
+		   ifand gun_firemode 32768
+			  {
+			  set RETURN 1
+			 ifand weap_special[9] 2
+			 ife gl_countd 0
+					{
+					set temp9 M203_GL
+					state shoot_cased_grenades
+					}
+				else
+			  ifand weap_special[9] 8
+			  ife gl_countd 0
+					{
+					set temp9 AK47_GRENADEL
+					state shoot_caseless_grenades
+					}
+				}
+	else 
+	 ifn gun_mag -1 
+	  ife slot9_mag 0
+	  			{
+			 state dry_fire
+			set RETURN 1
+			}
+		else ife gun_mag -1 ife player[].ammo_amount 9 0 { state dry_fire set RETURN 1 }
+	else
+		set RETURN 0
+	}
+else
+ife cur_weap 11
+ {
+ ifn gun_mag -1
+	{
+    ife slot11_mag 0
+		{
+		state dry_fire
+		set RETURN -1
+		}
+	}
+ else ife gun_mag -1 ife player[].ammo_amount 11 0 { state dry_fire set RETURN 1 }
+ }
+	
+}
+
+
+ife userdef[].overhead_on 2
+	{
+	set RETURN 1
+	getp[].zoom temp
+	add temp 64
+	clamp temp 48 2048
+	setp[].zoom temp
+	}
+
+
+endevent
+
+onevent EVENT_FIRE
+ifg cameratype 1 set RETURN 1 // lock this if camera type is 2 or 3
+ifn using_turret -1 set RETURN 1
+
+ife cur_weap 2 // =================================================================================================================================================================================
+	{
+	switch CHAR
+	case C_JAMES
+		ife JAMES_JACKH 1 { ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 } } else
+		ife SPECIALIST_EQUIPMENT[61] 2 { ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 } } else
+		ife SPECIALIST_EQUIPMENT[53] 2 // using KSG-12?
+		{
+		ifand gun_firemode_two 8 { ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 } } else
+		ifl slot2_mag 1 { ifand gun_firemode_two 8 nullop else { state dry_fire set RETURN 1 } }
+		}
+		else
+		ifl slot2_mag 1 { state dry_fire set RETURN 1 }
+		 break
+	case C_MIKKO
+		ife SPECIALIST_EQUIPMENT[30] 2 { ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 } } else
+		ife SPECIALIST_EQUIPMENT[85] 2 // using MSC-12?
+			{
+			ifand gun_firemode_two 8 { ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 } } else
+			ifl slot2_mag 1 { ifand gun_firemode_two 8 nullop else { state dry_fire set RETURN 1 } }
+			}
+		else
+		ifl slot2_mag 1 { state dry_fire set RETURN 1 }
+		 break
+	case C_HIGHWIRE
+		ife SPECIALIST_EQUIPMENT[13] 2 { ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 } }
+		else
+		ife SPECIALIST_EQUIPMENT[65] 2 { ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 } }
+		else
+		ifl slot2_mag 1 { state dry_fire set RETURN 1 }
+		 break
+	case C_RUSTY
+		 ife SPECIALIST_EQUIPMENT[66] 2 nullop else
+		 ife SPECIALIST_EQUIPMENT[116] 2 { ifl slot2_mag 1 { state dry_fire set RETURN 1 } } else
+		 ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 }
+		 break
+	case C_GEOFFREY
+		 ifn gun_mag -1 ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 }
+		 break
+	case C_BOMBSHELL
+		 ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 }
+		 break
+	case C_JANE
+			ifand gun_firemode_two 8 { ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 } } else
+			ifl slot2_mag 1 { ifand gun_firemode_two 8 nullop else { state dry_fire set RETURN 1 } }
+		break
+	case C_ROSA
+		ifl slot2_mag 1 { state dry_fire set RETURN 1 }
+		break
+	case C_WHEATON
+		ife SPECIALIST_EQUIPMENT[118] 2 { ifl slot2_mag 1 { state dry_fire set RETURN 1 } } else
+		ifl alt_slot2_mag 1 { state dry_fire set RETURN 1 }
+		break
+	default
+		break
+	endswitch
+	}
+else
+ife cur_weap 3 // =================================================================================================================================================================================
+	{
+	ife CHAR 1
+	 ife SPECIALIST_EQUIPMENT[70] 2
+	  ife kickbackpic 0
+		{
+		ifg nuke_countd 0 ifand gun_firemode_two 2 set RETURN 1
+		else
+			{
+			ifand gun_firemode_two 1 { ifg player[].ammo_amount 5 0 ifg heat_seek_card 0 setp[].kickback_pic 2 set RETURN 1 }
+			else ifand gun_firemode_two 2 { ife nuke_countd 0 ifg atomic_bomb 0 setp[].kickback_pic 2 set RETURN 1 }
+			else ifand gun_firemode_two 4 { ifg DUP_missile_ammo 0 setp[].kickback_pic 2 set RETURN 1 }
+			else ifand gun_firemode_two 128 { ifg player[].ammo_amount 5 0 setp[].kickback_pic 2 set RETURN 1 }
+			}
+		}
+	ife CHAR 3
+	ife SPECIALIST_EQUIPMENT[14] 2
+	 ife kickbackpic 0
+		{
+		ifg gl_countd 0 ifand gun_firemode_two 2 set RETURN -1
+		else
+			{
+			ifand gun_firemode_two 1 { ifg player[].ammo_amount 5 0 ifg heat_seek_card 0 setp[].kickback_pic 2 set RETURN 1 }
+			ifand gun_firemode_two 2 { ife gl_countd 0 ifg atomic_bomb 0 setp[].kickback_pic 2 set RETURN 1 }
+			ifand gun_firemode_two 4 { ifg DUP_missile_ammo 0 setp[].kickback_pic 2 set RETURN 1 }
+			ifand gun_firemode_two 128 { ifg player[].ammo_amount 5 0 setp[].kickback_pic 2 set RETURN 1 }
+			}
+		}
+	}
+else
+ife cur_weap 4 // =================================================================================================================================================================================
+	{
+	switch CHAR
+	case 0
+	ifn gun_mag -1
+	 ifl slot4_mag 1 { state dry_fire set RETURN 1 }
+	 break
+	case 5
+	case 7
+	case 10
+	case 12
+	 ifl slot4_mag 1 { state dry_fire set RETURN 1 }
+	 break
+	default
+	 ife gun_mag -1 ife player[].ammo_amount 4 0 { state dry_fire set RETURN 1 }
+	 break
+	endswitch
+	}
+else
+ife cur_weap 8 // =================================================================================================================================================================================
+	{
+	switch CHAR
+	case 0
+	case 2
+	case 5
+	case 6
+	case 9
+	case 11
+	case 13
+	case 17
+	case 18
+		ifn player[].ammo_amount 8 0 ife kickbackpic 0 setp[].kickback_pic 1
+		break
+	case 3
+		 ife SPECIALIST_EQUIPMENT[124] 2 // using the ballistic knife?
+			{
+			ifn player[].ammo_amount 8 0 ife kickbackpic 0 setp[].kickback_pic 1
+			}
+		 ife SPECIALIST_EQUIPMENT[125] 2 // using the silver ballistic knife?
+			{
+			ifn player[].ammo_amount 8 0 ife kickbackpic 0 setp[].kickback_pic 1
+			}
+		break	
+	case 7
+		 ife SPECIALIST_EQUIPMENT[114] 2 // using the gold mikko statue?
+			{
+			ifn player[].ammo_amount 8 0 ife kickbackpic 0 setp[].kickback_pic 1
+			}
+		break
+	case 12
+		 ife SPECIALIST_EQUIPMENT[156] 2 // using the Tesla blaster?
+			{
+			ifn player[].ammo_amount 8 0 ife kickbackpic 0 setp[].kickback_pic 1
+			}
+		break
+	case 14
+		 ife SPECIALIST_EQUIPMENT[115] 2 // using the Tron disc?
+			{
+			ifn player[].ammo_amount 8 0 ife kickbackpic 0 setp[].kickback_pic 1
+			}
+		break
+	case 4
+		ifn player[].ammo_amount 8 0 ife kickbackpic 0 { setp[].kickback_pic 1 sound HEART_LEECHF }
+		break
+	default
+		break
+	endswitch
+	}
+else
+ife cur_weap 11 // =================================================================================================================================================================================
+	{
+	switch CHAR
+	case 0
+	case 17
+	 ifl slot11_mag 1 { state dry_fire set RETURN 1 }
+	 break
+	default
+	 break
+	endswitch
+	}
+else
+set RETURN 0
+endevent
+
+// END FIRE KEY========================================================================================

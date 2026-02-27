@@ -1,0 +1,1210 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Contains code for unique pickups such as special weapons, artifacts .etc
+--------------------------------------------------------------------------------
+*/
+
+// BOTTLE CAPS =================================================================================================================================================
+
+useractor notenemy 21238 // Pepsi Bottle Cap
+
+ifaction 0
+	{
+	readgamevar FAITHFUL_LICENSE
+	ifspritepal 3
+		{
+		ifand FAITHFUL_LICENSE 2 action FORM else killit
+		}
+	else
+		{
+		ifand FAITHFUL_LICENSE 16 killit
+		action ZERO
+		}
+	}
+
+ifaction ZERO
+	{
+	  state can_pickup_item
+	  ife actor_return 1
+				{
+				state pickup_prompt
+				 ifhitspace
+					{
+					state PICKUP_DISPLAY
+					sound FOUND_TREASURE
+					geta[].picnum picked_up_tile
+					setarray picked_up_inven[1] 60
+					set item_amount -1
+					xorvar FAITHFUL_LICENSE 16
+					savegamevar FAITHFUL_LICENSE
+					killit
+					}
+				}
+	}
+
+enda
+
+useractor notenemy 21239 // Cola Bottle Cap
+
+ifaction 0
+	{
+	readgamevar FAITHFUL_LICENSE
+	ifspritepal 3
+		{
+		ifand FAITHFUL_LICENSE 4 action FORM else killit
+		}
+	else
+		{
+		ifand FAITHFUL_LICENSE 32 killit
+		action ZERO
+		}
+	}
+
+
+ifaction ZERO
+	{
+	  state can_pickup_item
+	  ife actor_return 1
+				{
+				state pickup_prompt
+				 ifhitspace
+					{
+					state PICKUP_DISPLAY
+					sound FOUND_TREASURE
+					geta[].picnum picked_up_tile
+					setarray picked_up_inven[1] 60
+					set item_amount -1
+					xorvar FAITHFUL_LICENSE 32
+					savegamevar FAITHFUL_LICENSE
+					killit
+					}
+				}
+	}
+
+enda
+
+useractor notenemy 21240 // Capitol Bottle cap
+ifaction 0
+	{
+	readgamevar FAITHFUL_LICENSE
+	ifspritepal 3
+		{
+		ifand FAITHFUL_LICENSE 8 action FORM else killit
+		}
+	else
+		{
+		ifand FAITHFUL_LICENSE 64 killit
+		action ZERO
+		}
+	}
+ifaction ZERO
+{
+  state can_pickup_item
+  ife actor_return 1
+			{
+			state pickup_prompt
+			 ifhitspace
+				{
+				state PICKUP_DISPLAY
+				sound FOUND_TREASURE
+				geta[].picnum picked_up_tile
+				setarray picked_up_inven[1] 60
+				set item_amount -1
+				xorvar FAITHFUL_LICENSE 64
+				savegamevar FAITHFUL_LICENSE
+				killit
+				}
+			}
+}
+enda
+
+defstate equipment_pickup
+ifaction 0
+	{
+	readarrayfromfile EQUIPMENT_FOUND F_EQUIPMENT_FOUND_AMCTC
+	ife EQUIPMENT_FOUND[item_num] 1 killit
+	action ZERO
+	}
+  state can_pickup_item
+  ife actor_return 1
+			{
+			userquote 3038
+			setarray EQUIPMENT_FOUND[item_num] 1
+			writearraytofile EQUIPMENT_FOUND F_EQUIPMENT_FOUND_AMCTC
+			globalsound FOUND_EQUIPMENT
+
+			state PICKUP_DISPLAY
+			set picked_up_tile sprite[].picnum
+			set item_amount -1
+
+			state white_flash
+			killit
+			}
+ifrnd 1 spawn GLINT
+ends
+
+spriteshadow 10234
+useractor notenemy 10234 // Shotgun ammo belt
+	sizeat 18 18
+	set item_num 1
+	state equipment_pickup
+enda
+
+spriteshadow GHOST_GOGGLES
+useractor notenemy GHOST_GOGGLES
+
+ifaction 0
+	{
+	set item_num 6
+	sizeat 40 40
+	action ZERO
+	readarrayfromfile EQUIPMENT_FOUND F_EQUIPMENT_FOUND_AMCTC
+	cstat 0
+	}
+
+  state can_pickup_item
+  ife actor_return 1
+			{
+			  setarray HELMET_LOADOUT[CHAR] 4
+			  addinventory GET_HEATS HEAT_AMOUNT
+
+					ife EQUIPMENT_FOUND[item_num] 0
+						{
+						userquote 3038
+						setarray EQUIPMENT_FOUND[item_num] 1
+						writearraytofile EQUIPMENT_FOUND F_EQUIPMENT_FOUND_AMCTC
+						globalsound FOUND_EQUIPMENT
+						state white_flash
+						}
+					else
+					{
+						userquote 1705
+					}
+						   setarray picked_up_inven[5] 60
+						   state PICKUP_DISPLAY
+						   set picked_up_tile GHOST_GOGGLES
+						   set item_amount 100
+						   setp[].invdisptime 60
+				  state quikget
+			  }
+
+enda
+
+spriteshadow 12233
+useractor notenemy 12233 // Combat Shovel
+	sizeat 24 24
+	set item_num 2
+	state equipment_pickup
+enda
+
+spriteshadow 11118
+useractor notenemy 11118 // Ice Pick
+	sizeat 24 24
+	set item_num 9
+	state equipment_pickup
+enda
+
+spriteshadow 20066
+useractor notenemy 20066 // Frying pan
+sizeat 32 32
+
+  state can_pickup_item
+  ife actor_return 1
+			{
+			state pickup_prompt
+			ifhitspace
+				{
+				set hit_key 30
+				state PICKUP_DISPLAY
+				sound PAN_IMPACT
+				set picked_up_tile sprite[].picnum
+				set item_amount -1
+				set GOT_KNIFE 5
+				killit
+				}
+			}
+enda
+
+spriteshadow 22758
+useractor notenemy 22758 // Ballistic mask
+	sizeat 24 24
+	set item_num 3
+	state equipment_pickup
+enda
+
+spriteshadow 38900
+useractor notenemy 38900 // nano board
+sizeat 30 30
+
+  state can_pickup_item
+  ife actor_return 1
+			{
+			state PICKUP_DISPLAY
+			set picked_up_tile sprite[].picnum
+			set item_amount -1
+			ifand BASE_COSMETICS 128 nullop else
+				{
+				xorvar BASE_COSMETICS 128
+				state fade_out_white
+				sound NANOB_RD
+				savegamevar BASE_COSMETICS
+				}
+			killit
+			}
+enda
+
+// ARTIFACTS ===================================================================================================
+
+defstate artifact_pickup
+ifaction 0
+	{
+	readarrayfromfile ARTIFACTS_FOUND F_ARTIFACTS_FOUND_AMCTC
+	ife ARTIFACTS_FOUND[item_num] 1 
+		{ 
+		ifrnd 8 spawn PLATINUM_AMULET
+		else ifrnd 64 spawn GOLD_AMULET
+		else ifrnd 128 spawn SILVER_AMULET
+		else spawn COPPER_AMULET 
+		killit 
+		}
+	action ZERO
+	}
+  state can_pickup_item
+  ife actor_return 1
+			{
+			userquote 3037
+			setarray ARTIFACTS_FOUND[item_num] 1
+			writearraytofile ARTIFACTS_FOUND F_ARTIFACTS_FOUND_AMCTC
+			globalsound FOUND_ARTIFACT
+			add TREASURE_FOUND 1
+			state white_flash
+
+			state PICKUP_DISPLAY
+			set picked_up_tile sprite[].picnum
+			set item_amount -1
+
+			killit
+			}
+ifrnd 1 spawn GLINT
+ends
+
+spriteshadow 10235
+useractor notenemy 10235 // Golden Lighter
+	sizeat 10 10
+	set item_num 1
+	state artifact_pickup
+enda
+
+spriteshadow 10233
+useractor notenemy 10233 // boots of lightstep
+	sizeat 20 20
+	set item_num 2
+	state artifact_pickup
+enda
+
+spriteshadow 10232
+useractor notenemy 10232 // enchanted nails
+	sizeat 32 32
+	set item_num 3
+	state artifact_pickup
+enda
+
+spriteshadow 13542
+useractor notenemy 13542 // tree book
+	sizeat 32 32
+	set item_num 4
+	state artifact_pickup
+enda
+
+spriteshadow 19199
+
+useractor notenemy 19199 // Spirit Shawl
+	sizeat 32 32
+	set item_num 5
+	state artifact_pickup
+enda
+
+spriteshadow 19198
+
+useractor notenemy 19198 // Mako ring
+	sizeat 22 22
+	set item_num 6
+	state artifact_pickup
+enda
+
+spriteshadow 22762
+
+useractor notenemy 22762 // Life Ring
+	sizeat 10 10 
+	set item_num 7
+	state artifact_pickup
+enda
+
+spriteshadow 29350
+
+useractor notenemy 29350 // Elemental shield
+	sizeat 26 26
+	set item_num 9
+	state artifact_pickup
+enda
+
+useractor notenemy 22691 // Bag of holdings
+	sizeat 26 26
+	set item_num 10
+	state artifact_pickup
+enda
+
+useractor notenemy 22761 // Ice Ring
+	sizeat 10 10
+	set item_num 11
+	state artifact_pickup
+enda
+
+useractor notenemy 38902 // Mu idol
+	sizeat 32 32
+	set item_num 12
+	state artifact_pickup
+enda
+
+// Specialist weapons ===========================================
+
+defstate special_gun_pickup
+ifaction 0
+	{
+	readarrayfromfile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+	ifand sprite[].cstat 16
+		{
+		action DECORATION
+		ife SPECIALIST_EQUIPMENT[item_num] 0 killit
+		}
+	else
+		{
+		ifg SPECIALIST_EQUIPMENT[item_num] 0 { spawn GOLD_AMULET killit }
+		action ZERO
+		}
+	}
+ifaction ZERO fall
+  state can_pickup_item
+  ife actor_return 1
+			ifaction ZERO
+			{
+			ife temp2 C_JAMES { userquote 3200 set DISP_GUN_CHAR MI_JAMES }
+			else ife temp2 C_ZAXTOR { userquote 3201 set DISP_GUN_CHAR MI_ZAXTOR }
+			else ife temp2 C_MERLIJN { userquote 3202 set DISP_GUN_CHAR MI_MERLIJN }
+			else ife temp2 C_HIGHWIRE { userquote 3203 set DISP_GUN_CHAR MI_HIGHWIRE }
+			else ife temp2 C_SANG { userquote 3204 set DISP_GUN_CHAR MI_SANG }
+			else ife temp2 C_RUSTY { userquote 3205 set DISP_GUN_CHAR MI_RUSTY }
+			else ife temp2 C_GEOFFREY { userquote 3206 set DISP_GUN_CHAR MI_GEOFFREY }
+			else ife temp2 C_MIKKO { userquote 3207 set DISP_GUN_CHAR MI_MIKKO }
+			else ife temp2 C_MICKY { userquote 3208 set DISP_GUN_CHAR MI_MICKY }
+			else ife temp2 C_SNOWFALL { userquote 3209 set DISP_GUN_CHAR MI_SNOWFALL }
+			else ife temp2 C_KAGURA { userquote 3210 set DISP_GUN_CHAR MI_KAGURA }
+			else ife temp2 C_WHEATON { userquote 3211 set DISP_GUN_CHAR MI_WHEATON }
+			
+			state getfactornormalizedframerate
+			set DISP_GUN -150
+			mul DISP_GUN NORMALIZED_FACTOR
+			set DISP_GUN_PIC sprite[].picnum
+			state PICKUP_DISPLAY
+			set picked_up_tile sprite[].picnum
+			set item_amount -1		
+			
+			setarray SPECIALIST_EQUIPMENT[item_num] 1
+			writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+			globalsound FOUND_EQUIPMENT
+			add TREASURE_FOUND 1
+			killit
+			}
+ends
+
+spriteshadow 6383
+
+useractor notenemy 6383 // Ice spell for Sang
+	sizeat 24 24
+	set item_num 17
+	set temp2 C_SANG
+	state special_gun_pickup
+enda
+
+spriteshadow 23870
+
+useractor notenemy 23870 // Seraph Shotgun for Sang
+	sizeat 18 18
+	set item_num 86
+	set temp2 C_SANG
+	state special_gun_pickup
+enda
+
+spriteshadow 22603
+
+useractor notenemy 22603 // Manacle for Sang
+	sizeat 24 24
+	set item_num 80
+	set temp2 C_SANG
+	state special_gun_pickup
+enda
+
+spriteshadow 38933
+
+useractor notenemy 38933 // Magic Missile for Sang - beaumont university
+	sizeat 24 24
+	set item_num 162
+	set temp2 C_SANG
+	state special_gun_pickup
+enda
+
+
+spriteshadow 13354
+
+useractor notenemy 13354 // MS Corp silenced SMG for Mikko
+	sizeat 18 18
+	set item_num 21
+	set temp2 C_MIKKO
+	state special_gun_pickup
+enda
+
+spriteshadow 29750
+
+useractor notenemy 29750 // MSC rifle Mark 2 for Mikko
+	sizeat 24 24
+	set item_num 145
+	set temp2 C_MIKKO
+	state special_gun_pickup
+enda
+
+useractor notenemy 39000 // Judgement for Mikko
+	sizeat 24 24
+	set item_num 174
+	set temp2 C_MIKKO
+	state special_gun_pickup
+enda
+
+
+spriteshadow 13385
+
+useractor notenemy 13385 // Browning Auto-5 for James
+	sizeat 20 20
+	set item_num 25
+	set temp2 C_JAMES
+	state special_gun_pickup
+enda
+
+spriteshadow 13376
+
+useractor notenemy 13376 // Remington 1858 for Rusty (Jekyl's pistol)
+	sizeat 24 24
+	set item_num 24
+	set temp2 C_RUSTY
+	state special_gun_pickup
+enda
+
+spriteshadow 39040
+
+useractor notenemy 39040 // Gauss Revolver for Rusty in Elysian Holiday
+	sizeat 24 24
+	set item_num 168
+	set temp2 C_RUSTY
+	state special_gun_pickup
+enda
+
+spriteshadow 13423
+
+useractor notenemy 13423 // Micro-uzi for Rusty - Millhaven
+	sizeat 22 22
+	set item_num 29
+	set temp2 C_RUSTY
+	state special_gun_pickup
+enda
+
+spriteshadow 38925
+
+useractor notenemy 38925 // G11 for Rusty - Who goes there
+	sizeat 24 24
+	set item_num 163
+	set temp2 C_RUSTY
+	state special_gun_pickup
+enda
+
+spriteshadow 39047
+
+useractor notenemy 39047 // Piledriver for Rusty - Toilets R Us
+	sizeat 24 24
+	set item_num 175
+	set temp2 C_RUSTY
+	state special_gun_pickup
+enda
+
+spriteshadow 29774
+
+useractor notenemy 29774 // Big Game for Rusty - Saints and Sinners
+	sizeat 24 24
+	set item_num 134
+	set temp2 C_RUSTY
+	state special_gun_pickup
+enda
+
+spriteshadow 13424
+
+useractor notenemy 13424 // MS Corp assault Shotgun for Mikko
+	sizeat 24 24
+	set item_num 30
+	set temp2 C_MIKKO
+	state special_gun_pickup
+enda
+
+spriteshadow 38967
+
+useractor notenemy 38967 // Panflute for Mikko
+	sizeat 20 20
+	set item_num 169
+	set temp2 C_MIKKO
+	state special_gun_pickup
+enda
+
+spriteshadow 39000
+
+useractor notenemy 39000 // Judgement for Mikko
+	sizeat 20 20
+	set item_num 174
+	set temp2 C_MIKKO
+	state special_gun_pickup
+enda
+
+spriteshadow 6386
+useractor notenemy 6386 // Fire spell for Sang
+	sizeat 24 24
+	set item_num 31
+	set temp2 C_SANG
+	state special_gun_pickup
+enda
+
+useractor notenemy 29870 // KS23 for Highwire
+	sizeat 16 16
+	set item_num 139
+	set temp2 C_HIGHWIRE
+	state special_gun_pickup
+enda
+
+spriteshadow 15911
+useractor notenemy 15911 // MDF Battle Rifle for Mikko
+	sizeto 24 24
+	set item_num 47
+	set temp2 C_MIKKO
+	state special_gun_pickup
+enda
+
+spriteshadow 19878
+useractor notenemy 19878 // Tec-pistol for Micky
+	sizeto 28 28
+	set item_num 73
+	set temp2 C_MICKY
+	state special_gun_pickup
+enda
+
+spriteshadow 22528
+useractor notenemy 22528 // Particle beam for Micky
+	sizeto 22 22
+	set item_num 76
+	set temp2 C_MICKY
+	state special_gun_pickup
+enda
+
+spriteshadow 29709
+useractor notenemy 29709 // Marathon pistol for Micky
+	sizeto 24 24
+	set item_num 60
+	set temp2 C_MICKY
+	state special_gun_pickup
+enda
+
+spriteshadow 38982
+useractor notenemy 38982 // Cryocannon for Micky
+	sizeto 24 24
+	set item_num 173
+	set temp2 C_MICKY
+	state special_gun_pickup
+enda
+
+spriteshadow 15898
+useractor notenemy 15898 // M4-15 for James
+	sizeto 18 22
+	set item_num 84
+	set temp2 C_JAMES
+	state special_gun_pickup
+enda
+
+spriteshadow 29104
+useractor notenemy 29104 // Eviscerator for Geoffrey - swamp
+	sizeto 22 22
+	set item_num 97
+	set temp2 C_GEOFFREY
+	state special_gun_pickup
+enda
+
+spriteshadow 22617
+useractor notenemy 22617 // GP-63 for Geoffrey
+	sizeto 24 24
+	set item_num 81
+	set temp2 C_GEOFFREY
+	state special_gun_pickup
+enda
+
+spriteshadow 29080
+useractor notenemy 29080 // Cutlass for Geoffrey - axon library
+	sizeto 24 24
+	set item_num 95
+	set temp2 C_GEOFFREY
+	state special_gun_pickup
+enda
+
+spriteshadow 22595
+useractor notenemy 22595 // Auto-shotty for Geoffrey - guerillas in the mist
+	sizeto 24 24
+	set item_num 79
+	set temp2 C_GEOFFREY
+	state special_gun_pickup
+enda
+
+spriteshadow 29912
+useractor notenemy 29912 // Coatl HMG for Geoffrey - Saints and Sinners
+	sizeto 23 23
+	set item_num 141
+	set temp2 C_GEOFFREY
+	state special_gun_pickup
+enda
+
+spriteshadow 38986
+useractor notenemy 38986 // Heavy Gauss for Geoffrey - Venus Hijinks
+	sizeto 23 23
+	set item_num 176
+	set temp2 C_GEOFFREY
+	state special_gun_pickup
+enda
+
+spriteshadow 22538
+useractor notenemy 22538 // 40MM launcher for James - Caligula station
+	sizeto 24 24
+	set item_num 77
+	set temp2 C_JAMES
+	state special_gun_pickup
+enda
+
+spriteshadow 22571
+useractor notenemy 22571 // G36 for James - Egypt
+	sizeto 20 20
+	set item_num 78
+	set temp2 C_JAMES
+	state special_gun_pickup
+enda
+
+spriteshadow 29118
+useractor notenemy 29118 // Dark matter XM9 for James - Snowtemple map in ep4
+	sizeto 22 22
+	set item_num 98
+	set temp2 C_JAMES
+	state special_gun_pickup
+enda
+
+spriteshadow 22692
+useractor notenemy 22692 // MSC-12 for Mikko
+	sizeto 18 18
+	set item_num 85
+	set temp2 C_MIKKO
+	state special_gun_pickup
+enda
+
+spriteshadow 16573
+useractor notenemy 16573 // Meson cannon for Micky
+	sizeto 24 24
+	set item_num 54
+	set temp2 C_MICKY
+	state special_gun_pickup
+enda
+
+spriteshadow 36037
+useractor notenemy 36037 // MP44 for Wheaton
+	sizeto 24 24
+	set item_num 117
+	set temp2 C_WHEATON
+	state special_gun_pickup
+enda
+
+spriteshadow 38939
+useractor notenemy 38939 // XM8 for Wheaton
+	sizeto 24 24
+	set item_num 160
+	set temp2 C_WHEATON
+	state special_gun_pickup
+enda
+
+spriteshadow 16107
+useractor notenemy 16107 // UMP45 for James
+	sizeto 24 24
+	set item_num 55
+	set temp2 C_JAMES
+	state special_gun_pickup
+enda
+
+spriteshadow 29080
+useractor notenemy 29089 // Annihilator for Zaxtor
+	sizeto 16 16
+	set item_num 93
+	set temp2 C_ZAXTOR
+	state special_gun_pickup
+enda
+
+spriteshadow 29741
+useractor notenemy 29741 // Rotary Shotgun for Zaxtor
+	sizeto 24 24
+	set item_num 136
+	set temp2 C_ZAXTOR
+	state special_gun_pickup
+enda
+
+spriteshadow 29125
+useractor notenemy 29125 // elemental launcher for Zaxtor - library
+	sizeto 24 24
+	set item_num 99
+	set temp2 C_ZAXTOR
+	state special_gun_pickup
+enda
+
+spriteshadow 29145
+useractor notenemy 29145 // KRISS for Sang - Cliffship
+	sizeto 24 24
+	set item_num 92
+	set temp2 C_SANG
+	state special_gun_pickup
+enda
+
+spriteshadow 24051
+useractor notenemy 24051 // Flam4 for Kagura
+	sizeto 18 18
+	set item_num 90
+	set temp2 C_KAGURA
+	state special_gun_pickup
+enda
+
+spriteshadow 29727
+useractor notenemy 29727 // Kuwabara for Kagura
+	sizeto 18 18
+	set item_num 104
+	set temp2 C_KAGURA
+	state special_gun_pickup
+enda
+
+spriteshadow 29722
+useractor notenemy 29722 // Jewel FAMAS for Kagura
+	sizeto 24 24
+	set item_num 131
+	set temp2 C_KAGURA
+	state special_gun_pickup
+enda
+
+spriteshadow 26538
+useractor notenemy 26538 // Ice Minigun for Kagura
+	sizeto 24 24
+	set item_num 132
+	set temp2 C_KAGURA
+	state special_gun_pickup
+enda
+
+spriteshadow 18086
+useractor notenemy 18086 // Nemesis Staff for Sang
+	sizeto 22 22
+	set item_num 57
+	set temp2 C_SANG
+	state special_gun_pickup
+enda
+
+spriteshadow 18011
+useractor notenemy 18011 // AWMSniper for Mikko
+	sizeto 16 22
+	set item_num 59
+	set temp2 C_MIKKO
+	state special_gun_pickup
+enda
+
+spriteshadow 14977
+useractor notenemy 14977 // Beretta for James
+	sizeto 22 22
+	set item_num 88
+	set temp2 C_JAMES
+	state special_gun_pickup
+enda
+
+spriteshadow 22645
+useractor notenemy 22645 // MP5K for Zaxtor
+	sizeto 22 22
+	set item_num 82
+	set temp2 C_ZAXTOR
+	state special_gun_pickup
+enda
+
+spriteshadow 9163
+useractor notenemy 9163 // DZ Firestorm for Zaxtor
+	sizeto 24 24
+	set item_num 52
+	set temp2 C_ZAXTOR
+	state special_gun_pickup
+enda
+
+spriteshadow 15918
+useractor notenemy 15918 // Exp crossbow for James
+	sizeto 16 16
+	set item_num 49
+	set temp2 C_JAMES
+	state special_gun_pickup
+enda
+
+spriteshadow 16079
+useractor notenemy 16079 // KSG-12 for James
+	sizeto 24 24
+	set item_num 53
+	set temp2 C_JAMES
+	state special_gun_pickup
+enda
+
+spriteshadow 29851
+useractor notenemy 29851 // Quietus Blade
+
+ifaction 0
+	{
+	readarrayfromfile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+	sizeto 20 20
+	
+	set command 32768
+	ifn SPECIALIST_EQUIPMENT[105] 0
+		{
+		ife SPECIALIST_EQUIPMENT[105] 1 { spawn GOLD_AMULET killit }
+		else ife SPECIALIST_EQUIPMENT[105] 2 { spawn GOLD_AMULET killit }
+		else ifand SPECIALIST_EQUIPMENT[105] 32 { spawn GOLD_AMULET killit }
+		}
+	action ZERO
+	}
+
+  state can_pickup_item
+  ife actor_return 1
+	 ifaction ZERO
+			{
+			ifand SPECIALIST_EQUIPMENT[105] 32 nullop else
+				{
+				userquote 3220
+				set temp SPECIALIST_EQUIPMENT[105]
+				xor temp 32
+				setarray SPECIALIST_EQUIPMENT[105] temp
+				}
+			ifand SPECIALIST_EQUIPMENT[105] 32
+			 ifand SPECIALIST_EQUIPMENT[105] 64
+			  ifand SPECIALIST_EQUIPMENT[105] 128
+				{
+				userquote 3221
+				setarray SPECIALIST_EQUIPMENT[105] 1
+				}
+			writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+			globalsound FOUND_EQUIPMENT
+			add TREASURE_FOUND 1
+			state white_flash
+
+			state PICKUP_DISPLAY
+			set picked_up_tile sprite[].picnum
+			set item_amount -1
+
+			killit
+			}
+
+enda
+
+spriteshadow 29852
+useractor notenemy 29852 // Quietus Pommel
+
+ifaction 0
+	{
+	readarrayfromfile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+	sizeto 20 20
+	
+	set command 32768
+	ifn SPECIALIST_EQUIPMENT[105] 0
+		{
+		ife SPECIALIST_EQUIPMENT[105] 1 { spawn GOLD_AMULET killit }
+		else ife SPECIALIST_EQUIPMENT[105] 2 { spawn GOLD_AMULET killit }
+		else ifand SPECIALIST_EQUIPMENT[105] 64 { spawn GOLD_AMULET killit }
+		}
+	action ZERO
+	}
+
+  state can_pickup_item
+  ife actor_return 1
+	ifaction ZERO
+			{
+			ifand SPECIALIST_EQUIPMENT[105] 64 nullop else
+				{
+				userquote 3220
+				set temp SPECIALIST_EQUIPMENT[105]
+				xor temp 64
+				setarray SPECIALIST_EQUIPMENT[105] temp
+				}
+			ifand SPECIALIST_EQUIPMENT[105] 32
+			 ifand SPECIALIST_EQUIPMENT[105] 64
+			  ifand SPECIALIST_EQUIPMENT[105] 128
+				{
+				userquote 3221
+				setarray SPECIALIST_EQUIPMENT[105] 1
+				}
+			writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+			globalsound FOUND_EQUIPMENT
+			add TREASURE_FOUND 1
+			state white_flash
+
+			state PICKUP_DISPLAY
+			set picked_up_tile sprite[].picnum
+			set item_amount -1
+
+			killit
+			}
+
+enda
+
+spriteshadow 29853
+useractor notenemy 29853 // Quietus handle
+
+ifaction 0
+	{
+	readarrayfromfile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+	sizeto 20 20
+	
+	set command 32768
+	ifn SPECIALIST_EQUIPMENT[105] 0
+		{
+		ife SPECIALIST_EQUIPMENT[105] 1 { spawn GOLD_AMULET killit }
+		else ife SPECIALIST_EQUIPMENT[105] 2 { spawn GOLD_AMULET killit }
+		else ifand SPECIALIST_EQUIPMENT[105] 128 { spawn GOLD_AMULET killit }
+		}
+	action ZERO
+	}
+
+  state can_pickup_item
+  ife actor_return 1
+			 ifaction ZERO
+			{
+			ifand SPECIALIST_EQUIPMENT[105] 128 nullop else
+				{
+				userquote 3220
+				set temp SPECIALIST_EQUIPMENT[105]
+				xor temp 128
+				setarray SPECIALIST_EQUIPMENT[105] temp
+				}
+			ifand SPECIALIST_EQUIPMENT[105] 32
+			 ifand SPECIALIST_EQUIPMENT[105] 64
+			  ifand SPECIALIST_EQUIPMENT[105] 128
+				{
+				userquote 3221
+				setarray SPECIALIST_EQUIPMENT[105] 1
+				}
+			writearraytofile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+			globalsound FOUND_EQUIPMENT
+			add TREASURE_FOUND 1
+			state white_flash
+
+			state PICKUP_DISPLAY
+			set picked_up_tile sprite[].picnum
+			set item_amount -1
+
+			killit
+			}
+
+enda
+
+
+
+spriteshadow 16015
+useractor notenemy 16015 // Super Galil for Zaxtor
+	sizeto 24 24
+	set item_num 70
+	set temp2 C_ZAXTOR
+	state special_gun_pickup
+enda
+
+spriteshadow 19917
+useractor notenemy 19917 // Cycloid plasma gun for Zaxtor
+	sizeto 20 20
+	set item_num 75
+	set temp2 C_ZAXTOR
+	state special_gun_pickup
+enda
+
+spriteshadow 20806
+useractor notenemy 20806 // Tesla AR rifle for Snowfall - Neutrino
+	sizeto 26 26
+	set item_num 91
+	set temp2 C_SNOWFALL
+	state special_gun_pickup
+enda
+
+spriteshadow 29096
+useractor notenemy 29096 // ARX rifle for Snowfall - cliffship
+	sizeto 26 26
+	set item_num 96
+	set temp2 C_SNOWFALL
+	state special_gun_pickup
+enda
+
+spriteshadow 29770
+useractor notenemy 29770 // Gauss Pistol for Snowfall - skydemo (ep5 zaxtor map)
+	sizeto 26 26
+	set item_num 146
+	set temp2 C_SNOWFALL
+	state special_gun_pickup
+enda
+
+spriteshadow 38954
+useractor notenemy 38954 // Gauss HMG for Snowfall - Arctic Base
+	sizeto 22 22
+	set item_num 165
+	set temp2 C_SNOWFALL
+	state special_gun_pickup
+enda
+
+spriteshadow 16069
+useractor notenemy 16069 // Guandao for Merlijn
+	sizeto 24 24
+	set item_num 51
+	set temp2 C_MERLIJN
+	state special_gun_pickup
+enda
+
+spriteshadow 13403
+
+useractor notenemy 13403 // Long axe for Merlijn
+	sizeat 16 16
+	set item_num 26
+	set temp2 C_MERLIJN
+	state special_gun_pickup
+enda
+
+spriteshadow 29763
+
+useractor notenemy 29763 // Draining axe for Merlijn
+	sizeat 20 20
+	set item_num 144
+	set temp2 C_MERLIJN
+	state special_gun_pickup
+enda
+
+spriteshadow 15991
+useractor notenemy 15991 // Tibet Seige cannon for Merlijn
+	sizeto 24 24
+	set item_num 50
+	set temp2 C_MERLIJN
+	state special_gun_pickup
+enda
+
+spriteshadow 39077
+useractor notenemy 39077 // Magma hammer for Merlijn
+	sizeto 24 24
+	set item_num 179
+	set temp2 C_MERLIJN
+	state special_gun_pickup
+enda
+
+// WEAPON CASE =================================================================================================================================================
+
+defstate case_store_initpos
+	// get initpos
+	geta[].x xrepeat_saved
+	geta[].y yrepeat_saved
+
+	// move the case position further back
+	cos temp sprite[].ang
+	div temp 96
+	sub xrepeat_saved temp
+
+	sin temp sprite[].ang
+	div temp 96
+	sub yrepeat_saved temp
+ends
+
+defstate case_restore_initpos
+	seta[].x xrepeat_saved
+	seta[].y yrepeat_saved
+ends
+
+defstate item_case
+ifaction 0
+{
+ifn lotag_saved 0
+{
+checkactivatormotion lotag_saved
+ ife RETURN 1
+	{
+	state case_store_initpos
+	action ZERO
+	set INTERNALCOUNT 0
+	}
+}
+else
+ifpdistl 1536
+ ifp pfacing
+  ifp palive
+	{
+	state pickup_prompt
+	 ifhitspace
+	  ifcount 13
+		{
+		state case_store_initpos
+		ifactor 29684 sound WOOD_SCRAPE
+		action ZERO
+		set INTERNALCOUNT 0
+		}
+	}
+}
+
+ife INTERNALCOUNT 0
+ ifaction ONE
+  ifactor 16011
+{
+	state case_restore_initpos
+	set INTERNALCOUNT -1
+}
+
+ifaction ZERO
+{
+add INTERNALCOUNT 1
+move FORWARD geth
+ifn lotag_saved 0 nullop else
+	{
+	lockplayer 20
+	state lower_weapon
+	}
+ ifg INTERNALCOUNT 25
+	{
+	lockplayer 0
+	move STOP
+	ifactor 29684
+		{
+		stopsound WOOD_SCRAPE
+		soundonce WOODDOOR4
+		}
+	else
+	soundonce OPEN_AMMO_B
+	action ONE
+	ifn cheated 0 spawn SMALLSMOKE
+	else espawnvar hitag_saved
+	set INTERNALCOUNT 0
+	}
+}
+ends
+
+useractor notenemy 16011 state item_case enda // modern case
+useractor notenemy 29684 state item_case enda // ancient case

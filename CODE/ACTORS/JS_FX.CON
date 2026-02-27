@@ -1,0 +1,850 @@
+// ****************************************************************************************************************************************************************************************************
+// SPECIAL EFFECTS
+// This is my go-to actor for stuff that is very case specific, there is general purpose stuff here but it's all undocumented
+// ****************************************************************************************************************************************************************************************************
+
+defstate PATCOS_SMASH
+operateactivators lotag_saved THISACTOR
+set PATCOS_CHARGE 120
+ifpdistl 1536 { palfrom 60 60 0 0 addphealth -60 }
+killit
+ends
+
+useractor notenemy 3586
+cstat 32768
+
+ifspritepal 1 // plays a teleport sound when hitag is activated
+{
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	palfrom 64 0 64 0
+	globalsound TELEPORTER
+	killit
+	}
+}
+ifspritepal 3 // plays the scary shock sound when either hitag is activated or if player is close by
+{
+ifn hitag_saved 0
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		state fade_out_white
+		wackplayer
+		stopallsounds
+		globalsound MIND_ATTACK
+		killit
+		}
+	}
+	else
+	ifpdistl 1024
+	 ifcansee
+	  ifp palive
+		{
+		state fade_out_white
+		wackplayer
+		stopallsounds
+		globalsound MIND_ATTACK
+		killit
+		}
+}
+ifspritepal 4 // stops any effects that check for STOP_EFFECTS when hitag activated
+{
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	set STOP_EFFECTS 1
+	stopallsounds
+	killit
+	}
+}
+/*
+ifspritepal 5 // sets the skybox_tile, decrepated due to the improvements by Sang
+	{
+	ifn hitag_saved 0
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		set skybox_tile lotag_saved
+		}
+	}
+	else
+	ifn extra_saved -1
+	{
+	ifpdistl 1024
+		{
+		ife extra_saved 0 set skybox_tile -1
+		else set skybox_tile extra_saved
+		}
+	}
+	else
+		{
+		set skybox_tile lotag_saved
+		killit
+		}
+	}
+*/
+ifspritepal 6 // clears all NPC followers when player is close by
+{
+ifpdistl 1024 state hard_removefollower
+}
+ifspritepal 7 // an ugly hack to temporarily fix the glitches in shadow realm until hopefully the E32 team can fix them
+{
+ifaction 0
+	{
+	gets[].floorpicnum temp
+	gets[].ceilingpicnum temp2
+	ife extra_saved -1 set extra_saved 4608
+	ife extra_saved 0 set extra_saved 4608
+	action ZERO
+	}
+ifaction ZERO
+	{
+	sleeptime 0
+	ifpdistg 81920
+		{
+		ife temp3 0
+			{
+			sets[].floorpicnum extra_saved
+			sets[].ceilingpicnum extra_saved
+			set temp3 1
+			}
+		}
+		else
+		{
+		ife temp3 1
+			{
+			sets[].floorpicnum temp
+			sets[].ceilingpicnum temp2
+			set temp3 0
+			}
+		}
+	}
+}
+ifspritepal 8 // set civilians to panic when hitag is activated
+{
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	ifn lotag_saved 0 set CIVS_PANIC lotag_saved else
+	set CIVS_PANIC 1
+	killit
+	}
+}
+ifspritepal 9 // Digging spot for combat shovel
+{
+ife GOT_KNIFE 3
+	{
+	ifpdistl 1536
+	 ifp palive
+		{
+		set pprompt_icon 6183
+		set player_use 0
+		 ifhitspace
+			{
+			set hit_key 30
+			action ZERO
+			}
+		}
+	}
+ifaction ZERO
+	{
+	state lower_weapon
+		add INTERNALCOUNT 1
+		ife INTERNALCOUNT 2 { sound DIG_UP state fade_in_black }
+		else ifg INTERNALCOUNT 12 ifl INTERNALCOUNT 240
+			{
+			set cus_fade_duration 240
+			ifrnd 2 set PLAYER_VOICEOVER 2
+			}
+		else ife INTERNALCOUNT 240
+			{
+			operateactivators hitag_saved THISACTOR
+			operaterespawns hitag_saved
+			operatemasterswitches hitag_saved
+			}
+		else ifg INTERNALCOUNT 240
+			{
+			state fade_out_black
+			}
+		ifg INTERNALCOUNT 300 killit
+	}
+}
+ifspritepal 10 // TANK RUN OVER
+{
+ifpdistl 6100
+ {
+ getav[PLAYER_IDENTITY].ANGLE temp
+ ifn temp 0
+	 {
+	 operateactivators hitag_saved THISACTOR
+	 operaterespawns hitag_saved
+	 operatemasterswitches hitag_saved
+	 lotsofglass 15
+	 quake 20
+	 sound GLASS_BREAKING
+	 spawn BIG_SMOKE2 spawn BIG_SMOKE2 spawn BIG_SMOKE2
+	 debris SCRAP1 20
+	 debris SCRAP2 20
+	 soundonce CARSMASH
+	 killit
+	 }
+ }
+else // check for enemy tank
+	{
+	ifcount 5
+		 {
+		 findnearactor3d 13608 4000 temp3
+		 ifn temp3 -1
+			{
+			 operateactivators hitag_saved THISACTOR
+			 operaterespawns hitag_saved
+			 operatemasterswitches hitag_saved
+			 lotsofglass 15
+			 quake 20
+			 sound GLASS_BREAKING
+			 spawn BIG_SMOKE2 spawn BIG_SMOKE2 spawn BIG_SMOKE2
+			 debris SCRAP1 20
+			 debris SCRAP2 20
+			 soundonce CARSMASH
+			 killit
+			}
+		resetcount
+		}
+	}
+}
+ifspritepal 11 // deactivates hard-coded forcefield on trigger
+{
+ifaction 0
+	{
+	set temp7 0
+	whilevarvarn temp7 NUMWALLS
+		{
+			ife wall[temp7].picnum 663
+			 ife wall[temp7].hitag hitag_saved
+				{
+				set temp5 temp7
+				action ZERO
+				}
+		add temp7 1
+		}
+	action ZERO
+	}
+ifaction ZERO
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		setwall[temp5].overpicnum 0
+		setwall[temp5].cstat 0
+		getw[temp5].nextwall temp6
+		setwall[temp6].overpicnum 0
+		setwall[temp6].cstat 0
+		}
+	}
+
+}
+ifspritepal 12 // flashes the screen blue
+{
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	wackplayer
+	palfrom 64 0 0 64
+	killit
+	}
+}
+ifspritepal 13 // simple floor change actor
+{
+sleeptime 0
+			checkactivatormotion hitag_saved
+			ife RETURN 1
+			{
+			sets[].floorpicnum lotag_saved
+			}
+}
+ifspritepal 14 // activate this on level start
+{
+operateactivators hitag_saved THISACTOR
+operaterespawns hitag_saved
+operatemasterswitches hitag_saved
+killit
+}
+ifspritepal 15 // quick and dirty floor + ceiling pic changer
+{
+		ifcount 13
+			ife sector[].floorshade sprite[].shade
+			{
+			sets[].floorpicnum lotag_saved
+			sets[].ceilingpicnum hitag_saved
+			resetcount
+			}
+}
+ifspritepal 16 // sets it to play water wading sounds, for sprite water stuff
+{
+	gets[].floorstat temp
+	xorvar temp 65536
+	sets[].floorstat temp
+killit
+}
+ifspritepal 17 // PATCOS ATTACK POINT
+{
+ifaction 0
+	{
+	ifg PATCOS_CHARGE 0 action ZERO
+	}
+ifaction ZERO
+	{
+	ifpdistl 1024
+	 ifp palive
+	 ife PATCOS_CHARGE 0
+		{
+		sound CARSTRAIN
+		screensound CARSTRAIN
+		quake 26
+		action FORM
+		}
+	}
+ifaction FORM
+	{
+	add INTERNALCOUNT 1
+	ife SKILL_LEVEL 1 ifg INTERNALCOUNT 120 state PATCOS_SMASH
+	else ife SKILL_LEVEL 2 ifg INTERNALCOUNT 90 state PATCOS_SMASH
+	else ife SKILL_LEVEL 3 ifg INTERNALCOUNT 60 state PATCOS_SMASH
+	else ife SKILL_LEVEL 4 ifg INTERNALCOUNT 30 state PATCOS_SMASH
+	else ife SKILL_LEVEL 5 ifg INTERNALCOUNT 20 state PATCOS_SMASH
+	else ife SKILL_LEVEL 6 ifg INTERNALCOUNT 10 state PATCOS_SMASH
+	}
+}
+ifspritepal 18 // hack for Energeia Sang walking across bridge
+{
+sleeptime 0
+findnearactor3d DUMMY_PLAYER 512 temp
+ifn temp -1
+	{
+	setactorvar[temp].zvel_saved 1
+	setactorvar[temp].zpos_saved sprite[THISACTOR].z
+	killit
+	}
+}
+ifspritepal 19 // Set the 'injured' effect on various conditions
+{
+ife hitag_saved 0
+ife lotag_saved 0
+	{
+	set riot_shield 0
+	set injured extra_saved
+	ifcount 30 killit
+	}
+else
+ifn lotag_saved 0
+	{
+	checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		set riot_shield 0
+		set injured extra_saved killit
+		}
+	}
+else
+ifn hitag_saved 0
+	{
+	checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		set riot_shield 0
+		set injured 0 killit
+		}
+	}
+}
+ifspritepal 20 // hides the player weapon until lotag is activated
+{
+sleeptime 0
+state lower_weapon
+set hide_xhair 1
+checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		set hide_xhair 0
+		killit
+		}
+}
+ifspritepal 21 // Vacation stuff
+{
+set INVEN_REPLACE 1
+killit
+}
+ifspritepal 22 // electric floor
+	{
+	checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		gets[].floorstat temp
+		xorvar temp 16384
+		sets[].floorstat temp
+		killit
+		}
+	}
+ifspritepal 23 // plays a sound when the floor is below the sprite
+{
+ifcansee
+ ifpdistl 16384
+	{
+	ifg sector[].floorz sprite[].z
+		{
+		ifactorsound THISACTOR lotag_saved nullop else soundvar lotag_saved
+		}
+	}
+}
+ifspritepal 24 // play sound until activated
+	{
+	ifpdistl 16384 { ifactorsound THISACTOR lotag_saved nullop else soundvar lotag_saved }
+	checkactivatormotion hitag_saved ife RETURN 1 killit
+	}
+ifspritepal 25 // low gravity
+	{
+	gets[].ceilingstat temp
+	ifand temp 16384 nullop else xorvar temp 16384
+	sets[].ceilingstat temp
+	killit
+	}
+ifspritepal 26 // zero gravity
+	{
+	gets[].ceilingstat temp
+	ifand temp 32768 nullop else xorvar temp 32768
+	sets[].ceilingstat temp
+	killit
+	}
+ifspritepal 27 // activate this
+{
+checkactivatormotion lotag_saved
+ife RETURN 1
+	{
+	operateactivators hitag_saved THISACTOR
+	operaterespawns hitag_saved
+	operatemasterswitches hitag_saved
+	killit
+	}
+}
+ifspritepal 28 // sets global trigger to hitag when lotag is activated
+{
+checkactivatormotion lotag_saved
+ife RETURN 1
+	{
+	set global_trigger hitag_saved
+	killit
+	}
+
+}
+ifspritepal 29 // water bubbles
+{
+checkactivatormotion lotag_saved
+ifpdistl 16384
+ife RETURN 1
+	{
+	spawn WATERBUBBLE spawn WATERBUBBLE spawn WATERBUBBLE spawn WATERBUBBLE spawn WATERBUBBLE
+	killit
+	}
+}
+ifspritepal 30 // water push
+{
+ifpdistl 1024
+	{
+	ife water_screen 30 set water_screen 0
+	set screen_shake 12
+	set shake_strength 6
+	palfrom 20 0 0 20
+	}
+}
+ifspritepal 31 // play sound when lotag is acitve
+{
+checkactivatormotion lotag_saved
+ife RETURN 1
+	{
+	ifpdistl 16384 { ifactorsound THISACTOR extra_saved nullop else soundoncevar extra_saved }
+	action ZERO
+	}
+else
+ifaction ZERO
+	{
+	stopsoundvar extra_saved
+	soundoncevar hitag_saved
+	action 0
+	}
+}
+ifspritepal 32 // curtain (used for walking through masked walls)
+{
+ifpdistl 1024
+ ifaction 0
+	{
+	sound CURTAIN_PULLB
+	action ZERO
+	}
+ifaction ZERO ifpdistg 1024 action 0
+}
+ifspritepal 33 // air current
+{
+ifn lotag_saved 0
+	{
+	checkactivatormotion lotag_saved
+	ife RETURN 1 set lotag_saved 0
+	}
+else
+	{
+	ife hitag_saved 0 set hitag_saved 256
+	getp[].i PLAYER_IDENTITY
+		ife sprite[PLAYER_IDENTITY].sectnum sprite[].sectnum
+		{
+		ifp phigher nullop
+			else
+				{
+				ife player[].jumping_toggle 0
+					{
+					setp[].jumping_counter 361
+					setp[].jumping_toggle 1
+					}
+				setp[].falling_counter 0
+				getp[].poszv temp
+				sub temp hitag_saved
+				setp[].poszv temp
+				getp[].posz temp2
+				sub temp2 8
+				setp[].posz temp2
+				}
+		}
+	}
+}
+ifspritepal 34 // force floorz
+{
+checkactivatormotion lotag_saved
+ife RETURN 1
+	{
+	sets[].floorz sprite[].z
+	killit
+	}
+}
+ifspritepal 35 // kill all in sector
+{
+checkactivatormotion lotag_saved
+ife RETURN 1
+	{
+	geta[].sectnum mysector
+
+	headspritesect spriteid mysector
+	whilevarn spriteid -1
+		{
+			ife sprite[spriteid].hitag hitag_saved
+				{
+				seta[spriteid].htextra 140
+				seta[spriteid].htpicnum RADIUSEXPLOSION
+				seta[spriteid].htowner spriteid
+				seta[spriteid].xrepeat 0
+				seta[spriteid].yrepeat 0
+				}
+			nextspritesect spriteid spriteid
+		}
+	killit
+	}
+}
+ifspritepal 36 // teleport break
+{
+ifpdistl 1024
+	{
+	spawn TRANSPORTERBEAM
+	globalsound SOMETHINGHITFORCE
+	globalsound SHORT_CIRCUIT
+	shoot SPARK shoot SPARK shoot SPARK shoot SPARK
+	palfrom 16 64 64 64
+	killit
+	}
+}
+ifspritepal 37 // testing purposes
+{
+ifpdistl 1024
+	{
+	globalsound RESEARCH_DATA
+	set DISP_RES -240
+			set DISP_RES_PAL 1
+			set DISP_RES_PIC 13331
+	killit
+	}
+}
+ifspritepal 38 // remove gravity protection from DUMMY_PLAYER
+{
+sleeptime 0
+findnearactor3d DUMMY_PLAYER 512 temp
+ifn temp -1
+	{
+	setactorvar[temp].zvel_saved 0
+	killit
+	}
+}
+ifspritepal 39 // sector that player can't reach, use to stop plants spawning targetting stuff .etc perf reasons
+	{
+	gets[].ceilingstat temp
+	xorvar temp 8192
+	sets[].ceilingstat temp
+	killit
+	}
+ifspritepal 40 // fix floor shades
+	{
+	ifn sprite[].shade sector[].floorshade
+		{
+		headspritesect spriteid sprite[].sectnum
+		whilevarn spriteid -1
+			{
+			geta[spriteid].shade temp
+			ifn temp sector[].floorshade
+			 ifg sprite[spriteid].picnum 10 // don't shade built in effectors
+			  ifn sprite[spriteid].picnum 17971
+				{
+				ifand sprite[spriteid].htflags 4 nullop else
+				seta[spriteid].shade sector[].floorshade
+				}
+			nextspritesect spriteid spriteid
+			}
+		}
+	}
+ifspritepal 41 // kill all target actors
+{
+checkactivatormotion lotag_saved
+ife RETURN 1
+	{
+		set temp 0
+		whilevarn temp 16384
+		{
+		  ifn sprite[temp].statnum 1024
+		  {
+			geta[temp].picnum temp2
+			ife temp2 SHOOTME
+			{
+			seta[temp].xrepeat 0
+			seta[temp].yrepeat 0
+			}
+		  }
+		  add temp 1
+		}
+		killit
+	}
+}
+ifspritepal 42 // maeph beam
+{
+checkactivatormotion lotag_saved
+ife RETURN 1
+	{
+		shoot MAEPH_BEAM
+		screensound MAEPH_FIRE
+		shoot SPARK
+		shoot SPARK
+		shoot SPARK
+		state fade_out_white
+		killit
+	}
+}
+ifspritepal 43 // micky begins skipper
+{
+ifand BEAT_EPISODES[3] 16
+	{
+	operateactivators 20500 THISACTOR
+	}
+killit
+}
+ifspritepal 44 // AMC base tutorial
+{
+ifpdistl 2048
+ ife VOLUME 0
+ ife CHARSELECT 0
+	{
+	readgamevar base_tutorial
+	ifand base_tutorial lotag_saved nullop else
+		{
+		operateactivators hitag_saved THISACTOR
+		xor base_tutorial lotag_saved
+		savegamevar base_tutorial
+		}
+	killit
+	}
+}
+ifspritepal 45 // Dark area
+{
+ifpdistl 4096
+	{
+	ifand NOISE_SAID 256 nullop else { xorvar NOISE_SAID 256 set PLAYER_VOICEOVER 8 }
+	ifand spells_cast 1 nullop else ifand spells_cast 2 nullop else { xorvar spells_cast 1 }
+	}
+}
+ifspritepal 46 // Out of Dark area
+{
+ifpdistl 4096
+	{
+	ifand spells_cast 1 xorvar spells_cast 1
+	ifand spells_cast 2 xorvar spells_cast 2
+	}
+}
+ifspritepal 47 // Organ
+{
+ifpdistl 1024
+ ifp pfacing
+	{
+	state use_prompt
+	 ifhitspace
+	  ifcount 13
+		{
+		ife WORLD_TRIGGER 128 // has sheet music?
+			{
+			screensound ORGAN_P
+			operateactivators lotag_saved THISACTOR
+			state lower_weapon
+			set hit_key 30
+			set WORLD_TRIGGER 0
+			}
+		else
+		switch CHAR
+		case 2
+		case 3
+		case 11
+		case 12
+		case 17
+			soundonce ORGAN
+			state lower_weapon
+			set hit_key 30
+			break
+		default
+			userquote 410
+			set hit_key 30
+			break
+		endswitch
+		resetcount
+		}
+	}
+}
+ifspritepal 48
+{
+checkactivatormotion lotag_saved
+ife RETURN 1
+	{
+		stopallsounds
+		screensound LIGHTNING_SLAP
+		globalsound WOOD_DEBRIS
+		set screen_shake 90
+		set shake_strength 30
+		state fade_out_white
+		killit
+	}
+}
+ifspritepal 49
+{
+ifpdistl 1536
+ ifp pfacing
+	{
+	state use_prompt
+	 ifhitspace
+	  ifcount 13
+		{
+		set hit_key 30
+		ife WORLD_TRIGGER 64 // has mystic powder?
+			{
+			operateactivators lotag_saved THISACTOR
+			state lower_weapon
+			set WORLD_TRIGGER 0
+			quake 130
+			killit
+			}
+		else
+			quote 6906
+		resetcount
+		}
+	}
+}
+ifspritepal 50
+	{
+	set INEBRIATION 900
+	killit
+	}
+ifspritepal 51
+	{
+	// museum unlocker
+	ifand BEAT_EPISODES[4] 32768 operateactivators lotag_saved THISACTOR
+	ifand BEAT_EPISODES[5] 524288 operateactivators hitag_saved THISACTOR
+	killit
+	}
+ifspritepal 52
+	{
+	checkactivatormotion lotag_saved
+	ife RETURN 1
+		{
+		state fade_out_white
+		set just_changed 1
+		orvar CHAR_APP 512
+		setp[].max_player_health 200
+		addphealth 200
+		addweaponvar DEVISTATOR_WEAPON 250
+		killit
+		}
+	}
+ifspritepal 53
+	{
+	ifpdistl 1024
+		{
+		randvar temp 100
+		ife SKILL_LEVEL 1 clamp temp 25 100
+		else ife SKILL_LEVEL 2 clamp temp 50 100
+		else ife SKILL_LEVEL 3 clamp temp 75 100
+		else ifge SKILL_LEVEL 4 set temp 100
+		add haunted_factor temp
+		clamp haunted_factor 0 800
+		killit
+		}
+	}
+ifspritepal 54
+	{
+	ifle extra_saved 0
+		{
+		ife sprite[].ang 512 gets[].ceilingpicnum extra_saved
+		else gets[].floorpicnum extra_saved
+		}
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		ife sprite[].ang 512 setsector[].ceilingpicnum lotag_saved else
+		setsector[].floorpicnum lotag_saved
+		}
+	else
+		{
+		ife sprite[].ang 512 { ifn sector[].ceilingpicnum extra_saved setsector[].ceilingpicnum extra_saved }
+		else { ifn sector[].floorpicnum extra_saved setsector[].floorpicnum extra_saved }
+		}
+	}
+ifspritepal 55
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+		{
+		shoot NINEMM_SHELL
+		killit
+		}
+	}
+ifspritepal 56
+	{
+	ife sprite[PLAYER_IDENTITY].sectnum sprite[].sectnum
+		{
+		ife sprite[].ang 1536 set fake_climb 1
+		else set fake_climb 0
+		}
+	}
+ifspritepal 57
+	{
+	// museum unlocker
+	ifand BEAT_EPISODES[5] 512 operateactivators lotag_saved THISACTOR
+	killit
+	}
+ifspritepal 58
+ ife CHAR 3 // disable Highwire's ballistic knife for Toilets R us bottom
+	{
+	ife SPECIALIST_EQUIPMENT[124] 2 setarray SPECIALIST_EQUIPMENT[124] 1
+	ife SPECIALIST_EQUIPMENT[125] 2 setarray SPECIALIST_EQUIPMENT[125] 1
+	}
+
+enda

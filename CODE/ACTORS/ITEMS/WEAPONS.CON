@@ -1,0 +1,402 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Contains code for basic weapons
+--------------------------------------------------------------------------------
+*/
+
+spriteshadow FIRSTGUNSPRITE
+actor FIRSTGUNSPRITE
+  
+state ITEM_SETTINGS
+ifspawnedby 18069 fall
+ifspawnedby 18074 fall
+
+  state can_pickup_item
+  ifge actor_return 1
+	  {
+		  
+	 ifand weap_special[1] 4096 // can be duel wielded? give the second gun and toggle the akimbo mode on
+		{
+		ife cur_weap 1 { ifand guns_akimbo 4 nullop else { xorvar gun_firemode 64 xor guns_akimbo 4 state lower_weapon } }
+		else ife player[].gotweapon 1 1 { ifand guns_akimbo 4 nullop else { xorvar guns_akimbo 4 set PLAYER_VOICEOVER 44 } }
+		}
+
+		addweaponvar PISTOL_WEAPON ammo_amount[1]
+		
+	    ife CHAR 17
+		 ifgotweaponce 0
+			{
+			ifg KAGURA_CHARGE 9 break
+			ifg KAGURA_CHARGE 9 { screensound YO_CHARGE set KAGURA_CHARGE 10 } else
+			add KAGURA_CHARGE 5
+			addphealth 10
+			}
+
+
+		setarray picked_up_gun[1] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile WEAPON_TILE[1]
+		ife CHAR 2
+			set item_amount -1
+			else
+		set item_amount ammo_amount[1]
+
+		ifspawnedby FIRSTGUNSPRITE
+		  state getweaponcode
+		else
+		  state quikweaponget
+	  }
+enda
+
+spriteshadow TRIPBOMBSPRITE
+actor TRIPBOMBSPRITE
+  
+state ITEM_SETTINGS
+  state can_pickup_item
+  ifge actor_return 1
+	  {
+		ifgotweaponce 0
+		  break
+		  
+		ife CHAR 2
+		 ife SPECIALIST_EQUIPMENT[178] 2 // Jedrik's shield?
+			{
+			setp[].gotweapon 8 1
+			setp[].ammo_amount 8 1
+			set merlijn_shield 300
+			set m_shieldtype 2
+			}
+
+		addweaponvar TRIPBOMB_WEAPON ammo_amount[8]
+		set picked_up_tile WEAPON_TILE[8]
+		setarray picked_up_gun[8] 30
+		  set weap_show 130
+
+			ifspawnedby TRIPBOMBSPRITE
+			    state getcode
+			   else
+			    state quikget
+	  }
+enda
+
+spriteshadow CHAINGUNSPRITE
+actor CHAINGUNSPRITE
+state ITEM_SETTINGS
+state can_pickup_item
+  ifge actor_return 1
+	  {
+	  
+		// Merlijn Recycle code
+		 ife player[].gotweapon 3 1 ife CHAR 2
+			{
+			// preventing farming by spawning by console or weapons machine
+			ifspawnedby APLAYER break
+			ifspawnedby 10570 break
+		  state PICKUP_DISPLAY
+		  set picked_up_tile 33
+		  set item_amount 25
+			ife POLYMERS 0 readgamevar POLYMERS
+			add POLYMERS 25
+			userquote 14011
+			savegamevar POLYMERS
+		  state quikweaponget			
+			}
+
+		  
+	 ifand weap_special[3] 4096 // can be duel wielded? give the second gun and toggle the akimbo mode on
+		{
+			ifand guns_akimbo 2 nullop else
+				{
+				ife player[].gotweapon 3 1
+					{
+					globalsound GET_GUN
+					xorvar guns_akimbo 2
+					xorvar gun_firemode 1024
+					ife cur_weap 3 { state lower_weapon set PLAYER_VOICEOVER 44 }
+					}
+				}
+			addweaponvar CHAINGUN_WEAPON ammo_amount[3]
+			set item_amount ammo_amount[3]
+		}
+		else
+			{
+			addweaponvar CHAINGUN_WEAPON ammo_amount[3]
+			set item_amount ammo_amount[3]		
+			}
+
+		  setarray picked_up_gun[3] 30
+		  set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile WEAPON_TILE[3]
+
+		ifand weap_special[3] 2
+		 ife ally_mag 0
+			{
+			ife CHAR 0 ife SPECIALIST_EQUIPMENT[77] 2 addammo 4 2 else
+			ife CHAR 9 addammo 4 2 else
+			add fortymm_grenades 2
+			set ally_mag 1
+			}
+		ifand weap_special[3] 8 add fortymm_caseless 2
+
+		state quikweaponget
+	  }
+enda
+
+spriteshadow SHRINKERSPRITE
+actor SHRINKERSPRITE
+  
+state ITEM_SETTINGS
+state can_pickup_item
+  ifge actor_return 1
+	  {
+		ifgotweaponce 0
+		  break
+
+		addweaponvar SHRINKER_WEAPON ammo_amount[6]
+		set item_amount ammo_amount[6]
+
+		setarray picked_up_gun[6] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile WEAPON_TILE[6]
+
+		ifspawnedby SHRINKERSPRITE
+		  state getweaponcode
+		else
+		  state quikweaponget
+	  }
+enda
+
+spriteshadow FREEZESPRITE
+actor FREEZESPRITE
+  
+state ITEM_SETTINGS
+state can_pickup_item
+  ifge actor_return 1
+		{
+		// Merlijn Recycle code
+		 ife player[].gotweapon 9 1 ife CHAR 2
+			{
+			// preventing farming by spawning by console or weapons machine
+			ifspawnedby APLAYER break
+			ifspawnedby 10570 break
+		  state PICKUP_DISPLAY
+		  set picked_up_tile 33
+		  set item_amount 40
+			ife POLYMERS 0 readgamevar POLYMERS
+			add POLYMERS 40
+			userquote 14012
+			savegamevar POLYMERS
+		  state quikweaponget			
+			}
+		
+		ifgotweaponce 0
+		  break
+	    addweaponvar FREEZE_WEAPON ammo_amount[9]
+	    set item_amount ammo_amount[9]
+		setarray picked_up_gun[9] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile WEAPON_TILE[9]
+
+		ifand weap_special[9] 2 add fortymm_grenades 2
+		ifand weap_special[9] 8 add fortymm_caseless 2
+
+		ifspawnedby FREEZESPRITE
+		  state getweaponcode
+		else
+		  state quikweaponget
+		}
+enda
+
+spriteshadow DEVISTATORSPRITE
+actor DEVISTATORSPRITE
+  
+state ITEM_SETTINGS
+state can_pickup_item
+  ifge actor_return 1
+	  {
+		ifgotweaponce 0 break
+	  addweaponvar DEVISTATOR_WEAPON ammo_amount[7]
+	  set item_amount ammo_amount[7]
+
+		setarray picked_up_gun[7] 30
+		  set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile WEAPON_TILE[7]
+
+		ifand weap_special[7] 2 add fortymm_grenades 2
+		ifand weap_special[7] 8 add fortymm_caseless 2
+
+		ifspawnedby DEVISTATORSPRITE
+		  state getweaponcode
+		else
+		  state quikweaponget
+	  }
+enda
+
+// PIPEBOMB REPLACEMENT
+
+spriteshadow 3689
+useractor notenemy 3689
+state ITEM_SETTINGS
+cstat 256
+ifaction ZERO sizeat 12 12 else
+sizeat 32 32
+
+  state can_pickup_item
+  ifge actor_return 1
+			{
+			addweapon HANDBOMB_WEAPON 1
+			getp[].curr_weapon temp
+
+			setarray picked_up_gun[5] 30
+			  set weap_show 130
+
+		state PICKUP_DISPLAY
+		set picked_up_tile WEAPON_TILE[5]
+		set item_amount 1
+
+
+		ifspawnedby 3689
+		  state getcode
+		else
+		  state quikget
+			}
+
+
+ifhitweapon
+	{
+	spawn EXPLOSION2
+	globalsound PIPEBOMB_EXPLODE
+	hitradius PIPEBOMBRADIUS 80 90 100 HANDBOMB_WEAPON_STRENGTH
+	killit
+	}
+
+enda
+
+spriteshadow RPGSPRITE
+actor RPGSPRITE
+  
+state ITEM_SETTINGS
+
+  state can_pickup_item
+  ifge actor_return 1
+	  {
+		ifgotweaponce 0
+		  break
+
+	   addweaponvar RPG_WEAPON ammo_amount[4]
+		setarray picked_up_gun[4] 30
+		  set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile WEAPON_TILE[4]
+		set item_amount ammo_amount[4]
+
+		ifspawnedby RPGSPRITE
+		  state getweaponcode
+		else
+		  state quikweaponget
+	  }
+enda
+
+spriteshadow SHOTGUNSPRITE
+actor SHOTGUNSPRITE
+state ITEM_SETTINGS
+  state can_pickup_item
+  ifge actor_return 1
+	  {
+
+	 ife CHAR 13
+	  ife SPECIALIST_EQUIPMENT[58] 2 // picking up the akimbo shotguns?
+		{
+		getp[].gotweapon 2 temp
+		ife cur_weap 2 { ifand guns_akimbo 8 nullop else { set PLAYER_VOICEOVER 44 xorvar gun_firemode_two 64 state lower_weapon } }
+			ife temp 1 { ifand guns_akimbo 8 nullop else { set PLAYER_VOICEOVER 44 xorvar guns_akimbo 8 } }
+		}
+
+	 ife CHAR 14
+		{
+		getp[].gotweapon 2 temp
+		ife cur_weap 2 { ifand guns_akimbo 8 nullop else { set PLAYER_VOICEOVER 44 xorvar gun_firemode_two 64 state lower_weapon } }
+			ife temp 1 { ifand guns_akimbo 8 nullop else { set PLAYER_VOICEOVER 44 xorvar guns_akimbo 8 } }
+		}
+		
+		// Merlijn Recycle code
+		 ife player[].gotweapon 2 1 ife CHAR 2
+			{
+			// preventing farming by spawning by console or weapons machine
+			ifspawnedby APLAYER break
+			ifspawnedby 10570 break
+		  state PICKUP_DISPLAY
+		  set picked_up_tile 33
+		  set item_amount 20
+			ife POLYMERS 0 readgamevar POLYMERS
+			add POLYMERS 20
+			userquote 14010
+			savegamevar POLYMERS
+		  state quikweaponget			
+			}
+
+
+		  ife CHAR 1 ifn SPECIALIST_EQUIPMENT[136] 2 { addweapon SHOTGUN_WEAPON 5 set item_amount 10 } else
+		  ife CHAR 6 { addweapon SHOTGUN_WEAPON 6 set item_amount 6 } else
+		  {
+			addweaponvar SHOTGUN_WEAPON ammo_amount[2]
+			set temp gun_ammopools[2]
+			ifn temp -1
+			{
+				add temp ammo_amount[2]
+				getp[].max_ammo_amount 2 temp2
+				clamp temp 0 temp2
+				setarray gun_ammopools[2] temp
+			}
+
+			set item_amount ammo_amount[2]
+		  }
+		setarray picked_up_gun[2] 30
+		set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile WEAPON_TILE[2]
+
+		  state quikweaponget
+	  }
+enda
+
+spriteshadow HBOMBAMMO
+actor HBOMBAMMO
+
+state ITEM_SETTINGS
+  state can_pickup_item
+  ifge actor_return 1
+	  {
+		ifgotweaponce 0
+		  break
+
+		addweapon HANDBOMB_WEAPON 3
+
+		setarray picked_up_gun[5] 30
+		  set weap_show 130
+		state PICKUP_DISPLAY
+		set picked_up_tile W_AMMO_TILE[5]
+		set item_amount 3
+
+		ifspawnedby HBOMBAMMO
+		  state getweaponcode
+		else
+		  state quikweaponget
+	  }
+enda

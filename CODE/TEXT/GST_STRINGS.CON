@@ -1,0 +1,2433 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Game subtitle strings; there's a limitation on qputs commands so these were all turned into strings
+--------------------------------------------------------------------------------
+*/
+
+// James: 10000 - 10199
+
+string 10001 ^8James: ^0You've got red on you!
+string 10002 ^8James: ^0Pull yourself together man!
+string 10003 ^8James: ^0Don't spill your guts on me, I only asked you to die!
+string 10004 ^8James: ^0Psshhh...nothin' personal, kid!
+string 10005 ^8James: ^0Hey think of it this way...you can be in two places at once now!
+string 10006 ^8James: ^0You need to get better shoes son, look at you, you're sliding all over the place!
+
+string 10007 ^8James: ^0Try worshipping my foot up your ass.
+string 10008 ^8James: ^0Looks like the stars weren't right for you, chump.
+string 10009 ^8James: ^0Hey Buddy, you forgot your fortune cookie, it says you're shit out of luck pal!
+string 10010 ^8James: ^0Bitch slapped you back to Bangkok!
+string 10011 ^8James: ^0Look you're dead, stop being in de-nile.
+string 10012 ^8James: ^0Heh heh, you should see a...Cairo-practor about that!
+string 10013 ^8James: ^0Anubis?! More like...A-noob-is!
+string 10014 ^8James: ^0Go back to wizard hell!
+string 10015 ^8James: ^0Not so 'super' now, are ya?
+string 10016 ^8James: ^0I've got some penicillin for that if you want some.
+string 10017 ^8James: ^0Don't try to stop bullets with your face.
+string 10018 ^8James: ^0Right between the eyes.
+
+string 10019 ^8James: ^0Oh man that can't feel good at all!
+string 10020 ^8James: ^0Man I'd hate to be your dry-cleaner.
+string 10021 ^8James: ^0I'm cooking with gas!
+string 10022 ^8James: ^0Ooh get amongst it!
+string 10023 ^8James: ^0The sugar sweet kiss of heavy ordinance.
+string 10024 ^8James: ^0Who else wants some huh?! Who's next?!
+string 10025 ^8James: ^0You're small time, buddy!
+string 10026 ^8James: ^0SMD, COI
+string 10027 ^8James: ^0Step right up mother fuckers!
+string 10028 ^8James: ^0Peek-a-boo, you fuck you!
+
+string 10030 ^8James: ^0Impressive. Very Nice.
+string 10031 ^8James: ^0Score!
+string 10032 ^8James: ^0This looks interesting.
+string 10033 ^8James: ^0Look what someone just left lying here.
+string 10034 ^8James: ^0Fuck yeah!
+string 10035 ^8James: ^0You ain't gonna find this down the pound shop.
+string 10036 ^8James: ^0I think I can find an application for this somewhere.
+
+string 10040 ^8James: ^0The more things between me and the bullets, the better.
+string 10041 ^8James: ^0Damn it we're losing people!
+string 10042 ^8James: ^0Shit! We've got a man down!
+string 10043 ^8James: ^0I need a key.
+string 10044 ^8James: ^0It's locked...but a good kick might do it.
+string 10045 ^8James: ^0Won't budge.
+string 10046 ^8James: ^0It's locked.
+
+string 10050 ^8James: ^0Orcs? More like...dorks! heh heh.
+string 10051 ^8James: ^0Archer? I 'ardly knew her! Ugh.
+string 10052 ^8James: ^0It's all ogre for you!
+string 10053 ^8James: ^0For whom the bell trolls...oh I was really reaching with that one.
+
+string 10054 ^8James: ^0You know there was a reason mirrors were invented...and that reason was me baby.
+string 10055 ^8James: ^0Cover me!
+string 10056 ^8James: ^0Follow me.
+string 10057 ^8James: ^0Alright, let's move out.
+string 10058 ^8James: ^0Let's mosey.
+
+string 10059 ^8James: ^0Wait here for a sec.
+string 10060 ^8James: ^0Park your ass.
+
+string 10061 ^8James: ^0It's not bleeding....I don't think we can kill it!
+string 10062 ^8James: ^0Gah it's no good, my attacks aren't working.
+string 10063 ^8James: ^0I'm gonna need some armour-piercing ammo for this fucker.
+string 10064 ^8James: ^0Man it's like the black hole of Calcutta in here.
+string 10065 ^8James: ^0....Dark.
+string 10066 ^8James: ^0I better find some silver bullets or something fast.
+string 10067 ^8James: ^0Hooray, more things to spend money on...yay.
+string 10068 ^8James: ^0Don't worry guys, these sturdy wooden BOARDS will keep those monsters out.
+string 10069 ^8James: ^0Can we fix it?! No it's fucked!
+
+string 10070 ^8James: ^0Ah, British engineering at its finest.
+string 10071 ^8James: ^0A time portal...
+string 10072 ^8James: ^0Egh, no thank you.
+string 10073 ^8James: ^0Thanks.
+string 10074 ^8James: ^0Hope I don't get into a boaking accident.
+string 10075 ^8James: ^0We sail the ocean blue, and our saucy ship's a beauty!
+string 10076 ^8James: ^0Ice to see you!
+string 10077 ^8James: ^0Chill out, dickwad.
+string 10078 ^8James: ^0Hasta la vista...baby.
+string 10079 ^8James: ^0Get this hot head outta here!
+
+string 10080 ^8James: ^0Ooh shit, that looked nasty.
+string 10081 ^8James: ^0Hey buddy...stop drop and roll!
+string 10082 ^8James: ^0Beep...beep...Boom! Hehehehehehe!
+string 10083 ^8James: ^0Hey look out, there's something behind you! Heheheheh!
+string 10084 ^8James: ^0Ah...so you can teach an old gun new tricks.
+string 10085 ^8James: ^0'Only supposed to blow the bloody doors off!'
+string 10086 ^8James: ^0Time for some...fireworks.
+string 10087 ^8James: ^0What a thrill...
+string 10088 ^8James: ^0Time to increase my carbon footprint.
+string 10089 ^8James: ^0All right, it's time to burn rubber baby.
+
+string 10090 ^8James: ^0Uh Oh, This is sub-optimal!
+string 10091 ^8James: ^0Ah shit!
+string 10092 ^8James: ^0Uhh, jinkies!
+string 10093 ^8James: ^0Like, Zoiks!
+string 10094 ^8James: ^0Christ I have enough trouble driving in TWO dimensions.
+string 10095 ^8James: ^0I'm...sure flying this thing won't be too hard...right?
+string 10096 ^8James: ^0Terminated motherfucker!
+string 10097 ^8James: ^0*phew* I think you just bluescreened.
+string 10098 ^8James: ^0I think you need a de-frag.
+string 10099 ^8James: ^0You're going to the big scrapyard in the sky.
+
+string 10100 ^8James: ^0Take that you worthless piece of tin shit!
+string 10101 ^8James: ^0Shocking...positively shocking!
+string 10102 ^8James: ^0Can I get anymore mileage out of shocking puns?
+string 10103 ^8James: ^0Think they just blew a fuse there.
+string 10104 ^8James: ^0Shit running low on oxygen, I need that to live!
+string 10105 ^8James: ^0Now I can go back to WASTING oxygen.
+string 10106 ^8James: ^0Woops! There goes the alarm!
+string 10107 ^8James: ^0Money! It's a gas...
+string 10108 ^8James: ^0Ah, Something for the tech boys back home.
+string 10109 ^8James: ^0Let's see what the egg heads make out of this!
+
+string 10110 ^8James: ^0Hmm...battery's running low.
+string 10111 ^8James: ^0I might be able to get this boulder moving if I ask it nicely with my foot.
+string 10112 ^8James: ^0I'm burnin' out of control!
+string 10113 ^8James: ^0Oh man, I'm just too hot to handle!
+string 10114 ^8James: ^0If I wanted shitty weather I'd just go back to England.
+string 10115 ^8James: ^0Bitchin' about the weather, a fine British tradition.
+string 10116 ^8James: ^0Ah check this out, I got four guns ladies!
+string 10117 ^8James: ^0Double the pleasure, double the fun.
+string 10118 ^8James: ^0Ugh was that..?! Ugh that's fucking sick! Ugh!
+string 10119 ^8James: ^0That was a pain in the shitter.
+
+string 10120 ^8James: ^0Ooh maybe there's food inside.
+string 10121 ^8James: ^0This curse better come with a free froghurt.
+string 10122 ^8James: ^0Can I not go anywhere without someone throwing curses at me?
+string 10123 ^8James: ^0Bingo.
+string 10124 ^8James: ^0Woah who turned out the lights?
+string 10125 ^8James: ^0I can't see shit!
+string 10126 ^8James: ^0Shit shield's down!
+string 10127 ^8James: ^0I've lost shields!
+string 10128 ^8James: ^0Here's a lil' something for you busters.
+string 10129 ^8James: ^0Ooh you dropped the bomb on me, baby.
+string 10130 ^8James: ^0Let's Nuke the bastards.
+
+string 10131 ^8James: ^0Hi-ho, Silver away!
+string 10132 ^8James: ^0Woah, woah!
+string 10133 ^8James: ^0Have at you!
+string 10134 ^8James: ^0For my next trick, I'll need a volunteer...
+string 10135 ^8James: ^7^Useless - You are already dead.^
+string 10136 ^8James: ^0Here it comes, here comes the night train!
+string 10137 ^8James: ^0Man, that hit the spot.
+string 10138 ^8James: ^0Ahhh...that's the tickety-boo.
+string 10139 ^8James: ^0Bollocks!
+
+string 10140 ^8James: ^0Oh shit I'm feelin' it!
+string 10141 ^8James: ^0Ah shit!
+string 10142 ^8James: ^0Gotta wait till its fired off a blast first!
+string 10143 ^8James: ^0I should hit him when his shield's cooling down!
+string 10144 ^8James: ^0You picked a bad time to get lost friend!
+string 10145 ^8James: ^0I guess he wasn't a bow-n natural killer!
+string 10146 ^8James: ^0Gaze and Behold as I dip deez nuts in your face!
+string 10147 ^8James: ^0No need to be beholden to me, killing you's just my job.
+string 10148 ^8James: ^0Don't be holdin' out on me bro.
+string 10149 ^8James: ^0Boy I'm glad that fight didn't drag-on!
+string 10150 ^8James: ^0I'm just gonna add dragon slayer to my list of accolades.
+string 10151 ^8James: ^0Shit, EMP!
+string 10152 ^8James: ^0Bollocks, electrics are down!
+// Rev lines
+string 10153 ^8James: ^0Hmph, too close.
+string 10154 ^8James: ^0Bastard!
+string 10155 ^8James: ^0What was it I used to mutter in this situation?
+string 10156 ^8James: ^0Follow me or die.
+string 10157 ^8James: ^0Let us press on.
+string 10158 ^8James: ^0We must venture forward.
+string 10159 ^8James: ^0To battle, and adventure!
+
+string 10160 ^8James: ^0The blasted thing's locked.
+string 10161 ^8James: ^0Locked.
+string 10162 ^8James: ^0Hmph...I scarcely recognise myself these days.
+string 10163 ^8James: ^0I require a key for this.
+string 10164 ^8James: ^0Wait.
+string 10165 ^8James: ^0Guard this spot with your life.
+string 10166 ^8James: ^0Don't make me go looking for you.
+string 10167 ^8James: ^0Vae Victis!
+string 10168 ^8James: ^0I'll end your miserable life!
+string 10169 ^8James: ^0Back to the pits with you, scum.
+
+string 10170 ^8James: ^0Better luck next incarnation...
+string 10171 ^8James: ^0I'll tear out your heart and feast on your soul!
+string 10172 ^8James: ^0I look forward to killing you again sometime.
+string 10173 ^8James: ^0Die fetcher!
+string 10174 ^8James: ^0May the depths of Hell show more mercy than I did.
+string 10175 ^8James: ^0After all this time, this still doesn't get old.
+string 10176 ^8James: ^0Exquisite.
+string 10177 ^8James: ^0A well crafted tool.
+string 10178 ^8James: ^0This thing is merely an extension of my rage.
+string 10179 ^8James: ^0Most excellent.
+
+string 10180 ^8James: ^0I can think of many painful things to do with this.
+string 10181 ^8James: ^0
+string 10182 ^8James: ^0
+string 10183 ^8James: ^0
+string 10184 ^8James: ^0
+string 10185 ^8James: ^0
+string 10186 ^8James: ^0
+string 10187 ^8James: ^0
+string 10188 ^8James: ^0
+string 10189 ^8James: ^0
+
+string 10190 ^8James: ^0
+string 10191 ^8James: ^0
+string 10192 ^8James: ^0
+string 10193 ^8James: ^0
+string 10194 ^8James: ^0
+string 10195 ^8James: ^0
+string 10196 ^8James: ^0
+string 10197 ^8James: ^0
+string 10198 ^8James: ^0
+string 10199 ^8James: ^0
+
+// Zaxtor: 10200 - 10399
+
+string 10200 ^8Zaxtor: ^0Hey you guys, you suck ass!
+string 10201 ^8Zaxtor: ^0Damn, I am so good!
+string 10202 ^8Zaxtor: ^0Ewww...that's gross!
+string 10203 ^8Zaxtor: ^0I am god...and you are nothing!
+string 10204 ^8Zaxtor: ^0You're dead you schmuck!
+string 10205 ^8Zaxtor: ^0Hahahahahahaha!
+string 10206 ^8Zaxtor: ^0Yeah piece of cake!
+string 10207 ^8Zaxtor: ^0Son of a bitch!
+string 10208 ^8Zaxtor: ^0Ouch! That's gotta hurt!
+string 10209 ^8Zaxtor: ^0Sweet Jesus!
+string 10210 ^8Zaxtor: ^0Eat shit and die you mother fuckers!
+string 10211 ^8Zaxtor: ^0You worthless sack of shit, you are no match for me! Hahahahah!
+string 10212 ^8Zaxtor: ^0That's for messing with the good Fossa, mother fucker!
+string 10213 ^8Zaxtor: ^0Go rot in hell!
+string 10214 ^8Zaxtor: ^0Hahaha, pissing blood!
+string 10215 ^8Zaxtor: ^0Hahaha, Charming!
+string 10216 ^8Zaxtor: ^0Holy shit!
+
+string 10220 ^8Zaxtor: ^0Get stretched, pencil dick!
+string 10221 ^8Zaxtor: ^0It's Fossa Friday, motherfucker!
+string 10222 ^8Zaxtor: ^0Right in the mean bean machine!
+string 10223 ^8Zaxtor: ^0Sick! Nasty!
+
+string 10230 ^8Zaxtor: ^0Hahaha, Cool.
+string 10231 ^8Zaxtor: ^0Oh boy!
+string 10232 ^8Zaxtor: ^0Groovy!
+string 10233 ^8Zaxtor: ^0Hail to the King, babeh!
+string 10234 ^8Zaxtor: ^0Holy cow!
+string 10235 ^8Zaxtor: ^0Who wants some?
+
+string 10240 ^8Zaxtor: ^0Nooooo!
+string 10241 ^8Zaxtor: ^0You son of a bitch!
+string 10242 ^8Zaxtor: ^0Damn. I need a key.
+string 10243 ^8Zaxtor: ^0This door is lock.
+string 10244 ^8Zaxtor: ^0Balls...it's fucking lock.
+string 10245 ^8Zaxtor: ^0Damn...I'm looking so good.
+string 10246 ^8Zaxtor: ^0Cover me.
+string 10247 ^8Zaxtor: ^0I need backup.
+string 10248 ^8Zaxtor: ^0Move out.
+string 10249 ^8Zaxtor: ^0Wait here.
+
+string 10250 ^8Zaxtor: ^0Shitfuck! I can't hurt this damn thing!
+string 10251 ^8Zaxtor: ^0Damn, this guy has a heavy armour!
+string 10252 ^8Zaxtor: ^0Damn, it's dark in here.
+string 10253 ^8Zaxtor: ^0I'll need some silver bullets to kill this thing.
+string 10254 ^8Zaxtor: ^0Woah, a vending machine with guns.
+string 10255 ^8Zaxtor: ^0I need a toolkit to fix this.
+string 10256 ^8Zaxtor: ^0This Fossa knows all the tricks.
+string 10257 ^8Zaxtor: ^0Ugh...I'll pass on that.
+string 10258 ^8Zaxtor: ^0Thanks.
+string 10259 ^8Zaxtor: ^0Time for some boating action.
+
+string 10260 ^8Zaxtor: ^0ICE of you to drop by.
+string 10261 ^8Zaxtor: ^0You're burning up.
+string 10262 ^8Zaxtor: ^0Hahahah
+string 10263 ^8Zaxtor: ^0Oh, I wonder what this does?
+string 10264 ^8Zaxtor: ^0It's boom time, baby!
+string 10265 ^8Zaxtor: ^0What a thrill!
+string 10266 ^8Zaxtor: ^0I hope this thing is O-Zone friendly.
+string 10267 ^8Zaxtor: ^0This is cool but I hope it doesn't make too many emissions.
+string 10268 ^8Zaxtor: ^0Aw fuck.
+string 10269 ^8Zaxtor: ^0Come on, god damnit!
+
+string 10270 ^8Zaxtor: ^0Hahaha, I'm not afraid of anything!
+string 10271 ^8Zaxtor: ^0Time for a close encounter.
+string 10272 ^8Zaxtor: ^0Lights out roboturd!
+string 10273 ^8Zaxtor: ^0Stupid tin can!
+string 10274 ^8Zaxtor: ^0Take that you metal motherfucker!
+string 10275 ^8Zaxtor: ^0Shocking behaviour.
+string 10276 ^8Zaxtor: ^0Oh shit! My spacesuit is running low on oxygen!
+string 10277 ^8Zaxtor: ^0Ahh...nothing like fresh air.
+string 10278 ^8Zaxtor: ^0Eh oh, tripped the alarm!
+string 10279 ^8Zaxtor: ^0Money, nice!
+
+string 10280 ^8Zaxtor: ^0Better take this to the labs.
+string 10281 ^8Zaxtor: ^0This battery's nearly empty.
+string 10282 ^8Zaxtor: ^0I could boot this boulder and get it moving...
+string 10283 ^8Zaxtor: ^0Damn thing is overheating!
+string 10284 ^8Zaxtor: ^0I hope this damn rain stops soon.
+string 10285 ^8Zaxtor: ^0Now I can have twice as much fun.
+string 10286 ^8Zaxtor: ^0Let's just put this right here.
+string 10287 ^8Zaxtor: ^0Ah shit! My fuckin' new boots!
+string 10288 ^8Zaxtor: ^0THAT was driving me crazy!
+string 10289 ^8Zaxtor: ^0What's in here?
+
+string 10290 ^8Zaxtor: ^0Damn...I've been curse!
+string 10291 ^8Zaxtor: ^0Let's see what's in here.
+string 10292 ^8Zaxtor: ^0Zaxtor power hour!
+string 10293 ^8Zaxtor: ^0Ahh, there's nothing better than my home...the rainforest.
+string 10294 ^8Zaxtor: ^0You suckers are gonna get it now.
+string 10295 ^8Zaxtor: ^0Let's Nuke 'em.
+string 10296 ^8Zaxtor: ^0Let's go, horsey!
+string 10297 ^8Zaxtor: ^0Slow down!
+string 10298 ^8Zaxtor: ^0Folded a thousand times.
+string 10299 ^8Zaxtor: ^0Here have a knuckle supper.
+
+string 10300 ^8Zaxtor: ^0Ahhh...that's much better.
+string 10301 ^8Zaxtor: ^0Ah Jesus Christ!
+string 10302 ^8Zaxtor: ^0So cool!
+string 10303 ^8Zaxtor: ^0
+string 10304 ^8Zaxtor: ^0
+string 10305 ^8Zaxtor: ^0
+string 10306 ^8Zaxtor: ^0
+string 10307 ^8Zaxtor: ^0
+string 10308 ^8Zaxtor: ^0
+string 10309 ^8Zaxtor: ^0
+
+// Merlijn: 10400 - 10599
+
+string 10400 ^8Merlijn: ^0You've just witnessed...the axe effect!
+string 10401 ^8Merlijn: ^0I'm sorry...you clearly DON'T have the axe factor!
+string 10402 ^8Merlijn: ^0Well you just axed for it!
+string 10403 ^8Merlijn: ^0You should've committed Seppuku!
+string 10404 ^8Merlijn: ^0A good death is its own reward.
+string 10405 ^8Merlijn: ^0Ha! I'm the last Samurai.
+string 10406 ^8Merlijn: ^0Look you stupid bastard, you got no arms left.
+string 10407 ^8Merlijn: ^0What you gonna do, bleed on me?
+string 10408 ^8Merlijn: ^0Alright, we'll call it a draw.
+
+string 10409 ^8Merlijn: ^0Stop right there, criminal scum!
+string 10410 ^8Merlijn: ^0You should've laid off the Vodka, comrade!
+string 10411 ^8Merlijn: ^0You just sang your swan song!
+string 10412 ^8Merlijn: ^0Hallelujah!
+string 10413 ^8Merlijn: ^0Metal up your ass ah!
+string 10414 ^8Merlijn: ^0Ooh! That might have hurt...just a little bit!
+string 10415 ^8Merlijn: ^0That will teach you!
+string 10416 ^8Merlijn: ^0You didn't see that one coming well, did you?
+string 10417 ^8Merlijn: ^0Being inferior hurts, doesn't it?
+string 10418 ^8Merlijn: ^0Ouch!
+string 10419 ^8Merlijn: ^0Sliced sandwich anyone?
+string 10420 ^8Merlijn: ^0That's right, bleed you mother fucker!
+string 10421 ^8Merlijn: ^0You tried to kill the metal haha, you failed!
+string 10422 ^8Merlijn: ^0That's a nice cup of OWNED for you, old chap.
+string 10423 ^8Merlijn: ^0You were oblivious to the power of the sword!
+
+string 10430 ^8Merlijn: ^0I hope they'll get the point!
+string 10431 ^8Merlijn: ^0Run to the hill 'cuz I'm ready to kill! ...heh heh, kill.
+string 10432 ^8Merlijn: ^0You don't wanna mess with this!
+string 10433 ^8Merlijn: ^0Taste my Steel!
+string 10440 ^8Merlijn: ^0Hell and damnation I need a key.
+
+string 10441 ^8Merlijn: ^0Looks weak...I can surely bash it down.
+string 10442 ^8Merlijn: ^0Damn...it's locked up good.
+string 10443 ^8Merlijn: ^0Come on, patsy.
+string 10444 ^8Merlijn: ^0Come here, young squire.
+string 10445 ^8Merlijn: ^0Cover me.
+string 10446 ^8Merlijn: ^0I need backup.
+string 10447 ^8Merlijn: ^0Hold the fort when I'm gone.
+string 10448 ^8Merlijn: ^0Wait here.
+string 10449 ^8Merlijn: ^0Damn my steel is no good against this bastard.
+string 10450 ^8Merlijn: ^0Run away! Run away!
+
+string 10451 ^8Merlijn: ^0Thanks.
+string 10452 ^8Merlijn: ^0I'm like a bat out of hell!
+string 10453 ^8Merlijn: ^0I'm a knight with a motorbike, hell yeah.
+string 10454 ^8Merlijn: ^0Rust in pieces!
+string 10455 ^8Merlijn: ^0Oh Lord, bless this thy miniature nuclear missile!
+string 10456 ^8Merlijn: ^0With this thou may blow thy enemy to tiny bits in thy mercy
+string 10457 ^8Merlijn: ^0Let me show you the way of the Bushido...
+string 10458 ^8Merlijn: ^0Katana...Broadsword...they both cut well.
+string 10459 ^8Merlijn: ^0It's just a flesh wound.
+
+string 10460 ^8Merlijn: ^0Hell and damnation!s
+string 10461 ^8Merlijn: ^0Guns Akimbo, hell yeah!
+string 10462 ^8Merlijn: ^0Oh crap, I tripped the alarm!
+string 10463 ^8Merlijn: ^0That was driving me crazy!
+string 10464 ^8Merlijn: ^0Gonna need something to pierce its armour!
+string 10465 ^8Merlijn: ^0Ah shit, battery's nearly dead!
+string 10466 ^8Merlijn: ^0Fuck I can't see!
+string 10467 ^8Merlijn: ^0Nice, some cash - Kaching!
+string 10468 ^8Merlijn: ^0What a thrill...
+string 10469 ^8Merlijn: ^0Damn I have been cursed!
+
+string 10470 ^8Merlijn: ^0Damn, it's dark in here...
+string 10471 ^8Merlijn: ^0Now that's what I call...shocking!
+string 10472 ^8Merlijn: ^0Burn Motherfucker, Burn!
+string 10473 ^8Merlijn: ^0Now that's what I call, a good job.
+string 10474 ^8Merlijn: ^0Time a close encounter!
+string 10475 ^8Merlijn: ^0Got a present for ya!
+string 10476 ^8Merlijn: ^0Nice, more O2 for me!
+string 10477 ^8Merlijn: ^0You can run...but you can't hide!
+string 10478 ^8Merlijn: ^0Woah hoh hoh!
+string 10479 ^8Merlijn: ^0Time for some boating action!
+
+string 10480 ^8Merlijn: ^0Ice of you to drop by!
+string 10481 ^8Merlijn: ^0I could boot this boulder and get it moving...
+string 10482 ^8Merlijn: ^0We got a man down!
+string 10483 ^8Merlijn: ^0Let's do this, asshole!
+string 10484 ^8Merlijn: ^0Dammit they're being mind controlled.
+string 10485 ^8Merlijn: ^0Ugh...no thanks!
+string 10486 ^8Merlijn: ^0Let's see what's in here...
+string 10487 ^8Merlijn: ^0Oh shit, almost out of oxygen!
+string 10488 ^8Merlijn: ^0Shit, gun is overheating!
+string 10489 ^8Merlijn: ^0Let's just put this riggghttt here...
+
+string 10490 ^8Merlijn: ^0I HAVE THE POWER!
+string 10491 ^8Merlijn: ^0Ugh, damn I hate the rain...
+string 10492 ^8Merlijn: ^0Better take THIS to the labs.
+string 10493 ^8Merlijn: ^0Oh no shield is down, shield is down!
+string 10494 ^8Merlijn: ^0I'll need some silver bullets to kill this thing!
+string 10495 ^8Merlijn: ^0Hell yeah, that's what it's all about!
+string 10496 ^8Merlijn: ^0Ooh, I wonder what this does?
+string 10497 ^8Merlijn: ^0Ah fuck, god damn ghosts!
+string 10498 ^8Merlijn: ^0Ugh, shit happens.
+string 10499 ^8Merlijn: ^0I'll need a toolbox to fix this mess.
+
+string 10500 ^8Merlijn: ^0Open sesame!
+string 10501 ^8Merlijn: ^0Nice, upgrades!
+string 10502 ^8Merlijn: ^0I'll bury you in the middle of the earth!
+string 10503 ^8Merlijn: ^0You cannot match me with a bow, swine!
+string 10504 ^8Merlijn: ^0Calm yourself, have some ale...and a LONG sleep.
+string 10505 ^8Merlijn: ^0Calm me Piet Heijn, dragonslayer!
+string 10506 ^8Merlijn: ^0Now THIS is what I was born to do!
+string 10507 ^8Merlijn: ^0Return as much as you like beast, I will slay you every time!
+
+/*
+string 10502 ^8Merlijn: ^0
+string 10503 ^8Merlijn: ^0
+string 10504 ^8Merlijn: ^0
+string 10505 ^8Merlijn: ^0
+*/
+
+// Highwire: 10600 - 10799
+
+string 10600 ^8Highwire: ^0Russia shows no respect for you and your cult!
+string 10601 ^8Highwire: ^0Your unorthodox magical crap is no match for Soviet weaponry!
+string 10602 ^8Highwire: ^0You should try going into hiding again!
+string 10603 ^8Highwire: ^0Respect your commanding officer!
+string 10604 ^8Highwire: ^0Die you pig dog!
+string 10605 ^8Highwire: ^0Ya-lalala-lalala-lalala-lalala-lala-la-lala-la!
+string 10606 ^8Highwire: ^0I command you to die!
+string 10607 ^8Highwire: ^0Better red than dead!
+string 10608 ^8Highwire: ^0I kill you, you imperialist clown!
+string 10609 ^8Highwire: ^0Your mother is like communism...everyone gets a share!
+string 10610 ^8Highwire: ^0Sit your ass down!
+
+string 10630 ^8Highwire: ^0Ah, my wet dream!
+string 10631 ^8Highwire: ^0Better than Vodka!
+string 10632 ^8Highwire: ^0Weapons for the people!
+string 10633 ^8Highwire: ^0Hail to the Tsar, baby!
+string 10634 ^8Highwire: ^0Time for some Soviet brutalism!
+
+string 10640 ^8Highwire: ^0The best defense is offense....but I can compromise.
+string 10641 ^8Highwire: ^0Dah this door needs a key.
+string 10642 ^8Highwire: ^0It's locked, but I can kick it open.
+string 10643 ^8Highwire: ^0It's locked.
+string 10644 ^8Highwire: ^0Agh crap, it's locked!
+string 10645 ^8Highwire: ^0Reflection for great strategist.
+string 10646 ^8Highwire: ^0Cover me!
+string 10647 ^8Highwire: ^0Follow me!
+string 10648 ^8Highwire: ^0I need backup!
+string 10649 ^8Highwire: ^0Let's move out!
+
+string 10650 ^8Highwire: ^0Don't move.
+string 10651 ^8Highwire: ^0Wait here.
+string 10652 ^8Highwire: ^0Back in Russia you had to work for your guns!
+string 10653 ^8Highwire: ^0The best defense is offense! ...but I can compromise.
+string 10654 ^8Highwire: ^0I'll need a tool kit, but it'll be an easy job.
+string 10655 ^8Highwire: ^0There is nothing on this planet a Russian cannot fix.
+string 10656 ^8Highwire: ^0If I had my support radio, I could use it at this device.
+string 10657 ^8Highwire: ^0Trust in Soviet engineering.
+string 10658 ^8Highwire: ^0Thank you comrade!
+string 10659 ^8Highwire: ^0Hey, this wasn't in the mission briefing!
+
+string 10660 ^8Highwire: ^0What strategy is this?!
+string 10661 ^8Highwire: ^0Unlike you, Russia's might will never rust in the wind!
+string 10662 ^8Highwire: ^0At ease men...ahhh!
+string 10663 ^8Highwire: ^0Ohh that was driving me crazy!
+string 10664 ^8Highwire: ^0Gonna need something to pierce its armour!
+string 10665 ^8Highwire: ^0I need to break through the armour!
+string 10666 ^8Highwire: ^0I need to boot this boulder to get it moving.
+string 10667 ^8Highwire: ^0If Redfield can do it, so can I!
+string 10668 ^8Highwire: ^0Tick tock!
+string 10669 ^8Highwire: ^0Here comes the boom!
+
+string 10670 ^8Highwire: ^0I can't see!
+string 10671 ^8Highwire: ^0Nice, some cash!
+string 10672 ^8Highwire: ^0It's not exactly 10 tons of gold, Buuttt it's a start.
+string 10673 ^8Highwire: ^0Time for a close encounter!
+string 10674 ^8Highwire: ^0Let's see what's in here.
+string 10675 ^8Highwire: ^0Ooh what's in here?
+string 10676 ^8Highwire: ^0Damnit I've been cursed!
+string 10677 ^8Highwire: ^0Agh they put some kind of curse on me!
+string 10678 ^8Highwire: ^0Damn it's dark in here.
+string 10679 ^8Highwire: ^0Damn I'm gonna need some light.
+
+string 10680 ^8Highwire: ^0How truly shocking!
+string 10681 ^8Highwire: ^0Shocking behaviour!
+string 10682 ^8Highwire: ^0Damn! My electronics are down!
+string 10683 ^8Highwire: ^0Electronics down!
+string 10684 ^8Highwire: ^0Fire! Hahaha!
+string 10685 ^8Highwire: ^0You're burning up!
+string 10686 ^8Highwire: ^0Ugh, oh that's spooky!
+string 10687 ^8Highwire: ^0God damn ghosts!
+string 10688 ^8Highwire: ^0Ah shit, the gun's overheating!
+string 10689 ^8Highwire: ^0Ooh, hot hot hot hot!
+
+string 10690 ^8Highwire: ^0You can run, but you can't hide!
+string 10691 ^8Highwire: ^0Four Ten, Data received, target lock acquired!
+string 10692 ^8Highwire: ^0Giddy up Horsey!
+string 10693 ^8Highwire: ^0Highwire, on the water!
+string 10694 ^8Highwire: ^0Do what you want cus a pirate is free! You are a pirate!
+string 10695 ^8Highwire: ^0Ice of you to drop by!
+string 10696 ^8Highwire: ^0How ice of you to drop by! Eh? Eh? Come on!
+string 10697 ^8Highwire: ^0Man down over here!
+string 10698 ^8Highwire: ^0Man down!
+string 10699 ^8Highwire: ^0Let's do this, asshole!
+
+string 10700 ^8Highwire: ^0Time for some PvP!
+string 10701 ^8Highwire: ^0Damn it they're being mind controlled!
+string 10702 ^8Highwire: ^0They're being mind controlled!
+string 10703 ^8Highwire: ^0Let's ride baby!
+string 10704 ^8Highwire: ^0I'm bad to the bone, baby!
+string 10705 ^8Highwire: ^0I can't hurt this thing!
+string 10706 ^8Highwire: ^0I'm not hurting this thing!
+string 10707 ^8Highwire: ^0Thanks...but no thanks.
+string 10708 ^8Highwire: ^0It's judgement day assholes!
+string 10709 ^8Highwire: ^0War...War never changes.
+
+string 10710 ^8Highwire: ^0Nice, found an O2 canister!
+string 10711 ^8Highwire: ^0Ohh, fresh Oxygen!
+string 10712 ^8Highwire: ^0Let's just put this right here.
+string 10713 ^8Highwire: ^0Let's just put this here and see what happens.
+string 10714 ^8Highwire: ^0Oh you fucking kidding me, I JUST bought these.
+string 10715 ^8Highwire: ^0Oh come on!
+string 10716 ^8Highwire: ^0UNLIMITED POWER!
+string 10717 ^8Highwire: ^0I AM BULLET PROOF!
+string 10718 ^8Highwire: ^0Damn it I hate the rain!
+string 10719 ^8Highwire: ^0Those nerds are gonna cream their pants when they see this!
+
+string 10720 ^8Highwire: ^0I better get this back to the labs.
+string 10721 ^8Highwire: ^0Ooh, I wonder what this does.
+string 10722 ^8Highwire: ^0Ooh this looks fun!
+string 10723 ^8Highwire: ^0Oh for the love of...
+string 10724 ^8Highwire: ^0I guess we're going loud.
+string 10725 ^8Highwire: ^0Fuck it, shield is down!
+string 10726 ^8Highwire: ^0Shield is down, not good!
+string 10727 ^8Highwire: ^0I'll need some silver bullets to kill this thing!
+string 10728 ^8Highwire: ^0Gonna need some silver for this!
+string 10729 ^8Highwire: ^0That's what I'm talking about!
+
+string 10730 ^8Highwire: ^0Time for some good old fashioned melee combat!
+string 10731 ^8Highwire: ^0Folded 1000 times!
+string 10732 ^8Highwire: ^0Both barrels for you, you bastards!
+string 10733 ^8Highwire: ^0Open sesame!
+string 10734 ^8Highwire: ^0Damn, my electronics are down!
+string 10735 ^8Highwire: ^0Electronics down!
+
+/*
+string 10736 ^8Highwire: ^0
+string 10737 ^8Highwire: ^0
+string 10738 ^8Highwire: ^0
+string 10739 ^8Highwire: ^0
+
+string 10740 ^8Highwire: ^0
+string 10741 ^8Highwire: ^0
+string 10742 ^8Highwire: ^0
+string 10743 ^8Highwire: ^0
+string 10744 ^8Highwire: ^0
+string 10745 ^8Highwire: ^0
+string 10746 ^8Highwire: ^0
+string 10747 ^8Highwire: ^0
+string 10748 ^8Highwire: ^0
+string 10749 ^8Highwire: ^0
+
+string 10750 ^8Highwire: ^0
+string 10751 ^8Highwire: ^0
+string 10752 ^8Highwire: ^0
+string 10753 ^8Highwire: ^0
+string 10754 ^8Highwire: ^0
+string 10755 ^8Highwire: ^0
+string 10756 ^8Highwire: ^0
+string 10757 ^8Highwire: ^0
+string 10758 ^8Highwire: ^0
+string 10759 ^8Highwire: ^0
+
+string 10760 ^8Highwire: ^0
+string 10761 ^8Highwire: ^0
+string 10762 ^8Highwire: ^0
+string 10763 ^8Highwire: ^0
+string 10764 ^8Highwire: ^0
+string 10765 ^8Highwire: ^0
+string 10766 ^8Highwire: ^0
+string 10767 ^8Highwire: ^0
+string 10768 ^8Highwire: ^0
+string 10769 ^8Highwire: ^0
+
+string 10770 ^8Highwire: ^0
+string 10771 ^8Highwire: ^0
+string 10772 ^8Highwire: ^0
+string 10773 ^8Highwire: ^0
+string 10774 ^8Highwire: ^0
+string 10775 ^8Highwire: ^0
+string 10776 ^8Highwire: ^0
+string 10777 ^8Highwire: ^0
+string 10778 ^8Highwire: ^0
+string 10779 ^8Highwire: ^0
+
+string 10780 ^8Highwire: ^0
+string 10781 ^8Highwire: ^0
+string 10782 ^8Highwire: ^0
+string 10783 ^8Highwire: ^0
+string 10784 ^8Highwire: ^0
+string 10785 ^8Highwire: ^0
+string 10786 ^8Highwire: ^0
+string 10787 ^8Highwire: ^0
+string 10788 ^8Highwire: ^0
+string 10789 ^8Highwire: ^0
+
+string 10790 ^8Highwire: ^0
+string 10791 ^8Highwire: ^0
+string 10792 ^8Highwire: ^0
+string 10793 ^8Highwire: ^0
+string 10794 ^8Highwire: ^0
+string 10795 ^8Highwire: ^0
+string 10796 ^8Highwire: ^0
+string 10797 ^8Highwire: ^0
+*/
+
+// Sang: 10800 - 10999
+
+string 10800 ^8Sang: ^0This is why swords are cool!
+string 10801 ^8Sang: ^0Some sacrifices need that personal touch.
+string 10802 ^8Sang: ^0This is so awesome I can't even think of anything witty to say!
+string 10803 ^8Sang: ^0Now THAT is COOL!
+string 10804 ^8Sang: ^0Like a hot knife through butter.
+
+string 10805 ^8Sang: ^0If you were me...it would grow right back.
+string 10806 ^8Sang: ^0Thank you for playing mister!
+string 10807 ^8Sang: ^0That was a well executed human sacrifice!
+string 10808 ^8Sang: ^0I robbed you of your life!
+string 10809 ^8Sang: ^0My robes' better than yours!
+string 10810 ^8Sang: ^0Cults are dangerous.
+
+string 10811 ^8Sang: ^0Rest in piss!
+string 10812 ^8Sang: ^0I bet you haven't imagined that!
+string 10813 ^8Sang: ^0You will not leave Hong Kong alive! heheheheh!
+string 10814 ^8Sang: ^0You made a big mistake homeboy!
+string 10815 ^8Sang: ^0Feel my wrath!
+string 10816 ^8Sang: ^0I'll swallow your soul!
+string 10817 ^8Sang: ^0The warlock always wins!
+string 10818 ^8Sang: ^0They never learn.
+string 10819 ^8Sang: ^0The over-exaggerated amount of blood is almost as cheesy as my one-liners.
+string 10820 ^8Sang: ^0How 'bout a challenge?
+string 10821 ^8Sang: ^0You bleed better than you shoot.
+string 10822 ^8Sang: ^0And stay down!
+string 10823 ^8Sang: ^0Life is pain...get over it!
+
+string 10824 ^8Sang: ^0If you see Osiris...tell him I sent ya!
+string 10825 ^8Sang: ^0Bad dog!
+string 10826 ^8Sang: ^0Here boy...fetch!
+string 10827 ^8Sang: ^0I've swallowed enough python spit for one lifetime...wait.
+string 10828 ^8Sang: ^0Time to make snakeoil!
+string 10829 ^8Sang: ^0A noob is you...heh heh, get it?
+
+string 10830 ^8Sang: ^0Filthy Heretic!
+string 10831 ^8Sang: ^0Deus Vult bitches!
+string 10832 ^8Sang: ^0All flash, and no fury!
+string 10833 ^8Sang: ^0The man upstairs forgives, but I don't.
+string 10834 ^8Sang: ^0Turn the other cheek, so I can slap IT too.
+string 10835 ^8Sang: ^0Get on your knees and pray!
+string 10836 ^8Sang: ^0By the nine divines, that was messy!
+string 10837 ^8Sang: ^0Kiss my holy seal!
+string 10838 ^8Sang: ^0I'll save your soul!
+
+string 10840 ^8Sang: ^0Time to spread the good word!
+string 10841 ^8Sang: ^0Sunday School's in!
+string 10842 ^8Sang: ^0I'm bringing the peace!
+string 10843 ^8Sang: ^0I kick ass for the lord!
+string 10844 ^8Sang: ^0Let's get preaching!
+string 10845 ^8Sang: ^0Praise to the lord motherfucker!
+string 10846 ^8Sang: ^0A new toy!
+string 10847 ^8Sang: ^0Time to start piling up the bodies.
+string 10848 ^8Sang: ^0Yummy!
+string 10849 ^8Sang: ^0You're all gonna die!
+
+string 10850 ^8Sang: ^0They'd better start running now.
+string 10851 ^8Sang: ^0Hunting season has begun.
+string 10852 ^8Sang: ^0It's time to kick some ass.
+string 10853 ^8Sang: ^0Blast! I need something that can pierce its armour.
+string 10854 ^8Sang: ^0Can't see shit!
+string 10855 ^8Sang: ^0It's dark in here....like my soul.
+string 10856 ^8Sang: ^0I should use my spells on this thing.
+string 10857 ^8Sang: ^0If I had my spell book I could conjure up some weapons.
+string 10858 ^8Sang: ^0Hey guys...don't you think we should use magical barriers instead?
+
+string 10860 ^8Sang: ^0God damn it, they were only 2 days from retirement.
+string 10861 ^8Sang: ^0It's locked....and I don't have the key.
+string 10862 ^8Sang: ^0Door plus foot equals total destruction.
+string 10863 ^8Sang: ^0Locked.
+string 10864 ^8Sang: ^0My body is a temple.
+string 10865 ^8Sang: ^0Who's the pretty boy? Oh...just me.
+string 10866 ^8Sang: ^0Hey Ho, let's go!
+string 10867 ^8Sang: ^0I need backup.
+string 10868 ^8Sang: ^0Hey follow me.
+string 10869 ^8Sang: ^0Stay vigilant.
+
+string 10870 ^8Sang: ^0Wait here.
+string 10871 ^8Sang: ^0Ugh, I'm gonna need a toolbox to fix this mess!
+string 10872 ^8Sang: ^0I could do this all day.
+string 10873 ^8Sang: ^0I need more health...the exchange would kill me.
+string 10874 ^8Sang: ^0No man...shit, no man!
+string 10875 ^8Sang: ^0Thank you.
+string 10876 ^8Sang: ^0Docking permission denied!
+string 10877 ^8Sang: ^0Time for some...nautical fun.
+string 10878 ^8Sang: ^0Alright now stop! Collaborate and listen.
+string 10879 ^8Sang: ^0You cool off and think about what you just did.
+
+string 10880 ^8Sang: ^0I always wanted to try ice statue carving.
+string 10881 ^8Sang: ^0Let it go...Let it go!
+string 10882 ^8Sang: ^0I am the god of hellfire!
+string 10883 ^8Sang: ^0Don't get into flamewars kids!
+string 10884 ^8Sang: ^0Hey you're looking kinda hot today haha!
+string 10885 ^8Sang: ^0Fly my pretties, fly!
+string 10886 ^8Sang: ^0There is no escape!
+string 10887 ^8Sang: ^0Hahahaha.
+string 10888 ^8Sang: ^0Oh, I wonder what this does?
+string 10889 ^8Sang: ^0Haha, got a present for ya!
+
+string 10890 ^8Sang: ^0What a thrill...
+string 10891 ^8Sang: ^0It might not fly, but this beats a broomstick any day ha ha ha!
+string 10892 ^8Sang: ^0Time to get some roadkill.
+string 10893 ^8Sang: ^0This is disgusting!
+string 10894 ^8Sang: ^0Who do I have to call again to deal with this?!
+string 10895 ^8Sang: ^0Docking permission denied!
+string 10896 ^8Sang: ^0Blown into Oblivion!
+string 10897 ^8Sang: ^0Not even an army of death can stop ME!
+string 10898 ^8Sang: ^0Technology only gets you so far.
+string 10899 ^8Sang: ^0Have some of THIS!
+
+string 10900 ^8Sang: ^0This just in Tom! A shocking development!
+string 10901 ^8Sang: ^0Danger, danger, high voltage!
+string 10902 ^8Sang: ^0I'm shocked I say! Shocked!
+string 10903 ^8Sang: ^0Ah shit! O2 levels are dropping.
+string 10904 ^8Sang: ^0Ah...sweet, nourishing Oxygen.
+string 10905 ^8Sang: ^0Uh Oh...I tripped the alarm.
+string 10906 ^8Sang: ^0Yoink!
+string 10907 ^8Sang: ^0Hmm, this shit looks complicated. Better take it with me to the lab!
+string 10908 ^8Sang: ^0This could be really dangerous, I better take it with me to all my friends at the lab.
+string 10909 ^8Sang: ^0Hmm...battery's running dry.
+
+string 10910 ^8Sang: ^0I bet I can kick this boulder, to get it moving...
+string 10911 ^8Sang: ^0Crap, my tool is too hot!
+string 10912 ^8Sang: ^0Damn, I hate the rain.
+string 10913 ^8Sang: ^0I've got two guns, that should be enough for all of ya!
+string 10914 ^8Sang: ^0Two Guns, One...Peacelock.
+string 10915 ^8Sang: ^0Two Guns, One Warlock.
+string 10916 ^8Sang: ^0When my horoscope said I'd be planting my staff in dark places today...
+string 10917 ^8Sang: ^0You get a staff! And you get a staff! Everyone gets a staff!
+string 10918 ^8Sang: ^0Just gonna plant my hot rod right here! Hahaha!
+string 10919 ^8Sang: ^0Ugh, Shit happens.
+
+string 10920 ^8Sang: ^0That was driving me crazy!
+string 10921 ^8Sang: ^0Ooh let's see what's in here.
+string 10922 ^8Sang: ^0Curses!
+string 10923 ^8Sang: ^0I am a cursed man...
+string 10924 ^8Sang: ^0Open sesame.
+string 10925 ^8Sang: ^0Yeah, kick ass!!
+string 10926 ^8Sang: ^0Can't see shit!
+string 10927 ^8Sang: ^0Uh oh, shield's down!
+string 10928 ^8Sang: ^0Shield's down, that's not good!
+string 10929 ^8Sang: ^0It's a good day to die...
+
+string 10930 ^8Sang: ^0Onwards, my noble steed!
+string 10931 ^8Sang: ^0Stop! Stop! Will you stop already!?
+string 10932 ^8Sang: ^0Woah, woah, woah.
+string 10933 ^8Sang: ^0Who needs spells when you have this?
+string 10934 ^8Sang: ^0It's time to impale some of these dick heads.
+string 10935 ^8Sang: ^0Let's go, mano a mano
+string 10936 ^8Sang: ^0This is disgusting!
+string 10937 ^8Sang: ^0Can I get an Amen?!
+string 10938 ^8Sang: ^0Violence extravaganza!
+string 10939 ^8Sang: ^0Oh god oh man, oh god oh man!
+string 10940 ^8Sang: ^0Hahaha, that tickles!
+
+/*
+string 10941 ^8Sang: ^0
+string 10942 ^8Sang: ^0
+string 10943 ^8Sang: ^0
+string 10944 ^8Sang: ^0
+string 10945 ^8Sang: ^0
+string 10946 ^8Sang: ^0
+string 10947 ^8Sang: ^0
+string 10948 ^8Sang: ^0
+string 10949 ^8Sang: ^0
+
+string 10950 ^8Sang: ^0
+*/
+
+// Rusty: 11000 - 11999
+
+string 11000 ^8Rusty: ^0You know your shoe lace's untied.
+string 11001 ^8Rusty: ^0...Get a tan!
+string 11002 ^8Rusty: ^0It rains on the just and the unjust alike.
+string 11003 ^8Rusty: ^0A live body and a dead body contain the same amount of particles.
+string 11004 ^8Rusty: ^0Life and death are two unquantifiable abstracts.
+
+string 11005 ^8Rusty: ^0So you bastards die just like we do.
+string 11006 ^8Rusty: ^0Leave it for the professionals to handle.
+string 11007 ^8Rusty: ^0I just made you my bitch.
+string 11008 ^8Rusty: ^0Yeah fuck you too.
+string 11009 ^8Rusty: ^0Mama don't like tattle-tales.
+string 11010 ^8Rusty: ^0Shotgun.
+string 11011 ^8Rusty: ^0Good. Bad. I'm the guy with the gun.
+string 11012 ^8Rusty: ^0I got a bone to pick with you.
+string 11013 ^8Rusty: ^0Run home and cry to your momma!
+string 11014 ^8Rusty: ^0Like a candle in the wind.
+string 11015 ^8Rusty: ^0I don't know about you but I'm having a ball!
+string 11021 ^8Rusty: ^0You ever had a spur in the scrote? Hold still!
+
+string 11016 ^8Rusty: ^0You ain't nothin' but a schweinhund, dyin' all the time!
+string 11017 ^8Rusty: ^0Tch...thousand year reich my ass!
+string 11018 ^8Rusty: ^0Frier or Fry, motherfucker!
+string 11019 ^8Rusty: ^0Heil this, you jackbooted bastard!
+string 11020 ^8Rusty: ^0Why don't you just goosestep your dumb ass on out of here!
+
+string 11030 ^8Rusty: ^0Now that's more like it.
+string 11031 ^8Rusty: ^0Finders keepers.
+string 11032 ^8Rusty: ^0Nice.
+string 11033 ^8Rusty: ^0Stop your grinnin' and drop your linnin'
+string 11034 ^8Rusty: ^0Say hello to the 21st century!
+string 11035 ^8Rusty: ^0Not bad, Not bad.
+
+string 11040 ^8Rusty: ^0Shit, this is why I work alone!
+string 11041 ^8Rusty: ^0Gotta find a key.
+string 11042 ^8Rusty: ^0I can kick this sucker down.
+string 11043 ^8Rusty: ^0Nope, locked.
+string 11044 ^8Rusty: ^0Ain't getting in there.
+
+string 11045 ^8Rusty: ^0So that's what all the commotion's about.
+string 11046 ^8Rusty: ^0Saddle up.
+string 11047 ^8Rusty: ^0Cover me.
+string 11048 ^8Rusty: ^0I need backup.
+string 11049 ^8Rusty: ^0Follow me.
+
+string 11050 ^8Rusty: ^0Stick around.
+string 11051 ^8Rusty: ^0Park your ass.
+string 11052 ^8Rusty: ^0Wait here.
+
+string 11053 ^8Rusty: ^0This thing ain't dyin'!
+string 11054 ^8Rusty: ^0Gonna need something that can punch through armour.
+string 11055 ^8Rusty: ^0Good thing I've never had a fear of the dark.
+string 11056 ^8Rusty: ^0Anything breathing down my neck right now is 'bout to get a shotgun facial.
+string 11057 ^8Rusty: ^0Hope I got some silver bullets stashed somewhere.
+string 11058 ^8Rusty: ^0Very nice!
+string 11059 ^8Rusty: ^0I'll need some tools for this job.
+
+string 11060 ^8Rusty: ^0This should do it.
+string 11061 ^8Rusty: ^0Gonna pass on that.
+string 11062 ^8Rusty: ^0Thanks.
+string 11063 ^8Rusty: ^0Not even I can make driving this thing look cool.
+string 11064 ^8Rusty: ^0Hypothermia's bad for you.
+string 11065 ^8Rusty: ^0That's a nasty case of frostbite.
+string 11066 ^8Rusty: ^0Get used to it, Hell's waitin'.
+string 11067 ^8Rusty: ^0I love the smell of napalm in the morning.
+string 11068 ^8Rusty: ^0You can run but you can't hide.
+string 11069 ^8Rusty: ^0Wanna do some cardio? Run from this!
+
+string 11070 ^8Rusty: ^0Well this outta spice up the relationship.
+string 11071 ^8Rusty: ^0Blow it up.
+string 11072 ^8Rusty: ^0Yeehaw...
+string 11073 ^8Rusty: ^0Not too shabby.
+string 11074 ^8Rusty: ^0I'm bad to the bone baby.
+string 11075 ^8Rusty: ^0-Sigh-
+string 11076 ^8Rusty: ^0Those some fancy parlour tricks you got there.
+string 11077 ^8Rusty: ^0Can't scare me that easily dipshit.
+string 11078 ^8Rusty: ^0Not too shabby!
+string 11079 ^8Rusty: ^0Terminated motherfucker!
+
+string 11080 ^8Rusty: ^0Think I might've just broke your off switch.
+string 11081 ^8Rusty: ^0Stainless steel my ass.
+string 11082 ^8Rusty: ^0Well, THAT was enlightning.
+string 11083 ^8Rusty: ^0Guess your system just got shocked...
+string 11084 ^8Rusty: ^0Running low on oxygen here!
+string 11085 ^8Rusty: ^0Nice...an O2 top up.
+string 11086 ^8Rusty: ^0So much for a quick in and out job.
+string 11087 ^8Rusty: ^0Ka-ching!
+string 11088 ^8Rusty: ^0Boring shit...better take it though.
+string 11089 ^8Rusty: ^0I guess this could be useful...I guess.
+
+string 11090 ^8Rusty: ^0This battery's nearly dead.
+string 11091 ^8Rusty: ^0It's not just the ladies I'm good at firin' up.
+string 11092 ^8Rusty: ^0Woops...got to ease up on the trigger there.
+string 11093 ^8Rusty: ^0Good thing I brought my coat with me.
+string 11094 ^8Rusty: ^0Ain't a drop a rain getting thru' this hat.
+string 11095 ^8Rusty: ^0Good...bad...I'm the guy with TWO guns.
+string 11096 ^8Rusty: ^0Me and my two friends here are gonna party!
+string 11097 ^8Rusty: ^0Ah damnit, that'll be a pain to get out.
+string 11098 ^8Rusty: ^0Anything good?
+string 11099 ^8Rusty: ^0This is just not my day.
+
+string 11100 ^8Rusty: ^0I'm the only one allowed to curse 'round here.
+string 11101 ^8Rusty: ^0Open sesame.
+string 11102 ^8Rusty: ^0Now THIS I could get used to!
+string 11103 ^8Rusty: ^0Anybody not wearing 2 million SPF's about to have a real bad day.
+string 11104 ^8Rusty: ^0Judgement day.
+string 11105 ^8Rusty: ^0Giddy up!
+string 11106 ^8Rusty: ^0Woah, woah!
+string 11107 ^8Rusty: ^0You'll die as you lived...by a flash of the blade.
+string 11108 ^8Rusty: ^0Sooner or later...I WILL cut you down.
+string 11109 ^8Rusty: ^0Time to dance with the devil by the pale moonlight.
+
+string 11110 ^8Rusty: ^0One must fall...and it WON'T be me!
+string 11111 ^8Rusty: ^0Is that the best you can do you pansies?
+string 11112 ^8Rusty: ^0The jig is up, the news is out...you just plain suck!
+string 11113 ^8Rusty: ^0Well, this'll probably be painful.
+
+string 11114 ^8Rusty: ^0I don't need to be from Gondor to kick your ass.
+string 11115 ^8Rusty: ^0You can take your horde and shove it!
+string 11116 ^8Rusty: ^0If I hear the name Isengard one time...I'm gonna unload my shotgun in the nearest face.
+string 11117 ^8Rusty: ^0Middle Earth or Middle of mars, wherever the hell you came from deserves a middle finger.
+string 11118 ^8Rusty: ^0I feel so alone, racking up a big ol' pile of them bones.
+string 11119 ^8Rusty: ^0What kind of lame ass skeleton warriors are these?
+
+string 11120 ^8Rusty: ^0Huh, talk about your evil dead.
+string 11121 ^8Rusty: ^0Them bones them bones them dry bones, now hear my foot in your face!
+string 11122 ^8Rusty: ^0Alright, who read from the damn book wrong this time?
+string 11123 ^8Rusty: ^0Fill your hand you son of a bitch!
+/*
+string 11123 ^8Rusty: ^0
+string 11124 ^8Rusty: ^0
+string 11125 ^8Rusty: ^0
+string 11126 ^8Rusty: ^0
+string 11127 ^8Rusty: ^0
+string 11128 ^8Rusty: ^0
+string 11129 ^8Rusty: ^0
+
+string 11130 ^8Rusty: ^0
+string 11131 ^8Rusty: ^0
+string 11132 ^8Rusty: ^0
+string 11133 ^8Rusty: ^0
+string 11134 ^8Rusty: ^0
+string 11135 ^8Rusty: ^0
+string 11136 ^8Rusty: ^0
+string 11137 ^8Rusty: ^0
+string 11138 ^8Rusty: ^0
+string 11139 ^8Rusty: ^0
+
+string 11140 ^8Rusty: ^0
+string 11141 ^8Rusty: ^0
+string 11142 ^8Rusty: ^0
+string 11143 ^8Rusty: ^0
+string 11144 ^8Rusty: ^0
+string 11145 ^8Rusty: ^0
+*/
+
+// Geoffrey: 11200 - 11399
+
+string 11200 ^8Geoffrey: ^0Fuck you Cult guy!
+string 11201 ^8Geoffrey: ^0Triumph or die.
+string 11202 ^8Geoffrey: ^0Wow, this is like some crazy ass video game!
+string 11203 ^8Geoffrey: ^0You had guts Dwebheimer, now clean 'emoff the pavement!
+string 11204 ^8Geoffrey: ^0Oh, You say you let your guard down, I think you're just a whinny!
+string 11205 ^8Geoffrey: ^0My strength and power is most incredible!
+string 11206 ^8Geoffrey: ^0Oh I am sorry, I wasn't sure what this thing would do!
+string 11207 ^8Geoffrey: ^0I'm gonna show you how to purge your body thetans...explosively!
+string 11208 ^8Geoffrey: ^0Oh, turns out this thing isn't a hugs and kisses dispenser!
+string 11209 ^8Geoffrey: ^0This is just like my japanese animes!
+
+string 11230 ^8Geoffrey: ^0Woah.
+string 11231 ^8Geoffrey: ^0Check it out, free guns!
+string 11232 ^8Geoffrey: ^0This'll do some damage.
+string 11233 ^8Geoffrey: ^0Now that's a big gun.
+string 11234 ^8Geoffrey: ^0Very useful!
+string 11235 ^8Geoffrey: ^0Boom boom boom, shake the room!
+string 11236 ^8Geoffrey: ^0Weapon get!
+
+string 11240 ^8Geoffrey: ^0New armour's looking tight.
+string 11241 ^8Geoffrey: ^0We've lost another.
+string 11242 ^8Geoffrey: ^0Where could the key be? Nothing under the doormat...
+string 11243 ^8Geoffrey: ^0Shoddy workmanship on this door, I can kick it in!
+string 11244 ^8Geoffrey: ^0Damnit, it's locked!
+string 11245 ^8Geoffrey: ^0I can't get through.
+
+string 11246 ^8Geoffrey: ^0Woah, definitely a good hair day.
+string 11247 ^8Geoffrey: ^0Cover me!
+string 11248 ^8Geoffrey: ^0I need backup now!
+string 11249 ^8Geoffrey: ^0Come on let's go.
+
+string 11250 ^8Geoffrey: ^0Park your ass.
+string 11251 ^8Geoffrey: ^0Don't move buster!
+
+string 11252 ^8Geoffrey: ^0I'm not hurting it!
+string 11253 ^8Geoffrey: ^0These bullets aren't working! It's armour's too thick!
+string 11254 ^8Geoffrey: ^0Eh, I can't see shit in here it's too dark!
+string 11255 ^8Geoffrey: ^0It's only a matter of time till I tread on some lego in here.
+string 11256 ^8Geoffrey: ^0Too spooky for me...I need silver or energy.
+string 11257 ^8Geoffrey: ^0Ooh..upgrades machine, wonderful!
+string 11258 ^8Geoffrey: ^0Come on there's gotta be a toolkit around here somewhere.
+string 11259 ^8Geoffrey: ^0Oh yeah, I love it when a machine turns on, Sing to me!
+
+string 11260 ^8Geoffrey: ^0I really should bill these monsters for all this repair work I'm doing.
+string 11261 ^8Geoffrey: ^0Ugh..I'll pass on that.
+string 11262 ^8Geoffrey: ^0Thanks man.
+string 11263 ^8Geoffrey: ^0A hovercraft, and not an eel in sight!
+string 11264 ^8Geoffrey: ^0Oh boats...you know where you are with a hovercraft.
+string 11265 ^8Geoffrey: ^0Stay cool, freak!
+string 11266 ^8Geoffrey: ^0Ooh, do you feel the draft in here? heh heh!
+string 11267 ^8Geoffrey: ^0You're burning up!
+string 11268 ^8Geoffrey: ^0The fury!
+string 11269 ^8Geoffrey: ^0Feeling hot hot hot!
+
+string 11270 ^8Geoffrey: ^0We had a bad start but I'm starting to warm up to you!
+string 11271 ^8Geoffrey: ^0No no, try running it's funnier that way!
+string 11272 ^8Geoffrey: ^0You can escape the heatseeking by turning into a corpse.
+string 11273 ^8Geoffrey: ^0Ooh, I wonder what this does.
+string 11274 ^8Geoffrey: ^0Special bullets...wonderful!
+string 11275 ^8Geoffrey: ^0Light blue touch paper, stand well back.
+string 11276 ^8Geoffrey: ^0Boom boom boom, I want you in my room...
+string 11277 ^8Geoffrey: ^0My arms are getting tired.
+string 11278 ^8Geoffrey: ^0Oh I'm bad to the bone baby.
+string 11279 ^8Geoffrey: ^0I want to ride my bicycle, hmmmm...
+
+string 11280 ^8Geoffrey: ^0Oh Shit.
+string 11281 ^8Geoffrey: ^0This is why I hate ghosts!
+string 11282 ^8Geoffrey: ^0My heart just jumped into my throat!
+string 11283 ^8Geoffrey: ^0Jump scaring pricks!
+string 11284 ^8Geoffrey: ^0I'm an unidentified flying Geoffrey.
+string 11285 ^8Geoffrey: ^0UFO, UFO, UFO, UFO!
+string 11286 ^8Geoffrey: ^0You're terminated, fucker!
+string 11287 ^8Geoffrey: ^0Huh, according to page 32 of the user guide you're fucked!
+string 11288 ^8Geoffrey: ^0Who says robots are taking our jobs? that was a lot of work!
+string 11289 ^8Geoffrey: ^0Disassembled! Dead!
+
+string 11290 ^8Geoffrey: ^0Woah shocking behaviour!
+string 11291 ^8Geoffrey: ^0Wait, what's that smell? Ugh!
+string 11292 ^8Geoffrey: ^0The fist of Zeus!
+string 11293 ^8Geoffrey: ^0Shit, almost out of oxygen!
+string 11294 ^8Geoffrey: ^0Nice...Oxygen.
+string 11295 ^8Geoffrey: ^0Nice, some cash!
+string 11296 ^8Geoffrey: ^0This is going right in my shoe.
+string 11297 ^8Geoffrey: ^0Wow, I'm sure this will be fascinating! To somebody else.
+string 11298 ^8Geoffrey: ^0Now that's interesting...pity I don't understand any of it.
+string 11299 ^8Geoffrey: ^0The battery's nearly dead.
+
+string 11300 ^8Geoffrey: ^0What's that Shoe? Kick the boulder? Good idea!
+string 11301 ^8Geoffrey: ^0Shit the gun's overheating!
+string 11302 ^8Geoffrey: ^0This gun's overheating!
+string 11303 ^8Geoffrey: ^0Ugh, never got rain back on mars.
+string 11304 ^8Geoffrey: ^0Let's just put this ri-gh-t HERE.
+string 11305 ^8Geoffrey: ^0A Limpet mine...because I see an enemy.
+string 11306 ^8Geoffrey: ^0Oh no these shoes are new!
+string 11307 ^8Geoffrey: ^0Oh let's see what we got here.
+string 11308 ^8Geoffrey: ^0Please be a big gun, please be a big gun!
+string 11309 ^8Geoffrey: ^0Oh no, more of this voodoo bullshit!
+
+string 11310 ^8Geoffrey: ^0Oh no not more magical bullshit!
+string 11311 ^8Geoffrey: ^0Open up open up open up!
+string 11312 ^8Geoffrey: ^0I feel INCREDIBLE!
+string 11313 ^8Geoffrey: ^0Ugh, I can't see!
+string 11314 ^8Geoffrey: ^0That's ok, I didn't need these retina anyway!
+string 11315 ^8Geoffrey: ^0Now's not the time to take a break Mr Shield!
+string 11316 ^8Geoffrey: ^0Shield's down, not good!
+string 11317 ^8Geoffrey: ^0Very...very...frightning!
+string 11318 ^8Geoffrey: ^0No kill like overkill.
+string 11319 ^8Geoffrey: ^0Woah there!
+
+string 11320 ^8Geoffrey: ^0My favourite meme sword!
+string 11321 ^8Geoffrey: ^0I preferred things at a distance but up close this'll do.
+string 11322 ^8Geoffrey: ^0What the fuck did you just say about me you little bitch?!
+string 11323 ^8Geoffrey: ^0Holy shit, that was just in time!
+string 11324 ^8Geoffrey: ^0Aww nuts!
+string 11325 ^8Geoffrey: ^0Let's take a moment to enjoy this great action!
+string 11326 ^8Geoffrey: ^0Can't believe how annoying that was!
+string 11327 ^8Geoffrey: ^0Damn, my electronics are down!
+string 11328 ^8Geoffrey: ^0Argh, EMP!
+string 11329 ^8Geoffrey: ^0Bullshit Bullshit Bullshit Bullshit!
+
+string 11330 ^8Geoffrey: ^0No Banana for you!
+/*
+string 11331 ^8Geoffrey: ^0
+string 11332 ^8Geoffrey: ^0
+string 11333 ^8Geoffrey: ^0
+string 11334 ^8Geoffrey: ^0
+string 11335 ^8Geoffrey: ^0
+string 11336 ^8Geoffrey: ^0
+string 11337 ^8Geoffrey: ^0
+string 11338 ^8Geoffrey: ^0
+string 11339 ^8Geoffrey: ^0
+
+string 11340 ^8Geoffrey: ^0
+string 11341 ^8Geoffrey: ^0
+string 11342 ^8Geoffrey: ^0
+string 11343 ^8Geoffrey: ^0
+string 11344 ^8Geoffrey: ^0
+string 11345 ^8Geoffrey: ^0
+string 11346 ^8Geoffrey: ^0
+string 11347 ^8Geoffrey: ^0
+string 11348 ^8Geoffrey: ^0
+string 11349 ^8Geoffrey: ^0
+
+string 11350 ^8Geoffrey: ^0
+string 11351 ^8Geoffrey: ^0
+string 11352 ^8Geoffrey: ^0
+*/
+
+// Mikko: 11400 - 11599
+
+string 11400 ^8Mikko: ^0Weaklings.
+string 11401 ^8Mikko: ^0You might be more efficient in two pieces.
+string 11402 ^8Mikko: ^0There can be only one cult. The cult of Sandt.
+string 11403 ^8Mikko: ^0Maybe you'll re-incarnate as something worthwhile.
+string 11404 ^8Mikko: ^0Hardly what I would call organized crime.
+string 11405 ^8Mikko: ^0Don't worry, it's a quick death.
+string 11406 ^8Mikko: ^0Headshot. Sheer perfection.
+string 11407 ^8Mikko: ^0What a fucking idiot.
+string 11408 ^8Mikko: ^0You're such a waste of ammunition.
+string 11409 ^8Mikko: ^0No weaklings shall survive.
+string 11410 ^8Mikko: ^0We must do what we must do.
+string 11411 ^8Mikko: ^0There is but one way for you. Extinction.
+string 11412 ^8Mikko: ^0I will drink the blood of the weak.
+
+string 11430 ^8Mikko: ^0A mechanism for natural selection.
+string 11431 ^8Mikko: ^0Let's kill things with this gun.
+string 11432 ^8Mikko: ^0I wanna kill something with this thing.
+string 11433 ^8Mikko: ^0The weak shall know my fury.
+
+string 11440 ^8Mikko: ^0We've got a man down.
+string 11441 ^8Mikko: ^0I need a key for this.
+string 11442 ^8Mikko: ^0I can kick this door down.
+string 11443 ^8Mikko: ^0It's locked
+string 11444 ^8Mikko: ^0You're a damn good-looking man.
+
+string 11445 ^8Mikko: ^0Cover me.
+string 11446 ^8Mikko: ^0Follow me.
+string 11447 ^8Mikko: ^0Come. I require support.
+string 11448 ^8Mikko: ^0Move out.
+
+string 11449 ^8Mikko: ^0Stay here. You're getting in my way.
+string 11450 ^8Mikko: ^8Mikko: ^0Wait here.
+
+string 11451 ^8Mikko: ^0The Enemy isn't taking any damage.
+string 11452 ^8Mikko: ^0I need something to pierce its armour.
+string 11453 ^8Mikko: ^0I need better optics to see in this place.
+string 11454 ^8Mikko: ^0I need some silver bullets to kill this thing.
+string 11455 ^8Mikko: ^0Better tools, more mayhem.
+string 11456 ^8Mikko: ^0I will need a toolbox to fix this.
+string 11457 ^8Mikko: ^0It should function now, thanks to my genius.
+string 11458 ^8Mikko: ^0I'm Gonna pass on that.
+string 11459 ^8Mikko: ^0Cheers.
+
+string 11460 ^8Mikko: ^0I wonder who designed this antiquated vehicle.
+string 11461 ^8Mikko: ^0ICE of you to drop by.
+string 11462 ^8Mikko: ^0You are literally on fire.
+string 11463 ^8Mikko: ^0Dodge this.
+string 11464 ^8Mikko: ^0I wonder what this does...
+string 11465 ^8Mikko: ^0A really big fucking hole, coming right up.
+string 11466 ^8Mikko: ^0Now THIS is very exciting...
+string 11467 ^8Mikko: ^0Fuck the O-Zone layer, let's ride.
+string 11468 ^8Mikko: ^0Ah for crying out loud.
+string 11469 ^8Mikko: ^0My optical sensors are being scrambled.
+
+string 11470 ^8Mikko: ^0My shields are down.
+string 11471 ^8Mikko: ^0I am become death, the destroyer...of worlds.
+string 11472 ^8Mikko: ^0Let's do some nuclear testing.
+string 11473 ^8Mikko: ^0I can see this will require a more personal touch.
+string 11474 ^8Mikko: ^0Up close and personal; the way it should be.
+string 11475 ^8Mikko: ^0Oh for crying out loud.
+string 11476 ^8Mikko: ^0Something is messing with my electronics.
+/*
+
+string 11477 ^8Mikko: ^0
+string 11478 ^8Mikko: ^0
+string 11479 ^8Mikko: ^0
+
+string 11480 ^8Mikko: ^0
+string 11481 ^8Mikko: ^0
+string 11482 ^8Mikko: ^0
+string 11483 ^8Mikko: ^0
+string 11484 ^8Mikko: ^0
+string 11485 ^8Mikko: ^0
+string 11486 ^8Mikko: ^0
+string 11487 ^8Mikko: ^0
+string 11488 ^8Mikko: ^0
+string 11489 ^8Mikko: ^0
+
+string 11490 ^8Mikko: ^0
+string 11491 ^8Mikko: ^0
+string 11492 ^8Mikko: ^0
+string 11493 ^8Mikko: ^0
+string 11494 ^8Mikko: ^0
+string 11495 ^8Mikko: ^0
+string 11496 ^8Mikko: ^0
+string 11497 ^8Mikko: ^0
+string 11498 ^8Mikko: ^0
+string 11499 ^8Mikko: ^0
+
+string 11500 ^8Mikko: ^0
+string 11501 ^8Mikko: ^0
+string 11502 ^8Mikko: ^0
+string 11503 ^8Mikko: ^0
+string 11504 ^8Mikko: ^0
+string 11505 ^8Mikko: ^0
+string 11506 ^8Mikko: ^0
+string 11507 ^8Mikko: ^0
+string 11508 ^8Mikko: ^0
+string 11509 ^8Mikko: ^0
+
+string 11510 ^8Mikko: ^0
+string 11511 ^8Mikko: ^0
+string 11512 ^8Mikko: ^0
+string 11513 ^8Mikko: ^0
+string 11514 ^8Mikko: ^0
+string 11515 ^8Mikko: ^0
+*/
+
+// Micky: 11600 - 11799
+
+string 11600 ^8Micky: ^0You look much better without it anyway!
+string 11601 ^8Micky: ^0Sit down and shut up!
+string 11602 ^8Micky: ^0They don't call you the Triads for trying, huh?
+string 11603 ^8Micky: ^0I don't need a bullet storm to kill with skill!
+string 11604 ^8Micky: ^0I love collision theory!
+string 11605 ^8Micky: ^0Bam! And the dirt is gone!
+string 11606 ^8Micky: ^0OOh, we should get that looked at!
+string 11607 ^8Micky: ^0I'm having a blast!
+string 11608 ^8Micky: ^0I have a PHD in kickin' ass!
+string 11609 ^8Micky: ^0Projectile in motion...such a wonderful thing!
+string 11610 ^8Micky: ^0I love my job!
+string 11611 ^8Micky: ^0Hahaha!
+
+string 11630 ^8Micky: ^0I've always wanted one of these.
+string 11631 ^8Micky: ^0Nice.
+string 11632 ^8Micky: ^0Just the tools of the trade.
+string 11633 ^8Micky: ^0Time to Engineer a world of hurt.
+string 11634 ^8Micky: ^0Time to earn my paycheck.
+
+string 11640 ^8Micky: ^0We've got a casualty here!
+string 11641 ^8Micky: ^0We need a medic!
+string 11642 ^8Micky: ^0I need to find the key.
+string 11643 ^8Micky: ^0Locked...but maybe I can boot it down.
+string 11644 ^8Micky: ^0Damn it's locked.
+
+string 11645 ^8Micky: ^7^I am truly very sexy.^
+string 11646 ^8Micky: ^0I need your assistance.
+string 11647 ^8Micky: ^0Move out!
+string 11648 ^8Micky: ^0Follow me!
+
+string 11649 ^8Micky: ^0Wait here.
+
+string 11650 ^8Micky: ^0That damn thing's immune to my weapon.
+string 11651 ^8Micky: ^0I don't think I'm doing any damage here.
+string 11652 ^8Micky: ^0I need an armour piercing weapon.
+string 11653 ^8Micky: ^0Damn it's dark in here!
+string 11654 ^8Micky: ^0I'm going to need to use some energy or silver...
+string 11655 ^8Micky: ^0Nice, upgrades!
+string 11656 ^8Micky: ^0I need a tool kit.
+string 11657 ^8Micky: ^0I'm going to need my trusty tools.
+string 11658 ^8Micky: ^0I can fix this blindfolded.
+string 11659 ^8Micky: ^0I need to put on my SMART suit first!
+
+string 11660 ^8Micky: ^0Egh, no thanks.
+string 11661 ^8Micky: ^0Thank you.
+string 11662 ^8Micky: ^0A Hovercraft? ...whatever floats your boat.
+string 11663 ^8Micky: ^0My grandma can move faster than this contraption.
+string 11664 ^8Micky: ^0Ugh I hate Hovercrafts.
+string 11665 ^8Micky: ^0Not another Hovercraft!
+string 11666 ^8Micky: ^0How ice of you to drop by.
+string 11667 ^8Micky: ^0Looks like there's plenty of you to go around.
+string 11668 ^8Micky: ^0Burnt to a crisp.
+string 11669 ^8Micky: ^0Mmm...extra crispy.
+
+string 11670 ^8Micky: ^0I do like them well done.
+string 11671 ^8Micky: ^0Put that in your pipe and smoke it.
+string 11672 ^8Micky: ^0Projectile in motion...such a wonderful thing.
+string 11673 ^8Micky: ^0Ooh, Shiny.
+string 11674 ^8Micky: ^0Groovy!
+string 11675 ^8Micky: ^0I've got a present for ya!
+string 11676 ^8Micky: ^0Haha....that was left handed.
+string 11677 ^8Micky: ^0Haha....Boom!
+string 11678 ^8Micky: ^0I became a Doctor so I WOULDN'T have to climb ladders...
+string 11679 ^8Micky: ^0Where's a jetpack when I need it? I HATE ladders.
+
+string 11680 ^8Micky: ^0Zero stars for efficiency, but ten out of ten for style!
+string 11681 ^8Micky: ^0I love the suspension on this thing!
+string 11682 ^8Micky: ^0Oh shit!
+string 11683 ^8Micky: ^0Ugh! God damn ghosts!
+string 11684 ^8Micky: ^0There isn't a ship I can't fly.
+string 11685 ^8Micky: ^0Time for a close encounter!
+string 11686 ^8Micky: ^0I build robots and I blast them away!
+string 11687 ^8Micky: ^0Damn, almost out of oxygen!
+string 11688 ^8Micky: ^0Nice, an Oxygen canister!
+string 11689 ^8Micky: ^0Uh oh, I tripped the alarm!
+
+string 11690 ^8Micky: ^0I love money!
+string 11691 ^8Micky: ^0Mmm, Money money money!
+string 11692 ^8Micky: ^0I better take this to the labs.
+string 11693 ^8Micky: ^0Hmm, battery's nearly dead.
+string 11694 ^8Micky: ^0I could KICK this boulder and get it moving...
+string 11695 ^8Micky: ^0Damn, gun's overheating!
+string 11696 ^8Micky: ^0Ugh, it's raining AGAIN?
+string 11697 ^8Micky: ^0Guns akimo, excellent!
+string 11698 ^8Micky: ^0Let's just put this ri-gh-t HERE.
+string 11699 ^8Micky: ^0Oh man...and this is my new suit!
+
+string 11700 ^8Micky: ^0Damn that was annoying!
+string 11701 ^8Micky: ^0Ah, what do we have here?
+string 11702 ^8Micky: ^0Oh shit!
+string 11703 ^8Micky: ^0Damn, I've been cursed!
+string 11704 ^8Micky: ^0NO door is getting in my way.
+string 11705 ^8Micky: ^0Speak, friend, and enter!
+string 11706 ^8Micky: ^0Let the devastation begin.
+string 11707 ^8Micky: ^0Come get some.
+string 11708 ^8Micky: ^0So much power...so little time.
+string 11709 ^8Micky: ^0Time to put on some fireworks.
+string 11710 ^8Micky: ^0Woah, woah!
+
+string 11711 ^8Micky: ^0Time to get a cut of the action!
+string 11712 ^8Micky: ^0You call that a knife? THIS is a knife.
+string 11713 ^8Micky: ^0I hate fist fights - they're always too easy.
+string 11714 ^8Micky: ^0You wanna go mate?
+string 11715 ^8Micky: ^0All patched up and ready to go.
+string 11716 ^8Micky: ^0Aahh...just in time.
+string 11717 ^8Micky: ^0Oh shit.
+string 11718 ^8Micky: ^0And I thought time speeds UP when you're having fun.
+string 11719 ^8Micky: ^0My life's flashing before my eyes...It's quite boring.
+
+string 11720 ^8Micky: ^0I'll break you so bad even I couldn't fix you!
+string 11721 ^8Micky: ^0There's always someone smarter than you...that someone is me!
+/*
+
+string 11721 ^8Micky: ^0
+string 11722 ^8Micky: ^0
+string 11723 ^8Micky: ^0
+string 11724 ^8Micky: ^0
+string 11725 ^8Micky: ^0
+string 11726 ^8Micky: ^0
+string 11727 ^8Micky: ^0
+string 11728 ^8Micky: ^0
+string 11729 ^8Micky: ^0
+
+string 11730 ^8Micky: ^0
+string 11731 ^8Micky: ^0
+string 11732 ^8Micky: ^0
+string 11733 ^8Micky: ^0
+string 11734 ^8Micky: ^0
+string 11735 ^8Micky: ^0
+string 11736 ^8Micky: ^0
+string 11737 ^8Micky: ^0
+string 11738 ^8Micky: ^0
+string 11739 ^8Micky: ^0
+
+string 11740 ^8Micky: ^0
+string 11741 ^8Micky: ^0
+string 11742 ^8Micky: ^0
+string 11743 ^8Micky: ^0
+string 11744 ^8Micky: ^0
+string 11745 ^8Micky: ^0
+string 11746 ^8Micky: ^0
+string 11747 ^8Micky: ^0
+string 11748 ^8Micky: ^0
+string 11749 ^8Micky: ^0
+
+string 11750 ^8Micky: ^0
+string 11751 ^8Micky: ^0
+string 11752 ^8Micky: ^0
+string 11753 ^8Micky: ^0
+string 11754 ^8Micky: ^0
+string 11755 ^8Micky: ^0
+*/
+
+// Snowfall: 11800 - 11999
+
+string 11800 ^8Snowfall: ^0Cut clean in half!
+string 11801 ^8Snowfall: ^0You're falling apart on me.
+string 11802 ^8Snowfall: ^0Nothing says fighting like the old sword.
+string 11803 ^8Snowfall: ^0Nice and personal...I like it.
+string 11804 ^8Snowfall: ^0You were one...and now you're two!
+string 11805 ^8Snowfall: ^0Yeah right in half!
+
+string 11806 ^8Snowfall: ^0Headshot! Apply bullet directly to the forehead!
+string 11807 ^8Snowfall: ^0Boom! Headshot!
+string 11808 ^8Snowfall: ^0Hey, duck! Haha, too late!
+string 11809 ^8Snowfall: ^0Get out of my way!
+string 11810 ^8Snowfall: ^0Hahaha!
+string 11811 ^8Snowfall: ^0Wow, it's just like the video games!
+string 11812 ^8Snowfall: ^0Look at you, you're all over the place!
+string 11813 ^8Snowfall: ^0Cya later!
+string 11814 ^8Snowfall: ^0So beautiful.
+string 11815 ^8Snowfall: ^0Woops, sorry!
+string 11816 ^8Snowfall: ^0Oh my god, this stuff never gets old!
+string 11817 ^8Snowfall: ^0...Shut up!
+
+string 11830 ^8Snowfall: ^0Now there's a gun I like!
+string 11831 ^8Snowfall: ^0Hey! This one's my favourite.
+string 11832 ^8Snowfall: ^0Let's go give this thing a try.
+string 11833 ^8Snowfall: ^0This'll be fun.
+string 11834 ^8Snowfall: ^0I wonder how this gun will work?
+string 11835 ^8Snowfall: ^0Ooh, I can't wait to use this one.
+
+string 11840 ^8Snowfall: ^0Damn it they killed one of my team!
+string 11841 ^8Snowfall: ^0Damn it, I could have saved them!
+string 11842 ^8Snowfall: ^0My squad members are dying!
+string 11843 ^8Snowfall: ^0I need some sort of key here.
+string 11844 ^8Snowfall: ^0I think a good kick will open up this door.
+string 11845 ^8Snowfall: ^0Great it's locked.
+string 11846 ^8Snowfall: ^0Who locks these doors anyway?
+string 11847 ^8Snowfall: ^0Hey look, another locked door.
+string 11848 ^8Snowfall: ^0I've never liked mirrors...
+string 11849 ^8Snowfall: ^0Nice uh...spacesuit?
+
+string 11850 ^8Snowfall: ^0Watch my back!
+string 11851 ^8Snowfall: ^0Hey, can you follow me?
+string 11852 ^8Snowfall: ^0Come with me.
+string 11853 ^8Snowfall: ^0Hold on.
+string 11854 ^8Snowfall: ^0It's gonna take something else to kill this guy!
+string 11855 ^8Snowfall: ^0This isn't working, I need to try something else.
+string 11856 ^8Snowfall: ^0He's got too much armour, I need to pierce through it!
+string 11857 ^8Snowfall: ^0I'll need something to pierce that armour!
+string 11858 ^8Snowfall: ^0So dark in here, I can't even see anything.
+string 11859 ^8Snowfall: ^0Man it's pretty spooky in here.
+
+string 11860 ^8Snowfall: ^0I'm going need a different ammo type!
+string 11861 ^8Snowfall: ^0heh cool, weapon upgrades!
+string 11862 ^8Snowfall: ^0If only I had a toolbox I could fix this.
+string 11863 ^8Snowfall: ^0Looks like this needs a toolbox.
+string 11864 ^8Snowfall: ^0Nothing like some good old elbow grease eh?
+string 11865 ^8Snowfall: ^0Ugh, I don't think so.
+string 11866 ^8Snowfall: ^0Thanks!
+string 11867 ^8Snowfall: ^0Time for some hovertime!
+string 11868 ^8Snowfall: ^0Hey let's go hovercrafting!
+string 11869 ^8Snowfall: ^0Chill out buddy!
+
+string 11870 ^8Snowfall: ^0Looking pretty chill there eh?
+string 11871 ^8Snowfall: ^0Stay frosty!
+string 11872 ^8Snowfall: ^0Wooo burn!
+string 11873 ^8Snowfall: ^0Look at you you're on fire!
+string 11874 ^8Snowfall: ^0Feel the burn baby!
+string 11875 ^8Snowfall: ^0Go get 'em boys!
+string 11876 ^8Snowfall: ^0Hey, specialty ammo always comes in handy!
+string 11877 ^8Snowfall: ^0Hey specialty ammo! This'll be handy somewhere.
+string 11878 ^8Snowfall: ^0C4 is in place, time to get back!
+string 11879 ^8Snowfall: ^0Bomb has been planted.
+
+string 11880 ^8Snowfall: ^0Up and down, Up and down, I hate ladders.
+string 11881 ^8Snowfall: ^0Nice wheels!
+string 11882 ^8Snowfall: ^0Nice ride.
+string 11883 ^8Snowfall: ^0I smell trouble.
+string 11884 ^8Snowfall: ^0Oh boy.
+string 11885 ^8Snowfall: ^0What the fuck!?
+string 11886 ^8Snowfall: ^0Get out of my mind!
+string 11887 ^8Snowfall: ^0Holy shit!
+string 11888 ^8Snowfall: ^0I could fly this thing in my sleep.
+string 11889 ^8Snowfall: ^0Look I'm an alien too!
+
+string 11890 ^8Snowfall: ^0I hope they recycle you into a coffee maker!
+string 11891 ^8Snowfall: ^0Breaking down already?
+string 11892 ^8Snowfall: ^0You're just a bucket of bolts!
+string 11893 ^8Snowfall: ^0Looks like you got a new bug.
+string 11894 ^8Snowfall: ^0Stupid robots!
+string 11895 ^8Snowfall: ^0...ooh, shocking!
+string 11896 ^8Snowfall: ^0...That was shocking.
+string 11897 ^8Snowfall: ^0Woah that was shocking!
+string 11898 ^8Snowfall: ^0Damn, my Oxygen's running low.
+string 11899 ^8Snowfall: ^0I'm gonna have to top off this oxygen supply.
+
+string 11900 ^8Snowfall: ^0Ah Sweet, good old O2.
+string 11901 ^8Snowfall: ^0There goes the alarm!
+string 11902 ^8Snowfall: ^0Ooh! Penny saved is a penny earned!
+string 11903 ^8Snowfall: ^0Hey today's my lucky day!
+string 11904 ^8Snowfall: ^0A research project...I'll take this home, we might even make use of this.
+string 11905 ^8Snowfall: ^0Looks like this might help our research.
+string 11906 ^8Snowfall: ^0And I thought this battery could last me forever...
+string 11907 ^8Snowfall: ^0Stupid batteries always die when you need them the most...
+string 11908 ^8Snowfall: ^0This rock looks kinda loose, I bet I could kick it free!
+string 11909 ^8Snowfall: ^0Ah shit my gun's overheating!
+string 11910 ^8Snowfall: ^0Ah, ah it's hot it's hot!
+
+string 11911 ^8Snowfall: ^0Man, I don't even feel the weather in this spacesuit.
+string 11912 ^8Snowfall: ^0Man look at the weather. Good thing I got a spacesuit!
+string 11913 ^8Snowfall: ^0Double the gun, double the fun!
+string 11914 ^8Snowfall: ^0This looks like a good spot.
+string 11915 ^8Snowfall: ^0Just gonna stick this badboy right here!
+string 11916 ^8Snowfall: ^0Is that what I'm here for? To step in shit?
+string 11917 ^8Snowfall: ^0That was pretty fucking annoying.
+string 11918 ^8Snowfall: ^0Haha, look what I found!
+string 11919 ^8Snowfall: ^0Ooh..what's in here?
+
+string 11920 ^8Snowfall: ^0They're cursing me!
+string 11921 ^8Snowfall: ^0Agh they put their spell on me...
+string 11922 ^8Snowfall: ^0Tada!
+string 11923 ^8Snowfall: ^0There...now it's open.
+string 11924 ^8Snowfall: ^0Now I feel ready for action!
+string 11925 ^8Snowfall: ^0Agh can't see anything!
+string 11926 ^8Snowfall: ^0Agh shit I'm blind!
+string 11927 ^8Snowfall: ^0My shields are down!
+string 11928 ^8Snowfall: ^0Shields are down...
+string 11929 ^8Snowfall: ^0Damn, no shields...
+
+string 11930 ^8Snowfall: ^0Just shut up! Fuck!
+string 11931 ^8Snowfall: ^0Wanna see what happens when you..split an atom?
+string 11932 ^8Snowfall: ^0Looks like it's time for some nuclear fission.
+string 11933 ^8Snowfall: ^0Wait a minute..I got a Nuke?!
+string 11934 ^8Snowfall: ^0Woah, woah, woah!
+string 11935 ^8Snowfall: ^0Get some slice and dice!
+string 11936 ^8Snowfall: ^0A little classic, but...I can work with this.
+string 11937 ^8Snowfall: ^0You want some of this!?
+string 11938 ^8Snowfall: ^0Bring it on you piece of shit!
+string 11939 ^8Snowfall: ^0Uh oh.
+
+string 11940 ^8Snowfall: ^0Oh boy.
+string 11941 ^8Snowfall: ^0Haha I love when that happens!
+string 11942 ^8Snowfall: ^0No!
+string 11943 ^8Snowfall: ^0Put 'em in the scrap.
+string 11944 ^8Snowfall: ^0Damn I just got EMP'd!
+string 11945 ^8Snowfall: ^0EMP hit!
+string 11946 ^8Snowfall: ^0Damn they killed the electronics!
+string 11947 ^8Snowfall: ^0You made such a sad choice...
+string 11948 ^8Snowfall: ^0Your cult won't miss you...
+string 11949 ^8Snowfall: ^0Thank your cult for this one!
+/*
+
+
+
+string 11950 ^8Snowfall: ^0
+string 11951 ^8Snowfall: ^0
+string 11952 ^8Snowfall: ^0
+string 11953 ^8Snowfall: ^0
+string 11954 ^8Snowfall: ^0
+string 11955 ^8Snowfall: ^0
+string 11956 ^8Snowfall: ^0
+string 11957 ^8Snowfall: ^0
+string 11958 ^8Snowfall: ^0
+string 11959 ^8Snowfall: ^0
+
+string 11960 ^8Snowfall: ^0
+string 11961 ^8Snowfall: ^0
+string 11962 ^8Snowfall: ^0
+string 11963 ^8Snowfall: ^0
+string 11964 ^8Snowfall: ^0
+string 11965 ^8Snowfall: ^0
+string 11966 ^8Snowfall: ^0
+string 11967 ^8Snowfall: ^0
+string 11968 ^8Snowfall: ^0
+string 11969 ^8Snowfall: ^0
+
+string 11970 ^8Snowfall: ^0
+string 11971 ^8Snowfall: ^0
+string 11972 ^8Snowfall: ^0
+string 11973 ^8Snowfall: ^0
+string 11974 ^8Snowfall: ^0
+*/
+
+// Kagura: 12000 - 12199
+
+string 12000 ^8Kagura: ^7^Gross!^ ^0It's in my hair...
+string 12001 ^8Kagura: ^0Wow...
+string 12002 ^8Kagura: ^0That looked painful...
+string 12003 ^8Kagura: ^0No guts...no gory.
+string 12004 ^8Kagura: ^0Rest in P...ieces!
+string 12005 ^8Kagura: ^7^Oh well...^
+string 12006 ^8Kagura: ^7^Idiot...^
+
+string 12007 ^7Yo: ^7^Thank you for the meal!^
+string 12008 ^7Yo: ^0Shampoo, AND conditioner!
+string 12009 ^7Yo: ^0Scatter before the splatter!
+string 12010 ^7Yo: ^0What, am I not good enough?
+string 12011 ^7Yo: ^0That one splats good.
+string 12012 ^7Yo: ^0That's it, paint the walls!
+string 12013 ^7Yo: ^0Blood, blood everywhere!
+string 12014 ^7Yo: ^0Tear them apart Takahashi!
+string 12015 ^7Yo: ^0No mercy!
+string 12016 ^7Yo: ^0Oh, you won't fall on your sword? I will help!
+string 12017 ^7Yo: ^0Die miserably!
+string 12018 ^7Yo: ^0Fade in shame and dishonour!
+
+string 12020 ^8Kagura: ^0Yosh! This is gonna be good...
+string 12021 ^8Kagura: ^0Now that's a big boomstick.
+string 12022 ^8Kagura: ^0Ooh, I like this one.
+string 12023 ^8Kagura: ^7^Looks like fun!^
+string 12024 ^8Kagura: ^0Yo look, I found you a friend!
+string 12025 ^8Kagura: ^0All the firepower!
+string 12026 ^8Kagura: ^0This looks like fun!
+string 12027 ^8Kagura: ^0Don't be jealous Yo, it is temporary.
+
+string 12028 ^8Kagura: ^0Scarf, Sword, Gun. Good!
+string 12029 ^8Kagura: ^0Does this make my butt look big?
+
+string 12030 ^7Yo: ^7^Failure.^
+string 12031 ^8Kagura: ^0I will avenge you!
+string 12032 ^8Kagura: ^7^Unforgivable!^
+string 12033 ^8Kagura: ^0A good kick would open this.
+string 12034 ^8Kagura: ^0Locked.
+string 12035 ^8Kagura: ^0Not this way.
+string 12036 ^8Kagura: ^0There must be another way.
+string 12037 ^7Yo: ^0The way is shut!
+string 12038 ^8Kagura: ^0I will need a key to get through.
+string 12039 ^7Yo: ^0Call a locksmith.
+
+string 12040 ^8Kagura: ^7^Please help me.^
+string 12041 ^8Kagura: Nice to meet you.
+string 12042 ^8Kagura: ^0Let's go!
+string 12043 ^8Kagura: ^7^Let's go!^
+
+string 12044 ^8Kagura: ^0Wait here.
+string 12045 ^8Kagura: ^7^Wait, please.^
+
+string 12046 ^8Kagura: ^0I can't damage it!
+string 12047 ^8Kagura: ^0No good...no damage!
+string 12048 ^8Kagura: ^0Its armour is too thick!
+string 12049 ^8Kagura: ^0I need to pierce its armour!
+
+string 12050 ^7Yo: ^0We're going to be eaten by a grue...
+string 12051 ^8Kagura: ^0Too dark...can't see!
+string 12052 ^8Kagura: ^0Darkness is good camoflauge...too bad I can't see.
+string 12053 ^8Kagura: ^0Need silver to kill this thing!
+string 12054 ^8Kagura: ^0Ah, a vending machine! Just like home.
+string 12055 ^7Yo: ^0I left my wallet in my other scabbard.
+string 12056 ^8Kagura: ^0I need tools for this.
+string 12057 ^8Kagura: ^7^I did it!^ ^0Fixed!
+string 12058 ^7Yo: ^0Yes!
+string 12059 ^8Kagura: ^7^I'm done!^
+
+string 12060 ^8Kagura: ^0Yuck!
+string 12061 ^7Yo: ^0Excellent! You will die last!
+string 12062 ^8Kagura: ^7^Thank you!^
+string 12063 ^8Kagura: ^0Thank you!
+string 12064 ^8Kagura: ^0I've always wanted to ride one of these.
+string 12065 ^8Kagura: ^7^Awesome!^
+string 12066 ^8Kagura: ^0Why don't you chill out a bit?
+string 12067 ^7Yo: ^0Don't worry, hell is warmer!
+string 12068 ^8Kagura: ^0Ashes to Ashes!
+string 12069 ^7Yo: ^0Mmm...where's my Tonkatsu?
+
+string 12070 ^8Kagura: ^7^Is it hot?^
+string 12071 ^8Kagura: ^0I see you!
+string 12072 ^7Yo: ^0This is too easy!
+string 12073 ^8Kagura: ^7^Found you!^
+string 12074 ^8Kagura: ^7^Alright!&^
+string 12075 ^8Kagura: ^7^Interesting!^
+string 12076 ^8Kagura: ^0Time for some fireworks.
+string 12077 ^7Yo: ^0Mold clay...add fire!
+string 12078 ^8Kagura: ^7^What a thrill...^
+string 12079 ^8Kagura: ^0How long is this ladder?
+
+string 12080 ^8Kagura: ^0Let's rock.
+string 12081 ^7Yo: ^0Careful, you'll break your neck.
+string 12082 ^8Kagura: ^0Crap!
+string 12083 ^8Kagura: ^0That's not good.
+string 12084 ^7Yo: ^7^Let's eat!^
+string 12085 ^8Kagura: ^7^No!^
+string 12086 ^8Kagura: ^7^That was surprising!^
+string 12087 ^8Kagura: ^0I hope I can fly this thing.
+string 12088 ^8Kagura: ^0...Aliens drive stick too?
+string 12089 ^8Kagura: ^0Nothing but a souless machine.
+
+string 12090 ^8Kagura: ^0Your metal was weak.
+string 12091 ^8Kagura: ^0You are shock!
+string 12092 ^8Kagura: ^0Thunder and lightning, very very frightening...
+string 12093 ^7Yo: ^0Takahashi, your air is low.
+string 12094 ^8Kagura: ^0Yes, an O2 Canister.
+string 12095 ^8Kagura: ^7^Eh, Really?!^
+string 12096 ^8Kagura: ^0I'm really bad at this.
+string 12097 ^8Kagura: ^0Nice!
+string 12098 ^8Kagura: ^0Jack pot!
+string 12099 ^8Kagura: ^0The research division would like this.
+
+string 12100 ^7Yo: ^0Another for the nerd squad.
+string 12101 ^8Kagura: ^0Ah...battery is low.
+string 12102 ^8Kagura: ^0Battery is almost out of power.
+string 12103 ^8Kagura: ^0A good kick should get this rolling.
+string 12104 ^8Kagura: ^7^Hot!^ ^0Gun's overheating!
+string 12105 ^7Yo: ^0This is too easy!
+string 12106 ^7Yo: ^0No no no, I don't want to rust!
+string 12107 ^8Kagura: ^0Ahh, I do like the rain.
+string 12108 ^8Kagura: ^0Ahh...^7^It feels good.^
+string 12109 ^8Kagura: ^0One plus Two equals a dead you.
+
+string 12110 ^8Kagura: ^0No white doves? Pity.
+string 12111 ^7Yo: ^0Put one of them down, you look silly.
+string 12112 ^8Kagura: ^0Here is good.
+string 12113 ^8Kagura: ^7^Right here?^
+string 12114 ^8Kagura: ^7^Ugh, stinky!^
+string 12115 ^7Yo: ^0Ugh it was like nail on chalkboard!
+string 12116 ^8Kagura: ^0What's in here?
+string 12117 ^8Kagura: ^7^What's this?^
+string 12118 ^8Kagura: ^0I've been cursed!
+string 12119 ^7Yo: ^0Oh no...I am DOUBLE cursed!
+
+string 12120 ^8Kagura: ^0A curse?
+string 12121 ^7Yo: ^7^Open sesame!
+string 12122 ^8Kagura: ^0Ah it opened!
+string 12123 ^8Kagura: ^7^Hello!^
+string 12124 ^8Kagura: ^7^Stop it!^
+string 12125 ^8Kagura: ^7^No!^
+string 12126 ^8Kagura: ^0I'm blind!
+string 12127 ^8Kagura: ^7^What the hell?!^
+string 12128 ^8Kagura: ^0Shield is down!
+string 12129 ^7Yo: ^0AT field breach!
+
+string 12130 ^8Kagura: ^0Shield is out of power!
+string 12131 ^7Yo: No! Takahashi! Get up!
+string 12132 ^7Yo: Takahashi!?
+string 12133 ^8Kagura: ^0Return to dust!
+string 12134 ^7Yo: ^0Do it!
+string 12135 ^8Kagura: ^0Hiya!
+string 12136 ^8Kagura: ^0Hyaa!
+string 12137 ^8Kagura: ^0Let's go!
+string 12138 ^8Kagura: ^0Woah!
+string 12139 ^8Kagura: ^0Woah, woah, ^7^Wait!^
+
+string 12140 ^8Kagura: ^0Good horsey!
+string 12141 ^8Kagura: ^0Now you're in trouble...
+string 12142 ^7Yo: ^0Hello boys.
+string 12143 ^7Yo: ^0Freeee!
+string 12144 ^7Yo: ^0I hunger!
+string 12145 ^8Kagura: ^7^Come!^
+string 12146 ^8Kagura: ^0You look like a...giant pinky.
+string 12147 ^8Kagura: ^7^Ahh, Thank goodness.^
+string 12148 ^7Yo: ^7^Be more careful.^
+string 12149 ^8Kagura: ^7^How troublesome!^
+
+string 12150 ^8Kagura: ^7^Jeez...^
+string 12151 ^7Yo: ^7^I did it!^
+string 12152 ^7Yo: ^7^heh heh, I did it!^
+string 12153 ^8Kagura: ^0Simple as sashimi!
+string 12154 ^8Kagura: ^0Sayonara, bye bye!
+string 12155 ^8Kagura: ^0Shameful display!
+string 12156 ^8Kagura: ^0My electronics are down!
+string 12157 ^8Kagura: ^0An EMP?! ^7Yo: ^0Ooh, tingly!
+string 12158 ^8Kagura: ^0They look so cute!
+string 12159 ^8Kagura: ^0^7^Cute!^
+/*
+
+
+string 12160 ^8Kagura: ^0
+string 12161 ^8Kagura: ^0
+string 12162 ^8Kagura: ^0
+string 12163 ^8Kagura: ^0
+string 12164 ^8Kagura: ^0
+string 12165 ^8Kagura: ^0
+string 12166 ^8Kagura: ^0
+string 12167 ^8Kagura: ^0
+string 12168 ^8Kagura: ^0
+string 12169 ^8Kagura: ^0
+*/
+// Cultist: 12200 - 12399
+
+string 12200 ^54???: ^0Come one Come all to the slaughter!
+string 12201 ^54???: ^0Eat it!
+string 12202 ^54???: ^0I'll claim your soul!
+string 12203 ^54???: ^0Die worm!
+string 12204 ^54???: ^0That's right!
+string 12205 ^54???: ^0Insect!
+string 12206 ^54???: ^0Ooh that's gotta hurt!
+string 12207 ^54???: ^0Ooh that wasn't a bit nice!
+
+string 12210 ^54???: ^0Ahhh...Nice!
+string 12211 ^54???: ^0Perfect!
+string 12212 ^54???: ^0Groovy!
+string 12213 ^54???: ^0MMmmm!
+string 12214 ^54???: ^0Very useful!
+string 12215 ^54???: ^0I'll blow your butts to kingdom come!
+string 12216 ^54???: ^0I seem to of found the machine that goes bang!
+string 12217 ^54???: ^0'Point away from face and fire'...Hmm, sounds reasonable enough!
+string 12218 ^54???: ^0Hahahaha, who's laughing now!?
+
+/*
+string 12219 ^54???: ^0
+
+string 12220 ^54???: ^0
+string 12221 ^54???: ^0
+string 12222 ^54???: ^0
+string 12223 ^54???: ^0
+string 12224 ^54???: ^0
+string 12225 ^54???: ^0
+string 12226 ^54???: ^0
+string 12227 ^54???: ^0
+string 12228 ^54???: ^0
+string 12229 ^54???: ^0
+
+string 12230 ^54???: ^0
+string 12231 ^54???: ^0
+string 12232 ^54???: ^0
+string 12233 ^54???: ^0
+string 12234 ^54???: ^0
+string 12235 ^54???: ^0
+string 12236 ^54???: ^0
+string 12237 ^54???: ^0
+string 12238 ^54???: ^0
+string 12239 ^54???: ^0
+
+string 12240 ^54???: ^0
+string 12241 ^54???: ^0
+string 12242 ^54???: ^0
+string 12243 ^54???: ^0
+string 12244 ^54???: ^0
+string 12245 ^54???: ^0
+string 12246 ^54???: ^0
+string 12247 ^54???: ^0
+string 12248 ^54???: ^0
+string 12249 ^54???: ^0
+*/
+
+// Bombshell: 12400 - 12599
+
+string 12400 ^8Bombshell: ^0God damn fuck!
+string 12401 ^8Bombshell: ^0Who the hell locks these things?
+string 12402 ^8Bombshell: ^0Nope.
+string 12403 ^8Bombshell: ^0Damn I'm looking good.
+
+string 12410 ^8Bombshell: ^0The bigger they are, the more they bleed.
+string 12411 ^8Bombshell: ^0Dance motherfucker, dance!
+string 12412 ^8Bombshell: ^0You are one UGLY motherfucker.
+string 12413 ^8Bombshell: ^0You want fries with that?
+string 12414 ^8Bombshell: ^0Who's next?
+string 12415 ^8Bombshell: ^0Damn I'm good!
+string 12416 ^8Bombshell: ^0Hail to the queen baby!
+string 12417 ^8Bombshell: ^0Holy shit!
+string 12418 ^8Bombshell: ^0Have one on the house!
+string 12419 ^8Bombshell: ^0Hallelujah, it's raining guts!
+string 12420 ^8Bombshell: ^0Rest in pieces.
+string 12421 ^8Bombshell: ^0So much blood...so beautiful.
+string 12422 ^8Bombshell: ^0Suck it down!
+string 12423 ^8Bombshell: ^0Enjoy your free surgery!
+string 12424 ^8Bombshell: ^0You guys suck!
+string 12425 ^8Bombshell: ^0Die Motherfucker! I'm gonna taco-dip your corpse!
+
+string 12430 ^8Bombshell: ^0Welcome to Earth, bitch!
+string 12431 ^8Bombshell: ^0Yippy-ki yay motherfucker!
+string 12432 ^8Bombshell: ^0Sucka...life's a bitch!
+string 12433 ^8Bombshell: ^0You dead!
+string 12434 ^8Bombshell: ^0Bewm! Headshot!
+string 12435 ^8Bombshell: ^0That's what I call...gun control.
+string 12436 ^8Bombshell: ^0Say Hello, to my little lead friends.
+string 12437 ^8Bombshell: ^0Makin' Bacon!
+string 12438 ^8Bombshell: ^0Squeal piggy, squeal!
+string 12439 ^8Bombshell: ^0Take your tentacles back to Japan you freak!
+string 12440 ^8Bombshell: ^0I'll turn you into bait!
+string 12441 ^8Bombshell: ^0You're fish food!
+
+string 12450 ^8Bombshell: ^0Kick ass!
+string 12451 ^8Bombshell: ^0I like big guns, and I cannot lie!
+string 12452 ^8Bombshell: ^0Groovy!
+string 12453 ^8Bombshell: ^0Fuck yeah!
+string 12454 ^8Bombshell: ^0Woohoo!
+string 12455 ^8Bombshell: ^0Yeah baby!
+
+string 12460 ^8Bombshell: ^0RIP!
+string 12461 ^8Bombshell: ^0Shit happens.
+string 12462 ^8Bombshell: ^0Decisions, decisions...
+string 12463 ^8Bombshell: ^0I could do this all day.
+string 12464 ^8Bombshell: ^0Yes!
+string 12465 ^8Bombshell: ^0Ugh!
+string 12466 ^8Bombshell: ^0Nice!
+string 12467 ^8Bombshell: ^0Time to crash this party!
+string 12468 ^8Bombshell: ^0Born to be wild!
+string 12469 ^8Bombshell: ^0Terminated!
+
+string 12470 ^8Bombshell: ^0Too easy!
+string 12471 ^8Bombshell: ^0Wasted!
+string 12472 ^8Bombshell: ^0Too easy
+string 12473 ^8Bombshell: ^0Shit happens.
+string 12474 ^8Bombshell: ^0Damn that was annoying!
+string 12475 ^8Bombshell: ^0Bitch I'm gonna kick your ass!
+string 12476 ^8Bombshell: ^0Get away from me you bitch!
+string 12477 ^8Bombshell: ^0I'll take what's behind door number one.
+string 12478 ^8Bombshell: ^0It's time to kick ass and chew bubblegum, and I'm all out of gum.
+string 12479 ^8Bombshell: ^0Prepare to die!
+
+string 12480 ^8Bombshell: ^0Now this is a force to be reckoned with!
+string 12481 ^8Bombshell: ^0Only way to be sure.
+string 12482 ^8Bombshell: ^0Ahh...I needed that.
+string 12483 ^8Bombshell: ^0Damn it!
+string 12484 ^8Bombshell: ^0That never gets old!
+
+string 12485 ^8Bombshell: ^0Ugh!
+string 12486 ^8Bombshell: ^0I love a good barbeque!
+string 12487 ^8Bombshell: ^0Born to be wild!
+string 12488 ^8Bombshell: ^0Burn baby!
+string 12489 ^8Bombshell: ^0Fuck, thing's almost empty!
+
+string 12490 ^8Bombshell: ^0Shit, can't breathe!
+string 12491 ^8Bombshell: ^0Shield's down...like I need it anyway.
+string 12492 ^8Bombshell: ^0My shield's down, now it gets fun!
+string 12493 ^8Bombshell: ^0Wasted!
+
+/*
+string 12494 ^8Bombshell: ^0
+string 12495 ^8Bombshell: ^0
+string 12496 ^8Bombshell: ^0
+string 12497 ^8Bombshell: ^0
+string 12498 ^8Bombshell: ^0
+string 12499 ^8Bombshell: ^0
+
+string 12500 ^8Bombshell: ^0
+string 12501 ^8Bombshell: ^0
+string 12502 ^8Bombshell: ^0
+string 12503 ^8Bombshell: ^0
+string 12504 ^8Bombshell: ^0
+string 12505 ^8Bombshell: ^0
+string 12506 ^8Bombshell: ^0
+string 12507 ^8Bombshell: ^0
+string 12508 ^8Bombshell: ^0
+string 12509 ^8Bombshell: ^0
+
+string 12510 ^8Bombshell: ^0
+string 12511 ^8Bombshell: ^0
+string 12512 ^8Bombshell: ^0
+string 12513 ^8Bombshell: ^0
+string 12514 ^8Bombshell: ^0
+string 12515 ^8Bombshell: ^0
+string 12516 ^8Bombshell: ^0
+string 12517 ^8Bombshell: ^0
+string 12518 ^8Bombshell: ^0
+*/
+
+// JANE: 12600 - 12799
+
+string 12600 ^8Jane: ^0Boom!
+string 12601 ^8Jane: ^0Got 'em!
+string 12602 ^8Jane: ^0Oh yeah!
+string 12603 ^8Jane: ^0That can't feel good at all!
+string 12604 ^8Jane: ^0And stay down!
+string 12605 ^8Jane: ^0Toasted!
+string 12606 ^8Jane: ^0I'd hate to be your dry cleaner.
+
+string 12610 ^8Jane: ^0We've got a man down!
+string 12611 ^8Jane: ^0We've got a man down here!
+string 12612 ^8Jane: ^0I can kick this door down.
+string 12613 ^8Jane: ^0It's locked.
+string 12614 ^8Jane: ^0Damn, it's locked.
+string 12615 ^8Jane: ^0Damn, I need a key!
+string 12616 ^8Jane: ^0Bugger it, I need a key.
+string 12617 ^8Jane: ^0Pretty bad ass if I do say so myself.
+string 12618 ^8Jane: ^0Perfect execution, as always.
+string 12619 ^8Jane: ^0I am amazing.
+string 12620 ^8Jane: ^0You see that? Who's next?
+
+string 12630 ^8Jane: ^0Excellent!
+string 12631 ^8Jane: ^0Hmph, very useful.
+string 12632 ^8Jane: ^0Mmm...I like it.
+string 12633 ^8Jane: ^0Let's see what this can do.
+string 12634 ^8Jane: ^0I'm gonna need something to pierce this armour!
+string 12635 ^8Jane: ^0Damn is it dark in here.
+string 12636 ^8Jane: ^0I'm not hurting this thing!
+string 12637 ^8Jane: ^0I'm not hurting this thing.
+string 12638 ^8Jane: ^0Nice, upgrades!
+string 12639 ^8Jane: ^0Ugh, looks like I'll need some tools for this.
+
+string 12640 ^8Jane: ^0I'll need a toolbox to fix this mess.
+string 12641 ^8Jane: ^0A good job if I do say so myself.
+string 12642 ^8Jane: ^0There! Fixed.
+string 12643 ^8Jane: ^0Not bad if I do say so myself.
+string 12644 ^8Jane: ^0I think I'll pass on that.
+string 12645 ^8Jane: ^0Ugh, I think I'll pass on that.
+string 12646 ^8Jane: ^0Oh, thanks!
+string 12647 ^8Jane: ^0Thanks for that.
+string 12648 ^8Jane: ^0It's not as good as my yaught but...it will do.
+string 12649 ^8Jane: ^0Let's get hovering.
+
+string 12650 ^8Jane: ^0Ice of you to drop by.
+string 12651 ^8Jane: ^0Ooh...frosty.
+string 12652 ^8Jane: ^0You're burning up!
+string 12653 ^8Jane: ^0OOh, spicy!
+string 12654 ^8Jane: ^0Feel the burn!
+string 12655 ^8Jane: ^0Fire is indeed hot.
+string 12656 ^8Jane: ^0It's coming for you.
+string 12657 ^8Jane: ^0I see you!
+string 12658 ^8Jane: ^0Now where do you think you're going?
+string 12659 ^8Jane: ^0Ooh..I wonder what this does?
+
+string 12660 ^8Jane: ^0What a thrill.
+string 12661 ^8Jane: ^0What a thrill...
+string 12662 ^8Jane: ^0I'm bad to the bone, baby.
+string 12663 ^8Jane: ^0Oh shit!
+string 12664 ^8Jane: ^0Oh shit.
+string 12665 ^8Jane: ^0Fuck! God damn ghosts!
+string 12666 ^8Jane: ^0Aagh!
+string 12667 ^8Jane: ^0You git! God damn ghosts.
+string 12668 ^8Jane: ^0Time for a close encounter.
+string 12669 ^8Jane: ^0Terminated, motherfucker!
+
+string 12670 ^8Jane: ^0Terminated!
+string 12671 ^8Jane: ^0Ooh, sparks.
+string 12672 ^8Jane: ^0What an electrifying way to go.
+string 12673 ^8Jane: ^0What shocking behaviour.
+string 12674 ^8Jane: ^0Electrifying!
+string 12675 ^8Jane: ^0...Running low on air.
+string 12676 ^8Jane: ^0...Gonna need a new tank of air.
+string 12677 ^8Jane: ^0Shit, I'm almost out of oxygen.
+string 12678 ^8Jane: ^0Great, an O2 canister!
+string 12679 ^8Jane: ^0Damnit, I tripped the alarm!
+
+string 12680 ^8Jane: ^0Now that was a rookie mistake.
+string 12681 ^8Jane: ^0A few pounds in my pocket wouldn't go amiss.
+string 12682 ^8Jane: ^0In for a penny, in for a pound.
+string 12683 ^8Jane: ^0I better take this to the lab.
+string 12684 ^8Jane: ^0I bet the lab boys would like this.
+string 12685 ^8Jane: ^0Just my luck, the battery's nearly dead.
+string 12686 ^8Jane: ^0Bet I could boot this boulder and get it moving...
+string 12687 ^8Jane: ^0Bugger, the gun's overheating!
+string 12688 ^8Jane: ^0OOh that's hot, oww!
+string 12689 ^8Jane: ^0Ugh, I hate getting soaked.
+
+string 12690 ^8Jane: ^0Of course it's raining...
+string 12691 ^8Jane: ^0Maybe I should raid some tombs with these.
+string 12692 ^8Jane: ^0Let's set you down...here.
+string 12693 ^8Jane: ^0*tut* oh and I just polished these!
+string 12694 ^8Jane: ^0Well that wasn't annoying at all!
+string 12695 ^8Jane: ^0Ah huh!
+string 12696 ^8Jane: ^0I hope it's something good.
+string 12697 ^8Jane: ^0Damn it I've been cursed!
+string 12698 ^8Jane: ^0How dare you curse me!
+string 12699 ^8Jane: ^0Open sesame!
+
+string 12700 ^8Jane: ^0Knock knock, hope you don't mind.
+string 12701 ^8Jane: ^0Alright, let's go!
+string 12702 ^8Jane: ^0Hope you like surprises cuz' this one's going to blow you away.
+string 12703 ^8Jane: ^0It's judgement day!
+string 12704 ^8Jane: ^0Let's go!
+string 12705 ^8Jane: ^0Giddy up!
+string 12706 ^8Jane: ^0Woah, woah!
+string 12707 ^8Jane: ^0Care to test your mettle?
+string 12708 ^8Jane: ^0Taste my steel!
+string 12709 ^8Jane: ^0Come on then!
+
+string 12710 ^8Jane: ^0Arms up and Queensbury rules, let's go!
+string 12711 ^8Jane: ^0Ah that was close...
+string 12712 ^8Jane: ^0Oh fuck it!
+string 12713 ^8Jane: ^0Bollocks!
+string 12714 ^8Jane: ^0Hell yeah, that's what it's all about!
+string 12715 ^8Jane: ^0Shield is down...not good.
+string 12716 ^8Jane: ^0Now I regret not joining the Wing divers unit.
+string 12717 ^8Jane: ^0I can't see!
+string 12718 ^8Jane: ^0Damnit I'm blinded!
+string 12719 ^8Jane: ^0Damn, my electronics are down!
+
+string 12720 ^8Jane: ^0Oh great, an EMP, just what I need.
+string 12721 ^8Jane: ^0Hmph, very cute.
+string 12722 ^8Jane: ^0Those are *adorable*.
+string 12723 ^8Jane: ^0Wanker!
+/*
+
+string 12723 ^8Jane: ^0
+string 12724 ^8Jane: ^0
+string 12725 ^8Jane: ^0
+string 12726 ^8Jane: ^0
+string 12727 ^8Jane: ^0
+string 12728 ^8Jane: ^0
+string 12729 ^8Jane: ^0
+
+string 12730 ^8Jane: ^0
+string 12731 ^8Jane: ^0
+string 12732 ^8Jane: ^0
+string 12733 ^8Jane: ^0
+string 12734 ^8Jane: ^0
+string 12735 ^8Jane: ^0
+string 12736 ^8Jane: ^0
+string 12737 ^8Jane: ^0
+string 12738 ^8Jane: ^0
+string 12739 ^8Jane: ^0
+
+string 12740 ^8Jane: ^0
+string 12741 ^8Jane: ^0
+string 12742 ^8Jane: ^0
+string 12743 ^8Jane: ^0
+string 12744 ^8Jane: ^0
+string 12745 ^8Jane: ^0
+string 12746 ^8Jane: ^0
+string 12747 ^8Jane: ^0
+string 12748 ^8Jane: ^0
+string 12749 ^8Jane: ^0
+
+string 12750 ^8Jane: ^0
+string 12751 ^8Jane: ^0
+string 12752 ^8Jane: ^0
+string 12753 ^8Jane: ^0
+string 12754 ^8Jane: ^0
+string 12755 ^8Jane: ^0
+string 12756 ^8Jane: ^0
+string 12757 ^8Jane: ^0
+string 12758 ^8Jane: ^0
+string 12759 ^8Jane: ^0
+
+string 12760 ^8Jane: ^0
+string 12761 ^8Jane: ^0
+string 12762 ^8Jane: ^0
+string 12763 ^8Jane: ^0
+string 12764 ^8Jane: ^0
+string 12765 ^8Jane: ^0
+string 12766 ^8Jane: ^0
+string 12767 ^8Jane: ^0
+string 12768 ^8Jane: ^0
+string 12769 ^8Jane: ^0
+
+string 12770 ^8Jane: ^0
+string 12771 ^8Jane: ^0
+string 12772 ^8Jane: ^0
+*/
+
+string 12800 ^8Maarten: ^0Tools for vengeance, excellent.
+string 12801 ^8Maarten: ^0Let's claim some lives.
+string 12802 ^8Maarten: ^0Excellent, more POWER.
+string 12803 ^8Maarten: ^0Just the motivation I need to kill something.
+string 12804 ^8Maarten: ^0Interesting...let's put this to use.
+string 12805 ^8Maarten: ^0I'll claim their lives, then their souls!
+string 12806 ^8Maarten: ^0You could not stand up to me, worthless!
+string 12807 ^8Maarten: ^0I will crush you under my boot.
+string 12808 ^8Maarten: ^0Enough words, time to die!
+string 12809 ^8Maarten: ^0YOU are a pathetic disgrace!
+
+string 12810 ^8Maarten: ^0I have no more time for this!
+string 12811 ^8Maarten: ^0I will rip your tongue out!
+string 12812 ^8Maarten: ^0Try not to get your blood all over me when I crush your skull!
+string 12813 ^8Maarten: ^0Die miserably worm!
+string 12814 ^8Maarten: ^0I mean to watch you die!
+string 12815 ^8Maarten: ^0I do not receive pain, I deal it!
+string 12816 ^8Maarten: ^0Follow me, weakling.
+string 12817 ^8Maarten: ^0I require a meatshield.
+string 12818 ^8Maarten: ^0Come.
+string 12819 ^8Maarten: ^0I am NOT thanking you.
+
+string 12820 ^8Maarten: ^0Interesting.
+string 12821 ^8Maarten: ^0It seems I've avoided death once more.
+string 12822 ^8Maarten: ^0Wait.
+string 12823 ^8Maarten: ^0Stay here, do NOT move.
+string 12824 ^8Maarten: ^0Make yourself useful, stay.
+string 12825 ^8Maarten: ^0Grrr, locked.
+string 12826 ^8Maarten: ^0Open up, damn you!
+string 12827 ^8Maarten: ^0I require a key.
+
+// Rosa strings
+
+string 12900 ^8Rosa: ^0Stay behind me...but don't admire the view.
+string 12901 ^8Rosa: ^0Interesting...
+string 12902 ^8Rosa: ^0Interesting.
+string 12903 ^8Rosa: ^0And pop goes the weasel!
+string 12904 ^8Rosa: ^0Calm down..don't blow your top!
+string 12905 ^8Rosa: ^0I'll dome you...any day!
+string 12906 ^8Rosa: ^0Move your ass.
+string 12907 ^8Rosa: ^0Locked...won't budge.
+string 12908 ^8Rosa: ^0Hmm...good hair day today.
+string 12909 ^8Rosa: ^0Heh, lookin' good Rosa...
+string 12910 ^8Rosa: ^0I'll need a key for this, what a pain.
+string 12911 ^8Rosa: ^0Aww, poor baby.
+string 12912 ^8Rosa: ^0You were just waiting for me to drop by, weren't you?
+string 12913 ^8Rosa: ^0*tut tut tut* You never saw me coming.
+string 12914 ^8Rosa: ^0Guess I'll find...someone ELSE to play with.
+string 12915 ^8Rosa: ^0You were just...all talk.
+string 12916 ^8Rosa: ^0That was pretty pathetic.
+string 12917 ^8Rosa: ^0Try not to spill your blood everywhere, sweetheart.
+string 12918 ^8Rosa: ^0Why yes, I am just...drop dead gorgeous.
+string 12919 ^8Rosa: ^0It'll take...a hell of a lot more, to kill me.
+string 12920 ^8Rosa: ^0Why, thank you.
+string 12921 ^8Rosa: ^0Stay put sweetheart.
+string 12922 ^8Rosa: ^0Wait right here.
+string 12923 ^8Rosa: ^0Guard this spot, and keep the homefires burning.
+string 12924 ^8Rosa: ^0Don't leave home without it.
+string 12925 ^8Rosa: ^0I'll find somewhere to fit you, don't worry...
+string 12926 ^8Rosa: ^0I'll never get tired of you baby.
+string 12927 ^8Rosa: ^0Exquisite.
+string 12928 ^8Rosa: ^0Let's do some hunting.
+string 12929 ^8Rosa: ^0
+
+// Wheaton strings
+
+string 13100 ^8Wheaton: ^0Copy.
+string 13101 ^8Wheaton: ^0When you gotta go, you gotta go.
+string 13102 ^8Wheaton: ^0Anything within ten meters is a good as dead!
+string 13103 ^8Wheaton: ^0Well, shit, guess who skipped coffee this morning? Me, that's who!
+string 13104 ^8Wheaton: ^0Man with critical injuries over here!
+string 13105 ^8Wheaton: ^0We need a medic, right now!
+string 13106 ^8Wheaton: ^0I don't have time for goons like you.
+string 13107 ^8Wheaton: ^0Wrong ammo type for this guy!
+string 13108 ^8Wheaton: ^0You're way too late for the party my dude, get lost!
+string 13109 ^8Wheaton: ^0Fall in and cover me.
+
+string 13110 ^8Wheaton: ^0Behold, you're dead heh- guess I saw it coming.
+string 13111 ^8Wheaton: ^0I hate these things!
+string 13112 ^8Wheaton: ^0Oh god that's loud, OH GOD THAT'S LOUD.
+string 13113 ^8Wheaton: ^0Security companies must be making a fortune.
+string 13114 ^8Wheaton: ^0Oh wow, that's a lot of blood!
+string 13115 ^8Wheaton: ^0My ears, fuck my ears!
+string 13116 ^8Wheaton: ^0Oh, so that's how tinitus looks like after all.
+string 13117 ^8Wheaton: ^0*Intelligible*
+string 13118 ^8Wheaton: ^0Body armour. Never leave home without it.
+string 13119 ^8Wheaton: ^0I think I can dislodge it if I push hard enough.
+
+string 13120 ^8Wheaton: ^0And somebody locked it, because of course they did.
+string 13121 ^8Wheaton: ^0Nice wall! Time to blow it up!
+string 13122 ^8Wheaton: ^0When in doubt, always add more C4!
+string 13123 ^8Wheaton: ^0Oh hey, sushi tonight!
+string 13124 ^8Wheaton: ^0Oh yes, one more!
+string 13125 ^8Wheaton: ^0Follow up on me.
+string 13126 ^8Wheaton: ^0Cults everywhere, give me a break.
+string 13127 ^8Wheaton: ^0Be nice and go worship a minefield.
+string 13128 ^8Wheaton: ^7^PLEASE! I hate this wizard crap!^
+string 13129 ^8Wheaton: ^7^Vade Retro asshole! You'll pay for this!^
+
+string 13130 ^8Wheaton: ^0Hmm, night-time combat. Not an issue for me.
+string 13131 ^8Wheaton: ^0Good thing I don't need to SEE things to fight.
+string 13132 ^8Wheaton: ^0Uhmmm... Maybe I should've drawn a map.
+string 13133 ^8Wheaton: ^0Oh, come on, losing a dogfight is one thing, but on the ground, that's disgraceful.
+string 13134 ^8Wheaton: ^0Reporting dragon QRF taken down before take-off... Or something.
+string 13135 ^8Wheaton: ^0Ah, Katanas, the Revolvers of blades!
+string 13136 ^8Wheaton: ^0Look, I know you're trying, but please fuck off already!
+string 13137 ^8Wheaton: ^0Better luck next time. Next!
+string 13138 ^8Wheaton: ^0One tryhard after another, fascinating.
+string 13139 ^8Wheaton: ^0Electronic jamming, oh shit.
+
+string 13140 ^8Wheaton: ^0Oh so they DO know electronic warfare!
+string 13141 ^8Wheaton: ^0Another gun? Nice, but not enough.
+string 13142 ^8Wheaton: ^0Oh hey I blew your mind! ^7Oh that's stupid.
+string 13143 ^8Wheaton: ^0You're fired up already? come shut me down!
+string 13144 ^8Wheaton: ^0Just another case of bad overclocking.
+string 13145 ^8Wheaton: ^0I could repair this, but... I need parts.
+string 13146 ^8Wheaton: ^0All green, shitty weapon systems... Cycloid allright.
+string 13147 ^8Wheaton: ^0Shitty ergonomics, but hey, it flies!
+string 13148 ^8Wheaton: ^0Do you mind following me for something?
+string 13149 ^8Wheaton: ^0Oh nice!
+
+string 13150 ^8Wheaton: ^0Boom, Headshot.
+string 13151 ^8Wheaton: ^0Looks like someone forgot their keys again. Classic.
+string 13152 ^8Wheaton: ^0Who restocks these machines anyway?
+string 13153 ^8Wheaton: ^0I'm moving in to cover you!
+string 13154 ^8Wheaton: ^0Another gun? Nice, but not enough!
+string 13155 ^8Wheaton: ^0Not gonna say no to that!
+string 13156 ^8Wheaton: ^0SPAMRAAMS out!
+string 13157 ^8Wheaton: ^0Try dodging this!
+string 13158 ^8Wheaton: ^0Yoink!
+string 13159 ^8Wheaton: ^0Mind lending me a hand?
+
+string 13160 ^8Wheaton: ^0Ok I'm no longer bleeding...good.
+string 13161 ^8Wheaton: ^0Perfect, there are DUP launchers on this thing!
+string 13162 ^8Wheaton: ^0Oh yeah, Zilla weapons at their finest!
+string 13163 ^8Wheaton: ^7^Let it go, let it go into pieces, asshole!^
+string 13164 ^8Wheaton: ^0Damn that's cold!
+string 13165 ^8Wheaton: ^0Cold sucks doesn't it, tell me about it!
+string 13166 ^8Wheaton: ^0Contact Incoming!
+string 13167 ^8Wheaton: ^0I hope no-one's looking...
+string 13168 ^8Wheaton: ^0Out of ammo, Winchester!
+string 13169 ^8Wheaton: ^0Not gonna lie, I'm feeling pretty bad right now.
+
+string 13170 ^8Wheaton: ^0It's locked, but...It looks pretty weak.
+string 13171 ^8Wheaton: ^0It's obviously locked.
+string 13172 ^8Wheaton: ^0Say, I'm pretty good at killing shit.
+string 13173 ^8Wheaton: ^0Oh shit that's the stuff of nightmares!
+string 13174 ^8Wheaton: ^0Not gonna lie... I had no idea this would be the life waiting for me.
+string 13175 ^8Wheaton: ^0Let's move out!
+string 13176 ^8Wheaton: ^0What was I expecting? Of course I'm gonna need a key for this.
+string 13177 ^8Wheaton: ^0Uh-uh No, too risky. I'm gonna need tools for that.
+string 13178 ^8Wheaton: ^0Too bad buddy, your twisted game needs to be reset.
+string 13179 ^8Wheaton: ^7^Okay, now they're gonna get it.^
+
+string 13180 ^8Wheaton: ^0Conventions? What do you mean, conventions?
+string 13181 ^8Wheaton: ^0^7^Oh shit.^
+string 13182 ^8Wheaton: ^0Oh...I think I just fucked up.
+string 13183 ^8Wheaton: ^7^Ooh fuck...^
+string 13184 ^8Wheaton: ^0
+string 13185 ^8Wheaton: ^0
+string 13186 ^8Wheaton: ^0
+string 13187 ^8Wheaton: ^0
+string 13188 ^8Wheaton: ^0
+string 13189 ^8Wheaton: ^0
+
+string 13190 ^8Wheaton: ^0
+string 13191 ^8Wheaton: ^0
+string 13192 ^8Wheaton: ^0
+string 13193 ^8Wheaton: ^0
+string 13194 ^8Wheaton: ^0
+string 13195 ^8Wheaton: ^0
+string 13196 ^8Wheaton: ^0
+string 13197 ^8Wheaton: ^0
+string 13198 ^8Wheaton: ^0
+string 13199 ^8Wheaton: ^0
+
+string 13200 ^8Wheaton: ^0
+string 13201 ^8Wheaton: ^0
+string 13202 ^8Wheaton: ^0
+string 13203 ^8Wheaton: ^0
+string 13204 ^8Wheaton: ^0
+string 13205 ^8Wheaton: ^0
+string 13206 ^8Wheaton: ^0
+string 13207 ^8Wheaton: ^0
+string 13208 ^8Wheaton: ^0
+string 13209 ^8Wheaton: ^0
+
+string 13210 ^8Wheaton: ^0
+string 13211 ^8Wheaton: ^0
+string 13212 ^8Wheaton: ^0
+string 13213 ^8Wheaton: ^0
+string 13214 ^8Wheaton: ^0
+string 13215 ^8Wheaton: ^0
+string 13216 ^8Wheaton: ^0
+string 13217 ^8Wheaton: ^0
+string 13218 ^8Wheaton: ^0
+string 13219 ^8Wheaton: ^0
+
+string 13220 ^8Wheaton: ^0
+string 13221 ^8Wheaton: ^0
+string 13222 ^8Wheaton: ^0
+string 13223 ^8Wheaton: ^0
+string 13224 ^8Wheaton: ^0
+string 13225 ^8Wheaton: ^0
+string 13226 ^8Wheaton: ^0
+string 13227 ^8Wheaton: ^0
+string 13228 ^8Wheaton: ^0
+string 13229 ^8Wheaton: ^0
+
+string 13230 ^8Wheaton: ^0
+string 13231 ^8Wheaton: ^0
+string 13232 ^8Wheaton: ^0
+string 13233 ^8Wheaton: ^0
+string 13234 ^8Wheaton: ^0
+string 13235 ^8Wheaton: ^0
+string 13236 ^8Wheaton: ^0
+string 13237 ^8Wheaton: ^0
+string 13238 ^8Wheaton: ^0
+string 13239 ^8Wheaton: ^0
+
+string 13240 ^8Wheaton: ^0
+string 13241 ^8Wheaton: ^0
+string 13242 ^8Wheaton: ^0
+string 13243 ^8Wheaton: ^0
+string 13244 ^8Wheaton: ^0
+string 13245 ^8Wheaton: ^0
+string 13246 ^8Wheaton: ^0
+string 13247 ^8Wheaton: ^0
+string 13248 ^8Wheaton: ^0
+string 13249 ^8Wheaton: ^0
+
+string 13250 ^8Wheaton: ^0
+string 13251 ^8Wheaton: ^0
+string 13252 ^8Wheaton: ^0
+string 13253 ^8Wheaton: ^0
+string 13254 ^8Wheaton: ^0
+string 13255 ^8Wheaton: ^0
+string 13256 ^8Wheaton: ^0
+string 13257 ^8Wheaton: ^0
+string 13258 ^8Wheaton: ^0
+string 13259 ^8Wheaton: ^0
+
+string 13260 ^8Wheaton: ^0
+string 13261 ^8Wheaton: ^0
+string 13262 ^8Wheaton: ^0
+string 13263 ^8Wheaton: ^0
+string 13264 ^8Wheaton: ^0
+string 13265 ^8Wheaton: ^0
+string 13266 ^8Wheaton: ^0
+string 13267 ^8Wheaton: ^0
+string 13268 ^8Wheaton: ^0
+string 13269 ^8Wheaton: ^0
+
+string 13270 ^8Wheaton: ^0
+string 13271 ^8Wheaton: ^0
+string 13272 ^8Wheaton: ^0
+string 13273 ^8Wheaton: ^0
+string 13274 ^8Wheaton: ^0
+string 13275 ^8Wheaton: ^0
+string 13276 ^8Wheaton: ^0
+string 13277 ^8Wheaton: ^0
+string 13278 ^8Wheaton: ^0
+string 13279 ^8Wheaton: ^0
+
+// misc
+
+// maddrax
+
+string 13000 ^2Maddrax: ^0Eat lead!
+string 13001 ^2Maddrax: ^0Chew on this!
+string 13002 ^2Maddrax: ^0I'm gonna squash you!
+string 13003 ^2Maddrax: ^0Touchdown motherfucker!
+string 13004 ^2Maddrax: ^0I used to play college football!
+string 13005 ^2Maddrax: ^0You know what, fuck this I'm bringing the big guns now!
+
+string 13006 ^8Geoffrey: ^0Fuck you giant gorilla guy.
+
+// misc
+
+string 13007 ^2???: ^0You little punk! You think you stand a chance against me?!
+string 13008 ^2???: ^0I've fought and killed things you couldn't even begin to imagine!
+string 13009 ^2???: ^0Give up! you can't win against me boy!
+string 13010 ^2???: ^0You're gonna die here cold and forgotten!
+
+string 13011 ^7Yo: ^0Tonight we feast on Takoyaki!
+
+string 13012 ^8Merlijn: ^0I will mount your head on my wall you overgrown steak!
+
+string 13013 ^7Le Sang: ^0Quickly, use your mirror orb!
+
+string 13014 ^7Yo: ^0Save your ammo, kill the minions, feed them to me!
+string 13015 ^7Yo: ^0Together, we devour the necromancer!
+
+string 13016 ^8Sang: ^0Through sheer conjecture, I'm guessing this is the key!
+
+string 13017 ^2Trenton: ^0Time for a rematch Mikko, don't hold back this time.
+string 13018 ^2Trenton: ^0I will wipe that smug grin off of your stupid face!
+string 13019 ^2Trenton: ^0Enough, enjoy this last sight of Earth before I smash it to pieces!
+
+string 13020 ^8Kagura: ^0I should take these ashes back to the temple entrance.
+
+string 13021 ^8Minerva: ^0Aww they're so cute!
+
+string 13022 ^8Rusty: ^0Fill your hand you son of a bitch!
+
+string 13023 ^2Protain: ^0You...you dare to harm ME?!
+string 13024 ^2Protain: ^0Enough games...time to die once more!
+string 13025 ^2Protain: ^0Stand still you cretinous scum!

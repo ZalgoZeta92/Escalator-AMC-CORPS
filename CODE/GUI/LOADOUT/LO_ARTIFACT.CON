@@ -1,0 +1,677 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Loadout artifacts
+--------------------------------------------------------------------------------
+*/
+
+// make sure to update artifact_hud_tiles in HUDS.CON too!
+
+defstate DISP_artifact_loadout
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 1 myospalx disp_temp7 disp_temp8 10239 0 0 0 // Display the picture 1
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 2 rotatesprite disp_temp7 disp_temp8 18000 0 10238 0 0 0 0 0 xdim ydim
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 3 rotatesprite disp_temp7 disp_temp8 18000 0 10237 0 0 0 0 0 xdim ydim
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 4 rotatesprite disp_temp7 disp_temp8 20000 0 10236 0 0 0 0 0 xdim ydim
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 5 rotatesprite disp_temp7 disp_temp8 18000 0 10235 0 0 0 0 0 xdim ydim
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 6 rotatesprite disp_temp7 disp_temp8 22000 0 10233 0 0 0 0 0 xdim ydim
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 7 rotatesprite disp_temp7 disp_temp8 25000 0 10232 0 0 0 0 0 xdim ydim
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 8 rotatesprite disp_temp7 disp_temp8 25000 0 13542 0 0 0 0 0 xdim ydim
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 9 rotatesprite disp_temp7 disp_temp8 25000 0 19199 0 0 0 0 0 xdim ydim
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 10 rotatesprite disp_temp7 disp_temp8 25000 0 19198 0 0 0 0 0 xdim ydim
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 11 rotatesprite disp_temp7 disp_temp8 22000 0 22762 0 0 0 0 0 xdim ydim
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 12 rotatesprite disp_temp7 disp_temp8 14000 0 29696 0 0 0 0 0 xdim ydim
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 13 rotatesprite disp_temp7 disp_temp8 22000 0 29351 0 0 0 0 0 xdim ydim // elemental shield
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 14 rotatesprite disp_temp7 disp_temp8 14000 0 22691 0 0 0 0 0 xdim ydim // bag of holding 
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 15 rotatesprite disp_temp7 disp_temp8 14000 0 22761 0 0 0 0 0 xdim ydim // ring of ice 
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 16 rotatesprite disp_temp7 disp_temp8 14000 0 38902 0 0 0 0 0 xdim ydim // Mu idol
+ends
+
+
+defstate loadout_artifacts_tab
+	screentext STARTALPHANUM 12 190 29500 0 0 3035 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	rotatesprite 286 97 HALFSIZE 0 13564 0 0 8 0 0 xdim ydim
+set SCROLL_POS_MAX 20
+state SCROLL_WHEEL
+		set disp_temp7 289
+		set disp_temp8 146
+		state DISP_artifact_loadout
+		set gui_pos_x 20
+		set gui_pos_y 47
+		state SCROLL_POS
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 1 set text_col 32
+		else set text_col 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3350 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3350 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce GET_MAGIC
+					set disp_temp -1
+					whilevarn disp_temp 31 // remove this artifact from whoever had it before
+						{
+						add disp_temp 1
+						ife ARTIFACTS_LOADOUT[disp_temp] 1 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+						}
+					setarray ARTIFACTS_LOADOUT[INFO_SEL] 1
+					}
+					rotatesprite 160 50 24000 0 10239 0 0 8 0 0 xdim ydim // Display the sprite
+					qputs 1011 Luck amulets are said to increase the
+					screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 wearer's luck; true or not, maybe
+					screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 this simple charm might save your
+					screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 life?
+					screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					set disp_temp2 1
+					state ARTIFACT_OWNER_PIC
+				}
+		}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 2 set text_col 32
+		else set text_col 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3351 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3351 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce GET_MAGIC
+					set disp_temp -1
+					whilevarn disp_temp 31 // remove this artifact from whoever had it before
+						{
+						add disp_temp 1
+						ife ARTIFACTS_LOADOUT[disp_temp] 2 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+						}
+					setarray ARTIFACTS_LOADOUT[INFO_SEL] 2
+					}
+					rotatesprite 160 50 24000 0 10238 0 0 8 0 0 xdim ydim // Display the sprite
+					qputs 1011 This bullet once hit Highwire in the
+					screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 chest; were it not for his hipflask
+					screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011  he'd be dead. He kept the bullet and
+					screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 made it a necklace as a good luck
+					screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 charm.
+					screentext STARTALPHANUM 95 104 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					set disp_temp2 2
+					state ARTIFACT_OWNER_PIC
+				}
+		}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 3 set text_col 32
+		else set text_col 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3352 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3352 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce GET_MAGIC
+					set disp_temp -1
+					whilevarn disp_temp 31 // remove this artifact from whoever had it before
+						{
+						add disp_temp 1
+						ife ARTIFACTS_LOADOUT[disp_temp] 3 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+						}
+					setarray ARTIFACTS_LOADOUT[INFO_SEL] 3
+					}
+					rotatesprite 160 50 24000 0 10237 0 0 8 0 0 xdim ydim // Display the sprite
+					qputs 1011 An amulet gifted to James by his
+					screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 close friend Minerva; it offers
+					screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 protection for the mind against many
+					screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 supernatural threats.
+					screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					set disp_temp2 3
+					state ARTIFACT_OWNER_PIC
+				}
+		}
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		ife ARTIFACTS_LOADOUT[INFO_SEL] 4 set text_col 32
+		else set text_col 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3353 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3353 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce GET_MAGIC
+					set disp_temp -1
+					whilevarn disp_temp 31 // remove this artifact from whoever had it before
+						{
+						add disp_temp 1
+						ife ARTIFACTS_LOADOUT[disp_temp] 4 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+						}
+					setarray ARTIFACTS_LOADOUT[INFO_SEL] 4
+					}
+					rotatesprite 160 50 24000 0 10236 0 0 8 0 0 xdim ydim // Display the sprite
+					qputs 1011 Sang brought this ring with him; it
+					screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 protects against hostile shrinker
+					screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 attacks... most of the time.
+					screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					set disp_temp2 4
+					state ARTIFACT_OWNER_PIC
+				}
+		}
+		ife ARTIFACTS_FOUND[1] 1 // Golden lighter
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 5 set text_col 32
+		else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3354 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3354 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 5 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 5
+						}
+					rotatesprite 160 50 24000 0 10235 0 0 8 0 0 xdim ydim // Display the sprite
+					qputs 1011 A lucky golden lighter; any
+					screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 explosives lit with this will become
+					screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 paranormal objects, damaging magical
+					screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 or ghostly enemies.
+					screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					set disp_temp2 5
+					state ARTIFACT_OWNER_PIC
+					}
+			}
+		ife ARTIFACTS_FOUND[2] 1
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 6 set text_col 32
+			else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3355 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3355 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 6 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 6
+						}
+					rotatesprite 160 50 24000 0 10233 0 0 8 0 0 xdim ydim // Display the sprite
+					qputs 1011 These magic boots reduce the
+					screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 wearer's momentum whilst sprinting,
+					screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 allowing much more fluid movement.
+					screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					set disp_temp2 6
+					state ARTIFACT_OWNER_PIC
+					}
+			}
+		ife ARTIFACTS_FOUND[3] 1
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 7 set text_col 32
+			else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3356 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3356 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 7 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 7
+						}
+					rotatesprite 160 50 24000 0 10232 0 0 8 0 0 xdim ydim // Display the sprite
+					qputs 1011 A strange paranormal book; any nails
+					screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 fired by the wielder will have an
+					screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 extra supernatural aura, allowing
+					screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 them to hurt magical enemies.
+					screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					set disp_temp2 7
+					state ARTIFACT_OWNER_PIC
+					}
+			}
+		ife ARTIFACTS_FOUND[4] 1
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 8 set text_col 32
+			else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3357 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3357 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 8 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 8
+						}
+					rotatesprite 160 50 24000 0 13542 0 0 8 0 0 xdim ydim // Display the sprite
+					qputs 1011 The text is undecipherable; but this
+					screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 book seems attuned to nature. Plants
+					screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 will slightly heal the wielder of this
+					screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 book for a few points.
+					screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					set disp_temp2 8
+					state ARTIFACT_OWNER_PIC
+					}
+			}
+		ife ARTIFACTS_FOUND[5] 1
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 9 set text_col 32
+			else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3358 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3358 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 9 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 9
+						}
+					rotatesprite 160 50 24000 0 19199 0 0 8 0 0 xdim ydim // Display the sprite
+					qputs 1011 An Egyptian shawl made of what
+					screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 appears to be gold; this will grant
+					screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 the wearer the ability to easily see
+					screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 ghostly enemies, and guard against
+					screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					qputs 1011 their attacks.
+					screentext STARTALPHANUM 95 104 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					set disp_temp2 9
+					state ARTIFACT_OWNER_PIC
+					}
+			}
+		ife ARTIFACTS_FOUND[6] 1
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 10 set text_col 32
+			else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3359 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3359 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 10 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 10
+						}
+						rotatesprite 160 50 24000 0 19198 0 0 8 0 0 xdim ydim // Display the sprite
+						qputs 1011 A ring containing a tiny shard of a
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 pure Mako crystal. It draws energy 
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 from crystals, granting the wearer
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 spirit, fire and mana energy.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set disp_temp2 10
+						state ARTIFACT_OWNER_PIC
+					}
+			}
+		ife ARTIFACTS_FOUND[7] 1
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 11 set text_col 32
+			else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3360 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3360 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 11 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 11
+						}
+						rotatesprite 160 50 24000 0 22762 0 0 8 0 0 xdim ydim // Display the sprite
+						qputs 1011 Legend says this ring was passed
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 down throughout generations in a
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 family of knights; its loss likely 
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 spelled disaster for them.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Adds 20 to an agent's max health.
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set disp_temp2 11
+						state ARTIFACT_OWNER_PIC
+					}
+			}
+		ife ARTIFACTS_FOUND[8] 1 // Pelinal's sword
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 12 set text_col 32
+			else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3361 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3361 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 12 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 12
+						}
+						rotatesprite 160 50 16000 256 29696 0 0 8 0 0 xdim ydim // Display the sprite
+						qputs 1011 Whilst too worn to be used as a
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 weapon, this artifact will allow
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 someone to command one additional
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 follower.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set disp_temp2 12
+						state ARTIFACT_OWNER_PIC
+					}
+			}
+		ife ARTIFACTS_FOUND[9] 1 // Elemental shield
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 13 set text_col 32
+			else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3362 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3362 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 13 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 13
+						}
+						rotatesprite 160 50 22000 0 29351 0 0 8 0 0 xdim ydim // Display the sprite
+						qputs 1011 This elemental shield will protect an 
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 agent, halving the duration of all
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 elemental damage.
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set disp_temp2 13
+						state ARTIFACT_OWNER_PIC
+					}
+			}
+		ife ARTIFACTS_FOUND[10] 1 // Bag of holding
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 14 set text_col 32
+			else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3363 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3363 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 14 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 14
+						}
+						rotatesprite 160 50 18000 0 22691 0 0 8 0 0 xdim ydim // Display the sprite
+						qputs 1011 A magic bag with a far larger holding
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 capacity than it seems. Will increase
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 ammo capacity by 50%
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set disp_temp2 14
+						state ARTIFACT_OWNER_PIC
+					}
+			}
+		ife ARTIFACTS_FOUND[11] 1 // Ring of Ice
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 15 set text_col 32
+			else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3364 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3364 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 15 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 15
+						}
+						rotatesprite 160 50 18000 0 22761 0 0 8 0 0 xdim ydim // Display the sprite
+						qputs 1011 A magic ring, enchanted with potent
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 ice protection magic. Agents will
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 regenerate when frozen, and won't
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 have their movement reduced.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set disp_temp2 15
+						state ARTIFACT_OWNER_PIC
+					}
+			}
+ife ARTIFACTS_FOUND[12] 1 // Mu idol
+		 ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			add gui_pos_y 7
+			state CURSOR_OVER_ITEM
+			ife ARTIFACTS_LOADOUT[INFO_SEL] 16 set text_col 32
+			else set text_col 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3365 0 text_col 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 10 disp_temp9 28672 0 0 3365 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+					  ifn INFO_SEL 0 // James can't equip it
+						{
+						soundonce GET_MAGIC
+						set disp_temp -1
+						whilevarn disp_temp 31 // remove this artifact from whoever had it before
+							{
+							add disp_temp 1
+							ife ARTIFACTS_LOADOUT[disp_temp] 16 { setarray ARTIFACTS_LOADOUT[disp_temp] 0 set disp_temp 31 }
+							}
+						setarray ARTIFACTS_LOADOUT[INFO_SEL] 16
+						}
+						rotatesprite 160 50 18000 0 38902 0 0 8 0 0 xdim ydim // Display the sprite
+						qputs 1011 A not at all creepy idol found in
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 the depths of Mu. Seemingly of
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Sumerian origin. Said to protect
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 against death, but will unequip
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 itself and return to rest here.
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						ife INFO_SEL 0
+						{
+						qputs 1011 The idol burns in James' hand, and
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 cannot be equipped by him.
+						screentext STARTALPHANUM 95 116 28672 0 0 1011 0 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+						set disp_temp2 16
+						state ARTIFACT_OWNER_PIC
+					}
+			}
+ends

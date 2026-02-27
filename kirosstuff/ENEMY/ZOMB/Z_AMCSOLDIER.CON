@@ -1,0 +1,317 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+// ******************************************************************************
+// AMC SOLDIER ZOMBIE
+// ******************************************************************************
+
+// basic move and attack, but respects the player's upgrades for the AMC soldier up till the advanced soldier stuff
+
+action A_ZAMC_KNEEL -4
+action A_ZAMC_RISE -4 4 1 1 18
+
+action A_ZAMC_START 3599 1 5 1 10
+action A_ZAMC_IDLE 3599 1 5 1 10
+
+action A_ZAMC_ATTACK 3599 2 5 1 8
+action A_ZAMC_SEEK 3579 4 5 1 16
+action A_ZAMC_SHRUNK 3579 4 5 1 16
+
+action A_ZAMC_FREEZE 3614 1 1 1 10
+action A_ZAMC_PAIN 3614
+action A_ZAMC_GROW 3614
+
+action A_ZAMC_DYING 3614 6 1 1 8
+action A_ZAMC_DEAD 3619
+
+damageeventtile Z_AMCSOLDIER
+
+useractor enemy Z_AMCSOLDIER 150 A_ZAMC_START
+fall
+ifaction A_ZAMC_START
+{
+	cstat 257
+	readarrayfromfile PERSONNEL_RESEARCH F_PERSONNEL_AMCTC
+	ife PERSONNEL_RESEARCH[2] 2 set actor_type TYPE_BODY_ARMOUR
+	ife PERSONNEL_RESEARCH[10] 2 strength 225 else
+	strength 150
+	ifrnd 128 { sizeat 22 23 set GENDER FEMALE } else { sizeat 24 24 set GENDER MALE }
+	state monst_glow
+	espawn SHOOTME
+	seta[RETURN].pal 1
+	// spawn FLAMMABLE if the actor in question is flammable. NOT needed as long as SHOOTME still exists, otherwise enemy will take double fire damage (I guess?)
+	ifn hitag_saved 0 action A_ZAMC_KNEEL else
+	action A_ZAMC_IDLE
+}
+
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifaction A_ZAMC_KNEEL
+{
+move STOP
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	ifrnd 64 soundonce JMOVE1 else
+	ifrnd 64 soundonce JMOVE2 else
+	ifrnd 64 soundonce JMOVE3 else
+	soundonce JMOVE4
+	action A_ZAMC_RISE
+	}
+}
+else
+ifaction A_ZAMC_RISE
+{
+move STOP faceplayer
+ifactioncount 4 action A_ZAMC_IDLE
+}
+else
+
+ifaction A_ZAMC_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1
+	{
+		sound ZAMC_RCG
+		action A_ZAMC_SEEK
+	}
+}
+
+// Death & dying
+else ifaction A_ZAMC_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state zombie_jibs
+			killit
+		}
+	}
+}
+else ifaction A_ZAMC_DYING
+{
+	strength 0
+	ifactioncount 6 { state rf state BODY_FALL_NOISES action A_ZAMC_DEAD }
+}
+
+// Status effects
+else ifaction A_ZAMC_FREEZE state frozen_code
+else ifaction A_ZAMC_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+else ifaction A_ZAMC_SHRUNK
+{
+	ifmove ZSOLDIERRUNVELS { } // need to do this cause we're not using ai routines anymore
+	else
+		move ZSOLDIERRUNVELS geth fleeenemy
+
+	ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+		state new_shrunkcode
+	else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+	{
+		state unshrink
+		sizeto 24 24
+	}
+	else // after regrow, switch back to regular action
+	{
+		state endshrunkenstate
+		action A_ZAMC_SEEK
+	}
+}
+
+else ifaction A_ZAMC_PAIN
+{
+	sub PAIN_AMOUNT 1
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_ZAMC_DYING
+		else action A_ZAMC_SEEK
+	}
+}
+
+else ifaction A_ZAMC_SEEK
+{
+	ifmove ZSOLDIERRUNVELS nullop
+	else move ZSOLDIERRUNVELS geth
+
+	state checkfortarget
+
+	ifn my_target -1
+	{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+
+		ifl RANDOM_CHANCE SKILLCHANCE
+		{
+			// Assume target still acquired, is rechecked on next tic anyway
+
+			// Optional: apply dist check to target
+			// Basically any check here to decide whether or not to ATTACK goes. But there is no need to check for my_target again.
+			// my_target can be the player or another target, the actor shouldn't care about that (for now)
+			ldist temp THISACTOR my_target
+			ifl temp 4096 action A_ZAMC_ATTACK
+		}
+	}
+}
+
+else ifaction A_ZAMC_ATTACK
+{
+	move STOP
+	state new_validatetarget
+
+	ife my_target -1
+		action A_ZAMC_SEEK
+
+	state fronttowardstarget
+
+	ifactioncount 1
+	{
+			ife PERSONNEL_RESEARCH[1] 2
+				{
+				set PROJECTILE_PAL 1
+				set PROJECTILE_STRENGTH 10
+				set PROJECTILE_TO_SHOOT ENEMY_BULLET
+				state LASER_GUN_SOUNDS
+				}
+			else
+				{
+				set PROJECTILE_TO_SHOOT ENEMY_BULLET
+				state SIL_SMG_SOUNDS
+				}
+			state sang_enemyShootProjectile
+
+		ife PERFMODE 1
+		 ifcansee
+			{
+			set gunsmoke_z 8244
+			set gunsmoke_angle 0
+			state spawn_gunsmoke_z
+			set gunsmoke_z 6044
+			espawn 16115
+			state spawn_muzzleflash
+			state npc_pistolshell
+			}
+
+		ifrnd 16 action A_ZAMC_SEEK
+		else resetactioncount
+	}
+}
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	//spawn BLOOD
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+
+		ifwasweapon RADIUSEXPLOSION state zombie_jibs
+		else
+		ifwasweapon RPG state zombie_jibs
+		else
+		ifand proj_udata PROJ_GIB state zombie_jibs
+		else
+		ifand proj_udata 8192
+		 {
+		 shoot SPARK2 shoot SPARK2 shoot SPARK2
+		 spawn ELECTROCUTE_GUY
+		 killit
+		 }
+		else
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_ZAMC_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_ZAMC_FREEZE }
+		else ifg fire_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			ifrnd 128 sound ZSOLD_DIE1
+			else sound ZSOLD_DIE2
+			spawn ONFIREGUY
+			killit
+		}
+		else ifg spirit_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 1
+			guts JIBS3 6
+			spawn SPIRIT_DEATH_GUY
+			killit
+		}
+		else ifg energy_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2
+			spritepal 4
+			guts JIBS3 6
+			spawn DISINTIGRATE_GUY
+			killit
+		}
+		else
+		{
+			ife GENDER FEMALE sound FZOM_DIE
+			else
+				{
+				ifrnd 128 sound ZSOLD_DIE1
+				else sound ZSOLD_DIE2
+				}
+			action A_ZAMC_DYING
+			spawn BLOODPOOL
+		}
+		ifrnd 48 { espawn P90_SPRITE randvar temp 30 add temp 20 setactorvar[RETURN].yvel_saved temp }
+		ifphealthl 50
+			{
+			state SKILL_LEVELADJUST
+			ifl RANDOM_CHANCE SKILLCHANCE spawn AMC_MEDIKIT
+			}
+	}
+
+	else // not dead
+	{
+		ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_ZAMC_SHRUNK }
+
+		ifg PAIN_AMOUNT 0 action A_ZAMC_PAIN
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST ife GENDER MALE sound ZSCI_PAIN else sound FZOM_HURT action A_ZAMC_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_ZAMC_IDLE { state PAIN_SKILL_LEVELADJUST ife GENDER MALE sound ZSCI_PAIN else sound FZOM_HURT action A_ZAMC_PAIN }
+	}
+}
+
+state actor_knockback_state
+state checksquished
+
+enda

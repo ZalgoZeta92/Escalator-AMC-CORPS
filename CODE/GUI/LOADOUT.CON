@@ -1,0 +1,680 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Loadout interface
+--------------------------------------------------------------------------------
+*/
+define LO_TXT 28674
+var DP_PAL 0 0
+var DP_SHADE 0 0
+defstate gun_dam_type_disp
+			ifand gun_damage_types 1 set gun_dam_temp 7 
+			else ifand gun_damage_types 64 set gun_dam_temp 124 else set gun_dam_temp 0
+			rotatespritea 107 170 16384 0 3059 0 gun_dam_temp 8 -255 0 0 xdim ydim // body armour
+			ifand gun_damage_types 2 set gun_dam_temp 7 
+			else ifand gun_damage_types 128 set gun_dam_temp 124 else set gun_dam_temp 0
+			rotatespritea 127 170 16384 0 21101 0 gun_dam_temp 8 -255 0 0 xdim ydim // armour
+			ifand gun_damage_types 4 set gun_dam_temp 7 
+			else ifand gun_damage_types 256 set gun_dam_temp 124 else set gun_dam_temp 0
+			rotatespritea 147 170 16384 0 21102 0 gun_dam_temp 8 -255 0 0 xdim ydim // robotic
+			ifand gun_damage_types 8 set gun_dam_temp 7 
+			else ifand gun_damage_types 512 set gun_dam_temp 124 else set gun_dam_temp 0
+			rotatespritea 167 170 16384 0 21103 0 gun_dam_temp 8 -255 0 0 xdim ydim // supernatural
+			ifand gun_damage_types 16 set gun_dam_temp 7 
+			else ifand gun_damage_types 1024 set gun_dam_temp 124 else set gun_dam_temp 0
+			rotatespritea 187 170 16384 0 21104 0 gun_dam_temp 8 -255 0 0 xdim ydim // chitin
+			ifand gun_damage_types 32 set gun_dam_temp 7 
+			else ifand gun_damage_types 2048 set gun_dam_temp 124 else set gun_dam_temp 0
+			rotatespritea 207 170 16384 0 21105 0 gun_dam_temp 8 -255 0 0 xdim ydim // beyond
+ends
+// state for the character loadout buttons
+defstate char_lo_button
+		ifl gui_pos_x_temp 6
+		 ifg gui_pos_x_temp -6
+			ifl gui_pos_y_temp 6
+			 ifg gui_pos_y_temp -6
+			   {
+			   set disp_temp5 gui_pos_x
+			   add disp_temp5 1
+				ife INFO_SEL disp_temp4 rotatesprite disp_temp5 gui_pos_y_temp2 9192 0 13567 disp_pulse 32 8 0 0 xdim ydim
+				else rotatesprite disp_temp5 gui_pos_y_temp2 9192 0 13567 disp_pulse 0 8 0 0 xdim ydim
+				sub disp_temp5 2
+				rotatesprite disp_temp5 gui_pos_y HALFSIZE 0 disp_temp3 disp_pulse 0 8 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					set INFO_SEL disp_temp4
+					state SCROLL_POS_RESET
+					rotatesprite 248 38 28262 0 13571 0 16 8 0 0 xdim ydim
+					soundonce COMP_SELECT
+					}
+				}
+			else
+			{
+			set disp_temp5 gui_pos_x
+			add disp_temp5 1
+			ife INFO_SEL disp_temp4 rotatesprite disp_temp5 gui_pos_y_temp2 8192 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite disp_temp5 gui_pos_y_temp2 8192 0 13567 0 0 8 0 0 xdim ydim
+			sub disp_temp5 2
+			rotatesprite disp_temp5 gui_pos_y HALFSIZE 0 disp_temp3 0 0 8 0 0 xdim ydim
+			}
+ends
+
+include CODE/GUI/LOADOUT/JAMES_LO.CON
+include CODE/GUI/LOADOUT/ZAXTOR_LO.CON
+include CODE/GUI/LOADOUT/MERLIJN_LO.CON
+include CODE/GUI/LOADOUT/HIGHWIRE_LO.CON
+include CODE/GUI/LOADOUT/SANG_LO.CON
+include CODE/GUI/LOADOUT/RUSTY_LO.CON
+include CODE/GUI/LOADOUT/GEOFF_LO.CON
+include CODE/GUI/LOADOUT/MIKKO_LO.CON
+include CODE/GUI/LOADOUT/MICKY_LO.CON
+include CODE/GUI/LOADOUT/SNOWFALL_LO.CON
+include CODE/GUI/LOADOUT/KAGURA_LO.CON
+include CODE/GUI/LOADOUT/ROSA_LO.CON 
+include CODE/GUI/LOADOUT/WHEATON_LO.CON
+include CODE/GUI/LOADOUT/AGENTS_LO.CON // contained in one since they'll have at best one or two each
+
+defstate character_gui_icons
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_JAMES
+		set disp_temp4 C_JAMES
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_ZAXTOR
+		set disp_temp4 C_ZAXTOR
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_MERLIJN
+		set disp_temp4 C_MERLIJN
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_HIGHWIRE
+		set disp_temp4 C_HIGHWIRE
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_SANG
+		set disp_temp4 C_SANG
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_RUSTY
+		set disp_temp4 C_RUSTY
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_GEOFFREY
+		set disp_temp4 C_GEOFFREY
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_MIKKO
+		set disp_temp4 C_MIKKO
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+	ife ep2_new_char 1
+		{
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_MICKY
+		set disp_temp4 C_MICKY
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		}
+	add gui_pos_x 13
+	set gui_pos_y 26
+	ife ep3_new_char 1
+		{
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_SNOWFALL
+		set disp_temp4 C_SNOWFALL
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		}
+	ife ep4_new_char 1
+		{
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_KAGURA
+		set disp_temp4 C_KAGURA
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		}
+	ife ep5_new_char 1
+		{
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_WHEATON
+		set disp_temp4 C_WHEATON
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		}
+	ifand allow_temp_characters 8
+		{
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_JANE
+		set disp_temp4 C_JANE
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		}
+	ifand allow_temp_characters 2
+		{
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_BOMBSHELL
+		set disp_temp4 C_BOMBSHELL
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		}
+	ifand allow_temp_characters 4
+		{
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_MAARTEN
+		set disp_temp4 C_MAARTEN
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		}
+	ifand allow_temp_characters 16
+		{
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_ROSA
+		set disp_temp4 C_ROSA
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		}
+	ifand allow_temp_characters 1
+		{
+		add gui_pos_y 12
+		set gui_pos_y_temp2 gui_pos_y
+	    add gui_pos_y_temp2 3
+		set disp_temp3 MI_CULTIST
+		set disp_temp4 C_CULTIST
+		state CURSOR_OVER_ITEM
+		state char_lo_button
+		}
+ends
+
+defstate ARTIFACT_OWNER_PIC
+	set tilenum 3587
+	ife ARTIFACTS_LOADOUT[0] disp_temp2 set tilenum 3589
+	ife ARTIFACTS_LOADOUT[1] disp_temp2 set tilenum 3590
+	ife ARTIFACTS_LOADOUT[2] disp_temp2
+		{
+		ifand CHAR_APP 4 set tilenum 25567 else set tilenum 3591
+		}
+	ife ARTIFACTS_LOADOUT[3] disp_temp2
+		{
+		ifand CHAR_APP 16 set tilenum 25568 else set tilenum 3593
+		}
+	ife ARTIFACTS_LOADOUT[4] disp_temp2
+		{
+		ifand CHAR_APP 2 set tilenum 23835 else set tilenum 3598
+		}
+	ife ARTIFACTS_LOADOUT[5] disp_temp2 set tilenum 3600
+	ife ARTIFACTS_LOADOUT[6] disp_temp2 set tilenum 3603
+	ife ARTIFACTS_LOADOUT[7] disp_temp2 set tilenum 3606
+	ife ARTIFACTS_LOADOUT[9] disp_temp2 set tilenum 7768
+	ife ARTIFACTS_LOADOUT[10] disp_temp2 set tilenum 5368
+	ife ARTIFACTS_LOADOUT[11] disp_temp2 set tilenum 5488
+	ife ARTIFACTS_LOADOUT[12] disp_temp2 set tilenum 5366
+	ife ARTIFACTS_LOADOUT[13] disp_temp2 set tilenum 16600
+	ife ARTIFACTS_LOADOUT[14] disp_temp2 set tilenum 20984
+	ife ARTIFACTS_LOADOUT[16] disp_temp2 set tilenum 34672
+	ife ARTIFACTS_LOADOUT[17] disp_temp2 set tilenum 27262
+	ife ARTIFACTS_LOADOUT[18] disp_temp2 set tilenum 35840
+	rotatesprite 160 150 38000 0 tilenum 0 0 8 0 0 xdim ydim
+ends
+
+include CODE/GUI/LOADOUT/LO_ARTIFACT.CON // contains artifacts
+include CODE/GUI/LOADOUT/LO_WEAPONS.CON // contains loadout weapons
+include CODE/GUI/LOADOUT/LO_AMMO.CON // contains loadout ammo
+include CODE/GUI/LOADOUT/LO_EQUIP.CON // contains loadout equipment and melee
+
+defstate LOADOUT_INTERFACE
+myospal 160 100 3584 30 1024 4
+	  add WHEEL_ROTATE 1
+	  ifg WHEEL_ROTATE 2048 set WHEEL_ROTATE 0
+	  rotatespritea 160 100 40734 WHEEL_ROTATE 12256 20 0 0 -255 0 0 xdim ydim // AMC LOGO
+  rotatesprite 30 100 44960 0 13568 0 0 264 0 0 xdim ydim // Left bar
+  rotatesprite 290 100 44960 0 13573 0 0 520 0 0 xdim ydim // Right bar
+  ife INFO_SEL_2 0 rotatesprite 160 100 27262 0 13389 0 0 8 0 0 xdim ydim // Help
+  else rotatesprite 160 100 27262 0 13388 0 0 8 0 0 xdim ydim
+		// Help screen
+		set gui_pos_x 20
+		set gui_pos_y 15
+		state CURSOR_OVER_ITEM
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -10
+			ifl gui_pos_y_temp 15
+			 ifg gui_pos_y_temp -15
+		   {
+			ife INFO_SEL_2 0 rotatesprite gui_pos_x gui_pos_y 13800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 13800 0 13567 disp_pulse 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 12192 0 13562 disp_pulse 0 8 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				state SCROLL_POS_RESET
+				rotatesprite 248 95 28262 0 13571 0 16 8 0 0 xdim ydim
+				set INFO_SEL_3 0
+				set INFO_SEL_2 0
+				soundonce COMP_SELECT
+				}
+			}
+			else
+			{
+			ife INFO_SEL_2 0 rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 11192 0 13562 0 0 8 0 0 xdim ydim
+			}
+		// Artifacts
+		add gui_pos_x 20
+		state CURSOR_OVER_ITEM
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -10
+			ifl gui_pos_y_temp 15
+			 ifg gui_pos_y_temp -15
+		   {
+			ife INFO_SEL_2 1 rotatesprite gui_pos_x gui_pos_y 13800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 13800 0 13567 disp_pulse 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 12192 0 13564 disp_pulse 0 8 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				state SCROLL_POS_RESET
+				rotatesprite 248 95 28262 0 13571 0 16 8 0 0 xdim ydim
+				set INFO_SEL_3 0
+				set INFO_SEL_2 1
+				soundonce COMP_SELECT
+				}
+			}
+		else
+			{
+			ife INFO_SEL_2 1 rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 11192 0 13564 0 0 8 0 0 xdim ydim
+			}
+		// Equipment
+		add gui_pos_x 20
+		state CURSOR_OVER_ITEM
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -10
+			ifl gui_pos_y_temp 15
+			 ifg gui_pos_y_temp -15
+		   {
+			ife INFO_SEL_2 2 rotatesprite gui_pos_x gui_pos_y 13800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 13800 0 13567 disp_pulse 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 12192 0 13565 disp_pulse 0 8 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				state SCROLL_POS_RESET
+				rotatesprite 248 95 28262 0 13571 0 16 8 0 0 xdim ydim
+				set INFO_SEL_3 0
+				set INFO_SEL_2 2
+				soundonce COMP_SELECT
+				}
+			}
+		else
+			{
+			ife INFO_SEL_2 2 rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 11192 0 13565 0 0 8 0 0 xdim ydim
+			}
+		// Weapons
+		add gui_pos_x 20
+		state CURSOR_OVER_ITEM
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -10
+			ifl gui_pos_y_temp 15
+			 ifg gui_pos_y_temp -15
+		   {
+			ife INFO_SEL_2 3 rotatesprite gui_pos_x gui_pos_y 13800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 13800 0 13567 disp_pulse 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 12192 0 13566 disp_pulse 0 8 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				state SCROLL_POS_RESET
+				rotatesprite 248 95 28262 0 13571 0 16 8 0 0 xdim ydim
+				set INFO_SEL_3 0
+				set INFO_SEL_2 3
+				soundonce COMP_SELECT
+				}
+			}
+		else
+			{
+			ife INFO_SEL_2 3 rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 11192 0 13566 0 0 8 0 0 xdim ydim
+			}
+		// Melee
+		add gui_pos_x 20
+		state CURSOR_OVER_ITEM
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -10
+			ifl gui_pos_y_temp 15
+			 ifg gui_pos_y_temp -15
+		   {
+			ife INFO_SEL_2 4 rotatesprite gui_pos_x gui_pos_y 13800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 13800 0 13567 disp_pulse 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 12192 0 13563 disp_pulse 0 8 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				state SCROLL_POS_RESET
+				rotatesprite 248 95 28262 0 13571 0 16 8 0 0 xdim ydim
+				set INFO_SEL_3 0
+				set INFO_SEL_2 4
+				soundonce COMP_SELECT
+				}
+			}
+		else
+			{
+			ife INFO_SEL_2 4 rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 11192 0 13563 0 0 8 0 0 xdim ydim
+			}
+		// Ammo
+		add gui_pos_x 20
+		state CURSOR_OVER_ITEM
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -10
+			ifl gui_pos_y_temp 15
+			 ifg gui_pos_y_temp -15
+		   {
+			ife INFO_SEL_2 5 rotatesprite gui_pos_x gui_pos_y 13800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 13800 0 13567 disp_pulse 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 12192 0 13561 disp_pulse 0 8 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				state SCROLL_POS_RESET
+				rotatesprite 248 95 28262 0 13571 0 16 8 0 0 xdim ydim
+				set INFO_SEL_3 0
+				set INFO_SEL_2 5
+				soundonce COMP_SELECT
+				}
+			}
+		else
+			{
+			ife INFO_SEL_2 5 rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 11192 0 13561 0 0 8 0 0 xdim ydim
+			}
+		// Special equipment
+		add gui_pos_x 20
+		state CURSOR_OVER_ITEM
+		ifl gui_pos_x_temp 10
+		 ifg gui_pos_x_temp -10
+			ifl gui_pos_y_temp 15
+			 ifg gui_pos_y_temp -15
+		   {
+			ife INFO_SEL_2 6 rotatesprite gui_pos_x gui_pos_y 13800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 13800 0 13567 disp_pulse 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 12192 0 13560 disp_pulse 0 8 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				state SCROLL_POS_RESET
+				rotatesprite 248 95 28262 0 13571 0 16 8 0 0 xdim ydim
+				set INFO_SEL_3 0
+				set INFO_SEL_2 6
+				soundonce COMP_SELECT
+				}
+			}
+		else
+			{
+			ife INFO_SEL_2 6 rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 32 8 0 0 xdim ydim
+			else rotatesprite gui_pos_x gui_pos_y 12800 0 13567 0 0 8 0 0 xdim ydim
+			rotatesprite gui_pos_x gui_pos_y 11192 0 13560 0 0 8 0 0 xdim ydim
+			}
+getinput[THISACTOR].bits disp_temp
+shiftvarr disp_temp 8
+andvar disp_temp 0xF
+switch disp_temp
+ case 10 ifn INFO_SEL_2 0 { soundonce COMP_SELECT set INFO_SEL_2 0 } break
+ case 1 ifn INFO_SEL_2 1 { soundonce COMP_SELECT set INFO_SEL_2 1 } break
+ case 2 ifn INFO_SEL_2 2 { soundonce COMP_SELECT set INFO_SEL_2 2 } break
+ case 3 ifn INFO_SEL_2 3 { soundonce COMP_SELECT set INFO_SEL_2 3 } break
+ case 4 ifn INFO_SEL_2 4 { soundonce COMP_SELECT set INFO_SEL_2 4 } break
+ case 5 ifn INFO_SEL_2 5 { soundonce COMP_SELECT set INFO_SEL_2 5 } break
+ case 6 ifn INFO_SEL_2 6 { soundonce COMP_SELECT set INFO_SEL_2 6 } break
+endswitch
+
+	set gui_pos_x 237
+	set gui_pos_y 26
+	state character_gui_icons
+
+set tilenum 3587
+ife INFO_SEL 0
+	{
+	ifand CHAR_APP 64 set tilenum 25565 else
+	ifand CHAR_APP 1 set tilenum 25566 else
+	set tilenum 3589
+	}
+ife INFO_SEL 1 set tilenum 3590
+ife INFO_SEL 2
+	{
+	ifand CHAR_APP 4 set tilenum 25567 else
+	set tilenum 3591
+	}
+ife INFO_SEL 3
+	{
+	ifand CHAR_APP 16 set tilenum 25568 else
+	set tilenum 3593
+	}
+ife INFO_SEL 4
+	{
+	ifand CHAR_APP 2 set tilenum 23835 else
+	set tilenum 3598
+	}
+ife INFO_SEL 5 set tilenum 3600
+ife INFO_SEL 6 set tilenum 3603
+ife INFO_SEL 7 set tilenum 3606
+ife INFO_SEL 9 set tilenum 7768
+ife INFO_SEL 10 set tilenum 5368
+ife INFO_SEL 11 set tilenum 5488
+ife INFO_SEL 12 set tilenum 5366
+ife INFO_SEL 13
+	{
+	ifand CHAR_APP 128 set tilenum 18542
+	else set tilenum 16600
+	}
+ife INFO_SEL 14 set tilenum 20984
+ife INFO_SEL 16 set tilenum 34672
+ife INFO_SEL 17 set tilenum 27262
+ife INFO_SEL 18 set tilenum 35840
+rotatesprite 289 34 38000 0 tilenum 0 0 8 0 0 xdim ydim
+ife INFO_SEL_2 0
+{
+	rotatesprite 286 97 HALFSIZE 0 13562 0 0 8 0 0 xdim ydim
+	// text contained in quotes.con
+	screentext STARTALPHANUM 18 30 29500 0 0 3300 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 35 29500 0 0 3301 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 40 29500 0 0 3302 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 45 29500 0 0 3303 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 50 29500 0 0 3304 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 55 29500 0 0 3305 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 65 29500 0 0 3306 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 70 29500 0 0 3307 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 80 29500 0 0 3308 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 85 29500 0 0 3309 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 95 29500 0 0 3310 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 105 29500 0 0 3311 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 110 29500 0 0 3312 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 115 29500 0 0 3313 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 125 29500 0 0 3314 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 130 29500 0 0 3315 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 135 29500 0 0 3316 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 140 29500 0 0 3317 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 150 29500 0 0 3318 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 155 29500 0 0 3319 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 160 29500 0 0 3320 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 165 29500 0 0 3321 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	screentext STARTALPHANUM 18 170 29500 0 0 3322 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+}
+else
+ife INFO_SEL_2 1 // ARTIFACT TAB
+state loadout_artifacts_tab
+else
+ife INFO_SEL_2 2 // EQUIPMENT TAB
+state loadout_equipment_tab
+else
+ife INFO_SEL_2 3 // WEAPON TAB
+state loadout_weapons_tab
+else
+ife INFO_SEL_2 4 // melee TAB
+state loadout_melee_tab
+else
+ife INFO_SEL_2 5 // AMMO TAB
+state loadout_ammo_tab
+else
+ife INFO_SEL_2 6 // SPECIAL TAB
+{
+screentext STARTALPHANUM 12 190 29500 0 0 3035 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // instructions
+rotatesprite 286 97 HALFSIZE 0 13560 0 0 8 0 0 xdim ydim
+set SCROLL_POS_MAX 30
+state SCROLL_WHEEL
+	ife INFO_SEL_3 0 // icon explanation
+		{
+		qputs 1011 Damage type icons
+		screentext STARTALPHANUM 95 40 28672 0 0 1011 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 1011 ^32Critical, ^0Normal, ^54Ineffective
+		screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatespritea 100 55 8192 0 3059 0 0 8 -255 0 0 xdim ydim
+		qputs 1011 Body armour
+		screentext STARTALPHANUM 108 53 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatespritea 160 55 8192 0 21101 0 0 8 -255 0 0 xdim ydim
+		qputs 1011 Armour
+		screentext STARTALPHANUM 168 53 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatespritea 100 65 8192 0 21102 0 0 8 -255 0 0 xdim ydim
+		qputs 1011 Robotic
+		screentext STARTALPHANUM 108 63 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatespritea 160 65 8192 0 21103 0 0 8 -255 0 0 xdim ydim
+		qputs 1011 Supernatural
+		screentext STARTALPHANUM 168 63 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatespritea 100 75 8192 0 21104 0 0 8 -255 0 0 xdim ydim
+		qputs 1011 Chitin
+		screentext STARTALPHANUM 108 73 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		qputs 1011 Additional elements
+		screentext STARTALPHANUM 95 90 28672 0 0 1011 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatespritea 100 100 8192 0 21106 0 0 8 -255 0 0 xdim ydim
+		qputs 1011 Flame: damage over time
+		screentext STARTALPHANUM 108 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatespritea 100 110 8192 0 21107 0 0 8 -255 0 0 xdim ydim
+		qputs 1011 Lightning: +Damage on Metal
+		screentext STARTALPHANUM 108 108 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		rotatespritea 100 120 8192 0 21108 0 0 8 -255 0 0 xdim ydim
+		qputs 1011 Freeze: Slows movement
+		screentext STARTALPHANUM 108 118 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+	ife INFO_SEL 0 // James
+	state JAMES_EQUIP_SCREEN
+	else
+	ife INFO_SEL 1 // Zaxtor
+	state ZAXTOR_EQUIP_SCREEN
+	else
+	ife INFO_SEL 2 // Merlijn
+	state MERLIJN_EQUIP_SCREEN
+	else
+	ife INFO_SEL 3 // Highwire
+	state HIGHWIRE_EQUIP_SCREEN
+	else
+	ife INFO_SEL 4 // Sang
+	state SANG_EQUIP_SCREEN
+	else
+	ife INFO_SEL 5 // Rusty
+	state RUSTY_EQUIP_SCREEN
+	else
+	ife INFO_SEL 6 // Geoffrey
+	state GEO_EQUIP_SCREEN
+	else
+	ife INFO_SEL 7 // Mikko
+	state MIKKO_EQUIP_SCREEN
+	else
+	ife INFO_SEL 9 // Cultist
+	state CULTIST_EQUIP_SCREEN
+	else
+	ife INFO_SEL 10 // Bombshell
+	state BOMBSHELL_EQUIP_SCREEN
+	else
+	ife INFO_SEL 11 // Maarten
+	state MAARTEN_EQUIP_SCREEN
+	else
+	ife INFO_SEL 12 // Jane
+	state JANE_EQUIP_SCREEN
+	else
+	ife INFO_SEL 13 // Micky
+	state MICKY_EQUIP_SCREEN
+	else
+	ife INFO_SEL 14 // Snowfall
+	state SNOWFALL_EQUIP_SCREEN
+	else
+	ife INFO_SEL 16 // Rosa
+	state ROSA_EQUIP_SCREEN
+	else
+	ife INFO_SEL 17 // Kagura
+	state KAGURA_EQUIP_SCREEN
+	else
+	ife INFO_SEL 18 // Wheaton
+	state WHEATON_EQUIP_SCREEN
+}
+		set DISP_LOADOUT_COST 0
+		add DISP_LOADOUT_COST EQUIPMENT_LOADOUT_COST[INFO_SEL]
+		add DISP_LOADOUT_COST MELEE_LOADOUT_COST[INFO_SEL]
+		add DISP_LOADOUT_COST temp_WEAPON_LOADOUT_COST[INFO_SEL]
+		add DISP_LOADOUT_COST AMMO_LOADOUT_COST[INFO_SEL]
+		add DISP_LOADOUT_COST CHEST_LOADOUT_COST[INFO_SEL]
+		add DISP_LOADOUT_COST BELT_LOADOUT_COST[INFO_SEL]
+		add DISP_LOADOUT_COST HELMET_LOADOUT_COST[INFO_SEL]
+		add DISP_LOADOUT_COST BOOT_LOADOUT_COST[INFO_SEL]
+				// display 2 digits after the comma
+				set disp_temp9 DISP_LOADOUT_COST
+				div disp_temp9 10
+				modvar disp_temp9 10
+				set disp_temp8 DISP_LOADOUT_COST
+				div disp_temp8 100
+				modvar disp_temp8 10
+		div DISP_LOADOUT_COST 1000
+		qsprintf 1066 1067 DISP_LOADOUT_COST disp_temp8 disp_temp9
+		screentext STARTALPHANUM 170 10 36000 0 0 1066 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+ends

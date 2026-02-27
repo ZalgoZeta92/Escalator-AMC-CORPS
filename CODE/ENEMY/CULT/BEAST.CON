@@ -1,0 +1,309 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile BEAST
+
+action A_BEAST_START 0 1 5 1 12 // Starting frame, different from the idle frame
+action A_BEAST_IDLE 0 1 5 1 12
+action A_BEAST_SEEK 5 4 5 1 8
+
+action A_BEAST_ATTACK 25 3 5 1 16
+
+action A_BEAST_SLASH 40 4 5 1 12
+
+action A_BEAST_DEAD 66
+action A_BEAST_DYING 60 7 1 1 16
+action A_BEAST_FREEZE 60 1 1 1 8
+action A_BEAST_GROW 60 1 1 1 8
+action A_BEAST_PAIN 60 1 1 1 8
+
+move M_BEAST_SLASH 120
+move M_BEAST_WALK 346
+
+useractor enemystayput BEAST_STAYPUT 170 A_BEAST_START
+	cactor BEAST
+enda
+
+useractor enemy BEAST 1750 A_BEAST_START
+fall
+ifaction A_BEAST_START
+{
+	cstat 257
+	strength 1750
+	sizeat 34 34
+	geta[].pal actor_pal
+	state monst_glow
+	
+	espawn SHOOTME // Controls stuff like fire damage, targetting, .etc .etc - still used as a backup for the ally fighting stuff in-case an actor isn't set up with it yet
+	seta[RETURN].pal 1 // basically done just to make it clear that this actor is onboarded to the new targetting stuff, and is using SHOOTME for other purposes
+	action A_BEAST_IDLE
+}
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifg enemy_cooldown1 1 sub enemy_cooldown1 1
+
+ifaction A_BEAST_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1
+	{
+		globalsound BEAST_RCG1
+		quake 52
+		action A_BEAST_SEEK
+	}
+}
+
+// Death & dying
+else ifaction A_BEAST_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+else ifaction A_BEAST_DYING
+{
+	strength 0
+	ifactioncount 7 { state rf state BODY_FALL_NOISES ifpdistl 4096 quake 26 action A_BEAST_DEAD }
+}
+
+// Status effects
+else ifaction A_BEAST_FREEZE state frozen_code
+else ifaction A_BEAST_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+
+else ifaction A_BEAST_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_BEAST_DYING
+		else action A_BEAST_SEEK
+	}
+}
+
+else ifaction A_BEAST_SEEK
+{
+	ifmove M_BEAST_WALK nullop
+	else move M_BEAST_WALK geth
+
+	ifrnd 4 soundonce BEAST_ROAM1
+	else ifrnd 4 soundonce BEAST_ROAM2
+
+	state checkfortarget
+
+	ifn my_target -1
+	{
+		state SKILL_SHOOT_LEVELADJUST
+		ldist temp THISACTOR my_target
+		ifl temp 1536 { sound BEAST_ATCK3 action A_BEAST_SLASH }
+		else ife enemy_cooldown1 0 ifl RANDOM_CHANCE SKILLCHANCE { ifrnd 128 sound BEAST_ATCK1 else sound BEAST_ATCK2 action A_BEAST_ATTACK }
+	}
+}
+
+else ifaction A_BEAST_ATTACK
+{
+	move STOP
+	state new_validatetarget
+
+	ife my_target -1
+		action A_BEAST_SEEK
+
+	state fronttowardstarget
+
+	ifactioncount 2
+	{
+	ife actor_pal 9 // Wryxhokedon?
+		{
+		set CALCZ_TARGET_OFFSET -4500
+		set PROJECTILE_TO_SHOOT ACID_BLAST
+		set PROJECTILE_FIRING_SOUND HAZ_FIRE
+		set PROJECTILE_DISABLEAUTOAIM 1
+		state sang_enemyShootProjectile
+			ldist temp THISACTOR my_target
+			ifl temp 1536 action A_BEAST_SLASH
+			else action A_BEAST_SEEK
+		}
+	else
+		{
+		quake 46
+		sound BOSSFALL
+		sound SPUNCHHIT
+		state smokering
+		ifpdistl 16384
+		  ife knockback2 0
+			ifp ponground
+				{
+				ifp pjumping break
+				getp[].posz temp
+				sub temp 1024
+				setp[].posz temp
+				getp[].ang knockbackang
+				set p_dazed_count 150
+				set knockbackheight -4096
+				set knockback2 12
+				wackplayer
+				}
+			ldist temp THISACTOR my_target
+			ifl temp 1536 action A_BEAST_SLASH
+			else action A_BEAST_SEEK
+			set enemy_cooldown1 300
+		}
+	}
+}
+
+else ifaction A_BEAST_SLASH
+{
+	ifmove M_BEAST_SLASH nullop
+	else move M_BEAST_SLASH geth
+	state new_validatetarget
+
+	ife my_target -1
+		action A_BEAST_SEEK
+
+	state fronttowardstarget
+
+	ifactioncount 5 action A_BEAST_SLASH
+		else ifactioncount 4
+		{
+			ife INTERNALCOUNT 0
+			{
+				add INTERNALCOUNT 1
+
+				ifrnd 85 sound BEAST_SWING1 else ifrnd 170 sound BEAST_SWING2 else sound BEAST_SWING3
+
+				ldist temp THISACTOR my_target
+				ifle temp 1536
+				{
+				ife my_target PLAYER_IDENTITY
+				 ifn SWORD_BLOCK 0
+					ifp pfacing
+						{
+						state enemy_parry_code
+						action A_BEAST_PAIN
+						break
+						}
+					else 
+						{
+						sound RIPPER_SCRATCH
+						set temp 50
+						rand temp2 25
+						add temp temp2
+						seta[my_target].htextra temp
+						seta[my_target].htpicnum 17663
+						}
+				}
+			}
+		}
+		else ifactioncount 3
+			set INTERNALCOUNT 0
+		else ifactioncount 2
+		{
+			ife INTERNALCOUNT 0
+			{
+				add INTERNALCOUNT 1
+
+				ifrnd 85 sound BEAST_SWING1 else ifrnd 170 sound BEAST_SWING2 else sound BEAST_SWING3
+
+				ldist temp THISACTOR my_target
+				ifle temp 1536
+				{
+				ife my_target PLAYER_IDENTITY
+				 ifn SWORD_BLOCK 0
+					ifp pfacing
+						{
+						state enemy_parry_code
+						action A_BEAST_PAIN
+						break
+						}
+					else 
+						{
+						sound RIPPER_SCRATCH
+						set temp 50
+						rand temp2 25
+						add temp temp2
+						seta[my_target].htextra temp
+						seta[my_target].htpicnum 17663
+						}
+				}
+			}
+		}
+		else ifactioncount 1
+			set INTERNALCOUNT 0
+
+			ldist temp THISACTOR my_target
+			ifg temp 1536 action A_BEAST_SEEK
+}
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	sound BERSERK_PAIN
+	//spawn BLOOD
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+		sound BEAST_DIE
+		ifaction A_BEAST_DYING nullop else
+		action A_BEAST_DYING
+		spawn BLOODPOOL
+	}
+
+	else // not dead
+	{
+
+		ifg PAIN_AMOUNT 0 { ifrnd 128 sound BEAST_PAIN1 else sound BEAST_PAIN2 action A_BEAST_PAIN }
+		else ifrnd 8 { state PAIN_SKILL_LEVELADJUST ifrnd 128 sound BEAST_PAIN1 else sound BEAST_PAIN2 action A_BEAST_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_BEAST_IDLE { state PAIN_SKILL_LEVELADJUST sound BEAST_CRIT1 action A_BEAST_PAIN }
+	}
+}
+
+state checksquished
+
+enda

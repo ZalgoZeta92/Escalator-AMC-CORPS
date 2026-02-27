@@ -1,0 +1,1166 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++       Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Cutscene subtitles
+--------------------------------------------------------------------------------
+*/
+
+// TODO: Change back into a switch statement, relevant qputs bug has been fixed
+
+defstate clear_radio
+set radio_portrait -1
+set radio_pal 0
+set radio_size 0
+ends
+
+defstate radio_epsilon_pic
+set radio_portrait 19119
+set radio_pal 1
+set radio_size RADIO_FULL
+ends
+
+defstate stop_epsilon_sounds
+stopsound EPS_BTUT01
+stopsound EPS_BTUT02
+stopsound EPS_BTUT03
+stopsound EPS_BTUT04
+stopsound EPS_BTUT05
+stopsound EPS_BTUT06
+stopsound EPS_BTUT07
+stopsound EPS_BTUT08
+stopsound EPS_BTUT09
+stopsound EPS_BTUT10
+ends
+
+defstate radio_james_pic
+set radio_portrait 19187
+set radio_pal 1
+set radio_size RADIO_FULL
+ends
+
+defstate radio_wheaton_pic
+set radio_portrait 19123
+set radio_pal 1
+set radio_size RADIO_FULL
+ends
+
+defstate radio_semaj_pic
+set radio_portrait 19120
+set radio_pal 1
+set radio_size RADIO_HALF
+ends
+
+defstate radio_eaf_pic
+set radio_portrait 19124
+set radio_pal 1
+set radio_size RADIO_HALF
+ends
+
+
+defstate radio_sang_pic
+set radio_portrait 19188
+set radio_pal 1
+set radio_size RADIO_FULL
+ends
+
+defstate radio_trenton_pic
+set radio_portrait 19186
+set radio_pal 124
+set radio_size RADIO_FULL
+ends
+
+defstate radio_jane_pic
+set radio_portrait 19121
+set radio_pal 1
+set radio_size RADIO_FULL
+ends
+
+
+defstate radio_necro_pic
+set radio_portrait 19112
+set radio_pal 124
+set radio_size RADIO_FULL
+ends
+
+defstate radio_lesang_pic
+set radio_portrait 19189
+ifl VOLUME 3 set radio_pal 124
+else set radio_pal 23
+set radio_size RADIO_FULL
+ends
+
+defstate CUTSCENE_TEXT
+set cs_total_time -1
+// state clear_radio
+
+include CODE/TEXT/SUBS/EP1.CON
+include CODE/TEXT/SUBS/EP2.CON
+include CODE/TEXT/SUBS/EP3.CON
+include CODE/TEXT/SUBS/EP4.CON
+include CODE/TEXT/SUBS/EP5.CON
+include CODE/TEXT/SUBS/USERM.CON
+include CODE/TEXT/SUBS/LOCAT.CON
+
+// MISSION COMPLETE =====================================================================================
+ife cuts_txt 1700
+{
+set cs_textl 1
+qputs 350 ^8Mission complete, job well done.
+}
+ife cuts_txt 1701
+{
+set cs_textl 2
+qputs 350 ^8Mission complete, job well done.
+qputs 351 ^32New supply storage location acquired!
+}
+// MISSION COMPLETE for CC
+// EDF MISSIONS ====================================================================================
+ife cuts_txt 1800
+{
+set cs_textl 1
+qputs 350 ^8Radio: ^0This is Merlijn to Watcher, you check the boat, over?
+}
+ife cuts_txt 1801
+{
+set cs_textl 1
+qputs 350 ^8Radio 2: ^0Yes, no sign of any activity. Now scanning the surroundings, over.
+}
+ife cuts_txt 1802
+{
+set cs_textl 1
+qputs 350 ^8Radio: ^0I don't think you need to, I'm already here and it all seems quiet, over.
+}
+ife cuts_txt 1803
+{
+set cs_textl 1
+qputs 350 ^8Radio 2: ^0I'm not sure, it doesn't look right....I'm landing to investigate...
+}
+ife cuts_txt 1804
+{
+set cs_textl 1
+qputs 350 ^8Radio: ^0Oh my god!
+}
+ife cuts_txt 1805
+{
+set cs_textl 2
+qputs 350 ^8Radio: ^0This is Merlijn to HQ, we are under heavy attack at the lonely
+qputs 351 mountain complex! Send full backup quick!, I repeat send full backup!
+}
+ife cuts_txt 1806
+{
+set cs_textl 1
+qputs 350 ^8System: ^0Alert! Evacuation order acknowledged.
+}
+ife cuts_txt 1810
+{
+set cs_textl 2
+qputs 350 ^8Scientist: ^0Is it you?! Listen, we have got to get to
+qputs 351 the other side of the base to escape, but it's blocked!
+}
+ife cuts_txt 1811
+{
+set cs_textl 1
+qputs 350 ^8Scientist: ^0Oh, and by the way take this stuff, you will need it.
+}
+ife cuts_txt 1812
+{
+set cs_textl 1
+qputs 350 ^8Scientist: ^0Watch out!
+}
+ife cuts_txt 1813
+{
+set cs_textl 2
+qputs 350 ^8Scientist: ^0Can you hear this? Go to the Supplies, the
+qputs 351 keycard seems to be there somewhere.
+}
+ife cuts_txt 1814
+{
+set cs_textl 1
+qputs 350 ^8Scientist: ^0Now go to supplies, but watch out! Lots of aliens are there.
+}
+ife cuts_txt 1815
+{
+set cs_textl 2
+qputs 350 ^8Scientist: ^0Please listen! The keycard is outside, but hurry up!
+qputs 351 Too many alien troops are coming, you are not so far...
+}
+ife cuts_txt 1816
+{
+set cs_textl 1
+qputs 350 ^8Scientist: ^0Wait....what the hell is that?
+}
+ife cuts_txt 1817
+{
+set cs_textl 2
+qputs 350 ^8Scientist: ^0To get the shield down you have got to unlock
+qputs 351 the blue keycard door, but the aliens stole the damn key!
+}
+ife cuts_txt 1818
+{
+set cs_textl 2
+qputs 350 ^8Scientist: ^0Please, try to find it or we won't survive.
+qputs 351 I will keep you informed on your way.
+}
+ends
+
+defstate credits_title
+// credits stuff
+ife cuts_txt 1361
+{
+set cs_textl 2
+qputs 350 ^8Dedicated to Cedric Lutes
+qputs 351 1979 - 2019
+}
+ife cuts_txt 1705
+{
+set cs_textl 2
+qstrcpy 350 551
+qputs 351 ^1Red Series ^0by Merlijn V. Oostrum
+}
+ife cuts_txt 1706
+{
+set cs_textl 2
+qstrcpy 350 551
+qputs 351 ^1Wet Dream ^0by Rob Wijkstra
+}
+
+ife cuts_txt 1708
+{
+set cs_textl 2
+qstrcpy 350 551
+qputs 351 ^1Clear the Coast ^0by Merlijn van Oostrum & Maarten van Oostrum
+}
+ife cuts_txt 1709
+{
+set cs_textl 2
+qstrcpy 350 551
+qputs 351 ^1Another Big Base Attacked ^0by Maarten van Oostrum
+}
+
+ife cuts_txt 1712
+{
+set cs_textl 2
+qstrcpy 350 551
+qputs 351 ^1The Fantasy hotel ^0by Blackjack
+}
+ife cuts_txt 1713
+{
+set cs_textl 3
+qstrcpy 350 551
+qputs 351 ^1Beach CBP ^0by Undertaker, Michael Crisp, Captain Awesome,
+qputs 352 Supertanker, and Mike Norvak.
+}
+ife cuts_txt 1714
+{
+set cs_textl 2
+qstrcpy 350 551
+qputs 351 ^1Secret Base ^0by Cedric "Zaxtor Znort" Lutes
+}
+ife cuts_txt 1715
+{
+set cs_textl 3
+qstrcpy 350 551
+qputs 351 ^1West Alien Train and Underground Fortress
+qputs 352 by Cedric "Zaxtor Znort" Lutes
+}
+
+ife cuts_txt 1718
+{
+set cs_textl 2
+qstrcpy 350 551
+qputs 351 ^1Insurance Overload EDF Bureau ^0by Alias Conrad Coldwood
+}
+ife cuts_txt 1733
+{
+set cs_textl 2
+qstrcpy 350 551
+qputs 351 ^1The Final confrontation ^0by 3D Visions
+}
+ife cuts_txt 1739
+{
+set cs_textl 2
+qstrcpy 350 551
+qputs 351 ^1The Lost Highway ^0by Petr & Lukas
+}
+
+ife cuts_txt 1753
+{
+set cs_textl 2
+qstrcpy 350 551
+qputs 351 ^1Alone in the dark with the Undead ^0by Juha Maekinen
+}
+ife cuts_txt 1761
+{
+set cs_textl 4
+qstrcpy 350 551
+qputs 351 ^1Metropolitan Starlight ^0by Mike Norvak, Michael Crisp,
+qputs 352 Paul Monteray, Mister Sinister, Maarten and Merlijn Van Oostrum,
+qputs 353 Captain Awesome, Forge, Quakis and William Gee
+}
+
+// CREDITS STUFF
+ife cuts_txt 5000
+{
+set cs_textl 2
+qputs 350 ^54 THE AMC SQUAD
+qputs 351 ^60 Starring...
+}
+ife cuts_txt 5001
+{
+set cs_textl 2
+qputs 350 ^54 James Stanfield
+qputs 351 ^1Project Lead, Mapper, Coder, Gameplay, Audio, Voice
+}
+ife cuts_txt 5002
+{
+set cs_textl 2
+qputs 350 ^54 Zaxtor Znort
+qputs 351 ^1Mapper, Voice acting
+}
+ife cuts_txt 5003
+{
+set cs_textl 1
+qputs 350 ^54 Merlijn Van Oostrum
+qputs 351 ^1Voice acting
+}
+ife cuts_txt 5004
+{
+set cs_textl 2
+qputs 350 ^54 Highwire
+qputs 351 ^8Played by Steb
+}
+ife cuts_txt 5005
+{
+set cs_textl 2
+qputs 350 ^54 The Warlock Sang
+qputs 351 ^1Mapper, Coder, Bug fixing
+}
+ife cuts_txt 5006
+{
+set cs_textl 2
+qputs 350 ^54 Rusty Nails
+qputs 351 ^8Played by Major Tom
+}
+ife cuts_txt 5007
+{
+set cs_textl 2
+qputs 350 ^54 Geoffrey
+qputs 351 ^8Played by Dino Bollinger
+}
+ife cuts_txt 5008
+{
+set cs_textl 2
+qputs 350 ^54and Lord Mikko Sandt
+qputs 351 ^1Mapper
+}
+ife cuts_txt 5009
+{
+set cs_textl 2
+qputs 350 ^54Dino Bollinger
+qputs 351 ^1Engine Programmer, lead bug fixer
+}
+ife cuts_txt 5010
+{
+set cs_textl 2
+qputs 350 ^54Forge
+qputs 351 ^1Main beta-tester/Motivator
+}
+ife cuts_txt 5011
+{
+set cs_textl 2
+qputs 350 ^54sebabdukeboss20
+qputs 351 ^1Art Director
+}
+ife cuts_txt 5012
+{
+set cs_textl 3
+qputs 350 ^54 The Megabase
+qputs 351 ^60 By Geoffrey
+qputs 352 ^8 with help from Mikko Sandt and James Stanfield
+}
+ife cuts_txt 5013
+{
+set cs_textl 2
+qputs 350 ^54 Dis Base
+qputs 351 ^60 By James Stanfield
+}
+ife cuts_txt 5014
+{
+set cs_textl 2
+qputs 350 ^54 Abyss
+qputs 351 ^60 By James Stanfield and Mikko Sandt
+}
+ife cuts_txt 5015
+{
+set cs_textl 3
+qputs 350 ^54 Millhaven
+qputs 351 ^60 By Rusty Nails
+qputs 352 ^8 with help from James Stanfield
+}
+ife cuts_txt 5016
+{
+set cs_textl 2
+qputs 350 ^54 Snow Base
+qputs 351 ^60 By Mikko Sandt
+}
+ife cuts_txt 5017
+{
+set cs_textl 3
+qputs 350 ^54 Revolution
+qputs 351 ^60 By Highwire
+qputs 352 ^8 with help from James Stanfield
+}
+ife cuts_txt 5018
+{
+set cs_textl 2
+qputs 350 ^54 Palace Bunker
+qputs 351 ^60 By James Stanfield
+}
+ife cuts_txt 5019
+{
+set cs_textl 2
+qputs 350 ^54 For Providence
+qputs 351 ^60 By James Stanfield
+}
+ife cuts_txt 5020
+{
+set cs_textl 5
+qputs 350 ^2Thanks to the following for their voice acting:
+qputs 351 ^1TheDavisD ^8as Vilmos (previously Duke4ever)
+qputs 352 ^1Mblackwell ^8as EAF Soldier and Vladmir
+qputs 353 ^1MickyC ^8as EDF Scientist, ^1Maria ^8as Lilith/Scientist
+qputs 354 ^1Wonder Nat ^8as Alejandro, and ^1Sangelothi ^8as EDF soldier
+}
+ife cuts_txt 5021
+{
+set cs_textl 5
+qputs 350 ^2And thanks to the following for beta testing:
+qputs 351 ^1MickyC
+qputs 352 ^1EmericaSkater
+qputs 353 ^1Forge
+qputs 354 ^1Eddy Zykov, and Somagu
+}
+ife cuts_txt 5022
+{
+set cs_textl 5
+qputs 350 ^2Thanks to the Eduke32/Voidpoint team for their hard work:
+qputs 351 ^1TerminX, Hendricks266
+qputs 352 ^1HelixHorned, PogoKeen
+qputs 353 ^1Plagman and the rest of the team
+qputs 354 ^2And everyone else in the Duke community!
+}
+ife cuts_txt 5023
+{
+set cs_textl 5
+qputs 350 ^2And most importantly...
+qputs 351 ^1Thanks to you for playing!
+qputs 352 ^8Stay tuned for the continuing adventures
+qputs 353 ^8of the AMC Squad!
+qputs 354 ^2Now go and party!
+}
+ife cuts_txt 5024
+{
+set cs_textl 2
+qputs 350 ^54HiveBoSs
+qputs 351 ^1Lead musician
+}
+
+ife cuts_txt 5030
+{
+set cs_textl 2
+qputs 350 ^54 THE AMC SQUAD
+qputs 351 ^60 With our new star...
+}
+ife cuts_txt 5031
+{
+set cs_textl 1
+qputs 350 ^54 The Funk Grandmaster Michael Crisp
+}
+ife cuts_txt 5032
+{
+set cs_textl 2
+qputs 350 ^54 City Under Siege
+qputs 351 ^60 By Highwire, James Stanfield, and Michael Crisp
+}
+ife cuts_txt 5033
+{
+set cs_textl 2
+qputs 350 ^54 Cycloid Mothership
+qputs 351 ^60 By James Stanfield
+}
+ife cuts_txt 5034
+{
+set cs_textl 2
+qputs 350 ^54 Big trouble in China
+qputs 351 ^60 By Sangluss, James Stanfield, and Michael Crisp
+}
+ife cuts_txt 5035
+{
+set cs_textl 2
+qputs 350 ^54 The Wharf
+qputs 351 ^60 By Michael Crisp and James Stanfield
+}
+ife cuts_txt 5036
+{
+set cs_textl 2
+qputs 350 ^54 Island Facility
+qputs 351 ^60 By Sangluss, James Stanfield, and Michael Crisp
+}
+ife cuts_txt 5037
+{
+set cs_textl 2
+qputs 350 ^54 Tower of Life
+qputs 351 ^60 By James Stanfield
+}
+ife cuts_txt 5038
+{
+set cs_textl 2
+qputs 350 ^54 Shadow Realm
+qputs 351 ^60 By Michael Crisp
+}
+ife cuts_txt 5039
+{
+set cs_textl 3
+qputs 350 ^54 The Ghost ship parts 1 & 2
+qputs 351 ^60 By Michael Crisp
+qputs 352 ^8 Additional work by James Stanfield
+}
+ife cuts_txt 5040
+{
+set cs_textl 2
+qputs 350 ^54 Far Mountain Reaches and Dark Truths
+qputs 351 ^60 By Loke
+}
+ife cuts_txt 5041
+{
+set cs_textl 2
+qputs 350 ^54 Arsia Mons Mars Colony Hub
+qputs 351 ^60 By Sangluss, Michael Crisp, and James Stanfield
+}
+ife cuts_txt 5042
+{
+set cs_textl 3
+qputs 350 ^54 Arsia Mons Mining sector
+qputs 351 ^60 By Michael Crisp
+qputs 352 ^8 Additional work by James Stanfield
+}
+ife cuts_txt 5043
+{
+set cs_textl 4
+qputs 350 ^54 Mars Space Station
+qputs 351 ^60 By Mike Von Skellington
+qputs 352 ^8 Adapted by James Stanfield
+qputs 353 ^8 and Michael Crisp
+}
+ife cuts_txt 5044
+{
+set cs_textl 5
+qputs 350 ^2Thanks to the following for their voice acting:
+qputs 351 ^1Sangelothi ^8as EDF soldier; ^1Rhaisher ^8as MS-Corp Scientist
+qputs 352 ^1Cardboard Marty ^8as Magnus Giesler; ^1Thanatos ^8as Trenton Solari;
+qputs 353 ^1Foxley ^8as AMC male soldier, and AM Security Chief
+qputs 354 ^1Chinese Tony Danza ^8as General Graves and Paradigm Eschaton troops
+}
+ife cuts_txt 5045
+{
+set cs_textl 5
+qputs 350 ^2And thanks to the following for beta testing:
+qputs 351 ^1Somagu
+qputs 352 ^1Forge
+qputs 353 ^1Leminur
+qputs 354 ^1Azba
+}
+ife cuts_txt 5046
+{
+set cs_textl 5
+qputs 350 ^8And most importantly...
+qputs 351 ^1Thanks to you for Playing, and for your
+qputs 352 ^1patience whilst we finished this episode.
+qputs 353 ^1Hope to see you again soon,
+qputs 354 ^2Now go and party!
+}
+ife cuts_txt 5050 // missing stuff
+{
+set cs_textl 3
+qputs 350 ^54 Arsia Mons Broadcasting
+qputs 351 ^60 By Michael Crisp
+qputs 352 ^8 Additional work by James Stanfield
+}
+ife cuts_txt 5051 // missing stuff
+{
+set cs_textl 2
+qputs 350 ^54 The Jungle base
+qputs 351 ^60 By Cedric "Zaxtor Znort" Lutes
+}
+ife cuts_txt 5052 // missing stuff
+{
+set cs_textl 3
+qputs 350 ^54 Zeta Base
+qputs 351 ^60 By Snowfall
+qputs 352 ^8 Additional work by James Stanfield
+}
+ife cuts_txt 5053
+{
+set cs_textl 2
+qputs 350 ^54 Arsia Mons Orbital Elevator
+qputs 351 ^60 By James Stanfield and Michael Crisp
+}
+ife cuts_txt 5054
+{
+set cs_textl 2
+qputs 350 ^54 Energeia
+qputs 351 ^60 By Mikko Sandt
+}
+// Episode Three credits
+ife cuts_txt 5100
+{
+set cs_textl 1
+qputs 350 ^54 Carl Sagan's disciple Snowfall
+}
+ife cuts_txt 5101
+{
+set cs_textl 2
+qputs 350 ^54 Return to X64-2M
+qputs 351 ^60 By Michael Crisp and James Stanfield
+}
+ife cuts_txt 5102
+{
+set cs_textl 2
+qputs 350 ^54 Egypt Hub
+qputs 351 ^60 By James Stanfield
+}
+ife cuts_txt 5103
+{
+set cs_textl 2
+qputs 350 ^54 Aqueduct and Deep Waterway
+qputs 351 ^60 By Loke
+}
+ife cuts_txt 5104
+{
+set cs_textl 3
+qputs 350 ^54 The Sanctuary
+qputs 351 ^60 By Michael Crisp
+qputs 352 ^8 Additional work by James Stanfield
+}
+ife cuts_txt 5105
+{
+set cs_textl 2
+qputs 350 ^54 The Tombs
+qputs 351 ^60 By Sangluss, James Stanfield, and Michael Crisp
+}
+ife cuts_txt 5106
+{
+set cs_textl 2
+qputs 350 ^54 The Catacombs
+qputs 351 ^60 By James Stanfield
+}
+ife cuts_txt 5107
+{
+set cs_textl 3
+qputs 350 ^54 Le Sang's Palace
+qputs 351 ^60 By Michael Crisp
+qputs 352 ^8 Additional work by James Stanfield
+}
+ife cuts_txt 5108
+{
+set cs_textl 2
+qputs 350 ^54 Micky Begins
+qputs 351 ^60 By Michael Crisp
+qputs 352 ^8 Additional work by James Stanfield
+}
+ife cuts_txt 5109
+{
+set cs_textl 2
+qputs 350 ^54 AMC base invasion
+qputs 351 ^60 By Michael Crisp and James Stanfield
+}
+ife cuts_txt 5110
+{
+set cs_textl 2
+qputs 350 ^54 Neutrino
+qputs 351 ^60 By Snowfall
+}
+ife cuts_txt 5111
+{
+set cs_textl 3
+qputs 350 ^54 Forgotten Tomb
+qputs 351 ^60 By Snowfall
+qputs 352 ^8 Additional work by James Stanfield
+}
+ife cuts_txt 5113
+{
+set cs_textl 2
+qputs 350 ^54 Jungle Pyramid
+qputs 351 ^60 By Cedric "Zaxtor Znort" Lutes
+}
+ife cuts_txt 5114
+{
+set cs_textl 2
+qputs 350 ^54 Eviction Notice
+qputs 351 ^60 By Michael Crisp
+}
+ife cuts_txt 5115
+{
+set cs_textl 2
+qputs 350 ^54 Xuglop Assault
+qputs 351 ^60 By Highwire, James Stanfield, and Michael Crisp
+}
+ife cuts_txt 5117
+{
+set cs_textl 3
+qputs 350 ^54 Guerillas in the Mist
+qputs 351 ^60 By James Stanfield
+qputs 352 ^8 Based on work by Jenz/Amaka
+}
+ife cuts_txt 5119
+{
+set cs_textl 2
+qputs 350 ^54 VR, Waking, and Triton Facility
+qputs 351 ^60 By Snowfall
+}
+ife cuts_txt 5120
+{
+set cs_textl 5
+qputs 350 ^2Thanks to the following for their voice acting:
+qputs 351 ^1Major Tom ^8as Le Sang and Gabe; ^1Cryptdidical ^8as Jerry;
+qputs 352 ^1Dan Gaskil ^8as Axon;  ^1Jaap van der Wulp ^8as MJ12 Soldier;
+qputs 353 ^1Cardboard Marty ^8as Magnus Giesler; ^1Thanatos ^8as Trenton Solari;
+qputs 354 ^1Redead-ITA ^8as Maddrax; ^1Leo Sierras ^8as Cultist;
+}
+ife cuts_txt 5121
+{
+set cs_textl 5
+qputs 350 ^2And thanks to the following for beta testing:
+qputs 351 ^1Forge
+qputs 352 ^1Sang
+qputs 353 ^1mekanchest
+qputs 354
+}
+ife cuts_txt 5122
+{
+set cs_textl 5
+qputs 350 ^8And most importantly...
+qputs 351 ^1Thanks to you for Playing, and for your
+qputs 352 ^1patience whilst we finished this episode.
+qputs 353 ^1We've still got more to come!
+qputs 354 ^2Now go and party!
+}
+// Episode 4 credits
+ife cuts_txt 5130
+{
+set cs_textl 1
+qputs 350 ^54"She likes Cats" AliCatGamer
+}
+ife cuts_txt 5131
+{
+set cs_textl 2
+qputs 350 ^54Welcome to Elysion
+qputs 351 ^60By Micky Crisp and James Stanfield
+}
+ife cuts_txt 5132
+{
+set cs_textl 3
+qputs 350 ^54Easthaven
+qputs 351 ^60By DanM, Micky Crisp, James Stanfield
+qputs 352 ^60and AliCatGamer
+}
+ife cuts_txt 5133
+{
+set cs_textl 2
+qputs 350 ^54Sjoerd's Woodlands
+qputs 351 ^60By James Stanfield and Drek
+}
+ife cuts_txt 5134
+{
+set cs_textl 2
+qputs 350 ^54The Ebon Pinnacle
+qputs 351 ^60By James Stanfield and Drek
+}
+ife cuts_txt 5135
+{
+set cs_textl 2
+qputs 350 ^54Svedr's Domicile
+qputs 351 ^60By James Stanfield, Numan, and Mike Norvak
+}
+ife cuts_txt 5136
+{
+set cs_textl 2
+qputs 350 ^54Picbonear Reservoir, The Engineers and From the Sun
+qputs 351 ^60By Loke
+}
+ife cuts_txt 5137
+{
+set cs_textl 2
+qputs 350 ^54Darrow Lake
+qputs 351 ^60By DanM, Toadie, and James Stanfield
+}
+ife cuts_txt 5138
+{
+set cs_textl 2
+qputs 350 ^54The Grotto and Knight's Fall
+qputs 351 ^60By Mike Norvak and James Stanfield
+}
+ife cuts_txt 5139
+{
+set cs_textl 3
+qputs 350 ^54The Necropolis, The Underworld and Roesia
+qputs 351 ^60By DanM, Mike Norvak, and James Stanfield
+qputs 352 ^8Additional Conversion work by Micky Crisp
+}
+ife cuts_txt 5140
+{
+set cs_textl 2
+qputs 350 ^54Lookout of Irusoph and the Collosseum
+qputs 351 ^60By Micky Crisp, James Stanfield, DanM, and Geoffrey
+}
+ife cuts_txt 5141
+{
+set cs_textl 2
+qputs 350 ^54Easthaven Forest and Wetlands of Rowgar
+qputs 351 ^60By Micky Crisp, DanM, and James Stanfield
+}
+ife cuts_txt 5142
+{
+set cs_textl 2
+qputs 350 ^54Dehydration
+qputs 351 ^60By Micky Crisp
+}
+ife cuts_txt 5143
+{
+set cs_textl 2
+qputs 350 ^54Supply Run
+qputs 351 ^60By AliCatGamer
+}
+ife cuts_txt 5144
+{
+set cs_textl 2
+qputs 350 ^54Badlands
+qputs 351 ^60By Mike Norvak, James Stanfield, and sebabdukeboss20
+}
+ife cuts_txt 5145
+{
+set cs_textl 2
+qputs 350 ^54The EDF Panama
+qputs 351 ^60By Sangluss
+}
+ife cuts_txt 5146
+{
+set cs_textl 2
+qputs 350 ^54Hamprock Falls
+qputs 351 ^60By James Stanfield, Micky Crisp, Mike Norvak
+}
+ife cuts_txt 5147
+{
+set cs_textl 2
+qputs 350 ^54Sanctuary of Ideyr
+qputs 351 ^60By Mike Norvak and James Stanfield
+}
+/* leaving some space for more maps
+ife cuts_txt 5148
+{
+set cs_textl 2
+qputs 350 ^54City of the Dark Elfes
+qputs 351 ^60By Rhaisher
+}
+ife cuts_txt 5149
+{
+set cs_textl 2
+qputs 350 ^54City of the Dark Elfes
+qputs 351 ^60By Rhaisher
+}
+*/
+ife cuts_txt 5150
+{
+set cs_textl 2
+qputs 350 ^54Palace of Rowgar
+qputs 351 ^60By Sangluss, Forge, James Stanfield and Micky Crisp
+}
+ife cuts_txt 5151
+{
+set cs_textl 2
+qputs 350 ^54Ascension and Elysian Fields
+qputs 351 ^60By Sangluss
+}
+ife cuts_txt 5152
+{
+set cs_textl 2
+qputs 350 ^54Temple underbelly and Chill in the Air
+qputs 351 ^60By Sangluss
+}
+ife cuts_txt 5153
+{
+set cs_textl 2
+qputs 350 ^54Cave Diving in the Sky
+qputs 351 ^60By James Stanfield, Mike Norvak, and DanM
+}
+ife cuts_txt 5154
+{
+set cs_textl 2
+qputs 350 ^54Axon's Library
+qputs 351 ^60By DanM and Micky Crisp
+}
+ife cuts_txt 5156
+{
+set cs_textl 2
+qputs 350 ^54Fortress, Naaldir's Keep, and Naaldir
+qputs 351 ^60By Micky Crisp, Sebabduke, and James Stanfield
+}
+
+ife cuts_txt 5158
+{
+set cs_textl 3
+qputs 350 ^54Caligula Station
+qputs 351 ^60By Mr. Sinister
+qputs 352 ^8Additional work by James Stanfield
+}
+ife cuts_txt 5160
+{
+set cs_textl 1
+qputs 350 ^1The Wonder Nat ^8as Oveus
+}
+ife cuts_txt 5161
+{
+set cs_textl 1
+qputs 350 ^1Yemiseika ^8as Alea
+}
+ife cuts_txt 5162
+{
+set cs_textl 1
+qputs 350 ^1Zeraphinda ^8as Freija
+}
+ife cuts_txt 5163
+{
+set cs_textl 1
+qputs 350 ^1Doom64hunter ^8as Pheraclus
+}
+ife cuts_txt 5164
+{
+set cs_textl 1
+qputs 350 ^1Tharodax King ^8as Drabeus and Epsilon
+}
+ife cuts_txt 5165
+{
+set cs_textl 1
+qputs 350 ^1Dan Gaskill ^8as Axon
+}
+ife cuts_txt 5166
+{
+set cs_textl 1
+qputs 350 ^1AliCatGamer ^8as Minerva Armitage
+}
+ife cuts_txt 5167
+{
+set cs_textl 1
+qputs 350 ^1Lindsey Vachon ^8as Michelle 'Bombshell' Bomkowski
+}
+ife cuts_txt 5168
+{
+set cs_textl 1
+qputs 350 ^1Steb ^8as Highwire
+}
+ife cuts_txt 5169
+{
+set cs_textl 1
+qputs 350 ^1Maarten Van Oostrum ^8as himself
+}
+ife cuts_txt 5170
+{
+set cs_textl 2
+qputs 350 ^2And thanks to the following for beta testing:
+qputs 351 Rhaisher, Loke, Snowfall, Mikko, Forge
+}
+ife cuts_txt 5171
+{
+set cs_textl 4
+qputs 350 ^2And most importantly...
+qputs 351 ^1Thanks to you for Playing!
+qputs 352 ^8There is still light at the
+qputs 353 ^8end of the tunnel...
+}
+// Episode 5 credits
+ife cuts_txt 5175
+{
+set cs_textl 2
+qputs 350 ^54 Foxtrot Uniform
+qputs 351 ^60 By Wheaton Adams
+}
+ife cuts_txt 5176
+{
+set cs_textl 2
+qputs 350 ^54 Judgement
+qputs 351 ^60 By James Stanfield
+}
+ife cuts_txt 5177
+{
+set cs_textl 2
+qputs 350 ^54 Who goes there?
+qputs 351 ^60 By sebabdukeboss20 and James Stanfield
+}
+ife cuts_txt 5178
+{
+set cs_textl 2
+qputs 350 ^54 Carcosa
+qputs 351 ^60 By Forge and James Stanfield
+}
+ife cuts_txt 5179
+{
+set cs_textl 2
+qputs 350 ^54 Worlds Collide
+qputs 351 ^60 By James Stanfield and sebabdukeboss20
+}
+ife cuts_txt 5180
+{
+set cs_textl 2
+qputs 350 ^54 The Black Goat's Manse
+qputs 351 ^60 By Mike Norvak, Micky Crisp, and James Stanfield
+}
+ife cuts_txt 5181
+{
+set cs_textl 2
+qputs 350 ^54 Stygian Memorial
+qputs 351 ^60 By Micky Crisp and James Stanfield
+}
+ife cuts_txt 5182
+{
+set cs_textl 2
+qputs 350 ^54 Legends Meet
+qputs 351 ^60 By James Stanfield
+}
+ife cuts_txt 5183
+{
+set cs_textl 2
+qputs 350 ^54 Saints and Sinners
+qputs 351 ^60 By Loke
+}
+ife cuts_txt 5184
+{
+set cs_textl 2
+qputs 350 ^54 Hostile Takeover
+qputs 351 ^60 By sebabdukeboss20, Wheaton Adams, and James Stanfield
+}
+ife cuts_txt 5185
+{
+set cs_textl 2
+qputs 350 ^54 Bloodpool
+qputs 351 ^60 By Micky Crisp, Mike Norvak, sebabdukeboss20
+}
+ife cuts_txt 5186
+{
+set cs_textl 2
+qputs 350 ^54 Chasing Phantoms
+qputs 351 ^60 By Loke
+}
+ife cuts_txt 5187
+{
+set cs_textl 2
+qputs 350 ^54 Titan Gas
+qputs 351 ^60 By Snowfall
+}
+ife cuts_txt 5188
+{
+set cs_textl 2
+qputs 350 ^54 Toilets R Us
+qputs 351 ^60 By Snowfall
+}
+ife cuts_txt 5189
+{
+set cs_textl 2
+qputs 350 ^54 Tanhauser Gate
+qputs 351 ^60 By Mikko Sandt
+}
+ife cuts_txt 5190
+{
+set cs_textl 2
+qputs 350 ^54 The Airport
+qputs 351 ^60 By Rusty Nails, James Stanfield and Michael Crisp
+}
+ife cuts_txt 5191
+{
+set cs_textl 2
+qputs 350 ^54 The Glacier
+qputs 351 ^60 By Sangluss and James Stanfield
+}
+ife cuts_txt 5192
+{
+set cs_textl 2
+qputs 350 ^54 Final Union
+qputs 351 ^60 By Rusty Nails and James Stanfield
+}
+ife cuts_txt 5193
+{
+set cs_textl 2
+qputs 350 ^54 Imprisoned
+qputs 351 ^60 By James Stanfield, Wheaton Adams, Sangluss, Micky Crisp
+}
+ife cuts_txt 5194
+{
+set cs_textl 2
+qputs 350 ^54 Belly of the beast
+qputs 351 ^60 By Sangluss
+}
+ife cuts_txt 5195
+{
+set cs_textl 2
+qputs 350 ^54 Divided We Fall
+qputs 351 ^60 By James Stanfield
+}
+ife cuts_txt 5196
+{
+set cs_textl 2
+qputs 350 ^54 Cairo Dig Saga
+qputs 351 ^60 By Wheaton Adams
+}
+ife cuts_txt 5197
+{
+set cs_textl 2
+qputs 350 ^54 Beaumont University
+qputs 351 ^60 By sebabdukeboss20 and James Stanfield
+}
+ife cuts_txt 5198
+{
+set cs_textl 2
+qputs 350 ^54 Justice
+qputs 351 ^60 By James Stanfield, Mike Norvak, Micky Crisp
+}
+ife cuts_txt 5199
+{
+set cs_textl 2
+qputs 350 ^54 Elysian Fields
+qputs 351 ^60 By Micky Crisp
+}
+ife cuts_txt 5200
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 14
+{
+set cs_textl 1
+qputs 350 ^2
+}
+else ifl cs_timer 18 qputs 350 ^2E
+else ifl cs_timer 24 qputs 350 ^2Ep
+else ifl cs_timer 28 qputs 350 ^2Epi
+else ifl cs_timer 32 qputs 350 ^2Epis
+else ifl cs_timer 36 qputs 350 ^2Episo
+else ifl cs_timer 40 qputs 350 ^2Episod
+else ifl cs_timer 44 qputs 350 ^2Episode 
+else ifl cs_timer 48 qputs 350 ^2Episode 6
+else
+{
+ife cuts_sound 0 { screensound DOOMED globalsound DOOMED set cuts_sound 1 }
+set cs_textl 2
+qputs 350 ^2Episode 6
+qputs 351 The end of everything, and our journey...
+}
+}
+
+
+ends

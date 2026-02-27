@@ -1,0 +1,226 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Research terminal
+--------------------------------------------------------------------------------
+*/
+
+eventloadactor 12116 state GETHITAGLOTAG enda
+eventloadactor 12117 state GETHITAGLOTAG enda
+eventloadactor 17917 state GETHITAGLOTAG enda
+
+
+defstate RESEARCH_PICKUP
+	set DISP_RES -240
+	ifactor 12116 globalsound READ_DOCUMENT
+	else globalsound RESEARCH_DATA
+	ifrnd 96 set PLAYER_VOICEOVER 39
+	palfrom 20 63 63 63
+	quote 1025
+	killit
+ends
+
+defstate RESEARCH_MODULE
+
+ifaction 0
+ifn hitag_saved 0
+{
+	ife hitag_saved 1 // weapon data
+		{
+		spritepal 10
+		readarrayfromfile WEAPONS_RESEARCH F_WEAPONS_AMCTC
+		ifg WEAPONS_RESEARCH[lotag_saved] 0 killit
+		}
+		else
+		ife hitag_saved 2 // equipment data
+			{
+			spritepal 8
+			readarrayfromfile EQUIPMENT_RESEARCH F_EQUIPMENT_AMCTC
+			ifg EQUIPMENT_RESEARCH[lotag_saved] 0 killit
+			}
+		else
+		ife hitag_saved 3 // personel data
+			{
+			spritepal 3
+			readarrayfromfile PERSONNEL_RESEARCH F_PERSONNEL_AMCTC
+			ifg PERSONNEL_RESEARCH[lotag_saved] 0 killit
+			}
+		else
+		ife hitag_saved 4 // base data
+			{
+			spritepal 15
+			readarrayfromfile BASE_RESEARCH F_BASE_AMCTC
+			ifg BASE_RESEARCH[lotag_saved] 0 killit
+			}
+		else
+		ife hitag_saved 5 // mystical data
+			{
+			spritepal 49
+			readarrayfromfile MYSTICAL_RESEARCH F_MYSTIC_AMCTC
+			ifg MYSTICAL_RESEARCH[lotag_saved] 0 killit
+			}
+		else
+		ife hitag_saved 6 // melee data
+			{
+			spritepal 36
+			readarrayfromfile MELEE_RESEARCH F_DOJO_AMCTC
+			ifg MELEE_RESEARCH[lotag_saved] 0 killit
+			}
+action ZERO
+}
+
+ifn hitag_saved 0
+ifn lotag_saved 0
+	{
+	ifpdistl 2048
+		ifrnd 8 spawn GLINT
+		else
+	ifrnd 4 spawn GLINT
+	}
+
+ifaction ZERO
+ ife player[].newowner -1 // prevent viewscreen bugs
+  ifp pfacing
+   ifpdistl 1024
+    ifp palive
+     ifcansee
+	 {
+	 state use_prompt
+	 ifhitspace
+	 ifcount 13
+		{
+		ife hitag_saved 1 // weapon data
+			{
+			set DISP_RES_PAL 2
+			readarrayfromfile WEAPONS_RESEARCH F_WEAPONS_AMCTC
+			ifg WEAPONS_RESEARCH[lotag_saved] 0 { quote 1028 killit }
+				else
+					{
+					ife lotag_saved 1 // GDF Plasma gun is a 'tutorial' project
+						{
+						set DISP_RES_PIC JPLASMASPRITE
+						readgamevar AMC_BUDGET
+						add AMC_BUDGET 2
+						savegamevar AMC_BUDGET
+						}
+
+					ife lotag_saved 3  // MIA Gun is a 'tutorial' project
+						{
+						set DISP_RES_PIC MIAGUNSPRITE
+						readgamevar AMC_BUDGET
+						add AMC_BUDGET 2
+						savegamevar AMC_BUDGET
+						}
+					ifand new_research 1 nullop else xorvar new_research 1
+					ife lotag_saved 5 set DISP_RES_PIC FLAMETHROWERSPRITE
+					ife lotag_saved 6 set DISP_RES_PIC RIOTGUN_MINIGUN_SPRITE
+					ife lotag_saved 7 set DISP_RES_PIC 15914
+					ife lotag_saved 9 set DISP_RES_PIC 16087
+					ife lotag_saved 12 set DISP_RES_PIC ENG_SMG_SPRITE
+					setarray WEAPONS_RESEARCH[lotag_saved] 3
+					writearraytofile WEAPONS_RESEARCH F_WEAPONS_AMCTC
+					state RESEARCH_PICKUP
+					}
+			}
+		else
+		ife hitag_saved 2 // equipment data
+			{
+			set DISP_RES_PAL 8
+			readarrayfromfile EQUIPMENT_RESEARCH F_EQUIPMENT_AMCTC
+			ifg EQUIPMENT_RESEARCH[lotag_saved] 0 { quote 1028 killit }
+				else
+					{
+					ifand new_research 2 nullop else xorvar new_research 2
+					ife lotag_saved 5 set DISP_RES_PIC 117
+					ife lotag_saved 7 set DISP_RES_PIC 13556
+					setarray EQUIPMENT_RESEARCH[lotag_saved] 3
+					writearraytofile EQUIPMENT_RESEARCH F_EQUIPMENT_AMCTC
+					state RESEARCH_PICKUP
+					}
+			}
+		else
+		ife hitag_saved 3 // personel data
+			{
+			set DISP_RES_PAL 1
+			readarrayfromfile PERSONNEL_RESEARCH F_PERSONNEL_AMCTC
+			ifg PERSONNEL_RESEARCH[lotag_saved] 0 { quote 1028 killit }
+				else
+					{
+					ifand new_research 4 nullop else xorvar new_research 4
+					ife lotag_saved 9 set DISP_RES_PIC 13326
+					ife lotag_saved 10 set DISP_RES_PIC 13329
+					ife lotag_saved 11 set DISP_RES_PIC 13340
+					ife lotag_saved 12 set DISP_RES_PIC 13330
+					ife lotag_saved 13 set DISP_RES_PIC 13548
+					ife lotag_saved 23 set DISP_RES_PIC 22733
+					ife lotag_saved 24 set DISP_RES_PIC 22732
+					setarray PERSONNEL_RESEARCH[lotag_saved] 3
+					writearraytofile PERSONNEL_RESEARCH F_PERSONNEL_AMCTC
+					state RESEARCH_PICKUP
+					}
+			}
+		else
+		ife hitag_saved 4 // base data
+			{
+			set DISP_RES_PAL 15
+			readarrayfromfile BASE_RESEARCH F_BASE_AMCTC
+			ifg BASE_RESEARCH[lotag_saved] 0 { quote 1028 killit }
+				else
+					{
+					ifand new_research 8 nullop else xorvar new_research 8
+					ife lotag_saved 1 set DISP_RES_PIC 12130
+					ife lotag_saved 2 set DISP_RES_PIC 12131
+					ife lotag_saved 3 set DISP_RES_PIC 12132
+					ife lotag_saved 4 set DISP_RES_PIC 12199
+					ife lotag_saved 5 set DISP_RES_PIC 22496
+					ife lotag_saved 7 set DISP_RES_PIC 22497
+					ife lotag_saved 9 set DISP_RES_PIC 12128
+					setarray BASE_RESEARCH[lotag_saved] 3
+					writearraytofile BASE_RESEARCH F_BASE_AMCTC
+					state RESEARCH_PICKUP
+					}
+			}
+		else
+		ife hitag_saved 5 // mystical data
+			{
+			set DISP_RES_PAL 49
+			readarrayfromfile MYSTICAL_RESEARCH F_MYSTIC_AMCTC
+			ifg MYSTICAL_RESEARCH[lotag_saved] 0 { quote 1028 killit }
+				else
+					{
+					ifand new_research 16 nullop else xorvar new_research 16
+					setarray MYSTICAL_RESEARCH[lotag_saved] 3
+					writearraytofile MYSTICAL_RESEARCH F_MYSTIC_AMCTC
+					state RESEARCH_PICKUP
+					}
+			}
+		else
+		ife hitag_saved 6 // melee data
+			{
+			set DISP_RES_PAL 36
+			readarrayfromfile MELEE_RESEARCH F_DOJO_AMCTC
+			ifg MELEE_RESEARCH[lotag_saved] 0 { quote 1028 killit }
+				else
+					{
+					ifand new_research 32 nullop else xorvar new_research 32
+					setarray MELEE_RESEARCH[lotag_saved] 3
+					writearraytofile MELEE_RESEARCH F_DOJO_AMCTC
+					state RESEARCH_PICKUP
+					}
+			}
+		}
+	}
+ends
+
+useractor notenemy 12116 state RESEARCH_MODULE enda
+useractor notenemy 12117 state RESEARCH_MODULE enda
+useractor notenemy 17917 state RESEARCH_MODULE enda

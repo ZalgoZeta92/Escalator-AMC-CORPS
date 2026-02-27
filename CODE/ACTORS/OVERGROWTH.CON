@@ -1,0 +1,157 @@
+// Overgrowth is something that blocks the player but can be cleared using:
+// If extra = 1 - Any fire attack
+// If extra = 2 - Any corresponding nodule that has the same lotag value as it
+
+define OVERGROWTH 30152
+define FLESHNODULE 38856
+
+appendevent EVENT_LOADACTOR
+	ifactor OVERGROWTH
+		state GETALLTAGS
+	else ifactor FLESHNODULE
+		state GETALLTAGS
+endevent
+
+
+useractor notenemy OVERGROWTH
+	ifn extra_saved -1
+	{
+	sleeptime 0
+		ifaction 0
+		{
+			cstator 257
+			set INTERNALCOUNT 0
+			ife extra_saved 1
+			{
+				espawn TARGETFX
+				setav[RETURN].is_flammable 1
+			}
+			action ZERO
+		}
+
+		// Can only be hurt by fire (or lotag activation
+		ifg sprite[].htextra -1
+			seta[].htextra -1
+
+		
+		ife INTERNALCOUNT 0
+		{
+			ife extra_saved 1
+			{
+				ifg fire_damage 0
+					set INTERNALCOUNT 1
+			}
+			else ife extra_saved 2
+			{
+				checkactivatormotion lotag_saved
+				ife RETURN 1
+					set INTERNALCOUNT 1
+			}
+		}
+		
+		ifge INTERNALCOUNT 1 // dying
+		{
+			add INTERNALCOUNT 1
+
+			// Add random flame sprites on it
+			set effect_countd 30
+			set effect_type 1
+
+			ife INTERNALCOUNT 60
+				sound COBR_DIE
+
+			ifg INTERNALCOUNT 60
+			{
+				spritepal 4
+				// Shrink down to nothing
+				sizeto 0 0
+			}
+		}
+	}
+enda
+
+spritenopal FLESHNODULE
+useractor notenemy FLESHNODULE
+sleeptime 0
+	ifpdistl 16000
+	{
+		ifactorsound THISACTOR GENERIC_AMBIENCE4 nullop else sound GENERIC_AMBIENCE4
+	}
+	
+	ifaction 0
+	{
+		cstator 257
+		sizeat 90 55
+		espawn TARGETFX
+		setav[RETURN].is_flammable 1
+		set INTERNALCOUNT_2 -1
+		set INTERNALCOUNT 1
+		action ZERO
+	}
+	else ifaction ZERO
+	{
+		// pulsate
+		ifle INTERNALCOUNT_2 -1
+		{
+			sound FLESH_TOWER
+			sub INTERNALCOUNT_2 1
+			
+			set temp INTERNALCOUNT_2
+			mod temp 4
+			
+			ife temp 0
+				sizeto 80 45
+			
+			ife sprite[].xrepeat 80
+				set INTERNALCOUNT_2 1
+		}
+		else ifge INTERNALCOUNT_2 1
+		{
+			add INTERNALCOUNT_2 1
+			
+			set temp INTERNALCOUNT_2
+			mod temp 4
+			
+			ife temp 0
+				sizeto 90 55
+			
+			ife sprite[].xrepeat 90
+				set INTERNALCOUNT_2 -1
+		}
+	}
+	
+	// Can only be hurt by fire
+	ifg sprite[].htextra -1
+		seta[].htextra -1
+
+	ifg fire_damage 0
+	{
+		ife INTERNALCOUNT 1
+			sound CHRYSS_DIE
+		ife INTERNALCOUNT 60
+		{
+			sound COBR_DIE
+			quake 100
+		}
+			
+		add INTERNALCOUNT 1
+
+		// Add random flame sprites on it
+		set effect_countd 30
+		set effect_type 1
+
+		ifg INTERNALCOUNT 60
+		{
+			spritepal 4
+			// Shrink down to nothing
+			sizeto 0 0
+			
+			stopsound FLESH_TOWER
+			stopsound GENERIC_AMBIENCE4
+			
+			operateactivators lotag_saved THISACTOR
+			operaterespawns lotag_saved
+			operatemasterswitches lotag_saved
+		}
+	}
+enda

@@ -1,0 +1,226 @@
+action A_MU_PARASITE_START 0 0 5 1 12
+action A_MU_PARASITE_IDLE 0 0 5 1 12
+action A_MU_PARASITE_DUCK 10 1 5 1 12
+action A_MU_PARASITE_SEEK 15 4 5 1 8
+action A_MU_PARASITE_SHRUNK 15 4 5 1 12
+action A_MU_PARASITE_MELEEATK 35 6 5 1 10
+action A_MU_PARASITE_PAIN 65 0 1 1 8
+action A_MU_PARASITE_FREEZE 65 0 1 1 8
+action A_MU_PARASITE_GROW 65 0 1 1 8
+action A_MU_PARASITE_DYING 65 6 1 1 12
+action A_MU_PARASITE_DEAD 70
+
+move M_MU_PARASITE_WALK 256
+
+defstate mu_parasite_slash
+	// TODO need some kind of melee hitscan projectile, ripper scratch isn't cutting it
+	// For now just apply damage directly
+	ifrnd 128 sound DGR_SLSH1
+	else sound DGR_SLSH2
+
+	// if player is close enough play scratch sound
+	dist temp THISACTOR my_target
+	ifle temp 1024
+	{
+		ife my_target PLAYER_IDENTITY
+		  ifpdistl 1536
+		  ifn SWORD_BLOCK 0
+		  ifp pfacing
+		{
+			state enemy_parry_code
+			action A_MU_PARASITE_PAIN
+			break
+		}
+		else
+		{
+			sound RIPPER_SCRATCH
+			set temp 20
+			rand temp2 25
+			add temp temp2
+			seta[my_target].htextra temp
+			seta[my_target].htpicnum 17663
+		}
+	}
+ends
+
+damageeventtile MU_PARASITE
+
+useractor enemystayput MU_PARASITE_STAYPUT 750 A_MU_PARASITE_START
+   cactor MU_PARASITE
+enda
+
+useractor enemy MU_PARASITE 750 A_MU_PARASITE_START
+fall
+ifaction A_MU_PARASITE_START
+{
+	cstat 257
+	strength 750
+	sizeat 36 30
+	set blood_type 8 // defaults to 0 which is red
+	set actor_type TYPE_CHITIN // defaults to 0, either remove or change this to desired armour type
+	geta[].pal actor_pal
+	state monst_glow
+	action A_MU_PARASITE_IDLE
+	espawn SHOOTME 
+	seta[RETURN].pal 1
+}
+
+state actor_knockback_state
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifaction A_MU_PARASITE_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1 
+	{
+		ifrnd 128 sound SCP_ATCK1
+		else sound SCP_ATCK2
+		
+		action A_MU_PARASITE_SEEK
+	}
+}
+
+else ifaction A_MU_PARASITE_SEEK
+{
+	ifmove M_MU_PARASITE_WALK nullop 
+	else move M_MU_PARASITE_WALK geth
+		
+	state checkfortarget
+	
+	ifn my_target -1
+	{
+		dist temp THISACTOR my_target
+		ifl temp 1024 action A_MU_PARASITE_MELEEATK
+	}
+}
+else ifaction A_MU_PARASITE_SHRUNK
+{
+    ifmove M_MU_PARASITE_WALK nullop 
+	else move M_MU_PARASITE_WALK geth fleeenemy
+		
+	ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+		state new_shrunkcode
+	else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+	{
+		state unshrink
+		sizeto 36 30
+	}
+	else // after regrow, switch back to regular action
+	{
+		state endshrunkenstate
+		action A_MU_PARASITE_SEEK
+	}
+}
+else ifaction A_MU_PARASITE_MELEEATK
+{
+	move STOP
+	state fronttowardstarget
+
+	ifactioncount 6
+	{
+		ife INTERNALCOUNT 1
+		{
+			add INTERNALCOUNT 1
+			state mu_parasite_slash
+		}
+		
+		state checkfortarget
+		
+		ife my_target -1
+			action A_MU_PARASITE_SEEK
+		else
+		{
+			dist temp THISACTOR my_target
+			ifg temp 1024
+				action A_MU_PARASITE_SEEK
+			else
+				resetactioncount
+		}
+	}
+	else ifactioncount 3
+	{
+		ife INTERNALCOUNT 0
+		{
+			add INTERNALCOUNT 1
+			state mu_parasite_slash
+		}
+	}
+	else ifactioncount 1
+		set INTERNALCOUNT 0
+
+}
+else ifaction A_MU_PARASITE_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_MU_PARASITE_DYING 
+		else action A_MU_PARASITE_SEEK
+	}
+}
+else ifaction A_MU_PARASITE_FREEZE state frozen_code
+else ifaction A_MU_PARASITE_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+
+else ifaction A_MU_PARASITE_DYING
+{
+	move STOP // optional, could also keep momentum by not applying a move action here, or mess with angle or something
+	strength 0
+	ifactioncount 6 { state rf state BODY_FALL_NOISES action A_MU_PARASITE_DEAD }
+}
+
+else ifaction A_MU_PARASITE_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_MU_PARASITE_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_MU_PARASITE_FREEZE } 
+		else
+		{
+			ifrnd 128 sound SCP_DIE1 else sound SCP_DIE2
+			action A_MU_PARASITE_DYING
+			spawn BLOODPOOL
+		}
+	}
+		
+	else // not dead
+	{
+		ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_MU_PARASITE_SHRUNK }
+		
+		else ifg PAIN_AMOUNT 0 { ifrnd 128 sound SCP_PAIN1 else sound SCP_PAIN2 action A_MU_PARASITE_PAIN }
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST ifrnd 128 sound SCP_PAIN1 else sound SCP_PAIN2 action A_MU_PARASITE_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_MU_PARASITE_IDLE { state PAIN_SKILL_LEVELADJUST ifrnd 128 sound SCP_PAIN1 else sound SCP_PAIN2 action A_MU_PARASITE_PAIN }
+	}
+}
+
+state checksquished
+
+enda

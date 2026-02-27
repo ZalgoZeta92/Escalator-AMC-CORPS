@@ -1,0 +1,187 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+// *************************************************
+// WOMAN'S GHOST
+// *************************************************
+
+spritenoshade 30438
+spritenopal 30438
+
+
+action GHOST_ANG -1 1 5
+
+useractor notenemy 30438
+
+ifaction 0
+	{
+	ife hitag_saved 0 set hitag_saved 16384
+	ife lotag_saved 0 randvar temp 800
+	seta[].mdflags 16
+	set command 65536
+	set INTERNALCOUNT 0
+	action ZERO
+	}
+else
+ifaction ZERO
+	{
+	ifl haunted_factor temp cstat 32768 else
+	{ cstat 0 action GHOST_ANG }
+	}
+else
+ifaction GHOST_ANG
+	{
+	move STOP faceplayerslow
+	ifspritepal 3 ifp pfacing ifcansee ifcanseetarget ifpdistlvar hitag_saved
+		{
+		add INTERNALCOUNT 1
+		ifge INTERNALCOUNT 10 
+			{
+			ifge haunted_factor 500 spawn LOST
+			killit
+			}
+		}
+	}
+
+
+enda
+
+useractor notenemy 30442 // ghost face
+
+ifaction 0
+	{
+	geta[].cstat cstat_saved
+	ife hitag_saved 0 set hitag_saved 16384
+	ife lotag_saved 0 randvar temp 800
+	set INTERNALCOUNT 0
+	action ZERO
+	}
+else
+ifaction ZERO
+	{
+	ifl haunted_factor temp cstat 32768 else
+	 ifp pfacing ifpdistlvar hitag_saved
+		{
+		seta[].cstat cstat_saved
+		add INTERNALCOUNT 1
+		ifge INTERNALCOUNT 5 killit
+		}
+	}
+
+enda
+
+move GHOST_MOVE 64 0
+move GHOST_UP 64 -32
+move GHOST_DOWN 64 32
+
+useractor notenemy 30437
+ifaction 0
+	{
+	ifge haunted_factor 500
+		{
+		stopallmusic
+		screensound GHOST_APP
+		set music_override 1
+		starttrackslot 4 16
+		cstat 256
+		seta[].mdflags 16
+		set command 65536
+		action ZERO
+		}
+	else cstat 32768
+	}
+	
+ifaction ZERO
+ {
+ state check_canfloat
+ soundonce GHOST_ROAM
+ // Skip the float detection code if the wizard can't float freely in here
+ 
+ state smartpoint_angletoplayer
+ 
+ ife temp9 1
+	 {
+	 getplayer[].posz z
+	 geta[].z my_z
+	 ifg my_z z
+		 {
+		 move GHOST_UP geth getv
+		 }
+	 else
+		 {
+		 ifg temp10 my_z move GHOST_DOWN  geth getv
+		 else move GHOST_MOVE geth
+		 }
+	 }
+	 
+ifge haunted_factor 700
+	{
+	geta[].xvel temp
+	mul temp 2
+	seta[].xvel temp
+	}
+	 
+ifpdistl 2048
+	{
+	ifactioncount 4
+		{
+		ifg P_SPIRIT_ARMOUR 0
+			{
+			sub P_SPIRIT_ARMOUR 50
+			soundonce SPARM_PROTECT
+			palfrom 20 0 0 40
+			ifl P_SPIRIT_ARMOUR 0 set P_SPIRIT_ARMOUR 0
+			state setknockback
+			}
+		else
+			ife CHAR 14
+			  ifn player[].holoduke_on -1
+				{
+				soundonce SPARM_PROTECT
+				palfrom 20 0 0 40
+				state setknockback
+				}
+		else
+			ife CHAR 4
+			  ifn player[].holoduke_on -1
+				{
+				soundonce SPARM_PROTECT
+				palfrom 20 0 0 40
+				state setknockback
+				}
+		else ife player_spooked 0 { set player_spooked 98 addphealth -75 palfrom 40 40 0 0 state setknockback }
+		wackplayer
+		resetactioncount
+		soundonce LOST_ATTACK
+		}
+	}
+	 
+ }
+	
+enda

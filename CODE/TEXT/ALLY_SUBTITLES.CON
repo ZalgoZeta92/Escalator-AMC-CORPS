@@ -1,0 +1,2146 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Ally subtitle text
+--------------------------------------------------------------------------------
+*/
+
+// =======================================================================================================================================================================================================
+//
+// SORCERER NAMES
+//
+// =======================================================================================================================================================================================================
+
+defstate SORCERER_NAMES
+switch LAST_NAME
+case 0
+redefinequote 573 ^1L'vc Rft
+break
+case 1
+redefinequote 573 ^1B'r Lr
+break
+case 2
+redefinequote 573 ^1Bl' Ch
+break
+case 3
+redefinequote 573 ^1C'mp Bll
+break
+case 4
+redefinequote 573 ^1Ch'mb Rs
+break
+case 5
+redefinequote 573 ^1D'rl Th
+break
+case 6
+redefinequote 573 ^1Edd' Yjr
+break
+case 7
+redefinequote 573 ^1Ell' Sn
+break
+case 8
+redefinequote 573 ^1G' Mn
+break
+case 9
+redefinequote 573 ^1Gr'en Brg
+break
+case 10
+redefinequote 573 ^1H' Wrd
+break
+case 11
+redefinequote 573 ^1J'hn Sn
+break
+case 12
+redefinequote 573 ^1J'Sh
+break
+case 13
+redefinequote 573 ^1K' Ng
+break
+case 14
+redefinequote 573 ^1K't Tnr
+break
+case 15
+redefinequote 573 ^1L'i Br
+break
+case 16
+redefinequote 573 ^1L' Gtt
+break
+case 17
+redefinequote 573 ^1M'c Hn
+break
+case 18
+redefinequote 573 ^1Pr' Ce
+break
+case 19
+redefinequote 573 ^1Sh' A
+break
+case 20
+redefinequote 573 ^1Sm' th
+break
+case 21
+redefinequote 573 ^1P'e
+break
+case 22
+redefinequote 573 ^1T'r Ney
+break
+endswitch
+ends
+
+defstate SORCERER_FOLLOW_VOICES
+state SORCERER_NAMES
+ifg ALLY_VOICE 0
+{
+sub ALLY_VOICE 1
+ife ALLY_VOICE 1
+{
+ifrnd 128
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Master...
+qsprintf ALLY_SUBTITLE 7502 573
+set ally_subt 70
+}
+soundonce SORC_FOLLOW1
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Yes...
+qsprintf ALLY_SUBTITLE 7502 573
+set ally_subt 68
+}
+soundonce SORC_FOLLOW2
+}
+}
+}
+else
+ifl ALLY_VOICE 0
+{
+add ALLY_VOICE 1
+ife ALLY_VOICE -1
+{
+ifrnd 128
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0I shall guard the area...
+qsprintf ALLY_SUBTITLE 7502 573
+set ally_subt 97
+}
+soundonce SORC_GUARD1
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0I shall KILL all intruders...
+qsprintf ALLY_SUBTITLE 7502 573
+set ally_subt 122
+}
+soundonce SORC_GUARD2
+}
+}
+}
+ends
+
+defstate SORCERER_ATTACK_VOICES
+ifrnd 16
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0See me, and know fear!
+qsprintf ALLY_SUBTITLE 7502 573
+set ally_subt 128
+}
+soundonce SORC_ATTACK1
+}
+else ifrnd 16
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Die!
+qsprintf ALLY_SUBTITLE 7502 573
+set ally_subt 84
+}
+soundonce SORC_ATTACK2
+}
+else ifrnd 16
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Yessss!
+qsprintf ALLY_SUBTITLE 7502 573
+set ally_subt 70
+}
+soundonce SORC_ATTACK3
+}
+else ifrnd 16
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0You are mine!
+qsprintf ALLY_SUBTITLE 7502 573
+set ally_subt 95
+}
+soundonce SORC_ATTACK4
+}
+ends
+
+// =======================================================================================================================================================================================================
+//
+// EDF/EAF SOLDIER NAMES
+//
+// =======================================================================================================================================================================================================
+
+// =======================================================================================================================================================================================================
+//
+// EDF SOLDIER STUFF
+//
+// =======================================================================================================================================================================================================
+
+defstate SOLDIER_NAMEDROP
+ife CHAR 0
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Sure thing James.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 39
+}
+sound EDFS_JAMES
+}
+else ife CHAR 1
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Sure thing Zaxtor.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 46
+}
+sound EDFS_ZAXTOR
+}
+else ife CHAR 2
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Sure thing Merlijn.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 40
+}
+sound EDFS_MERLIJN
+}
+else ife CHAR 3
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Sure thing Highwire.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 47
+}
+sound EDFS_HIGHWIRE
+}
+else ife CHAR 4
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Sure thing Sang.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 41
+}
+sound EDFS_SANG
+}
+else ife CHAR 5
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Sure thing Rusty.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 44
+}
+sound EDFS_RUSTY
+}
+else ife CHAR 6
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Sure thing Geoffrey.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 42
+}
+sound EDFS_GEOFFREY
+}
+else ife CHAR 7
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Sure thing Mikko.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 39
+}
+sound EDFS_MIKKO
+}
+else ife CHAR 13
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Sure thing Micky.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+sound EDFS_MICKY
+}
+else
+{
+ife P_GENDER FEMALE
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Yes Ma'am.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 50
+}
+sound EDFS_YES_MAM
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Yes Sir.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 50
+}
+sound EDFS_YES_SIR
+}
+}
+ends
+
+defstate EDFSOLD_YOUR_HURT
+ife P_GENDER FEMALE
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0You look pretty hurt ma'am.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 46
+}
+soundonce EDFSOLD_YOURHURT2
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0You look pretty hurt sir.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 47
+}
+soundonce EDFSOLD_YOURHURT
+}
+ends
+
+defstate EDFSOLD_TARGET_DOWN
+ifrnd 64
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Target down!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+sound EDFS_TARGETD_1
+}
+else ifrnd 64
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Target neutralized!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 52
+}
+sound EDFS_TARGETD_2
+}
+else ifrnd 64
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Eat that!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 24
+}
+sound EDFS_TARGETD_3
+}
+ends
+
+defstate FEAR_TARGET_DOWN
+ifrnd 64
+	{
+	ife ally_subt 0
+	ifpdistl 8192
+		{
+		qputs 7502 ^60%s: ^0Awesome.
+		qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+		set ally_subt 36
+		}
+	sound FR_KILL1
+	}
+else ifrnd 64
+	{
+	ife ally_subt 0
+	ifpdistl 8192
+		{
+		qputs 7502 ^60%s: ^0Boom, baby!
+		qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+		set ally_subt 46
+		}
+	sound FR_KILL2
+	}
+else ifrnd 64
+	{
+	ife ally_subt 0
+	ifpdistl 8192
+		{
+		qputs 7502 ^60%s: ^0Hahahaha!
+		qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+		set ally_subt 72
+		}
+	sound FR_KILL3
+	}
+else ifrnd 64
+	{
+	ife ally_subt 0
+	ifpdistl 8192
+		{
+		qputs 7502 ^60%s: ^0One shot, one kill.
+		qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+		set ally_subt 62
+		}
+	sound FR_KILL4
+	}
+else ifrnd 64
+	{
+	ife ally_subt 0
+	ifpdistl 8192
+		{
+		qputs 7502 ^60%s: ^0This is too easy.
+		qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+		set ally_subt 61
+		}
+	sound FR_KILL5
+	}
+ends
+
+defstate EDFSOLD_RELOAD
+ifrnd 64
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Changing mag.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 29
+}
+sound EDFS_NEWMAG_1
+}
+else ifrnd 64
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Cover me, reloading.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 46
+}
+sound EDFS_NEWMAG_2
+}
+else ifrnd 64
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Reloading.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 27
+}
+sound EDFS_NEWMAG_3
+}
+ends
+
+defstate EDFSOLD_INCOMING
+getav[my_target].myowner temp6
+geta[temp6].picnum temp7
+switch temp7
+case LPOWERSUIT
+case HPOWERSUIT
+case VILMOS_ROBOT
+case CYBERTOUR
+case OGRE
+case CYBERALIEN
+case PE_SENTRY
+case SENTRY
+case TANK
+ifrnd 32
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0We've got heavy armour here.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 47
+}
+sound EDFS_H_ARM
+}
+break
+case SORCERER
+case DARKAVATAR
+case LOST
+case SPIRIT
+ifrnd 32
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0We've got papa tangos here.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 55
+}
+sound EDFS_PARA_1
+}
+else ifrnd 32
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0We've got sierra tangos here.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 59
+}
+sound EDFS_PARA_2
+}
+break
+default
+ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0We've got incoming.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 40
+}
+sound EDFS_INCOMING_1
+}
+else ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Enemies incoming.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 37
+}
+sound EDFS_INCOMING_2
+}
+break
+endswitch
+ends
+
+defstate EDF_SOLDIER_MOVE_VOICE
+ifg ALLY_VOICE 0
+{
+sub ALLY_VOICE 1
+ife ALLY_VOICE 1
+{
+randvar temp 60
+ifl temp 10
+state SOLDIER_NAMEDROP
+else
+ifl temp 20
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Let's get the hell out of here.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 48
+}
+sound EDFSOLD_MOVE1
+}
+else
+ifl temp 30
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0I've got your six.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 38
+}
+sound EDFSOLD_MOVE2
+}
+else
+ifl temp 40
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Roger that.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 23
+}
+sound EDFSOLD_MOVE3
+}
+else
+ifl temp 50
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0You've got point.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 42
+}
+sound EDFSOLD_MOVE4
+}
+else
+{
+ife P_GENDER FEMALE
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Yes Ma'am.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 29
+}
+sound EDFS_YES_MAM
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Yes Sir.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 27
+}
+sound EDFS_YES_SIR
+}
+}
+}
+}
+else
+ifl ALLY_VOICE 0
+{
+add ALLY_VOICE 1
+ife ALLY_VOICE -1
+{
+randvar temp 60
+ifl temp 10
+state SOLDIER_NAMEDROP
+else
+ifl temp 20
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Guard duty, huh.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 41
+}
+sound EDFSOLD_STAY1
+}
+else
+ifl temp 30
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0I'll secure this area.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 54
+}
+sound EDFSOLD_STAY2
+}
+else
+ifl temp 40
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Leave some for me.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 39
+}
+sound EDFSOLD_STAY3
+}
+else
+ifl temp 50
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Understood.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+sound EDFSOLD_STAY4
+}
+else
+{
+ife P_GENDER FEMALE
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Yes Ma'am.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 50
+}
+sound EDFS_YES_MAM
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Yes Sir.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 50
+}
+sound EDFS_YES_SIR
+}
+}
+}
+}
+ends
+
+defstate FEAR_SOLDIER_MOVE_VOICE
+ifg ALLY_VOICE 0
+{
+sub ALLY_VOICE 1
+ife ALLY_VOICE 1
+	{
+	randvar temp 60
+	ifl temp 20
+		{
+		ife ally_subt 0
+			{
+			qputs 7502 ^60%s: ^0I'll follow you.
+			qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+			set ally_subt 47
+			}
+		sound FR_FOLL1
+		}
+	else
+	ifl temp 40
+		{
+		ife ally_subt 0
+			{
+			qputs 7502 ^60%s: ^0Roger that.
+			qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+			set ally_subt 30
+			}
+		sound FR_FOLL2
+		}
+	else
+		{
+		ife ally_subt 0
+			{
+			qputs 7502 ^60%s: ^0Understood.
+			qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+			set ally_subt 27
+			}
+		sound FR_FOLL3
+		}
+
+	}
+}
+else
+ifl ALLY_VOICE 0
+{
+add ALLY_VOICE 1
+ife ALLY_VOICE -1
+	{
+	randvar temp 60
+	ifl temp 20
+		{
+		ife ally_subt 0
+			{
+			qputs 7502 ^60%s: ^0Alright.
+			qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+			set ally_subt 22
+			}
+		sound FR_STAY1
+		}
+	else
+	ifl temp 40
+		{
+		ife ally_subt 0
+			{
+			qputs 7502 ^60%s: ^0Copy that.
+			qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+			set ally_subt 33
+			}
+		sound FR_STAY2
+		}
+	else
+	ifl temp 60
+		{
+		ife ally_subt 0
+			{
+			qputs 7502 ^60%s: ^0On it.
+			qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+			set ally_subt 40
+			}
+		sound FR_STAY3
+		}
+	}
+}
+ends
+
+defstate FEAR_SOLDIER_INCOMING
+ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+	{
+	qputs 7502 ^60%s: ^0Enemy spotted.
+	qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+	set ally_subt 39
+	}
+sound FR_ESPOT1
+}
+else ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+	{
+	qputs 7502 ^60%s: ^0Incoming!
+	qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+	set ally_subt 39
+	}
+sound FR_ESPOT2
+}
+else ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+	{
+	qputs 7502 ^60%s: ^0You are going down.
+	qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+	set ally_subt 59
+	}
+sound FR_ESPOT3
+}
+ends
+
+defstate EDF_SUPERSOLDIER_INCOMING
+ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Hostile!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 23
+}
+sound EDFS_HOST1
+}
+else ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Incoming!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 22
+}
+sound EDFS_HOST2
+}
+
+ends
+
+defstate FEAR_SOLD_YOUR_HURT
+ifrnd 128
+	{
+	ife ally_subt 0
+		{
+		qputs 7502 ^60%s: ^0You better watch it.
+		qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+		set ally_subt 44
+		}
+	soundonce FR_PHURT1
+	}
+else
+	{
+	ife ally_subt 0
+		{
+		qputs 7502 ^60%s: ^0You don't look so good.
+		qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+		set ally_subt 50
+		}
+	soundonce FR_PHURT2
+	}
+ends
+
+defstate EDF_SUPERSOLDIER_ENGAGE
+ifrnd 16
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Enemy engaged.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 31
+}
+sound EDFS_ENG1
+set npc_talking 300
+}
+else ifrnd 16
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Engaging enemy.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 30
+}
+sound EDFS_ENG2
+set npc_talking 300
+}
+else ifrnd 16
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Engaging target.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 29
+}
+sound EDFS_ENG3
+set npc_talking 300
+}
+
+ends
+
+defstate EDF_SUPERSOLDIER_CLEAR
+ifrnd 64
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0All clear.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 18
+}
+sound EDFS_ALLCL1
+}
+else ifrnd 64
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Clear.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 12
+}
+sound EDFS_ALLCL2
+}
+
+ends
+
+defstate EDF_SUPERSOLDIER_MOVE
+ifg ALLY_VOICE 0
+{
+sub ALLY_VOICE 1
+ife ALLY_VOICE 1
+{
+randvar temp 30
+ife GENDER 1 // Female?
+{
+ifl temp 10
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Copy that.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 19
+}
+sound EDFS_COPY
+}
+else
+ifl temp 20
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Affirmitive.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 18
+}
+sound EDFS_AFF
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Understood.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 21
+}
+sound EDFS_UNDERS
+}
+}
+}
+}
+else
+ifl ALLY_VOICE 0
+{
+add ALLY_VOICE 1
+ife ALLY_VOICE -1
+{
+randvar temp 30
+ife GENDER 1 // Female?
+{
+ifl temp 10
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Standing by.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 27
+}
+sound EDFS_STANDBY
+}
+else
+ifl temp 20
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Roger that.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+sound EDFS_ROGER
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Understood.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 21
+}
+sound EDFS_UNDERS
+}
+}
+}
+}
+ends
+
+// =======================================================================================================================================================================================================
+// EAF SOLDIER STUFF
+// =======================================================================================================================================================================================================
+
+// =======================================================================================================================================================================================================
+//
+// EDF SOLDIER STUFF
+//
+// =======================================================================================================================================================================================================
+
+
+defstate EAFSOLD_TARGET_DOWN
+ifrnd 16
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Target destroyed!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+sound EAF_TARGETD
+}
+ends
+
+defstate EAFSOLD_RELOAD
+ifrnd 128
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Cover me!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 19
+}
+sound EAF_COVER
+}
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Reload!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 17
+}
+sound EAF_RELOAD
+}
+ends
+
+defstate EAFSOLD_INCOMING
+ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Engaging enemy.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 40
+}
+sound EAF_ATTACK
+}
+else ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Enemy spotted!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 31
+}
+sound EAF_ENEMY
+}
+else ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Fire at will!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 28
+}
+sound EAF_FAW
+}
+else ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Hostiles!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 24
+}
+sound EAF_HOSTILES
+}
+else ifrnd 8
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Open fire!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 28
+}
+sound EAF_OPENF
+}
+ends
+
+defstate EAF_SOLDIER_MOVE_VOICE
+ifg ALLY_VOICE 0
+{
+sub ALLY_VOICE 1
+ife ALLY_VOICE 1
+{
+ifrnd 196
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Copy that.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 22
+}
+sound EAF_COPY
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Order acknowledged.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 31
+}
+sound EAF_ORDER
+}
+
+}
+}
+else
+ifl ALLY_VOICE 0
+{
+add ALLY_VOICE 1
+ife ALLY_VOICE -1
+{
+ifrnd 196
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Copy that.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 22
+}
+sound EAF_COPY
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Order acknowledged.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 31
+}
+sound EAF_ORDER
+}
+
+}
+}
+ends
+
+// =======================================================================================================================================================================================================
+// AMC SOLDIER STUFF
+// =======================================================================================================================================================================================================
+
+defstate AMCSOLD_PAIN
+ife GENDER MALE
+{
+ifrnd 96
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+
+qputs 7502 ^60%s: ^0I'm hit! I'm hit!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 33
+}
+soundonce AMCSOLD_IMHIT
+}
+else ifrnd 96
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Taking fire!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 30
+}
+soundonce AMCSOLD_IMHIT2
+}
+else
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^60%s: ^0Need backup!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 27
+}
+soundonce AMCSOLD_IMHIT3
+}
+}
+ends
+
+defstate AMCSOLDIER_MOVE_VOICE
+ifg ALLY_VOICE 0
+{
+sub ALLY_VOICE 1
+ife ALLY_VOICE 1
+{
+randvar temp 30
+ife GENDER 0 // Male?
+{
+randvar temp 50
+ifl temp 10
+{
+ife CHAR 0
+{
+sound AMCS_M_R_JAMES
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Roger that James.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+}
+else ife CHAR 1
+{
+sound AMCS_M_R_ZAXTOR
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Roger that Zaxtor.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 37
+}
+}
+else ife CHAR 2
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Roger that Merlijn.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 42
+}
+sound AMCS_M_R_MERLIJN
+}
+else ife CHAR 3
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Roger that Highwire.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 35
+}
+sound AMCS_M_R_HIGHW
+}
+else ife CHAR 4
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^0Roger that Sang.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 31
+}
+sound AMCS_M_R_SANG
+}
+else ife CHAR 5
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Roger that Rusty.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 30
+}
+sound AMCS_M_R_RUSTY
+}
+else ife CHAR 6
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Roger that Geoffrey.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 31
+}
+sound AMCS_M_R_GEOFF
+}
+else ife CHAR 7
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Roger that Mikko.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 32
+}
+sound AMCS_M_R_MIKKO
+}
+else ife CHAR 13
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Roger that Micky.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 33
+}
+sound AMCS_M_R_MICKY
+}
+}
+else
+ifl temp 20
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Ten Four.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 21
+}
+sound AMCSOLD_MOVE1
+}
+else
+ifl temp 30
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0I've got your back.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 30
+}
+sound AMCSOLD_MOVE2
+}
+else
+ifl temp 40
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Let's go.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 20
+}
+sound AMCSOLD_MOVE3
+}
+else
+ifl temp 50
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Take point!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 27
+}
+sound AMCSOLD_MOVE4
+}
+}
+else
+ife GENDER 1 // Female?
+{
+ifl temp 10
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0On it.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 28
+}
+sound AMCSOLD_MOV_1
+}
+else
+ifl temp 20
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0On my way.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 37
+}
+sound AMCSOLD_MOV_2
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Alright.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 32
+}
+sound AMCSOLD_ORD_3
+}
+}
+}
+}
+else
+ifl ALLY_VOICE 0
+{
+add ALLY_VOICE 1
+ife ALLY_VOICE -1
+{
+randvar temp 30
+ife GENDER 1 // Female?
+{
+ifl temp 10
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Okay.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 27
+}
+sound AMCSOLD_ORD_1
+}
+else
+ifl temp 20
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Roger that.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+sound AMCSOLD_ORD_2
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Alright.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 32
+}
+sound AMCSOLD_ORD_3
+}
+}
+else // if male soldier
+{
+ifl temp 10
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0I'll sit tight!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+sound AMCSOLD_STAY1
+}
+else
+ifl temp 20
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Securing this area!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 41
+}
+sound AMCSOLD_STAY2
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0I'll wait right here.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 37
+}
+sound AMCSOLD_STAY3
+}
+}
+}
+}
+ends
+
+defstate AMCSOLD_PHASING
+ifrnd 32
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Using phase device!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 37
+}
+soundonce AMCS_M_PHASE1
+}
+else ifrnd 32
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Phasing in!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 28
+}
+soundonce AMCS_M_PHASE2
+}
+else ifrnd 32
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Scotty, beam me up!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 38
+}
+soundonce AMCS_M_PHASE3
+}
+ends
+
+defstate AMCSOLD_RELOADING
+ifrnd 64
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Changing mag!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 38
+}
+sound AMCS_M_RELOAD1
+}
+else ifrnd 64
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0New mag in!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 29
+}
+sound AMCS_M_RELOAD2
+}
+else ifrnd 64
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Reloading!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 32
+}
+sound AMCS_M_RELOAD3
+}
+ends
+
+defstate AMCSOLD_YOUR_HURT
+ife GENDER 0
+{
+ifrnd 128
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0You need a medic, be careful.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 56
+}
+soundonce AMCSOLD_YOURHURT
+}
+else
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0You look a bit rough there.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 38
+}
+soundonce AMCSOLD_YOURHURT2
+}
+}
+ends
+
+defstate AMCSOLDIER_TARGET_VOICE
+ifrnd 16
+{
+ife GENDER MALE
+{
+ifrnd 128
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Incoming!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+soundonce AMCSOLD_INCOMING
+}
+else ifrnd 128
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Hostiles incoming!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 37
+}
+soundonce AMCSOLD_INCOMING2
+}
+else ifrnd 128
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0We got targets!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 30
+}
+soundonce AMCSOLD_INCOMING3
+}
+else
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Contact!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 21
+}
+soundonce AMCSOLD_INCOMING4
+}
+}
+else
+ife GENDER FEMALE
+{
+ifrnd 128
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Enemy spotted!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 444
+}
+soundonce AMCSOLD_INC_1
+}
+else
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Incoming!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 35
+}
+soundonce AMCSOLD_INC_2
+}
+}
+}
+ends
+
+// AMC-209
+
+defstate AMC209_MOVE_VOICE
+ifg ALLY_VOICE 0
+{
+sub ALLY_VOICE 1
+ife ALLY_VOICE 1
+{
+randvar temp 60
+ifl temp 10
+{
+ife CHAR 0
+{
+sound RB_JS_ROGER1
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^7^Yes, James!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 45
+}
+}
+else ife CHAR 1
+{
+sound RB_ZN_ROGER1
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^7^Yes, Zaxtor!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 45
+}
+}
+else ife CHAR 2
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^7^Yes, Merlijn!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 42
+}
+sound RB_MO_ROGER1
+}
+else ife CHAR 3
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^7^Yes, Highwire!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 42
+}
+sound RB_HW_ROGER1
+}
+else ife CHAR 4
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^7^Yes, Sang!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 38
+}
+sound RB_SG_ROGER1
+}
+else ife CHAR 5
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Yes, Rusty!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 40
+}
+sound RB_RN_ROGER1
+}
+else ife CHAR 6
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Yes, Geoffrey!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+sound RB_GEO_ROGER1
+}
+else ife CHAR 7
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Yes, Mikko!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 39
+}
+sound RB_MS_ROGER1
+}
+else ife CHAR 10
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Yes, Shelly!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 35
+}
+sound RB_BS_ROGER1
+}
+else ife CHAR 12
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Yes, Jane!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 42
+}
+sound RB_JA_ROGER1
+}
+else ife CHAR 13
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Yes, Micky!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+sound RB_MC_ROGER1
+}
+else ife CHAR 14
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Yes, Snowfall!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 44
+}
+sound RB_SF_ROGER1
+}
+else ife CHAR 17
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Yes, Takahashi!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 38
+}
+sound RB_KG_ROGER1
+}
+}
+else
+ifl temp 20
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Following.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 23
+}
+sound RB_FOLLOW1
+}
+else
+ifl temp 30
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Let's go.^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 17
+}
+sound RB_FOLLOW2
+}
+else
+ifl temp 40
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Let's go!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 28
+}
+sound RB_FOLLOW3
+}
+else
+ifl temp 50
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Ready for action!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 41
+}
+sound RB_FOLLOW4
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Understood!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 30
+}
+sound RB_FOLLOW5
+}
+}
+}
+else
+ifl ALLY_VOICE 0
+{
+add ALLY_VOICE 1
+ife ALLY_VOICE -1
+{
+randvar temp 60
+ifl temp 10
+{
+ife CHAR 0
+{
+sound RB_JS_ROGER2
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^7^Understood James!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 45
+}
+}
+else ife CHAR 1
+{
+sound RB_ZN_ROGER2
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^7^Understood Zaxtor!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 45
+}
+}
+else ife CHAR 2
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^7^Understood Merlijn!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 42
+}
+sound RB_MO_ROGER2
+}
+else ife CHAR 3
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^7^Understood Highwire!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 42
+}
+sound RB_HW_ROGER2
+}
+else ife CHAR 4
+{
+ife ally_subt 0
+{
+qputs 7502 ^60%s: ^7^Understood Sang!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 38
+}
+sound RB_SG_ROGER2
+}
+else ife CHAR 5
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Understood Rusty!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 40
+}
+sound RB_RN_ROGER2
+}
+else ife CHAR 6
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Understood Geoffrey!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+sound RB_GEO_ROGER2
+}
+else ife CHAR 7
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Understood Mikko!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 39
+}
+sound RB_MS_ROGER2
+}
+else ife CHAR 10
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Understood Shelly!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 35
+}
+sound RB_BS_ROGER2
+}
+else ife CHAR 12
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Understood Jane!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 42
+}
+sound RB_JA_ROGER2
+}
+else ife CHAR 13
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Understood Micky!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 34
+}
+sound RB_MC_ROGER2
+}
+else ife CHAR 14
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Understood Snowfall!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 44
+}
+sound RB_SF_ROGER2
+}
+else ife CHAR 17
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Understood Takahashi!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 38
+}
+sound RB_KG_ROGER2
+}
+}
+else
+ifl temp 20
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Holding position!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 38
+}
+sound RB_STAY1
+}
+else
+ifl temp 30
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Holding position.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 33
+}
+sound RB_STAY2
+}
+else
+ifl temp 40
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^7^Yes!^
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 16
+}
+sound RB_STAY3
+}
+else
+ifl temp 50
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Waiting.
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 42
+}
+sound RB_STAY4
+}
+else
+{
+ife ally_subt 0
+{
+qputs 7502 ^1%s: ^0Waiting!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 22
+}
+sound RB_STAY5
+}
+}
+}
+ends
+
+defstate AMC209_FIRING
+ifrnd 32
+{
+ifrnd 128
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Initating cover fire!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 48
+}
+soundonce RB_ATTACK1
+}
+else
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Ratatatata, Ratatatata!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 82
+}
+soundonce RB_FIRE1
+}
+}
+ends
+
+
+defstate AMC209_MISSILES
+ifrnd 96
+{
+ifrnd 128
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Firing for effect!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 41
+}
+soundonce RB_MISSILE1
+}
+else
+{
+ife ally_subt 0
+ifpdistl 8192
+{
+qputs 7502 ^1%s: ^0Kaboom!
+qsprintf ALLY_SUBTITLE 7502 LAST_NAME
+set ally_subt 42
+}
+ifrnd 128 soundonce RB_KABOOM2 else
+soundonce RB_KABOOM1
+}
+}
+ends

@@ -1,0 +1,320 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Iron Division Bear Warrior
+--------------------------------------------------------------------------------
+*/
+action A_IDORC_IDLE 0 1 5 1 11
+action A_IDORC_READY 5 1 5 1 10
+action A_IDORC_MOVE 15 4 5 1 11
+action A_IDORC_RELOAD 10 1 5 1 11
+action A_IDORC_FIRE 5 1 5 1 20
+action A_IDORC_DYING 35 5 1 1 11
+action A_IDORC_DEAD 39 1 1 1 1
+
+move M_IDORC_MOVE 266
+move M_IDORC_MOVESLOW 128
+
+// Copies, used with different movflags
+move M_IDORC_MOVEJUMP 266
+move M_IDORC_MOVEFALL 266
+
+spriteshadow ID_ORC
+spritenvg ID_ORC
+
+defstate IDORC_voice
+	ifvarg ALLY_VOICE 0
+	{
+		subvar ALLY_VOICE 1
+		ife ALLY_VOICE 1
+		{
+			ifrnd 128
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5210
+					set ally_subt 34
+				}
+				sound FTG_ROGER1
+			}
+			else
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5212
+					set ally_subt 28
+				}
+				sound FTG_ROGER3
+			}
+		}
+	}
+	else ifvarl ALLY_VOICE 0
+	{
+		addvar ALLY_VOICE 1
+		ife ALLY_VOICE -1
+		{
+		ifrnd 128
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5211
+					// 7501 ^60Bombshell: ^0Got it.
+					set ally_subt 25
+				}
+				sound FTG_ROGER2
+			}
+		else
+			{
+				ife ally_subt 0
+				{
+					qstrcpy 7501 5213
+					// 7501 ^60Bombshell: ^0Got it.
+					set ally_subt 25
+				}
+				sound FTG_ROGER4
+			}
+		}
+	}
+ends
+
+useractor notenemy ID_ORC
+	fall
+
+state player_walkthru
+
+	ifaction 0
+	{
+		seta[].htwaterzoffset 8
+		spritepal 49
+		spawn SHOOTME2
+		strength 16000
+		set max_health 16000
+		setvar ally_mag 30
+		sizeat 24 24
+		action A_IDORC_IDLE
+		ifg extra_saved 0 state startfollowplayer
+	}
+
+	ifg npc_talking 0 sub npc_talking 1
+
+
+	state spawn_cold_breathe
+
+	state actor_knockback_state
+	xor element_type FLOOR_DAMAGE
+	xor element_type FIRE_DAMAGE
+	xor element_type ICE_DAMAGE
+	xor element_type SPIRIT_DAMAGE
+
+
+	state IDORC_voice
+
+	ifaction A_IDORC_DEAD
+	{
+		move STOP
+		strength 0
+		break
+	}
+	else ifaction A_IDORC_DYING
+	{
+		move STOP
+		ifactioncount 6 { state BODY_FALL_NOISES action A_IDORC_DEAD }
+	}
+	else ifaction A_IDORC_FIRE
+	{
+		move STOP
+		state checkfortarget
+		ifn my_target -1
+		{
+			ifactioncount 3
+			{
+				state fronttowardstarget
+				set PROJECTILE_TO_SHOOT XBOW_BOLT
+				set PROJECTILE_FIRING_SOUND CROSSBOW
+				state sang_enemyShootProjectile
+				sound CROSSBOW_DRAWBACK
+				set ally_mag 0
+				action A_IDORC_RELOAD
+				resetactioncount
+			}
+		}
+
+		ife my_target -1
+			{
+			ife npc_talking 0
+				{
+					ifrnd 16 soundonce FTG_KILL1
+					else ifrnd 16 soundonce FTG_KILL2
+					else ifrnd 16 soundonce FTG_KILL3
+					else ifrnd 16 soundonce FTG_KILL4
+					else ifrnd 16 soundonce FTG_KILL5
+					set npc_talking 0
+				}
+			action A_IDORC_READY
+			}
+	}
+	else ifaction A_IDORC_MOVE
+	{
+		ifmove M_IDORC_MOVE nullop
+		else move M_IDORC_MOVE geth
+
+		state checkfortarget
+		ifactioncount 3
+		{
+			state npc_footsteps
+			resetactioncount
+		}
+
+		ifn my_target -1
+		{
+		ife npc_talking 0
+			{
+				ifrnd 64 sound FTG_ATTACK1
+				else ifrnd 64 sound FTG_ATTACK2
+				else ifrnd 64 sound FTG_ATTACK3
+				set npc_talking 600
+			}
+		action A_IDORC_FIRE
+		resetactioncount
+		}
+		else
+			state faceplayerstate
+
+		ifnotmoving operate
+		ifpdistl 1736 { ifphealthl 25 ifrnd 16 sound BS_HURT1 action A_IDORC_READY }
+	}
+	else ifaction A_IDORC_RELOAD
+	{
+		move STOP
+
+		addvar ally_mag 1
+		ifge ally_mag 30 action A_IDORC_MOVE
+	}
+	else ifaction A_IDORC_READY
+	{
+		move STOP
+		sleeptime 0
+		ifn camerasprite -1
+			move STOP faceplayer
+		else
+			state rand_lookaround
+
+		addvar temp7 1
+		ife FOLLOW_PLAYER 1
+		{
+			ifpdistg 1735
+			 ifcansee
+			  ifcanseetarget
+			   action A_IDORC_MOVE
+		}
+		state checkfortarget
+		ifn my_target -1
+		{
+			ife npc_talking 0
+			{
+				ifrnd 96 sound FTG_SIGHT1
+				else ifrnd 96 sound FTG_SIGHT2
+				else ifrnd 96 sound FTG_SIGHT3
+				else sound FTG_SIGHT4
+				set npc_talking 300
+			}
+			action A_IDORC_FIRE
+			resetactioncount
+		}
+
+		ifrnd 1 action A_IDORC_IDLE
+
+		ifstrength 2000 ifcount 6 { addstrength 10 resetcount }
+	}
+	else ifaction A_IDORC_IDLE
+	{
+		move STOP
+		sleeptime 0
+		ifn camerasprite -1
+			move STOP faceplayer
+		else
+			state rand_lookaround
+
+		addvar temp7 1
+		ife FOLLOW_PLAYER 1
+		{
+			ifpdistg 1735
+			 ifcansee
+			  ifcanseetarget
+			   action A_IDORC_MOVE
+		}
+		state checkfortarget
+		ifn my_target -1
+		{
+			ife npc_talking 0
+			{
+				ifrnd 96 sound FTG_SIGHT1
+				else ifrnd 96 sound FTG_SIGHT2
+				else ifrnd 96 sound FTG_SIGHT3
+				else sound FTG_SIGHT4
+				set npc_talking 300
+			}
+			action A_IDORC_FIRE
+			resetactioncount
+		}
+
+		ifstrength 2000 ifcount 6 { addstrength 10 resetcount }
+	}
+
+
+	ifvarn lotag_saved 0
+	{
+		checkactivatormotion lotag_saved
+		ife RETURN 1 killit
+	}
+
+	ifvarn xvel_saved 0
+	{
+		checkactivatormotion xvel_saved
+		ife RETURN 1 killit
+	}
+
+
+	state player_follow_commands
+
+	ifvarg spirit_damage 0 subvar spirit_damage 2
+
+	ifhitweapon
+	{
+		spawn BLOOD
+		state actor_knockback_state
+		state random_wall_jibs
+		state NEWGUNEFFECTS
+		ifvarg spirit_damage 10 setvar spirit_damage 10
+		ifdead
+		{
+			state clear_ally_death
+			state rf
+			ifrnd 96 sound FTG_DIE1
+			else ifrnd 96 sound FTG_DIE2
+			else sound FTG_DIE3
+			action A_IDORC_DYING
+			ifrnd 76 spawn BLOODPOOL
+
+			/* disable babysitting
+			ifmultiplayer nullop
+			else
+			{
+				palfrom 63 63 63 63
+				setvar SLO_MO_SHOWOFF 70
+				setvar FISSION_MAILED 1
+			}
+			*/
+		}
+	}
+enda

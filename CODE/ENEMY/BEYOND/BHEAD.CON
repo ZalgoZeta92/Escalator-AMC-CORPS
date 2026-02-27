@@ -1,0 +1,309 @@
+action A_BEYOND_HEAD_START 0 0 5 1 12
+action A_BEYOND_HEAD_IDLE 0 0 5 1 12
+
+action A_BEYOND_HEAD_JUMP 25 1 5 1 12
+action A_BEYOND_HEAD_HANG 25 1 5 1 12
+action A_BEYOND_HEAD_DOWN 25 1 5 1 12
+
+action A_BEYOND_HEAD_PAIN 30 0 1 1 8
+action A_BEYOND_HEAD_FREEZE 30 0 1 1 8
+action A_BEYOND_HEAD_GROW 30 0 1 1 8
+
+action A_BEYOND_HEAD_DYING 30 4 1 1 12
+action A_BEYOND_HEAD_DEAD 34
+
+action A_BEYOND_HEAD_DYING2 35 8 1 1 8
+action A_BEYOND_HEAD_DEAD2 42
+
+action A_BEYOND_HEAD_SEEK 5 4 5 1 12
+
+move M_BEYOND_HEAD_WALK 175
+damageeventtile BEYOND_HEAD
+
+defstate BEYONDH_LUNGE_HIT
+	// sprite hit, give it some damage
+	ifge RETURN 49152
+	{
+		set temp RETURN
+		sub temp 49152
+
+		ifn actorvar[temp].faction_flag faction_flag // not in my own faction?
+		{
+		set INTERNALCOUNT 60
+		sound RIPPER_SCRATCH
+		// random amount of damage
+		ife my_target PLAYER_IDENTITY set temp2 5 
+		else
+		set temp2 25
+		rand temp3 10
+		add temp2 temp3
+		seta[temp].htextra temp2
+			ifle sprite[my_target].extra 25
+				ifand actorvar[my_target].MONSTER_FLAGS 2
+					{
+					ifpdistg 16384 globalsound BHEAD_CONVD
+					else sound BHEAD_CONV
+					guts JIBS2 2
+					guts JIBS6 3
+					spawn BIG_BLOOD_EXE
+					seta[my_target].xrepeat 24
+					seta[my_target].yrepeat 24
+					ife sprite[my_target].picnum PE_TROOP seta[my_target].picnum BEYOND_ZOMBIE3
+					else ife sprite[my_target].picnum PE_SHOTGUNNER seta[my_target].picnum BEYOND_ZOMBIE3
+					else ife sprite[my_target].picnum MJ12_TROOP seta[my_target].picnum BEYOND_ZOMBIE4
+					else ife sprite[my_target].picnum MJ12_GUNNER { seta[my_target].picnum BEYOND_ZOMBIE4 seta[my_target].xrepeat 30 seta[my_target].yrepeat 30 }
+					else seta[my_target].picnum BEYOND_ZOMBIE2
+					setav[my_target].faction_flag 4 // set to Beyonder faction
+					setav[my_target].my_target -1 // reset their target
+					seta[my_target].htg_t 4 0 // reset action to 0
+					seta[my_target].htextra -1
+					seta[my_target].extra 150
+					killit
+					}
+		}
+	}
+
+	// Ran into sprite or wall -> stop lunge immediately
+	// If we run into a ceiling or floor, keep lunging for a while still
+	ifg RETURN 32768
+		action A_BEYOND_HEAD_SEEK
+ends
+
+useractor enemy BEYOND_HEAD 50 A_BEYOND_HEAD_START
+fall
+ifaction A_BEYOND_HEAD_START
+{
+	cstator 257
+	strength 50
+	sizeat 16 16
+	espawn SHOOTME
+	seta[RETURN].pal 1
+	set blood_type 0 // defaults to 0 which is red
+	set actor_type 0 // defaults to 0, either remove or change this to desired armour type
+	geta[].pal actor_pal
+	state monst_glow
+	action A_BEYOND_HEAD_IDLE
+}
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifg INTERNALCOUNT 0 sub INTERNALCOUNT 1
+
+ifaction A_BEYOND_HEAD_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1 
+	{
+		ifrnd 128 set playsound BH_SIG1
+		else set playsound BH_SIG2
+		soundvar playsound
+		setactorsoundpitch THISACTOR playsound 512		
+		action A_BEYOND_HEAD_SEEK
+	}
+}
+
+else ifaction A_BEYOND_HEAD_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_BEYOND_HEAD_DYING 
+		else action A_BEYOND_HEAD_SEEK
+	}
+}
+else ifaction A_BEYOND_HEAD_FREEZE state frozen_code
+else ifaction A_BEYOND_HEAD_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+
+else ifaction A_BEYOND_HEAD_DYING
+{
+	strength 0
+	ifactioncount 4 { state BODY_FALL_NOISES action A_BEYOND_HEAD_DEAD }
+}
+
+else ifaction A_BEYOND_HEAD_DYING2
+{
+	strength 0
+	ifactioncount 8 { state BODY_FALL_NOISES action A_BEYOND_HEAD_DEAD2 }
+}
+
+else ifaction A_BEYOND_HEAD_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+
+else ifaction A_BEYOND_HEAD_DEAD2
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+
+else ifaction A_BEYOND_HEAD_SEEK
+{
+	ifmove M_BEYOND_HEAD_WALK nullop 
+	else move M_BEYOND_HEAD_WALK geth
+		
+	state checkfortarget
+
+	
+	ifn my_target -1
+	ife INTERNALCOUNT 0
+	{
+		ldist temp THISACTOR my_target
+		getactorvar[my_target].myowner temp4
+		ife temp4 PLAYER_IDENTITY set temp5 1024 else set temp5 4096 // beyond head won't lunge at player from so far
+		ifl temp temp5 
+			{
+			state fronttowardstarget
+			geta[].ang movesprite_angvar
+			action A_BEYOND_HEAD_JUMP
+			}
+		else ifbulletnear 
+				{
+				state fronttowardstarget
+				geta[].ang movesprite_angvar
+				action A_BEYOND_HEAD_JUMP
+				}
+	}
+}
+else ifaction A_BEYOND_HEAD_JUMP
+{
+		ifnotmoving
+			action A_BEYOND_HEAD_SEEK
+
+		set movesprite_zvel -3000
+		set movesprite_shift 6
+		set movesprite_clipmask CLIPMASK1
+		state movesprite_state
+
+		state BEYONDH_LUNGE_HIT
+
+		ifactioncount 10
+			action A_BEYOND_HEAD_HANG
+}
+	else ifaction A_BEYOND_HEAD_HANG
+	{
+
+		set movesprite_zvel -1000
+		set movesprite_shift 4
+		set movesprite_clipmask CLIPMASK1
+		state movesprite_state
+
+		state BEYONDH_LUNGE_HIT
+
+		ifnotmoving
+			action A_BEYOND_HEAD_SEEK
+
+		ifceilingdistl 8 { cstator 8 action A_BEYOND_HEAD_SEEK } else
+		ifactioncount 5
+			action A_BEYOND_HEAD_DOWN
+	}
+	else ifaction A_BEYOND_HEAD_DOWN
+	{
+
+		set movesprite_zvel 4000
+		set movesprite_shift 6
+		set movesprite_clipmask CLIPMASK1
+		state movesprite_state
+
+		state BEYONDH_LUNGE_HIT
+
+		ifnotmoving
+			action A_BEYOND_HEAD_SEEK
+
+		ifactioncount 6
+			action A_BEYOND_HEAD_SEEK
+	}
+
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+		ifwasweapon RPG
+			{
+			  state squish_sounds
+			  state monst_body_jibs
+			  killit
+			}
+		  ifwasweapon RADIUSEXPLOSION
+			{
+			  state squish_sounds
+			  state monst_body_jibs
+			  killit
+			}
+		  ifand proj_udata PROJ_GIB
+			{
+			  state squish_sounds
+			  state monst_body_jibs
+			  killit
+			}
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_BEYOND_HEAD_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_BEYOND_HEAD_FREEZE } 
+			else ifg fire_damage 0 
+			{
+				shoot SPARK2 shoot SPARK2 shoot SPARK2 
+				ifrnd 128 set playsound BH_DIE1
+				else set playsound BH_DIE2
+				soundvar playsound
+				setactorsoundpitch THISACTOR playsound 768
+				sound ENGULF_FIRE
+				shoot SPARK shoot SPARK shoot SPARK shoot SPARK shoot SPARK
+				spawn 31337
+				killit
+			}
+		else
+		{
+			ifrnd 128 set playsound BH_DIE1
+			else set playsound BH_DIE2
+			soundvar playsound
+			setactorsoundpitch THISACTOR playsound 512
+			ifrnd 128 action A_BEYOND_HEAD_DYING2
+			else action A_BEYOND_HEAD_DYING
+			spawn BLOODPOOL
+		}
+	}
+		
+	else // not dead
+	{
+		ifg PAIN_AMOUNT 0 action A_BEYOND_HEAD_PAIN
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST action A_BEYOND_HEAD_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_BEYOND_HEAD_IDLE { state PAIN_SKILL_LEVELADJUST action A_BEYOND_HEAD_PAIN }
+	}
+}
+
+state checksquished
+
+enda

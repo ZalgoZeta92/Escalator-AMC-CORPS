@@ -1,0 +1,711 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Base customisation table
+--------------------------------------------------------------------------------
+*/
+
+var track_length 0 0
+
+defstate base_music_sytem
+ife amc_base 1
+	{
+	// this clears map triggers
+	resizearray MAP_TRIGGERS 0
+	resizearray MAP_TRIGGERS 16384
+	set shuffle_safety 0
+	// AMC BASE MUSIC PLAYER
+	ife play_base_music 0
+		{
+		 ife userdef.musictoggle 1
+			{
+			// populate list of music
+			// progression
+			ifand BEAT_EPISODES[1] 2 { ifand SHUFFLE_BASE_MUSIC 2 nullop else xor SHUFFLE_BASE_MUSIC 2 }
+			ifand BEAT_EPISODES[2] 1 { ifand SHUFFLE_BASE_MUSIC 64 nullop else xor SHUFFLE_BASE_MUSIC 64 }
+			ifand BEAT_EPISODES[2] 1 { ifand SHUFFLE_BASE_MUSIC 4 nullop else xor SHUFFLE_BASE_MUSIC 4 }
+			ifand BEAT_EPISODES[2] 32768 { ifand SHUFFLE_BASE_MUSIC 8 nullop else xor SHUFFLE_BASE_MUSIC 8 }
+			ifand BEAT_EPISODES[3] 1 { ifand SHUFFLE_BASE_MUSIC 128 nullop else xor SHUFFLE_BASE_MUSIC 128 }
+			ifand BEAT_EPISODES[3] 64 { ifand SHUFFLE_BASE_MUSIC 16 nullop else xor SHUFFLE_BASE_MUSIC 16 }
+			ifand BEAT_EPISODES[4] 1 { ifand SHUFFLE_BASE_MUSIC 256 nullop else xor SHUFFLE_BASE_MUSIC 256 }
+			ifand BEAT_EPISODES[4] 32768 { ifand SHUFFLE_BASE_MUSIC 32 nullop else xor SHUFFLE_BASE_MUSIC 32 }
+			ifand BEAT_EPISODES[5] 1 { ifand SHUFFLE_BASE_MUSIC 131072 nullop else xor SHUFFLE_BASE_MUSIC 131072 }
+			ifand BEAT_EPISODES[5] 524288 { ifand SHUFFLE_BASE_MUSIC 512 nullop else xor SHUFFLE_BASE_MUSIC 512 }
+			// unlockables
+			ifand BASE_COSMETICS 2 { ifand SHUFFLE_BASE_MUSIC 8192 nullop else xor SHUFFLE_BASE_MUSIC 8192 }
+			ife SAVED_LILITH 1 { ifand SHUFFLE_BASE_MUSIC 4096 nullop else xor SHUFFLE_BASE_MUSIC 4096 }
+			ifand BEAT_EPISODES[6] 96 { ifand SHUFFLE_BASE_MUSIC 1024 nullop else xor SHUFFLE_BASE_MUSIC 1024 }
+			ife IW_COMPLETE[1] 1 { ifand SHUFFLE_BASE_MUSIC 2048 nullop else xor SHUFFLE_BASE_MUSIC 2048 }
+			ifand BASE_COSMETICS 1 { ifand SHUFFLE_BASE_MUSIC 16384 nullop else xor SHUFFLE_BASE_MUSIC 16384 }
+			ifand BEAT_EPISODES[7] 2 { ifand SHUFFLE_BASE_MUSIC 32768 nullop else xor SHUFFLE_BASE_MUSIC 32768 }
+			ifand base_fish 256 { ifand SHUFFLE_BASE_MUSIC 65536 nullop else xor SHUFFLE_BASE_MUSIC 65536 }
+			ifand BEAT_EPISODES[2] 8192
+			 ifand BEAT_EPISODES[3] 8192
+				{
+				ifand SHUFFLE_BASE_MUSIC 262144 nullop else xor SHUFFLE_BASE_MUSIC 262144
+				}
+			ifand BEAT_EPISODES[3] 16 { ifand SHUFFLE_BASE_MUSIC 524288 nullop else xor SHUFFLE_BASE_MUSIC 524288 }
+			ife CHIBIS_FOUND[48] 1 { ifand SHUFFLE_BASE_MUSIC 1048576 nullop else xor SHUFFLE_BASE_MUSIC 1048576 }
+			ifand BEAT_EPISODES[7] 2048 { ifand SHUFFLE_BASE_MUSIC 2097152 nullop else xor SHUFFLE_BASE_MUSIC 2097152 }
+			
+			ife PLAY_SHUFFLE YES
+				{
+				readgamevar SHUFFLE_BASE_LIST
+				getcurraddress jump_target_addr
+				// incase something screws up with the selection, will reset the shuffle list
+				add shuffle_safety 1
+				ifge shuffle_safety 32 set SHUFFLE_BASE_LIST 0
+				ife SHUFFLE_BASE_LIST 0 set SHUFFLE_BASE_LIST SHUFFLE_BASE_MUSIC
+				randvar shuffle_list 220
+				ifand SHUFFLE_BASE_MUSIC 1            ifle shuffle_list 10 { ifand SHUFFLE_BASE_LIST 1 { xorvar SHUFFLE_BASE_LIST 1 set BASE_MUSIC 1 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 2       ifle shuffle_list 20 { ifand SHUFFLE_BASE_LIST 2 { xorvar SHUFFLE_BASE_LIST 2 set BASE_MUSIC 2 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 4       ifle shuffle_list 30 { ifand SHUFFLE_BASE_LIST 4 { xorvar SHUFFLE_BASE_LIST 4 set BASE_MUSIC 4 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 8       ifle shuffle_list 40 { ifand SHUFFLE_BASE_LIST 8 { xorvar SHUFFLE_BASE_LIST 8 set BASE_MUSIC 8 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 16      ifle shuffle_list 50 { ifand SHUFFLE_BASE_LIST 16 { xorvar SHUFFLE_BASE_LIST 16 set BASE_MUSIC 16 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 32      ifle shuffle_list 60 { ifand SHUFFLE_BASE_LIST 32 { xorvar SHUFFLE_BASE_LIST 32 set BASE_MUSIC 32 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 64      ifle shuffle_list 70 { ifand SHUFFLE_BASE_LIST 64 { xorvar SHUFFLE_BASE_LIST 64 set BASE_MUSIC 64 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 128     ifle shuffle_list 80 { ifand SHUFFLE_BASE_LIST 128 { xorvar SHUFFLE_BASE_LIST 128 set BASE_MUSIC 128 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 256     ifle shuffle_list 90 { ifand SHUFFLE_BASE_LIST 256 { xorvar SHUFFLE_BASE_LIST 256 set BASE_MUSIC 256 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 512     ifle shuffle_list 100 { ifand SHUFFLE_BASE_LIST 512 { xorvar SHUFFLE_BASE_LIST 512 set BASE_MUSIC 512 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 1024    ifle shuffle_list 110 { ifand SHUFFLE_BASE_LIST 1024 { xorvar SHUFFLE_BASE_LIST 1024 set BASE_MUSIC 1024 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 2048    ifle shuffle_list 120 { ifand SHUFFLE_BASE_LIST 2048 { xorvar SHUFFLE_BASE_LIST 2048 set BASE_MUSIC 2048 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 4096    ifle shuffle_list 130 { ifand SHUFFLE_BASE_LIST 4096 { xorvar SHUFFLE_BASE_LIST 4096 set BASE_MUSIC 4096 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 8192    ifle shuffle_list 140 { ifand SHUFFLE_BASE_LIST 8192 { xorvar SHUFFLE_BASE_LIST 8192 set BASE_MUSIC 8192 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 16384   ifle shuffle_list 150 { ifand SHUFFLE_BASE_LIST 16384 { xorvar SHUFFLE_BASE_LIST 16384 set BASE_MUSIC 16384 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 32768   ifle shuffle_list 160 { ifand SHUFFLE_BASE_LIST 32768 { xorvar SHUFFLE_BASE_LIST 32768 set BASE_MUSIC 32768 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 65536   ifle shuffle_list 170 { ifand SHUFFLE_BASE_LIST 65536 { xorvar SHUFFLE_BASE_LIST 65536 set BASE_MUSIC 65536 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 131072  ifle shuffle_list 180 { ifand SHUFFLE_BASE_LIST 131072 { xorvar SHUFFLE_BASE_LIST 131072 set BASE_MUSIC 131072 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 262144  ifle shuffle_list 190 { ifand SHUFFLE_BASE_LIST 262144 { xorvar SHUFFLE_BASE_LIST 262144 set BASE_MUSIC 262144 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 524288  ifle shuffle_list 200 { ifand SHUFFLE_BASE_LIST 524288 { xorvar SHUFFLE_BASE_LIST 524288 set BASE_MUSIC 524288 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 1048576 ifle shuffle_list 210 { ifand SHUFFLE_BASE_LIST 1048576 { xorvar SHUFFLE_BASE_LIST 1048576 set BASE_MUSIC 1048576 } else jump jump_target_addr }
+				else ifand SHUFFLE_BASE_MUSIC 2097152 ifle shuffle_list 220 { ifand SHUFFLE_BASE_LIST 2097152 { xorvar SHUFFLE_BASE_LIST 2097152 set BASE_MUSIC 2097152 } else jump jump_target_addr }
+				// 4194304
+				// 8388608
+				// 16777216
+				// 33554432
+				// 67108864
+				// 134217728
+				// 268435456
+				// 536870912
+				// 1073741824
+				// 2147483648
+				// al SHUFFLE_BASE_LIST
+				}
+			savegamevar SHUFFLE_BASE_LIST
+			}
+		ifn BASE_MUSIC 0
+		 ife userdef.musictoggle 1
+			{
+			// base tracks, put in chronological unlocking order
+			ife BASE_MUSIC 1 { set track_length 10962175 starttrackslot 0 1 }
+			ife BASE_MUSIC 2 { set track_length 10689839 starttrackslot 0 8 }
+			ife BASE_MUSIC 64 { set track_length 10583999 starttrackslot 1 1 }
+			ife BASE_MUSIC 4 { set track_length 9211267 starttrackslot 1 4 }
+			ife BASE_MUSIC 8 { set track_length 4483607 starttrackslot 1 50 }
+			ife BASE_MUSIC 128 { set track_length 14113775 starttrackslot 2 1 }
+			ife BASE_MUSIC 16 { set track_length 14927693 starttrackslot 2 26 }
+			ife BASE_MUSIC 256 { set track_length 7893151 starttrackslot 3 1 }
+			ife BASE_MUSIC 32 { set track_length 8060335 starttrackslot 3 58 }
+			ife BASE_MUSIC 131072 { set track_length 5948555 starttrackslot 4 1 }
+			ife BASE_MUSIC 512 { set track_length 10380763 starttrackslot 4 31 }
+			
+			// unlockable tracks
+			ife BASE_MUSIC 1024 { set track_length 10362672 starttrackslot 7 24 }
+			ife BASE_MUSIC 2048 { set track_length 7178736 starttrackslot 7 17 }
+			ife BASE_MUSIC 4096 { set track_length 9177456 starttrackslot 7 19 }
+			ife BASE_MUSIC 8192 { set track_length 20858879 starttrackslot 7 20 }
+			ife BASE_MUSIC 16384 { set track_length 5764608 starttrackslot 7 21 }
+			ife BASE_MUSIC 32768 { set track_length 4455465 starttrackslot 7 22 }
+			ife BASE_MUSIC 65536 { set track_length 7104329 starttrackslot 7 23 }			
+			ife BASE_MUSIC 262144 { set track_length 10384319 starttrackslot 7 26 }
+			ife BASE_MUSIC 524288 { set track_length 9242829 starttrackslot 7 27 }
+			ife BASE_MUSIC 1048576 { set track_length 9993344 starttrackslot 7 28 }
+			ife BASE_MUSIC 2097152 { set track_length 7863431 starttrackslot 7 29 }
+			}
+		gettimedate temp temp temp temp2 temp3 temp temp temp
+		ife temp3 11 ife temp2 25 starttrackslot 7 25
+		set play_base_music 1
+		}
+		
+	ife play_base_music 1
+	 ife userdef.musictoggle 1
+		{
+		// getmusicposition gets the smp/sample position so this has to be done manually sadly
+		getmusicposition temp2 
+		ifge temp2 track_length { set play_base_music 0 set shuffle_safety 0 }
+		}
+	}
+ends
+
+defstate BASE_MUSIC_INTERFACE
+myospal 160 100 4816 0 1024 0
+
+qputs 1011 AMC BASE MUSIC SELECTOR
+gametext 2908 320 14 1011 0 125 0 0 0 xdim ydim
+
+set gui_pos_x 20
+set gui_pos_y 22
+state CURSOR_OVER_ITEM
+
+	qputs 1011 Default music
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				set PLAY_SHUFFLE 0
+				savegamevar PLAY_SHUFFLE
+				soundonce MOUSE_CLICK_ON
+				set BASE_MUSIC 0
+				savegamevar BASE_MUSIC
+				}
+			}
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Base Track 1 ^60-Started Episode One
+	ifand SHUFFLE_BASE_MUSIC 1 nullop else xor SHUFFLE_BASE_MUSIC 1
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 0 1
+				set BASE_MUSIC 1
+				savegamevar BASE_MUSIC
+				}
+			}
+
+ifand SHUFFLE_BASE_MUSIC 2 // beaten dis base?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Base Track 2 ^60-Beaten Dis Base
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 0 8
+				set BASE_MUSIC 2
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+	
+ifand SHUFFLE_BASE_MUSIC 64 // started episode two?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Base Track 3 ^60-Started Episode Two
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 1 1
+				set BASE_MUSIC 64
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 4 // beaten city under siege
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Base Track 4 ^60-Beaten City under Siege
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 1 4
+				set BASE_MUSIC 4
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+	
+ifand SHUFFLE_BASE_MUSIC 8 // beaten Shadow realm
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Base Track 5 ^60-Beaten Shadow Realm
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 1 50
+				set BASE_MUSIC 8
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 128 // started episode 3
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Base Track 6 ^60-Started Episode Three
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 2 1
+				set BASE_MUSIC 128
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 16 // new amc base?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Base Track 7 ^60-New AMC base
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 2 26
+				set BASE_MUSIC 16
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+	
+ifand SHUFFLE_BASE_MUSIC 256 // started episode 4?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Base Track 9 ^60-Started Episode Four
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 3 1
+				set BASE_MUSIC 256
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 32 // beat episode 4?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Base Track 9 ^60-Finished Episode Four
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 3 58
+				set BASE_MUSIC 32
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 131072 // started episode 5?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Base Track 10 ^60-Started Episode Five
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 4 1
+				set BASE_MUSIC 131072
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 512 // beaten episode 5?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Base Track 11 ^60-Finished Episode Five
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 4 31
+				set BASE_MUSIC 512
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 8192 // beat snow base in less than 10 minutes?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Camoli ^32-Impress Highwire and beat Snow base in less than 10 minutes
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 7 20
+				set BASE_MUSIC 8192
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 4096 // saved lilith?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Synthwave ^32-Saved Lilith
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 7 19
+				set BASE_MUSIC 4096
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 1024 // beat either xmas maps?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Arctic Ambient ^32-Completed an AMC Xmas mission
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 7 24
+				set BASE_MUSIC 1024
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 2048 // imported IW data file
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Time is ticking away ^32-Completed Imagination World
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 7 17
+				set BASE_MUSIC 2048
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 16384 // Bought bughetti?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Random Race ^32-Bought the Bughetti
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 7 21
+				set BASE_MUSIC 16384
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 32768 // beat pipedream
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Gang$ta ^32-Completed Pipedream
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 7 22
+				set BASE_MUSIC 32768
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 65536 // bought Dopefish
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Into the Night ^32-Bought Dopefish
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 7 23
+				set BASE_MUSIC 65536
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+	
+ifand SHUFFLE_BASE_MUSIC 262144 // beat jungle base and jungle pyramid?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Lost Super 8 ^32-Completed Jungle base and Pyramid
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 7 26
+				set BASE_MUSIC 262144
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+	
+ifand SHUFFLE_BASE_MUSIC 524288 // beat Micky begins
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Maximum Overdrive ^32-Completed Micky begins
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 7 27
+				set BASE_MUSIC 524288
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+ifand SHUFFLE_BASE_MUSIC 1048576 // found Golden Sang
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 Dreamstate ^32-found Golden Sang
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 7 28
+				set BASE_MUSIC 1048576
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+	
+ifand SHUFFLE_BASE_MUSIC 2097152 // beat the dream CPB
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	qputs 1011 SUDA ^32-Completed 'The Dream' 
+ 	screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				soundonce MOUSE_CLICK_ON
+				starttrackslot 7 29
+				set BASE_MUSIC 2097152
+				savegamevar BASE_MUSIC
+				}
+			}
+	}
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+
+	ife PLAY_SHUFFLE 1
+		{
+		qputs 1011 Shuffle ON - will randomly play through all tracks sequentially
+ 		screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 123 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+	else
+		{
+		qputs 1011 Shuffle OFF - will play chosen track
+ 		screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 0 126 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+	ifl gui_pos_x_temp 30
+	 ifg gui_pos_x_temp -255
+	    ifl gui_pos_y_temp 3
+		 ifg gui_pos_y_temp -3
+			{
+ 			screentext STARTALPHANUM gui_pos_x gui_pos_y 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			state handle_click
+			 ife clicked 1
+				{
+				ife PLAY_SHUFFLE 1 { soundonce MOUSE_CLICK_OFF set PLAY_SHUFFLE 0 } else
+				{ soundonce MOUSE_CLICK_ON set PLAY_SHUFFLE 1 }
+				savegamevar PLAY_SHUFFLE
+				}
+			}
+
+ends

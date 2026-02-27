@@ -1,0 +1,2225 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+This file contains the overhead map text
+--------------------------------------------------------------------------------
+*/
+var maptext_y 0 1
+onevent EVENT_DISPLAYOVERHEADMAPTEXT
+setvar RETURN 1
+getp[].ang disp_temp2
+ifg disp_temp2 1919 myospalx 160 160 2858 0 0 0
+else ifg disp_temp2 1663 { myospalx 157 160 2867 0 0 0 myospalx 163 160 2858 0 0 0 }
+else ifg disp_temp2 1408 myospalx 160 160 2867 0 0 0
+else ifg disp_temp2 1151 { myospalx 157 160 2867 0 0 0 myospalx 163 160 2876 0 0 0 }
+else ifg disp_temp2 895 myospalx 160 160 2876 0 0 0
+else ifg disp_temp2 639 { myospalx 157 160 2872 0 0 0 myospalx 163 160 2876 0 0 0 }
+else ifg disp_temp2 383 myospalx 160 160 2872 0 0 0
+else ifg disp_temp2 127 { myospalx 157 160 2872 0 0 0 myospalx 163 160 2858 0 0 0 }
+else myospalx 160 160 2858 0 0 0
+ife userdef[].overhead_on 2
+{
+set maptext_y 7
+ife HUB_MAP 0
+{
+// Display Episode Name
+switch VOLUME
+case 0 set disp_txt 310 break
+case 1 set disp_txt 311 break
+case 2 set disp_txt 312 break
+case 3 set disp_txt 313 break
+case 4 set disp_txt 314 break
+case 5 set disp_txt 315 break
+case 6 set disp_txt 316 break
+endswitch
+screentext 2822 -50 maptext_y 28672 0 0 disp_txt 5 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+// Display Level Name
+ife VOLUME 0 ife LEVEL 7 qgetsysstr 403 STR_USERMAPFILENAME
+else qgetsysstr 403 STR_MAPNAME
+add maptext_y 5
+screentext 2822 -50 maptext_y 28672 0 0 403 10 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+// MAP AUTHORS ======================================================
+add maptext_y 5
+screentext 2822 -50 maptext_y 28672 0 0 405 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+ife VOLUME 0
+{
+switch LEVEL
+case 3 // megabase
+qputs 405 ^32By Geoffrey, James Stanfield, Mikko Sandt
+break
+case 4 // dis base
+case 9 // bunker
+case 22 // providence
+qputs 405 ^32By James Stanfield
+break
+case 5 // abyss
+qputs 405 ^32By James Stanfield, Mikko Sandt
+break
+case 10 // revolution
+qputs 405 ^32By Highwire, James Stanfield
+break
+case 11 // millhaven
+case 14
+qputs 405 ^32By Rusty Nails
+break
+case 12 // snowbase
+qputs 405 ^32By Mikko Sandt
+break
+case 15 // scarlett hollow
+qputs 405 ^32By Mike Norvak, James Stanfield
+break
+endswitch
+}
+ife VOLUME 1
+{
+add maptext_y 5
+switch LEVEL
+case 3 // city under siege
+qputs 405 ^32By Highwire, James Stanfield, Micky Crisp
+break
+case 6 // Big trouble in china
+case 8 // Island facility
+case 40 // mars colony
+qputs 405 ^32By Sangluss, Micky Crisp, James Stanfield
+break
+case 7 // wharf
+case 17 // Ghost ship pt2
+case 39 // mars subway
+case 54 // mars subway
+qputs 405 ^32By Micky Crisp, James Stanfield
+break
+case 10 // Repent
+case 18 // Xuglop train
+case 23 // Life Tower
+case 28 // Cycloid mothership
+qputs 405 ^32By James Stanfield
+break
+case 11 // upper colony
+case 16 // Ghost ship pt1
+case 24 // Pagoda
+case 32 // Cohagen Mines
+case 46 // shadow realm
+qputs 405 ^32By Micky Crisp
+break
+case 14 // mars station lower
+qputs 405 ^32By Mike Von Skellington, James Stanfield
+break
+case 15 // mars station upper
+qputs 405 ^32By Mike Von Skellington, Micky Crisp, James Stanfield
+break
+case 22 // new LA
+qputs 405 ^32By Micky Crisp, Rhaisher, James Stanfield, DavoX
+break
+case 25 // Oil rig
+case 38 // orbital elevator
+qputs 405 ^32By James Stanfield, Micky Crisp
+break
+case 26 // Far mountain reaches
+case 27 // Dark Truths
+case 29 // lurking fear
+case 36 // lurking fear all chars
+qputs 405 ^32By Loke
+break
+case 30 // vehicle test site
+qputs 405 ^32By James Stanfield, Micky Crisp, Wheaton Adams
+break
+case 31 // zeta base part 3
+case 62 // zeta base
+case 63 // zeta base
+qputs 405 ^32By Snowfall
+break
+case 33 // touching the sky
+qputs 405 ^32By Mike Von Skellington, Micky Crisp, James Stanfield
+break
+case 55 // jungle base
+case 56 // jungle base
+qputs 405 ^32By Zaxtor
+break
+case 57 // energeia
+qputs 405 ^32By Mikko Sandt
+break
+endswitch
+}
+ife VOLUME 2
+{
+add maptext_y 5
+switch LEVEL
+case 3 // x64-2m
+case 12 // Le Sang
+case 43 // Micky Begins 3
+case 46 // X64-2M underground
+case 51 // Charon
+qputs 405 ^32By Micky Crisp, James Stanfield
+break
+case 6 // Egypt FOB
+case 7 // Catacombs
+qputs 405 ^32By James Stanfield
+break
+case 8 // Sanctuary
+case 13 // Inner Sanctuary
+case 27 // Eviction Notice
+case 37 // shell shocked
+case 41 // Micky Begins 1
+case 42 // Micky Begins 2
+case 44 // Micky Begins 4
+qputs 405 ^32By Micky Crisp
+break
+case 9 // Aqueduct
+case 10 // waterway
+case 52 // Choasphere
+qputs 405 ^32By Loke
+break
+case 11 // Tomb
+qputs 405 ^32By Sangluss, Micky Crisp, James Stanfield
+break
+case 15 // neutrino
+case 16 // pipedream
+case 17 // forgotten tomb
+case 23 // fake
+case 24 // fake
+case 25 // fake
+qputs 405 ^32By Snowfall
+break
+case 19 // jungle pyramid
+qputs 405 ^32By Zaxtor
+break
+case 29 // Xuglop assault
+qputs 405 ^32By Highwire, James Stanfield, Micky Crisp
+break
+case 38 // Caligula
+qputs 405 ^32By Mr. Sinister, James Stanfield
+break
+case 47 // Gorillas
+qputs 405 ^32By James Stanfield, Jenz/Amaka
+break
+endswitch
+}
+ife VOLUME 3
+{
+add maptext_y 5
+switch LEVEL
+case 3 // welys
+case 8 // swamp
+qputs 405 ^32By Micky Crisp, James Stanfield
+break
+case 5 // town
+case 37 // town attack
+qputs 405 ^32By DanM, AliCatGamer,
+add maptext_y 5
+qputs 405 ^32James Stanfield, Micky Crisp
+break
+case 6 // woodlands
+case 11 // ebon
+qputs 405 ^32By James Stanfield, Drek
+break
+case 7 // Hamprock
+qputs 405 ^32By Micky Crisp, James Stanfield,
+add maptext_y 5
+qputs 405 ^32Mike Norvak
+break
+case 9 // forest
+qputs 405 ^32By Micky Crisp, DanM, James Stanfield
+break
+case 10 // Lookout
+qputs 405 ^32By James Stanfield, Micky Crisp,
+add maptext_y 5
+qputs 405 ^32DanM, Geoffrey
+break
+case 12 // picbonear
+case 13 // picbonear
+case 14 // picbonear
+qputs 405 ^32By Loke
+break
+case 15 // darrow lake
+qputs 405 ^32By DanM, James Stanfield, Toadie
+break
+case 16 // Knight's fall
+case 33 // Ideyr
+case 34 // succubus
+qputs 405 ^32By James Stanfield, Mike Norvak
+break
+case 17 // graveyard
+case 19 // Underworld
+qputs 405 ^32By James Stanfield, DanM
+break
+case 18 // Cave diving
+qputs 405 ^32By James Stanfield, Mike Norvak, DanM, Micky Crisp
+break
+case 21 // Svedr
+qputs 405 ^32By James Stanfield, Numan, Mike Norvak
+break
+case 22 // Grotto
+qputs 405 ^32By James Stanfield, Mike Norvak, Snowfall
+break
+case 23 // axon's library
+qputs 405 ^32By Micky Crisp, DanM
+break
+case 24 // supply run
+qputs 405 ^32By AliCatGamer
+break
+case 25 // Nu palace
+qputs 405 ^32By Sangluss, Forge, James Stanfield
+break
+case 26 // dragonfight
+case 27 // skytown
+case 28 // temple
+case 29 // snow temple
+case 40 // Panama
+qputs 405 ^32By Sangluss
+break
+case 31 // boating accident
+case 32 // dehydration
+case 20 // Mongur
+case 55 // fortress
+qputs 405 ^32By Micky Crisp
+break
+case 35 // saelmere
+qputs 405 ^32By James Stanfield, Micky Crisp,
+add maptext_y 5
+qputs 405 ^32Mike Norvak, sebabdukeboss20
+break
+case 38 // Kraken
+qputs 405 ^32By James Stanfield, Mike Norvak
+break
+case 39 // Serpent canyon
+qputs 405 ^32By James Stanfield, Mike Norvak, sebabdukeboss20
+break
+case 41 // Stormwall
+qputs 405 ^32By Highwire, Micky Crisp,
+add maptext_y 5
+qputs 405 ^32Mike Norvak, James Stanfield
+break
+case 56 // Naaldir's keep
+qputs 405 ^32By sebabdukeboss20, James Stanfield
+break
+endswitch
+}
+ife VOLUME 4
+{
+add maptext_y 5
+switch LEVEL
+case 0 // intro
+qputs 405 ^32By Mike Von Skellington, Micky Crisp, James Stanfield
+break
+case 3 // Dark Campus
+qputs 405 ^32By sebabdukeboss20, James Stanfield
+break
+case 5 // Judgement
+case 20 // Legends
+case 50 // Imprisoned
+case 55 // Raid
+qputs 405 ^32By James Stanfield
+break
+case 6 // arctic base 1
+case 7 // arctic base 2
+case 8 // arctic base 3
+qputs 405 ^32By sebabdukeboss20, James Stanfield
+break
+case 9 // Carcosa
+qputs 405 ^32By Forge, James Stanfield
+break
+case 10 // Protain
+qputs 405 ^32By James Stanfield, sebabdukeboss20
+break
+case 12 // justice
+case 14 // black goat manse
+qputs 405 ^32By James Stanfield, Micky Crisp, Mike Norvak
+break
+case 15 // stygian memorial
+qputs 405 ^32By Micky Crisp
+break
+case 18 // Back Rooms
+qputs 405 ^32By James Stanfield, Rusty Nails
+break
+
+case 22 // Saints
+case 26 // saints and sinners
+case 28 // Islands
+qputs 405 ^32By Loke
+break
+case 23 // shipyard
+case 24 // foxtrot uniform
+qputs 405 ^32By Wheaton Adams, sebabdukeboss20, James Stanfield
+break
+case 41 // Elysian Fields
+qputs 405 ^32By Micky Crisp
+break
+case 29 // Titan gas
+case 32 // Toilets R Us
+case 33 // Toilets R Us
+case 34 // Titan gas
+case 35 // Titan gas
+case 36 // titan gas
+qputs 405 ^32By Snowfall
+break
+case 38 // tanhauser
+case 39 // tanhauser
+qputs 405 ^32By Mikko Sandt
+break
+case 42 // Airport
+qputs 405 ^32By Rusty Nails, James Stanfield, Micky Crisp
+break
+case 43 // Crimson abode
+qputs 405 ^32By James Stanfield, Micky Crisp, Wheaton Adams
+break
+case 45 // Glacier
+qputs 405 ^32By Sangluss, James Stanfield
+break
+case 46 // Jekyl
+qputs 405 ^32By Rusty Nails, James Stanfield
+break
+case 47 // Mu
+qputs 405 ^32By Micky Crisp, Mike Norvak, James Stanfield
+break
+case 49 // Cairo dig
+case 56 // Elysian holidays
+case 57 // Rtlakok
+qputs 405 ^32By Wheaton Adams
+break
+case 51 // Sangmu
+qputs 405 ^32By Sangluss
+break
+case 54 // Xuglop Mall
+qputs 405 ^32By sebabdukeboss20, James Stanfield, Micky Crisp, AliCatGamer
+break
+case 58 // Man vs Machine
+qputs 405 ^32By James Stanfield, Micky Crisp
+break
+case 60 // Moon
+qputs 405 ^32By Micky Crisp, James Stanfield, DavoX, Rhaisher, AliCatGamer
+break
+endswitch
+}
+ife VOLUME 6
+	{
+	add maptext_y 5
+	switch LEVEL
+		case 41 // Venus Hijinks
+		case 45
+		case 46
+		case 49 // The Great Obelisk
+		qputs 405 ^32By Jolteon
+		break
+		case 42 // WGCastle
+		qputs 405 ^32By William Gee
+		break
+		case 43 // Atlantis Arisen pt 1
+		case 44 // Atlantis Arisen pt 2
+		qputs 405 ^32By Solais
+		break
+		case 47 // Dream part 1
+		qputs 405 ^32By Wheaton Adams, Tharsity, Jolteon, PongPog, Snowfall ^1(in order of appearance)
+		break
+		case 48 // Dream part 2
+		qputs 405 ^32By Makron, Chaotic Akantor , Solais, Kiro Nextgen ^1(in order of appearance)
+		break
+	endswitch
+	}
+}
+ifg player[].max_secret_rooms 0
+{
+add maptext_y 5
+ife player[].secret_rooms player[].max_secret_rooms
+	{
+	qputs 1049 ALL SECRETS FOUND
+	screentext 2822 -50 maptext_y 28672 0 0 1049 disp_pulse 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	}
+else
+	{
+	qputs 1049 SECRETS:  %ld/%ld
+	qsprintf 1049 1049 player[].secret_rooms player[].max_secret_rooms
+	screentext 2822 -50 maptext_y 28672 0 0 1049 0 29 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	}
+}
+// MUSIC INFORMATION =====================================================================================
+qputs 416 
+qputs 417 
+ife userdef[].music_episode 0
+{
+switch userdef[].music_level
+case 0
+qputs 416 Music: Trailer music - ^EP1/INTRO.OGG
+
+qputs 417 ^1By Emma M. Andersson
+break
+case 1
+qputs 416 Music: ^1Forgotten Victory - ^2BASE/AMCB_1.OGG
+
+qputs 417 ^1By yd
+break
+case 2
+qputs 416 Music: ^1Briefing - ^2EP1/BRIEF.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 3
+qputs 416 Music: ^1Darkside - ^2EP1/MEGABASE.OGG
+
+qputs 417 ^32By TheDavisD
+break
+case 4
+qputs 416 Music: ^1Particles of Pain - ^2EP1/DISB.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 5
+qputs 416 Music: ^1The Underground 'Circle of Limbo' - ^2EP1/ABYSS.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 6
+qputs 416 Music: ^1Screaming soul - ^2EP1/BATTLE1.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 8
+qputs 416 Music: ^1Calm - ^2BASE/AMCB_1B.OGG
+
+qputs 417 ^32By TheDavisD
+break
+case 9
+qputs 416 Music: ^1Realm of ice - ^2EP1/SNOW.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 10
+qputs 416 Music: ^1Empty Magazine - ^2EP1/GMGS.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 11
+qputs 416 Music: ^1Corona Radiata - ^2EP1/RNWEST.OGG
+
+qputs 417 ^1By Nine Inch Nails
+break
+case 12
+qputs 416 Music: ^1In one ear & out the other - ^2EP1/ONE_EAR.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 13
+qputs 416 Music: ^1Below the Surface - ^2EP1/MINE.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 14
+qputs 416 Music: ^1 3 Ghosts I - ^2EP1/GHOSTSI.OGG
+
+qputs 417 ^1By Nine Inch Nails
+break
+case 15
+qputs 416 Music: ^1Tainted - ^2EP1/TAINTED.OGG
+
+qputs 417 ^1By Jesus Lastra
+break
+case 16
+qputs 416 Music: ^1Cosmic darkness - ^2EP1/DARKG.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 17
+qputs 416 Music: ^1Earth is worth saving - ^2EP1/OVE_EISWH.OGG
+
+qputs 417 ^1By Ove Melaa
+break
+case 18
+qputs 416 Music: ^1Never give up - ^2EP1/SBOSS.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 19
+qputs 416 Music: ^1The Underground 'Circle of Anger' - ^2EP1/ABYSSB.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 20
+qputs 416 Music: ^1Voyage of Uncertainty - ^2EP1/MISSION.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 21
+qputs 416 Music: ^1Raid of Silence - ^2EP1/PALACE.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 22
+qputs 416 Music: ^1Bunkerbuster - ^2EP1/BUNKER.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 23
+qputs 416 Music: ^1 6 Ghosts I - ^2EP1/MHLIB1.OGG
+
+qputs 417 ^1By Nine Inch Nails
+break
+case 24
+qputs 416 Music: ^1Ride to Vyriy - ^2EP1/FSTAND.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 25
+qputs 416 Music: ^1Facing the odds - ^2EP1/RBOSS.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 26
+qputs 416 Music: ^1Training Area - ^2EP1/TRAINING.OGG
+
+qputs 417 ^1By Gobusto
+break
+case 27
+qputs 416 Music: ^1 24 Ghosts III - ^2EP1/MHBOSS24.OGG
+
+qputs 417 ^1By Nine Inch Nails
+break
+case 28
+qputs 416 Music: ^1The Underground 'Circle of Violence' - ^2EP1/ABYSSFB.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 29
+qputs 416 Music: ^1Escape - ^2EP1/DISBE.OGG
+
+qputs 417 ^32By TheDavisD
+break
+case 30
+qputs 416 Music: ^1 28 Ghosts IV - ^2EP1/MHEND.OGG
+
+qputs 417 ^1By Nine Inch Nails
+break
+case 31
+qputs 416 Music: ^1Salvation - ^2EP1/SEND.OGG
+
+qputs 417 ^1By Trevor Lentz
+break
+case 32
+qputs 416 Music: ^1Decision - ^2EP1/DECISION.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 33
+qputs 416 Music: ^1Programs and Systems - ^2EP1/PROGSYS.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 35
+qputs 416 Music: ^1Dark Ambiance 3 - ^2EP2/SDARKA.OGG
+
+qputs 417 ^1By Socapex
+break
+case 36
+qputs 416 Music: ^1Iron Wasteland - ^2EP2/M2_INTRO.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 37
+qputs 416 Music: ^1bgm4 - ^2EP1/BRIEFB.OGG
+
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 39
+qputs 416 Music: ^1Return to Surface - ^2EP1/RETSUR.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 40
+qputs 416 Music: ^1Early 90s movie - ^2TITLE.OGG
+
+qputs 417 ^1By Emma M. Andersson
+break
+case 41
+qputs 416 Music: ^1Epic Fall - ^2TITLE2.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 42
+qputs 416 Music: ^1Back in Action - ^2EP1/CREDITS.OGG
+
+qputs 417 ^32By TheDavisD
+break
+case 43
+qputs 416 Music: ^1 32 Ghosts IV - ^2EP1/GHOSTS2.OGG
+
+qputs 417 ^1By Nine Inch Nails
+break
+case 45
+qputs 416 Music: ^1Near and Far - ^2EP3/NEARFAR.OGG
+
+qputs 417 ^1By Joth
+break
+case 46
+qputs 416 Music: ^1Insistent - ^2EP3/INSISTENT.OGG
+
+qputs 417 ^1By yd
+break
+case 47
+qputs 416 Music: ^1Triump - ^2EP3/TRIUMP.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 48
+qputs 416 Music: ^1bgm12 - ^2EP3/HPIANO.OGG
+
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 49
+qputs 416 Music: ^1Braindead - ^2EP3/BRAINDEAD.OGG
+
+qputs 417 ^1By Kim Lightyear
+break
+case 50
+qputs 416 Music: ^1The Surreal Truth - ^2EP3/STRUTH.OGG
+
+qputs 417 ^1By Joth
+break
+case 51
+qputs 416 Music: ^1We will meet again - ^2EP3/WWMA.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 52
+qputs 416 Music: ^1Ethnic - ^2TITLE3.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 53
+qputs 416 Music: ^1vs Death - ^2EP4/DEATH.OGG
+
+qputs 417 ^1By Makai Symphony
+break
+case 54
+qputs 416 Music: ^1System Shock - ^2EP4/SSHOCK.OGG
+
+qputs 417 ^1By neocrey
+break
+case 55
+qputs 416 Music: ^1Great dragon appearance - ^2EP4/VEGUNTH.OGG
+
+qputs 417 ^1By Spring Spring
+break
+case 56
+qputs 416 Music: ^1Civil War - ^2EP4/CIVILWAR.OGG
+
+qputs 417 ^1By Captain Creepy
+break
+case 57
+qputs 416 Music: ^1Post battle - ^2EP4/POSTBAT.OGG
+
+qputs 417 ^1By Audio Alchemist
+break
+case 58
+qputs 416 Music: ^1Spider Invasion - ^2EP4/SPIDER.OGG
+
+qputs 417 ^1By Tozan
+break
+case 59
+qputs 416 Music: ^1Featseekers - ^2EP4/FEATSEEK.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 60
+qputs 416 Music: ^1Lost in Time and Space - ^2EP2/LITAS.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 61
+qputs 416 Music: ^1The Cave - ^2EP4/TCAVE.OGG
+
+qputs 417 ^1By HitCtrl
+break
+case 62
+qputs 416 Music: ^1Turn Up - ^2EP1/TURNUP.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 63
+qputs 416 Music: ^1The march upon the red mountain - ^2EP4/TMUTRM.OGG
+
+qputs 417 ^1By HitCtrl
+break
+endswitch
+}
+ife userdef[].music_episode 1
+{
+switch userdef[].music_level
+case 0
+qputs 416 Music: ^1Down the rabbithole - ^EP2/INTRO2.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 1
+qputs 416 Music: ^1Mission Control - ^2BASE/AMCB_2.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 3
+qputs 416 Music: ^1Fall of the King - ^2EP2/NCL.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 4
+qputs 416 Music: ^1Calm - ^2BASE/AMCB_2B.OGG
+
+qputs 417 ^32By TheDavisD
+break
+case 5
+qputs 416 Music: ^1safe landing zone - ^2EP2/C_BRIEF.OGG
+
+qputs 417 ^1By Aspecty
+break
+case 6
+qputs 416 Music: ^1Futuristic Ambient 3 - ^2EP2/ASIA.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 7
+qputs 416 Music: ^1Winds of Fortune - ^2EP2/THWINDS.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 8
+qputs 416 Music: ^1Futuristic Ambient 1 - ^2EP2/LPROPH.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 9
+qputs 416 Music: ^1Subconscious - ^2EP2/FEAR.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 10
+qputs 416 Music: ^1Encounter - ^2EP2/ENCOUNTER.OGG
+
+qputs 417 ^32By TheDavisD
+break
+case 11
+qputs 416 Music: ^1Electronic War 3 - ^2EP2/MARSHUB3.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 12
+qputs 416 Music: ^1Cold Case - ^2EP2/DNOPARI.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 13
+qputs 416 Music: ^1Sin - ^2EP2/DTBF.OGG
+
+qputs 417 ^32By Highwire
+break
+case 14
+qputs 416 Music: ^1Searching - ^2EP2/SEARCH.OGG
+
+qputs 417 ^1By yd
+break
+case 15
+qputs 416 Music: ^1Freak Out Ambiance - ^2EP2/FREAKOUT.OGG
+
+qputs 417 ^1By Socapex
+break
+case 16
+qputs 416 Music: ^1Exploration - ^2EP2/BSHIP.OGG
+
+qputs 417 ^32By AliCatGamer
+break
+case 17
+qputs 416 Music: ^1Be not put out from a window during a hyperspatial jump - ^2EP2/BSHIP2.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 18
+qputs 416 Music: ^1Xenophobic Tendancies - ^2EP2/TRAIN.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 19
+qputs 416 Music: ^1Inca Pan Flute Hip Hop - ^2EP2/INCAHH.OGG
+
+qputs 417 ^1By Tom Peter
+break
+case 20
+qputs 416 Music: ^1Stalker2 - ^2EP2/STALKER2.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 21
+qputs 416 Music: ^1bgm5 - ^2EP2/BRIEF3.OGG
+
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 22
+qputs 416 Music: ^1Space Life 14 - ^2EP2/SPACELIFE.OGG
+
+qputs 417 ^1By yd
+break
+case 23
+qputs 416 Music: ^1The Life Tower - ^2EP2/LIFET.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 24
+qputs 416 Music: ^1Honor - ^2EP2/HONOR.OGG
+
+qputs 417 ^1By Xcessive
+break
+case 25
+qputs 416 Music: ^1Second Stand - ^2EP2/SSTAND.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 26
+qputs 416 Music: ^1Demons and Cultists - ^2EP2/SHADES.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 27
+qputs 416 Music: ^1Dramatic Action - ^2EP2/DACTION.OGG
+
+qputs 417 ^1By Horrorpen
+break
+case 28
+qputs 416 Music: ^1Fight or Flight - ^2EP2/DEPARTURE.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 29
+qputs 416 Music: ^1Spirit world - ^2EP2/SPIRITW.OGG
+
+qputs 417 ^1By grindhold
+break
+case 30
+qputs 416 Music: ^1Seashore Peace Ambiance - ^2EP2/SPEACE.OGG
+
+qputs 417 ^1By Socapex
+break
+case 31
+qputs 416 Music: ^1These Solemn Stars - ^2EP2/ZBASE3.OGG
+
+qputs 417 ^1By Benn Jordan
+break
+case 32
+qputs 416 Music: ^1Heart of Machine - ^2EP2/HOM.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 33
+qputs 416 Music: ^1Last Minute - ^2EP2/AM_FALL.OGG
+
+qputs 417 ^1By HorrorPen
+break
+case 34
+qputs 416 Music: ^1N539342 - ^2EP2/ALERTO.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 35
+qputs 416 Music: ^1It's my world! - ^2EP2/CREDITS2.OGG
+
+qputs 417 ^1By Muciojad
+break
+case 36
+qputs 416 Music: ^1Briefing - ^2EP2/AM_MEET.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 37
+qputs 416 Music: ^1Dark Blue - ^2EP2/DBLUE.OGG
+
+qputs 417 ^1By Ove Melaa
+break
+case 38
+qputs 416 Music: ^1Article 160 Section 2 - ^2EP2/MARS.OGG
+
+qputs 417 ^1By Zander Noriega
+break
+case 39
+qputs 416 Music: ^1Metamorphosis - ^2EP2/METAM.OGG
+
+qputs 417 ^1By VocalMix
+break
+case 40
+qputs 416 Music: ^1bgm13 - ^2EP2/MARSHUB.OGG
+
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 41
+qputs 416 Music: ^1Electronic War track 2 - ^2EP2/MARSATT.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 42
+qputs 416 Music: ^1Rise of Spirit - ^2EP2/AM_ROS.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 43
+qputs 416 Music: ^1Tactical - ^2EP2/MARSHUB2.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 44
+qputs 416 Music: ^1Doomed - ^2EP2/TRENTON.OGG
+
+qputs 417 ^1By Alexander Ehlers
+break
+case 45
+qputs 416 Music: ^1Untitled - ^2EP2/BTRANSF.OGG
+
+qputs 417 ^1By unknown
+break
+case 46
+qputs 416 Music: ^1Unforseen Consequences - ^2EP2/LWASTE.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 47
+qputs 416 Music: ^1Cyborg - ^2EP2/CYBOSS.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 48
+qputs 416 Music: ^1Complex Run - ^2EP2/ESCAPE.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 49
+qputs 416 Music: ^1Bow down to your master - ^2EP2/GSBOSS.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 50
+qputs 416 Music: ^1gametrack2 - ^2BASE/AMCB_2C.OGG
+
+qputs 417 ^32By TheDavisD
+break
+case 51
+qputs 416 Music: ^1Iron Troopers - ^2EP2/IRON_TR.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 52
+qputs 416 Music: ^1WarGod - ^2EP2/WARGOD.OGG
+
+qputs 417 ^1By Android128
+break
+case 53
+qputs 416 Music: ^1Infinity - ^2EP2/INFINITY.OGG
+
+qputs 417 ^1By necros
+break
+case 54
+qputs 416 Music: ^1Electronic war track 3 - ^2EP2/MARSTV2.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 55
+qputs 416 Music: ^1Haunted Woods Loop - ^2EP2/JUNGLE_B.OGG
+
+qputs 417 ^1By Michael Klier
+break
+case 56
+qputs 416 Music: ^1Neon City - ^2EP2/JBASETRK.OGG
+
+qputs 417 ^1By BogartVGM
+break
+case 57
+qputs 416 Music: ^1Fly - ^2EP2/AMCMIKKO3.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 58
+qputs 416 Music: ^1Kick their ass - ^2EP2/M2_ESCAPE.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 59
+qputs 416 Music: ^1Shadow of the Warrior - ^2EP2/SHRAVE.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 60
+qputs 416 Music: ^1Futuristic ambient 2 - ^2EP2/SHELLAC.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 61
+qputs 416 Music: ^1bgm11 - ^2EP2/GRFIGHT.OGG
+
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 62
+qputs 416 Music: ^1Access Virus B - ^2EP2/ZBASE.OGG
+
+qputs 417 ^1By synth4ever ^32with modification by Snowfall
+break
+case 63
+qputs 416 Music: ^1Sunrise In Blue Skies - ^2EP2/ZBASE2.OGG
+
+qputs 417 ^1By Benn Jordan
+break
+endswitch
+}
+ife userdef[].music_episode 2
+{
+switch userdef[].music_level
+case 0
+qputs 416 Music: ^1Enchanted Tiki 86- ^2EP3/INTRO3.OGG
+
+qputs 417 ^1By cynicmusic
+break
+case 1
+qputs 416 Music: ^1Vintage Menu - ^2BASE/AMCB_3.OGG
+
+qputs 417 ^1By iamoneabe/Aron Elal
+break
+case 2
+qputs 416 Music: ^1Horror Game Menu - ^2EP3/BRIEF6.OGG
+
+qputs 417 ^1By Eric Matyas
+break
+case 3
+qputs 416 Music: ^1Dark Times - ^2EP3/CDEATH.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 4
+qputs 416 Music: ^1Vintage Menu - ^2BASE/AMCB_3.OGG
+
+qputs 417 ^1By iamoneabe/Aron Elal
+break
+case 5
+qputs 416 Music: ^1Ancient Temple - ^2EP3/EINTRO.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 6
+qputs 416 Music: ^1Hidden City - ^2EP3/EGYPT.OGG
+
+qputs 417 ^2By WOW Sound
+break
+case 7
+qputs 416 Music: ^1Scorpion King - ^2EP3/CATAC.OGG
+
+qputs 417 ^2By WOW Sound
+break
+case 8
+qputs 416 Music: ^1Sahara Desert - ^2EP3/KSANCT.OGG
+
+qputs 417 ^2By WOW Sound
+break
+case 9
+qputs 416 Music: ^1Golden Age - ^2EP3/GPEAK.OGG
+
+qputs 417 ^2By WOW Sound
+break
+case 10
+qputs 416 Music: ^1Eb and Flow - ^2EP3/AQUAD.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 11
+qputs 416 Music: ^1Royal Tomb - ^2EP3/MTOMB.OGG
+
+qputs 417 ^2By WOW Sound
+break
+case 12
+qputs 416 Music: ^1The time has come - ^2EP3/TTHC.OGG
+
+qputs 417 ^1By Joshua Stephen Kartes
+break
+case 13
+qputs 416 Music: ^1Royal Tomb - ^2EP3/DSPHINX.OGG
+
+qputs 417 ^2By WOW Sound
+break
+case 14
+qputs 416 Music: ^1Calm - ^2BASE/AMCB_3.OGG
+
+qputs 417 ^32By TheDavisD
+break
+case 15
+qputs 416 Music: ^1Untitled - ^2EP3/NEUTRINO.OGG
+
+qputs 417 ^1By unknown
+break
+case 16
+qputs 416 Music: ^1Stranger In Their Paths - ^2EP3/PIPEDREAM.OGG
+
+qputs 417 ^1By Ayan Das
+break
+case 17
+qputs 416 Music: ^1In Darkness - ^2EP3/SPOOKYCUT.OGG
+
+qputs 417 ^1By Of Far Different Nature
+break
+case 18
+qputs 416 Music: ^1Blood of the Dragon - ^2EP3/BDRAGON.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 19
+qputs 416 Music: ^1Ancient Ruins - ^2EP3/ARUINS.OGG
+
+qputs 417 ^1By Ted Kerr
+break
+case 20
+qputs 416 Music: ^1SciFi1 - ^2EP3/CSHIP.OGG
+
+qputs 417 ^1By Ted Kerr
+break
+case 21
+qputs 416 Music: ^1Demonic Serpent - ^2EP3/LPWTD.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 23
+qputs 416 Music: ^1Galuchat - ^2EP3/FAKEVR.OGG
+
+qputs 417 ^1By Gui Boratto
+break
+case 24
+qputs 416 Music: ^1Metal Echos - ^2EP3/FAKE.OGG
+
+qputs 417 ^1By North Wind
+break
+case 25
+qputs 416 Music: ^1Aurora - ^2EP3/FAKE2.OGG
+
+qputs 417 ^1By Kim Lightyear
+break
+case 26
+qputs 416 Music: ^1November Snow - ^2BASE/AMCB_3C.OGG
+
+qputs 417 ^1By cynicmusic
+break
+case 27
+qputs 416 Music: ^1Tactical Error - ^2EP3/CBTW.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 28
+qputs 416 Music: ^1Advantage of advance - ^2EP3/MMAN.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 29
+qputs 416 Music: ^1Fractal - ^2EP3/FRACTAL.OGG
+
+qputs 417 ^1By Neocrey
+break
+case 30
+qputs 416 Music: ^1Treading The Unknown - ^2EP3/SPOOKYCUT2.OGG
+
+qputs 417 ^1By Jonathan Shaw
+break
+case 32
+qputs 416 Music: ^1Alone - ^2EP3/ALONE.OGG
+
+qputs 417 ^1By Kim Lightyear
+break
+case 33
+qputs 416 Music: ^1Stride of the Power Suit - ^2EP3/FHOUR.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 34
+qputs 416 Music: ^1bgm10 - ^2EP3/BEYONDER.OGG
+
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 35
+qputs 416 Music: ^1Epic Boss Battle - ^2EP3/AMCBIN.OGG
+
+qputs 417 ^1By Juhani Junkala
+break
+case 36
+qputs 416 Music: ^1Near and Far - ^2EP3/NEARFAR.OGG
+
+qputs 417 ^1By Joth
+break
+case 37
+qputs 416 Music: ^1Lesson 1 - ^2EP3/LESSON1.OGG
+
+qputs 417 ^1By Lee Jackson
+break
+case 38
+qputs 416 Music: ^1Pioneers meets Space- ^2EP3/PIONEER.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 39
+qputs 416 Music: ^1Imagination World lvl 1 - ^2EP3/SURPRISE.OGG
+
+qputs 417 ^1By unknown
+break
+case 40
+qputs 416 Music: ^1Xul'viir Dirge - ^2EP3/HIVE48.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 41
+qputs 416 Music: ^1Cyberspace Hunters - ^2EP3/CSHUNTER.OGG
+
+qputs 417 ^1By neocrey
+break
+case 42
+qputs 416 Music: ^1spacenomad2 - ^2EP3/SNOMAD2.OGG
+
+qputs 417 ^1By SouljahdeShiva
+break
+case 43
+qputs 416 Music: ^1spacenomad3 - ^2EP3/SNOMAD3.OGG
+
+qputs 417 ^1By SouljahdeShiva
+break
+case 44
+qputs 416 Music: ^1Miami Soul - ^2EP3/MIAMIS.OGG
+
+qputs 417 ^1By neocrey
+break
+case 45
+qputs 416 Music: ^1bgm9 - ^2EP3/SCIPAD.OGG
+
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 46
+qputs 416 Music: ^1Unknown Planet - ^2EP3/HOCHGE.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 47
+qputs 416 Music: ^1bgm14 - ^2EP3/RAINF.OGG
+
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 48
+qputs 416 Music: ^1Dynamic - ^2EP3/CREDITS3.OGG
+
+qputs 417 ^1By neocrey
+break
+case 49
+qputs 416 Music: ^1Star Flow - ^2EP3/SFLOW.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 50
+qputs 416 Music: ^1Glitch in the Matrix - ^2EP3/DGLITCH.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 51
+qputs 416 Music: ^1Out There - ^2EP3/OUTTHERE.OGG
+
+qputs 417 ^1By yd
+break
+case 52
+qputs 416 Music: ^1sPACE - ^2EP3/SPACE.OGG
+
+qputs 417 ^1By ManofSteel
+break
+case 53
+qputs 416 Music: ^1So Long - ^2EP3/BRIEF7.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 54
+qputs 416 Music: ^1Determined Pursuit - ^2EP3/DPURS.OGG
+
+qputs 417 ^1By Emma M. Andersson
+break
+case 55
+qputs 416 Music: ^1Aeternum Cantus - ^2EP3/HIVE49.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 56
+qputs 416 Music: ^1Valor - ^2EP3/VALOR.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 57
+qputs 416 Music: ^1Kephri's Wrath - ^2EP3/DFH.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 59
+qputs 416 Music: ^1Law in the City - ^2EP3/LITC.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 60
+qputs 416 Music: ^1Land of the great gods - ^2EP4/LOTGG.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+endswitch
+}
+ife userdef[].music_episode 3 // episode four
+{
+switch userdef[].music_level
+case 0
+qputs 416 Music: ^1This World is Sh#t - ^2EP4/INTRO4.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 1
+qputs 416 Music: ^1Deep dive - ^2BASE/AMCB_4.OGG
+
+qputs 417 ^1By iamoneabe/Aron
+break
+case 2
+qputs 416 Music: ^1Space - ^2EP4/SPACE.OGG
+
+qputs 417 ^1By Type 42
+break
+case 3
+case 4
+qputs 416 Music: ^1Precaria - ^2EP4/PRECARIA.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 5
+qputs 416 Music: ^1Spirit Trail - ^2EP4/WTRAIL.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 6
+qputs 416 Music: ^1Heartland's Verse - ^2EP4/HVERSE.OGG
+
+qputs 417 ^1By CaptainCreepy
+break
+case 7
+qputs 416 Music: ^1Journey to Aries Peak - ^2EP4/ARIES.OGG
+
+qputs 417 ^1By HitCtrl and Tad
+break
+case 8
+qputs 416 Music: ^1Wetlands - ^2EP4/PWASTE.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 9
+qputs 416 Music: ^1Grim Dacade - ^2EP4/GDACADE.OGG
+
+qputs 417 ^1By Tad and HitCtrl
+break
+case 10
+qputs 416 Music: ^1Phagos - ^2EP4/PHAGOS.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 11
+qputs 416 Music: ^1Tower of Lava - ^2EP4/TLAVA.OGG
+
+qputs 417 ^1By Mega Pixel Music Lab
+break
+case 12
+qputs 416 Music: ^1Echos d'une bataille oubliee - ^2EP4/ECHOS.OGG
+
+qputs 417 ^1By Dogers
+break
+case 13
+qputs 416 Music: ^1Sci-fi - ^2EP4/SCIFI.OGG
+
+qputs 417 ^1By Type 42
+break
+case 14
+qputs 416 Music: ^1Strange Thing - ^2EP4/STHING.OGG
+
+qputs 417 ^1By Felephante
+break
+case 15
+qputs 416 Music: ^1The Mountain Pass - ^2EP4/TMPASS.OGG
+
+qputs 417 ^1By CaptainCreepy
+break
+case 16
+qputs 416 Music: ^1Atria Ignis - ^2EP4/DCASTLE.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 17
+qputs 416 Music: ^1Osare - ^2EP4/PROFON.OGG
+
+qputs 417 ^1By Brandon Morris
+break
+case 18
+qputs 416 Music: ^1Cave Diving on Pandora - ^2EP4/CDOP.OGG
+
+qputs 417 ^1By jeffmatthews410
+break
+case 19
+qputs 416 Music: ^1Rising Tension - ^2EP4/RISTEN.OGG
+
+qputs 417 ^1By Marcelo Fernandez
+break
+case 20
+qputs 416 Music: ^1vs Demon - ^2EP4/MONGUR.OGG
+
+qputs 417 ^1By Makai Symphony
+break
+case 21
+qputs 416 Music: ^1vs Queen - ^2EP4/SVEDR.OGG
+
+qputs 417 ^1By Makai Symphony
+break
+case 22
+qputs 416 Music: ^1Not Going Anywhere - ^2EP4/NGA.OGG
+
+qputs 417 ^1By Marcelo Fernandez
+break
+case 23
+qputs 416 Music: ^1At the gates of destiny - ^2EP4/ATGOD.OGG
+
+qputs 417 ^1By HitCtrl
+break
+case 24
+qputs 416 Music: ^1Dark - ^2EP4/DARK.OGG
+
+qputs 417 ^1By pheonton
+break
+case 25
+case 26
+qputs 416 Music: ^1The Desert of dreams - ^2EP4/PALACE2.OGG
+
+qputs 417 ^1By Insydnis
+break
+case 27
+qputs 416 Music: ^1Up in the Sky - ^2EP4/USKY.OGG
+
+qputs 417 ^1By Memoraphile
+break
+case 28
+qputs 416 Music: ^1Myst - ^2EP4/MYST.OGG
+
+qputs 417 ^1By
+break
+case 29
+qputs 416 Music: ^1Magic of North - ^2EP4/SANGSNOWTEMPLE.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 30
+qputs 416 Music: ^1Undersky - ^2EP4/UNDERSKY.OGG
+
+qputs 417 ^1By Fossergrim
+break
+case 31
+qputs 416 Music: ^1Ghost ship battle - ^2EP4/SHIPB.OGG
+
+qputs 417 ^1By Koji Komatsu
+break
+case 32
+qputs 416 Music: ^1Nautilus - ^2EP4/NAUTILUS.OGG
+
+qputs 417 ^1By poinl
+break
+case 33
+qputs 416 Music: ^1Licking Wounds - ^2EP4/LWOUNDS.OGG
+
+qputs 417 ^1By Viktor Kraus
+break
+case 34
+qputs 416 Music: ^1Charmed - ^2EP4/CHARMED.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 35
+qputs 416 Music: ^1Kingdom of Icereach - ^2EP4/ICEREACH.OGG
+
+qputs 417 ^1By Tsorthan Grove
+break
+case 36
+qputs 416 Music: ^1Medieval - ^2EP4/MEDIEVAL.OGG
+
+qputs 417 ^1By Miguel Herrero
+break
+case 38
+qputs 416 Music: ^1The Kraken - ^2EP4/KRAKEN.OGG
+
+qputs 417 ^1By leohpaz
+break
+case 39
+qputs 416 Music: ^1Inanis Locus - ^2EP4/CAVDES.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 40
+qputs 416 Music: ^1Anything - ^2EP4/ANYTHING.OGG
+
+qputs 417 ^1By PetterTheSturgeon
+break
+case 41
+qputs 416 Music: ^1Battlefields of Shaloth - ^2EP4/BATTLEFIELD.OGG
+
+qputs 417 ^1By Insydnis
+break
+case 42
+qputs 416 Music: ^1Inevitability - ^2EP4/INEV.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 43
+qputs 416 Music: ^1Anchors Aweigh! - ^2EP4/ANCHORS.OGG
+
+qputs 417 ^1By Joshua Stephen Kartes
+break
+case 44
+qputs 416 Music: ^1Ready cannons and fire - ^2EP4/RCAF.OGG
+
+qputs 417 ^1By leohpaz
+break
+case 45
+qputs 416 Music: ^1A New Thing - ^2EP4/SANGCLIFFSHIP.OGG
+
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 46
+qputs 416 Music: ^1vs Dragon - ^2EP4/DRAGON.OGG
+qputs 417 ^1By Makai Symphony
+break
+case 47
+qputs 416 Music: ^1Pressure - ^2EP4/PRESSURE.OGG
+qputs 417 ^1By yd
+break
+case 48
+qputs 416 Music: ^1He's gone Master - ^2EP4/HGM.OGG
+qputs 417 ^1By unknown
+break
+case 49
+qputs 416 Music: ^1Broken Dreams - ^2EP5/BDREAMS.OGG
+qputs 417 ^1By Spencer YK
+break
+case 50
+qputs 416 Music: ^1The Rift - ^2EP5/THERIFT.OGG
+qputs 417 ^1By vitalezzz
+break
+case 51
+qputs 416 Music: ^1Eastern Arctic Dubstep - ^2EP5/EASDUB.OGG
+qputs 417 ^1By VishwaJai
+break
+case 52
+qputs 416 Music: ^1I didn't do it - ^2EP4/IDDOIT.OGG
+
+qputs 417 ^1By unknown
+break
+case 55
+qputs 416 Music: ^1Battle in the Snowy mountain - ^2EP4/BITSM.OGG
+
+qputs 417 ^1By Makai Symphony
+break
+case 56
+qputs 416 Music: ^1Into the Ruins - ^2EP4/INTORUINS.OGG
+
+qputs 417 ^1By Viktor Kraus
+break
+// 57
+case 58
+qputs 416 Music: ^1AMCSQ - ^2BASE/AMCB_4B.OGG
+
+qputs 417 ^32By TheDavisD
+break
+// 59
+case 60
+qputs 416 Music: ^1He will never see her again - ^2EP4/HWNSHA.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 61
+case 62
+qputs 416 Music: ^1In the name of the King - ^2EP4/CREDITS4.OGG
+
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 63
+qputs 416 Music: ^1vs Dragon - ^2EP4/DRAGON.OGG
+
+qputs 417 ^1By Makai Symphony
+break
+endswitch
+}
+ife userdef[].music_episode 4 // Perfect Storm
+{
+switch userdef[].music_level
+case 0
+qputs 416 Music: ^1Space Elevator - ^2EP5/INTRO5.OGG
+qputs 417 ^1By vitalezz
+break
+case 1
+qputs 416 Music: ^1Red Moon - ^2BASE/AMCB_5.OGG
+qputs 417 ^1By Alex McCulloch
+break
+case 2
+qputs 416 Music: ^1Apparatus Overlord - ^2EP5/BRIEF8.OGG
+qputs 417 ^1By vitalezz
+break
+// 3
+case 4
+qputs 416 Music: ^1bgm2 - ^2EP5/HHAPPENS.OGG
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 5
+qputs 416 Music: ^1bgm7 - ^2EP5/MSTEEPS.OGG
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 6
+qputs 416 Music: ^1Lost - ^2EP5/LOST.OGG
+qputs 417 ^1By congusbongus
+break
+case 7
+qputs 416 Music: ^1Psychopathy Quotient - ^2EP5/CAVERNS.OGG
+qputs 417 ^1By BouncyTEM
+break
+case 8
+qputs 416 Music: ^1Perpetual Tension - ^2EP5/PERPTENS.OGG
+qputs 417 ^1By Zander Noriega
+break
+case 9
+qputs 416 Music: ^1Revenant's Lament - ^2EP5/REV1C1.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 10
+qputs 416 Music: ^1Worlds Collide - ^2EP5/WORLDS.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 11
+qputs 416 Music: ^1Intentional - ^2EP5/INTENTION.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+// 12
+case 13
+qputs 416 Music: ^1As Above So Below - ^2EP5/ASABSOBE.OGG
+qputs 417 ^1Tsorthan Grove
+break
+case 14
+qputs 416 Music: ^1Dark Pathway - ^2EP5/SWRATH.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 15
+qputs 416 Music: ^1Precipice of Anguish - ^2EP5/PRECIPICE.OGG
+qputs 417 ^1By BouncyTM
+break
+case 16
+qputs 416 Music: ^1She Is Here - ^2EP5/SHEISHERE.OGG
+qputs 417 ^2By AudibleDread
+break
+case 17
+qputs 416 Music: ^1GSF Discovery - ^2EP5/BRIEF9.OGG
+qputs 417 ^1By vitalezz
+break
+case 19
+qputs 416 Music: ^1March of the Wicked - ^2EP5/MOTW.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 20
+qputs 416 Music: ^1Incantation - ^2EP5/INCANT.OGG
+qputs 417 ^2By HiveBoSs
+break
+case 21
+qputs 416 Music: ^1Warp Drive - ^2EP5/WDRIVE.OGG
+qputs 417 ^1By vitalezzz
+break
+case 22
+qputs 416 Music: ^1Gravity Turn Calm - ^2EP5/GTURNC.OGG
+qputs 417 ^1By vitalezzz
+break
+case 23
+qputs 416 Music: ^1Face it Alone - ^2EP5/FALONE.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 24
+qputs 416 Music: ^1Stardust Delerium - ^2EP5/STARDUST.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 26
+qputs 416 Music: ^1Gravity Turn - ^2EP5/GTURN.OGG
+qputs 417 ^1By vitalezzz
+break
+case 27
+qputs 416 Music: ^1Laboratory X11 - ^2EP5/LABX11.OGG
+qputs 417 ^1By Tsorthan Grove
+break
+case 28
+qputs 416 Music: ^1RPG Ambience Dungeon - ^2EP5/ISLANDS.OGG
+qputs 417 ^1By Hitctrl
+break
+// 29
+case 30
+qputs 416 Music: ^1Persevere - ^2EP5/PERSEVERE.OGG
+qputs 417 ^1By vitalezzz
+break
+case 31
+qputs 416 Music: ^1Joining Forces - ^2BASE/AMCB_5B.OGG
+qputs 417 ^1By vitalezzz
+break
+case 32
+qputs 416 Music: ^1Helpless - ^2EP5/ToiletsRUs_TOP.ogg
+qputs 417 ^1By Jazpe
+break
+case 33
+qputs 416 Music: ^1Theme of the Damned - ^2EP5/TOTD.ogg
+qputs 417 ^2By Analogue Horror
+break
+case 34
+qputs 416 Music: ^1Smoggy roomers solarium - ^2EP5/TITANGAS_IN.ogg
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 35
+qputs 416 Music: ^1Methanogenesis - ^2EP5/TITANGAS_OUT.ogg
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 36
+qputs 416 Music: ^1Cmine - ^2EP5/CMINE.ogg
+qputs 417 ^2By AudibleDread
+break
+case 37
+qputs 416 Music: ^1Kraken beneath the ice - ^2EP5/TITANGAS_RETURN.ogg
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 38
+qputs 416 Music: ^1Singularity (Calm) - ^2EP5/SINGULC.OGG
+qputs 417 ^1By vitalezz
+break
+case 39
+qputs 416 Music: ^1Singularity - ^2EP5/SINGUL.OGG
+qputs 417 ^1By vitalezz
+break
+case 40
+qputs 416 Music: ^1bgm8 - ^2EP5/CTUBE.OGG
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 41
+qputs 416 Music: ^1Shades Of A Forest - ^2EP5/SHADESF.OGG
+qputs 417 ^1By Tsorthan Grove
+break
+case 42
+qputs 416 Music: ^1Aetherial Anomalies - ^2EP5/RNAIRP1.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 43
+qputs 416 Music: ^1GTRAK154 - ^2EP5/GTRAK154.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 44
+qputs 416 Music: ^1Below The Shift - ^2EP5/BTSHIFT.OGG
+qputs 417 ^32By Clearside
+break
+case 45
+qputs 416 Music: ^1Occupied with the Occult - ^2EP5/OWTO.ogg
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 46
+qputs 416 Music: ^1W2H - ^2EP5/W2H.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 47
+qputs 416 Music: ^1Something Is Wrong - ^2EP5/RUST.OGG
+qputs 417 ^2By Audible Dread
+break
+case 48
+qputs 416 Music: ^1Net Infiltration - ^2EP5/NETINF.OGG
+qputs 417 ^1By vitalezzz
+break
+case 49
+qputs 416 Music: ^1Cairo dig music - ^2EP5/CAIRODIG.OGG
+qputs 417 ^1By vitalezzz
+break
+case 50
+qputs 416 Music: ^1Stealth Stumble - ^2EP5/SSTUMBLE.OGG
+qputs 417 ^1By SouljahdeShiva
+break
+case 51
+qputs 416 Music: ^1Claimed By The Void - ^2EP5/CBTV.OGG
+qputs 417 ^1By vitalezzz
+break
+// 52
+// 53
+case 54
+qputs 416 Music: ^1Urban Ambient Theme - ^2EP5/URBAN.OGG
+qputs 417 ^1By Ted Kerr
+break
+case 55
+qputs 416 Music: ^1Flesh and Machine - ^2EP5/FLESHM.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 56
+qputs 416 Music: ^1Ruines Oubliees - ^2EP5/RUINES.OGG
+qputs 417 ^1By Dogers
+break
+case 57
+qputs 416 Music: ^1Life in Forest/Ritual Traps - ^2EP5/RTRAPS.OGG
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 58
+qputs 416 Music: ^1Hunter class lifeform - ^2EP5/HUNTER.OGG
+qputs 417 ^1By vitalezz
+break
+case 60
+qputs 416 Music: ^1Confrontation - ^2EP5/CONFRONT.OGG
+qputs 417 ^1By Dogers
+break
+case 61
+qputs 416 Music: ^1Outworld - ^2EP5/OUTWORLD.OGG
+qputs 417 ^1By vitalezz
+break
+case 62
+case 63
+qputs 416 Music: ^1Lunar Downfields - ^2EP5/CREDITS5.OGG
+qputs 417 ^1By Insydnis
+break
+endswitch
+}
+ife userdef[].music_episode 6 // AMC USERMAPS/ EDF Missions ================================================================================
+{
+switch userdef[].music_level
+case 1
+qputs 416 Music: ^1Poisoned lands - ^2EDF_USERM/RED1.OGG
+qputs 408 ^8By Maarten Van Oostrum
+break
+case 2
+qputs 416 Music: ^1bgm1 - ^2EDF_USERM/RED2.OGG
+qputs 417 ^32By Gavin 'Xendraven' Fry
+break
+case 3
+qputs 416 Music: ^1Echoes of the Unknown - ^2EDF_USERM/HIVE45.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 4
+qputs 416 Music: ^1Mechanicus infinitus - ^2EDF_USERM/HIVE38.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 5
+qputs 416 Music: ^1Deathgear - ^2EDF_USERM/HIVE42.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 6
+qputs 416 Music: ^1Strange Vices - ^2EDF_USERM/SVICES.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 7
+qputs 416 Music: ^1Monsterhunt - ^2EDF_USERM/HIVE39.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 8
+qputs 416 Music: ^1Throne Of The Mysterious - ^2EDF_USERM/CLCOAST.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 9
+qputs 416 Music: ^1Unperceptive - ^2EDF_USERM/ABBA.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 10
+qputs 416 Music: ^1Sonata of Dreams - ^2EDF_USERM/HIVE46.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 11
+qputs 416 Music: ^1Holiday cheers - ^2EDF_USERM/HIVECS2.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 12
+qputs 416 Music: ^1Ex-Omnibus - ^2EDF_USERM/HIVE30.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 13
+qputs 416 Music: ^1Beach Community Project - ^2EDF_USERM/BCBP.OGG
+qputs 408 ^8By Henri K
+break
+case 14
+qputs 416 Music: ^1Taking Care Of It - ^2EDF_USERM/HIVE28.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 15
+qputs 416 Music: ^1Error_bad_unit - ^2EDF_USERM/WESTAT.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 16
+qputs 416 Music: ^1Hypocritical - ^2EDF_USERM/HIVE8.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 17
+qputs 416 Music: ^1Undead Hunger - ^2EDF_USERM/ALLUNDED.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 18
+qputs 416 Music: ^1The Function of Failure - ^2EDF_USERM/EDFBURO.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 19
+qputs 416 Music: ^1Metropolitan Starlight - ^2EDF_USERM/CBP8.OGG
+qputs 408 ^8By Mike Norvak
+break
+case 21
+qputs 416 Music: ^1Realistic Delusion - ^2EDF_USERM/HIVE10.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 22
+qputs 416 Music: ^1Glitched Out - ^2EDF_USERM/HIVE33.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 23
+qputs 416 Music: ^1Undertone - ^2EDF_USERM/HIVE40.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 24
+qputs 416 Music: ^1Tribes of the Highlands - ^2EDF_USERM/TOTH.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 25
+qputs 416 Music: ^1Space Invasion - ^2EDF_USERM/ALIENZ.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 26
+qputs 416 Music: ^1Resonant conflict - ^2EDF_USERM/HIVE47.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 27
+qputs 416 Music: ^1Synthetic Sunrise - ^2EDF_USERM/HIVE24.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 28
+qputs 416 Music: ^1Street Shooter - ^2EDF_USERM/STRSHOOT.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 29
+qputs 416 Music: ^1Pulse-Driven Escape - ^2EDF_USERM/HIVE23.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 30
+qputs 416 Music: ^1Brainfungus - ^2EDF_USERM/BFUNGUS.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 31
+qputs 416 Music: ^1Dissonant Echo Chamber - ^2EDF_USERM/DECHO.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 32
+qputs 416 Music: ^1Retrograde Riot - ^2EDF_USERM/RETROG.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 33
+qputs 416 Music: ^1Do Not Fear Death - ^2EDF_USERM/CDEATH.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 34
+qputs 416 Music: ^1Omnivore - ^2EDF_USERM/HIVE27.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 35
+qputs 416 Music: ^1Shadow Groove - ^2EDF_USERM/HIVE44.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 36
+qputs 416 Music: ^1Screwup - ^2EDF_USERM/SCREWUP.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 38
+qputs 416 Music: ^1Hatecurse - ^2EDF_USERM/HATECURSE.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 39
+qputs 416 Music: ^1Fusion Flux - ^2EDF_USERM/HIVE22.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 40
+qputs 416 Music: ^1Fusion Flux - ^2EDF_USERM/JARRE.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+// AMC USERMAPS ================================
+case 41
+qputs 416 Music: ^1Arrival - ^2USERM/JVENUS.ogg
+qputs 417 ^1By vitalezzz
+break
+case 42
+qputs 416 Music: ^1Timebender - ^2USERM/TBEND.OGG
+qputs 417 ^1By MouthlessGames
+break
+case 43
+qputs 416 Music: ^1Underwater Exploration - ^2USERM/UNDEXP.OGG
+qputs 417 ^1By tcarisland
+break
+case 44
+qputs 416 Music: ^1Entering the Volcano - ^2USERM/ENTHVL.OGG
+qputs 417 ^1By Umplix
+break
+case 45
+qputs 416 Music: ^1Lamentation of the Frozen Wastes - ^2USERM/LOTFW.OGG
+qputs 417 ^1By Tsorthan Grove
+break
+case 46
+qputs 416 Music: ^1Dungeon Blue - ^2USERM/DUNBLUE.OGG
+qputs 417 ^1By JoshMckay
+break
+case 47
+case 48
+qputs 416 Music: ^1Yesterday's Future - ^2USERM/BALLS.OGG
+qputs 417 ^1By aoka
+break
+case 49
+qputs 416 Music: ^1Egyptian meditation - ^2USERM/JEGYPT.OGG
+qputs 417 ^1By brandon75689
+break
+endswitch
+}
+ife userdef[].music_episode 7 // extra space ================================================================================
+{
+switch userdef[].music_level
+case 3
+qputs 416 Music: ^1Crypt of the Druids - ^2EP5/KOTD.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 5
+qputs 416 Music: ^1Demonium - ^2EP4/DEMONIUM.OGG
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 6
+qputs 416 Music: ^1Decisions and Tactics - ^2EP4/DECTACTS.OGG
+qputs 417 ^1By Insydnis
+break
+case 7
+qputs 416 Music: ^1Vs Nemesis - ^2EP4/NEMESIS.OGG
+qputs 417 ^1By Makai Symphony
+break
+case 8
+qputs 416 Music: ^1Castlevania - ^2EP4/CASTLEVANIA.OGG
+qputs 417 ^1By Makai Symphony
+break
+case 9
+qputs 416 Music: ^1The God slaying Shovel - ^2EP4/GODSLY.OGG
+qputs 417 ^1By Scott Elliott
+break
+case 10
+qputs 416 Music: ^1Are You With Us? - ^2EP4/WITHUS.OGG
+qputs 417 ^1By Wontolla
+break
+case 11
+qputs 416 Music: ^1Barque sur le lac - ^2EP4/BARQUE.OGG
+qputs 417 ^1By Komiku
+break
+case 12
+qputs 416 Music: ^1Silent World - ^2EP4/SILWORLD.OGG
+qputs 417 ^1By Ryan Yunck
+break
+case 13
+qputs 416 Music: ^1At Night - ^2EP4/ATNIGHT.OGG
+qputs 417 ^1By Stefan Grossmann
+break
+case 14
+qputs 416 Music: ^1Endless Expanse - ^2EP4/ENDLESS.OGG
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 15
+qputs 416 Music: ^1The Call for Unity - ^2TITLE5.OGG
+qputs 417 ^1By vitalezzz
+break
+case 16
+qputs 416 Music: ^1Rangers - ^2EP5/RANGERS.OGG
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 17
+qputs 416 Music: ^1Time Is Ticking Away - ^2BASE/TITA.OGG
+qputs 417 ^1By Kim Lightyear
+break
+case 19
+qputs 416 Music: ^1Synthwave 15k - ^2BASE/SYNTH.OGG
+qputs 417 ^1By The Cynic Project
+break
+case 20
+qputs 416 Music: ^1Camoli - ^2BASE/CAMOLI.OGG
+qputs 417 ^32By Highwire
+break
+case 21
+qputs 416 Music: ^1Random Race - ^2BASE/RANDR.OGG
+qputs 417 ^1By Rezoner
+break
+case 22
+qputs 416 Music: ^1Gangsta - ^2BASE/GANGSTA.OGG
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 23
+qputs 416 Music: ^1Into the night - ^2BASE/NIGHT.OGG
+qputs 417 ^1By BogartVGM
+break
+case 24
+qputs 416 Music: ^1Arctic Ambient - ^2BASE/ARCTIC.OGG
+qputs 417 ^1By Wolfgang
+break
+case 25
+qputs 416 Music: ^1Merry AMC Christmas - ^2BASE/XMAS.OGG
+qstrcpy 417 8604 // By HiveBoSs
+break
+case 26
+qputs 416 Music: ^1Lost Super 8 Movie - ^2BASE/SUPER8.OGG
+qputs 417 ^1By BogartVGM
+break
+case 27
+qputs 416 Music: ^1Maximum Overdrive - ^2BASE/MOVERDR.OGG
+qputs 417 ^1By BogartVGM
+break
+case 28
+qputs 416 Music: ^1Dreamstate - ^2BASE/DREAMSTATE.OGG
+qputs 417 ^1By BogartVGM
+break
+case 29
+qputs 416 Music: ^1SUDA - ^2BASE/SUDA.OGG
+qputs 417 ^1By Sygil Void Bat
+break
+case 39
+qputs 416 Music: ^1Descent - ^2EP5/DESCENT.OGG
+qputs 417 ^1By vitalezzz
+break
+case 40
+qputs 416 Music: ^1Neural Malfunction - ^2EP5/NEURAL.OGG
+qputs 417 ^1By vitalezzz
+break
+case 41
+qputs 416 Music: ^1Where Dead Ships Dwell - ^2EP5/CONANX.OGG
+qputs 417 ^2By Audible Dread
+break
+case 42
+qputs 416 Music: ^1Hyperspace - ^2EP5/HYPERSPACE.OGG
+qputs 417 ^1By vitalezzz
+break
+case 43
+qputs 416 Music: ^1Savior - ^2EP5/SAVIOR.OGG
+qputs 417 ^1By vitalezzz
+break
+case 44
+qputs 416 Music: ^1Luyten's Lament - ^2EP5/LUYTEN.OGG
+qputs 417 ^1By Yubatake
+break
+case 45
+qputs 416 Music: ^1Creepy - ^2EP5/CREEP.OGG
+qputs 417 ^1By TokyoGeisha
+break
+case 46
+qputs 416 Music: ^1Enemy Spotted - ^2EP5/ENMYSPOT.OGG
+qputs 417 ^1By Alexandr Zhelanov
+break
+case 47
+qputs 416 Music: ^1The Ancient Legend - ^2EP5/TAL.OGG
+qputs 417 ^1By vitalezzz
+break
+case 48
+qputs 416 Music: ^1Chasing Memories - ^2EP5/CHASMEM.OGG
+qputs 417 ^1By vitalezzz
+break
+case 49
+qputs 416 Music: ^1Orbital Graveyard - ^2EP5/OGRAVEY.OGG
+qputs 417 ^1By vitalezzz
+break
+endswitch
+}
+add maptext_y 5
+screentext 2822 -50 maptext_y 28672 0 0 416 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+add maptext_y 5
+screentext 2822 -50 maptext_y 28672 0 0 417 0 8 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+}
+endevent

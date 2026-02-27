@@ -1,0 +1,359 @@
+action A_CHMERC_START 0 1 5 1 12 // Starting frame, different from the idle frame
+action A_CHMERC_IDLE 0 1 5 1 12
+
+action A_CHMERC_DEAD 49
+action A_CHMERC_DYING 45 5 1 1 12
+
+action A_CHMERC_BIDIE 50 3 1 1 12
+action A_CHMERC_BIDEAD 52
+
+action A_CHMERC_FREEZE 45 1 1 1 8
+action A_CHMERC_GROW 45 1 1 1 8
+action A_CHMERC_SHRUNK 0 4 5 1 12
+action A_CHMERC_PAIN 45 1 1 1 8
+action A_CHMERC_SEEK 5 4 5 1 12
+
+action A_CHMERC_ATTACK 25 2 5 1 4
+action A_CHMERC_ATTACK2 35 2 5 1 4
+
+move M_CHMERC_WALK 126
+
+defstate chem_torsofly
+	state random_trigger_showoff
+	sound TORS_BISEC
+	setprojectile[CHEM_TORSO_FLY].pal sprite[].pal
+	ezshoot -4096 CHEM_TORSO_FLY
+	setprojectile[CHEM_TORSO_FLY].pal 0
+	geta[].htang temp4
+	seta[RETURN].ang temp4
+	espawn BIG_BLOOD_EXE
+	action A_CHMERC_BIDIE
+ends
+
+damageeventtile CHEM_MERC
+
+// Insert stayput thing here
+useractor enemystayput CHEM_MERC_STAYPUT 150 A_CHMERC_START
+	cactor CHEM_MERC
+enda
+
+useractor enemy CHEM_MERC 150 A_CHMERC_START
+fall
+ifaction A_CHMERC_START
+{
+	cstat 257
+	strength 150
+	set MONSTER_FLAGS 2
+	sizeat 29 25
+	geta[].pal actor_pal
+	ife actor_pal 11 set actor_type TYPE_FULL_BODY_ARMOUR
+	else ife actor_pal 10
+		{
+		set actor_type TYPE_FULL_BODY_ARMOUR
+		set NPC_SHIELD 400
+		}
+	state monst_glow
+	espawn SHOOTME // Controls stuff like fire damage, targetting, .etc .etc - still used as a backup for the ally fighting stuff in-case an actor isn't set up with it yet
+	seta[RETURN].pal 1 // basically done just to make it clear that this actor is onboarded to the new targetting stuff, and is using SHOOTME for other purposes
+	action A_CHMERC_IDLE
+}
+
+ife actor_pal 10 state ENEMY_SHIELD_STUFF
+	
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+
+ifaction A_CHMERC_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1 
+	{
+		ifl temp6 10 soundonce MERC_SIGHT1
+		else ifl temp6 20 soundonce MERC_SIGHT2
+		else ifl temp6 30 soundonce MERC_SIGHT3
+		else ifl temp6 40 soundonce MERC_SIGHT4
+		else soundonce MERC_SIGHT5
+		action A_CHMERC_SEEK
+	}
+}
+
+// Death & dying
+else ifaction A_CHMERC_BIDEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+else ifaction A_CHMERC_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+else ifaction A_CHMERC_BIDIE
+{
+	strength 0
+	ifactioncount 3 { state rf state BODY_FALL_NOISES spawn BLOODPOOL action A_CHMERC_BIDEAD }
+}
+else ifaction A_CHMERC_DYING
+{
+	strength 0
+	ifactioncount 5 { state rf state BODY_FALL_NOISES spawn BLOODPOOL action A_CHMERC_DEAD }
+}
+
+// Status effects
+else ifaction A_CHMERC_FREEZE state frozen_code
+else ifaction A_CHMERC_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+else ifaction A_CHMERC_SHRUNK
+{
+	ifmove M_CHMERC_WALK { } // need to do this cause we're not using ai routines anymore
+	else
+		move M_CHMERC_WALK geth fleeenemy
+		
+	ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+		state new_shrunkcode
+	else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+	{
+		state unshrink
+		sizeto 25 25
+	}
+	else // after regrow, switch back to regular action
+	{
+		state endshrunkenstate
+		action A_CHMERC_SEEK
+	}	
+}
+
+else ifaction A_CHMERC_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_CHMERC_DYING 
+		else action A_CHMERC_SEEK
+	}
+}
+
+else ifaction A_CHMERC_SEEK
+{
+	ifmove M_CHMERC_WALK nullop 
+	else move M_CHMERC_WALK geth
+		
+	state checkfortarget
+	
+	ifn my_target -1
+	{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+		
+		ifl RANDOM_CHANCE SKILLCHANCE 
+		{
+			// Assume target still acquired, is rechecked on next tic anyway
+			
+			// Optional: apply dist check to target
+			// Basically any check here to decide whether or not to ATTACK goes. But there is no need to check for my_target again.
+			// my_target can be the player or another target, the actor shouldn't care about that (for now)
+			ldist temp THISACTOR my_target
+			ifl temp 8192 action A_CHMERC_ATTACK else action A_CHMERC_ATTACK2
+		}
+	}
+}
+
+else ifaction A_CHMERC_ATTACK
+{
+	move STOP
+	state new_validatetarget
+	
+	ife my_target -1
+		action A_CHMERC_SEEK
+	
+	state fronttowardstarget
+	
+	ifactioncount 2
+	{
+	set PROJECTILE_PAL 27
+	set PROJECTILE_ZOFFSET 512
+	set PROJECTILE_TO_SHOOT ENEMY_BULLET
+	state SIL_SMG_SOUNDS 
+	state sang_enemyShootProjectile
+				ife PERFMODE 1
+				 ifcansee
+				  ife INVASION 0
+				{
+					set gunsmoke_z 8244
+					set gunsmoke_angle 128
+					state spawn_gunsmoke_z
+					set gunsmoke_z 6344
+					espawn 16115
+					state spawn_muzzleflash
+					state npc_pistolshell
+				}
+		
+		ifrnd 4 action A_CHMERC_SEEK else
+		action A_CHMERC_ATTACK
+	}
+}
+
+else ifaction A_CHMERC_ATTACK2
+{
+	move STOP
+	state new_validatetarget
+	
+	ife my_target -1
+		action A_CHMERC_SEEK
+	
+	state fronttowardstarget
+	
+	ifactioncount 2
+	{
+		set HITSCAN_TO_SHOOT CHAINGUN
+		set HITSCAN_FIRING_SOUND MP5_FIRE
+		state sang_enemyShootHitscan
+				ife PERFMODE 1
+				 ifcansee
+				  ife INVASION 0
+				{
+					set gunsmoke_z 8244
+					set gunsmoke_angle 128
+					state spawn_gunsmoke_z
+					set gunsmoke_z 6344
+					espawn 16115
+					state spawn_muzzleflash
+					state npc_pistolshell
+				}
+		
+		ifrnd 4 action A_CHMERC_SEEK else
+		action A_CHMERC_ATTACK2
+	}
+}
+	
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+		
+		ifwasweapon RADIUSEXPLOSION
+		  {
+			state squish_sounds
+			state standard_jibs
+		  state human_jibs
+		  killit
+		  }
+		ifwasweapon RPG
+		  {
+			state squish_sounds
+			state standard_jibs
+		  state human_jibs
+		  killit
+		  }
+		ifand proj_udata PROJ_GIB // gibbable weapon
+			{
+			state squish_sounds
+			state standard_jibs
+			state human_jibs
+			killit
+			}
+		ifand proj_udata 8192
+			 {
+			 ifrnd 4 { spawn ELECTROCUTE_MARV soundonce MALE_ELECT1 } else spawn ELECTROCUTE_GUY
+			 shoot SPARK2 shoot SPARK2 shoot SPARK2
+			 killit
+			 }
+		ifwasweapon SAWBLADE state chem_torsofly
+		else ifwasweapon SAWBLADE_BOUNCE state chem_torsofly
+		else ifwasweapon SNOWFALL_DISC state chem_torsofly
+		else ifwasweapon 6875 ife CHAR 2 state chem_torsofly
+		else ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_CHMERC_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_CHMERC_FREEZE } 
+		else ifg fire_damage 0 
+		{
+			ifrnd 64 sound MALE_ONFIRE1
+			else ifrnd 64 sound MALE_ONFIRE2
+			else ifrnd 64 sound MALE_ONFIRE3
+			else sound MALE_ONFIRE4
+			spawn ONFIREGUY
+			killit
+		}
+		else ife HEADSHOT 2 
+		{
+			ifg fire_damage 0 set fire_damage 0
+			ifrnd 32 state trigger_showoff
+			state jib_sounds
+			state decap_sounds
+			shoot NJIB 
+			shoot NJIB 
+			guts JIBS6 3 
+			guts JIBS2 2 
+			action A_CHMERC_DYING
+		}
+		else ifg spirit_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2 
+			spritepal 1
+			guts JIBS3 6
+			spawn SPIRIT_DEATH_GUY
+			killit
+		}
+		else ifg energy_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2 
+			spritepal 4
+			guts JIBS3 6
+			spawn DISINTIGRATE_GUY
+			killit
+		}
+		else
+		{
+			ifrnd 128 sound MERC_DIE1
+			else ifrnd 128 sound MERC_DIE2
+			else sound MERC_DIE3
+			ifl sprite[].extra -100 ifpdistl 4096 state chem_torsofly
+			else
+			action A_CHMERC_DYING
+		}
+	}
+		
+	else // not dead
+	{
+		ifstrength 50 ifrnd 32 soundonce SD_MEDIC
+		ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_CHMERC_SHRUNK }
+		
+		ifg PAIN_AMOUNT 0 { soundonce MERC_PAIN action A_CHMERC_PAIN }
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST soundonce MERC_PAIN action A_CHMERC_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_CHMERC_IDLE { state PAIN_SKILL_LEVELADJUST soundonce MERC_PAIN action A_CHMERC_PAIN }
+	}
+}
+
+state checksquished
+
+enda

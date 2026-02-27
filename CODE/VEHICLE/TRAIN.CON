@@ -1,0 +1,235 @@
+define CONTROLLABLETRAIN 10857
+
+
+move TRAIN_FORWARD 10 0
+
+// *************************************************
+// HALF-LIFE STYLE CONTROLLABLE TRAIN
+// *************************************************
+defstate controllable_train_interactionlogic
+
+	ifaction 0
+	{
+		move STOP
+		set hc_gear 0
+		ife lotag_saved 0 set lotag_saved 5
+		action ZERO
+	}
+
+	else ifaction ZERO
+	{
+		ifpdistl 2048
+		  ifp palive
+		  ife player_using_train -1
+		{
+			state vehicle_prompt
+			ife use_action_allowed 1
+			{
+				sound TRAIN_ACTIVATE
+				set hit_key 30
+				set hc_gear 0
+				set player_using_train 1
+				set player_in_vehicle 1
+				set INTERNALCOUNT 0
+				set INTERNALCOUNT_2 0
+				action FORM
+				state setIgnoreUse
+			}
+		}
+	}
+	else ifaction FORM
+	{
+		ife MISSION_UP 0
+		  ifand EXTBITS_PRESS 1
+		  ifl hc_gear lotag_saved
+		  ife INTERNALCOUNT 0
+		{
+			sound TRAIN_GEAR
+			add hc_gear 1
+			set INTERNALCOUNT 1
+		}
+		
+		setuserdef[].viewbob 0
+		
+		// Bit of a hacky way to get around inputs not registering multiple times on the same tic
+		ife MISSION_UP 0
+		  ifand EXTBITS_PRESS 1
+		  nullop
+		else ife INTERNALCOUNT 1
+		{
+			set INTERNALCOUNT 0
+		}
+
+		ife MISSION_UP 0
+		  ifand EXTBITS_PRESS 2
+		  ife INTERNALCOUNT_2 0
+		  ifg hc_gear 0
+		{
+			sound TRAIN_GEAR
+			sub hc_gear 1
+			set INTERNALCOUNT_2 1
+		}
+		
+		// Bit of a hacky way to get around inputs not registering multiple times on the same tic
+		ife MISSION_UP 0
+		  ifand EXTBITS_PRESS 2
+		  nullop
+		else ife INTERNALCOUNT_2 1
+			set INTERNALCOUNT_2 0
+
+		ifpdistl 2048
+		  ifp palive
+		  ife player_using_train 1
+		  ife use_action_allowed 1
+		{
+			set hc_gear 0
+			sound TRAIN_ACTIVATE
+			set player_using_train -1
+			set player_in_vehicle 0
+			setuserdef[].viewbob 1
+			action ZERO
+			state setIgnoreUse
+		}
+	}
+ends
+
+defstate controllable_train_movement
+	ifaction 0
+	{
+		set smartpoint_track_sub zvel_saved
+		set forward_accelerate 0
+	}
+	
+	ifaction FORM
+	{
+		setp[].cursectnum sprite[].sectnum
+		setp[].posx sprite[].x
+		setp[].posy sprite[].y
+		// player needs to be placed a bit above the train Z as to not have the feet glitch into the floor
+		geta[].z z
+		sub z 12000
+		setp[].posz z
+		setp[].falling_counter 0
+		setp[].jumping_toggle 0
+		setp[].jumping_counter 0
+		setp[].hard_landing 0
+	}
+	
+	state anglePathToNextLotag
+
+
+	ifn next_point -1
+	{
+		// angvar contains angle we need to orient to. Gradually turn towards it.
+		geta[].ang temp
+		set ANGLE_A temp
+		set ANGLE_B angvar
+		state get_shortest_angle_diff
+		
+		geta[].ang temp // refetch just so we definitely have the correct value
+		ifg ANGLE_DIFF 64
+		{
+			ifg temp angvar
+				sub temp 32
+			else ifl temp angvar
+				add temp 32
+		}
+		else // close enough, just snap to it
+		{
+			set temp angvar
+		}
+		seta[].ang temp
+		
+		ifn forward_accelerate 0
+		{
+			set temp2 forward_accelerate
+			div temp2 2
+			soundonce SUBWAY_S
+			setactorsoundpitch THISACTOR SUBWAY_S temp2
+			
+			move TRAIN_FORWARD geth
+			geta[].xvel temp
+			add temp forward_accelerate
+			seta[].xvel temp
+		}
+		
+		ife hc_gear 0
+		{
+			set temp 0
+			ifn forward_accelerate 0
+			{
+				sub forward_accelerate 2
+				set temp 1
+			}				
+			
+			ife forward_accelerate 0 ife temp 1 { move STOP stopsound SUBTRAIN_START stopsound SUBWAY_S soundonce SUBTRAIN_STOP }
+		}
+		else ife hc_gear 1
+		{
+			ife forward_accelerate 0
+			{
+				stopsound SUBWAY_S 
+				soundonce SUBTRAIN_START
+			}
+			
+			ifl forward_accelerate 200 add forward_accelerate 4
+			ifg forward_accelerate 200 sub forward_accelerate 4
+		}
+		else ife hc_gear 2
+		{
+			ifl forward_accelerate 400 add forward_accelerate 4
+			ifg forward_accelerate 400 sub forward_accelerate 4
+		}
+		else ife hc_gear 3
+		{
+			ifl forward_accelerate 600 add forward_accelerate 4
+			ifg forward_accelerate 600 sub forward_accelerate 4
+		}
+		else ife hc_gear 4
+		{
+			ifl forward_accelerate 800 add forward_accelerate 4
+			ifg forward_accelerate 800 sub forward_accelerate 4
+		}
+		else ife hc_gear 5
+		{
+			ifl forward_accelerate 1000 add forward_accelerate 4
+		}
+	}
+	else ifg forward_accelerate 0
+	{
+		// end of the line!
+		move STOP
+		set hc_gear 0
+		set forward_accelerate 0
+		stopsound SUBTRAIN_START stopsound SUBWAY_S soundonce SUBTRAIN_STOP
+	}
+	
+	clamp hc_gear 0 5
+	clamp forward_accelerate 0 512
+ends
+
+defstate controllable_train_ui
+
+
+	ifn player_using_train -1
+	  ife MISSION_UP 0
+	{
+		ife hc_gear -1 rotatespritea 160 140 QUARTERSIZE 0 22744 0 27 0 -255 0 0 xdim ydim
+		ife hc_gear 0 rotatespritea 160 140 QUARTERSIZE 0 22744 0 0 0 -255 0 0 xdim ydim
+		ife hc_gear 1 rotatespritea 160 140 QUARTERSIZE 0 22745 0 0 0 -255 0 0 xdim ydim
+		ife hc_gear 2 rotatespritea 160 140 QUARTERSIZE 0 22746 0 0 0 -255 0 0 xdim ydim
+		ife hc_gear 3 rotatespritea 160 140 QUARTERSIZE 0 22747 0 0 0 -255 0 0 xdim ydim
+		ife hc_gear 4 rotatespritea 160 140 QUARTERSIZE 0 22748 0 0 0 -255 0 0 xdim ydim
+		ife hc_gear 5 rotatespritea 160 140 QUARTERSIZE 0 22749 0 0 0 -255 0 0 xdim ydim
+	}
+ends
+
+appendevent EVENT_LOADACTOR
+	ifactor CONTROLLABLETRAIN
+		state GETALLTAGS
+endevent
+
+useractor notenemy CONTROLLABLETRAIN
+	state controllable_train_movement
+	state controllable_train_interactionlogic
+enda

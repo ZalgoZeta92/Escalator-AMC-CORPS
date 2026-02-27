@@ -1,0 +1,2249 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Contains player functions and code
+--------------------------------------------------------------------------------
+*/
+
+include CODE/PLAYER/STATES.CON
+
+defstate SELECTEDCHAR
+readarrayfromfile ARTIFACTS_LOADOUT F_ARTIFACTS_LOADOUT_AMCTC
+readarrayfromfile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+readarrayfromfile TIMES_CHOSEN F_TIMES_CHOSEN
+set ts_temp 0
+
+set p_def_health_char CHAR
+state player_default_health
+set pmax_health p_default_health
+ife ARTIFACTS_LOADOUT[CHAR] 11 add pmax_health 20
+ife MEAL_BUFF[CHAR] 1 add pmax_health 10
+setp[].max_player_health pmax_health
+seta[PLAYER_IDENTITY].extra pmax_health
+
+ife MEAL_BUFF[CHAR] 4 set P_SPIRIT_ARMOUR 25
+
+ife CHAR 4 state spawn_bat
+
+set ts_temp TIMES_CHOSEN[CHAR]
+add ts_temp 1
+
+state set_max_ally
+
+setarray TIMES_CHOSEN[CHAR] ts_temp
+writearraytofile TIMES_CHOSEN F_TIMES_CHOSEN
+
+					ife CHAR 2 ifand CHAR_APP 4 set movement_level 1
+					else ife CHAR 3 ifand CHAR_APP 16 set movement_level 1
+					else ife CHAR 5 ifand CHAR_APP 65536 set movement_level 1
+					else ife CHAR 13 ifand CHAR_APP 256 set movement_level 1
+					else ife CHAR 1 ifand CHAR_APP 2048 set movement_level 1
+					else ife CHAR 6 ifand CHAR_APP 4096 set movement_level 1
+					else ife CHAR 4 ifand CHAR_APP 8192 set movement_level 1
+					else ife CHAR 14 ifand CHAR_APP 16384 set movement_level 1
+					else ife CHAR 17 ifand CHAR_APP 32768 set movement_level 1
+					else set movement_level 0
+					ife PERSONNEL_RESEARCH[30] 2 add movement_level 1
+					
+					ife CHAR 0 ifand CHAR_APP 512 set movement_level 2
+					else ife CHAR 7 ifand CHAR_APP 8 set movement_level 2
+					
+ife CHAR 2
+	{
+	ife SPECIALIST_EQUIPMENT[178] 2 // Jedrik's shield ?
+		{
+		setp[].gotweapon 8 1
+		setp[].ammo_amount 8 1
+		set merlijn_shield 300
+		}
+	}
+ifn CHAR 2 setp[].ammo_amount 1 48
+set CHARSELECT 0
+
+
+ifmultiplayer
+{
+qgetsysstr 356 STR_PLAYERNAME
+ife CHAR 0 qstrcat 356 357
+ife CHAR 1 qstrcat 356 358
+ife CHAR 2 qstrcat 356 359
+ife CHAR 3 qstrcat 356 360
+ife CHAR 4 qstrcat 356 361
+ife CHAR 5 qstrcat 356 362
+ife CHAR 6 qstrcat 356 363
+ife CHAR 7 qstrcat 356 364
+ife CHAR 9 qstrcat 356 365
+ife CHAR 10 qstrcat 356 366
+ife CHAR 11 qstrcat 356 367
+ife CHAR 12 qstrcat 356 368
+ife CHAR 13 qstrcat 356 369
+ife CHAR 14 qstrcat 356 370
+ife CHAR 16 qstrcat 356 371
+ife CHAR 17 qstrcat 356 372
+userquote 356
+}
+globalsound CHOSEN
+set char_sel_anim 30
+
+ife CHAR 0
+{
+readgamevar JAMES_1911
+readgamevar JAMES_JACKH
+}
+set just_changed 1
+ends
+
+// contains player appearence code
+include CODE/PLAYER/CHAR_APP.CON 
+
+// GUN SOUND =====================================================================================================================
+
+
+useractor notenemy SOUND_SPRITE
+cstat 32768
+seta[].ang player[].ang
+ifg temp 16384 killit
+soundvar temp
+killit
+enda
+
+
+defstate katana_swing_sounds
+ifrnd 96 sound SWING4
+else ifrnd 96 sound SWING3
+else ifrnd 97 sound SWING2
+else sound SWING
+ends
+
+include CODE/PLAYER/PARMOUR.CON
+
+onevent EVENT_GETAUTOAIMANGLE
+setvar AUTOAIMANGLE 96
+endevent
+
+
+// ALLY STUFF
+
+defstate ignore_ally_damage
+	getav[EV_TARG_SPRITE].faction_flag temp8
+
+	geta[EV_TARG_SPRITE].picnum temp
+	ife temp MU_COW // apply damage to mu cow where it's friendly or not
+		nullop
+	else ifand temp8 ALLIED_FACTION_FLAG
+	{
+		ifand ALLY_ORDER 1 
+			set target -1
+
+		geta[].owner temp
+		geta[temp].picnum temp2
+
+		// allow player self damage
+		ife temp2 SHRINKSPARK
+			nullop
+		else ife EV_TARG_SPRITE temp
+			ife temp2 APLAYER
+			{
+				nullop
+			}
+			else
+			{
+				geta[EV_TARG_SPRITE].picnum temp3
+				getav[temp].faction_flag temp4
+				geta[temp].picnum temp5
+
+				// temp3 = picnum of target
+				// temp5 = picnum of shooter
+
+				// faction_flag = faction of target
+				// temp4 = faction of shooter
+
+				// Other actor also is an ally
+				ifand temp4 ALLIED_FACTION_FLAG
+					set RETURN -1
+				else // not in allied faction but need to ignore damage all the same for these cases
+					ife actorvar[temp].actor_type TYPE_IGNORE_DAMAGE set RETURN -1
+			}
+	}
+ends
+
+onevent EVENT_GETSHOTRANGE
+ifn using_turret -1
+	{
+	set ANGRANGE 32
+	set ZRANGE 256
+	}
+else
+	{
+	add gun_grace 1
+	set temp7 GUN_ACCURACY
+	set ANGRANGE GUN_ACCURACY
+	ifg GUN_MAX_SPREAD 0 add ANGRANGE gun_spread
+	ifg GUN_MAX_SPREAD 0 add temp7 gun_spread
+	mul temp7 8
+	set ZRANGE temp7
+	}
+endevent
+
+// =======================================================================Animations
+
+action BOAT_USE 9810 1 5 1 10
+action FIGHTER_USE 13937 1 1 1 10
+action JET_USE 34902 1 1 1 10
+action HOVERTANK_USE 20192 1 1 1 10
+action VR_TANK_USE 21028 1 1 1 10
+action SUBMARINE_USE 27832 1 1 1 10
+
+action PMECH_IDLE 10499 1 1 1 10
+
+action PEXPLODE   106   5   1   1   10
+action PEXPLODEAD   113   1   1
+
+// Civilian
+
+action CIV_ASTAND 14194 1 5 1 0
+action CIV_AWALK 13995 4 5 1 16
+action CIV_ARUN 13995 4 5 1 10
+
+// ENVIRO_SUIT
+
+action ES_STAND 12313 1 5 1 1
+action ES_GROWING 12318 1 5 1 1
+action ES_WALK 12318 4 5 1 16
+action ES_RUN 12318 4 5 1 10
+action ES_JPHOUVER  12318   1   5   1
+action ES_JUMPING 12318 4 5 1 30
+action ES_FALLING   12318   1   5
+action ES_DUCKING   12338   1   5
+action ES_CRAWLING  12338   2   5   1   20
+action ES_AKICKING  12318   2   5   1   25
+action ES_FLINTCHING  12348  1   1   1   10
+action ES_THROWNBACK  12348  5   1   1   18
+action ES_FROZEN     12318  1   5
+action ES_LYINGDEAD   12352  1   1
+action ES_SWIMMINGGO   12318   1   5   1   10
+action ES_SWIMMING   12318   4   5   1   13
+action ES_SWIMMINGWAIT 12318   1   5   1   13
+action ES_TREDWATER  12318   2   5   1   17
+
+// JUGGERNAUT SUIT
+
+action JG_STAND 22537 1 5 1 1
+action JG_FIRE 22537 2 5 1 1
+action JG_GROWING 22547 1 5 1 1
+action JG_WALK 22517 4 5 1 24
+action JG_RUN 22517 4 5 1 20
+action JG_JPHOUVER  22517   1   5   1
+action JG_JUMPING 22517 4 5 1 30
+action JG_FALLING   22517   1   5
+action JG_DUCKING   22517   1   5
+action JG_CRAWLING  22517   2   5   1   20
+action JG_AKICKING  22517   2   5   1   25
+action JG_FLINTCHING  22547  1   1   1   10
+action JG_THROWNBACK  22547  5   1   1   18
+action JG_FROZEN     22547  1   5
+action JG_LYINGDEAD   22551  1   1
+action JG_SWIMMINGGO   22517   1   5   1   10
+action JG_SWIMMING   22517   4   5   1   13
+action JG_SWIMMINGWAIT 22517   1   5   1   13
+action JG_TREDWATER  22517   2   5   1   17
+
+// SPACESUIT
+
+action SS_STAND 21640 1 5 1 1
+action SS_GROWING 21640 1 5 1 1
+action SS_WALK 21645 4 5 1 16
+action SS_RUN 21645 4 5 1 10
+action SS_JPHOUVER  21665   1   5   1
+action SS_JUMPING 21665 1 5 1 30
+action SS_FALLING   21665   1   5
+action SS_DUCKING   21670   1   5
+action SS_CRAWLING  21688   2   5   1   20
+action SS_AKICKING  21640   2   5   1   25
+action SS_FLINTCHING  21640  1   1   1   10
+action SS_THROWNBACK  21675  5   1   1   18
+action SS_FROZEN     21640  1   5
+action SS_LYINGDEAD   21679  1   1
+action SS_SWIMMINGGO   21645   1   5   1   10
+action SS_SWIMMING   21645   4   5   1   13
+action SS_SWIMMINGWAIT 21645   1   5   1   13
+action SS_TREDWATER  21645   2   5   1   17
+
+defstate check_civ_standard
+ifp pwalking
+action CIV_AWALK
+else
+ifp pkicking
+action CIV_AWALK
+else
+ifp prunning
+action CIV_ARUN
+else
+ifp pjumping
+action CIV_ARUN
+else
+ifp pducking
+action CIV_AWALK
+ends
+
+defstate CIVILIAN_ANIMS
+
+ifaction 0 ife CHARSELECT 0 action CIV_ASTAND
+
+ifaction CIV_ASTAND
+state check_civ_standard
+else
+ifaction CIV_AWALK
+{
+ifp pstanding
+action CIV_ASTAND
+else
+ifp prunning
+action CIV_ARUN
+}
+
+else
+ifaction CIV_ARUN
+{
+ifp pstanding
+action CIV_ASTAND
+else
+ifp pwalking
+action CIV_AWALK
+}
+ends
+
+// ************************************** ENVIROSUIT ANIMS******************************************************
+
+defstate check_ES_standard
+ifp pwalking
+action ES_WALK
+else
+ifp pkicking
+ife camerasprite -1
+action ES_AKICKING
+else
+ifp prunning
+action ES_RUN
+else
+ifp pjumping
+action ES_JUMPING
+else
+ifp pducking
+ife camerasprite -1
+action ES_DUCKING
+ends
+
+defstate ENVIRO_SUIT_ANIMS
+ifaction ES_FLINTCHING
+{
+ifactioncount 2
+action ES_STAND
+break
+}
+
+ifinwater
+{
+ifaction ES_TREDWATER
+{
+ifp pwalking prunning
+action ES_SWIMMINGGO
+}
+else
+ifp pstanding pwalkingback prunningback
+action ES_TREDWATER
+else
+{
+ifaction ES_SWIMMING
+{
+ifrnd 4
+spawn WATERBUBBLE
+ifactioncount 4
+action ES_SWIMMINGWAIT
+}
+else
+ifaction ES_SWIMMINGWAIT
+{
+ifactioncount 2
+action ES_SWIMMINGGO
+}
+else
+ifaction ES_SWIMMINGGO
+{
+ifactioncount 2
+action ES_SWIMMING
+}
+else
+action ES_TREDWATER
+}
+
+ifrnd 4
+spawn WATERBUBBLE // For effect
+
+break
+}
+else ifp pjetpack
+{
+ifaction ES_JPHOUVER
+{
+ifactioncount 4
+resetactioncount
+}
+else
+action ES_JPHOUVER
+break
+}
+else
+{
+ifaction ES_TREDWATER
+action ES_STAND
+ifaction ES_SWIMMING
+action ES_STAND
+ifaction ES_SWIMMINGWAIT
+action ES_STAND
+ifaction ES_SWIMMINGGO
+action ES_STAND
+ifaction ES_JPHOUVER
+action ES_FALLING
+}
+
+ifaction ES_FALLING
+{
+ifp ponground
+{ action ES_STAND state landsounds }
+else
+{
+ifp pfalling
+break
+else
+state check_ES_standard
+}
+}
+
+ifaction ES_DUCKING
+{
+ifgapzl 48
+{
+ifp pwalking pwalkingback prunning prunningback
+action ES_CRAWLING
+}
+else ifp pducking
+{
+ifp pwalking pwalkingback prunning prunningback
+action ES_CRAWLING
+}
+else
+{
+ifp pstanding
+action ES_STAND
+else
+state check_ES_standard
+}
+}
+
+else ifaction ES_CRAWLING
+{
+ifgapzl 48
+{
+ifp pstanding
+action ES_CRAWLING
+}
+else
+ifp pducking
+{
+ifp pstanding
+action ES_DUCKING
+}
+else
+{
+ifp pstanding
+action ES_STAND
+else
+state check_ES_standard
+}
+}
+else
+ifgapzl 48
+action ES_DUCKING
+
+else
+ifaction ES_JUMPING
+{
+ifp ponground
+action ES_STAND
+else
+ifactioncount 4
+ifp pfalling
+action ES_FALLING
+}
+
+ifp pfalling
+action ES_FALLING
+else
+ifaction ES_STAND
+state check_ES_standard
+else
+ifaction ES_AKICKING
+{
+ifactioncount 2
+action ES_STAND
+break
+}
+else
+ifaction ES_WALK
+{
+ifp pfalling
+action ES_FALLING
+else
+ifp pstanding
+action ES_STAND
+else
+ifp prunning
+action ES_RUN
+else
+ifp pjumping
+action ES_JUMPING
+else
+ifp pducking
+action ES_DUCKING
+}
+
+else
+ifaction ES_RUN
+{
+ifp pstanding
+action ES_STAND
+else
+ifp pwalking
+action ES_WALK
+else
+ifp pjumping
+action ES_JUMPING
+else
+ifp pducking
+action ES_DUCKING
+}
+ends
+
+// ************************************** JUGGERNAUT SUIT ANIMS******************************************************
+
+defstate check_JG_standard
+ifp pwalking
+action JG_WALK
+else
+ifp pkicking
+ife camerasprite -1
+action JG_AKICKING
+else
+ifp prunning
+action JG_RUN
+else
+ifp pjumping
+action JG_JUMPING
+else
+ifp pducking
+ife camerasprite -1
+action JG_DUCKING
+ends
+
+defstate JUGGERN_SUIT_ANIMS
+
+ife kickbackpic 1 ifp pstanding {  ifaction JG_FIRE nullop else action JG_FIRE }
+
+ifaction JG_FIRE
+{
+ifactioncount 2
+ife kickbackpic 0
+action JG_STAND
+break
+}
+
+
+ifaction JG_FLINTCHING
+{
+ifactioncount 2
+action JG_STAND
+break
+}
+
+ifinwater
+{
+ifaction JG_TREDWATER
+{
+ifp pwalking prunning
+action JG_SWIMMINGGO
+}
+else
+ifp pstanding pwalkingback prunningback
+action JG_TREDWATER
+else
+{
+ifaction JG_SWIMMING
+{
+ifrnd 4
+spawn WATERBUBBLE
+ifactioncount 4
+action JG_SWIMMINGWAIT
+}
+else
+ifaction JG_SWIMMINGWAIT
+{
+ifactioncount 2
+action JG_SWIMMINGGO
+}
+else
+ifaction JG_SWIMMINGGO
+{
+ifactioncount 2
+action JG_SWIMMING
+}
+else
+action JG_TREDWATER
+}
+
+ifrnd 4
+spawn WATERBUBBLE // For effect
+
+break
+}
+else ifp pjetpack
+{
+ifaction JG_JPHOUVER
+{
+ifactioncount 4
+resetactioncount
+}
+else
+action JG_JPHOUVER
+break
+}
+else
+{
+ifaction JG_TREDWATER
+action JG_STAND
+ifaction JG_SWIMMING
+action JG_STAND
+ifaction JG_SWIMMINGWAIT
+action JG_STAND
+ifaction JG_SWIMMINGGO
+action JG_STAND
+ifaction JG_JPHOUVER
+action JG_FALLING
+}
+
+ifaction JG_FALLING
+{
+ifp ponground
+{ action JG_STAND state landsounds }
+else
+{
+ifp pfalling
+break
+else
+state check_JG_standard
+}
+}
+
+ifaction JG_DUCKING
+{
+ifgapzl 48
+{
+ifp pwalking pwalkingback prunning prunningback
+action JG_CRAWLING
+}
+else ifp pducking
+{
+ifp pwalking pwalkingback prunning prunningback
+action JG_CRAWLING
+}
+else
+{
+ifp pstanding
+action JG_STAND
+else
+state check_JG_standard
+}
+}
+
+else ifaction JG_CRAWLING
+{
+ifgapzl 48
+{
+ifp pstanding
+action JG_CRAWLING
+}
+else
+ifp pducking
+{
+ifp pstanding
+action JG_DUCKING
+}
+else
+{
+ifp pstanding
+action JG_STAND
+else
+state check_JG_standard
+}
+}
+else
+ifgapzl 48
+action JG_DUCKING
+
+else
+ifaction JG_JUMPING
+{
+ifp ponground
+action JG_STAND
+else
+ifactioncount 4
+ifp pfalling
+action JG_FALLING
+}
+
+ifp pfalling
+action JG_FALLING
+else
+ifaction JG_STAND
+state check_JG_standard
+else
+ifaction JG_AKICKING
+{
+ifactioncount 2
+action JG_STAND
+break
+}
+else
+ifaction JG_WALK
+{
+ifp pfalling
+action JG_FALLING
+else
+ifp pstanding
+action JG_STAND
+else
+ifp prunning
+action JG_RUN
+else
+ifp pjumping
+action JG_JUMPING
+else
+ifp pducking
+action JG_DUCKING
+}
+
+else
+ifaction JG_RUN
+{
+ifp pstanding
+action JG_STAND
+else
+ifp pwalking
+action JG_WALK
+else
+ifp pjumping
+action JG_JUMPING
+else
+ifp pducking
+action JG_DUCKING
+}
+ends
+
+// ************************************** SPACESUIT ANIMS******************************************************
+
+defstate check_SS_standard
+ifp pwalking
+action SS_WALK
+else
+ifp pkicking
+ife camerasprite -1
+action SS_AKICKING
+else
+ifp prunning
+action SS_RUN
+else
+ifp pjumping
+action SS_JUMPING
+else
+ifp pducking
+ife camerasprite -1
+action SS_DUCKING
+ends
+
+defstate SPACE_SUIT_ANIMS
+
+ifaction SS_FLINTCHING
+{
+ifactioncount 2
+action SS_STAND
+break
+}
+
+ifinwater
+{
+ifaction SS_TREDWATER
+{
+ifp pwalking prunning
+action SS_SWIMMINGGO
+}
+else
+ifp pstanding pwalkingback prunningback
+action SS_TREDWATER
+else
+{
+ifaction SS_SWIMMING
+{
+ifrnd 4
+spawn WATERBUBBLE
+ifactioncount 4
+action SS_SWIMMINGWAIT
+}
+else
+ifaction SS_SWIMMINGWAIT
+{
+ifactioncount 2
+action SS_SWIMMINGGO
+}
+else
+ifaction SS_SWIMMINGGO
+{
+ifactioncount 2
+action SS_SWIMMING
+}
+else
+action SS_TREDWATER
+}
+
+ifrnd 4
+spawn WATERBUBBLE // For effect
+
+break
+}
+else ifp pjetpack
+{
+ifaction SS_JPHOUVER
+{
+ifactioncount 4
+resetactioncount
+}
+else
+action SS_JPHOUVER
+break
+}
+else
+{
+ifaction SS_TREDWATER
+action SS_STAND
+ifaction SS_SWIMMING
+action SS_STAND
+ifaction SS_SWIMMINGWAIT
+action SS_STAND
+ifaction SS_SWIMMINGGO
+action SS_STAND
+ifaction SS_JPHOUVER
+action SS_FALLING
+}
+
+ifaction SS_FALLING
+{
+ifp ponground
+{ action SS_STAND state landsounds }
+else
+{
+ifp pfalling
+break
+else
+state check_SS_standard
+}
+}
+
+ifaction SS_DUCKING
+{
+ifgapzl 48
+{
+ifp pwalking pwalkingback prunning prunningback
+action SS_CRAWLING
+}
+else ifp pducking
+{
+ifp pwalking pwalkingback prunning prunningback
+action SS_CRAWLING
+}
+else
+{
+ifp pstanding
+action SS_STAND
+else
+state check_SS_standard
+}
+}
+
+else ifaction SS_CRAWLING
+{
+ifgapzl 48
+{
+ifp pstanding
+action SS_CRAWLING
+}
+else
+ifp pducking
+{
+ifp pstanding
+action SS_DUCKING
+}
+else
+{
+ifp pstanding
+action SS_STAND
+else
+state check_SS_standard
+}
+}
+else
+ifgapzl 48
+action SS_DUCKING
+
+else
+ifaction SS_JUMPING
+{
+ifp ponground
+action SS_STAND
+else
+ifactioncount 4
+ifp pfalling
+action SS_FALLING
+}
+
+ifp pfalling
+action SS_FALLING
+else
+ifaction SS_STAND
+state check_SS_standard
+else
+ifaction SS_AKICKING
+{
+ifactioncount 2
+action SS_STAND
+break
+}
+else
+ifaction SS_WALK
+{
+ifp pfalling
+action SS_FALLING
+else
+ifp pstanding
+action SS_STAND
+else
+ifp prunning
+action SS_RUN
+else
+ifp pjumping
+action SS_JUMPING
+else
+ifp pducking
+action SS_DUCKING
+}
+
+else
+ifaction SS_RUN
+{
+ifp pstanding
+action SS_STAND
+else
+ifp pwalking
+action SS_WALK
+else
+ifp pjumping
+action SS_JUMPING
+else
+ifp pducking
+action SS_DUCKING
+}
+ends
+
+// default - player anims are changed with animate sprite, these are the core actions
+
+action PSTAND -1405 1 5 1 1
+action PSTAND_IDLE -1405 1 5 1 1
+
+action PWALK -1405 4 5 1 16
+action PRUN -1405 4 5 1 10
+action PJUMPING -1405 1 5 1 30
+action PFALLING   -1405   1   5
+
+action PDUCKING   -1405   1   5
+action PCRAWLING  -1405   2   5   1   20
+action PAKICKING  -1405   2   5   1   25
+
+action PSWIMMINGGO   -1405   1   5   1   10
+action PSWIMMING   -1405   2   5   1   13
+action PSWIMMINGWAIT -1405   1   5   1   13
+action PTREDWATER  -1405   2   5   1   17
+
+action PGROWING -1405 1 5 1 1
+action PFLINTCHING  -1405  1   1   1   10
+action PFROZEN     -1405  1   5
+action PTHROWNBACK  -1405  5   1   1   18
+
+action PJPHOUVER -1405   1   5   1
+action P_ONBIKE -1405 1 5 1 0
+action PFIRE -1405 3 5 1 20
+action PLYINGDEAD -1405  1   1
+
+defstate check_pstandard
+ifaction PSTAND ifn amc_base 0 action PSTAND_IDLE
+ifaction PSTAND ife player[].holster_weapon 1 action PSTAND_IDLE
+ifaction PSTAND_IDLE ife player[].holster_weapon 0 action PSTAND
+ifp pwalking action PWALK
+else ifl QUICKK 13 action PAKICKING
+else ifp prunning action PRUN
+else ifp pjumping action PJUMPING
+else ifp pducking ife camerasprite -1 action PDUCKING
+ends
+
+defstate player_anims
+ifaction 0 ife CHARSELECT 0 action PSTAND
+ifg player_bike 0 action P_ONBIKE
+ife kickbackpic 1 ifn player_anims[13] 0 { ifaction PFIRE nullop else action PFIRE }
+ife kickbackpic_2 1 ifn player_anims[13] 0 { ifaction PFIRE nullop else action PFIRE }
+ifaction P_ONBIKE ife player_bike 0 action PSTAND
+ifaction PFIRE { ifactioncount 2 action PSTAND break }
+ifaction PFLINTCHING { ifactioncount 2 action PSTAND break }
+ifinwater
+{
+ifaction PTREDWATER { ifp pwalking prunning action PSWIMMINGGO }
+else ifp pstanding pwalkingback prunningback action PTREDWATER
+else
+	{
+	ifaction PSWIMMING { ifrnd 4 spawn WATERBUBBLE ifactioncount 4 action PSWIMMINGWAIT }
+	else ifaction PSWIMMINGWAIT { ifactioncount 2 action PSWIMMINGGO }
+	else ifaction PSWIMMINGGO { ifactioncount 2 action PSWIMMING }
+	else action PTREDWATER
+	}
+ifrnd 4 spawn WATERBUBBLE 
+break
+}
+else ifp pjetpack { ifaction PJPHOUVER { ifactioncount 4 resetactioncount } else action PJPHOUVER break }
+else
+	{
+	ifaction PTREDWATER action PSTAND
+	ifaction PSWIMMING action PSTAND
+	ifaction PSWIMMINGWAIT action PSTAND
+	ifaction PSWIMMINGGO action PSTAND
+	ifaction PJPHOUVER action PFALLING
+	}
+
+ifaction PFALLING
+	{
+	ifp ponground { action PSTAND state landsounds }
+	else { ifp pfalling break else state check_pstandard }
+	}
+
+ifaction PDUCKING
+	{
+	ifgapzl 48 { ifp pwalking pwalkingback prunning prunningback action PCRAWLING }
+	else ifp pducking { ifp pwalking pwalkingback prunning prunningback action PCRAWLING }
+	else { ifp pstanding action PSTAND else state check_pstandard }
+	}
+else ifaction PCRAWLING
+	{
+	ifgapzl 48 { ifp pstanding action PCRAWLING }
+	else ifp pducking { ifp pstanding action PDUCKING }
+	else { ifp pstanding action PSTAND else state check_pstandard }
+	}
+else ifgapzl 48 action PDUCKING
+else ifaction PJUMPING { ifp ponground action PSTAND else ifactioncount 4 ifp pfalling action PFALLING }
+
+ifp pfalling action PFALLING
+else ifaction PSTAND state check_pstandard
+else ifaction PSTAND_IDLE state check_pstandard
+else ifaction PAKICKING { ifactioncount 2 action PSTAND break }
+else
+ifaction PWALK
+	{
+	ifp pfalling action PFALLING
+	else ifp pstanding action PSTAND
+	else ifp prunning action PRUN
+	else ifp pjumping action PJUMPING
+	else ifp pducking action PDUCKING
+	}
+else
+ifaction PRUN
+	{
+	ifp pstanding action PSTAND
+	else ifp pwalking action PWALK
+	else ifp pjumping action PJUMPING
+	else ifp pducking action PDUCKING
+	}
+ifl ROUNDHOUSE_KICK 13 action PAKICKING
+ifl SPIN_KICK 10 action PAKICKING
+ifl FLYING_KICK 13 action PAKICKING
+ifl DROP_KICK 13 action PAKICKING
+ifl SLIDE_KICK 26 action PCRAWLING
+ifg on_zipline 0 action PJUMPING
+ifg speaker -1 ifn camerasprite -1 action PSTAND_IDLE
+ends
+
+appendevent EVENT_ANIMATESPRITES
+ifactor APLAYER
+{
+gettspr[].tsprcstat tsprite_temp
+gettspr[].tsprpal tsprite_temp2
+ifn tsprite_temp2 4
+ifand tsprite_temp 2
+xorvar tsprite_temp 2
+settspr[].tsprcstat tsprite_temp
+
+ifg INVINC 0 ifn tsprite_temp2 4 settspr[].tsprpal 121
+
+ife CHAR 2 ifp pboosted ifn tsprite_temp2 4 settspr[].tsprpal 27
+
+// ifn CONTROL_VR -1 ifn tsprite_temp2 4 settspr[].tsprpal 125
+// else ife CONTROL_VR -1 ife tspr[].tsprpal 125 settspr[].tsprpal 0
+
+ifaction PSTAND { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[0] settspr[].tsprpicnum tsprite_temp }
+
+ifaction PSTAND_IDLE
+{
+ifn player_anims[1] 0 // if idle specific animations are present, use those
+{ gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[1] settspr[].tsprpicnum tsprite_temp }
+else // otherwise, use existing standing sprites
+{ gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[0] settspr[].tsprpicnum tsprite_temp }
+}
+
+ifaction PWALK
+{
+ifn player_anims[15] 0 // if walking specific animations are present, use those
+{ gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[15] settspr[].tsprpicnum tsprite_temp }
+else // otherwise, use existing movement sprites
+{ gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[2] settspr[].tsprpicnum tsprite_temp }
+}
+
+ifaction PRUN { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[2] settspr[].tsprpicnum tsprite_temp }
+ifaction PJUMPING { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[3] settspr[].tsprpicnum tsprite_temp }
+ifaction PFALLING { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[4] settspr[].tsprpicnum tsprite_temp }
+
+ifaction PDUCKING { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[5] settspr[].tsprpicnum tsprite_temp }
+ifaction PCRAWLING { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[6] settspr[].tsprpicnum tsprite_temp }
+
+ifaction PAKICKING { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[7] settspr[].tsprpicnum tsprite_temp }
+
+ifaction PSWIMMINGGO { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[8] settspr[].tsprpicnum tsprite_temp }
+ifaction PSWIMMING { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[8] settspr[].tsprpicnum tsprite_temp }
+ifaction PSWIMMINGWAIT { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[8] settspr[].tsprpicnum tsprite_temp }
+ifaction PTREDWATER { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[8] settspr[].tsprpicnum tsprite_temp }
+
+ifaction PGROWING { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[9] settspr[].tsprpicnum tsprite_temp }
+ifaction PFLINTCHING { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[9] settspr[].tsprpicnum tsprite_temp }
+ifaction PFROZEN { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[9] settspr[].tsprpicnum tsprite_temp }
+
+ifaction PTHROWNBACK { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[10] settspr[].tsprpicnum tsprite_temp }
+
+ifaction PJPHOUVER
+{
+ifn player_anims[11] 0 // if jetpack specific animations are present, use those
+{ gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[11] settspr[].tsprpicnum tsprite_temp }
+else // otherwise, use existing jumping sprites
+{ gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[3] settspr[].tsprpicnum tsprite_temp }
+}
+
+ifaction P_ONBIKE { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[12] settspr[].tsprpicnum tsprite_temp }
+ifaction PFIRE { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[13] settspr[].tsprpicnum tsprite_temp }
+ifaction PLYINGDEAD { gettspr[].tsprpicnum tsprite_temp add tsprite_temp player_anims[14] settspr[].tsprpicnum tsprite_temp }
+
+ifmultiplayer nullop
+else
+{
+
+gettspr[].tsprpal tsprite_temp2
+ifn tsprite_temp2 4
+{
+ifn tsprite_temp2 0 nullop else settspr[].tsprpal player_anims[32]
+}
+/*
+ife CHAR 4 // If the player's Sang and is the default colour, make him red
+{
+gettspr[].tsprpal tsprite_temp2
+ifn tsprite_temp2 4
+{
+ifn tsprite_temp2 0 nullop else settspr[].tsprpal 21
+}
+}
+
+*/
+}
+
+ifp pshrunk nullop else
+{
+settspr[].tsprxrepeat player_anims[30]
+gettspr[].tsprpal tsprite_temp2
+ifn tsprite_temp2 4
+	{
+	settspr[].tspryrepeat player_anims[31]
+	}
+}
+
+ifn player_using_submarine -1
+{
+geta[player_using_submarine].z tsprite_temp
+settspr[].tsprz tsprite_temp
+settspr[].tsprxrepeat 80
+settspr[].tspryrepeat 80
+}
+
+ifn player_using_fighter -1
+{
+geta[player_using_fighter].z tsprite_temp
+settspr[].tsprz tsprite_temp
+settspr[].tsprxrepeat 80
+settspr[].tspryrepeat 80
+}
+
+ifn player_using_jet -1
+{
+geta[player_using_jet].z tsprite_temp
+settspr[].tsprz tsprite_temp
+settspr[].tsprxrepeat 80
+settspr[].tspryrepeat 80
+}
+
+
+ifn player_using_hovertank -1
+{
+geta[player_using_hovertank].z tsprite_temp
+settspr[].tsprz tsprite_temp
+settspr[].tsprshade sprite[player_using_hovertank].shade
+settspr[].tsprpal sprite[player_using_hovertank].pal
+settspr[].tsprxrepeat 64
+settspr[].tspryrepeat 64
+}
+
+ifn player_using_VR_tank -1
+{
+geta[player_using_VR_tank].z tsprite_temp
+settspr[].tsprz tsprite_temp
+settspr[].tsprshade sprite[player_using_VR_tank].shade
+settspr[].tsprpal sprite[player_using_VR_tank].pal
+settspr[].tsprxrepeat 64
+settspr[].tspryrepeat 64
+}
+
+	ife display_mirror 1
+		{
+		// Rosa's invisible in mirrors
+		ife CHAR 16 settspr[].tsprpicnum 3587
+		}
+		
+ifn PCAMERA 0 settspr[].tsprpicnum 3587
+
+}
+endevent
+
+
+// PLAYER CODE FILES
+include CODE/PLAYER/CHAR/JAMES.CON
+include CODE/PLAYER/CHAR/ZAXTOR.CON
+include CODE/PLAYER/CHAR/MERLIJN.CON
+include CODE/PLAYER/CHAR/HIGHWIRE.CON
+include CODE/PLAYER/CHAR/SANG.CON
+include CODE/PLAYER/CHAR/RUSTY.CON
+include CODE/PLAYER/CHAR/GEOFFREY.CON
+include CODE/PLAYER/CHAR/MIKKO.CON
+include CODE/PLAYER/CHAR/MICKY.CON
+include CODE/PLAYER/CHAR/SNOWFALL.CON
+include CODE/PLAYER/CHAR/KAGURA.CON
+include CODE/PLAYER/CHAR/WHEATON.CON
+
+include CODE/PLAYER/CHAR/CULTIST.CON
+include CODE/PLAYER/CHAR/BOMBSHELL.CON
+include CODE/PLAYER/CHAR/JANE.CON
+include CODE/PLAYER/CHAR/MAARTEN.CON
+include CODE/PLAYER/CHAR/ROSA.CON
+
+
+defstate PLAYERANIMS
+ife on_zipline 1 action PSTAND
+ifaction ZERO action PSTAND
+ife FIRE_SUIT 1 ifaction PSTAND action ES_STAND
+ife JUGGERN_SUIT 1 ifaction PSTAND action JG_STAND
+ife SPACE_SUIT 1 ifn CHAR 12 ifn CHAR 13 ifn CHAR 14 ifaction PSTAND action SS_STAND
+ifaction PSTAND set MOVESOUND 0
+ife FIRE_SUIT 1 ifn CHAR 12 state ENVIRO_SUIT_ANIMS
+else ife SPACE_SUIT 1 ifn CHAR 12 ifn CHAR 13 ifn CHAR 14 state SPACE_SUIT_ANIMS
+else ife JUGGERN_SUIT 1 ifn CHAR 12 ifn CHAR 13 ifn CHAR 14 state JUGGERN_SUIT_ANIMS
+else
+{
+ife CHAR -1 action ZERO
+state player_anims
+}
+ends
+
+defstate PS_CASSANDRA // Cassandra
+{
+set P_GENDER FEMALE
+set CKNEE 18018
+setp[].knuckle_incs 0
+state reset_PDA
+set IN_DREAM 1
+set C_PUNCH 34037
+}
+ends
+
+defstate PLAYERSTATS
+
+// default select sounds
+// set WEAPON0_SELECTSOUND SELECT_WEAPON
+set WEAPON1_SELECTSOUND 4
+set WEAPON2_SELECTSOUND 4
+set WEAPON3_SELECTSOUND SELECT_WEAPON
+set WEAPON4_SELECTSOUND SELECT_WEAPON
+set WEAPON5_SELECTSOUND SELECT_MISC
+set WEAPON6_SELECTSOUND SELECT_WEAPON
+set WEAPON7_SELECTSOUND SELECT_WEAPON
+set WEAPON8_SELECTSOUND SELECT_MISC
+set WEAPON9_SELECTSOUND SELECT_WEAPON
+set WEAPON10_SELECTSOUND SELECT_MISC
+set WEAPON11_SELECTSOUND SELECT_WEAPON
+
+ife CHAR -1
+{
+set WEAPON1_RELOADSOUND1 4
+set WEAPON1_RELOADSOUND2 4
+setp[].knuckle_incs 0
+state lower_weapon
+setp[].reloading 0
+}
+else ife CHAR C_JAMES state PS_JAMES
+else ife CHAR C_ZAXTOR state PS_ZAXTOR
+else ife CHAR 2 state PS_MERLIJN
+else ife CHAR 3 state PS_HIGHWIRE
+else ife CHAR 4 state PS_SANGLUSS
+else ife CHAR 5 state PS_RUSTY
+else ife CHAR 6 state PS_GEOFFREY
+else ife CHAR 7 state PS_MIKKO
+else ife CHAR 8 setp[].knuckle_incs 0 // invisible cutscene player
+else ife CHAR 9 state PS_CULTIST
+else ife CHAR 10 state PS_BOMBSHELL
+else ife CHAR 11 state PS_MAARTEN
+else ife CHAR 12 state PS_JANE
+else ife CHAR 13 state PS_MICKY
+else ife CHAR 14 state PS_SNOWFALL
+else ife CHAR 15 state PS_MICKY_NOSUIT
+else ife CHAR 16 state PS_ROSAMUND
+else ife CHAR 17 state PS_KAGURA
+else ife CHAR 18 state PS_WHEATON
+else ife CHAR 20 state PS_CASSANDRA
+
+ifn CHAR -1 ife MEAL_BUFF[CHAR] 4 state mind_shield_state
+
+	ifn CHAR -1
+	 ife ARTIFACTS_LOADOUT[CHAR] 14 // bag of holding increases ammo by 50%
+		{
+		set temp4 p_max_ammo[1] mul temp4 3 div temp4 2 smaxammo 1 temp4
+		set temp4 p_max_ammo[2] mul temp4 3 div temp4 2 smaxammo 2 temp4
+		set temp4 p_max_ammo[3] mul temp4 3 div temp4 2 smaxammo 3 temp4
+		set temp4 p_max_ammo[4] mul temp4 3 div temp4 2 smaxammo 4 temp4
+		set temp4 p_max_ammo[5] mul temp4 3 div temp4 2 smaxammo 5 temp4
+		set temp4 p_max_ammo[6] mul temp4 3 div temp4 2 smaxammo 6 temp4
+		set temp4 p_max_ammo[7] mul temp4 3 div temp4 2 smaxammo 7 temp4
+		set temp4 p_max_ammo[8] mul temp4 3 div temp4 2 smaxammo 8 temp4
+		set temp4 p_max_ammo[9] mul temp4 3 div temp4 2 smaxammo 9 temp4
+		set temp4 p_max_ammo[11] mul temp4 3 div temp4 2 smaxammo 11 temp4
+		}
+	else 
+		{
+		smaxammo 1 p_max_ammo[1]
+		smaxammo 2 p_max_ammo[2]
+		smaxammo 3 p_max_ammo[3]
+		smaxammo 4 p_max_ammo[4]
+		smaxammo 5 p_max_ammo[5]
+		smaxammo 6 p_max_ammo[6]
+		smaxammo 7 p_max_ammo[7]
+		smaxammo 8 p_max_ammo[8]
+		smaxammo 9 p_max_ammo[9]
+		smaxammo 11 p_max_ammo[11]
+		}
+
+		
+ife cheated 0 // don't do this if cheat mode active, for stuff like ammo cheats
+{
+ifg player[].ammo_amount 1 player[].max_ammo_amount 1 setp[].ammo_amount 1 p_max_ammo[1]
+ifg player[].ammo_amount 2 player[].max_ammo_amount 2 setp[].ammo_amount 2 p_max_ammo[2]
+ifg player[].ammo_amount 3 player[].max_ammo_amount 3 setp[].ammo_amount 3 p_max_ammo[3]
+ifg player[].ammo_amount 4 player[].max_ammo_amount 4 setp[].ammo_amount 4 p_max_ammo[4]
+ifg player[].ammo_amount 5 player[].max_ammo_amount 5 setp[].ammo_amount 5 p_max_ammo[5]
+ifg player[].ammo_amount 6 player[].max_ammo_amount 6 setp[].ammo_amount 6 p_max_ammo[6]
+ifg player[].ammo_amount 7 player[].max_ammo_amount 7 setp[].ammo_amount 7 p_max_ammo[7]
+ifg player[].ammo_amount 8 player[].max_ammo_amount 8 setp[].ammo_amount 8 p_max_ammo[8]
+ifg player[].ammo_amount 9 player[].max_ammo_amount 9 setp[].ammo_amount 9 p_max_ammo[9]
+ifg player[].ammo_amount 11 player[].max_ammo_amount 11 setp[].ammo_amount 11 p_max_ammo[11]
+}
+
+// cannot use negative xoffsets without it going out of the viewable screen -- needs engine support
+ifl userdef[].userquote_xoffset 0
+setu[].userquote_xoffset 0
+
+// fixes turret going into single-fire
+ifn using_turret -1 state remove_semi_auto
+
+ifn player_in_vehicle 0
+{
+ifg player_using_horse 0 nullop else
+ifg player_bike 0 nullop else
+state remove_semi_auto
+}
+
+// if using PDU disable all weapon flags
+ife MISSION_UP 1 ife MISSIONSCREEN 5
+{
+set WEAPON0_FLAGS 0
+set WEAPON1_FLAGS 0
+set WEAPON2_FLAGS 0
+set WEAPON3_FLAGS 0
+set WEAPON4_FLAGS 0
+set WEAPON5_FLAGS 0
+set WEAPON6_FLAGS 0
+set WEAPON7_FLAGS 0
+set WEAPON8_FLAGS 0
+set WEAPON9_FLAGS 0
+set WEAPON10_FLAGS 0
+set WEAPON11_FLAGS 0
+}
+
+ife cur_weap throw_weapon
+ifn throwing -1
+{
+ifand EXTBITS_PRESS 64
+	{
+	ifg player[].kickback_pic 5
+	ifl player[].kickback_pic 8
+	setp[].kickback_pic 6
+	ifl bomb_throw_power 256 
+		{
+		ife CHAR C_JANE add bomb_throw_power 2 else
+		add bomb_throw_power 4
+		}
+	}
+
+ife kickbackpic 0 { setplayer[].curr_weapon throwing set throwing -1 }
+}
+
+ife SPACE_SUIT 1
+ifn CHAR 12
+ifn CHAR 13
+ifn CHAR 14
+{
+set C_ARM_1 20970
+set C_ARM_2 23089
+}
+
+
+ifg riot_shield 0
+{
+ife CHAR 2 set merl_shieldup 0
+ife CHAR 11 set merl_shieldup 0
+ifg shield_up 0
+set HANDS_DRAW 1
+
+ifg player_in_vehicle 0 set shield_up 0
+else ife GUN_HANDS 1 { ife shield_up 1 sound RIOTSHIELD_UP ifl shield_up 10 add shield_up 1 }
+else ife GUN_HANDS 2 { ife shield_up 9 sound RIOTSHIELD_UP ifg shield_up 0 sub shield_up 1  }
+}
+
+ifn PCINTER 0 // disable weapon select sounds when using interfaces
+{
+set WEAPON1_SELECTSOUND 4
+set WEAPON2_SELECTSOUND 4
+set WEAPON3_SELECTSOUND 4
+set WEAPON4_SELECTSOUND 4
+set WEAPON5_SELECTSOUND 4
+set WEAPON6_SELECTSOUND 4
+set WEAPON7_SELECTSOUND 4
+set WEAPON8_SELECTSOUND 4
+set WEAPON9_SELECTSOUND 4
+set WEAPON10_SELECTSOUND 4
+set WEAPON11_SELECTSOUND 4
+}
+
+ends
+
+// SPAWNPOINT ACTOR============================================================================================================
+
+useractor notenemy 3712
+fall
+
+ifaction 0
+{
+cstat 32768
+set CHARSTART 1
+
+for i range MAXCHARS
+{
+ife sprite[THISACTOR].pal i
+{
+setarray player_spawnpoint[i] THISACTOR
+exit
+}
+}
+action ZERO
+}
+
+// mikko can breathe in his spawning tank
+ife CHAR 7 ifinwater ifpdistl 2048 { setp[].airleft 390 }
+
+enda
+
+// SANG'S BAT===============================================================================================================
+
+move BATS_FLY 160 10
+move BATS_FLY_FAST 240 10
+
+useractor notenemy 6204
+ifaction 0
+{
+sizeat 10 10
+spritepal 2
+spawn FRAMEEFFECT1
+move BATS_FLY_FAST geth faceplayerslow
+ifcount 150 killit
+ifnotmoving killit
+ifpdistl 512
+{
+set CUS_WACK 3
+palfrom 10 64 0 0
+addphealth -2
+killit
+sound RIPPER_SCRATCH
+}
+}
+enda
+
+spriteshadow 6200
+useractor notenemy 6200
+
+ifspawnedby 14228 // Trenton Dummy
+{
+sizeat 8 8
+spritepal 2
+move BATS_FLY getv geth
+ifnotmoving killit
+}
+else
+ifspawnedby TRENTON_SOLARI
+{
+sizeat 8 8
+spritepal 2
+move BATS_FLY getv geth
+ifnotmoving killit
+}
+else
+{
+sizeat 4 4
+ifspawnedby APLAYER
+{
+getp[].posx temp
+getp[].posy temp2
+getp[].posz temp8
+sub temp8 1754
+seta[].z temp8
+ifand CHAR_APP 2 { spawn SKULLEXPLOSION killit }
+ifn CHAR 4 killit
+}
+else
+ifspawnedby DUMMY_PLAYER
+{
+geta[myowner].x temp
+geta[myowner].y temp2
+geta[myowner].z temp8
+sub temp8 11313
+seta[].z temp8
+ifand CHAR_APP 2 { spawn SKULLEXPLOSION killit }
+ife hitag_saved 1 { ifn camerasprite -1 cstat 0 else cstat 32768 }
+}
+else
+ifspawnedby 13207
+{
+geta[myowner].x temp
+geta[myowner].y temp2
+geta[myowner].z temp8
+ifand sprite[myowner].cstat 8
+{ cstator 8 add temp8 6096 } else
+sub temp8 11813
+seta[].z temp8
+ifand CHAR_APP 2 { spawn SKULLEXPLOSION killit }
+ife hitag_saved 1 { ifn camerasprite -1 cstat 0 else cstat 32768 }
+}
+else
+ifspawnedby FORCE_CHARACTER
+{
+getp[].posx temp
+getp[].posy temp2
+getp[].posz temp8
+sub temp8 1754
+seta[].z temp8
+ifn CHAR 4 killit
+}
+
+set temp3 temp
+add temp3 256
+
+rotatepoint temp temp2 temp3 temp2 temp4 temp5 temp6
+
+ifg temp4 2048 sub temp4 2048
+
+seta[].x temp5
+seta[].y temp6
+
+
+ifcount 1 { add temp4 32 resetcount }
+}
+enda
+
+// MAP LOCATION==========================================================================================================
+
+defstate location_code
+ifspritepal 1 set LOCATION 27112 // Shadow Realm
+else ifspritepal 2 set LOCATION 38634 // Abyss/Hell
+else ifspritepal 7 set LOCATION 3634 // Ringworld
+else ife lotag_saved 0 ifspritepal 0 set LOCATION 8448 // Earth, default
+else set LOCATION lotag_saved
+ends
+
+useractor notenemy 3831 cstat 32768
+
+ifn hitag_saved 0
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1 state location_code
+	}
+else 
+ifn sprite[].ang 1536 // trigger if in sector
+	{
+	ife player[].cursectnum sprite[].sectnum state location_code
+	}
+else // mapwide
+	{
+	state location_code
+	// wait a few tics 
+	ifg player[].player_par 5 killit 
+	}
+enda
+
+// FORCE PLAYER==========================================================================================================
+// LOADOUT STUFF
+defstate getplayerhealth
+getp[].i temp
+geta[temp].extra temp2
+ends
+
+defstate give_assigned_weapon
+ifn CHAR -1
+{
+ifactor GUNS_MACHINE set actor_return 1
+else ifg AMC_BUDGET 0 set actor_return 1
+else set actor_return 0
+
+ife actor_return 1
+{
+readarrayfromfile MELEE_WEAPON_LOADOUT F_MELEE_LOADOUT_AMCTC
+set GOT_KNIFE MELEE_WEAPON_LOADOUT[CHAR]
+
+readarrayfromfile EQUIPMENT_LOADOUT F_EQUIP_LOADOUT_AMCTC
+readarrayfromfile CHEST_LOADOUT F_CHEST_LOADOUT_AMCTC
+readarrayfromfile BELT_LOADOUT F_BELT_LOADOUT_AMCTC
+readarrayfromfile HELMET_LOADOUT F_HELMET_LOADOUT_AMCTC
+readarrayfromfile BOOTS_LOADOUT F_BOOTS_LOADOUT_AMCTC
+
+// energy shield rules
+
+ife CHAR 14 nullop else set P_HAS_SHIELD 0
+
+ifg VOLUME 3 ifn VOLUME 6 // from volume 4 onwards, everyone has a basic shield; but not for EDF missions
+{
+ife CHAR 0 { ifand CHAR_APP 512 set P_HAS_SHIELD 1 else set P_HAS_SHIELD 0 } // Dead James won't get shield since he's in hell
+else set P_HAS_SHIELD 1 
+}
+
+ife MEAL_BUFF[CHAR] 4 set P_SPIRIT_ARMOUR 25
+
+ife CHEST_LOADOUT[CHAR] 1 setp[].shield_amount 100
+else ife CHEST_LOADOUT[CHAR] 4 set P_SPIRIT_ARMOUR 100
+else ife CHEST_LOADOUT[CHAR] 5 set P_HAS_SHIELD 1
+
+ife EQUIPMENT_LOADOUT[CHAR] 2 setp[].firstaid_amount 100
+ife EQUIPMENT_LOADOUT[CHAR] 3 set riot_shield 150
+ife CHAR 1 ife EQUIPMENT_LOADOUT[1] 5 setp[].holoduke_amount 2400 // Zaxtor's hologram
+ife CHAR 2 ife EQUIPMENT_LOADOUT[2] 4 setp[].holoduke_amount 2400 // Merlijn's heavy shield
+ife CHAR 3 ife EQUIPMENT_LOADOUT[3] 6 setp[].holoduke_amount 2400 // Highwire's radio
+ife CHAR 4 ife EQUIPMENT_LOADOUT[4] 7 setp[].holoduke_amount 600 // Sang's mirror orb
+ife CHAR 7 ife EQUIPMENT_LOADOUT[7] 8 setp[].holoduke_amount 2400 // Mikko's backpack
+ife CHAR 9 ife EQUIPMENT_LOADOUT[9] 7 setp[].holoduke_amount 600 // Cultist's mirror orb
+ife CHAR 10 ife EQUIPMENT_LOADOUT[10] 13 setp[].holoduke_amount 2400 // Bombshell's turret
+ife CHAR 11 ife EQUIPMENT_LOADOUT[11] 12 setp[].holoduke_amount 2400 // Maarten's book of conjuration
+ife CHAR 12 ife EQUIPMENT_LOADOUT[12] 11 setp[].holoduke_amount 2400 // Jane's beam sabre
+ife CHAR 13 ife EQUIPMENT_LOADOUT[13] 9 setp[].holoduke_amount 2400 // Micky's turret
+ife CHAR 14 ife EQUIPMENT_LOADOUT[14] 10 setp[].holoduke_amount 2400 // Snowfall's Vajra device
+ife CHAR 16 ife EQUIPMENT_LOADOUT[16] 15 setp[].holoduke_amount 2400 // Rosa's bat swarm
+ife CHAR 17 ife EQUIPMENT_LOADOUT[17] 16 setp[].holoduke_amount 2400 // Kagura's ninja potion
+ife CHAR 18 ife EQUIPMENT_LOADOUT[18] 14 setp[].holoduke_amount 2400 // Wheaton's radio
+
+ife CHAR 6 ife HELMET_LOADOUT[6] 6 setp[].holoduke_amount 300 // Geoffrey's bandana
+ife HELMET_LOADOUT[CHAR] 2 { setp[].heat_amount HEAT_AMOUNT set HEAT_GOGGLES 1 }
+ife HELMET_LOADOUT[CHAR] 3 setp[].heat_amount HEAT_AMOUNT
+ife HELMET_LOADOUT[CHAR] 4 setp[].heat_amount HEAT_AMOUNT
+
+ife BOOTS_LOADOUT[CHAR] 1 setp[].boot_amount BOOT_AMOUNT
+ife BOOTS_LOADOUT[CHAR] 2 set GOT_FLIPPER 1
+
+ife CHAR 5 ife BELT_LOADOUT[5] 1 setp[].holoduke_amount 2400 // Rusty's throwing star belt
+ife CHAR 0 ife BELT_LOADOUT[0] 2 setp[].holoduke_amount 900 // James' forcefield belt
+
+readarrayfromfile ARTIFACTS_LOADOUT F_ARTIFACTS_LOADOUT_AMCTC
+
+readarrayfromfile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+
+readarrayfromfile AMMO_LOADOUT F_AMMO_LOADOUT_AMCTC
+ife AMMO_LOADOUT[CHAR] 1 set explosive_shells 10
+else ife AMMO_LOADOUT[CHAR] 2 set flechete_shells 10
+else ife AMMO_LOADOUT[CHAR] 3 set silver_ammo 100
+else ife AMMO_LOADOUT[CHAR] 4 set tesla_ammo 75
+else ife AMMO_LOADOUT[CHAR] 5 set silver_bolts 10
+else ife AMMO_LOADOUT[CHAR] 6 set micro_torpedo 10
+else ife AMMO_LOADOUT[CHAR] 7 set magnum_shells 10
+else ife AMMO_LOADOUT[CHAR] 8 { ife PERSONNEL_RESEARCH[15] 2 set heat_seek_card 10 else set heat_seek_card 5 }
+else ife AMMO_LOADOUT[CHAR] 9 set atomic_bomb 1
+else ife AMMO_LOADOUT[CHAR] 10 set DUP_missile_ammo 5
+else ife AMMO_LOADOUT[CHAR] 11 set fortymm_grenades 5
+else ife AMMO_LOADOUT[CHAR] 12 set fortymm_caseless 5
+else ife AMMO_LOADOUT[CHAR] 13 set fortymm_shells 5
+else ife AMMO_LOADOUT[CHAR] 14 set fortymm_MIA_shells 5
+else ife AMMO_LOADOUT[CHAR] 15 set fortymm_plasma 5
+else ife AMMO_LOADOUT[CHAR] 16 set fortymm_slug 5
+else ife AMMO_LOADOUT[CHAR] 19 set HEAT_SINKS 20
+else ife AMMO_LOADOUT[CHAR] 20 set dragon_shells 10
+else ife AMMO_LOADOUT[CHAR] 21 set fortymm_electro 5
+else ife AMMO_LOADOUT[CHAR] 22 set fortymm_cryo 5
+else ife AMMO_LOADOUT[CHAR] 23 set incend_ammo 75
+else ife AMMO_LOADOUT[CHAR] 24 set p_blue_mana 50
+else ife AMMO_LOADOUT[CHAR] 25 set p_green_mana 25
+else ife AMMO_LOADOUT[CHAR] 26 set p_orange_mana 10
+else ife AMMO_LOADOUT[CHAR] 27 set p_purple_mana 2
+else ife AMMO_LOADOUT[CHAR] 28 set silverb_shells 10
+
+readarrayfromfile temp_WEAPON_LOADOUT F_TEMPW_LOADOUT_AMCTC
+set temp_weap temp_WEAPON_LOADOUT[CHAR]
+ife temp_WEAPON_LOADOUT[CHAR] 1 setp[].ammo_amount 0 10
+else ife temp_WEAPON_LOADOUT[CHAR] 2 setp[].ammo_amount 0 10
+else ife temp_WEAPON_LOADOUT[CHAR] 3 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 4 setp[].ammo_amount 0 75
+else ife temp_WEAPON_LOADOUT[CHAR] 5 setp[].ammo_amount 0 200
+else ife temp_WEAPON_LOADOUT[CHAR] 6 setp[].ammo_amount 0 25
+else ife temp_WEAPON_LOADOUT[CHAR] 7 setp[].ammo_amount 0 40
+else ife temp_WEAPON_LOADOUT[CHAR] 8 setp[].ammo_amount 0 30
+else ife temp_WEAPON_LOADOUT[CHAR] 9 setp[].ammo_amount 0 10
+else ife temp_WEAPON_LOADOUT[CHAR] 10 setp[].ammo_amount 0 20
+else ife temp_WEAPON_LOADOUT[CHAR] 11 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 12 setp[].ammo_amount 0 24
+else ife temp_WEAPON_LOADOUT[CHAR] 13 setp[].ammo_amount 0 20
+else ife temp_WEAPON_LOADOUT[CHAR] 14 setp[].ammo_amount 0 10
+else ife temp_WEAPON_LOADOUT[CHAR] 15 setp[].ammo_amount 0 20
+else ife temp_WEAPON_LOADOUT[CHAR] 16 setp[].ammo_amount 0 10
+else ife temp_WEAPON_LOADOUT[CHAR] 17 setp[].ammo_amount 0 1
+else ife temp_WEAPON_LOADOUT[CHAR] 18 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 19 setp[].ammo_amount 0 1
+else ife temp_WEAPON_LOADOUT[CHAR] 21 setp[].ammo_amount 0 80
+else ife temp_WEAPON_LOADOUT[CHAR] 22 setp[].ammo_amount 0 200
+else ife temp_WEAPON_LOADOUT[CHAR] 23 setp[].ammo_amount 0 80
+else ife temp_WEAPON_LOADOUT[CHAR] 24 setp[].ammo_amount 0 200
+else ife temp_WEAPON_LOADOUT[CHAR] 25 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 26 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 27 setp[].ammo_amount 0 300
+else ife temp_WEAPON_LOADOUT[CHAR] 28 setp[].ammo_amount 0 100
+else ife temp_WEAPON_LOADOUT[CHAR] 29 setp[].ammo_amount 0 16
+else ife temp_WEAPON_LOADOUT[CHAR] 30 setp[].ammo_amount 0 100
+else ife temp_WEAPON_LOADOUT[CHAR] 31 setp[].ammo_amount 0 100
+else ife temp_WEAPON_LOADOUT[CHAR] 32 setp[].ammo_amount 0 10
+else ife temp_WEAPON_LOADOUT[CHAR] 33 setp[].ammo_amount 0 100
+else ife temp_WEAPON_LOADOUT[CHAR] 34 setp[].ammo_amount 0 300
+else ife temp_WEAPON_LOADOUT[CHAR] 35 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 37 setp[].ammo_amount 0 1
+else ife temp_WEAPON_LOADOUT[CHAR] 38 setp[].ammo_amount 0 3
+else ife temp_WEAPON_LOADOUT[CHAR] 39 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 40 setp[].ammo_amount 0 10
+else ife temp_WEAPON_LOADOUT[CHAR] 41 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 42 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 45 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 47 setp[].ammo_amount 0 140
+else ife temp_WEAPON_LOADOUT[CHAR] 50 setp[].ammo_amount 0 20
+else ife temp_WEAPON_LOADOUT[CHAR] 52 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 53 setp[].ammo_amount 0 36
+else ife temp_WEAPON_LOADOUT[CHAR] 54 setp[].ammo_amount 0 300
+else ife temp_WEAPON_LOADOUT[CHAR] 55 setp[].ammo_amount 0 150
+else ife temp_WEAPON_LOADOUT[CHAR] 56 setp[].ammo_amount 0 25
+set normal_ammo player[].ammo_amount 0
+ife CHAR 0
+{
+readgamevar JAMES_1911
+readgamevar JAMES_JACKH
+}
+
+readarrayfromfile EQUIPMENT_LOADOUT_COST F_EQUIPMENT_L_COST_AMCTC
+readarrayfromfile MELEE_LOADOUT_COST F_MELEE_L_COST_AMCTC
+readarrayfromfile temp_WEAPON_LOADOUT_COST F_TWEAP_L_COST_AMCTC
+readarrayfromfile AMMO_LOADOUT_COST F_AMMO_L_COST_AMCTC
+// readarrayfromfile SPECIALIST_LOADOUT_COST F_SPECIAL_L_COST_AMCTC // UNUSED
+readarrayfromfile CHEST_LOADOUT_COST F_CHEST_L_COST_AMCTC
+readarrayfromfile BELT_LOADOUT_COST F_BELT_L_COST_AMCTC
+readarrayfromfile HELMET_LOADOUT_COST F_HELMET_L_COST_AMCTC
+readarrayfromfile BOOT_LOADOUT_COST F_BOOT_LOADOUT_COST_AMCTC
+
+ifactor GUNS_MACHINE nullop else 
+	{
+	set LOADOUT_COST 0
+	add LOADOUT_COST EQUIPMENT_LOADOUT_COST[CHAR]
+	add LOADOUT_COST MELEE_LOADOUT_COST[CHAR]
+	add LOADOUT_COST temp_WEAPON_LOADOUT_COST[CHAR]
+	add LOADOUT_COST AMMO_LOADOUT_COST[CHAR]
+	// add LOADOUT_COST SPECIALIST_LOADOUT_COST[CHAR] // UNUSED
+	add LOADOUT_COST CHEST_LOADOUT_COST[CHAR]
+	add LOADOUT_COST BELT_LOADOUT_COST[CHAR]
+	add LOADOUT_COST HELMET_LOADOUT_COST[CHAR]
+	add LOADOUT_COST BOOT_LOADOUT_COST[CHAR]
+	//al LOADOUT_COST
+
+	ife BASE_RESEARCH[6] 1 // player built workshop?
+		{
+		set temp2 LOADOUT_COST
+		mul temp2 10
+		div temp2 12
+		set LOADOUT_COST temp2
+		mul LOADOUT_COST 10
+		div LOADOUT_COST 12
+		}
+	}
+
+ife CHAR 2
+	{
+	ife SPECIALIST_EQUIPMENT[178] 2 // Jedrik's shield ?
+		{
+		setp[].gotweapon 8 1
+		setp[].ammo_amount 8 1
+		set merlijn_shield 300
+		}
+	}
+
+ife player[].gotweapon 1 0
+{
+setp[].gotweapon 1 1
+setp[].ammo_amount 1 48
+}
+
+
+ife P_HAS_SHIELD 1 sound ESHEILD_CHARGING
+}
+else { espawn BUTTERFLY seta[RETURN].pal 27 userquote 510 } // display out of budget message
+}
+ends
+
+include CODE/PLAYER/SWAP_ARRAY.CON 
+
+// force character
+
+defstate force_char
+set just_changed 1
+set jibs_track 0
+set pickup_quote_track 0
+getp[].i temp
+set shield_up 0
+ifn CONTROL_VR -1
+	{
+	set screen_pal_override 10
+	set CONTROL_VR -1
+	}
+
+set alt_fire_type 0
+
+setp[].curr_weapon 0
+set pickup_quote_track 0
+setp[].kickback_pic 30
+
+set max_slot1_mag 0
+set max_slot2_mag 0
+set max_alt_slot2_mag 0
+set max_slot3_mag 0
+set max_slot4_mag 0
+set max_slot6_mag 0
+set max_slot7_mag 0
+set max_slot9_mag 0
+set max_slot11_mag 0
+
+for temp range gun_mags_arr_count
+{
+setarray gun_mags[temp] -1
+}
+
+for temp range gun_mags_arr_count
+{
+setarray gun_ammopools[temp] -1
+}
+
+readarrayfromfile SPECIALIST_EQUIPMENT F_SPECIAL_LOADOUT_AMCTC
+readarrayfromfile PERSONNEL_RESEARCH F_PERSONNEL_AMCTC
+
+set p_def_health_char sprite[].pal
+set CHAR sprite[].pal
+ife CHAR 4 state spawn_bat
+state player_default_health 
+set pmax_health p_default_health
+ife ARTIFACTS_LOADOUT[CHAR] 11 add pmax_health 20
+ife MEAL_BUFF[CHAR] 1 add pmax_health 10
+setp[].max_player_health pmax_health
+seta[PLAYER_IDENTITY].extra pmax_health
+
+state set_max_ally
+
+ifspritepal 30
+{
+set CHAR -1
+set CHARSELECT 1
+}
+else set CHARSELECT 0
+
+// equipment save array for swapping characters ======================================================================================================================
+ifn lotag_saved 0
+	{
+	set just_changed 1
+	state read_player_equipment
+	checkavailinven THISACTOR
+	checkavailweapon THISACTOR
+	}
+
+ife extra_saved 1
+ifn CHAR -1
+{
+state give_assigned_weapon
+// this might not actually be needed? will keep here just incase it was
+/* set p_def_health_char sprite[].pal
+state player_default_health 
+set pmax_health p_default_health
+ife ARTIFACTS_LOADOUT[CHAR] 11 add pmax_health 20
+ife MEAL_BUFF[CHAR] 1 add pmax_health 10
+setp[].max_player_health pmax_health
+seta[PLAYER_IDENTITY].extra pmax_health
+seta[PLAYER_IDENTITY].extra pmax_health */
+setp[].gotweapon 1 1
+setp[].ammo_amount 1 48
+ifspritepal 8 set CHAR -1
+set CHARSELECT 0
+}
+killit
+ends
+
+useractor notenemy FORCE_CHARACTER
+cstat 32768
+
+ifaction 0
+{
+setarray James_equip[24] JAMES_UPGRADE
+setarray Zaxtor_equip[24] ZAXTOR_UPGRADE
+setarray Merlijn_equip[24] MERLIJN_UPGRADE
+setarray Highwire_equip[24] HIGHWIRE_UPGRADE
+setarray Sang_equip[24] SANG_UPGRADE
+setarray Rusty_equip[24] RUSTY_UPGRADE
+setarray Geoffrey_equip[24] GEOFFREY_UPGRADE
+setarray Mikko_equip[24] MIKKO_UPGRADE
+setarray Micky_equip[24] MICKY_UPGRADE
+setarray Snowfall_equip[24] SNOWFALL_UPGRADE
+setarray Kagura_equip[24] KAGURA_UPGRADE
+setarray Wheaton_equip[24] WHEATON_UPGRADE
+action ZERO
+}
+
+ife lotag_saved 0
+{
+set MOUSEUP 0
+state force_char
+}
+else
+{
+checkactivatormotion lotag_saved
+ife RETURN 1
+	{
+	ifn owner_saved -1 state fade_out_white
+	state hard_removefollower
+	ifn sprite[].pal 8
+		{
+		state save_player_equipment
+		}
+	state force_char
+	}
+}
+enda
+
+include CODE/PLAYER/DUMMY.CON
+
+// TRIGGER ONLY IF CHAR==========================================================================================================
+
+useractor notenemy TRIGGERONLYIFCHAR
+cstat 32768
+
+ife CHARSELECT 0
+{
+ifn hitag_saved 0
+	{
+	checkactivatormotion hitag_saved
+	ife RETURN 1 set hitag_saved 0
+	}
+else
+	{
+	ife yvel_saved 0 set yvel_saved 1024
+
+	dist temp6 THISACTOR player[].i
+
+	ifl temp6 yvel_saved
+		{
+		ifspritepal 0 ifn CHAR 0 break
+		ifspritepal 1 ifn CHAR 1 break
+		ifspritepal 2 ifn CHAR 2 break
+		ifspritepal 3 ifn CHAR 3 break
+		ifspritepal 4 ifn CHAR 4 break
+		ifspritepal 5 ifn CHAR 5 break
+		ifspritepal 6 ifn CHAR 6 break
+		ifspritepal 7 ifn CHAR 7 break
+		ifspritepal 9 ifn CHAR 9 break
+		ifspritepal 10 ifn CHAR 10 break
+		ifspritepal 11 ifn CHAR 11 break
+		ifspritepal 12 ifn CHAR 12 break
+		ifspritepal 13 ifn CHAR 13 break
+		ifspritepal 14 ifn CHAR 14 break
+		ifspritepal 15 ifn CHAR 15 break
+		ifspritepal 16 ifn CHAR 16 break
+		ifspritepal 17 ifn CHAR 17 break
+		ifspritepal 18 ifn CHAR 18 break
+		ifspritepal 40
+			{
+			findnearactor3dvar VLADMIR yvel_saved temp4
+			ife temp4 -1 { ife xvel_saved 0 quote 266 break }
+			}
+		ifspritepal 41
+			{
+			findnearactor3dvar EDFSOLDIER_ACTIVE yvel_saved temp4
+			ife temp4 -1 { ife xvel_saved 0 quote 247 break }
+			}
+		operateactivators lotag_saved THISACTOR
+		operaterespawns lotag_saved
+		operatemasterswitches lotag_saved
+		killit
+		}
+	}
+}
+enda
+
+// MOVE PLAYER==========================================================================================================
+
+defstate transfer_player
+// set position relative to target sprite position
+geta[temp].x x
+geta[temp].y y
+geta[temp].z z
+
+subvarvar x mx
+subvarvar y my
+subvarvar z mz
+
+geta[temp].sectnum upd_sect
+updatesectorz x y z upd_sect
+
+ifn upd_sect -1
+{
+setp[].posx x
+setp[].posy y
+setp[].posz z
+setp[].oposx x
+setp[].oposy y
+setp[].oposz z
+setp[].cursectnum upd_sect
+changespritesect PLAYER_IDENTITY upd_sect
+}
+ends
+
+useractor notenemy MOVEPLAYER
+cstat 32768
+
+// pals 13 and 14 are for "seamless" teleportation effect, see SANGtempLE.MAP for example
+// They don't rely on hitags, you need a pair where 13 is the entrance and 14 is the exit
+ifspritepal 13
+{
+set temp 0
+
+ife hitag_saved 0
+	{
+	ife player[].cursectnum sprite[].sectnum
+	set temp 1
+	}
+else
+	{
+	set MASTERSWITCH_SUBSCRIBE hitag_saved
+	checkactivatormotion hitag_saved
+	ife RETURN 1
+	set temp 1
+	else ife MASTERSWITCH_RETURN 1 // see event_killit
+		{
+		set temp 1
+		set MASTERSWITCH_RETURN 0 // reset it or we'll keep teleporting!
+		}
+	}
+}
+
+ife temp 1
+	{
+	getp[].posx x
+	getp[].posy y
+	getp[].posz z
+
+	geta[].x mx
+	geta[].y my
+	geta[].z mz
+
+	subvarvar mx x
+	subvarvar my y
+	subvarvar mz z
+
+	for temp allsprites
+		{
+		getav[temp].lotag_saved temp4
+
+		ife sprite[temp].picnum 3713 // other moveplayer sprite
+		ife sprite[temp].pal 14 // exit pal
+			{
+			ife lotag_saved temp4 // same lotag
+			state transfer_player
+			ife sprite[].ang 1024 // elevator bump
+				{
+				screensound CART_BUMP
+				set gun_recoil 15
+				}
+			}
+		}
+	}
+else
+{
+set temp 0
+set MASTERSWITCH_SUBSCRIBE hitag_saved
+checkactivatormotion hitag_saved
+ife RETURN 1
+set temp 1
+else ife MASTERSWITCH_RETURN 1 // see event_killit
+	{
+	set temp 1
+	set MASTERSWITCH_RETURN 0 // reset it or we'll keep teleporting!
+	}
+
+ife temp 1
+{
+geta[].sectnum upd_sect
+updatesectorz sprite[].x sprite[].y sprite[].z upd_sect
+ifn upd_sect -1
+	{
+	setp[].cursectnum upd_sect
+	changespritesect PLAYER_IDENTITY upd_sect
+	}
+setp[].falling_counter 0
+setp[].posx sprite[].x
+setp[].posy sprite[].y
+setp[].posz sprite[].z
+stopsound WIND_FALL_RAPID
+stopsound LAND_HEAVY
+setp[].ang sprite[].ang
+ifspritepal 1
+	{
+	globalsound TELEPORTER
+	spawn TRANSPORTERBEAM
+	palfrom 10 10 10 10
+	}
+else ifspritepal 2 state hard_removefollower
+else ifspritepal 3
+	setgamepalette 1
+else ifspritepal 4
+	{
+	state fade_out_white
+	globalsound USE_TIMEPORTAL
+	spawn 8433
+	}
+else ifspritepal 5
+	state fade_out_black
+else ifspritepal 6
+	{
+	palfrom 64 0 64 0
+	globalsound ACTOR_SHRINKING
+	set PLAYER_VOICEOVER 30
+	set fake_shrunk 1
+	state hard_removefollower
+	}
+else ifspritepal 7
+	{
+	state fade_out_white
+	globalsound ACTOR_UNSHRINK
+	set fake_shrunk 0
+	state hard_removefollower
+	}
+else ifspritepal 8
+	setgamepalette screen_pal
+else ifspritepal 9
+	{
+	state fade_out_white
+	globalsound MIND_ATTACK
+	}
+else ifspritepal 10
+	{
+	state fade_out_white
+	globalsound USE_PORTAL
+	}
+else ifspritepal 11
+	{
+	state fade_out_white
+	}
+else ifspritepal 12
+	{
+	stopallsounds
+	globalsound PLYR_SCREAM
+	}
+else ifspritepal 15
+	{
+	state fade_out_black
+	state hard_removefollower
+	}
+else ifspritepal 16
+	{
+	state fade_out_white
+	globalsound HEARTBEAT
+	}
+else ifspritepal 17
+	{
+	globalsound LAND_HEAVY
+	wackplayer
+	}
+else ifspritepal 18
+	{
+	screensound CART_BUMP
+	set gun_recoil 15
+	}
+
+
+set player_in_vehicle 0
+set player_using_fighter -1
+set player_using_hovercraft -1
+killit
+}
+}
+enda

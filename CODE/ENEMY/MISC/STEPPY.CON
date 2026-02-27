@@ -1,0 +1,34 @@
+define STEPPY 2561
+
+move M_STEPPY_STEPPIN 30
+
+action A_STEPPY_ACTIVE 0
+
+useractor notenemy STEPPY
+
+	ifaction 0
+	{
+		cstat 32768
+		action A_STEPPY_ACTIVE
+	}
+	else
+	{
+		add INTERNALCOUNT 1
+
+		ifge INTERNALCOUNT 18
+		{
+			state npc_footsteps
+			set INTERNALCOUNT 0
+		}
+	}
+
+	ifaction A_STEPPY_ACTIVE
+	{
+		state anglePathToNextLotag
+		seta[].ang angvar
+		move M_STEPPY_STEPPIN geth
+
+		ifnotmoving
+			operate
+	}
+enda

@@ -1,0 +1,327 @@
+// ===========================================
+// SPECIAL OPERATOR
+// ============================================
+
+action A_SPEC_OPS_START 0 1 5 1 12 // Starting frame, different from the idle frame
+action A_SPEC_OPS_IDLE 0 1 5 1 12
+
+action A_SPEC_OPS_DEAD 45
+action A_SPEC_OPS_DYING 40 5 1 1 12
+action A_SPEC_OPS_FREEZE 40 1 1 1 8
+
+action A_SPEC_OPS_GROW 40 1 1 1 8
+action A_SPEC_OPS_SHRUNK 15 4 5 1 12
+action A_SPEC_OPS_PAIN 40 1 1 1 8
+
+action A_SPEC_OPS_DODGE_LEFT 10 5 1 1 16
+action A_SPEC_OPS_DODGE_RIGHT 35 5 1 1 16
+
+action A_SPEC_OPS_SEEK 15 4 5 1 12
+
+action A_SPEC_OPS_ATTACK 5 1 5 1 8
+
+action A_SPEC_OPS_THROW 46 2 1 1 16
+
+move M_SPEC_OPS_WALK 176
+
+damageeventtile SPEC_OPS
+
+useractor enemy SPEC_OPS 150 A_SPEC_OPS_START
+fall
+ifaction A_SPEC_OPS_START
+{
+	cstat 257
+	strength 150
+	sizeat 24 24
+	set MONSTER_FLAGS 6
+	set blood_type 0
+	set actor_type TYPE_BODY_ARMOUR
+	geta[].pal actor_pal
+	state monst_glow
+	espawn SHOOTME // Controls stuff like fire damage, targetting, .etc .etc - still used as a backup for the ally fighting stuff in-case an actor isn't set up with it yet
+	seta[RETURN].pal 1 // basically done just to make it clear that this actor is onboarded to the new targetting stuff, and is using SHOOTME for other purposes
+	action A_SPEC_OPS_IDLE
+}
+	
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+state actor_knockback_state
+
+ifaction A_SPEC_OPS_IDLE nullop 
+else ifaction A_SPEC_OPS_DYING nullop
+else ifaction A_SPEC_OPS_DEAD nullop
+else ifaction A_SPEC_OPS_PAIN nullop
+else state handlecloak
+
+ifg enemy_cooldown1 0 sub enemy_cooldown1 1
+
+ifaction A_SPEC_OPS_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1 
+	{
+		sound JAMES_HEATON
+		
+		action A_SPEC_OPS_SEEK
+	}
+}
+
+// Death & dying
+else ifaction A_SPEC_OPS_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+else ifaction A_SPEC_OPS_DYING
+{
+	strength 0
+	ifactioncount 5 { state rf state BODY_FALL_NOISES espawn 16368 seta[RETURN].pal 1 action A_SPEC_OPS_DEAD }
+}
+
+// Status effects
+else ifaction A_SPEC_OPS_FREEZE state frozen_code
+else ifaction A_SPEC_OPS_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+else ifaction A_SPEC_OPS_SHRUNK
+{
+	ifmove M_SPEC_OPS_WALK { } // need to do this cause we're not using ai routines anymore
+	else
+		move M_SPEC_OPS_WALK geth fleeenemy
+		
+	ifl SHRUNK_TIME SHRUNKCOUNT // keep shrunk
+		state new_shrunkcode
+	else ifl SHRUNK_TIME SHRUNKDONECOUNT // regrow
+	{
+		state unshrink
+		sizeto 25 25
+	}
+	else // after regrow, switch back to regular action
+	{
+		state endshrunkenstate
+		action A_SPEC_OPS_SEEK
+	}	
+}
+
+else ifaction A_SPEC_OPS_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_SPEC_OPS_DYING 
+		else { sound NINJA_ROLL ifrnd 128 action A_SPEC_OPS_DODGE_LEFT else action A_SPEC_OPS_DODGE_RIGHT }
+	}
+}
+
+else ifaction A_SPEC_OPS_DODGE_LEFT
+{
+	set ANGLE_TO_ACTOR my_target
+	state angleTo
+	seta[].ang angvar
+	set strafe_direction -1 
+	set strafe_duration 5
+	set strafe_speedshift 7
+	state actor_strafe
+	ifactioncount 5 { action A_SPEC_OPS_SEEK cstat 257 }
+}
+
+else ifaction A_SPEC_OPS_DODGE_RIGHT
+{
+	set ANGLE_TO_ACTOR my_target
+	state angleTo
+	seta[].ang angvar
+	set strafe_direction 1 
+	set strafe_duration 5
+	set strafe_speedshift 7
+	state actor_strafe
+	ifactioncount 5 { action A_SPEC_OPS_SEEK cstat 257 }
+}
+
+else ifaction A_SPEC_OPS_SEEK
+{
+	ifmove M_SPEC_OPS_WALK nullop 
+	else move M_SPEC_OPS_WALK geth
+		
+	state checkfortarget
+	
+	ifbulletnear ifrnd 96 { sound NINJA_ROLL ifrnd 128 action A_SPEC_OPS_DODGE_LEFT else action A_SPEC_OPS_DODGE_RIGHT }
+	
+	ifn my_target -1
+	{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+		
+		ldist temp THISACTOR my_target
+		ifl RANDOM_CHANCE SKILLCHANCE 
+		ifl temp 16384
+			{
+				ifl temp 8192 ifrnd 32 action A_SPEC_OPS_THROW
+				else ifrnd 96 { sound LASERSIGHT_ON action A_SPEC_OPS_ATTACK }
+			}
+	}
+}
+else ifaction A_SPEC_OPS_THROW
+	{
+	move STOP
+	state new_validatetarget
+	ife my_target -1 action A_SPEC_OPS_SEEK
+	state fronttowardstarget
+	ifactioncount 2
+		{
+		sound THROWSOMET
+				sub ally_mag 1
+				// if not aiming at player, manipulate noaim
+		ifn my_target PLAYER_IDENTITY
+			setprojectile[EMP_GRENADE].WORKSLIKE 2125890
+		else
+		setprojectile[EMP_GRENADE].WORKSLIKE 0x40010002
+
+		shoot EMP_GRENADE
+		setprojectile[EMP_GRENADE].WORKSLIKE 0x40010002
+				
+		set INTERNALCOUNT 1
+		action A_SPEC_OPS_SEEK
+		}
+	}
+
+else ifaction A_SPEC_OPS_ATTACK
+{
+move STOP
+	state checkfortarget
+	ife my_target -1 action A_SPEC_OPS_SEEK
+	else
+		{
+		state fronttowardstarget
+		dist temp THISACTOR my_target // if found, get distance
+		 ifactioncount 3
+			{
+			set PROJECTILE_STRENGTH 7
+			set PROJECTILE_PAL 2
+			set PROJECTILE_ZOFFSET 1024
+			set PROJECTILE_TO_SHOOT ENEMY_BULLET
+			state SIL_SMG_SOUNDS 
+			state sang_enemyShootProjectile
+				ife PERFMODE 1
+				 ifcansee
+					{
+					set gunsmoke_z 8844
+					set gunsmoke_angle 256
+					state spawn_gunsmoke_z
+					state npc_pistolshell
+					set gunsmoke_z 8844
+					espawn 16115
+					state spawn_muzzleflash
+					seta[RETURN].pal 27
+					}
+			ifrnd 64 { sound LASERSIGHT_OFF action A_SPEC_OPS_SEEK }
+			else resetactioncount
+			}
+		}
+}
+	
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	//spawn BLOOD
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		addkills 1
+		state rf
+		
+
+		ifand proj_udata 8192
+			 {
+			 spawn ELECTROCUTE_GUY
+			 shoot SPARK2 shoot SPARK2 shoot SPARK2
+			 killit
+			 }
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_SPEC_OPS_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_SPEC_OPS_FREEZE } 
+		else ifg fire_damage 0 
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2 
+			ifrnd 64 sound PE_F_HIT1
+			else ifrnd 64 sound PE_F_HIT2
+			else ifrnd 64 sound PE_F_HIT3
+			else sound PE_F_HIT4
+			spawn ONFIREGUY
+			killit
+		}
+		else ife HEADSHOT 2 
+		{
+			ifg fire_damage 0 set fire_damage 0
+			ifrnd 32 state trigger_showoff
+			state jib_sounds
+			state decap_sounds
+			shoot NJIB 
+			shoot NJIB 
+			guts JIBS6 3 
+			guts JIBS2 2 
+			action A_SPEC_OPS_DYING
+		}
+		else ifg spirit_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2 
+			spritepal 1
+			guts JIBS3 6
+			spawn SPIRIT_DEATH_GUY
+			killit
+		}
+		else ifg energy_damage 0
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2 
+			spritepal 4
+			guts JIBS3 6
+			spawn DISINTIGRATE_GUY
+			killit
+		}
+		else
+		{
+			ifrnd 96 sound FTG_DIE1
+			else ifrnd 96 sound FTG_DIE2
+			else sound FTG_DIE3
+			action A_SPEC_OPS_DYING
+			spawn BLOODPOOL
+		}
+		
+	ifrnd 8 spawn HEATSENSOR
+	
+	ifphealthl 50
+		{
+		state SKILL_LEVELADJUST
+		ifl RANDOM_CHANCE SKILLCHANCE spawn HYPOSPRAY
+		}
+		
+	}
+		
+	else // not dead
+	{
+		ifwasweapon SHRINKSPARK { sound ACTOR_SHRINKING action A_SPEC_OPS_SHRUNK }
+		
+		ifg PAIN_AMOUNT 0 { sound FTG_PAIN1 action A_SPEC_OPS_PAIN }
+		else ifrnd 4 { state PAIN_SKILL_LEVELADJUST sound FTG_PAIN2 action A_SPEC_OPS_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_SPEC_OPS_IDLE { state PAIN_SKILL_LEVELADJUST sound FTG_PAIN1 action A_SPEC_OPS_PAIN }
+	}
+}
+
+state checksquished
+
+enda

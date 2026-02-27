@@ -1,0 +1,1509 @@
+defstate runSectorEffectorLogic
+ife sprite[].lotag 4
+ ife extra_saved 1
+	{
+	ifn sector[].floorshade shade_saved
+		{
+		ifrnd 128 sound LFLICK1 else sound LFLICK2
+		}
+	}
+	
+ife sprite[].lotag 10 ife sprite[].pal 0 { ifpdistl 8192 seta[].lotag 40 }
+ife sprite[].lotag 40 ife sprite[].pal 0 { ifpdistg 8192 seta[].lotag 10 }
+	
+ife sprite[].lotag 90
+	{
+	ife CONTROL_VR -1
+	 ife SLO_MO_SHOWOFF 0
+	  ife FISSION_MAILED 0
+	   ife SWORD_RAMP 0
+		{
+		ife sprite[].ang 0
+			{
+			ife player[].cursectnum sprite[].sectnum
+				{
+				ifvarvarn screen_pal hitag_saved set screen_pal hitag_saved
+				}
+			}
+			else
+			ifvarg extra_saved 0
+			{
+			checkactivatormotion extra_saved
+			ife RETURN 1
+				{
+				ifvarvarn screen_pal hitag_saved set screen_pal hitag_saved
+				}
+			}
+			else
+			{
+			ifvarvarn screen_pal hitag_saved set screen_pal hitag_saved
+			}
+		}
+	}
+
+ife sprite[].lotag 91
+{
+ife player[].cursectnum sprite[].sectnum
+	{
+	setp[].falling_counter 0
+	}
+}
+
+
+ife sprite[].lotag 98
+{
+ifn xvel_saved -1
+	{
+	checkactivatormotion xvel_saved
+		ife RETURN 1
+			{
+			set temp8 1
+			seta[].lotag 0
+			// seta[].statnum 1024
+			}
+	}
+}
+
+ife sprite[].lotag 0 // rotate sectors
+{
+ifspritepal 2 // increase speed when activated
+	{
+	ife temp8 0
+		{
+		checkactivatormotion xvel_saved
+			ife RETURN 1
+				{
+				set temp8 1
+				sound CART_BUMP
+				}
+		}
+	ife temp8 1
+		{
+		gets[].extra temp7
+		ife yvel_saved 0 set yvel_saved 1024
+		ifl sector[].extra yvel_saved
+			{
+			add temp7 16
+			sets[].extra temp7
+			}
+		ifn zvel_saved 0 soundoncevar zvel_saved
+		}
+	}
+ifspritepal 3 // increase speed when active with turbine sound
+	{
+	ife temp8 0
+		{
+		checkactivatormotion xvel_saved
+			ife RETURN 1
+				set temp8 1
+		}
+	ife temp8 1
+		{
+		gets[].extra temp7
+		ifl temp7 2048
+			{
+			soundonce TURBINE_ON
+			add temp7 16
+			sets[].extra temp7
+			}
+		else soundonce TURBINE_ACT
+		}
+	}
+ifspritepal 8 // decrease speed when activated
+	{
+	ife temp8 0
+		{
+		soundonce TURBINE_ACT
+		checkactivatormotion xvel_saved
+			ife RETURN 1
+				set temp8 1
+		}
+	ife temp8 1
+		{
+		gets[].extra temp7
+		ifg temp7 1
+			{
+			sub temp7 8
+			sets[].extra temp7
+			}
+		ifl temp7 1
+			{
+			set temp7 1
+			stopsound TURBINE_ACT
+			seta[].lotag 99
+			}
+		}
+	}
+ifspritepal 9 // decrease speed whn activated + gear grinding sound
+	{
+	ife temp8 0
+		{
+		soundonce GEARS_GRINDING
+		checkactivatormotion xvel_saved
+			ife RETURN 1
+				set temp8 1
+		}
+	ife temp8 1
+		{
+		gets[].extra temp7
+		ifg temp7 1
+			{
+			sub temp7 2
+			sets[].extra temp7
+			}
+		ifl temp7 1
+			{
+			set temp7 1
+			stopsound GEARS_GRINDING
+			seta[].lotag 99
+			}
+		}
+	}
+ifspritepal 6
+	{
+	sets[].extra yvel_saved
+	}
+ifg extra_saved 0
+	{
+	checkactivatormotion extra_saved
+		ife RETURN 1
+			{
+			seta[].lotag 99
+			// seta[].statnum 1024
+			}
+	}
+}
+
+ife sprite[].lotag 1
+{
+ifg extra_saved 0
+	{
+	checkactivatormotion extra_saved
+		ife RETURN 1
+			{
+			seta[].lotag 99
+			// seta[].statnum 1024
+			}
+	}
+}
+
+ife sprite[].lotag 25
+{
+ifg extra_saved 0
+	{
+	ifvarvare sector[].floorz sector[].ceilingz
+		{
+		soundvar extra_saved
+		ifspritepal 3 spawn BIG_SMOKE2
+		state explosion_shake
+		}
+	}
+}
+
+
+
+	ife sprite[].lotag 29
+	{
+		ifspritepal 3
+		{
+			gets[].ceilingstat temp2
+			ifand temp2 2 nullop else { xorvar temp2 2 sets[].ceilingstat temp2 }
+			gets[].floorslope temp
+			sets[].ceilingslope temp
+		}
+	}
+
+	// Wave effect
+	ife sprite[].lotag 42
+	{
+
+		ifaction 0
+		{
+			ife extra_saved -1 set extra_saved 8
+			ife extra_saved 0 set extra_saved 8
+			geta[].x x
+			geta[].y y
+			geta[].sectnum temp
+			geta[].ang temp3
+
+			sin my temp3
+			cos mx temp3
+			geta[].z z
+
+			hitscan x y z temp mx my 0 hitsect hitwall hitsprite hitx hity hitz 16777280
+			action ZERO
+		}
+
+		ifn hitwall -1
+		{
+
+			getw[hitwall].x temp
+			getw[hitwall].y temp2
+
+			set temp3 sprite[].x
+			add temp3 extra_saved
+
+			add temp4 hitag_saved
+			ifg temp4 2048 set temp4 0
+			ifl temp4 -2048 set temp4 0
+
+			rotatepoint sprite[].x sprite[].y temp3 sprite[].y temp4 temp5 temp6
+
+			dragpoint hitwall temp5 temp6
+		}
+	}
+
+	// "Breath" effect for walls => lotag 44
+	// Xvel = speed
+	// Yvel = duration (tics)
+	// Hitag = channel
+	// Extra = position in channel, START AT 1
+	// You can chain different walls together in a channel so they will start "breathing" one after the other in what looks like a wave.
+	// An SE in such a channel will only start moving if the previous one in the channel has travelled a bit (currently softcoded though I might open this up via ZVEL later)
+	// KNOWN ISSUE:
+	// Using this on a sloped surface can cause problems cause it won't detect the wall but the sector itself instead. Just put the sprite several units above the floor and should be fine.
+	ife sprite[].lotag 44
+	{
+		ifaction 0
+		{
+			geta[].x my_x
+			geta[].y my_y
+			geta[].sectnum temp
+			geta[].ang temp3
+
+			sin my temp3
+			cos mx temp3
+			geta[].z my_z
+
+			hitscan my_x my_y my_z temp mx my 0 hitsect hitwall hitsprite hitx hity hitz 16777280
+
+			set temp8 yvel_saved
+			set temp3 my_x
+
+			// store original values
+			getw[hitwall].x my_x
+			getw[hitwall].y my_y
+
+			// drag to start point
+			add temp3 xvel_saved
+			geta[].ang temp4
+			add temp4 1024
+			rotatepoint sprite[].x sprite[].y temp3 sprite[].y temp4 temp5 temp6
+			dragpoint hitwall temp5 temp6
+
+			// restore orig value
+			sub temp3 xvel_saved
+
+			set INTERNALCOUNT 2
+
+			action ZERO
+		}
+
+		// Wait for internalcount to be 0 again to give all the SEs in the channel a chance to initialize properly
+		// IE. Only start processing from second tic
+		ifg INTERNALCOUNT 0
+			sub INTERNALCOUNT 1
+
+		ife INTERNALCOUNT 0
+		ifn hitwall -1
+		  ife temp9 0
+		{
+			// if hitag 0, no channel logic
+			ife sprite[].hitag 0
+				set temp9 1
+			// first in channel
+			else ife extra_saved 1
+				set temp9 1
+			// find previous in channel
+			else
+			{
+				for temp sprofstat 3
+				{
+					set temp2 extra_saved
+					sub temp2 1
+					getav[temp].extra_saved temp5
+
+					getav[temp].yvel_saved temp4
+					set temp6 temp4
+					abs temp4
+					div temp4 10
+					sub temp6 temp4
+
+					getav[temp].temp8 temp10
+
+					ife sprite[temp].picnum SECTOREFFECTOR
+					  ife sprite[temp].lotag 44
+					  ife sprite[temp].hitag sprite[].hitag
+					  ife temp2 temp5
+					{
+						ifl temp10 temp6
+						{
+							set temp9 1
+						}
+					}
+				}
+			}
+
+			set temp4 0
+			set temp5 0
+			set temp6 0
+			set temp10 0
+		}
+
+		ife temp9 1
+		{
+			// Move from current position to near SE
+			ifg temp8 0
+			{
+				add temp3 xvel_saved
+
+				geta[].ang temp4
+				add temp4 1024
+
+				rotatepoint sprite[].x sprite[].y temp3 sprite[].y temp4 temp5 temp6
+
+				dragpoint hitwall temp5 temp6
+
+				sub temp8 1
+
+				ifle temp8 0
+				{
+					set temp8 0
+					sub temp8 yvel_saved
+				}
+			}
+			// Move from SE to original position
+			else
+			{
+				sub temp3 xvel_saved
+
+				geta[].ang temp4
+				add temp4 1024
+
+				rotatepoint sprite[].x sprite[].y temp3 sprite[].y temp4 temp5 temp6
+
+				dragpoint hitwall temp5 temp6
+
+				add temp8 1
+
+				ifge temp8 0
+					set temp8 yvel_saved
+			}
+		}
+	}
+
+ife sprite[].lotag 84 // Shiny wall
+{
+
+ifaction 0
+	{
+	geta[].x x
+	geta[].y y
+	geta[].sectnum temp
+	geta[].ang temp3
+
+	sin my temp3
+	cos mx temp3
+	geta[].z z
+
+	hitscan x y z temp mx my 0 hitsect hitwall hitsprite hitx hity hitz 16777280
+	action ZERO
+	}
+
+ifn hitwall -1
+{
+
+	getw[hitwall].xpanning temp2
+	sub temp2 hitag_saved
+
+	getw[hitwall].ypanning temp2
+	sub temp2 hitag_saved
+
+	getp[].i target
+	dist xydist THISACTOR target
+	shiftvarr xydist 6
+	ifl xydist 8 set xydist 8
+	add xydist 32
+	ifg xydist 128 set xydist 128
+	set temp 128
+	sub temp xydist
+	ifg temp 120 set temp 120
+	// setwall[hitwall].xrepeat temp
+	// div temp 4
+	// setwall[hitwall].yrepeat temp
+
+	getp[].ang temp2
+	geta[].ang temp3
+	sub temp2 temp3
+	div temp2 2
+	setwall[hitwall].xpanning temp2
+	// setwall[hitwall].ypanning temp2
+
+}
+
+}
+
+ife sprite[].lotag 69
+{
+	ifvarvare player[].cursectnum sprite[].sectnum state SEHUBSTATE
+	else set WAIT NO
+}
+
+// HALF-LIFE STYLE CONTROLLABLE TRAIN -> in conjunction with SPEED - tilenum 15 - not to be confused with GPSPEED (see player_using_train references)
+// TODO want to make a version that follows smartpoints rather than locators
+// The effect can just follow smartpoints, handling the velocity witrh drivable train mechanics is handled elsewhere
+// angle the pivot point towards the smartpoint, call rotatepoint then dragpoint for all walls
+// loop all sectors with a hitag equal to hitag of the pivot point
+/* terminx info:
+for the rotatepoint stuff what you need to do is save the original unmolested coordinates for every wall of the sector at map load and then always compute your rotated points from that data
+*/
+ife sprite[].lotag 110
+{
+	ifaction 0
+	{
+		geta[].sectnum orig_sectnum
+		sectsetinterpolation orig_sectnum
+		geta[].x orig_x
+		geta[].y orig_y
+		geta[].ang prev_angvar
+		
+		set smartpoint_track_sub zvel_saved
+		set temp6 0
+		for temp6 range NUMWALLS
+		{
+			setarray walls_x[temp6] wall[temp6].x
+			setarray walls_y[temp6] wall[temp6].y
+		}
+		
+		action ZERO
+	}
+	
+	ifaction ZERO
+	{
+		state anglePathToNextLotag
+
+		seta[].ang angvar
+		set movesprite_zvel temp3
+		set movesprite_angvar angvar
+		set movesprite_shift 6
+		state movesprite_state
+		
+		geta[].x x
+		geta[].y y
+		
+		sub x orig_x
+		sub y orig_y
+		
+		for temp6 wallsofsector orig_sectnum
+		{
+			set temp walls_x[temp6]
+			add temp x
+			
+			set temp2 walls_y[temp6]
+			add temp2 y
+			
+			rotatepoint sprite[].x sprite[].y temp temp2 angvar temp4 temp5
+			dragpoint temp6 temp4 temp5
+		}
+	}
+	
+	// Sound stuff
+		ife subway_speed 2 // if train was at top speed this means it's slowing down to stop
+		  ifl sprite[].xvel 250 // if it's slowing down
+		  ifg sprite[].xvel 5 // if it hasn't stopped though
+		{
+			ifspritepal 0 soundonce SUBTRAIN_STOP
+			else ifspritepal 8 soundonce CARS_STOP
+			else ifspritepal 11 soundonce PALACE_DOOR2
+		}
+		else ifg sprite[].xvel 5
+		{
+			ifspritepal 3
+			{
+				ife subway_speed 0 { globalsound TRAIN_WHISTLE set subway_speed 1 }
+				ifactorsound THISACTOR TRAIN_AMB nullop else sound TRAIN_AMB
+			}
+			else ifspritepal 9 soundonce BOAT_RUN
+			else ifspritepal 7 soundonce BIG_DRILL_IDLE
+			else ifspritepal 8
+			{
+				ife subway_speed 0 { soundonce CARS_START set subway_speed 1 }
+				ifactorsound THISACTOR VEH_RUN2 nullop else sound VEH_RUN2
+				ifg sprite[].xvel 250 set subway_speed 2 // if at top speed, set var
+			}
+			else ifspritepal 2 soundonce BUBBLE_AMBIENCE
+			else ifspritepal 0
+			{
+				ife subway_speed 0 { soundonce SUBTRAIN_START set subway_speed 1 }
+				ifactorsound THISACTOR SUBWAY_S nullop else sound SUBWAY_S
+				ifg sprite[].xvel 250 set subway_speed 2 // if at top speed, set var
+			}
+		}
+		else
+		{
+			ifspritepal 9 soundonce BOAT_IDLE
+			else ifspritepal 3
+			{
+				ife subway_speed 1 { ifactorsound THISACTOR TRAIN_AMB stopactorsound THISACTOR TRAIN_AMB globalsound TRAIN_WHISTLE set subway_speed 0 }
+			}
+			else ifspritepal 0 ife subway_speed 2 { ifactorsound THISACTOR SUBWAY_S stopactorsound THISACTOR SUBWAY_S set subway_speed 0 }
+		}
+}
+
+
+ife sprite[].lotag 6
+{
+	ife temp8 2 // if train was at top speed this means it's slowing down to stop
+	  ifl sprite[].xvel 250 // if it's slowing down
+	  ifg sprite[].xvel 5 // if it hasn't stopped though
+	{
+		ifspritepal 0 soundonce SUBTRAIN_STOP
+		else ifspritepal 8 soundonce CARS_STOP
+		else ifspritepal 11 soundonce PALACE_DOOR2
+	}
+	else ifg sprite[].xvel 5
+	{
+		ifspritepal 3
+		{
+			ife temp8 0 { globalsound TRAIN_WHISTLE set temp8 1 }
+			ifactorsound THISACTOR TRAIN_AMB nullop else sound TRAIN_AMB
+		}
+		else ifspritepal 9 soundonce BOAT_RUN
+		else ifspritepal 7 soundonce BIG_DRILL_IDLE
+		else ifspritepal 8
+		{
+			ife temp8 0 { soundonce CARS_START set temp8 1 }
+			ifactorsound THISACTOR VEH_RUN2 nullop else sound VEH_RUN2
+			ifg sprite[].xvel 250 set temp8 2 // if at top speed, set var
+		}
+		else ifspritepal 2 soundonce BUBBLE_AMBIENCE
+		else ifspritepal 0
+		{
+			ife temp8 0 { soundonce SUBTRAIN_START set temp8 1 }
+			ifactorsound THISACTOR SUBWAY_S nullop else sound SUBWAY_S
+			ifg sprite[].xvel 250 set temp8 2 // if at top speed, set var
+		}
+	}
+	else
+	{
+		ifspritepal 9 soundonce BOAT_IDLE
+		else ifspritepal 3
+		{
+			ife temp8 1 { ifactorsound THISACTOR TRAIN_AMB stopactorsound THISACTOR TRAIN_AMB globalsound TRAIN_WHISTLE set temp8 0 }
+		}
+		else ifspritepal 0 ife temp8 2 { ifactorsound THISACTOR SUBWAY_S stopactorsound THISACTOR SUBWAY_S set temp8 0 }
+	}
+}
+
+ife sprite[].lotag 14
+	{
+	ifg sprite[].xvel 5
+		{
+			ifspritepal 3 { ifactorsound THISACTOR TRAIN_AMB nullop else sound TRAIN_AMB }
+			else ifspritepal 9 soundonce BOAT_RUN
+			else ifspritepal 7 soundonce BIG_DRILL_IDLE
+			else ifspritepal 2 soundonce BUBBLE_AMBIENCE
+			else ifspritepal 0 { ifactorsound THISACTOR SUBWAY_S nullop else sound SUBWAY_S }
+		}
+	else
+		{
+		ifspritepal 9 soundonce BOAT_IDLE
+		else ifspritepal 3 { ifactorsound THISACTOR TRAIN_AMB stopactorsound THISACTOR TRAIN_AMB }
+		else ifspritepal 0 { ifactorsound THISACTOR SUBWAY_S stopactorsound THISACTOR SUBWAY_S }
+		}
+	}
+
+ife sprite[].lotag 30
+	{
+	ife temp8 2 // if train was at top speed this means it's slowing down to stop
+	 ifl sprite[].xvel 250 // if it's slowing down
+	  ifg sprite[].xvel 5 // if it hasn't stopped though
+	 {
+	 ifspritepal 0 soundonce SUBTRAIN_STOP
+	 else ifspritepal 8 soundonce CARS_STOP
+	 else ifspritepal 11 soundonce PALACE_DOOR2
+	 }
+	 else
+	ifg sprite[].xvel 5
+		{
+			ifspritepal 3
+				{
+				ife temp8 0 { globalsound TRAIN_WHISTLE set temp8 1 }
+				ifactorsound THISACTOR TRAIN_AMB nullop else sound TRAIN_AMB
+				}
+			else ifspritepal 9 soundonce BOAT_RUN
+			else ifspritepal 7 soundonce BIG_DRILL_IDLE
+			else ifspritepal 8
+				{
+				ife temp8 0 { soundonce CARS_START set temp8 1 }
+				ifactorsound THISACTOR VEH_RUN2 nullop else sound VEH_RUN2
+				ifg sprite[].xvel 250 set temp8 2 // if at top speed, set var
+				}
+			else ifspritepal 2 soundonce BUBBLE_AMBIENCE
+			else ifspritepal 11
+				{
+				ife temp8 0 { soundonce PALACE_DOOR1 set temp8 1 }
+				ifg sprite[].xvel 250 set temp8 2 // if at top speed, set var
+				}
+			else ifspritepal 20
+				{
+				ife temp8 0 { soundonce TRAIN_STOP set temp8 1 }
+				}
+			else ifspritepal 0
+				{
+				ife temp8 0 { soundonce SUBTRAIN_START set temp8 1 }
+				ifactorsound THISACTOR SUBWAY_S nullop else sound SUBWAY_S
+				ifg sprite[].xvel 250 set temp8 2 // if at top speed, set var
+				}
+		}
+	else
+		{
+		ifspritepal 9 soundonce BOAT_IDLE
+		else ifspritepal 3
+			{
+			ife temp8 1 { ifactorsound THISACTOR TRAIN_AMB stopactorsound THISACTOR TRAIN_AMB globalsound TRAIN_WHISTLE set temp8 0 }
+			}
+		else ifspritepal 0 ife temp8 2 { ifactorsound THISACTOR SUBWAY_S stopactorsound THISACTOR SUBWAY_S set temp8 0 }
+		}
+	}
+
+
+	ife sprite[].lotag 31
+		{
+			checkactivatormotion hitag_saved
+			ife RETURN 1
+			{
+				ife extra_saved 1 { ife temp2 0 quote 400 set temp2 1 }
+				ife extra_saved 2 { ife temp2 0 quote 401 set temp2 1 }
+				ife extra_saved 3 { ife temp2 0 quote 403 set temp2 1 }
+				ife xvel_saved 1
+					{
+					sets[].floorslope 0
+					gets[].floorstat temp3
+					ifand temp3 2 { xorvar temp3 2 sets[].floorstat temp3 }
+					}
+			}
+		}
+
+	ife sprite[].lotag 32
+		{
+			checkactivatormotion hitag_saved
+			ife RETURN 1
+			{
+				ife extra_saved 1 { ife temp2 0 quote 402 set temp2 1 }
+				ife extra_saved 2 { ife temp2 0 quote 401 set temp2 1 }
+			}
+
+		ifg extra_saved 0
+			{
+			ife sector[].ceilingz sprite[].z
+			{
+			 ife play_sound 0
+				{
+				soundvar extra_saved
+				ifspritepal 3 spawn BIG_SMOKE2
+				state explosion_shake
+				set play_sound 1
+				}
+			}
+			else set play_sound 0
+			}
+			
+		}
+
+	// Jump pad
+	// The HITAG acts as multiplier of the player's Z Velocity
+	// If the ZVEL is non-zero, increases the result of the HITAG multiplication result by 1/(zvelsaved) of that amount. Eg 2 will increase by half, 3 by a 3rd etc
+	ife sprite[].lotag 46
+	{
+	ifg extra_saved 0
+		{
+		checkactivatormotion extra_saved
+		ife RETURN 1 set extra_saved -1
+		}
+	else
+		ifvarvare player[].cursectnum sprite[].sectnum
+		{
+			setp[].falling_counter 0
+			ifp ponground
+			{
+				ifspritepal 0 globalsound WIND_FLY
+				set temp3 hitag_saved
+
+				ifn zvel_saved 0
+				{
+					set temp4 temp3
+					div temp4 zvel_saved
+					add temp3 temp4
+				}
+				set jump_speed SPRINTSPEED
+				setp[].runspeed SPRINTSPEED
+				mul temp3 -1
+				setp[].poszv temp3
+			}
+		}
+
+	}
+
+	ife sprite[].lotag 47
+		{
+			ifvarvare player[].cursectnum sprite[].sectnum
+			{
+			ifp ponground
+				{
+				ifspritepal 0 soundonce WIND_FLY
+				geta[].ang temp
+				set knockbackang temp
+				set temp3 hitag_saved
+				mul temp3 -1
+				set knockbackheight temp3
+				set knockback2 1
+				}
+			}
+
+		}
+
+
+	ife sprite[].lotag 71
+		{
+		ife temp2 0
+			{
+			gets[].floorpicnum temp7
+			gets[].floorshade temp8
+			geta[].z temp3
+			gets[].floorz temp4
+			sets[].floorz temp3
+			set temp2 1
+			}
+		ifg INTERNALCOUNT 0 sub INTERNALCOUNT 1
+		getp[].cursectnum temp5
+		geta[].sectnum temp6
+			ife temp5 temp6
+			{
+			ifp ponground
+				{
+				add INTERNALCOUNT 2
+				clamp INTERNALCOUNT 0 90
+				ifge INTERNALCOUNT 30
+					{
+					gets[].floorz temp5
+					ife temp4 temp5 nullop
+					 else
+						{
+						ifn sector[].extra 0 add temp5 sector[].extra else
+						add temp5 256
+						sets[].floorz temp5
+						ifge temp5 temp4
+							{
+							sets[].floorz temp4
+							sets[].floorpicnum hitag_saved
+							geta[].ang temp6
+							ife temp6 512 ifn sector[].lotag 1 { sets[].lotag 1 sound WATR_IMP }
+							geta[].pal temp6
+							ifn temp6 0 sets[].floorpal temp6
+							geta[].shade temp6
+							sets[].floorshade temp6
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+			geta[].extra temp5
+			ifn temp5 1
+			{
+			gets[].floorz temp5
+			ifge temp5 temp3
+				{
+				sub temp5 64
+				sets[].floorz temp5
+				}
+			gets[].floorpicnum temp5
+			ifvarvarn temp5 temp7
+				{
+				sets[].floorshade temp8
+				sets[].floorpicnum temp7
+				geta[].ang temp6
+				ife temp6 512 sets[].lotag 0
+				}
+			}
+			}
+
+		}
+
+ife sprite[].lotag 51
+		{
+			checkactivatormotion hitag_saved
+			ife RETURN 1
+			{
+				ifn zvel_saved 1
+				ifn zvel_saved 0
+					{
+					gets[].floorstat temp7
+					ifand temp7 2 nullop else xorvar temp7 2
+					sets[].floorstat temp7
+					sets[].floorslope zvel_saved
+					}
+				else
+				ife zvel_saved 1
+					{
+					globalsound SLAB_FALL
+					state explosion_shake
+					// shoot ROCKDEB_1
+					spawn BIG_SMOKE2 spawn BIG_SMOKE2
+					set zvel_saved 0
+					}
+				ifn extra_saved -1 ifn extra_saved 0 sets[].floorpicnum extra_saved
+				ifg owner_saved 0 sets[].floorstat owner_saved
+				geta[].ang temp6
+				ife temp6 512 sets[].lotag 0
+				ife temp6 1024 sets[].lotag 1
+				geta[].pal temp6
+				ifn temp6 0 sets[].floorpal temp6
+				geta[].shade temp6
+				sets[].floorshade temp6
+				geta[].xvel temp6
+				ife xvel_saved 1
+					{
+					gets[].floorstat temp7
+					orvar temp7 8
+					sets[].floorstat temp7
+					}
+				ife xvel_saved 2
+					{
+					sets[].lotag 1
+					sets[].floorstat 3584
+					geta[].cstat temp4
+					ifand temp4 514 sets[].floorstat 3968
+					else sets[].floorstat 3840
+					}
+				ife xvel_saved 3
+					{
+					gets[].floorstat temp7
+					ifand temp7 1 xorvar temp7 1
+					sets[].floorstat temp7
+					}
+				ifand cstat_saved 2
+					{
+					gets[].floorstat temp7
+					orvar temp7 64
+					sets[].floorstat temp7
+					}
+				ifand cstat_saved 4
+					{
+					sets[].floorxpanning xrepeat_saved
+					sets[].floorypanning yrepeat_saved
+					}
+				ifand cstat_saved 256
+					{
+					sets[].floorz sprite[].z
+					}
+				ifand cstat_saved 8
+					{
+					gets[].floorstat temp7
+					ifand temp7 2 xorvar temp7 2
+					sets[].floorstat temp7
+					sets[].floorslope 0
+					}
+				ife yvel_saved 1 sets[].visibility 244
+			}
+
+		}
+
+ife sprite[].lotag 58
+		{
+			checkactivatormotion hitag_saved
+			ife RETURN 1
+			{
+				geta[].extra temp5
+				sets[].ceilingpicnum temp5
+				geta[].ang temp6
+				ife temp6 512 sets[].lotag 0
+				ife temp6 1024 sets[].lotag 1
+				geta[].pal temp6
+				ifn temp6 0 sets[].ceilingpal temp6
+				geta[].shade temp6
+				sets[].ceilingshade temp6
+				geta[].xvel temp6
+				ife temp6 1
+					{
+					gets[].ceilingstat temp7
+					orvar temp7 8
+					sets[].ceilingstat temp7
+					}
+				ife temp6 2
+					{
+					sets[].lotag 2
+					sets[].ceilingstat 3968
+					geta[].cstat temp4
+					ifand temp4 514 sets[].ceilingstat 3968
+					else sets[].ceilingstat 3840
+					}
+				ife temp6 3
+					{
+					gets[].ceilingstat temp7
+					orvar temp7 1
+					sets[].ceilingstat temp7
+					}
+				ife yvel_saved 1 sets[].visibility 244
+			}
+
+		}
+
+ife sprite[].lotag 52
+		{
+		ife temp2 0
+			{
+			gets[].floorpicnum temp7
+			gets[].floorshade temp8
+			geta[].z temp3
+			set temp2 1
+			}
+
+			checkactivatormotion hitag_saved
+			ife RETURN 1
+			{
+				ife sprite[].z sector[].floorz
+				{
+				sets[].floorpicnum extra_saved
+				geta[].ang temp6
+				ife temp6 512 sets[].lotag 0
+				else ife temp6 1024 sets[].lotag 1
+				geta[].pal temp6
+				ifn temp6 0 sets[].floorpal temp6
+				ifn yvel_saved 0
+					{
+					gets[].floorslope temp7
+					ifvarvare yvel_saved temp7 sets[].floorslope 0
+					else sets[].floorslope yvel_saved
+					}
+				ife xvel_saved 1
+					{
+					gets[].floorstat temp7
+					orvar temp7 8
+					sets[].floorstat temp7
+					}
+				ife xvel_saved 2
+					{
+					gets[].floorstat temp7
+					orvar temp7 1
+					sets[].floorstat temp7
+					}
+				ife xvel_saved 3
+					{
+					sets[].floorstat 1664
+					}
+				geta[].shade temp6
+				sets[].floorshade temp6
+				sets[].visibility zvel_saved
+				}
+			}
+
+		}
+
+
+ife sprite[].lotag 53
+		{
+			checkactivatormotion hitag_saved
+			ife RETURN 1
+			{
+			ife temp2 0
+				{
+				ifn sector[].lotag 2 sets[].lotag 2 else
+					{
+					ife sprite[].ang 512 nullop else
+					sets[].lotag 0
+					}
+				set temp2 1
+				}
+			}
+			else ife RETURN 0 set temp2 0
+		}
+
+ife sprite[].lotag 54
+	{
+		checkactivatormotion hitag_saved
+		ife RETURN 1
+		{
+			geta[].x x
+			geta[].y y
+			geta[].sectnum temp
+			geta[].ang temp3
+
+			sin my temp3
+			cos mx temp3
+			geta[].z z
+
+			hitscan x y z temp mx my 0 hitsect hitwall hitsprite hitx hity hitz 16777280
+
+			ifn hitwall -1
+			{
+			ife zvel_saved 1
+				{
+				getw[hitwall].cstat temp4
+				ifand temp4 1 xorvar temp4 1
+				setwall[hitwall].cstat temp4
+				}
+			ife extra_saved 0
+				{
+				geta[].pal temp2
+				ifn temp2 0 setwall[hitwall].pal temp2
+				geta[].shade temp3
+				ifn temp3 0 setwall[hitwall].shade temp3
+				}
+			else
+			ifn extra_saved -1
+				{
+				setwall[hitwall].picnum extra_saved
+				geta[].pal temp2
+				setwall[hitwall].pal temp2
+				geta[].shade temp3
+				setwall[hitwall].shade temp3
+				}
+
+			ifn yvel_saved 0
+				{
+				getw[hitwall].cstat temp4
+				ifand temp4 16 nullop else { xorvar temp4 16 setwall[hitwall].cstat temp4 }
+				setwall[hitwall].overpicnum yvel_saved
+				geta[].pal temp2
+				ifn temp2 0 setwall[hitwall].pal temp2
+				geta[].shade temp3
+				ifn temp3 0 setwall[hitwall].shade temp3
+				}
+			}
+		}
+	}
+
+ife sprite[].lotag 55
+		{
+			checkactivatormotion hitag_saved
+			ife RETURN 1
+			{
+				geta[].extra temp5
+				ifn temp5 -1 sets[].ceilingpicnum temp5
+				geta[].pal temp6
+				ifn temp6 0 sets[].ceilingpal temp6
+				geta[].shade temp6
+				ifn temp6 0 sets[].ceilingshade temp6
+				geta[].xvel xvel_saved
+				ife xvel_saved 3
+				{
+				gets[].ceilingstat temp7
+				orvar temp7 1
+				sets[].ceilingstat temp7
+				}
+
+			}
+
+		}
+
+ife sprite[].lotag 56
+		{
+			checkactivatormotion hitag_saved
+			ife RETURN 1
+			ifn sprite[].sectnum -1
+			 ifn sprite[].sectnum 4096
+			{
+			sets[].lotag extra_saved
+			}
+
+		}
+
+ife sprite[].lotag 57 // change texture if z exceeds floor or whatever
+	{
+	ife temp2 0
+				{
+				gets[].floorpicnum temp7
+				gets[].floorshade temp8
+				geta[].z temp3
+				set temp2 1
+				}
+
+				checkactivatormotion hitag_saved
+				ife RETURN 1
+				{
+					ifg sector[].floorz sprite[].z
+					{
+					sets[].floorpicnum extra_saved
+					geta[].ang temp6
+					ife temp6 512 sets[].lotag 0
+					else ife temp6 1024 sets[].lotag 1
+					geta[].pal temp6
+					ifn temp6 0 sets[].floorpal temp6
+					ifn yvel_saved 0
+						{
+						gets[].floorslope temp7
+						ifvarvare yvel_saved temp7 sets[].floorslope 0
+						else sets[].floorslope yvel_saved
+						}
+					ife xvel_saved 1
+						{
+						gets[].floorstat temp7
+						orvar temp7 8
+						sets[].floorstat temp7
+						}
+					ife xvel_saved 2
+						{
+						gets[].floorstat temp7
+						orvar temp7 1
+						sets[].floorstat temp7
+						}
+					geta[].shade temp6
+					sets[].floorshade temp6
+					sets[].visibility zvel_saved
+					}
+				}
+	}
+
+ife sprite[].lotag 60 // sector attribute copier
+	{
+	checkactivatormotion extra_saved
+	ife RETURN 1
+		{
+		headspritestat spriteid 3
+		whilevarn spriteid -1
+			{
+			ife sprite[spriteid].picnum 1
+			 ife sprite[spriteid].lotag 61
+			  ife sprite[spriteid].hitag sprite[].hitag
+					{
+					geta[spriteid].sectnum temp
+					sets[].visibility sector[temp].visibility
+					sets[].hitag sector[temp].hitag
+					sets[].lotag sector[temp].lotag
+					sets[].floorpal sector[temp].floorpal
+					sets[].floorpicnum sector[temp].floorpicnum
+					sets[].floorshade sector[temp].floorshade
+					sets[].floorslope sector[temp].floorslope
+					sets[].floorstat sector[temp].floorstat
+					sets[].floorxpanning sector[temp].floorxpanning
+					sets[].floorypanning sector[temp].floorypanning
+					sets[].floorz sector[temp].floorz
+
+					sets[].ceilingpal sector[temp].ceilingpal
+					sets[].ceilingpicnum sector[temp].ceilingpicnum
+					sets[].ceilingshade sector[temp].ceilingshade
+					sets[].ceilingslope sector[temp].ceilingslope
+					sets[].ceilingstat sector[temp].ceilingstat
+					sets[].ceilingxpanning sector[temp].ceilingxpanning
+					sets[].ceilingypanning sector[temp].ceilingypanning
+					sets[].ceilingz sector[temp].ceilingz
+					set spriteid -1
+					}
+				ifn spriteid -1 nextspritestat spriteid spriteid
+			}
+		}
+	}
+
+	
+ife sprite[].lotag 650 // custom falling actor
+{
+
+ifn hitag_saved 0
+	{
+	set INTERNALCOUNT 0
+	set temp 0
+	for temp sprofstat 1
+		{
+			ife sprite[temp].picnum DOORTRANSPORTEXIT
+			{
+			 getav[temp].hitag_saved temp3
+			 ife hitag_saved temp3
+				{
+				geta[temp].x ENDPOINTX
+				geta[temp].y ENDPOINTY
+				geta[temp].z ENDPOINTZ
+				geta[temp].ang temp7
+				geta[temp].sectnum dtexit_sectnum
+				set temp 16383
+				}
+			}
+		}
+	set hitag_saved 0
+	}
+
+	headspritesect spriteid sprite[].sectnum
+	whilevarn spriteid -1
+	{
+		set temp 0
+		ife sprite[spriteid].picnum APLAYER
+		{
+			geta[spriteid].z mz
+				ifvarvarg mz initz
+				 ife player_in_vehicle 0
+					{
+					add INTERNALCOUNT 1
+					setp[].falling_counter 0
+					setp[].hard_landing 0
+					ife INTERNALCOUNT 1
+						{
+						state fade_in_black
+						set cus_fade_duration 10
+						}
+					ifge INTERNALCOUNT 10
+						{
+						setp[].cursectnum dtexit_sectnum
+						setp[].posx ENDPOINTX
+						setp[].posy ENDPOINTY
+						setp[].posz ENDPOINTZ
+						setp[].ang temp7		
+						state fade_out_black
+						set cus_fade_duration 5
+						set INTERNALCOUNT 0
+						}
+					}
+		}
+		nextspritesect spriteid spriteid
+	}
+}
+
+ife sprite[].lotag 666 // credits to Dan Gaskil for this code
+{
+	headspritesect spriteid sprite[].sectnum
+	whilevarn spriteid -1
+	{
+		set temp 0
+		ife sprite[spriteid].picnum APLAYER
+		{
+			getu .god temp2
+			ife temp2 NO
+			{
+				geta[spriteid].yvel temp2
+				ife player[temp2].dead_flag 0 set temp 1
+				set player_dead 1
+			}
+		}
+		else set temp 1
+
+		ife temp 1
+		{
+			ifvarvarg sprite[spriteid].z initz
+			{
+			seta[spriteid].htextra 14000
+			seta[spriteid].htpicnum RADIUSEXPLOSION
+			seta[spriteid].htowner spriteid
+			seta[spriteid].xrepeat 0
+			seta[spriteid].yrepeat 0
+			}
+		}
+		nextspritesect spriteid spriteid
+	}
+}
+
+ife sprite[].lotag 667 // credit to Dan Gaskil for this code
+{
+	headspritesect spriteid sprite[].sectnum
+	whilevarn spriteid -1
+	{
+		set temp 0
+		ife sprite[spriteid].picnum APLAYER
+		{
+			geta[spriteid].z mz
+				ifvarvarg mz initz
+				{
+				addphealth -140
+				seta[spriteid].htextra 140
+				seta[spriteid].htowner spriteid
+				set player_dead 1
+				}
+		}
+		else set temp 1
+		ife temp 1
+		{
+			geta[spriteid].z mz
+			ifvarvarg mz initz
+			{
+			geta[spriteid].statnum temp3
+			ife temp3 1
+				{
+				ifspritepal 2
+					{
+					getav[spriteid].MONSTER_FLAGS temp4 // check to see if its a lava monster
+					ifand temp4 16 nullop else
+						{
+						setactorvar[spriteid].fire_damage 9999
+						stopsound WATER_SPLASH
+						soundonce LAVA_SPLASH
+						// seta[spriteid].htextra 9999
+						seta[spriteid].htowner spriteid
+						}
+					}
+					else
+					{
+					getav[spriteid].MONSTER_FLAGS temp4 // check to see if its a flying monster
+					ifand temp4 1 // only delete the corpse if it's a flying enemy and dead
+						{
+						ifg sprite[spriteid].extra 0 nullop
+							else
+								{
+								seta[spriteid].htextra 140
+								seta[spriteid].htpicnum RADIUSEXPLOSION
+								seta[spriteid].htowner spriteid
+								seta[spriteid].xrepeat 0
+								seta[spriteid].yrepeat 0
+								}
+						}
+						else
+					ifg sprite[spriteid].extra 0
+						{
+						seta[spriteid].htextra 9999
+						seta[spriteid].htowner spriteid
+						}
+					}
+				}
+			}
+		}
+		nextspritesect spriteid spriteid
+	}
+}
+
+ife sprite[].lotag 668 // credits to Dan Gaskil for this code; kills everything except specific actors (clouds .etc)
+{
+	headspritesect spriteid sprite[].sectnum
+	whilevarn spriteid -1
+	{
+		set temp 0
+		ife sprite[spriteid].picnum APLAYER
+		{
+			geta[spriteid].z mz
+				ifvarvarg mz initz
+				{
+				seta[spriteid].htowner spriteid
+				set player_dead 1
+				set DEATH_CAM hitag_saved
+				}
+		}
+		else set temp 1
+		ife temp 1
+		{
+			geta[spriteid].z mz
+			ifvarvarg mz initz
+			{
+			geta[spriteid].statnum temp3
+			getav[spriteid].SPEC_ACT temp4
+			ife temp3 1
+			 ife temp4 0
+				{
+					seta[spriteid].htextra 140
+					seta[spriteid].htpicnum RADIUSEXPLOSION
+					seta[spriteid].htowner spriteid
+					seta[spriteid].xrepeat 0
+					seta[spriteid].yrepeat 0
+				}
+			}
+		}
+		nextspritesect spriteid spriteid
+	}
+}
+
+ife sprite[].lotag 669 // credits to Dan Gaskil for this code; kills and deletes everything in sector when hitag is activated
+{
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	headspritesect spriteid sprite[].sectnum
+	whilevarn spriteid -1
+	{
+		set temp 0
+		ife sprite[spriteid].picnum APLAYER
+		{
+			getu .god temp2
+			ife temp2 NO
+			{
+				geta[spriteid].yvel temp2
+				ife player[temp2].dead_flag 0 set temp 1
+			}
+		}
+		else set temp 1
+		ife temp 1
+			{
+				seta[spriteid].htextra 9999
+				seta[spriteid].htpicnum RADIUSEXPLOSION
+				seta[spriteid].htowner spriteid
+				seta[spriteid].xrepeat 0
+				seta[spriteid].yrepeat 0
+			}
+		nextspritesect spriteid spriteid
+		}
+	}
+}
+
+ife sprite[].lotag 670 // credits to Dan Gaskil for this code, kills everything in sector when hitag is activated
+{
+checkactivatormotion hitag_saved
+ife RETURN 1
+	{
+	headspritesect spriteid sprite[].sectnum
+	whilevarn spriteid -1
+	{
+		set temp 0
+		ife sprite[spriteid].picnum APLAYER
+		{
+			getu .god temp2
+			ife temp2 NO
+			{
+				geta[spriteid].yvel temp2
+				ife player[temp2].dead_flag 0 set temp 1
+			}
+		}
+		else set temp 1
+		ife temp 1
+			{
+			 ifg sprite[spriteid].extra 0
+				{
+				seta[spriteid].htextra 9999
+				seta[spriteid].htpicnum SHOTSPARK1
+				seta[spriteid].htowner THISACTOR
+				ifspritepal 11
+				 ife sprite[spriteid].picnum 1680
+					seta[spriteid].picnum 33987
+				}
+			}
+		nextspritesect spriteid spriteid
+		}
+	}
+}
+
+ife sprite[].lotag 671 // credits to Dan Gaskil for this code - will kill player if not in vehicle or non-flying enemies
+{
+	headspritesect spriteid sprite[].sectnum
+	whilevarn spriteid -1
+	{
+		set temp 0
+		ife sprite[spriteid].picnum APLAYER
+		 ife player_in_vehicle 0
+		{
+			geta[spriteid].z mz
+				ifvarvarg mz initz
+				{
+				addphealth -140
+				seta[spriteid].htextra 140
+				seta[spriteid].htowner spriteid
+				}
+		}
+		else set temp 1
+		ife temp 1
+		{
+			geta[spriteid].z mz
+			ifvarvarg mz initz
+			{
+			geta[spriteid].statnum temp3
+			ife temp3 1
+				{
+				getav[spriteid].MONSTER_FLAGS temp4
+				ifand temp4 1 nullop else
+					{
+					seta[spriteid].htextra 140
+					seta[spriteid].htowner spriteid
+					}
+				}
+			}
+		}
+		nextspritesect spriteid spriteid
+	}
+}
+ends
+
+include CODE/ACTORS/SE/SE_SKYBOX.CON // SE Skybox code

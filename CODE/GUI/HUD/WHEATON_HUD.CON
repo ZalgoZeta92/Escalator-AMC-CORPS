@@ -1,0 +1,443 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+define WHEATON_DIGIT 21110
+
+defstate wheaton_hud
+
+			ifg CURSED 0 set disp_temp6 49 else 
+				{
+				ifl PHEALTH 25 set disp_temp6 124
+				else ifl PHEALTH 50 set disp_temp6 23
+				else ifg PHEALTH pmax_health set disp_temp6 125
+				else set disp_temp6 11
+				}
+	
+	set hud_disp_temp4 20 // set starting x coordinate
+	ifg pmax_health 0 
+		{ // only proceed if the player has any health.
+		set hud_disp_temp pmax_health // get the player's max health.
+		set hud_disp_temp2 10 // save a copy for later.
+		div hud_disp_temp 5 // make each column worth 10 hp.
+		modvar hud_disp_temp2 10 // gets the remainder of the division so that...
+		ifg hud_disp_temp2 0 
+			{
+			add hud_disp_temp 1 // ...we can round up. each column will only disappear when all 5 hp are gone.
+			}
+		whilevarn hud_disp_temp 0 
+			{ // repeat for each column
+			rotatesprite hud_disp_temp4 20 16384 0 36077 0 disp_temp6 256 0 0 xdim ydim // draws one column at (xvar,182)
+			add hud_disp_temp4 7 // move to the right
+			sub hud_disp_temp 1 // next column
+			}
+		}
+		
+	ifg PHEALTH pmax_health set hud_disp_temp5 disp_pulse else set hud_disp_temp5 0
+
+	
+	  add hud_disp_temp4 10 digitalnumberz WHEATON_DIGIT hud_disp_temp4 20 PHEALTH hud_disp_temp5 disp_temp6 256 0 0 xdim ydim 22000
+
+	set hud_disp_temp4 20 // set starting x coordinate
+	ifg PHEALTH 0 
+		{ // only proceed if the player has any health.
+		geta[].extra hud_disp_temp // get the player's health.
+		set hud_disp_temp2 10 // save a copy for later.
+		div hud_disp_temp 5 // make each column worth 10 hp.
+		modvar hud_disp_temp2 10 // gets the remainder of the division so that...
+		ifg hud_disp_temp2 0 
+			{
+			add hud_disp_temp 1 // ...we can round up. each column will only disappear when all 5 hp are gone.
+			}
+		whilevarn hud_disp_temp 0 
+			{ // repeat for each column
+			rotatesprite hud_disp_temp4 20 16384 0 36076 0 disp_temp6 257 0 0 xdim ydim // draws one column at (xvar,182)
+			add hud_disp_temp4 7 // move to the right
+			sub hud_disp_temp 1 // next column
+			}
+		}
+		
+set hud_disp_temp4 20 // set starting x coordinate
+	ifg PARMOUR 0 
+		{ // only proceed if the player has any armour.
+		getp[].shield_amount hud_disp_temp // get the player's armour.
+		set hud_disp_temp2 10 // save a copy for later.
+		div hud_disp_temp 5 // make each column worth 5 shield.
+		modvar hud_disp_temp2 10 // gets the remainder of the division so that...
+		ifg hud_disp_temp2 0 
+			{
+			add hud_disp_temp 1 // ...we can round up. each column will only disappear when all 5 shield are gone.
+			}
+		whilevarn hud_disp_temp 0 
+			{ // repeat for each column
+			rotatesprite hud_disp_temp4 27 12384 0 36075 0 27 257 0 0 xdim ydim // draws one column at (xvar,182)
+			
+			add hud_disp_temp4 5 // move to the right
+			sub hud_disp_temp 1 // next column
+			}
+	}
+	 add hud_disp_temp4 10 digitalnumberz WHEATON_DIGIT hud_disp_temp4 27 PARMOUR 0 27 256 0 0 xdim ydim 22000
+		
+	ifg P_HAS_SHIELD 0
+	{
+	set hud_disp_temp4 20 // set starting x coordinate
+	ifg P_ENERGYSHIELD 0 
+		{ // only proceed if the player has an energy shield
+		set hud_disp_temp P_MAX_SHIELD // get the player's max shield.
+		set hud_disp_temp2 10 // save a copy for later.
+		div hud_disp_temp 5 // make each column worth 10 hp.
+		modvar hud_disp_temp2 10 // gets the remainder of the division so that...
+		ifg hud_disp_temp2 0 
+			{
+			add hud_disp_temp 1 // ...we can round up. each column will only disappear when all 5 hp are gone.
+			}
+		whilevarn hud_disp_temp 0 
+			{ // repeat for each column
+			rotatesprite hud_disp_temp4 34 12384 0 36077 0 23 257 0 0 xdim ydim // draws one column at (xvar,182)
+			add hud_disp_temp4 5 // move to the right
+			sub hud_disp_temp 1 // next column
+			}
+		add hud_disp_temp4 10 digitalnumberz WHEATON_DIGIT hud_disp_temp4 34 P_ENERGYSHIELD 0 32 256 0 0 xdim ydim 22000 // shield number
+		set hud_disp_temp4 20 // reset bar position
+		set hud_disp_temp P_ENERGYSHIELD // get the player's shield.
+		set hud_disp_temp2 10 // save a copy for later.
+		div hud_disp_temp 5 // make each column worth 10 hp.
+		modvar hud_disp_temp2 10 // gets the remainder of the division so that...
+		ifg hud_disp_temp2 0 
+			{
+			add hud_disp_temp 1 // ...we can round up. each column will only disappear when all 5 hp are gone.
+			}
+		whilevarn hud_disp_temp 0 
+			{ // repeat for each column
+			rotatesprite hud_disp_temp4 34 12384 0 36076 0 23 257 0 0 xdim ydim // draws one column at (xvar,182)
+			add hud_disp_temp4 5 // move to the right
+			sub hud_disp_temp 1 // next column
+			}
+		}
+	
+	  
+	}	
+	
+	set hud_disp_temp 20
+	set hud_disp_temp2 44
+	ifg P_SPIRIT_ARMOUR 0 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 8 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_SPIRIT_ARMOUR 10 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 8 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_SPIRIT_ARMOUR 20 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 8 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_SPIRIT_ARMOUR 30 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 8 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_SPIRIT_ARMOUR 40 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 8 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_SPIRIT_ARMOUR 50 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 8 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_SPIRIT_ARMOUR 60 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 8 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_SPIRIT_ARMOUR 70 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 8 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_SPIRIT_ARMOUR 80 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 8 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_SPIRIT_ARMOUR 90 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 8 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_SPIRIT_ARMOUR 99 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 8 257 0 0 xdim ydim
+	
+	set hud_disp_temp 80
+	set hud_disp_temp2 44
+	ifg P_FIRE_ARMOUR 0 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 2 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_FIRE_ARMOUR 10 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 2 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_FIRE_ARMOUR 20 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 2 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_FIRE_ARMOUR 30 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 2 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_FIRE_ARMOUR 40 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 2 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_FIRE_ARMOUR 50 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 2 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_FIRE_ARMOUR 60 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 2 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_FIRE_ARMOUR 70 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 2 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_FIRE_ARMOUR 80 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 2 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_FIRE_ARMOUR 90 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 2 257 0 0 xdim ydim
+	add hud_disp_temp 5 ifg P_FIRE_ARMOUR 99 rotatesprite hud_disp_temp hud_disp_temp2 8192 0 36075 0 2 257 0 0 xdim ydim
+
+	switch cur_weap
+	case 0 
+		ifand GUN_AMMO_TYPES 1 ifand AMMO_TYPES[cur_weap] 1 set tilenum EXPL_SHELLS else
+		ifand GUN_AMMO_TYPES 2 ifand AMMO_TYPES[cur_weap] 2 set tilenum SILVERAMMO_DRUM else
+		ifand GUN_AMMO_TYPES 1 ifand AMMO_TYPES[cur_weap] 4 set tilenum FLECHETE_SHELLS else
+		ifand GUN_AMMO_TYPES 4 ifand AMMO_TYPES[cur_weap] 64 set tilenum MAGNUM_SHELLS else
+		ifand GUN_AMMO_TYPES 4 ifand AMMO_TYPES[cur_weap] 1024 set tilenum DRAGONS_SHELLS else
+		ifand GUN_AMMO_TYPES 8 ifand AMMO_TYPES[cur_weap] 8 set tilenum TESLA_AMMO_SPRITE else
+		ifand GUN_AMMO_TYPES 16 ifand AMMO_TYPES[cur_weap] 16 set tilenum SILVER_CROSSBOW_BOLTS else
+		set tilenum 3833 
+		break
+	case 1 set tilenum W_AMMO_TILE[1] break
+	case 2 
+		ifand GUN_AMMO_TYPES 1 ifand AMMO_TYPES[cur_weap] 1 set tilenum EXPL_SHELLS else
+		ifand GUN_AMMO_TYPES 2 ifand AMMO_TYPES[cur_weap] 2 set tilenum SILVERAMMO_DRUM else
+		ifand GUN_AMMO_TYPES 1 ifand AMMO_TYPES[cur_weap] 4 set tilenum FLECHETE_SHELLS else
+		ifand GUN_AMMO_TYPES 4 ifand AMMO_TYPES[cur_weap] 64 set tilenum MAGNUM_SHELLS else
+		ifand GUN_AMMO_TYPES 4 ifand AMMO_TYPES[cur_weap] 1024 set tilenum DRAGONS_SHELLS else
+		ifand GUN_AMMO_TYPES 4 ifand AMMO_TYPES[cur_weap] 65536 set tilenum SILVERBALL_SHELLS else
+		set tilenum W_AMMO_TILE[2] 
+		break
+	case 3 set tilenum W_AMMO_TILE[3] break
+	case 4 
+		ifand AMMO_TYPES[cur_weap] 32 set tilenum FORTYMM_SHELLS else
+		ifand AMMO_TYPES[cur_weap] 128 set tilenum 5463 else
+		ifand AMMO_TYPES[cur_weap] 256 set tilenum 5476 else
+		set tilenum W_AMMO_TILE[4] 
+		break
+	case 5 set tilenum W_AMMO_TILE[5] break
+	case 6 set tilenum W_AMMO_TILE[6] break
+	case 7 set tilenum W_AMMO_TILE[7] break
+	case 8 set tilenum WEAPON_TILE[8] break
+	case 9 set tilenum W_AMMO_TILE[9] break
+	case 10 set tilenum 6488 break
+	case 11 set tilenum W_AMMO_TILE[11] break
+	endswitch
+	
+	rotatesprite 20 160 16384 0 36093 0 15 256 0 0 xdim ydim // Item text 
+	rotatesprite 20 180 14384 1024 36078 0 15 261 0 0 xdim ydim // Item box 
+	rotatesprite 20 180 14384 1024 36079 0 15 260 0 0 xdim ydim // Item box outline
+
+	rotatesprite 300 160 16384 0 36091 0 15 512 0 0 xdim ydim // Ammo text 
+	rotatesprite 300 180 14384 0 36078 0 15 513 0 0 xdim ydim // Ammo box 
+	rotatesprite 300 180 14384 0 36079 0 15 512 0 0 xdim ydim // Ammo box outline
+
+	rotatesprite 300 178 INVENSIZE 0 tilenum 0 0 512 0 0 xdim ydim // Ammo pic
+
+	ife cur_weap 0 ife temp_weap 11 ifand AMMO_TYPES[cur_weap] 2 set hud_disp_pammo silver_ammo else
+	ife cur_weap 0 ife temp_weap 13 ifand AMMO_TYPES[cur_weap] 16 set hud_disp_pammo silver_bolts else
+	ife cur_weap 0 ife temp_weap 12 ifand AMMO_TYPES[cur_weap] 8 set hud_disp_pammo tesla_ammo else
+	ife cur_weap 0 ife temp_weap 27 ifand AMMO_TYPES[cur_weap] 8 set hud_disp_pammo tesla_ammo else
+	ife cur_weap 0 
+		{
+		set ammo_forweaponidx 0
+		state ammo_getdefs
+		set hud_disp_pammo ammo_normalammoremaining			
+		}
+		else
+	getp[].ammo_amount cur_weap hud_disp_pammo
+	ifand GUN_AMMO_TYPES 1
+		{
+		ifand AMMO_TYPES[cur_weap] 1 set hud_disp_pammo explosive_shells
+		else ifand AMMO_TYPES[cur_weap] 4 set hud_disp_pammo flechete_shells
+		}
+	ifand GUN_AMMO_TYPES 4
+		{
+		ifand AMMO_TYPES[cur_weap] 64 set hud_disp_pammo magnum_shells else
+		ifand AMMO_TYPES[cur_weap] 1024 set hud_disp_pammo dragon_shells
+		}
+	ifand GUN_AMMO_TYPES 2080
+		{
+		ifand AMMO_TYPES[cur_weap] 32 set hud_disp_pammo fortymm_shells else
+		ifand AMMO_TYPES[cur_weap] 128 set hud_disp_pammo fortymm_MIA_shells else
+		ifand AMMO_TYPES[cur_weap] 256 set hud_disp_pammo fortymm_plasma
+		}
+	state melee_weapon_check
+	ifn hud_disp_temp9 1 digitalnumberz WHEATON_DIGIT 300 187 hud_disp_pammo 0 27 512 0 0 xdim ydim INVENSIZE
+	
+			ifand GUN_AMMO_TYPES 8192
+				{
+                rotatesprite 295 172 20000 0 BLUE_MANA_PICKUP 0 0 512 0 0 xdim ydim
+                digitalnumberz WHEATON_DIGIT 307 172 p_blue_mana 0 125 520 0 0 xdim ydim QUARTERSIZE
+				}
+			else
+			ifand GUN_AMMO_TYPES 16384
+				{
+                rotatesprite 295 172 20000 0 GREEN_MANA_PICKUP 0 0 512 0 0 xdim ydim
+                digitalnumberz WHEATON_DIGIT 307 172 p_green_mana 0 125 520 0 0 xdim ydim QUARTERSIZE
+				}
+			else
+			ifand GUN_AMMO_TYPES 32768
+				{
+                rotatesprite 295 172 20000 0 ORANGE_MANA_PICKUP 0 0 512 0 0 xdim ydim
+                digitalnumberz WHEATON_DIGIT 307 172 p_orange_mana 0 125 520 0 0 xdim ydim QUARTERSIZE
+				}
+			else
+			ifand GUN_AMMO_TYPES 65536
+				{
+                rotatesprite 295 172 20000 0 PURPLE_MANA_PICKUP 0 0 512 0 0 xdim ydim
+                digitalnumberz WHEATON_DIGIT 307 172 p_purple_mana 0 125 520 0 0 xdim ydim QUARTERSIZE
+				}
+
+	
+	ifand player[].got_access 1 rotatespritea 210 180 NNORMALSIZE 0 6959 0 0 0 -255 0 0 xdim ydim
+	ifand player[].got_access 2 rotatespritea 218 180  NNORMALSIZE 0 6959 0 21 0 -255 0 0 xdim ydim
+	ifand player[].got_access 4 rotatespritea 226 180  NNORMALSIZE 0 6959 0 23 0 -255 0 0 xdim ydim
+	ifand ACCESSKEY2 1 rotatespritea 234 180 NNORMALSIZE 0 6959 0 12 0 -255 0 0 xdim ydim
+	ifand ACCESSKEY2 2 rotatespritea 242 180 NNORMALSIZE 0 6959 0 14 0 -255 0 0 xdim ydim
+	ifand ACCESSKEY2 4 rotatespritea 250 180 NNORMALSIZE 0 6959 0 15 0 -255 0 0 xdim ydim
+	ifand ACCESSKEY2 8 rotatespritea 258 180 NNORMALSIZE 0 6959 0 49 0 -255 0 0 xdim ydim
+	ifand ACCESSKEY2 16 rotatespritea 266 180 NNORMALSIZE 0 6959 0 10 0 -255 0 0 xdim ydim
+	ifand ACCESSKEY2 32 rotatespritea 274 180 NNORMALSIZE 0 6959 0 36 0 -255 0 0 xdim ydim
+	ifand ACCESSKEY2 64 rotatespritea 282 180 NNORMALSIZE 0 6959 0 16 0 -255 0 0 xdim ydim
+	
+/*
+	ife cur_weap 2
+	 {
+	 ifand GEOFFREY_UPGRADE 16
+	  ifn SPECIALIST_EQUIPMENT[20] 2
+	   ifn SPECIALIST_EQUIPMENT[67] 2
+		{
+		myospalx 300 150 6545 0 512 0 // Ammo box
+		rotatesprite 300 150 QUARTERSIZE 0 TESLA_AMMO_SPRITE 0 0 512 0 0 xdim ydim
+		digitalnumber THREEBYFIVE 300 157 tesla_ammo 0 27 512 0 0 xdim ydim
+		}
+	 }
+*/
+
+	set hud_disp_temp6 0
+
+	switch cur_weap
+	case 0 
+	set tilenum 3718
+	ife temp_weap 21 set tilenum 36314
+	ife temp_weap 22 set tilenum 3718
+	ife temp_weap 25 set tilenum 36314
+	ife temp_weap 26 set tilenum 36314
+	break
+	case 2 
+	set tilenum 3768 
+	ifand GUN_AMMO_TYPES 1
+		{ 
+		ifand AMMO_TYPES[cur_weap] 1 set tilenum EXSHELLF else
+		ifand AMMO_TYPES[cur_weap] 4 set tilenum FL_SHELLF else
+		set tilenum 3768 
+		}
+	ifand GUN_AMMO_TYPES 4
+		{ 
+		ifand AMMO_TYPES[cur_weap] 1 set tilenum EXSHELLF else
+		ifand AMMO_TYPES[cur_weap] 4 set tilenum FL_SHELLF else
+		ifand AMMO_TYPES[cur_weap] 64 set tilenum MAGN_SHELLF else
+		ifand AMMO_TYPES[cur_weap] 1024 { set tilenum 3768 set hud_disp_temp6 5 } else
+		ifand AMMO_TYPES[cur_weap] 65536 { set tilenum 3768 set hud_disp_temp6 27 } else
+		set tilenum 3768 
+		}
+	break
+	case 3 
+	ife SPECIALIST_EQUIPMENT[160] 2 set tilenum 36326 
+	else ife SPECIALIST_EQUIPMENT[117] 2 set tilenum 36314 
+	else set tilenum 36315 
+	break
+	case 6 set tilenum 36315 break
+	default set tilenum 3718 break
+	endswitch
+	
+	ifn gun_mag -1
+		{
+		set hud_disp_temp5 140 // set starting y coordinate
+			ifg gun_mag -1 
+				{ // only proceed if the weapon has a magazine.
+				set hud_disp_temp gun_mag // get the player's MAG.
+				set hud_disp_temp2 gun_mag // save a copy for later.
+				modvar hud_disp_temp2 10 // gets the remainder of the division so that...
+				ifg hud_disp_temp2 2 
+					{
+					add hud_disp_temp 1 
+					}
+				whilevarn hud_disp_temp 0 
+					{ // repeat for each column
+					set hud_disp_temp3 hud_disp_temp
+					modvar hud_disp_temp3 2
+					set hud_disp_temp4 300
+					ifn hud_disp_temp3 0 sub hud_disp_temp4 5
+					
+					ife tilenum 36326 set hud_disp_temp7 8192 else 
+					ife tilenum 36314 set hud_disp_temp7 8192 else 
+					ife tilenum 36315 set hud_disp_temp7 8192 else 
+					set hud_disp_temp7 INVENSIZE
+					rotatesprite hud_disp_temp4 hud_disp_temp5 hud_disp_temp7 0 tilenum 0 hud_disp_temp6 512 0 0 xdim ydim // draws one column at (xvar,182)
+					sub hud_disp_temp5 2 // move up
+					sub hud_disp_temp 1 // next column
+					}
+			}
+			 sub hud_disp_temp5 5 digitalnumberz WHEATON_DIGIT 300 hud_disp_temp5 gun_mag 0 27 512 0 0 xdim ydim 16384
+		
+		}
+	
+	ifn player[].inven_icon 0
+	{
+	ife player[].inven_icon 1 // MEDKIT
+		{
+		rotatesprite 20 178 QUARTERSIZE 0 c_medikit 0 0 256 0 0 xdim ydim
+		getp[].firstaid_amount hud_disp_temp2
+		digitalnumberz WHEATON_DIGIT 20 187 hud_disp_temp2 0 27 256 0 0 xdim ydim QUARTERSIZE
+		}
+
+	ife player[].inven_icon 2 // STEROIDS
+		{
+		ifp pboosted rotatesprite 20 178 QUARTERSIZE 0 c_steroids disp_pulse 67 256 0 0 xdim ydim
+		else rotatesprite 20 178 QUARTERSIZE 0 c_steroids 0 0 256 0 0 xdim ydim
+		getp[].steroids_amount hud_disp_temp2
+		div hud_disp_temp2 4
+		digitalnumberz WHEATON_DIGIT 20 187 hud_disp_temp2 0 27 256 0 0 xdim ydim QUARTERSIZE
+		}
+	ife player[].inven_icon 3 // HOLODUKE
+		{
+		ife PS_ITEM 2 rotatesprite 20 178 QUARTERSIZE 0 c_holoduke disp_pulse 67 256 0 0 xdim ydim
+		else rotatesprite 20 178 QUARTERSIZE 0 c_holoduke 0 0 256 0 0 xdim ydim
+		getp[].holoduke_amount hud_disp_temp2
+		div hud_disp_temp2 600
+		digitalnumberz WHEATON_DIGIT 20 187 hud_disp_temp2 0 27 256 0 0 xdim ydim QUARTERSIZE
+		}
+	ife player[].inven_icon 4 // JETPACK
+		{
+		getp[].jetpack_amount hud_disp_temp2
+		div hud_disp_temp2 16
+		ifn player[].jetpack_on 0 
+			{
+			rotatesprite 20 178 INVENSIZE 0 c_jetpack disp_pulse 67 256 0 0 xdim ydim
+			digitalnumberz WHEATON_DIGIT 20 187 hud_disp_temp2 0 27 256 0 0 xdim ydim QUARTERSIZE
+			}
+		else 
+			{
+			rotatesprite 20 178 INVENSIZE 0 c_jetpack 0 0 256 0 0 xdim ydim
+			digitalnumberz WHEATON_DIGIT 20 187 hud_disp_temp2 10 27 256 0 0 xdim ydim QUARTERSIZE
+			}		
+		}
+	ife player[].inven_icon 5 // NIGHT VISION GOGGLES
+		{
+		ife player[].heat_on 1 rotatesprite 20 178 INVENSIZE 0 disp_nvg disp_pulse 67 256 0 0 xdim ydim
+		else rotatesprite 20 178 INVENSIZE 0 disp_nvg 0 0 256 0 0 xdim ydim
+		getp[].heat_amount hud_disp_temp2
+		div hud_disp_temp2 48
+		digitalnumberz WHEATON_DIGIT 20 187 hud_disp_temp2 0 27 256 0 0 xdim ydim QUARTERSIZE
+		}
+	ife player[].inven_icon 6 // SCUBA GEAR
+		{
+		rotatesprite 20 178 QUARTERSIZE 0 c_scuba 0 0 256 0 0 xdim ydim
+		ife AIR_FILTER 1 
+			{
+			rotatesprite 20 187 NORMALSIZE 0 3812 0 0 256 0 0 xdim ydim
+			rotatesprite 23 181 12384 0 3688 0 0 256 0 0 xdim ydim
+			}
+		else
+			{
+			getp[].scuba_amount hud_disp_temp2
+			div hud_disp_temp2 64
+			digitalnumberz WHEATON_DIGIT 20 187 hud_disp_temp2 0 27 256 0 0 xdim ydim QUARTERSIZE
+			}
+		}
+	ife player[].inven_icon 7 // BOOTS
+		{
+		rotatesprite 20 178 INVENSIZE 0 c_boots 0 0 256 0 0 xdim ydim
+		getp[].boot_amount hud_disp_temp2
+		div hud_disp_temp2 2
+		digitalnumberz WHEATON_DIGIT 20 187 hud_disp_temp2 0 27 256 0 0 xdim ydim QUARTERSIZE
+		}
+		
+	ife player[].inven_icon 10 // TOOLBOX
+		{
+		rotatesprite 20 178 INVENSIZE 0 TOOLBOX_PICKUP 0 0 256 0 0 xdim ydim
+		}
+	ife player[].inven_icon 11 // ROPE
+		{
+		rotatesprite 20 178 20000 0 17916 0 0 256 0 0 xdim ydim
+		}
+	ife player[].inven_icon 12 // FIREWALL CHIP
+		{
+		rotatesprite 20 178 20000 0 22353 0 0 256 0 0 xdim ydim
+		}
+	}
+
+ends

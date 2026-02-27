@@ -1,0 +1,2829 @@
+
+// MARS REACTOR THING ===============================================================================
+ife cuts_txt 255
+{
+ifl cs_timer 48
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0Sang, come in.
+}
+else
+ifl cs_timer 126
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0The direct route to the generator has been blocked.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0I'm going to try to find another
+qputs 351 way through the mines themselves.
+}
+}
+ife cuts_txt 256
+{
+state radio_sang_pic
+ifl cs_timer 27
+{
+set cs_textl 1
+qputs 350 ^8Sang: ^0Okay.
+}
+else
+{
+set cs_textl 3
+qputs 350 ^8Sang: ^0For your information; Mikko is currently on a
+qputs 351 train to the TV station broadcasting propaganda, and James
+qputs 352 is going up the space elevator.
+}
+}
+ife cuts_txt 257
+{
+ifl cs_timer 120
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0Sounds like they're doing well...
+qputs 351 but at least they're experienced.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0This is my first interplanetary mission, and I'm
+qputs 351 going to do everything I can to make sure it all works out.
+}
+}
+ife cuts_txt 258
+{
+state radio_sang_pic
+set cs_textl 1
+ifl cs_timer 107 qputs 350 ^8Sang: ^0Don't get yourself killed out there Micky...good luck.
+else qputs 350 ^8Sang: ^0Sang out.
+}
+ife cuts_txt 260
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0Hold on, there's been some tampering with this.
+}
+ife cuts_txt 261
+{
+set cs_textl 1
+qputs 350 ^8Sang: ^0What do you mean?
+}
+ife cuts_txt 262
+{
+ifl cs_timer 268
+{
+set cs_textl 3
+qputs 350 ^8Micky: ^0If I'm reading this correctly, the device should
+qputs 351 still function however...I'm going to have to re-route all
+qputs 352 the power through the circuitry in this room;
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0Overloading the conduits and
+qputs 351 most likely killing ME in the process.
+}
+}
+ife cuts_txt 263
+{
+ifl cs_timer 150
+{
+set cs_textl 2
+qputs 350 ^8Sang: ^0Well you better think of something quick, the
+qputs 351 colony has almost literally run out of oxygen.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Sang: ^0 We need that machine working now!
+}
+}
+ife cuts_txt 264
+{
+set cs_textl 1
+ifl cs_timer 70 qputs 350 ^8Micky: ^0I need more time!
+else qputs 350 ^8Micky: ^0Maybe I can rig up a remote activation mechanism.
+}
+ife cuts_txt 265
+{
+set cs_textl 1
+ifl cs_timer 48 qputs 350 ^8Sang: ^0There's no time for that!
+else qputs 350 ^8Sang: ^0There must be something you can do.
+}
+ife cuts_txt 266
+{
+set cs_textl 1
+ifl cs_timer 40 qputs 350 ^8Micky: ^0You're right.
+else qputs 350 ^8Micky: ^0Something needs to be done NOW.
+}
+ife cuts_txt 267
+{
+set cs_textl 1
+qputs 350 ^8Sang: ^0What are you doing?
+}
+ife cuts_txt 268
+{
+set cs_textl 1
+ifl cs_timer 137 qputs 350 ^8Micky: ^0Those people need air right now, so I'm going to give it to them.
+else ifl cs_timer 236 qputs 350 ^8Micky: ^0It's been an honour working with you and the team.
+else qputs 350 ^8Micky: ^0I just hope I made a difference.
+}
+ife cuts_txt 269
+{
+set cs_textl 1
+ifl cs_timer 85 qputs 350 ^8Sang: ^0I....I understand.
+else ifl cs_timer 230 qputs 350 ^8Sang: ^0Its been a privilege...I'm sorry it had to come to this.
+else qputs 350 ^8Sang: ^0Till we meet again in the next life...
+}
+ife cuts_txt 280
+{
+ife cuts_sound 0 { setactorvar[camerasprite].cameratime 340 set cuts_sound 1 }
+ifl cs_timer 79
+{
+set cs_textl 1
+qputs 350 ^2Solari: ^0We meet at last.
+}
+else ifl cs_timer 278
+{
+set cs_textl 2
+qputs 350 ^2Solari: ^0Prepare yourself; I will go easy on
+qputs 351 you to see how much of a fighter you really are.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^2Solari: ^0Do you think you can handle that?
+}
+}
+ife cuts_txt 285
+{
+
+ifl cs_timer 96
+{
+set cs_textl 1
+qputs 350 ^54???: ^0Greetings, Arsia Mons residents.
+}
+else ifl cs_timer 186
+{
+set cs_textl 1
+qputs 350 ^54???: ^0We are the Paradigm Eschaton.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^2Paradigm: ^0We claim ownership of the earlier attack on your
+qputs 351 colony, and we are also claiming ownership of the subsequent attack.
+}
+}
+ife cuts_txt 286
+{
+set cs_textl 1
+ifl cs_timer 97 qputs 350 ^2Paradigm: ^0We are simply delivering a message.
+else ifl cs_timer 196 qputs 350 ^2Paradigm: ^0We want to display how powerless you are.
+else ifl cs_timer 269 qputs 350 ^2Paradigm: ^0They are coming.
+else qputs 350 ^2Paradigm: ^0This is only a glimpse of the future that awaits us all.
+}
+ife cuts_txt 287
+{
+set cs_textl 1
+ifl cs_timer 110 qputs 350 ^2Paradigm: ^0If you survive today, Join us.
+else ifl cs_timer 176 qputs 350 ^2Paradigm: ^0Join us.
+else qputs 350 ^2Paradigm: ^0Worship Trenton Solari, and embrace their arrival.
+}
+
+// Episode 2 Brief 3  ====================================================================================
+ife cuts_txt 310
+{
+ifl cs_timer 82
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Ok guys, excellent work so far.
+}
+else
+{
+set cs_textl 2
+set speaker 0
+qputs 350 ^8James: ^0Our trip to the Shadow Realm was pretty...exciting,
+qputs 351 but some more missions have cropped up whilst we were away.
+}
+}
+ife cuts_txt 311
+{
+ifl cs_timer 156
+{
+set cs_textl 2
+set speaker -1
+qputs 350 ^8James: ^0We've received a tip-off that a highly advanced
+qputs 351 prototype EAF airship has vanished into thin air.
+}
+else
+{
+set cs_textl 3
+qputs 350 ^8James: ^0Our source was extremely vague, but it appears
+qputs 351 they were continuing with the research we discovered in the
+qputs 352 EAF base in Los Angeles in operation Megabase.
+}
+}
+ife cuts_txt 312
+{
+ifl cs_timer 171
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Micky, since you're an engineer I think you should take
+qputs 351 this one; but don't hesitate to call for backup if you need it.
+}
+else
+ifl cs_timer 388
+{
+set cs_textl 2
+set speaker 0
+qputs 350 ^8James: ^0Unfortunately we can't locate the ship itself, but among other
+qputs 351 things it had an advanced teleport system linking it to an EAF outpost.
+}
+else
+ifl cs_timer 447
+{
+set cs_textl 1
+set speaker -1
+qputs 350 ^8James: ^0We know that place's location.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8James: ^0 You need to infiltrate that facility, get to
+qputs 351 the teleporter, and then scuttle the ship.
+}
+}
+ife cuts_txt 313
+{
+set cs_textl 1
+ifl cs_timer 82 qputs 350 ^8Micky: ^0Shouldn't we try and retrieve the ship?
+else qputs 350 ^8Micky: ^0It sounds like it could be a really valuable asset.
+}
+ife cuts_txt 314
+{
+ifl cs_timer 136
+{
+set cs_textl 2
+qputs 350 ^8James: ^0That's a nice idea, but I imagine the EAF
+qputs 351  would ask for it back if you could save it.
+}
+else
+ifl cs_timer 336
+{
+set cs_textl 3
+set speaker 13
+qputs 350 ^8James: ^0This is the second time a disaster has occurred
+qputs 351 because of the research they were doing, it's too dangerous
+qputs 352 to fall back into their hands.
+}
+else
+{
+set cs_textl 2
+set speaker 0
+qputs 350 ^8James: ^0The ship will probably have something, like
+qputs 351 either a reactor or a self-destruct sequence.
+}
+}
+ife cuts_txt 315
+{
+ifl cs_timer 147
+{
+set cs_textl 2
+qputs 350 ^8James: ^0This one's mine; a data processing facility
+qputs 351 in Europe went dark a couple of hours ago.
+}
+else
+ifl cs_timer 290
+{
+set cs_textl 2
+qputs 350 ^8James: ^0There's no way it's just an accident, and footage
+qputs 351 seems to confirm a cultist presence in the area.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8James: ^0I'll see what I can find, they may be covering some information.
+}
+}
+ife cuts_txt 316
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Alright Mikko; Let's get to it then guys.
+}
+ife cuts_txt 317
+{
+ifl cs_timer 142
+{
+set cs_textl 2
+set speaker 1
+qputs 350 ^8James: ^0Zaxtor, we just got a message directed
+qputs 351 to you about a situation in Madagascar.
+}
+else
+ifl cs_timer 282
+{
+set cs_textl 2
+set speaker 1
+qputs 350 ^8James: ^0There's a small enclave of Cycloids who have
+qputs 351 for some reason allied with humans in the area.
+}
+else
+ifl cs_timer 353
+{
+set cs_textl 1
+set speaker 0
+qputs 350 ^8James: ^0They've set up some kind of facility.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Since it's your turf, I imagine you'll
+qputs 351 want to deal with this one.
+}
+}
+ife cuts_txt 318
+{
+set cs_textl 1
+set speaker 1
+qputs 350 ^8Zaxtor: ^0Ok, no problem.
+}
+ife cuts_txt 319
+{
+ifl cs_timer 169
+{
+set cs_textl 2
+qputs 350 ^8Mikko: ^0Since there is no pressing need for me here, I'm
+qputs 351 going to head to the planet Energeia with Sang.
+}
+else
+ifl cs_timer 248
+{
+set cs_textl 1
+set speaker -1
+qputs 350 ^8Mikko: ^0I'm going to inspect my new facilities there.
+}
+else
+qputs 350 ^8Mikko: ^0If you need me, contact Sang as I will be busy.
+}
+
+// Episode 2 intro  ====================================================================================
+ife cuts_txt 330
+{
+ifl cs_timer 167
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Great, got no sleep and now I've got a nice
+qputs 351 little flight to Australia, of all places.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8James: ^0I wonder who the EDF wants me to meet...
+}
+}
+ife cuts_txt 331
+{
+set cs_textl 1
+ifl cs_timer 62 qputs 350 ^8James: ^0Uhh, this was the spot.
+else ifl cs_timer 150 qputs 350 ^8James: ^0Abracadabra...Alakazam?
+else ifl cs_timer 201 qputs 350 ^8James: ^0Open Sesame?
+else ifl cs_timer 243 qputs 350 ^8James: ^0....Didgeridoo?
+else ifl cs_timer 309 qputs 350 ^8James: ^0Shit, was this a prank call?
+else qputs 350 ^8James: ^0I don't want to be eaten by some fucked-up wildlife.
+}
+ife cuts_txt 332
+{
+set cs_textl 1
+ifl cs_timer 55 qputs 350 ^7???: ^0Ah there you are.
+else ifl cs_timer 176 qputs 350 ^7???: ^0sorry about the delay, Still getting used to all the buttons in here.
+else qputs 350 ^7???: ^0Step right in!
+}
+ife cuts_txt 333
+{
+set cs_textl 1
+ifl cs_timer 101 qputs 350 ^7???: ^0You must be the infamous AMC Squad....
+else 
+	{
+	set speaker 13
+	qputs 350 ^7???: ^0Nice to finally meet you James.
+	}
+}
+ife cuts_txt 334
+{
+set cs_textl 1
+ifl cs_timer 85 qputs 350 ^8James: ^0Well, you have me at a disadvantage.
+else 
+	{
+	set speaker 0
+	qputs 350 ^8James: ^0Good to know you, uh...
+	}
+}
+ife cuts_txt 335
+{
+set cs_textl 1
+set speaker -1
+ifl cs_timer 37 qputs 350 ^8Micky: ^0Call me Micky.
+else qputs 350 ^8Micky: ^0I'm a Combat Engineer from the EDF's Australian branch.
+}
+ife cuts_txt 336
+{
+set cs_textl 1
+ifl cs_timer 43 qputs 350 ^8James: ^0Good to know you Micky.
+else ifl cs_timer 88 qputs 350 ^8James: ^0What did you wanna see me about?
+else 
+	{
+	set speaker 0
+	qputs 350 ^8James: ^0Some kind of EDF business?
+	}
+}
+ife cuts_txt 337
+{
+ifl cs_timer 78
+	{
+	set cs_textl 1
+	set speaker -1
+	qputs 350 ^8Micky: ^0Actually, this is off the record.
+	}
+else ifl cs_timer 207 qputs 350 ^8Micky: ^0I'll be straight up; I want to join the AMC squad.
+else
+	{
+	set cs_textl 2
+	set speaker 13
+	qputs 350 ^8Micky: ^0You're going to need someone with my skills if you want
+	qputs 351 to start using more vehicles, than that little flyer of yours.
+	}
+}
+ife cuts_txt 338
+{
+ifl cs_timer 80
+	{
+	set cs_textl 1
+	set speaker -1
+	qputs 350 ^8James: ^0Hey, You leave little Betsy out of this.
+	}
+else
+ifl cs_timer 213
+	{
+	set cs_textl 2
+	set speaker 0
+	qputs 350 ^8James: ^0She may not be the Epion, but she's gotten
+	qputs 351 us to Ganymede in one piece...
+	}
+else
+ifl cs_timer 347
+	{
+	set speaker -1
+	qputs 350 ^8James: ^0Although that one got blown to shit
+	qputs 351 when the base went nuclear; This one's Ethil.
+	}
+else
+	{
+	set cs_textl 1
+	set speaker 0
+	qputs 350 ^8James: ^0Can you fight?
+	}
+}
+ife cuts_txt 339
+	{
+	set speaker -1
+	set cs_textl 1 qputs 350 ^8Micky: ^0Do I really need to answer that?
+	}
+ife cuts_txt 340
+{
+ifl cs_timer 58
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Well, how convenient.
+}
+else ifl cs_timer 115 qputs 350 ^8James: ^0A global EDF alert.
+else ifl cs_timer 260
+{
+set cs_textl 2
+set speaker 0
+qputs 350 ^8James: ^0I'll give you a ride back to AMC HQ and then
+qputs 351 we'll head out to LA and give Graves a hand.
+}
+else ifl cs_timer 316
+{
+set cs_textl 1
+set speaker -1
+qputs 350 ^8James: ^0Consider this your acid test.
+}
+else ifl cs_timer 364 qputs 350 ^8James: ^0Do well here, and you're in.
+else qputs 350 ^8James: ^0Now let's move.
+}
+ife cuts_txt 341
+{
+set cs_textl 1
+set speaker 13
+ife temp8 0 { globalsound AMC_EP2_INTRO12 set temp8 1 }
+qputs 350 ^8Micky: ^0Sounds like fun, and to answer your question...
+}
+ife cuts_txt 342
+{
+set speaker -1
+set cs_textl 1 ife temp8 0 { screensound AMC_EP2_INTRO13 set temp8 1 }
+qputs 350 ^8Micky: ^0Yes, yes I do know how to fight.
+}
+
+// Episode 2 ending==========================================================================================
+ife cuts_txt 350
+{
+set cs_textl 1 qputs 350 ^8James: ^0Well...this is gonna take a while to type up.
+}
+ife cuts_txt 351
+{
+set cs_textl 2
+ifl cs_timer 149
+{
+qputs 350 ^8James: ^0First off, we managed to successfully prevent
+qputs 351 Cycloids from Kidnapping a large amount of civilians.
+}
+else
+ifl cs_timer 276
+{
+qputs 350 ^8James: ^0They're doing fine as we speak, and we
+qputs 351 managed to destroy the mothership in the process.
+}
+else
+{
+qputs 350 ^8James: ^0The EDF are analysing the data we pulled from
+qputs 351 the ship...perhaps we can finally find their homeplanet.
+}
+}
+ife cuts_txt 352
+{
+ifl cs_timer 151
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Micky certainly proved himself in that battle
+qputs 351 alone, but the real test of his will was yet to come.
+}
+else ifl cs_timer 288
+{
+qputs 350 ^8James: ^0I'm still concerned about that huge Cycloid that
+qputs 351 left the ship before we fought the other one though....
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Could there be a higher caste than the Emperor?
+}
+}
+ife cuts_txt 353
+{
+ifl cs_timer 212
+{
+set cs_textl 3
+qputs 350 ^8James: ^0Afterwards, we headed to China and followed a
+qputs 351 confusing trail of clues leading us to discover the Yakuza
+qputs 352 and Triad were indeed working together.
+}
+else
+ifl cs_timer 323
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Perhaps unsurprisingly, they had found
+qputs 351 a way to tap into the Shadow Realm.
+}
+else
+{
+qputs 350 ^8James: ^0We put a stop to any further plans of
+qputs 351 theirs to grab power.
+}
+}
+ife cuts_txt 354
+{
+ifl cs_timer 192
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Micky was successful in scuttling the prototype EAF,
+qputs 351 airship but also confirmed some of his and my fears...
+}
+else ifl cs_timer 398
+{
+set cs_textl 3
+qputs 350 ^8James: ^0The EAF are continuing their research into the
+qputs 351 precognition brains, and have developed ones capable of
+qputs 352 immense telekinesis.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8James: ^0At the very least, we set back their
+qputs 351 efforts with the destruction of this ship.
+}
+}
+ife cuts_txt 355
+{
+set cs_textl 2
+ifl cs_timer 115
+{
+qputs 350 ^8James: ^0I retrieved valuable info from the
+qputs 351 data processing facility in Europe;
+}
+else
+ifl cs_timer 231
+{
+qputs 350 ^8James: ^0And stumbled across vital clues which tipped
+qputs 351 us off to Arsia Mons being a target;
+}
+else
+{
+qputs 350 ^8James: ^0And not a moment too soon, as the colony
+qputs 351 was attacked shortly after I got back.
+}
+}
+ife cuts_txt 356
+{
+ifl cs_timer 123
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Despite our best efforts, the
+qputs 351 Paradigm Eschaton killed many civilians.
+}
+else
+{
+set cs_textl 3
+qputs 350 ^8James: ^0We prevented countless more, but if we want any
+qputs 351 hope of stopping these maniacs we need to carry on building
+qputs 352 up our strength.
+}
+}
+ife cuts_txt 357
+{
+set cs_textl 2
+ifl cs_timer 143
+{
+qputs 350 ^8James: ^0Mikko confronted the leader of the mega cult,
+qputs 351 a behemoth of a man called Trenton Solari.
+}
+else
+{
+qputs 350 ^8James: ^0There's no way he's an ordinary human being,
+qputs 351 but what he exactly is remains a mystery for now.
+}
+}
+ife cuts_txt 358
+{
+ifl cs_timer 113
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Micky managed to infiltrate the mines
+qputs 351 and start the prototype Oxygen generator.
+}
+else
+{
+set cs_textl 3
+qputs 350 ^8James: ^0Any doubts I had of him were swept away when
+qputs 351 he was prepared to make the ultimate sacrifice to save
+qputs 352 lives, but fortunately he pulled through.
+}
+}
+ife cuts_txt 359
+{
+set cs_textl 2
+ifl cs_timer 146
+{
+qputs 350 ^8James: ^0Finally, Magnus Giesler has reared his
+qputs 351 head once again...bringing MJ12 with him.
+}
+else
+{
+qputs 350 ^8James: ^0I can only imagine how he wrestled control of
+qputs 351 it from whoever else was in charge, probably with PATCOS.
+}
+}
+ife cuts_txt 360
+{
+ifl cs_timer 97
+{
+set cs_textl 1
+qputs 350 ^8James: ^0The Telekinetic metal monstrosity nearly killed me;
+}
+else
+ifl cs_timer 284
+{
+set cs_textl 3
+qputs 350 ^8James: ^0And if that wasn't bad enough the space station
+qputs 351 was sent into Mars's atmosphere and put on a collision
+qputs 352 course with the colony.
+}
+else
+{
+set cs_textl 3
+qputs 350 ^8James: ^0 I managed to activate the station's thrusters
+qputs 351 and avert a catastrophe, but not without sustaining
+qputs 352 critical injuries in the process.
+}
+}
+ife cuts_txt 361
+{
+ifl cs_timer 122
+{
+set cs_textl 2
+qputs 350 ^8James: ^0So much has happened, and even with
+qputs 351 all this lies the threat of the Beyonders.
+}
+else
+ifl cs_timer 270
+{
+qputs 350 ^8James: ^0That dream, the holograms on the Cycloid ship,
+qputs 351 the data we've picked up from various different sources...
+}
+else
+ifl cs_timer 374
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Something incredibly dangerous is looming on the horizon.
+}
+else qputs 350 ^8James: ^0Right now all we can do is prepare...and wait.
+}
+
+// Episode 2 Brief 1  ====================================================================================
+ife cuts_txt 400
+{
+ifl cs_timer 53
+{
+set cs_textl 1
+qputs 350 ^8Graves: ^0I'll keep this simple.
+}
+else ifl cs_timer 153 qputs 350 ^8Graves: ^0The Cycloids have launched a raid on LA, once more.
+else ifl cs_timer 290
+{
+set cs_textl 2
+qputs 350 ^8Graves: ^0This appears to be a smash and grab,
+qputs 351 similar to their earlier attacks.
+}
+else
+{
+qputs 350 ^8Graves: ^0We'd be  able to handle this normally but the aliens
+qputs 351 have thrown a vast number of troops into this operation.
+}
+}
+ife cuts_txt 401
+{
+ifl cs_timer 103
+{
+set cs_textl 1
+qputs 350 ^8Graves: ^0Simply put, they must be getting desperate.
+}
+else
+ifl cs_timer 270
+{
+set cs_textl 2
+qputs 350 ^8Graves: ^0We're not sure why, but the last time they attacked
+qputs 351 like this they were gearing up for a war with us.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Graves: ^0Put a stop to their plans.
+}
+}
+ife cuts_txt 402
+{
+set cs_textl 1
+ife CHAR 0 { ife temp8 0 { globalsound J_ROGER set temp8 1 } qputs 350 ^8James: ^0Roger that. 
+}
+ife CHAR 1 { ife temp8 0 { globalsound Z_ROGER set temp8 1 } qputs 350 ^8Zaxtor: ^0Roger that. 
+}
+ife CHAR 2 { ife temp8 0 { globalsound M_ROGER set temp8 1 } qputs 350 ^8Merlijn: ^0Roger that. 
+}
+ife CHAR 3 { ife temp8 0 { globalsound R_ROGER set temp8 1 } qputs 350 ^8Highwire: ^0Roger that. 
+}
+ife CHAR 4 { ife temp8 0 { globalsound S_ROGER set temp8 1 } qputs 350 ^8Sang: ^0Roger that. 
+}
+ife CHAR 5 { ife temp8 0 { globalsound RN_ROGER set temp8 1 } qputs 350 ^8Rusty: ^0Roger that. 
+}
+ife CHAR 6 { ife temp8 0 { globalsound G_ROGER set temp8 1 } qputs 350 ^8Geoffrey: ^0Roger. 
+}
+ife CHAR 7 { ife temp8 0 { globalsound MS_ROGER set temp8 1 } qputs 350 ^8Mikko: ^0Roger. 
+}
+ife CHAR 10 { ife temp8 0 { globalsound BS_ROGER set temp8 1 } qputs 350 ^8Bombshell: ^0Got it. 
+}
+ife CHAR 12 { ife temp8 0 { globalsound JA_ROGER set temp8 1 } qputs 350 ^8Jane: ^0Copy that. 
+}
+ife CHAR 13 { ife temp8 0 { globalsound MC_ROGER set temp8 1 } qputs 350 ^8Micky: ^0Roger that. 
+}
+ife CHAR 14 { ife temp8 0 { globalsound SF_ROGER set temp8 1 } qputs 350 ^8Snowfall: ^0All right, will do. 
+}
+ife CHAR 15 { ife temp8 0 { globalsound MC_ROGER set temp8 1 } qputs 350 ^8Micky: ^0Roger that. 
+}
+ife CHAR 17 { ife temp8 0 { globalsound KG_ROGER1 set temp8 1 } qputs 350 ^8Kagura: ^7^Understood!^ 
+}
+ife CHAR 18 { ife temp8 0 { globalsound WH_AFF set temp8 1 } qputs 350 ^8Wheaton: ^0Affirmitive. 
+}
+}
+
+ife cuts_txt 403
+{
+set cs_textl 1
+ife CHAR 0
+{
+ife play_sound 0 { globalsound J_THANKS set play_sound 1 }
+qputs 350 ^8James: ^0Thanks.
+}
+ife CHAR 1
+{
+ife play_sound 0 { globalsound Z_THANKS set play_sound 1 }
+qputs 350 ^8Zaxtor: ^0Thanks.
+}
+ife CHAR 2
+{
+ife play_sound 0 { globalsound M_THANKS set play_sound 1 }
+qputs 350 ^8Merlijn: ^0Thanks.
+}
+ife CHAR 3
+{
+ife play_sound 0 { globalsound R_THANKS set play_sound 1 }
+qputs 350 ^8Highwire: ^0Thanks!
+}
+ife CHAR 4
+{
+ife play_sound 0 { globalsound S_THANKS set play_sound 1 }
+qputs 350 ^8Sang: ^0Thank you.
+}
+ife CHAR 5
+{
+ife play_sound 0 { globalsound RN_THANKS set play_sound 1 }
+qputs 350 ^8Rusty: ^0Thanks.
+}
+ife CHAR 6
+{
+ife play_sound 0 { globalsound G_THANKS set play_sound 1 }
+qputs 350 ^8Geoffrey: ^0Thanks.
+}
+ife CHAR 7
+{
+ife play_sound 0 { globalsound MS_THANKS set play_sound 1 }
+qputs 350 ^8Mikko: ^0Cheers.
+}
+ife CHAR 11
+{
+ife play_sound 0 { globalsound MT_THANKS01 set play_sound 1 }
+qputs 350 ^8Maarten: ^0I am NOT thanking you!
+}
+ife CHAR 12
+{
+ife play_sound 0 { globalsound JA_THANKS1 set play_sound 1 }
+qputs 350 ^8Jane: ^0Oh, Thanks.
+}
+ife CHAR 13
+{
+ife play_sound 0 { globalsound MC_THANKS set play_sound 1 }
+qputs 350 ^8Micky: ^0Thank you.
+}
+ife CHAR 14
+{
+ife play_sound 0 { globalsound SF_THANKS set play_sound 1 }
+qputs 350 ^8Snowfall: ^0Thanks!
+}
+ife CHAR 17
+{
+ife play_sound 0 { globalsound KG_THANKS1 set play_sound 1 }
+qputs 350 ^8Kagura: ^7^Thank You!^
+}
+}
+ife cuts_txt 404
+{
+ifl cs_timer 190
+{
+set cs_textl 2
+qputs 350 ^8Graves: ^0Graves here, holy shit you put on
+qputs 351 one hell of a fireworks display!
+}
+else
+ifl cs_timer 354
+{
+qputs 350 ^8Graves: ^0Good job son, the civilians are okay and
+qputs 351 the Cycloids got one hell of a black eye.
+}
+else
+ifl cs_timer 554
+{
+set cs_textl 3
+qputs 350 ^8Graves: ^0Our techboys are analysing what they could
+qputs 351 dump from the mothership's mainframe, we'll let you know
+qputs 352 if they find anything juicy.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Graves: ^0Graves out.
+}
+}
+
+// Ghost ship ====================================================================================
+ife cuts_txt 440
+{
+ifl cs_timer 48
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0I'm inside.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0Something's gone wrong
+qputs 351 though, the base is under lock down.
+}
+}
+ife cuts_txt 441
+{
+set cs_textl 1
+state radio_james_pic
+ifl cs_timer 62 qputs 350 ^8James: ^0Well that's fucking typical....
+else qputs 350 ^8James: ^0You know what to do, good luck.
+}
+ife cuts_txt 450
+{
+set cs_textl 1
+ifl cs_timer 47 qputs 350 ^8Micky: ^0I'm in...
+else ifl cs_timer 168 qputs 350 ^8Micky: ^0...But that's strange, my PDU can't reach base.
+else qputs 350 ^8Micky: ^0Wherever this is, I'm on my own for now.
+}
+ife cuts_txt 451
+{
+ifl cs_timer 109
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0So they were researching
+qputs 351 the Octabrain Precog units here...
+}
+else
+ifl cs_timer 263
+{
+qputs 350 ^8Micky: ^0But it looks like they were modifying
+qputs 351 them to emit telekinetic abilities as well.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0But with that kind of power, what for?
+}
+}
+ife cuts_txt 452
+{
+set cs_textl 2
+ifl cs_timer 148
+{
+qputs 350 ^8Micky: ^0So they were using the brains
+qputs 351 to make this ship warp to other planets,
+}
+else
+ifl cs_timer 249
+{
+qputs 350 ^8Micky: ^0By sling-shotting
+qputs 351 through the Abyss dimension?
+}
+else
+ifl cs_timer 378
+{
+qputs 350 ^8Micky: ^0I guess they didn't count on
+qputs 351 bringing back more than they bargained for...
+}
+else
+{
+qputs 350 ^8Micky: ^0I have to disable the ship before it,
+qputs 351 and all the demons on it, return back to Earth.
+}
+}
+ife cuts_txt 453
+{
+ifl cs_timer 136
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0They sure as hell didn't spare
+qputs 351 any expenses for the Captain's quarters.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0Typical.
+}
+}
+ife cuts_txt 454
+{
+ifl cs_timer 97
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0God damn that's a big ugly bastard!
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0Maybe I can use the ship's
+qputs 351 front cannon to help deal with it.
+}
+}
+ife cuts_txt 455
+{
+set cs_textl 1 qputs 350 ^8Micky: ^0Go back to hell, and take your friends with you!
+}
+ife cuts_txt 456
+{
+set cs_textl 1 qputs 350 ^8James: ^0Micky, Your signal just came out of nowhere, are you okay?
+}
+ife cuts_txt 457
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0I'll brief you when I get back home....but I can confirm
+qputs 351 that they were doing research on the Octabrain's predecessors.
+}
+ife cuts_txt 458
+{
+set cs_textl 1 qputs 350 ^8James: ^0Hmm...excellent work, see you when you get back to base.
+}
+ife cuts_txt 459
+{
+set cs_textl 1
+ifl cs_timer 61 qputs 350 ^8Micky: ^0And they call this Hell?
+else qputs 350 ^8Micky: ^0Try sitting through my final exams.
+}
+// Mountain reaches ====================================================================================
+ife cuts_txt 460
+{
+set cs_textl 1
+ifl cs_timer 92 qputs 350 ^8James: ^0Yet another distant snowy place to travel through.
+else qputs 350 ^8James: ^0They're starting to become my trademark.
+}
+ife cuts_txt 461
+{
+ifl cs_timer 75
+{
+set cs_textl 1
+qputs 350 ^8James: ^0I must be inside the main facility.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8James: ^0I need to locate its control
+qputs 351 center, see what I can dig up.
+}
+}
+ife cuts_txt 462
+{
+ifl cs_timer 180
+{
+set cs_textl 3
+qputs 350 ^8James: ^0A lot of financial
+qputs 351 transactions, spiraling around that
+qputs 352 cult....the Paradigm Eschaton?
+}
+else
+ifl cs_timer 283
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Arms deals, gene-splicing,
+qputs 351 lots of very shady stuff.
+}
+else
+ifl cs_timer 472
+{
+qputs 350 ^8James: ^0And a large transaction to a...Mars
+qputs 351 freighting company, shipping to Arsia Mons colony.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Bingo.
+}
+}
+ife cuts_txt 463
+{
+set cs_textl 1 qputs 350 ^8James: ^0Ugh...once again, I have no idea where the FUCK I am.
+}
+ife cuts_txt 464
+{
+ifl cs_timer 81
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Well, that was an interesting diversion.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Now let's hope for convenience's
+qputs 351 sake this takes me back to where I need to go.
+}
+}
+// Jungle base, jung pyramid
+ife cuts_txt 465
+{
+set cs_textl 1
+ifl cs_timer 72 qputs 350 ^8Zaxtor: ^0Time to look around and explore.
+else qputs 350 ^8Zaxtor: ^0I need to find the Jungle base.
+}
+ife cuts_txt 467
+{
+ifl cs_timer 104
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Nice work Zaxtor, that was a bit of a hairy escape!
+}
+else
+ifl cs_timer 260
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Excellent work taking out the jungle base,
+qputs 351 that'll teach the bastards to mess with Madagascar.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8James: ^0See you soon.
+}
+}
+
+// Start of Mars hub
+ife cuts_txt 470
+{
+ifl cs_timer 161
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Sang, your job is to see if you can find
+qputs 351 evidence of this cult's plan to attack the colony...
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8James: ^0We'll join you ASAP.
+}
+}
+ife cuts_txt 471
+{
+set cs_textl 1 qputs 350 ^8Sang: ^0Alright, I'll take a look around.
+}
+// The Lurking fear ================================================================================
+ife cuts_txt 472
+{
+set cs_textl 1
+ifl cs_timer 92
+qputs 350 ^7???: ^0Warrior, I am in need of your assistance.
+else
+qputs 350 ^7???: ^0Defeat the Abyssal Overseer...he has imprisoned me here.
+}
+ife cuts_txt 473
+{
+ifl cs_timer 130
+{
+set cs_textl 1
+qputs 350 ^8Eva: ^0Thank you...I am Eva. Eva Lockwood.
+}
+else
+ifl cs_timer 306
+{
+set cs_textl 2
+qputs 350 ^8Eva: ^0I was practicing my magic when I accidentally
+qputs 351 transported myself to the abyssal dimension...
+}
+else
+ifl cs_timer 453
+{
+set cs_textl 2
+qputs 350 ^8Eva: ^0And I recognise you...You're
+qputs 351 from the Providence incident.
+}
+else
+ifl cs_timer 589
+{
+set cs_textl 2
+qputs 350 ^8Eva: ^0You and your warlock companion were all
+qputs 351 the talk in the New York Magi circles.
+}
+else
+{
+set cs_textl 3
+qputs 350 ^8Eva: ^0If I may be so bold, I would wish to join you...
+qputs 351 I believe I can help you with your paranormal research,
+qputs 352 if you would permit it.
+}
+}
+ife cuts_txt 474
+{
+ifl cs_timer 72
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Yeah sure, sounds good.
+}
+else
+ifl cs_timer 329
+{
+set cs_textl 2
+qputs 350 ^8Eva: ^0Very Well...I'm afraid I can't transport you out
+qputs 351 of here, but I will meet you back at the AMC headquarters.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Eva: ^0Be careful out there.
+}
+}
+// End of amc loke  ====================================================================================
+ife cuts_txt 475
+{
+ifl cs_timer 47
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Got what I needed.
+}
+else
+{
+set cs_textl 3
+qputs 350 ^8James: ^0Time to head back, I'll need to
+qputs 351 reach Sang and let him know I've got an
+qputs 352 important lead on Mars at Arsia Mons.
+}
+}
+ife cuts_txt 476
+{
+ifl cs_timer 63
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Paradigm Eschaton...
+}
+else
+ifl cs_timer 128
+qputs 350 ^8James: ^0I've heard rumours about this cult.
+else
+ifl cs_timer 227
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Rusty briefly tangled with
+qputs 351 them back when they were starting out.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Some guy named Trenton was the leader.
+}
+}
+ife cuts_txt 477
+{
+ifl cs_timer 115
+{
+set cs_textl 2
+qputs 350 ^8James: ^0I also wonder how it ties in
+qputs 351 with these things we keep hearing about...
+}
+else
+ifl cs_timer 177
+{
+set cs_textl 1
+qputs 350 ^8James: ^0The Octabrain's predecessors.
+}
+else ifl cs_timer 257 qputs 350 ^8James: ^0Do they...still even exist?
+else ifl cs_timer 366 qputs 350 ^8James: ^0More importantly...are they a threat?
+else qputs 350 ^8James: ^0I don't like this one bit.
+}
+
+// End of chisland ===========================================================================
+ife cuts_txt 490
+{
+ifl cs_timer 95
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0Are we really just going to
+qputs 351 head off to those co-ordinates first?
+}
+else
+ifl cs_timer 278
+{
+set cs_textl 3
+qputs 350 ^8Micky: ^0If it really is the source of the
+qputs 351 Shadow Realm creatures it might be a good idea to
+qputs 352 head back to base and stock up on supplies first.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0Who knows what we'll find there.
+}
+}
+ife cuts_txt 491
+{
+set cs_textl 1
+ifl cs_timer 57 qputs 350 ^8James: ^0Alright, you got a point.
+else ifl cs_timer 106 qputs 350 ^8James: ^0We'll head back first.
+else qputs 350 ^8James: ^0It's not as fun this way though.
+}
+// jungle base
+ife cuts_txt 520
+{
+set cs_textl 1
+qputs 350 ^8Wolverine: ^0Hey you.
+}
+ife cuts_txt 521
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0Ugh, what?
+}
+ife cuts_txt 522
+{
+set cs_textl 2
+qputs 350 ^8Wolverine: ^0There is a switch... BUT... follow the instruction
+qputs 351 carefully.
+}
+ife cuts_txt 523
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0Uhhh...
+}
+ife cuts_txt 524
+{
+set cs_textl 1
+qputs 350 ^8Wolverine: ^0*sigh* It's a timing-based switch code you have to do.
+}
+ife cuts_txt 525
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0Uh, ok?
+}
+ife cuts_txt 526
+{
+set cs_textl 2
+qputs 350 ^8Wolverine: ^0I will tell you how to press it, to open the door.
+qputs 351 Don't be too fast, nor too slow, for the code.
+}
+ife cuts_txt 527
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0I'm listening.
+}
+ife cuts_txt 528
+{
+set cs_textl 4
+qputs 350 ^8Wolverine: ^0When you press it, wait ^32four ^0seconds. Then press it
+qputs 351 again, wait ^32two ^0seconds. Then press it again, wait ^32two ^0seconds.
+qputs 352 Then press it again, wait ^32five ^0seconds. Then press it again, wait
+qputs 353 ^32three ^0seconds. Then finally, ^32press it ^0and the door opens.
+}
+ife cuts_txt 529
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0Eh, right.
+}
+ife cuts_txt 530
+{
+set GIVINGANItempAPER 1
+set cs_textl 3
+qputs 350 ^8Wolverine: ^0So, if you fail, is because you were too fast, or
+qputs 351 too slow. So, you will have to retry, over and over, until you get your
+qputs 352 timing right. I will mark it on a piece of paper, so take it.
+}
+ife cuts_txt 531
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0Hmm, I'm going in.
+}
+ife cuts_txt 532
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0I'm done here so I must get the hell out of here.
+}
+ife cuts_txt 533
+{
+set cs_textl 2
+qputs 350 ^8Zaxtor: ^0Those Fricken' bastards are
+qputs 351 gonna pay for trashing my forest!
+}
+ife cuts_txt 534
+{
+ifl cs_timer 109
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0At last I found the generator core...
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0I will destroy this base!
+}
+}
+
+// secret ending 2  ====================================================================================
+ife cuts_txt 860
+{
+set cs_textl 1
+ifl cs_timer 56 qputs 350 ^8Micky: ^0Keep still!
+else ifl cs_timer 125 qputs 350 ^8Micky: ^0Aw stop fidgeting! ...
+else qputs 350 ^8Micky: ^0Or do I need to get the nurse to hold your hand?
+}
+ife cuts_txt 861
+{
+set cs_textl 1
+ifl cs_timer 47 qputs 350 ^8James: ^0Blow me!
+else ifl cs_timer 74 qputs 350 ^8James: ^0Uh...
+else qputs 350 ^8James: ^0That was addressed to my colleague, Ma'am.
+}
+ife cuts_txt 862
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0Ok, now try to move your index finger.....
+}
+ife cuts_txt 863
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0...Ok good, and the thumb...
+}
+ife cuts_txt 864
+{
+ifl cs_timer 35
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0Perfect.
+}
+else ifl cs_timer 95 qputs 350 ^8Micky: ^0All done.
+else
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0It's all I could get in short order, but...
+qputs 351 it should keep you in action for now.
+}
+}
+ife cuts_txt 865
+{
+set cs_textl 1
+ifl cs_timer 54 qputs 350 ^8James: ^0Groovy.
+else qputs 350 ^8James: ^0Much appreciated Micky.
+}
+ife cuts_txt 866
+{
+ifl cs_timer 62
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0No problem.
+}
+else
+ifl cs_timer 291
+	{
+	set cs_textl 2
+	set speaker 13
+	qputs 350 ^8Micky: ^0Now in payment I'd like my condo to
+	qputs 351 be...by the seaside, with a balcony...
+	}
+else
+	{
+	set cs_textl 2
+	set speaker 0
+	qputs 350 ^8Micky: ^0Aw better chuck in a swimming
+	qputs 351 pool as well actually.
+	}
+}
+ife cuts_txt 867
+{
+set cs_textl 2
+qputs 350 ^8James: ^0You get a card in the mail with
+qputs 351 some vouchers for DukeBurger.
+}
+
+// CHINA BRIEFING ==============================================================================================================================================================
+ife cuts_txt 1500
+{
+ife temp8 0 { globalsound CHINA_INTRO set temp8 1 }
+ifl cs_timer 31
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Gentlemen.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8James: ^0In Hong Kong the Triad have somehow managed
+qputs 351 to publicly overthrow the local Government.
+}
+}
+ife cuts_txt 1501
+{
+set cs_textl 1
+qputs 350 ^8Sang: ^0Are you telling us a crime syndicate is capable of that?
+}
+ife cuts_txt 1502
+{
+ifl cs_timer 92
+{
+set cs_textl 1
+set speaker 0
+qputs 350 ^8James: ^0No, it's clear that there's something bigger behind it.
+}
+else
+{
+set cs_textl 3
+set speaker -1
+qputs 350 ^8James: ^0So far all we know is that somehow the Triad
+qputs 351 managed to obtain a source of power that's made everyone
+qputs 352 over there scared shit-less.
+}
+}
+ife cuts_txt 1504
+{
+ifl cs_timer 141
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Fortunately due to our increased size
+qputs 351 and strength this operation should be easier.
+}
+else
+{
+set cs_textl 1
+set speaker 0
+qputs 350 ^8James: ^0There's always room to expand though.
+}
+}
+ife cuts_txt 1505
+	{
+	set cs_textl 2
+	set speaker -1
+	qputs 350 ^8Mikko: ^0I agree; due to this MS Corp and the
+	qputs 351 AMC have a valuable partnership.
+	}
+ife cuts_txt 1506
+	{
+	set cs_textl 2
+	qputs 350 ^8James: ^0In short - our first lead is Hong Kong; we'll
+	qputs 351 check out the area and see what we can do.
+	}
+ife cuts_txt 1507
+{
+ifl cs_timer 108
+	{
+	set cs_textl 2
+	qputs 350 ^8Micky: ^0It is possible that they may
+	qputs 351 of had funding from abroad.
+	}
+else
+	{
+	set speaker 13
+	qputs 350 ^8Micky: ^0I've heard from friends there that it's possible
+	qputs 351 the Triad and the Yakuza are actually working together.
+	}
+}
+ife cuts_txt 1508
+{
+ifl cs_timer 56
+	{
+	set cs_textl 1
+	set speaker -1
+	qputs 350 ^8Sang: ^0Ah I've heard enough.
+	}
+else
+ifl cs_timer 149
+{
+set speaker 6
+qputs 350 ^8Sang: ^0All right team, let's move out, kick some ass!
+}
+else
+	{
+	set cs_textl 2
+	set speaker -1
+	qputs 350 ^8Sang: ^0Hey...if we're going to China,
+	qputs 351 we might even get to meet Lo Wang!
+	}
+}
+// boat transition
+ife cuts_txt 1530
+{
+ifl cs_timer 80
+{
+set cs_textl 2
+qputs 350 ^8James: ^0We've got some time to
+qputs 351 kill before we hit the Island.
+}
+else
+ifl cs_timer 189
+{
+set speaker 0
+qputs 350 ^8James: ^0I want you to cut the bullshit with
+qputs 351 me Micky, why'd you want out of the EDF?
+}
+else
+ifl cs_timer 306
+{
+set speaker -1
+qputs 350 ^8James: ^0The pay is good, you get a great
+qputs 351 pension, and it's a solid career path.
+}
+else
+{
+set cs_textl 1
+set speaker 0
+qputs 350 ^8James: ^0You out for action?
+}
+}
+ife cuts_txt 1531
+{
+ifl cs_timer 160
+{
+set speaker -1
+set cs_textl 2
+qputs 350 ^8Micky: ^0I wanted to do something with
+qputs 351 my life, be a part of something bigger.
+}
+else
+ifl cs_timer 331
+{
+set cs_textl 3
+qputs 350 ^8Micky: ^0I saved my hometown Adelaide a
+qputs 351 couple of years back during the Cycloid's
+qputs 352 invasion of Australia.
+}
+else
+ifl cs_timer 529
+{
+set cs_textl 2
+qputs 350 ^8Micky: ^0The assignments I got as a result were
+qputs 351 nice, but still relatively minor in comparison.
+}
+else
+ifl cs_timer 750
+	{
+	set cs_textl 3
+	set speaker 13
+	qputs 350 ^8Micky: ^0As an engineer, I was taught to fight
+	qputs 351 problems at their source and save as many lives
+	qputs 352 as possible.
+	}
+else
+	{
+	set cs_textl 1
+	set speaker -1
+	qputs 350 ^8Micky: ^0How about you?
+	}
+}
+ife cuts_txt 1532
+{
+ifl cs_timer 140
+	{
+	set cs_textl 2
+	set speaker 0
+	qputs 350 ^8James: ^0Well, I'll tell you the truth;
+	qputs 351  I did want the action, partly.
+	}
+else
+ifl cs_timer 394
+	{
+	set cs_textl 3
+	set speaker -1
+	qputs 350 ^8James: ^0After all the bullshit with Tom Exerfed and
+	qputs 351 Majestic 12 I was up to my ears in paperwork, legal bullshit,
+	qputs 352 tribunals, meetings, endless requests for re-assignment.
+	}
+else
+	{
+	set cs_textl 2
+	set speaker 0
+	qputs 350 ^8James: ^0Saved the world damn near twice
+	qputs 351 over and it's not what you think it is.
+	}
+}
+ife cuts_txt 1533
+{
+ifl cs_timer 177
+	{
+	set cs_textl 3
+	set speaker -1
+	qputs 350 ^8James: ^0They wanted me to dress up in
+	qputs 351 uniform and have me attend dinners all over
+	qputs 352 the world; I belong out here.
+	}
+else
+ifl cs_timer 304
+	{
+	set cs_textl 2
+	qputs 350 ^8James: ^0Evidently Highwire felt the same
+	qputs 351 way, he took off not long after I did.
+	}
+else
+	{
+	qputs 350 ^8James: ^0My friend Jane is still there, and
+	qputs 351 she's twice the soldier I'd ever be.
+	}
+}
+ife cuts_txt 1534
+{
+ifl cs_timer 150
+	{
+	set cs_textl 2
+	qputs 350 ^8Micky: ^0I was wondering why there was
+	qputs 351 no real military discipline around here.
+	}
+else
+	{
+	set cs_textl 1
+	qputs 350 ^8Micky: ^0There's not even ranks really, just agents.
+	}
+}
+ife cuts_txt 1535
+{
+ifl cs_timer 186
+	{
+	set cs_textl 3
+	set speaker -1
+	qputs 350 ^8James: ^0I'll be honest and say I have trouble
+	qputs 351 with protocol and ordering people around; Probably
+	qputs 352 too much of a bleeding heart liberal..
+	}
+else ifl cs_timer 390
+	{
+	set cs_textl 3
+	set speaker 0
+	qputs 350 ^8James: ^0But it's also because what we may face
+	qputs 351 in the future would send an ordinary person to
+	qputs 352 an early grave...or a 9mm retirement.
+	}
+else
+	{
+	set cs_textl 3
+	set speaker -1
+	qputs 350 ^8James: ^0I can't work people to the bone and then
+	qputs 351 send them to fight abominations against nature...
+	qputs 352 but I know this will bite me in the ass some day.
+	}
+}
+ife cuts_txt 1536
+{
+set cs_textl 1
+qputs 350 ^8Zaxtor: ^0I miss home, but the night sky is nice like this.
+}
+ife cuts_txt 1537
+{
+ifl cs_timer 119
+{
+set cs_textl 2
+qputs 350 ^8Mikko: ^0I didn't think you could see the
+qputs 351 Aurora Borealis in this part of the world.
+}
+else
+ifl cs_timer 218
+{
+set cs_textl 2
+qputs 350 ^8Mikko: ^0Must be part of all the
+qputs 351 bizarre activity around the world.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8Mikko: ^0It's a shame about happened
+qputs 351  to Madagascar though.
+}
+}
+ife cuts_txt 1538
+{
+ifl cs_timer 154
+{
+set cs_textl 2
+qputs 350 ^8Zaxtor: ^0It's okay...We've repaired
+qputs 351 most of the damage the asteroid base did.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8Zaxtor: ^0No matter what happens from now,
+qputs 351 we will be strong.
+}
+}
+ife cuts_txt 1539
+{
+set cs_textl 1
+ifl cs_timer 108 qputs 350 ^8Mikko: ^0Indeed; We have no idea what lay ahead in the future.
+else qputs 350 ^8Mikko: ^0My followers will be strong, and I will be an ideal for them.
+}
+ife cuts_txt 1540
+{
+set cs_textl 1
+qputs 350 ^8Sang: ^0Feeling awfully crowded with 9 dudes on a boat.
+}
+ife cuts_txt 1541
+{
+set cs_textl 1
+ifl cs_timer 100 qputs 350 ^8Merlijn: ^0Alas, no maidens wanted to join our noble crusade.
+else qputs 350 ^8Merlijn: ^0I have no idea why!
+}
+ife cuts_txt 1542
+{
+ifl cs_timer 190
+	{
+	set cs_textl 2
+	set speaker 26
+	qputs 350 ^8Sang: ^0Fighting Hellspawn on different worlds,
+	qputs 351 or corrupt criminal elements in Hong Kong?
+	}
+else
+	{
+	set cs_textl 1
+	set speaker -1
+	qputs 350 ^8Sang: ^0Yes, truly an irresistible line of work...heh heh.
+	}
+}
+ife cuts_txt 1543
+{
+ifl cs_timer 67
+{
+set cs_textl 1
+qputs 350 ^8Merlijn: ^0But you are enjoying it, aren't you?
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8Merlijn: ^0There's lots of work out there
+qputs 351 for someone with your capabilities.
+}
+}
+ife cuts_txt 1544
+{
+ifl cs_timer 98
+{
+set cs_textl 1
+qputs 350 ^8Sang: ^0Indeed...I do like it here.
+}
+else
+ifl cs_timer 293
+{
+set cs_textl 2
+set speaker 26
+qputs 350 ^8Sang: ^0I've got a...heavy karma balance to repay, and
+qputs 351 fighting the things other people can't, well...
+}
+else
+{
+set cs_textl 1
+set speaker -1
+qputs 350 ^8Sang: ^0It helps me sleep at night.
+}
+}
+ife cuts_txt 1545
+{
+ifl cs_timer 190
+{
+set cs_textl 3
+set speaker 2
+qputs 350 ^8Merlijn: ^0Aye...Me and my brother fought
+qputs 351 bravely, but many lives were lost to the
+qputs 352 Necromancer we fought years ago.
+}
+else
+{
+set cs_textl 1
+set speaker 2
+qputs 350 ^8Merlijn: ^0I still feel the burden sometimes.
+}
+}
+ife cuts_txt 1546
+{
+ifl cs_timer 48
+{
+set cs_textl 1
+set speaker -1
+qputs 350 ^8Sang: ^0True...
+}
+else
+ifl cs_timer 161
+qputs 350 ^8Sang: ^0But...we can't let our pasts weigh us down.
+else
+{
+set cs_textl 2
+set speaker 26
+qputs 350 ^8Sang: ^0Redemption is earned by moving
+qputs 351 forward, not feeling sorry for yourself.
+}
+}
+ife cuts_txt 1547
+{
+set cs_textl 1
+set speaker -1
+qputs 350 ^8Merlijn: ^0True words my friend!
+}
+// arsia mons attack
+ife cuts_txt 1550
+{
+set radio_portrait 16888
+set radio_pal 11
+set radio_size RADIO_HALF
+ifl cs_timer 185
+{
+set cs_textl 3
+qputs 350 ^8Announcement: ^0This is security chief
+qputs 351 Peter Davids, all civilians please evacuate
+qputs 352 to your nearest security centre.
+}
+else
+ifl cs_timer 239
+{
+set cs_textl 1
+qputs 350 ^8Davids: ^0This is not a drill, I repeat.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8Davids: ^0All civilians please evacuate
+qputs 351 to your nearest security centre.
+}
+}
+ife cuts_txt 1551
+{
+set radio_portrait 16888
+set radio_pal 11
+set radio_size RADIO_HALF
+set cs_textl 2
+qputs 350 ^8Davids: ^0All AM security personnel, return to
+qputs 351 security centres for further instructions.
+}
+ife cuts_txt 1552
+{
+set radio_portrait 16888
+set radio_pal 11
+set radio_size RADIO_HALF
+ifl cs_timer 165
+{
+set cs_textl 2
+qputs 350 ^8Davids: ^0AMC squad, if you can hear this,
+qputs 351 please head to the central security station.
+}
+else
+ifl cs_timer 333
+{
+set cs_textl 2
+qputs 350 ^8Davids: ^0I repeat, AMC squad if you can hear
+qputs 351 this please head to the central security station.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Davids: ^0We could use your help.
+}
+}
+ife cuts_txt 1560
+{
+ifl cs_timer 84
+{
+set cs_textl 2
+qputs 350 ^8Davids: ^0Thank god you made it...
+qputs 351 are you willing to help us out?
+}
+else
+ifl cs_timer 177
+{
+qputs 350 ^8Davids: ^0I'm chief of Arsia Mons
+qputs 351 security, Peter Davids.
+}
+else
+{
+qputs 350 ^8Davids: ^0We're putting up a fight but they
+qputs 351 outnumber and out gun us at every turn.
+}
+}
+ife cuts_txt 1561
+{
+set cs_textl 1
+ifl cs_timer 61 qputs 350 ^8James: ^0Don't worry, we're here to help.
+else 
+	{
+	set speaker 0	
+	qputs 350 ^8James: ^0What's the situation?
+	}
+}
+ife cuts_txt 1562
+{
+ifl cs_timer 199
+{
+set cs_textl 3
+set speaker -1
+qputs 350 ^8Davids: ^0Ok, from....from what we can tell the
+qputs 351 Paradigm have concentrated their forces in several
+qputs 352 key areas.
+}
+else
+ifl cs_timer 243
+{
+set cs_textl 1
+qputs 350 ^8Davids: ^0First, the Turbidium mines.
+}
+else
+{
+set cs_textl 3
+qputs 350 ^8Davids: ^0They've shut down the air from the
+qputs 351 bio-domes; we've got enough backup to last for
+qputs 352 several hours but that's not good enough.
+}
+}
+ife cuts_txt 1563
+{
+ifl cs_timer 139
+{
+set cs_textl 2
+qputs 350 ^8Davids: ^0We installed a huge prototype backup
+qputs 351 air generator over the ice reserves in the mines.
+}
+else
+ifl cs_timer 374
+{
+set cs_textl 4
+qputs 350 ^8Davids: ^0...But there's been a problem;  We're
+qputs 351 picking up strong readings of toxic gas in the area,
+qputs 352 since the P.E moved in nobody's been doing any
+qputs 353 maintenance on account of being dead.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8Davids: ^0If that reaches the ice, we won't be
+qputs 351 able to use it on Oxygen any more.
+}
+}
+ife cuts_txt 1564
+{
+ifl cs_timer 98
+{
+set cs_textl 1
+set speaker 13
+qputs 350 ^8Micky: ^0That sounds like my specialty.
+}
+else
+ifl cs_timer 195
+{
+set cs_textl 2
+set speaker -1
+qputs 350 ^8Micky: ^0I'll head to the mines and
+qputs 351 see if I can repair the machinery.
+}
+else
+{
+qputs 350 ^8Micky: ^0Failing that, turning on the backup
+qputs 351 Oxygen generator sounds like a good idea.
+}
+}
+ife cuts_txt 1565
+{
+ifl cs_timer 124
+{
+set cs_textl 2
+qputs 350 ^8Davids: ^0Okay; Secondly, they've taken
+qputs 351 over a TV station in the upper colony area.
+}
+else
+ifl cs_timer 232
+{
+qputs 350 ^8Davids: ^0Our cameras caught a glimpse of
+qputs 351 them escorting some huge guy into the building.
+}
+else
+{
+qputs 350 ^8Davids: ^0They're broadcasting their messages
+qputs 351 from there, so he must be in charge.
+}
+}
+ife cuts_txt 1566
+{
+ifl cs_timer 140
+	{
+	set cs_textl 2
+	set speaker 7
+	qputs 350 ^8Mikko: ^0I'll head to the TV station then,
+	qputs 351 and take care of whoever the man is.
+	}
+else
+	{
+	set speaker -1
+	qputs 350 ^8Mikko: ^0I will have my followers escort me
+	qputs 351 there and then head back to help out here.
+	}
+}
+ife cuts_txt 1567
+{
+ifl cs_timer 194
+{
+set cs_textl 3
+qputs 350 ^8Davids: ^0Ah, Roger that....That leaves the orbital
+qputs 351 elevator, Among the chaos we've picked up from a
+qputs 352 small station in orbit that's unregistered.
+}
+else
+ifl cs_timer 298
+{
+set cs_textl 2
+qputs 350 ^8Davids: ^0Given what's going on here,
+qputs 351 there's no way it's not related.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Davids: ^0It's broadcasting the letters XII though.
+}
+}
+ife cuts_txt 1568
+{
+set cs_textl 1
+ifl cs_timer 67 qputs 350 ^8James: ^0Well, that's obviously bait.
+else ifl cs_timer 120 
+	{ 
+	set speaker 0 qputs 350 ^8James: ^0Majestic 12. 
+	}
+else 
+	{ 
+	set speaker -1 
+	qputs 350 ^8James: ^0Still, that's something I need to check out.
+	}
+}
+ife cuts_txt 1569
+{
+set cs_textl 1
+ifl cs_timer 124 qputs 350 ^8Sang: ^0So you KNOW it's bait, and yet you're still going.
+else qputs 350 ^8Sang: ^0Tell me you're not THAT dumb.
+}
+ife cuts_txt 1570
+{
+ifl cs_timer 47
+	{
+	set cs_textl 1
+	set speaker -1
+	qputs 350 ^8James: ^0I know, I know.
+	}
+else
+ifl cs_timer 215
+	{
+	set cs_textl 3
+	set speaker 0
+	qputs 350 ^8James: ^0Bait or not, there's still a
+	qputs 351 unknown space-station coming into proximity
+	qputs 352 of Arsia Mons colony.
+	}
+else
+	{
+	set cs_textl 1
+	set speaker -1
+	qputs 350 ^8James: ^0I need to get up there and find out why.
+	}
+}
+ife cuts_txt 1571
+{
+set cs_textl 1
+set speaker -1
+ifl cs_timer 96 qputs 350 ^8Sang: ^0Then I'll stay here and help with the evacuation.
+else ifl cs_timer 198 qputs 350 ^8Sang: ^0All three of you, be careful and good luck.
+else qputs 350 ^8Sang: ^0There's a lot of lives on the line here.
+}
+ife cuts_txt 1572
+{
+set cs_textl 1
+qputs 350 ^8Micky: ^0Don't worry, it's what I've been training for.
+}
+ife cuts_txt 1573
+{
+ifl cs_timer 148
+	{
+	set cs_textl 3
+	qputs 350 ^8Davids: ^0I'll order whoever is left here to
+	qputs 351 backup Sang and get as many civilians out of
+	qputs 352 here as possible.
+	}
+else
+ifl cs_timer 199
+	{
+	set cs_textl 1
+	qputs 350 ^8Davids: ^0To everybody here, good luck.
+	}
+else
+	{
+	qputs 350 ^8Davids: ^0We can't let the colony fall to these lunatics.
+	}
+}
+ife cuts_txt 1574
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Back in the present.
+}
+ife cuts_txt 1582
+{
+ifand NOISE_SAID 16 nullop else xorvar NOISE_SAID 16 // disable automatic rain quote
+ifl cs_timer 139
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Wow...so I guess Mars really
+qputs 351 WAS a green planet in the past.
+}
+else
+ifl cs_timer 198
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Wish I brought a camera with me.
+}
+else
+qputs 350 ^8James: ^0Oh well, I gotta get back.
+}
+// Boat Rusty Geo convo extension
+ife cuts_txt 1583 // 144
+{
+set cs_textl 1
+ifl cs_timer 76 qputs 350 ^8Geoffrey: ^0Ugh...think I'm gonna puke.
+else qputs 350 ^8Geoffrey: ^0You got any booze to take the edge off?
+}
+ife cuts_txt 1584 // 216
+{
+ifl cs_timer 139
+{
+set cs_textl 2
+qputs 350 ^8Rusty: ^0Now how the hell does a guy who
+qputs 351 lived on the ass-end of Mars get seasick?
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Rusty: ^0I ain't got a drink, but I got a smoke.
+}
+}
+ife cuts_txt 1585 // 336
+{
+ifl cs_timer 125
+{
+set cs_textl 1
+qputs 350 ^8Geoffrey: ^0Well that'll help, great idea.
+}
+else
+{
+set cs_textl 3
+qputs 350 ^8Geoffrey: ^0Aelita colony had clean air for a start;
+qputs 351 privately run too so the law was pretty flexible when
+qputs 352 the time came to enforce it.
+}
+}
+ife cuts_txt 1586 // 501
+{
+ifl cs_timer 152
+{
+set cs_textl 2
+qputs 350 ^8Rusty: ^0I stuck around Arsia Mons mostly...
+qputs 351 the lower colonies are a bad place to be.
+}
+else
+ifl cs_timer 248
+{
+set cs_textl 1
+qputs 350 ^8Rusty: ^0Lots of low-lifes...Cults all over the damn place.
+}
+else
+ifl cs_timer 420
+{
+set cs_textl 2
+qputs 350 ^8Rusty: ^0That huge one, I can't recall its name,
+qputs 351 they set up shop a few weeks after I came back to Earth.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Rusty: ^0I heard they were made up of Vampires.
+}
+}
+ife cuts_txt 1587 // 159
+{
+ifl cs_timer 55
+{
+set cs_textl 1
+qputs 350 ^8Geoffrey: ^0You mean...The Paradigm?
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Geoffrey: ^0You think they're Vampires?
+}
+}
+ife cuts_txt 1588 // 170
+{
+set cs_textl 2
+qputs 350 ^8Rusty: ^0Yeah yeah laugh it up, you wouldn't recognise
+qputs 351 a fuckin' vampire if one jumped up and bit you;
+}
+ife cuts_txt 1589 // 182
+{
+set cs_textl 2
+qputs 350 ^8Geoffrey: ^0Blah blah blah, you're boring me man - I'm
+qputs 351 going to sleep, wake me up when we hit the island.
+}
+ife cuts_txt 1590 // 294
+{
+ifl cs_timer 135
+{
+set cs_textl 2
+qputs 350 ^8Rusty: ^0But Highwire said we're gonna get there
+qputs 351 in about Ten Minutes!
+}
+else
+ifl cs_timer 196
+{
+set cs_textl 1
+qputs 350 ^8Rusty: ^0Geoffrey?
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Rusty: ^0Ugh, damn lazy bastard.
+}
+}
+// Mikko mars tv stuff
+ife cuts_txt 1595
+{
+set cs_textl 2
+qputs 350 ^8Mikko: ^0Now to find the leader of this cult. How dare he attempt to overshadow me;
+qputs 351 I will punish him and his worthless sheep.
+}
+ife cuts_txt 1596
+{
+set cs_textl 2
+qputs 350 ^8Mikko: ^0So you're the man in charge of the Paradigm. I'm not impressed.
+qputs 351 I will kill you and then claim your followers for my own.
+}
+ife cuts_txt 1597
+{
+set cs_textl 1
+qputs 350 ^8Mikko: ^0Running away like a coward?
+}
+ife cuts_txt 1598
+{
+set cs_textl 1
+qputs 350 ^8Mikko: ^0Oh shit. Time to make tracks.
+}
+// Mars Station ====================================================================================
+ife cuts_txt 1600
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MARST_CONV1 set cuts_sound 1 set speaker 39 }
+qputs 350 ^2Magnus: ^0Welcome James! It's been such a long time.
+}
+ife cuts_txt 1601
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MARST_CONV2 set cuts_sound 1 set speaker -1 }
+qputs 350 ^8James: ^0Magnus! You're still alive!
+}
+ife cuts_txt 1602
+{
+set cs_textl 2
+readarrayfromfile IW_COMPLETE F_IW_COMPLETE_AMCTC
+ife IW_COMPLETE[2] 1
+{
+ife cuts_sound 0 { globalsound MARST_CONV3_A set cuts_sound 1 }
+qputs 350 ^2Magnus: ^0Indeed. I was exceptionally lucky to survive
+qputs 351 a bullet in the head.
+}
+else
+{
+ife cuts_sound 0 { globalsound MARST_CONV3_B set cuts_sound 1 }
+qputs 350 ^2Magnus: ^0Yes, you didn't think I would wait around for the
+qputs 351 missile to strike I hope.
+}
+}
+ife cuts_txt 1603
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MARST_CONV4 set cuts_sound 1 set speaker -1 }
+ifl cs_timer 51 qputs 350 ^8James: ^0Why have you taken over this station?
+else qputs 350 ^8James: ^0What are you up to?
+}
+ife cuts_txt 1604
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MARST_CONV5 set cuts_sound 1 set speaker 39 }
+qputs 350 ^2Magnus: ^0I trust you've found the files to project PATCOS?
+}
+ife cuts_txt 1605
+{
+readgamevar EVIDENCE_EP2
+ifand EVIDENCE_EP2 1024
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MARST_CONV6_A set cuts_sound 1 set speaker -1 }
+ifl cs_timer 87 qputs 350 ^8James: ^0Psychic and telekinetic combat operating system.
+else qputs 350 ^8James: ^0A machine with some real kick ass fire power.
+}
+else
+{
+set cs_textl 2
+ife cuts_sound 0 { globalsound MARST_CONV6_B set cuts_sound 1 }
+qputs 350 ^8James: ^0No, I've been too busy fighting your
+qputs 351 'improved' soldiers to spend time reading garbage.
+}
+}
+ife cuts_txt 1606
+{
+set cs_textl 2
+readgamevar EVIDENCE_EP2
+ifand EVIDENCE_EP2 1024
+{
+ife cuts_sound 0 { globalsound MARST_CONV7_A set cuts_sound 1 }
+qputs 350 ^2Magnus: ^0Good, I'm glad to see your detective
+qputs 351 skills are just as good as back when we first met.
+}
+else
+{
+ife cuts_sound 0 { globalsound MARST_CONV7_B set cuts_sound 1 }
+qputs 350 ^2Magnus: ^0A shame...You had a longer attention span back when we first met.
+qputs 351
+}
+}
+ife cuts_txt 1607
+{
+set cs_textl 1
+ife cuts_sound 0 { globalsound MARST_CONV8 set cuts_sound 1 }
+ifl cs_timer 50 qputs 350 ^8James: ^0Is there a point to all of this?
+else qputs 350 ^8James: ^0Are you working with the Paradigm Eschaton?
+}
+ife cuts_txt 1608
+{
+set cs_textl 1
+qputs 350 ^2Magnus: ^0You know that....they're coming...don't you?
+// adjust the cutscene based on if they beat zeta base or not
+ifand BEAT_EPISODES[7] 1 setactorvar[camerasprite].lotag_saved 12580
+else setactorvar[camerasprite].lotag_saved 819
+}
+ife cuts_txt 1609
+{
+set cs_textl 2
+qputs 350 ^8James: ^0We've put parts of the puzzle together Magnus,
+qputs 351 Whatever the Beyonders are they're incredibly dangerous.
+}
+ife cuts_txt 1610
+{
+ifl cs_timer 113
+{
+set cs_textl 1 
+qputs 350 ^2Magnus: ^0Now that's a cute name.
+}
+else
+{
+set cs_textl 2 set speaker 39
+qputs 350 ^2Magnus: ^0It hardly does them justice,
+qputs 351 but they don't even need names really.
+}
+}
+ife cuts_txt 1611
+{
+set speaker -1
+set cs_textl 2
+ifl cs_timer 118
+{
+qputs 350 ^8James: ^0Something about sapience...I'm no
+qputs 351 scientist but they're supposed to be intelligent.
+}
+else
+{
+qputs 350 ^8James: ^0Vastly so, can think rings even
+qputs 351 around a theoretical physicist.
+}
+}
+ife cuts_txt 1612
+{
+ifl cs_timer 145
+{
+set cs_textl 2
+qputs 350 ^2Magnus: ^0Indeed...Sapience is a wasted
+qputs 351 evolutionary trait when you get down to it.
+}
+else
+{
+set cs_textl 1
+set speaker 40
+qputs 350 ^2Magnus: ^0They are superior to us in every way.
+}
+}
+ife cuts_txt 1613
+{
+set cs_textl 1
+qputs 350 ^8James: ^0So why are they here?
+}
+ife cuts_txt 1614
+{
+ifl cs_timer 88
+	{
+	set cs_textl 1
+	qputs 350 ^2Magnus: ^0I'm afraid I won't be revealing any more.
+	}
+else
+ifl cs_timer 173
+	{
+	set cs_textl 2
+	set speaker 41
+	qputs 350 ^2Magnus: ^0You'll have to make do with
+	qputs 351 what you found on this station.
+	}
+else
+ifl cs_timer 333
+	{
+	set speaker -1
+	qputs 350 ^2Magnus: ^0In any case, I think it's time for a
+	qputs 351 demonstration of project PATCOS' capabilities.
+	}
+else
+ifl cs_timer 425
+	{
+	set cs_textl 1
+	set speaker 39
+	qputs 350 ^2Magnus: ^0Till next time...and good luck.
+	}
+else
+	{
+	set speaker -1
+	qputs 350 ^2Magnus: ^0You'll need it.
+	}
+}
+ife cuts_txt 1619
+{
+set cs_textl 1
+ifphealthl 30
+{
+ifsound JS_PATBAD nullop else globalsound JS_PATBAD
+qputs 350 ^8James: ^0What's it gonna take to kill this bastard?!
+}
+else
+ifphealthl 70
+{
+ifsound JS_PATOK nullop else globalsound JS_PATOK
+qputs 350 ^8James: ^0Come on, you think I'm dead yet?!
+}
+else
+{
+ifsound JS_PATGOOD nullop else globalsound JS_PATGOOD
+qputs 350 ^8James: ^0Am I supposed to be impressed?
+}
+}
+// MIKKO MAp TWO
+ife cuts_txt 1620
+{
+set cs_textl 3
+qputs 350 ^1At the end of part one, the heroic Lord Sandt defeated a million-strong army of
+qputs 351 ^1mercenaries, but not before they had stolen his ground breaking research on portal
+qputs 352 ^1technology.
+}
+ife cuts_txt 1621
+{
+set cs_textl 2
+qputs 350 ^1Through "enhanced interrogation methods", Lord Sandt learned the identity of
+qputs 351 ^1the man who had hired the mercenaries...
+}
+ife cuts_txt 1622
+{
+set cs_textl 2
+qputs 350 ^1Gregory Costanza, Lord Sandt's nemesis and the undisputed leader of Vandelay
+qputs 351 ^1Industries. He too had been given a second life as a cybernetic life form.
+}
+ife cuts_txt 1623
+{
+set cs_textl 3
+qputs 350 ^1In retaliation, Sandt Industries seized Costanza's extractive industries
+qputs 351 ^1on the Mako-rich planet Energeia, where most of the stolen portal research
+qputs 352 ^1seems to have gone as well.
+}
+ife cuts_txt 1624
+{
+ifl cs_timer 10 set cs_textl 0
+else ifl cs_timer 15
+{
+ifsound OSD_TEXT nullop else globalsound OSD_TEXT
+set cs_textl 1
+qputs 350 ^2E
+}
+else ifl cs_timer 20 qputs 350 ^2En
+else ifl cs_timer 25 qputs 350 ^2Ene
+else ifl cs_timer 30 qputs 350 ^2Ener
+else ifl cs_timer 35 qputs 350 ^2Energ
+else ifl cs_timer 40 qputs 350 ^2Energe
+else ifl cs_timer 45 qputs 350 ^2Energei
+else ifl cs_timer 50 qputs 350 ^2Energeia
+else ifl cs_timer 55
+{
+stopsound OSD_TEXT
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set cs_textl 2
+qputs 350 ^2Energeia
+qputs 351 Located in the 33-Boo system
+}
+else
+ifl cs_timer 60
+{
+ife play_sound 0
+{
+stopsound OSD_TEXT2
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set play_sound 1
+}
+set cs_textl 3
+qputs 350 ^2Energeia
+qputs 351 Located in the 33-Boo system
+qputs 352 Population:^1 25 million ^2(disputed) ^1almost all living in the former
+}
+else
+{
+ife play_sound 1
+{
+stopsound OSD_TEXT2
+ifsound OSD_TEXT2 nullop else globalsound OSD_TEXT2
+set play_sound 2
+}
+set cs_textl 4
+qputs 350 ^2Energeia
+qputs 351 Located in the 33-Boo system
+qputs 352 Population:^1 25 million ^2(disputed) ^1almost all living in the former
+qputs 353 ^1Costanzapolis, now colloquially known as Mikkoville.
+}
+}
+ife cuts_txt 1625
+{
+set cs_textl 4
+qputs 350 Economy: ^1The planet is exceptionally rich in Mako. Because of this, the planet's
+qputs 351 ^1GDP is a quarter of that of Earth. Therilium mining is another significant
+qputs 352 ^1industry. Costanzapolis/Mikkoville started as a mining town; now it's a frontier
+qputs 353 ^1city with a flourishing service industry built around energy companies.
+}
+ife cuts_txt 1626
+{
+set cs_textl 3
+qputs 350 Government: ^1Formerly administered by Vandelay Industries.
+qputs 351 ^1As a result of a hostile takeover,  Energeia is currently
+qputs 352 ^1administered by Sandt Industries.
+}
+ife cuts_txt 1627
+{
+set cs_textl 1
+ifl cs_timer 98 qputs 350 ^8Praetorian: ^0You honour us with your presence, my Lord.
+else ifl cs_timer 186 qputs 350 ^8Praetorian: ^0The facilities are still being converted.
+else qputs 350 ^8Praetorian: ^0I apologize for any unfinished work.
+}
+ife cuts_txt 1628
+{
+ifl cs_timer 185
+{
+set cs_textl 2
+qputs 350 ^8Praetorian: ^0Former Vandelay workers and scientists
+qputs 351  are being converted to your ways and teachings.
+}
+else
+{
+set cs_textl 1
+qputs 350 ^8Praetorian: ^0They will be fiercely loyal.
+}
+}
+ife cuts_txt 1629
+{
+set cs_textl 1
+ifl cs_timer 82 qputs 350 ^8Mikko: ^0I'll finish this formal inspection first;
+else ifl cs_timer 169 qputs 350 ^8Mikko: ^0We'll meet at the Mako power plant in a few hours.
+else qputs 350 ^8Mikko: ^0See if you can find out something about the stolen research.
+}
+ife cuts_txt 1630
+{
+set cs_textl 1
+qputs 350 ^8Sang: ^0...the hell he thinks he is, treating me like one of his servants.
+}
+ife cuts_txt 1631
+{
+set cs_textl 1
+ifl cs_timer 53 qputs 350 ^8Praetorian: ^0This is the lobby.
+else qputs 350 ^8Praetorian: ^0We have a high-speed transportation system here that...
+}
+ife cuts_txt 1632
+{
+set cs_textl 3
+qputs 350 ^8Scientist: ^0One; There are two portals, one at the edge of the Solar system (out of sight)
+qputs 351 another in the near space of this planet. Once opened, a link between the two star systems is
+qputs 352 established.
+}
+ife cuts_txt 1633
+{
+set cs_textl 2
+qputs 350 ^8Scientist: ^0Two; A Mako-powered beam is fired into the Energeia portal, allowing it to
+qputs 351 travel 197 light years instantaneously.
+}
+ife cuts_txt 1634
+{
+set cs_textl 3
+qputs 350 ^8Scientist: ^0Three; As the beam exits the Solar system portal, it will reach its target, Earth,
+qputs 351 in a matter of hours, leaving no time take preventive measures. The beam is coherent, so with a
+qputs 352 few well-targeted shots it can cause a slow death for planet Earth.
+}
+ife cuts_txt 1635
+{
+set cs_textl 1
+qputs 350 ^8Mikko: ^0This is gonna cost me.
+}
+ife cuts_txt 1636
+{
+set cs_textl 1
+qputs 350 ^8Sang: ^0Don't you have insurance?
+}
+ife cuts_txt 1637
+{
+set cs_textl 1
+qputs 350 ^8Mikko: ^0Who do you think owns the insurance companies?
+}
+ife cuts_txt 1638
+{
+set cs_textl 1
+ifl cs_timer 93 qputs 350 ^8Sang: ^0Not everyone could be evacuated.
+else qputs 350 ^8Sang: ^0What a loss.
+}
+ife cuts_txt 1639
+{
+set cs_textl 1
+qputs 350 ^8Mikko: ^0Never trust a latex importer.
+}
+ife cuts_txt 1640
+{
+set cs_textl 1
+ifl cs_timer 72 qputs 350 ^8Sang: ^0I thought he was an exporter?
+else ifl cs_timer 178 qputs 350 ^8Sang: ^0Anyway...James has been bugging me for the past hour.
+else ifl cs_timer 252 qputs 350 ^8Sang: ^0Apparently, he wants us to go to Mars.
+else qputs 350 ^8Sang: ^0We could be on to the big guys.
+}
+ife cuts_txt 1641
+{
+set cs_textl 1
+qputs 350 ^8Mikko: ^0Any idea what's going on?
+}
+ife cuts_txt 1642
+{
+set cs_textl 2
+state radio_sang_pic
+qputs 350 ^8Sang: ^0It seems that whoever hired these
+qputs 351 amateurs is trying to undo your hostile takeover.
+}
+ife cuts_txt 1643
+{
+ifl cs_timer 68
+{
+set cs_textl 1
+qputs 350 ^8Mikko: ^0Its gotta be more than just business.
+}
+else ifl cs_timer 138 qputs 350 ^8Mikko: ^0There's something they don't want me to find out,
+else
+{
+set cs_textl 2
+qputs 350 ^8Mikko: ^0Something the Vandelay Industries
+qputs 351 was working on prior to my takeover.
+}
+}
+ife cuts_txt 1644
+{
+state radio_sang_pic
+ifl cs_timer 110
+{
+set cs_textl 1
+qputs 350 ^8Sang: ^0There's some dish-like structure to the north.
+}
+else
+{
+set cs_textl 2
+qputs 350 ^8Sang: ^0All Mako energy seems to be diverted that way
+qputs 351 judging by steadily increasing radiation readings.
+}
+}
+ife cuts_txt 1645
+{
+set cs_textl 1
+ifl cs_timer 70 qputs 350 ^8Mikko: ^0So that's where I shall be going.
+else qputs 350 ^8Mikko: ^0Get to the city and start evacuating civilians.
+}
+// mars fall 2
+ife cuts_txt 1650
+{
+set cs_textl 1
+ifl cs_timer 57 qputs 350 ^8James: ^0This thing again...
+else ifl cs_timer 96 qputs 350 ^8James: ^0The Beyonders...
+else ifl cs_timer 142 qputs 350 ^8James: ^0I keep seeing them!
+else qputs 350 ^8James: ^0What the hell are they?
+}
+ife cuts_txt 1651
+{
+ifl cs_timer 130
+{
+set cs_textl 2
+qputs 350 ^8James: ^0This is the tower I
+qputs 351 saw in my dream, I know it is.
+}
+else
+{
+qputs 350 ^8James: ^0Did I just remember it from the
+qputs 351 Precog brains, or was it put there by something?
+}
+}
+ife cuts_txt 1652
+{
+ifl cs_timer 70
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Oh fuck!
+}
+else
+ifl cs_timer 195
+{
+set cs_textl 2
+qputs 350 ^8James: ^0Did I hit a button or something when
+qputs 351 I passed out, or was this Magnus' idea?
+}
+else
+ifl cs_timer 251
+{
+set cs_textl 1
+qputs 350 ^8James: ^0Damn that crazy bastard!
+}
+else qputs 350 ^8James: ^0I have to turn the engines on!
+}

@@ -1,0 +1,418 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++			   Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES: This contains reloading code
+--------------------------------------------------------------------------------
+*/
+
+defstate masterkey_ammo_cap
+ife CHAR 0 ifand JAMES_UPGRADE 512
+		{
+		ife ALTMAG 4 break
+		}
+	else
+		{
+		ife needs_pump[cur_weap] 1 ife ALTMAG 3 break else
+		ife ALTMAG 4 break
+		}
+		ife gl_countd 30 { ife BELT_LOADOUT[0] 5 set gl_countd 40 else set gl_countd 46 }
+		else ife gl_countd 0 { ife BELT_LOADOUT[0] 5 set gl_countd 40 else set gl_countd 46 }
+ends
+
+defstate heat_sink_pop 
+	ifg kickbackpic 6
+	ifg HEAT_SINKS 0
+	ifg GUN_HEAT[cur_weap] 15 { soundonce HEAT_SINK_EJECT shoot HEAT_SINK sub HEAT_SINKS 1 setarray GUN_HEAT[cur_weap] 15 }
+	else break
+ends
+
+defstate masterkey_reload
+			ifand AMMO_TYPES[cur_weap] 1
+				{
+				ife explosive_shells 0 break
+				state masterkey_ammo_cap
+				}
+			else
+			ifand AMMO_TYPES[cur_weap] 4
+				{
+				ife flechete_shells 0 break
+				state masterkey_ammo_cap
+				}
+			else
+			ifand AMMO_TYPES[cur_weap] 64
+				{
+				ife magnum_shells 0 break
+				state masterkey_ammo_cap
+				}
+			else
+			ifand AMMO_TYPES[cur_weap] 1024
+				{
+				ife dragon_shells 0 break
+				state masterkey_ammo_cap
+				}
+			else
+			ifand AMMO_TYPES[cur_weap] 65536
+				{
+				ife silverb_shells 0 break
+				state masterkey_ammo_cap
+				}
+			else
+				{
+				ife player[].ammo_amount 2 0 break
+				state masterkey_ammo_cap
+				}
+ends
+
+defstate two_tube_shotgun
+	ifand gun_firemode_two 8 // Is player using second tube?
+		{
+		ifand GUN_AMMO_TYPES 1 ifand AMMO_TYPES[15] 1 ife explosive_shells 0 break
+		else ifand GUN_AMMO_TYPES 1	 ifand AMMO_TYPES[15] 4 ife flechete_shells 0 break
+		else ifand GUN_AMMO_TYPES 4 ifand AMMO_TYPES[15] 64 ife magnum_shells 0 break
+		else ifand GUN_AMMO_TYPES 4 ifand AMMO_TYPES[15] 1024 ife dragon_shells 0 break
+		else ifand GUN_AMMO_TYPES 4 ifand AMMO_TYPES[15] 65536 ife silverb_shells 0 break
+		else ife cur_ammo 0 break
+		ife alt_slot2_mag max_alt_slot2_mag break
+		set reload_temp max_alt_slot2_mag
+		sub reload_temp alt_slot2_mag
+		set shotgun_load reload_temp
+		ifand GUN_AMMO_TYPES 1 ifand AMMO_TYPES[15] 1 { ifg shotgun_load explosive_shells set shotgun_load explosive_shells }
+		else ifand GUN_AMMO_TYPES 1	 ifand AMMO_TYPES[15] 4 { ifg shotgun_load flechete_shells set shotgun_load flechete_shells }
+		else ifand GUN_AMMO_TYPES 4 ifand AMMO_TYPES[15] 64 { ifg shotgun_load magnum_shells set shotgun_load magnum_shells }
+		else ifand GUN_AMMO_TYPES 4 ifand AMMO_TYPES[15] 1024 { ifg shotgun_load dragon_shells set shotgun_load dragon_shells }
+		else ifand GUN_AMMO_TYPES 4 ifand AMMO_TYPES[15] 65536 { ifg shotgun_load silverb_shells set shotgun_load silverb_shells }
+		else { ifg shotgun_load player[].ammo_amount 2 set shotgun_load player[].ammo_amount 2 }
+		}
+	   else
+		state standard_shotgun_load
+ends
+
+defstate standard_box_mag_load
+ifn reload_frame_partial 0 set WEAPON2_RELOAD reload_frame_partial
+ifn kickbackpic 0 break
+ife cur_ammo 0 break
+ife alt_slot2_mag max_alt_slot2_mag break
+setp[].reloading 1
+setp[].kickback_pic reload_frame
+ends
+
+// ===============================================================================================================================================================================================================================
+
+onevent EVENT_LOOKRIGHT // RELOAD/TERTIARY KEY
+set RETURN 1
+
+ifand BITS_PRESS P_SPRINTING
+  ife player[].reloading 0
+	{
+	set sprint_holster 1
+	ife cur_weap 0 sound WEAPON0_SELECTSOUND
+	ife cur_weap 1 sound WEAPON1_SELECTSOUND
+	ife cur_weap 2 sound WEAPON2_SELECTSOUND
+	ife cur_weap 3 sound WEAPON3_SELECTSOUND
+	ife cur_weap 4 sound WEAPON4_SELECTSOUND
+	ife cur_weap 5 sound WEAPON5_SELECTSOUND
+	ife cur_weap 6 sound WEAPON6_SELECTSOUND
+	ife cur_weap 7 sound WEAPON7_SELECTSOUND
+	ife cur_weap 8 sound WEAPON8_SELECTSOUND
+	ife cur_weap 9 sound WEAPON9_SELECTSOUND
+	ife cur_weap 10 sound WEAPON10_SELECTSOUND
+	ife cur_weap 11 sound WEAPON11_SELECTSOUND
+	setplayer[].holster_weapon 1
+	}
+else 
+{
+ifp pshrunk break
+ifn player_in_vehicle 0 break
+ifn ANGLE 0 break
+ifn camerasprite -1 break
+ifn CONTROL_VR -1 break
+ifn player[].weapon_pos 0 break
+
+ife reload_type 6 { soundonce FACSEL_AM ifcount 30 { userquote 3222 resetcount } }
+
+ife cur_weap 0
+ifn temp_weap 0
+ife kickbackpic 0
+	{
+	ifand BITS_PRESS P_SPRINTING nullop else
+			{
+			add drop_counter 2
+				ifg drop_counter 14
+				{
+				quote 516
+				state drop_tempweapon
+				soundonce ENDSEQVOL2SND1
+				set drop_counter 0
+				}
+			ife temp_weap 10 // SAWNOFF RELOAD
+					{
+					ife AMMO_TYPES[cur_weap] 0
+					{
+						ifle normal_ammo 1
+							break
+					}
+					ifand AMMO_TYPES[cur_weap] 1
+					{
+						ife explosive_shells 1
+							break
+					}
+					ifand AMMO_TYPES[cur_weap] 4
+					{
+						ife flechete_shells 1
+							break
+					}
+					ife temp_wep_mag 1
+						{
+						setp[].reloading 1
+						setp[].kickback_pic 6
+						}
+					}
+				// reload_frame_partial and reload_frame are set in the temp weapon's respective CON file
+				// reload_frame_partial means the animation is different if manually reloading when not empty, set to the 'end' of the animation
+				ifn gun_mag -1
+				{
+				ife reload_type 4 state heat_sink_pop
+				else
+					{
+					ifn reload_frame_partial 0 set WEAPON0_RELOAD reload_frame_partial
+					ife temp_wep_mag cur_ammo break
+					ife max_temp_wep_mag temp_wep_mag break
+					setp[].reloading 1
+					setp[].kickback_pic reload_frame
+					}
+				}
+			}
+	}
+else
+ife cur_weap 1 // PISTOLS
+ ifl kickbackpic 6
+  ifn gun_mag -1 // has a magazine?
+   ifn reload_type 6 // unreloadable?
+{
+
+   ifand GUN_AMMO_TYPES 2 // Forty five ammo? run additional checks
+	{
+	 ifand AMMO_TYPES[cur_weap] 2
+		ife slot1_mag silver_ammo break
+	 ifand AMMO_TYPES[cur_weap] 32768
+		ife slot1_mag incend_ammo break
+	}
+
+   ife slot1_mag cur_ammo break
+   ife slot1_mag max_slot1_mag break
+   setp[].reloading 1
+   setp[].kickback_pic reload_frame
+}
+else
+ife cur_weap 2 // SHOTGUNS =================================================================================
+{
+ ifg kickbackpic 0 ifl kickbackpic 23 break
+ ife reload_type 1 state standard_shotgun_load
+ else ife reload_type 2 state standard_box_mag_load
+ else ife reload_type 3 state two_tube_shotgun
+ else // case specific/unique
+   switch CHAR
+	case 0 // James =================================================================================
+	   ife SPECIALIST_EQUIPMENT[111] 2 // Super shotgun
+	   {
+	   ifn kickbackpic 0 break
+	   ife cur_ammo 0 break
+	   ife slot2_mag 2 break
+			getp[].ammo_amount 2 alt_temp1
+			 ifg alt_temp1 1
+				{
+				sound SSHOTGOP
+				setp[].kickback_pic reload_frame
+				setp[].reloading 1
+				}
+	   }
+		break
+	case 5 // overunder
+	  ifand GUN_AMMO_TYPES 1
+	   ifand AMMO_TYPES[cur_weap] 1
+			{
+		   ife explosive_shells alt_slot2_mag break
+		   ife alt_slot2_mag max_alt_slot2_mag break
+		   setp[].reloading 1
+		   setp[].kickback_pic 6
+			}
+		else
+	  ifand GUN_AMMO_TYPES 1
+	   ifand AMMO_TYPES[cur_weap] 4
+			{
+		   ife flechete_shells alt_slot2_mag break
+		   ife alt_slot2_mag max_alt_slot2_mag break
+		   setp[].reloading 1
+		   setp[].kickback_pic 6
+			}
+		else
+	  ifand GUN_AMMO_TYPES 4
+	   ifand AMMO_TYPES[cur_weap] 64
+			{
+		   ife magnum_shells alt_slot2_mag break
+		   ife alt_slot2_mag max_alt_slot2_mag break
+		   setp[].reloading 1
+		   setp[].kickback_pic 6
+			}
+		else
+	  ifand GUN_AMMO_TYPES 4
+	   ifand AMMO_TYPES[cur_weap] 1024
+			{
+		   ife dragon_shells alt_slot2_mag break
+		   ife alt_slot2_mag max_alt_slot2_mag break
+		   setp[].reloading 1
+		   setp[].kickback_pic 6
+			}
+			else
+	  ifand GUN_AMMO_TYPES 4
+	   ifand AMMO_TYPES[cur_weap] 65536
+			{
+		   ife silverb_shells alt_slot2_mag break
+		   ife alt_slot2_mag max_alt_slot2_mag break
+		   setp[].reloading 1
+		   setp[].kickback_pic 6
+			}
+			else
+			state standard_box_mag_load
+		break
+	case 9 // CULTIST
+		ife slot2_mag 1
+		{
+			setp[].reloading 1
+			setp[].kickback_pic 6
+		}
+	break
+	endswitch
+}
+else
+ife cur_weap 3 // MACHINEGUNS
+ ifl kickbackpic 6
+  ifn reload_type 6
+   ifn gun_mag -1
+{
+ife reload_type 4 state heat_sink_pop
+ifand gun_firemode 32768 { state lower_weapon xor gun_firemode 32768 }
+	ife slot3_mag cur_ammo break
+	
+   ifand GUN_AMMO_TYPES 2 // Forty five ammo? run additional checks
+	{
+	 ifand AMMO_TYPES[cur_weap] 2
+		ife slot3_mag silver_ammo break
+	 ifand AMMO_TYPES[cur_weap] 32768
+		ife slot3_mag incend_ammo break
+	}
+
+	ifn reload_frame_partial 0 set WEAPON3_RELOAD reload_frame_partial
+   ife max_slot3_mag slot3_mag break
+   set reload_empty 0
+   setp[].reloading 1
+   setp[].kickback_pic 6
+}
+else
+ife cur_weap 4 
+ ifl kickbackpic 6
+  ifn gun_mag -1
+   ifn reload_type 6 // unreloadable?
+	{
+	ife slot4_mag cur_ammo break
+	ife slot4_mag max_slot4_mag break
+	setp[].reloading 1
+	setp[].kickback_pic reload_frame
+	}
+else
+ife cur_weap 6 
+ ifl kickbackpic 6
+  ifn gun_mag -1
+   ifn reload_type 6 // unreloadable?
+	{
+	ife reload_type 4 state heat_sink_pop
+	ife reload_type 5 // shell loading system
+		{
+	   ife slot6_mag cur_ammo break
+	   ife slot6_mag max_slot6_mag break
+	   ifl player[].ammo_amount 6 max_slot6_mag set reload_temp player[].ammo_amount 6 else
+		set reload_temp max_slot6_mag
+		sub reload_temp slot6_mag
+		set shotgun_load reload_temp
+		}
+	else 
+		{
+		ifn reload_frame_partial 0 set WEAPON6_RELOAD reload_frame_partial
+		ife slot6_mag cur_ammo break
+		ife slot6_mag max_slot6_mag break
+		setarray needs_pump[6] 1
+		setp[].reloading 1
+		setp[].kickback_pic reload_frame
+		}
+	}
+else
+ife cur_weap 7 // MISC =================================================================================
+{
+ifand gun_firemode 32768 { state lower_weapon xor gun_firemode 32768 }
+ife reload_type 4 state heat_sink_pop
+ifn gun_mag -1
+ ifn reload_type 6
+	{
+	ife reload_type 5 // shell loading system
+		{
+	   ife slot7_mag cur_ammo break
+	   ife slot7_mag max_slot7_mag break
+	   ifl player[].ammo_amount 7 max_slot7_mag set reload_temp player[].ammo_amount 7 else
+		set reload_temp max_slot7_mag
+		sub reload_temp slot7_mag
+		set shotgun_load reload_temp
+		}
+	else
+		{
+		ifn reload_frame_partial 0 set WEAPON7_RELOAD reload_frame_partial
+		ife slot7_mag cur_ammo break
+		ife slot7_mag max_slot7_mag break
+		setp[].reloading 1
+		setp[].kickback_pic reload_frame
+		}
+	}
+}
+else
+ife cur_weap 9
+{
+ifand gun_firemode 32768 { state lower_weapon xor gun_firemode 32768 }
+
+ife reload_type 4 state heat_sink_pop
+ else
+ ifl kickbackpic 6
+	{
+	ifand weap_special[9] 2048 ife kickbackpic 0 { ife slot9_mag cur_ammo state masterkey_reload else ife max_slot9_mag slot9_mag state masterkey_reload }
+	ifn gun_mag -1
+	 ifn reload_type 6
+		{
+		ifn reload_frame_partial 0 set WEAPON9_RELOAD reload_frame_partial
+		ife slot9_mag cur_ammo break
+		ife slot9_mag max_slot9_mag break
+		setp[].reloading 1
+		setp[].kickback_pic reload_frame	
+		}
+	}
+}
+else
+ife cur_weap 11 // SLUG SHOTGUN
+ ifl kickbackpic 6
+  ifn gun_mag -1
+	{
+	ife slot11_mag cur_ammo break
+	ife slot11_mag max_slot11_mag break
+	setp[].reloading 1
+	setp[].kickback_pic 6
+	}
+}
+
+endevent
+
+// END RELOAD KEY

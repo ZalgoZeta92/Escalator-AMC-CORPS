@@ -1,0 +1,1976 @@
+/*
+-------------------------------------------------------------------------------
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+Loadout weapons tab
+--------------------------------------------------------------------------------
+*/
+
+defstate disp_temp_weapon_loadout
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 1 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 MINISHRINKERSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 2 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 BARRETTRIFLESPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 3 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 SMGSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 4 rotatesprite disp_temp7 disp_temp8 INVENSIZE 512 BLOODSTAFFSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 5 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 LIZMANGUNSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 6 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 PIGCOPGUNSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 7 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 SKULLDUSTERSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 8 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 FLESHSQUIRTERSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 9 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 STYGIANGUNSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 10 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 SAWNOFFSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 11 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 TOMMYGUNSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 12 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 RIOTGUNSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 13 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 CROSSBOWSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 14 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 MIAGUNSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 15 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 LASERGUNSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 16 rotatesprite disp_temp7 disp_temp8 20000 0 TMISSILELSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 17 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 CHAINSAWSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 18 rotatesprite disp_temp7 disp_temp8 22000 0 FLAMETHROWERSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 19 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 SWORDSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 21 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 FNFALSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 22 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 MP40SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 23 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 JPLASMASPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 24 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 LIZMANFGUNSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 25 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 M16SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 26 rotatesprite disp_temp7 disp_temp8 22000 0 AK114SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 27 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 RIOTGUN_MINIGUN_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 28 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 NAILGUN_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 29 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 RIOTGUN_GRENADEL_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 30 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 DARTGUN_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 31 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 M60_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 32 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 ZMISSILELSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 33 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 GOROHEADSPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 34 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 16087 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 35 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 M960_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 37 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 20101 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 38 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 RIPPER_HEART 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 39 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 ZCHAINGUN_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 40 rotatesprite disp_temp7 disp_temp8 16000 0 RAILGUN_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 41 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 AR65_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 42 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 HELL_NAILER_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 45 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 P90_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 47 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 ENG_SMG_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 50 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 RW_CROSSBOW_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 52 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 UDP45_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 53 rotatesprite disp_temp7 disp_temp8 16000 0 GARAND_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 54 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 MG42_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 55 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 PHPLASMA_SPRITE 0 0 0 0 0 xdim ydim
+		else ife temp_WEAPON_LOADOUT[INFO_SEL] 56 rotatesprite disp_temp7 disp_temp8 INVENSIZE 0 MOSSBERG_SPRITE 0 0 0 0 0 xdim ydim
+ends
+
+defstate loadout_weapons_tab
+{
+screentext STARTALPHANUM 12 190 29500 0 0 3035 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // instructions
+rotatesprite 286 97 HALFSIZE 0 13566 0 0 8 0 0 xdim ydim
+set SCROLL_POS_MAX 40
+state SCROLL_WHEEL
+		set disp_temp7 289
+		set disp_temp8 146
+		state disp_temp_weapon_loadout
+	set gui_pos_x 12
+	set gui_pos_y 40
+	state SCROLL_POS
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Unequip weapon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 0
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 0
+					}
+				}
+		}
+// ================================================================================================================================
+	add gui_pos_y 7
+	ifg gui_pos_y 39 ifl gui_pos_y 187 
+	{
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 440 0 50 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	}
+ife WEAPONS_FOUND[26] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// AK-103+GP-30
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14843 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 26 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 271 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 271 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 26
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 750
+					}
+						myospalx 160 50 AK114SPRITE 0 0 0 // Display the sprite
+						qputs 1011 A modern assault rifle; comes
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 equipped with not only a HoloSight,
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 but also a GP-30 launcher that can
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 fire caseless sgrenades.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.75
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Toggle holosight
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_RIFLE
+						state gun_dam_type_disp
+				}
+		}
+	}
+ife WEAPONS_RESEARCH[5] 2 // Has the player researched the flamethrower?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// Flamethrower
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14841 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 18 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 242 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 242 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 18
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 750
+					}
+						myospalx 160 50 FLAMETHROWERSPRITE 0 0 0 // Display the sprite
+						qputs 1011 Good against crowds of targets,
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 although the moral implications of
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 using such a weapon are best left
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 unsaid. The flame will also deal 
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 damage over time.
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.75
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types 2960
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_FOUND[3] 1 // Are the Mac-10s found?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// MAC-10
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14845 0 0 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 3 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 176 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 176 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 3
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 375
+					}
+						myospalx 160 55 SMGSPRITE 0 0 0 // Display the sprite
+						qputs 1011 The MAC-10 submachine gun is a
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 powerful firearm that shoots .45
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Auto rounds at a rapid rate.
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 These guns come in a pair, for
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 reasons we can't quite tell.
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.375
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_SOFT
+						state gun_dam_type_disp
+				}
+		}
+	}
+ife WEAPONS_FOUND[25] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// M4+M203
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14839 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 25 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 269 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 269 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 25
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 750
+					}
+						myospalx 160 50 M16SPRITE 0 0 0 // Display the sprite
+						qputs 1011 The M4 is a stalwart supporter of the
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 EDF and US military; this one has a
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 M203 launcher that fires cased 40mm
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 shells. It also has a mag of 40
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 rounds.
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.75
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_RIFLE
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_FOUND[2] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// M82A1
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14793 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 2 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 175 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 175 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 2
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1500
+					}
+						myospalx 160 50 BARRETTRIFLESPRITE 0 0 0 // Display the sprite
+						qputs 1011 The M82A1 is an anti-material rifle
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 designed to disable light vehicles and
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 powered armour; excessive against
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 smaller targets however.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1.5
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Toggle scope
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_ARMOURP
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_FOUND[31] 1 // Has the player found the M60?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 M60
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14791 0 0 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 31 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 31
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 2000
+					}
+						myospalx 160 50 M60_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 A powerful belt-fed LMG; it also
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 comes equipped with a bipod that can
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 be set up on surfaces to decrease
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 recoil and improve aim.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 2.0
+						screentext STARTALPHANUM 95 106 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Set up Bipod
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_STANDARD
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_FOUND[28] 1 // Has the player found the nailgun?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Nailgun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14837 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 28 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 28
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1000
+					}
+						myospalx 160 50 NAILGUN_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 This weapon fires nails at high 
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 speeds; very effective against 
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 armour... And pretty much anything 
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 else to be perfectly honest.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_ARMOURP
+						state gun_dam_type_disp
+				}
+		}
+	}
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 P90
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14845 0 0 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 45 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+						{
+						soundonce SELECT_HT_BIGGUN
+						setarray temp_WEAPON_LOADOUT[INFO_SEL] 45
+						setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 100
+						}
+						myospalx 160 55 P90_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 There's nothing that quite says
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 "I'm a ninja, and I'm here to party",
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 like an FN-P90. Fires body-armour 
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 piercing ammo.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.1
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Toggle holosight
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_STANDARD
+						state gun_dam_type_disp
+				}
+		}
+	ife WEAPONS_FOUND[33] 1 // Has the player found the M960?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 M960
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14845 0 0 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 35 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_SMG
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 35
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 250
+					}
+						myospalx 160 50 M960_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 A small 9mm SMG popular on Mars for
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 some reason; it has a large 
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 cylinder-shaped helical-feed magazine
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 that holds 50 rounds.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 0.25
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						
+						qputs 1011 ^8ALT-FIRE: ^0Stun Scanner Flash
+						screentext STARTALPHANUM 95 122 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_SOFT
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_FOUND[56] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// Mossberg
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14413 0 27 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 6 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 322 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 322 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 56
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 500
+					}
+						myospalx 160 50 MOSSBERG_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 An upgrade of the Police Shotgun. 
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Accurate, and can also use all types
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 of alternate shotgun shells, giving
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 it versatility.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 0.5
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_SOFT
+						state gun_dam_type_disp
+				}
+		}
+	}
+	else
+	ife WEAPONS_FOUND[6] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// Police Shotgun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14413 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 6 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 179 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 179 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 6
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 500
+					}
+						myospalx 160 50 PIGCOPGUNSPRITE 0 0 0 // Display the sprite
+						qputs 1011 A standard issue shotgun; quite 
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 accurate and can also use all types 
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 of alternate shotgun shells, giving 
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 it versatility.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 0.5
+						screentext STARTALPHANUM 95 106 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_SOFT
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_FOUND[12] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// Riotgun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14414 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 12 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 211 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 211 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 12
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 750
+					}
+						myospalx 160 50 RIOTGUNSPRITE 0 0 0 // Display the sprite
+						qputs 1011 A Riot shotgun once used by Lo Wang;
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 alongside an auto mode, it can also 
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 fire Tesla ammunition, turning it
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 into an energy chaingun.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.75
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Switch firing mode
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_SOFT
+						state gun_dam_type_disp
+				}
+		}
+	}
+ife WEAPONS_FOUND[52] 1 // Has the player found the UDP45?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 UDP45
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14845 0 0 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 52 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_SMG
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 52
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 500
+					}
+						myospalx 160 50 UDP45_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 A lightweight portable PDW that
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 fires .45 rounds and has a magazine
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 of 25 rounds. Reliable, handy, and
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 good for using silver rounds with.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 0.5
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Toggle sight
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Can use alternate .45 ammo
+						screentext STARTALPHANUM 95 116 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_SOFT
+						state gun_dam_type_disp
+				}
+		}
+	}
+// ================================================================================================================================
+	add gui_pos_y 7
+	ifg gui_pos_y 39 ifl gui_pos_y 187 
+	{
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 447 0 50 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	}
+	ife WEAPONS_FOUND[13] 1 // Crossbow
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14769 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 13 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 217 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 217 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 13
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 750
+					}
+						myospalx 160 50 CROSSBOWSPRITE 0 0 0 // Display the sprite
+						qputs 1011 A tried and true weapon, the
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Crossbow fires bolts that can
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 pierce enemies. It can also fire
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 silver bolts, for that Helsing action.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.75
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Toggle sight
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_EXPLODE
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_FOUND[21] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// FN FAL
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14843 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 21 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 257 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 257 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 21
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1250
+					}
+						myospalx 160 50 FNFALSPRITE 0 0 0 // Display the sprite
+						qputs 1011 The right arm of the free world;
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 this Battle rifle fires 7.62-x51mm
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 NATO rounds and is a trusty firearm.
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Only downside is that the 20-round
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 magazine dries out fast.
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 1.25
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Toggle ironsight
+						screentext STARTALPHANUM 95 116 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_STANDARD
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_FOUND[22] 1 // MP40
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14845 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 22 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 261 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 261 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 22
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 100
+					}
+						myospalx 160 50 MP40SPRITE 0 0 0 // Display the sprite
+						qputs 1011 An SMG dating from WW2; whilst
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 rather quaint to see, you can still
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 find these dotted around Europe
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 in the most unlikely of places.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 0.1
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_SOFT
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_FOUND[53] 1 // Garand
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Garand
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14843 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 53 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 53
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1000
+					}
+						myospalx 160 50 GARAND_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 A classic WW2 rifle; has a very
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 distinctive ping when reloading from
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 empty.
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_STANDARD
+						state gun_dam_type_disp	
+				}
+		}
+	}
+	ife WEAPONS_FOUND[54] 1 // MG42
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 MG42
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14832 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 54 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 54
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1500
+					}
+						myospalx 160 50 MG42_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 Nicknamed Hitler's Buzzsaw, the MG42
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 provides a staggering amount of
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 firepower, with a 100 round magazine.
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1.5
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_STANDARD
+						state gun_dam_type_disp	
+				}
+		}
+	}
+	ife WEAPONS_FOUND[10] 1 // Sawn-off Shotgun
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14844 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 10 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 199 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 199 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 10
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 750
+					}
+						myospalx 160 50 SAWNOFFSPRITE 0 0 0 // Display the sprite
+						qputs 1011 A small shotgun that can fire one or
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 both barrels at once; it can also
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 accept explosive and flechette
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 shotgun shells. Handy in a pinch.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.75
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Both barrels
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_SOFT
+						state gun_dam_type_disp						
+				}
+		}
+	}
+	ife WEAPONS_FOUND[11] 1 // Tommy Gun
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14843 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 11 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 202 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 202 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 11
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 750
+					}
+						myospalx 160 50 TOMMYGUNSPRITE 0 0 0 // Display the sprite
+						qputs 1011 A prohibition era weapon, fires
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 extremely fast and can also fire
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 silver bullets as well. Watch that
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 ammo though!
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.75
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_SOFT
+						state gun_dam_type_disp						
+				}
+		}
+	}
+// ================================================================================================================================
+	add gui_pos_y 7
+	ifg gui_pos_y 39 ifl gui_pos_y 187 
+	{
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 441 0 50 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	}
+	ife WEAPONS_FOUND[16] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// Missile Launcher
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14842 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 16 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 229 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 229 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 16
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1500
+					}
+						myospalx 160 50 TMISSILELSPRITE 0 0 0 // Display the sprite
+						qputs 1011 Fires small missiles that are designed
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 to punch straight through armour;
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 not terribly effective against
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 crowds of enemies, though.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1.5
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_RIFLE
+						state gun_dam_type_disp
+				}
+		}
+	}
+ife WEAPONS_FOUND[32] 1 // Has the player found the Zilla missile launcher?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Zilla MSL LNCHR
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14842 0 0 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 32 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 32
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1500
+					}
+						myospalx 160 50 ZMISSILELSPRITE 0 0 0 // Display the sprite
+						qputs 1011 A missile launcher by Zilla Inc. that
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 can fire a wide variety of ammo types
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 such as homing rockets, D.U.P, and
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 even nuclear warheads.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1.5
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Toggle firemode
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_RIFLE
+						state gun_dam_type_disp
+				}
+		}
+	}
+// ================================================================================================================================
+	add gui_pos_y 7
+	ifg gui_pos_y 39 ifl gui_pos_y 187 
+	{
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 442 0 50 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	}
+ife WEAPONS_FOUND[41] 1 // Has the player found the AR65?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 AR-65
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14796 0 0 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 41 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 41
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1000
+					}
+						myospalx 160 50 AR65_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 A new line of rifles; this weapon
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 doesn't use a mag, but firing too
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 long can cause it to overheat and
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 malfunction for a period of time.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Toggle scope
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_ARMOURP
+						state gun_dam_type_disp						
+				}
+		}
+	}
+	ife WEAPONS_FOUND[39] 1 // Has the player found the zombie chaingun?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Chaingun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14838 0 0 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 39 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 39
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1000
+					}
+						myospalx 160 50 ZCHAINGUN_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 An inaccurate but rather fast
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 portable minigun; it fires somewhat
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 weak rounds to counteract the weight
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 and recoil.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_SOFT
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_RESEARCH[12] 2 // Has the player researched the Engineer SMG?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// ENG SMG
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14796 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 47 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 420 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 420 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 47
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 2250
+					}
+						myospalx 160 50 ENG_SMG_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 A deadly advanced SMG that fires
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 extremely rapidly; can be used in a
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 vacuum and comes with a burst
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 alternate fire.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 2.25
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: 10-shot burst
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_GOLD
+						state gun_dam_type_disp
+				}
+		}
+	}
+ife WEAPONS_FOUND[5] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// Enforcer Chaingun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14839 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 5 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 178 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 178 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 5
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 375
+					}
+						myospalx 160 50 LIZMANGUNSPRITE 0 0 0 // Display the sprite
+						qputs 1011 An Enforcer's chaingun detached from
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 its arm; with research, we might be
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 able to unlock a faster firing rate
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 for this otherwise unwieldy thing...
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.375
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						ife WEAPONS_RESEARCH[11] 2
+						{
+						qputs 1011 Alt-Fire: Rapid Fire
+						screentext STARTALPHANUM 95 116 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						}
+						set gun_damage_types GDT_STANDARD
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_RESEARCH[1] 2 // Has the player researched the GDF Plasma gun?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 GDF Plasma Gun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14840 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 23 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 264 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 264 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 23
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 750
+					}
+						myospalx 160 50 JPLASMASPRITE 0 0 0 // Display the sprite
+						qputs 1011 Designed by Garmid Sec Forces, this
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 weapon deals devastating damage
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 against organic targets; it can
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 damage supernatural enemies as well.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.75
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_PLASMA
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_RESEARCH[2] 2 // Has the player researched the Lizman firelaser gun?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// Firelaser Gun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14840 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 24 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 265 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 265 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 24
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 750
+					}
+						myospalx 160 50 LIZMANFGUNSPRITE 0 0 0 // Display the sprite
+						qputs 1011 This Cycloid weapon combines both
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 lizard enemies' attacks into one 
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 continuous stream of lasers.
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 0.75
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						ife WEAPONS_RESEARCH[11] 2
+							{
+							qputs 1011 Alt-Fire: Rapid Fire
+							screentext STARTALPHANUM 95 104 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							}
+						set gun_damage_types GDT_EXPLODE
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_FOUND[15] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// Laser Gun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14840 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 15 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 227 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 227 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 15
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 500
+					}
+						myospalx 160 50 LASERGUNSPRITE 0 0 0 // Display the sprite
+						qputs 1011 This weapon packs a nice punch and is
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 accurate to boot; it even has a
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 small scope. Green lasers fair poorly
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 against armour, so bear that in mind.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 0.5
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_LASER
+						state gun_dam_type_disp
+				}
+		}
+	}
+	ife WEAPONS_FOUND[40] 1 // Has the player found the railgun?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Railgun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14796 0 0 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 40 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 40
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 2000
+					}
+						myospalx 160 50 RAILGUN_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 The production variant of the Zilla
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Inc. railgun; it has a scope that
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 actually works! Its rounds punch
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 straight through targets.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 2
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Toggle scope
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_RIFLE
+						state gun_dam_type_disp						
+				}
+		}
+	}
+	ife WEAPONS_RESEARCH[6] 2 // Has the player researched the riotgun-minigun?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		ife WEAPONS_RESEARCH[8] 2 // the Mark2 is a straight upgrade so it replaces the old entirely
+			{
+			qputs 1011 Riotgun-Minigun
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14838 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 34 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click ife clicked 1
+						{
+						soundonce SELECT_HT_BIGGUN
+						setarray temp_WEAPON_LOADOUT[INFO_SEL] 34
+						setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 2500
+						}
+						myospalx 160 50 16087 0 0 0 // Display the sprite
+						qputs 1011 An upgrade of our previous model,
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 this version is much lighter and can
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 also be set to auto-spin, negating
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 the original's wind up time.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 2.5
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Toggle spin
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_RIFLE
+						state gun_dam_type_disp							
+					}
+				}
+		else
+			{
+			// Riotgun-Minigun
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14838 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 27 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 274 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 274 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					state handle_click ife clicked 1
+						{
+						soundonce SELECT_HT_BIGGUN
+						setarray temp_WEAPON_LOADOUT[INFO_SEL] 27
+						setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 2500
+						}
+						myospalx 160 50 RIOTGUN_MINIGUN_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 A portable Minigun made in the AMC
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 labs; whilst heavy and inaccurate,
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 boasts a huge fire rate and spews
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 a lot of lead downrange.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 2.5
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_RIFLE
+						state gun_dam_type_disp							
+					}
+				}
+		}
+	}
+// ================================================================================================================================
+	add gui_pos_y 7
+	ifg gui_pos_y 39 ifl gui_pos_y 187 
+	{
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 443 0 50 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	}
+	ife MYSTICAL_RESEARCH[6] 2 // Eva lockwood?
+	{
+	ife MELEE_RESEARCH[6] 2
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			qputs 1011 Guardian Head
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14799 0 2 0 0 0 xdim ydim // Icon
+			ife temp_WEAPON_LOADOUT[INFO_SEL] 33 set disp_temp4 32 else set disp_temp4 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click ife clicked 1
+						{
+						soundonce BLOOD_SPURT
+						setarray temp_WEAPON_LOADOUT[INFO_SEL] 33
+						setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 2500
+						}
+							myospalx 160 50 GOROHEADSPRITE 0 0 0 // Display the sprite
+							qputs 1011 A Guardian's head can be used to fire
+							screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 magical bursts of fire. Don't ask
+							screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 how we get these heads, just use
+							screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 them well.
+							screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 Loadout Cost: 2.5
+							screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 Alt-Fire: Change fire mode
+							screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							set gun_damage_types GDT_FLAME
+							state gun_dam_type_disp
+					}
+			}
+		}
+	ife MELEE_RESEARCH[4] 2
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			qputs 1011 Ripper Heart
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14799 0 2 0 0 0 xdim ydim // Icon
+			ife temp_WEAPON_LOADOUT[INFO_SEL] 38 set disp_temp4 32 else set disp_temp4 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click ife clicked 1
+						{
+						soundonce BLOOD_SPURT
+						setarray temp_WEAPON_LOADOUT[INFO_SEL] 38
+						setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 3000
+						}
+							myospalx 160 50 RIPPER_HEART 0 0 0 // Display the sprite
+							qputs 1011 When squeezed, a Ripper summons a
+							screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 temporary ghostly clone of the user.
+							screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 Its true nature is a mystery for the
+							screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 ages, we guess.
+							screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 Loadout Cost: 3
+							screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+					}
+			}
+		}
+	ife WEAPONS_FOUND[50] 1 // ringworld crossbow
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			qputs 1011 Magic Crossbow
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14769 0 2 0 0 0 xdim ydim // Icon
+			ife temp_WEAPON_LOADOUT[INFO_SEL] 50 set disp_temp4 32 else set disp_temp4 0
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+					{
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click ife clicked 1
+						{
+						soundonce SELECT_HT_BIGGUN
+						setarray temp_WEAPON_LOADOUT[INFO_SEL] 50
+						setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1000
+						}
+							myospalx 160 50 RW_CROSSBOW_SPRITE 0 0 0 // Display the sprite
+							qputs 1011 This enchanted crossbow can fire
+							screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 a variety of bolt types, and can also
+							screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 use mana fire modes as well, tied to
+							screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 the bolt type.
+							screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+							qputs 1011 Loadout Cost: 1
+							screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_EXPLODE
+						state gun_dam_type_disp
+					}
+			}
+		}
+	}
+// ================================================================================================================================
+	add gui_pos_y 7
+	ifg gui_pos_y 39 ifl gui_pos_y 187 
+	{
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 444 0 50 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	}
+ife MYSTICAL_RESEARCH[7] 2
+{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Blood Staff
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14835 0 50 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 4 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 4
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1500
+					}
+						myospalx 160 50 BLOODSTAFFSPRITE 0 0 0 // Display the sprite
+						qputs 1011 An Abyssal weapon that fires searing
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 hot blood at high speeds. That's all
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 we care to know about it, frankly.
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1.5
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types 3456
+						state gun_dam_type_disp
+				}
+		}
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Skull duster
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14799 0 27 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 7 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 7
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 2000
+					}
+						myospalx 160 50 SKULLDUSTERSPRITE 0 0 0 // Display the sprite
+						qputs 1011 This abominable weapon conjures and
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 shoots entire bones that tear
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 through armour plating like tissue
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 paper.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 2
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_RIFLE
+						state gun_dam_type_disp
+				}
+		}
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Flesh Squirter
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14835 0 50 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 8 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce BLOOD_SPURT
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 8
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 2000
+					}
+						myospalx 160 50 FLESHSQUIRTERSPRITE 0 0 0 // Display the sprite
+						qputs 1011 An Organic shotgun that shoots blood;
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 make sure you're wearing gloves
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 when handling this nightmarish
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 creation.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 2
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_RIFLE
+						state gun_dam_type_disp
+				}
+		}
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Stygian Cannon
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14768 0 50 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 9 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 9
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 4000
+					}
+						myospalx 160 50 STYGIANGUNSPRITE 0 0 0 // Display the sprite
+						qputs 1011 A demonic piece of artillery that
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 destroys any opposition with ease.
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Possibly the least disgusting of
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 the abyssal weaponry.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 4
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Flame burst
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_GOLD
+						state gun_dam_type_disp
+				}
+		}
+ife WEAPONS_FOUND[42] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Hell Nailer
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14768 0 50 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 9 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 42
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 2000
+					}
+						myospalx 160 50 HELL_NAILER_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 A combination of Hell and Protain's
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 technological genius; fires incendiary
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 armour piercing nails.
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 2
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						
+						set gun_damage_types GDT_ARMOURP
+						state gun_dam_type_disp
+				}
+		}
+	}
+	}
+// ================================================================================================================================
+	add gui_pos_y 7
+	ifg gui_pos_y 39 ifl gui_pos_y 187 
+	{
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 445 0 50 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	}
+	ife WEAPONS_RESEARCH[10] 2 // Has the player researched the beam sabre?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Beam Sabre
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14835 0 0 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 37 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		state CURSOR_OVER_ITEM
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 37
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 2500
+					}
+						myospalx 160 50 20101 0 0 0 // Display the sprite
+						qputs 1011 An energy-blade that's more
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 effective than steel; can slice
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 through most things with little to no
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 problem; very handy.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 2.5
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Block melee attacks
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_GOLD
+						state gun_dam_type_disp	
+				}
+		}
+	}
+	ife WEAPONS_FOUND[19] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Katana
+		rotatesprite 12 gui_pos_y INVENSIZE 0 14822 0 0 0 0 0 xdim ydim // Icon
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 19 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 19
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 250
+					}
+						myospalx 160 50 SWORDSPRITE 0 0 0 // Display the evidence
+						qputs 1011 The Katana is a fearsome weapon;
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 at least in the right hands. It is
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 best used against individual targets
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 rather than a large group.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 0.25
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Block against melee
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_SOFT
+						state gun_dam_type_disp	
+				}
+		}
+	}
+	ife WEAPONS_FOUND[17] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// Chainsaw
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14836 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 17 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 231 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 231 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 17
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1250
+					}
+						myospalx 160 50 CHAINSAWSPRITE 0 0 0 // Display the sprite
+						qputs 1011 The chainsaw; it's quite likely that
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 the chainsaw has been used more as
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 a weapon than a tool to fell trees.
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Well, we're not ones to break
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 tradition.
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout Cost: 1.25
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_EXPLODE
+						state gun_dam_type_disp	
+				}
+		}
+	}
+// ================================================================================================================================
+	add gui_pos_y 7
+	ifg gui_pos_y 39 ifl gui_pos_y 187 
+	{
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 446 0 50 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+	}
+	ife WEAPONS_FOUND[30] 1 // Has the player found the dartgun?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 Dartgun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14837 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 30 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 30
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 500
+					}
+						myospalx 160 50 DARTGUN_SPRITE 0 0 0 // Display the sprite
+						qputs 1011 Fires small darts designed for
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 aquatic combat; on land, it's
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 extremely ineffective. The Dartgun
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 can fire mini-torpedoes as well.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 0.5
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Fire Torpedo
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						set gun_damage_types GDT_EXPLODE
+						state gun_dam_type_disp	
+				}
+		}
+	}
+	ife WEAPONS_RESEARCH[3] 2 // Has the player researched the Missing In Action gun?
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// M.I.A Gun
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14796 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 14 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 218 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 218 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 14
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 250
+					}
+						myospalx 160 50 MIAGUNSPRITE 0 0 0 // Display the sprite
+						qputs 1011 A vital tool in our arsenal; this
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 device removes an enemy from the
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 field for 20 seconds and provides us
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 with research data on said enemy too.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 0.25
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Return Enemy
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+		}
+	}
+ife WEAPONS_FOUND[1] 1
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		// Mini-Shrinker
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14796 0 0 0 0 0 xdim ydim // Icon
+		state CURSOR_OVER_ITEM
+		ife temp_WEAPON_LOADOUT[INFO_SEL] 1 set disp_temp4 32 else set disp_temp4 0
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 174 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+			ifle gui_pos_y_temp 3
+			 ifge gui_pos_y_temp 0
+				{
+				set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 174 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				state handle_click ife clicked 1
+					{
+					soundonce SELECT_HT_BIGGUN
+					setarray temp_WEAPON_LOADOUT[INFO_SEL] 1
+					setarray temp_WEAPON_LOADOUT_COST[INFO_SEL] 1000
+					}
+						myospalx 160 50 MINISHRINKERSPRITE 0 0 0 // Display the sprite
+						qputs 1011 A smaller variant of the Shrinker;
+						screentext STARTALPHANUM 95 80 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 does what it says on the tin,
+						screentext STARTALPHANUM 95 86 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 basically; but can also shrink the
+						screentext STARTALPHANUM 95 92 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 owner if shot against a mirror.
+						screentext STARTALPHANUM 95 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Loadout cost: 1
+						screentext STARTALPHANUM 95 104 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+						qputs 1011 Alt-Fire: Embiggen self
+						screentext STARTALPHANUM 95 110 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				}
+		}
+	}
+}
+ends

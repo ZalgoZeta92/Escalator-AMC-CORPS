@@ -1,0 +1,335 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile SCARAB_DEMON
+
+action A_SCARABD_IDLE 14536 1 5 1 20
+action A_SCARABD_WALK 14541 4 5 1 15
+
+action A_SCARABD_RUSH 14541 4 5 1 8
+
+action A_SCARABD_PREPARE 14561 1 5 1 10
+action A_SCARABD_FIRE 14561 2 5 1 8
+
+action A_SCARABD_DISC 14571 2 5 1 24
+
+action A_SCARABD_PAIN 14581 1 1 1 20
+
+action A_SCARABD_DIE 14581 1 1 1 20
+action A_SCARABD_DEAD 14581 1
+
+move SCARABD_WALK 160
+move SCARABD_RUSH 240
+
+ai AI_SCARABD_SEEKENEMY A_SCARABD_WALK SCARABD_WALK geth
+ai AI_SCARABD_RUSH A_SCARABD_RUSH SCARABD_RUSH geth
+
+ai AI_SCARABD_PREPARESHOOT A_SCARABD_PREPARE STOP geth
+
+ai AI_SCARABD_SHOOTENEMY A_SCARABD_FIRE STOP
+ai AI_SCARABD_FLAMETHROW A_SCARABD_FIRE STOP
+ai AI_SCARABD_FIREDISC A_SCARABD_DISC STOP
+
+ai AI_SCARABD_PREPARESHOOT2 A_SCARABD_PREPARE STOP geth
+ai AI_SCARABD_SHOOTNUKE A_SCARABD_FIRE STOP geth
+ai AI_SCARABD_DEAD A_SCARABD_DIE STOP geth
+
+useractor enemy SCARAB_DEMON 12000 A_SCARABD_IDLE
+fall
+
+ifai 0
+	{
+		state monst_glow
+		clipdist 96
+		globalsound SCARAB_DEMON_SIGHT
+		quake 120
+		set ally_mag SKILL_LEVEL
+		spriteflags NORMAL_ENEMY_TRU
+		ifspritepal 0
+			{
+			set actor_pal 0
+			set enemy_attack 0
+			set CURBOSS THISACTOR
+			set BOSS_TYPE 7
+			strength 8000
+			sizeat 64 64
+			}
+		else
+			{
+			set actor_pal sprite[].pal
+			strength 4000
+			sizeat 48 48
+			}
+		spawn SHOOTME
+		cstator 257
+		action A_SCARABD_WALK
+		ai AI_SCARABD_SEEKENEMY
+	}
+
+ife actor_pal 0
+	{
+	ifstrength 2000 { ifn enemy_attack 3 { screensound SPD_TRANS spritepal 3 debris SCRAP3 15 spritepal 49 sizeat 52 52 set actor_type TYPE_SUPERNATURAL set enemy_attack 3 } }
+	else ifstrength 4000 { ifn enemy_attack 2 { screensound SPD_TRANS spritepal 28 debris SCRAP3 15 spritepal 12 sizeat 56 56 set actor_type TYPE_ARMOURED set enemy_attack 2 } }
+	else ifstrength 6000 { ifn enemy_attack 1 { screensound SPD_TRANS spritepal 1 debris SCRAP3 15 spritepal 15 sizeat 60 60 set actor_type TYPE_CHITIN set enemy_attack 1 } }
+	else { sizeat 64 64 spritepal 3 }
+	}
+else
+	{
+	ife actor_pal 15 set actor_type TYPE_CHITIN
+	ife actor_pal 49 set actor_type TYPE_SUPERNATURAL
+	ife actor_pal 12 set actor_type TYPE_ARMOURED
+	}
+
+ifdead nullop
+else
+ifpdistl 1526
+ifcansee
+{
+wackplayer
+palfrom 40 40 0 0
+addphealth -100
+}
+
+xor element_type FIRE_DAMAGE
+
+ifg sprite[].htextra 0                            // if the actor is set to take some damage from a weapon...
+{
+  ife sprite[].htowner THISACTOR              // if the owner of the weapon IS this actor
+    seta[].htextra -1       // set the damage to zero
+}
+
+ifai AI_SCARABD_DEAD
+	{
+	add INTERNALCOUNT 1
+	ife INTERNALCOUNT 1 sound SCARAB_DEMON_DIE
+	ife INTERNALCOUNT 15
+		{
+			flash
+			spawn NUCLEAR_EXPLOSION
+			globalsound CHOPPER_EXPLODE
+			sound HUGE_GIB
+			shoot SPARK
+			shoot SPARK
+			shoot SPARK
+			shoot SPARK
+			shoot SPARK
+			shoot SPARK
+			spawn BIG_BLOOD_EXE
+			spritepal 27
+			ife INVASION 1 nullop else
+				{
+				state standard_jibs
+				state standard_jibs
+				state standard_jibs
+				state monst_body_jibs
+				state monst_body_jibs
+				}
+			debris SCRAP1 14
+			guts JIBS6 2
+			killit
+		}
+	}
+else
+ifai AI_SCARABD_SEEKENEMY
+	{
+	state checkfortarget
+	state SKILL_SHOOT_LEVELADJUST
+	ifcount 6 { ifpdistl 16000 quake 13 ifactorsound THISACTOR CYBERDEMON_METAL nullop else sound CYBERDEMON_METAL }
+	ifcount 13 { ifactorsound THISACTOR CYBERDEMON_METAL nullop else sound CYBERDEMON_METAL resetcount }
+	//ifpdistg 1024
+		{
+		ifrnd 16 ifg ally_mag 0 ifstrength 3000 ife actor_pal 0 { globalsound SPD_NUKE quake 260 ai AI_SCARABD_PREPARESHOOT2 }
+		 ifcanseetarget
+		  ifcanshoottarget
+		   ifl RANDOM_CHANCE SKILLCHANCE
+			ai AI_SCARABD_PREPARESHOOT
+		}
+	ifrnd 8 ifstrength 6000 ai AI_SCARABD_RUSH
+	}
+else
+ifai AI_SCARABD_RUSH
+	{
+	state checkfortarget
+	state SKILL_SHOOT_LEVELADJUST
+	ifcount 4 { ifpdistl 16000 quake 13 ifactorsound THISACTOR CYBERDEMON_METAL nullop else sound CYBERDEMON_METAL }
+	ifcount 8 { ifactorsound THISACTOR CYBERDEMON_METAL nullop else sound CYBERDEMON_METAL resetcount }
+		{
+		ifrnd 16 ifg ally_mag 0 ifstrength 3000 ife actor_pal 0 { globalsound SCARAB_DEMON_SIGHT quake 260 ai AI_SCARABD_PREPARESHOOT2 }
+		 ifcanseetarget
+		  ifcanshoottarget
+		   ifl RANDOM_CHANCE SKILLCHANCE
+			ai AI_SCARABD_FLAMETHROW
+		}
+	ifrnd 8
+		{
+		ifstrength 4000 ai AI_SCARABD_PREPARESHOOT else
+		ai AI_SCARABD_SEEKENEMY
+		}
+	}
+else
+ifai AI_SCARABD_PREPARESHOOT
+	{
+	ifstrength 4000 ifrnd 96 ai AI_SCARABD_FIREDISC
+	else ifactioncount 3 ai AI_SCARABD_SHOOTENEMY
+	}
+else
+ifai AI_SCARABD_SHOOTENEMY
+	{
+	state fronttowardstarget
+	ifactioncount 1
+		{
+			sound SPD_FIRE
+			geta[].z temp2
+			add temp2 3672
+			seta[].z temp2
+			set PROJECTILE_TO_SHOOT MPLASMA // shoots it's left gun
+			state sang_enemyShootProjectile
+			sub temp2 3672
+			seta[].z temp2
+
+			geta[].x temp
+			geta[].y temp2
+			set temp3 temp
+			add temp3 1024
+			geta[].ang temp4
+			rotatepoint temp temp2 temp3 temp2 temp4 temp5 temp6
+			espawn 16113
+			seta[RETURN].x temp5 seta[RETURN].y temp6
+			geta[].z temp sub temp 5592 seta[RETURN].z temp
+
+			resetactioncount
+		ifrnd 64 ifstrength 6000 ai AI_SCARABD_RUSH
+		 else ifrnd 16 ai AI_SCARABD_SEEKENEMY
+		}
+	}
+else
+ifai AI_SCARABD_FIREDISC
+	{
+	state fronttowardstarget
+	ifactioncount 1
+		{
+			globalsound SPD_DISC
+			screensound SPD_DISC
+			geta[].z temp2
+			add temp2 3672
+			seta[].z temp2
+			setprojectile[SNOWFALL_DISC].velmult 1
+			set PROJECTILE_TO_SHOOT SNOWFALL_DISC
+			state sang_enemyShootProjectile
+			setprojectile[SNOWFALL_DISC].velmult 2
+			sub temp2 3672
+			seta[].z temp2
+			ai AI_SCARABD_RUSH
+			resetactioncount
+		}
+	}
+else
+ifai AI_SCARABD_FLAMETHROW
+	{
+	state fronttowardstarget
+	ifactioncount 1
+		{
+		soundonce FLAMETH_FIRE
+		geta[].z temp7
+		espawn FLAME_THROW
+		sub temp7 12288
+		seta[RETURN].z temp7
+		resetactioncount
+		ifrnd 8 ai AI_SCARABD_RUSH
+		}
+	//ifpdistg 8192 ai AI_SCARABD_RUSH
+	}
+else
+ifai AI_SCARABD_PREPARESHOOT2
+	{
+	ifactioncount 40 ai AI_SCARABD_SHOOTNUKE
+	}
+else
+ifai AI_SCARABD_SHOOTNUKE
+	{
+	state fronttowardstarget
+	ifactioncount 2
+		{
+		sub ally_mag 1
+		geta[].z temp6
+		add temp6 8192
+		seta[].z temp6
+		set PROJECTILE_TO_SHOOT ATOM_BOMB
+		state sang_enemyShootProjectile
+		sub temp6 8192
+		seta[].z temp6
+		flash
+		globalsound Z_MISSILE_FIRE
+		soundonce Z_WARNING
+		setactorsoundpitch THISACTOR Z_WARNING -2048
+		resetactioncount
+		ai AI_SCARABD_SEEKENEMY
+		}
+	}
+
+geta[].htextra temp7
+ifhitweapon
+	{
+	ife actor_pal 0 set CURBOSS THISACTOR
+	ifrnd 8 soundonce SPD_PAIN
+	ifwasweapon RPG seta[].xvel 0
+	ifwasweapon RADIUSEXPLOSION seta[].xvel 0
+	ifg temp7 0
+	{
+	ifai AI_SCARABD_FLAMETHROW
+		{
+		div temp7 2
+		seta[].htextra temp7
+		}
+	ifai AI_SCARABD_PREPARESHOOT2
+		{
+		div temp7 2
+		seta[].htextra temp7
+		}
+	}
+	//spawn BLOOD
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+		{
+			state rf
+
+			ifn hitag_saved 0
+				{
+			   operateactivators hitag_saved THISACTOR
+			   operatemasterswitches hitag_saved
+			   operaterespawns hitag_saved
+				}
+			add TREASURE_FOUND 15
+			addkills 1
+			ai AI_SCARABD_DEAD
+		}
+}
+
+enda

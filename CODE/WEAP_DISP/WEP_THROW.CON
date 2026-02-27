@@ -1,0 +1,657 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+display code for throwable generic weapons
+--------------------------------------------------------------------------------
+*/
+
+// PIPEBOMB===============================================================================================================
+
+defstate drawdetonator
+
+  set x2 85
+  sub x2 wepsway_x
+  sub x2 weapon_xoffset
+  sub x2 looking_angSR1
+
+  set y2 250
+  sub y2 wepsway_y
+  add y2 looking_arc
+  sub y2 gun_pos
+  
+  clamp y2 167 320
+
+switch kickbackpic_2
+case 0
+case 1
+case 5
+case 6
+case 7
+case 8
+case 9
+case 10
+case 11
+case 12
+state wep_drawup
+guniqhudid 20
+rotatesprite x2 y2 40960 weap_disp_temp2 CDETON shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+ break
+case 2
+case 4
+set tilenum CDETON
+add tilenum 1
+guniqhudid 20
+rotatesprite x2 y2 40960 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+ break
+case 3
+set tilenum CDETON
+add tilenum 1
+ ife CHAR 4 sound CLICK_FINGER
+ ife CHAR 13 sound MC_GREN_DETONATE
+guniqhudid 20
+add x2 2
+add y2 2
+rotatesprite x2 y2 40960 64 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+ break
+endswitch
+guniqhudid 0
+ends
+
+defstate displaypipe
+	  set x 175
+	  sub x wepsway_x
+	  add x weapon_xoffset
+	  sub x looking_angSR1
+   switch weaponcount
+   case 0
+      add x 80
+	  set y 255
+	  sub y wepsway_y
+	  add y looking_arc
+	  sub y gun_pos
+	  ifl y 180 set y 180
+	  set tilenum CPIPEBOMB
+	getp[].ammo_amount 5 weap_disp_temp2
+	  ifg weap_disp_temp2 0
+		{
+		state wep_drawup
+		guniqhudid 10
+		rotatesprite x y 40960 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+		guniqhudid 11
+		}
+   break
+   case 1
+   case 2
+   case 3
+   case 4
+   case 5
+   case 6
+      add x 80
+	  set y 265
+	  add y looking_arc
+	  sub y gun_pos
+	  set tilenum CPIPEBOMB
+	  set weap_disp_temp kickbackpic
+	  mul weap_disp_temp 12
+	  add y weap_disp_temp
+	  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+   break
+   case 7
+   case 8
+   case 9
+   case 10
+   case 11
+	  set y 330
+	  add y looking_arc
+	  sub y gun_pos
+	  set tilenum CPIPEBOMB
+	  add tilenum 1
+		  ife CHAR 4
+		{
+		ifand CHAR_APP 2 set tilenum 6177 else
+		ife SPECIALIST_EQUIPMENT[40] 2 set tilenum 6270
+		else set tilenum 6153
+		}
+	  set weap_disp_temp kickbackpic
+	  mul weap_disp_temp 8
+	  sub y weap_disp_temp
+	  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+   break
+   case 12
+   case 13
+   case 14
+   case 15
+   case 16
+   case 17
+   case 18
+   case 19
+	  set y 115
+	  add y looking_arc
+	  sub y gun_pos
+	  set tilenum CPIPEBOMB
+	  add tilenum 2
+	  ife CHAR 4
+		{
+		ifand CHAR_APP 2 set tilenum 6178 else
+		ife SPECIALIST_EQUIPMENT[40] 2 set tilenum 6271
+		else set tilenum 6154
+		}
+	  set weap_disp_temp kickbackpic
+	  mul weap_disp_temp 8
+	  add y weap_disp_temp
+	  ifl y 163 set y 163
+	  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+   break
+  endswitch
+guniqhudid 0
+ife CHAR 4 state drawdetonator
+ife CHAR 13 state drawdetonator
+ends
+
+defstate drawzdetonator
+
+  set x2 105
+  add x2 wepsway_x
+  sub x2 weapon_xoffset
+  sub x2 looking_angSR1
+
+  set y2 250
+  sub y2 wepsway_y
+  add y2 looking_arc
+  sub y2 gun_pos
+
+switch kickbackpic_2
+case 0
+case 1
+case 5
+case 6
+case 7
+case 8
+case 9
+case 10
+case 11
+case 12
+state wep_drawup
+guniqhudid 20
+rotatesprite x2 y2 40960 weap_disp_temp2 CDETON shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+ break
+case 2
+case 4
+set tilenum CDETON
+add tilenum 1
+guniqhudid 20
+rotatesprite x2 y2 40960 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+ break
+case 3
+set tilenum CDETON
+add tilenum 1
+guniqhudid 20
+sound SWITCH_ON
+add x2 2
+add y2 2
+rotatesprite x2 y2 40960 64 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+ break
+endswitch
+guniqhudid 0
+ends
+
+//GRENADE===============================================================================================================
+
+defstate displaygrenade
+
+	  set x 235
+	  set y 255
+	  sub x wepsway_x
+	  add x weapon_xoffset
+	  sub x looking_angSR1
+	  sub y wepsway_y
+	  add y looking_arc
+	  sub y gun_pos
+
+  switch weaponcount
+   case 0
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1506 else
+	  set tilenum CPIPEBOMB
+getp[].ammo_amount 5 weap_disp_temp
+	  guniqhudid 10
+	  ifg weap_disp_temp 0 rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+   break
+   case 1
+   case 2
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1506 else
+	  set tilenum CPIPEBOMB
+	  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  set tilenum CPIPEBOMB
+	sub x 140
+	add tilenum 1
+	guniqhudid 11
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	break
+   case 3
+   case 4
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1506 else
+	  set tilenum CPIPEBOMB
+	  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  set tilenum CPIPEBOMB
+	sub x 120
+	add tilenum 1
+	guniqhudid 11
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	break
+   case 5
+   case 6
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1506 else
+	  set tilenum CPIPEBOMB
+	  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  set tilenum CPIPEBOMB
+	sub x 100
+	add tilenum 1
+	guniqhudid 11
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	break
+   case 7
+   case 8
+   case 9
+   case 10
+   ife weaponcount 10 sub x 10
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1506 else
+	  set tilenum CPIPEBOMB
+	  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	  set tilenum CPIPEBOMB
+	sub x 100
+	add tilenum 2
+	guniqhudid 11
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	break
+   case 11
+   case 12
+   ife weaponcount 11 sub x 5
+	  ife CHAR 0 soundonce JG_FLIP
+	  else soundonce 650
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1507 else
+		  {
+		  set tilenum CPIPEBOMB
+		  add tilenum 4
+		  }
+		  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	sub x 120
+	set tilenum CPIPEBOMB
+	add tilenum 3
+	guniqhudid 11
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	break
+   case 13
+   case 14
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1507 else
+		  {
+		  set tilenum CPIPEBOMB
+		  add tilenum 4
+		  }
+		  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	sub x 140
+	set tilenum CPIPEBOMB
+	add tilenum 3
+	guniqhudid 11
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	break
+   case 15
+   case 16
+   case 17
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1507 else
+		  {
+		  set tilenum CPIPEBOMB
+		  add tilenum 4
+		  }
+		  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+   break
+   case 18
+   case 19
+	sub x 150
+		  set tilenum CPIPEBOMB
+		  add tilenum 1
+		  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+   break
+   case 20
+   case 21
+	sub x 40
+	  sub y 10
+	  set tilenum CPIPEBOMB
+	add tilenum 5
+	guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+   break
+   case 22
+	sub x 60
+	  sub y 20
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1509 else
+		  {
+		  set tilenum CPIPEBOMB
+		  add tilenum 6
+		  }
+		  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	break
+   case 23
+   case 24
+	sub x 60
+	  sub y 10
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1509 else
+		  {
+		  set tilenum CPIPEBOMB
+		  add tilenum 6
+		  }
+		  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	break
+   case 25
+   case 26
+   case 27
+	sub x 60
+	sub y 10
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1510 else
+		  {
+		  set tilenum CPIPEBOMB
+		  add tilenum 7
+		  }
+		  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	break
+   case 28
+   case 29
+	sub x 60
+	sub y 20
+	  ife CHAR 0 ifand CHAR_APP 1 set tilenum 1510 else
+		  {
+		  set tilenum CPIPEBOMB
+		  add tilenum 7
+		  }
+		  guniqhudid 10
+	  rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	break
+  endswitch
+guniqhudid 0
+ends
+
+// DYNAMITE STICK===============================================================================================================
+
+defstate displaystick
+getp[].ammo_amount 5 weap_disp_temp
+   ifg weap_disp_temp 0
+	{
+	ife CHAR 5
+		{
+		ifand CHAR_APP 65536
+			{
+			ife weaponcount 0 set tilenum 38249 else
+			  set tilenum CPIPEBOMB
+			}
+		else
+			{
+			ife weaponcount 0 set tilenum 6838 else
+			  set tilenum CPIPEBOMB
+			}
+		}
+	ife CHAR 9
+		{
+		ife weaponcount 0 set tilenum 8618 else
+		  set tilenum CPIPEBOMB
+		}
+	guniqhudid 10
+	rotatesprite x y 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	guniqhudid 11
+	ifg weaponcount 0 rotatesprite x y 49152 0 6829 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2 // FUSE
+	ifg weaponcount 8
+		{
+		sub x 97
+		sub y 47
+		guniqhudid 12
+		rotatesprite x y NNORMALSIZE 0 6830 0 0 4096 windowx1 windowy1 windowx2 windowy2
+		}
+	}
+ends
+
+defstate displaylighter
+	getp[].weapon_pos weap_disp_temp
+	ife CHAR 9
+	{
+		ife ARTIFACTS_LOADOUT[CHAR] 5 // Golden lighter artifact?
+		{
+		ifn weap_disp_temp 0 set tilenum 11363 else set tilenum 11364
+		}
+	else
+		{
+		ifn weap_disp_temp 0 set tilenum 12180 else set tilenum 12181
+		}
+	}
+	else
+	{
+	ifand CHAR_APP 65536
+		{
+		ife ARTIFACTS_LOADOUT[CHAR] 5 // Golden lighter artifact?
+			{
+			ifn weap_disp_temp 0 set tilenum 38259 else set tilenum 38260
+			}
+		else
+			{
+			ifn weap_disp_temp 0 set tilenum 38267 else set tilenum 38268
+			}
+		}
+	else
+		{
+		ife ARTIFACTS_LOADOUT[CHAR] 5 // Golden lighter artifact?
+			{
+			ifn weap_disp_temp 0 set tilenum 9409 else set tilenum 9410
+			}
+		else
+			{
+			ifn weap_disp_temp 0 set tilenum 6833 else set tilenum 6834
+			}
+		}
+	}
+	ife weap_disp_temp 1 soundonce ZIPPOLIGHT
+	ife weap_disp_temp -2 soundonce ZIPPOCLOSE
+	guniqhudid 13
+	rotatesprite x2 y2 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	guniqhudid 0
+ends
+
+defstate displaylighter2
+	ife CHAR 9
+	{
+	ife ARTIFACTS_LOADOUT[CHAR] 5 // Golden lighter artifact?
+		set tilenum 11365
+	else
+		set tilenum 12182
+	}
+	else
+		{
+		ifand CHAR_APP 65536
+			{
+			ife ARTIFACTS_LOADOUT[CHAR] 5 // Golden lighter artifact?
+			set tilenum 38261
+			else
+			set tilenum 38269
+			}
+		else
+			{
+			ife ARTIFACTS_LOADOUT[CHAR] 5 // Golden lighter artifact?
+			set tilenum 9411
+			else
+			set tilenum 6835
+			}
+		}
+	sub y2 5
+	guniqhudid 13
+	rotatesprite x2 y2 49152 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+	add x2 36
+	sub y2 50
+	ifinwater set tilenum 6827 else set tilenum 18168
+	guniqhudid 14
+	rotatespritea x2 y2 12288 0 tilenum 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
+	guniqhudid 0
+ends
+
+defstate displaydynastick
+
+	  set x 235
+	  set y 255
+	  sub x wepsway_x
+	  add x weapon_xoffset
+	  sub x looking_angSR1
+	  sub y wepsway_y
+	  add y looking_arc
+	  sub y gun_pos
+
+	  set x2 85
+	  set y2 255
+	  sub x2 wepsway_x
+	sub x2 weapon_xoffset
+	add x2 looking_angSR1
+
+	sub y2 wepsway_y
+	add y2 looking_arc
+	sub y2 gun_pos
+
+
+  switch weaponcount
+   case 0
+		state displaystick
+		state displaylighter
+   break
+   case 1
+   case 2
+		sub x 5
+		state displaystick
+		add x2 5
+		state displaylighter
+   break
+   case 3
+   case 4
+   case 13
+   case 14
+		sub x 10
+		state displaystick
+		add x2 10
+		state displaylighter
+   break
+   case 5
+   case 6
+   case 11
+   case 12
+		sub x 15
+		state displaystick
+		add x2 15
+		state displaylighter2
+   break
+   case 7
+   case 8
+		sub x 20
+		state displaystick
+		add x2 20
+		state displaylighter2
+   break
+   case 9
+   case 10
+		soundonce LIGHT_FUSE
+		sub x 20
+		state displaystick
+		add x2 20
+		state displaylighter2
+   break
+   case 15
+		add x 10
+		add y 10
+		state displaystick
+		state displaylighter
+   break
+   case 16
+		add x 20
+		add y 20
+		state displaystick
+		state displaylighter
+   break
+   case 17
+		add x 30
+		add y 30
+		state displaystick
+		state displaylighter
+   break
+   case 18
+		add x 40
+		add y 40
+		state displaystick
+		state displaylighter
+   break
+   case 19
+   case 20
+   case 21
+	state displaylighter
+   break
+  endswitch
+ends
+
+
+// TRIPBOMB===============================================================================================================
+
+defstate displaytripbomb
+guniqhudid 0
+ add weapon_xoffset 8
+ sub gun_pos 10
+ ifg weaponcount 6
+ {
+  div weaponcount 8
+  add looking_arc weaponcount
+ }
+ else
+ {
+  ifl weaponcount 4
+   {
+	set x 142
+	add x weapon_xoffset
+	getp[].look_ang weap_disp_temp
+	div weap_disp_temp 2
+	sub x weap_disp_temp
+	set y 234
+	add y looking_arc
+	sub y gun_pos
+	ife weaponcount 0
+		{
+		guniqhudid 10
+		ife CHAR 1 rotatesprite x y 70000 0 5449 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		else rotatesprite x y 21000 0 2569 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
+		}
+	sub x 12
+	add y 15
+	ife weaponcount 0 set tilenum CTRIPBOMB else
+	ife weaponcount 1 set tilenum CKEYCARDTILE2 else
+	ife weaponcount 2 set tilenum CKEYCARDTILE3
+	sub x 70
+	guniqhudid 11
+	rotatesprite x y 40960 1024 tilenum shade arm_pal 4100 windowx1 windowy1 windowx2 windowy2
+	add x 165
+	guniqhudid 12
+	rotatesprite x y 40960 0 tilenum shade arm_pal 4096 windowx1 windowy1 windowx2 windowy2
+   }
+ }
+ guniqhudid 0
+ends

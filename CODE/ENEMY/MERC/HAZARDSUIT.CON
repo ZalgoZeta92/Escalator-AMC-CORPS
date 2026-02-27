@@ -1,0 +1,242 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile HAZARD_SUIT
+
+// will fire a new acid projectile that corrodes armour and reduces the player's vertical movement
+// armoured, will be vulnerible to headshots like the light power armour
+
+action A_HAZARD_START 0 1 5 1 10
+action A_HAZARD_IDLE 0 1 5 1 10
+action A_HAZARD_MOVE 5 4 5 1 24
+
+action A_HAZARD_PREP 25 1 5 1 10
+action A_HAZARD_FIRE 25 2 5 1 8
+
+action A_HAZARD_PAIN 35
+action A_HAZARD_DIE 35 6 1 1 12
+action A_HAZARD_DEAD 41
+
+move M_HAZARD_WALK 75
+
+useractor enemystayput HAZARD_SUIT_STAYPUT 400 A_HAZARD_START
+	cactor HAZARD_SUIT
+enda
+
+useractor enemy HAZARD_SUIT 400 A_HAZARD_START
+	fall
+
+	ifdead nullop
+	else ifsound HAZ_BREATH nullop
+	else ifrnd 64
+		soundonce HAZ_BREATH
+
+	ifaction A_HAZARD_START
+	{
+		cstat 257
+		strength 400
+		sizeat 28 28
+		set MONSTER_FLAGS 2
+		set actor_type TYPE_ARMOURED_HELMET
+		state monst_glow
+		set enemy_cooldown1 0
+		ife actor_pal 10 set faction_flag 2
+		action A_HAZARD_IDLE
+	}
+
+	state actor_knockback_state
+	xor element_type FLOOR_DAMAGE
+	xor element_type FIRE_DAMAGE
+	xor element_type ICE_DAMAGE
+	xor element_type SPIRIT_DAMAGE
+
+	ifaction A_HAZARD_PREP nullop
+	else ifaction A_HAZARD_FIRE nullop
+	else ifg enemy_cooldown1 0
+		sub enemy_cooldown1 1
+
+	ifaction A_HAZARD_IDLE
+	{
+		move STOP
+		state checkfortarget
+		ifn my_target -1
+		{
+			ifrnd 96 sound HAZ_RCG
+
+			action A_HAZARD_MOVE
+		}
+	}
+	else ifaction A_HAZARD_MOVE
+	{
+		ifmove M_HAZARD_WALK nullop
+		else move M_HAZARD_WALK geth
+
+		state checkfortarget
+
+		ife enemy_cooldown1 0
+		ifn my_target -1
+		{
+			state SKILL_SHOOT_LEVELADJUST
+
+			ifl RANDOM_CHANCE SKILLCHANCE
+			{
+				ifrnd 128 sound HAZ_ATCK1 else sound HAZ_ATCK2
+				set enemy_cooldown1 50
+				set INTERNALCOUNT 0
+				action A_HAZARD_PREP
+			}
+		}
+	}
+	else ifaction A_HAZARD_PREP
+	{
+		move STOP
+		state fronttowardstarget
+
+		add INTERNALCOUNT 1
+
+		ife INTERNALCOUNT 25
+		{
+			set temp 0
+			set INTERNALCOUNT 0
+			set INTERNALCOUNT_2 0
+			action A_HAZARD_FIRE
+		}
+	}
+	else ifaction A_HAZARD_FIRE
+	{
+		move STOP
+		state fronttowardstarget
+		ifactioncount 2
+		{
+			ife INTERNALCOUNT_2 0
+			{
+				add INTERNALCOUNT 1
+				sound HAZ_FIRE
+				shoot ACID_BLAST // TODO acid attack
+				set INTERNALCOUNT_2 1
+			}
+			resetactioncount
+		}
+		else ifactioncount 1
+		{
+			set INTERNALCOUNT_2 0
+		}
+
+		ife INTERNALCOUNT 10
+			action A_HAZARD_MOVE
+	}
+	else ifaction A_HAZARD_PAIN
+	{
+		sub PAIN_AMOUNT 1
+		move STOP
+		ife PAIN_AMOUNT 0
+		{
+			ifdead action A_HAZARD_DIE
+			else action A_HAZARD_MOVE
+		}
+	}
+	else ifaction A_HAZARD_DIE
+	{
+		strength 0
+		ifactioncount 6 { state rf state BODY_FALL_NOISES action A_HAZARD_DEAD }
+	}
+	else ifaction A_HAZARD_DEAD
+	{
+		move STOP
+		ifhitweapon
+		{
+			ifwasweapon RADIUSEXPLOSION
+			{
+				state squish_sounds
+				state standard_jibs
+				killit
+			}
+		}
+	}
+
+	ifhitweapon
+	{
+		state NEWGUNEFFECTS
+		sound BERSERK_PAIN
+		//spawn BLOOD
+		guts JIBS6 1
+		state random_wall_jibs
+
+		ifdead
+		{
+			addkills 1
+			state rf
+
+			ife HEADSHOT 2
+			{
+				spritepal 84
+				lotsofglass 20
+				getlastpal
+				ifg fire_damage 0 set fire_damage 0
+				ifrnd 32 state trigger_showoff
+				state jib_sounds
+				state decap_sounds
+				sound PRESSURIZE
+				geta[].z temp
+				sub temp 4096
+				espawn WFRAMES
+				seta[RETURN].pal 12
+				seta[RETURN].z temp
+				shoot NJIB
+				shoot NJIB
+				guts JIBS6 3
+				guts JIBS2 2
+				action A_HAZARD_DIE
+			}
+			else ifg energy_damage 0
+			{
+				shoot SPARK2 shoot SPARK2 shoot SPARK2
+				spritepal 4
+				guts JIBS3 6
+				spawn DISINTIGRATE_GUY
+				killit
+			}
+			else
+			{
+				sound HAZ_DIE
+				action A_HAZARD_DIE
+				spawn BLOODPOOL
+			}
+		}
+		else // not dead
+		{
+			ifg PAIN_AMOUNT 0 action A_HAZARD_PAIN
+			else ifrnd 32 { state PAIN_SKILL_LEVELADJUST action A_HAZARD_PAIN }
+			// if they were idle, getting hit ALWAYS wakes them up
+			else ifaction A_HAZARD_IDLE { state PAIN_SKILL_LEVELADJUST action A_HAZARD_PAIN }
+		}
+	}
+
+	state checksquished
+enda

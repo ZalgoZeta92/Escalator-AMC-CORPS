@@ -1,0 +1,241 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile RESURGERE
+
+action A_RESURG_START 0 4 5 1 48
+
+action A_RESURG_FLOAT 0 4 5 1 18
+
+action A_RESURG_BLAST 20 2 5 1 16
+
+action A_RESURG_BLAST_R 25 2 5 -1 4
+
+action A_RESURG_FROZEN 30 1 5 1 10
+action A_RESURG_PAIN 30 1 5 1 10
+
+action A_RESURG_DYING 35 5 1 1 16
+action A_RESURG_DEAD 39 1 1 1 10
+
+action A_RESURG_RES 39 5 1 -1 20
+
+defstate resurgere_float
+ifaction A_RESURG_DYING nullop 
+else ifaction A_RESURG_DEAD nullop 
+else ifaction A_RESURG_RES nullop 
+else 
+	{
+		geta[].z z
+		getp[].posz temp
+	 ifp phigher
+        { ifmove MHADESFLOATUP nullop else move MHADESFLOATUP geth getv }
+      else
+		ifg temp z { ifmove MHADESFLOATDOWN nullop else move MHADESFLOATDOWN geth getv }
+		else { ifmove MHADESFLOAT nullop else move MHADESFLOAT geth }
+	}
+ends
+
+useractor enemystayput RESURGERE_STAYPUT 400 A_RESURG_FLOAT
+state monst_glow
+cactor RESURGERE
+enda
+
+useractor enemy RESURGERE 400 A_RESURG_START
+
+ifaction A_RESURG_START
+	{
+	set MONSTER_FLAGS 1
+	state monst_glow
+	spriteflags NORMAL_ENEMY_TRU
+	sound RESURG_ALERT
+	geta[].pal actor_pal
+	set ally_mag 400
+	strength 400 
+	sizeat 40 40
+	action A_RESURG_FLOAT
+	cstator 257
+	}
+	
+		ife actor_return 1
+			{
+			spritepal 41
+			state standard_jibs
+			state standard_jibs
+			state squish_sounds
+			spawn BIG_BLOOD_EXE
+			espawn ENERGY_EXPLOSION
+			seta[RETURN].pal 8
+			spawn 8433
+			killit
+			}
+
+ifaction A_RESURG_FROZEN state frozen_code
+else
+ifaction A_RESURG_RES
+	{
+	sizeto 40 40
+	ifactioncount 5
+		{
+		sound RESURG_ALERT
+		state addtotargetarray
+		sizeat 40 40
+		div ally_mag 2
+		seta[].extra ally_mag
+		set weight_increase 1
+		set max_weight 2
+		action A_RESURG_FLOAT
+		cstator 257		
+		}
+	}
+else
+ifaction A_RESURG_DEAD
+	{
+	sizeto 40 32
+	fall
+	move 0
+
+    ifhitweapon
+	    {
+	      ifwasweapon RADIUSEXPLOSION
+	      {
+	        state squish_sounds
+			state standard_jibs
+	        killit
+	      }
+	      break
+	    }
+	else
+		{
+		action A_RESURG_RES
+		sound RES_RES
+		}
+
+	}
+else
+ifaction A_RESURG_DYING
+	{
+	fall
+	sizeto 30 22
+	cstat 0
+	strength 0
+	ifactioncount 5
+		{ 
+		state BODY_FALL_NOISES 
+		spawn BLOODPOOL 
+		action A_RESURG_DEAD
+		}
+	}
+else
+ifaction A_RESURG_PAIN
+	{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0 action A_RESURG_FLOAT
+	}
+else
+ifaction A_RESURG_BLAST_R
+{
+state resurgere_float
+ifactioncount 3 action A_RESURG_FLOAT
+}
+else
+ifaction A_RESURG_FLOAT
+{
+state thisactor_getzrange
+state checkfortarget
+ifn my_target -1
+  {
+  state SKILL_SHOOT_LEVELADJUST
+ 	ifl RANDOM_CHANCE SKILLCHANCE action A_RESURG_BLAST
+   }
+   else
+ifrnd 128
+	state resurgere_float
+}
+else
+ifaction A_RESURG_BLAST
+{
+state resurgere_float
+state new_validatetarget
+ife my_target -1 action A_RESURG_FLOAT
+state fronttowardstarget
+ifactioncount 2 
+	{ 
+	set PROJECTILE_TO_SHOOT ACID_BLAST
+	set PROJECTILE_FIRING_SOUND HADES_FIRE
+	set PROJECTILE_OFFSET -128
+	state sang_enemyShootProjectile
+	resetactioncount
+	action A_RESURG_BLAST_R 
+	}
+
+}
+
+state actor_knockback_state
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifg silence_damage 0
+	{
+	sub silence_damage 1
+	state spawn_curse_particles
+	}
+
+ifhitweapon
+	{
+	state NEWGUNEFFECTS
+	ifwasweapon VOID_PLAYER_BOLT { sound EN_CURSE set silence_damage 150 }
+	ifwasweapon VOID_BOLT { sound EN_CURSE set silence_damage 300 }
+	ifwasweapon VOID_BLAST { sound EN_CURSE set silence_damage 900 }
+	guts JIBS6 1
+	state random_wall_jibs
+    ifwasweapon RPG
+	{ seta[].xvel 5 }
+	ifdead
+		{
+		state rf
+		addkills 1
+		ifwasweapon RADIUSEXPLOSION set actor_return 1
+		else ifwasweapon RPG set actor_return 1
+		else ifand proj_udata PROJ_GIB set actor_return 1
+		else ifg silence_damage 0 set actor_return 1
+		else ifwasweapon GROWSPARK set actor_return 1
+		else ifl ally_mag 100 set actor_return 1
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_RESURG_FROZEN }
+		else
+			{
+			sound HADES_DIE
+			action A_RESURG_DYING
+			}
+		}
+	else ifg PAIN_AMOUNT 0 { sound HADES_PAIN action A_RESURG_PAIN }
+	else ifrnd 16 { sound HADES_PAIN state PAIN_SKILL_LEVELADJUST action A_RESURG_PAIN }
+	}
+
+enda

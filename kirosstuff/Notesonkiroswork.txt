@@ -1,0 +1,104 @@
+Note: Feel free to try and test the adjustments I made. -Kiro.
+
+Tanks code is adjusted. Now these tanks that is destroyed no longer harms the player from distance. Except the player in vehicle (WTANKDEAD).
+
+Good Changes:
+
+Actor MERC 1
+
+Pal 13: Explosive shotgun
+
+Actor LPSUIT
+
+Tested the LPSUIT with new variety of action types. Added with pallete to create differnt type of actions. See the codes.
+
+Pal 35 Friendly type.
+
+PAL 42 Imperial Men
+
+Actor VILBOT
+
+PAL 17 Added action anti-tank caliber autocannon and middle machinegun.
+
+Actor WTANK
+
+WTANK can fire any projectile with assigned pal code
+
+Players operating WTANK no longer gets crushed by a certain actor. Current: WTANK.
+
+Redefine actors aligning with pal combined with faction flags.
+
+
+Pal 10: Fires Ruby Blast
+
+Pal 11: Cycloid Variant with Cycloid plasma and firelasers
+
+Pal 12: Neutral Type
+
+Pal 13: EDF Variant / Enemy Tank
+
+Pal 16: Allied State
+
+actor ACOPTER
+Blackhawk; Kamov Attackcopter; Mil Hind
+
+Adding codes with Pal 16 allows them to execute their own movement and attacking patterns.
+
+Blackhawk: 40mm Grenade
+Kamov Heli: 50 cal slow
+Mil Hind: Not yet implement
+
+Problems:
+
+Several operated vehicles: Hovertank, Hovercraft, Cycloid Flyer, Engineer Submarine, EAF Flyer are affacted by destroying WTANKDEAD. Needs to add codes.
+
+- When WTANK & WTANKDEAD & WTANK GUN is destroyed it supposed to be destroyed based on faction_flag. However these WTANK kept firing at these destroyed WTANK despite they finish targeting.
+
+- Most of the character actors targeting these WTANK based on assigned pal and ignores other targets. Even it dead it kept shooting.
+
+- Tanks lacked position updates on slopes.
+
+Next:
+
+Created several actors attached with palletes and faction flags. 
+
+Added several palletes with several types of weapon projectiles.
+
+Removed faceplayer / seekplayer variable on all common enemies. Except character bosses.
+
+Melee enemies needs to get reworked by rewritten the old code into a workable current design.
+
+Melee enemies with recent old codes provides acts a a distraction on faction enemy types.
+
+Possible of adapting the sprite actors pallete with assigning many actions based on pallete code.
+
+Make all nature sprites into destructible actors.
+
+Figure out how to get gore and blood removed by squished, explosion, flames, and other projectiles. This helps to delete useless sprites, reduce lags and prevents sprite spawn errors.
+
+List many variants with PALLETE that can fire weapons on both allies and enemies. Add the codes and make new assigned actions which includes changing the actor with {define texture} formula.
+
+
+
+1
+ 2
+  3
+ 4
+5
+
+1
+ 2
+  3
+   4
+  5
+ 6
+7
+
+1
+ 2
+  3
+   4
+   5
+  6
+ 7
+8

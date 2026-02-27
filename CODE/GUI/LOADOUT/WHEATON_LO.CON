@@ -1,0 +1,947 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+--------------------------------------------------------------------------------
+*/
+
+defstate WHEATON_EQUIP_SCREEN
+	set gui_pos_x 12
+	set gui_pos_y 40
+	state SCROLL_POS
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 1) Station-Six
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14847 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 563
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[153] 2 setarray SPECIALIST_EQUIPMENT[153] 1
+					ife SPECIALIST_EQUIPMENT[150] 2 setarray SPECIALIST_EQUIPMENT[150] 1
+					sound GET_GUN
+					}
+				}
+	}
+		ife INFO_SEL_3 563
+			{
+			rotatesprite 288 150 INVENSIZE 0 35847 0 0 0 0 0 xdim ydim
+			qputs 1011 A modern reincarnation of the old,
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 venerable Welrod handgun from WWII. 
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 This revision uses detachable Glock
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 mags & suppressors, and an automated
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 bolt. Packs a punch, but repeat
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 sustained fire can get stuttery.
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 1 Pistol
+			screentext STARTALPHANUM 95 76 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 95 82 28672 0 0 2198 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_RIFLE
+			state gun_dam_type_disp
+			}
+
+	set item_num 150
+	ifg SPECIALIST_EQUIPMENT[item_num] 0 // Found Longslide Pistol?
+	{		
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 -Longslide Pistol
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14847 0 0 0 0 0 xdim ydim // Icon
+		ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 item_num
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[153] 2 setarray SPECIALIST_EQUIPMENT[153] 1
+					
+					ife SPECIALIST_EQUIPMENT[item_num] 2 setarray SPECIALIST_EQUIPMENT[item_num] 1
+					else setarray SPECIALIST_EQUIPMENT[item_num] 2
+					sound GET_GUN
+					}
+				}
+		}
+	}
+		ife INFO_SEL_3 150
+			{
+			rotatesprite 288 148 HALFSIZE 0 17982 0 0 0 0 0 xdim ydim
+			qputs 1011 A custom-crafted .460 Rowland
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 pistol, handed out to ace EAF
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 pilots for self-defense. More
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 ceremonial than anything else.
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 1 Pistol
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 -Can use alternate .45 ammo
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 ^8ALT-FIRE: ^0Toggle lasersight
+			screentext STARTALPHANUM 95 82 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			set gui_pos_x2 105
+			set gui_pos_y2 150
+			state CURSOR_OVER_ITEM2
+			screentext STARTALPHANUM 95 135 28672 0 0 2190 0 1 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			ifand SPECIALIST_CUSTOM[5] 1073741824 set disp_temp5 1
+			else ifand SPECIALIST_CUSTOM[5] 2147483648 set disp_temp5 8
+			else set disp_temp5 2
+			rotatespritea gui_pos_x2 gui_pos_y2 HALFSIZE 0 3596 0 disp_temp5 0 -255 0 0 xdim ydim
+
+			ifl gui_pos_x_temp2 15
+			 ifg gui_pos_x_temp2 -15
+			  ifl gui_pos_y_temp2 8
+			   ifg gui_pos_y_temp2 -8
+					{
+					set mouse_hint 3095 // refers to quote in user.con
+					sub mouse_hint_timer 2
+					state handle_click
+					ife clicked 1
+						{
+						sound INTERFACE_2
+						set temp4 SPECIALIST_CUSTOM[5]
+						ifand temp4 1073741824 { xorvar temp4 1073741824 orvar temp4 2147483648 }
+						else ifand temp4 2147483648 xorvar temp4 2147483648
+						else orvar temp4 1073741824
+						setarray SPECIALIST_CUSTOM[5] temp4
+						}
+					}
+			set gun_damage_types GDT_STANDARD
+			state gun_dam_type_disp
+			}
+	
+	set item_num 153
+	ifg SPECIALIST_EQUIPMENT[item_num] 0 // Bought gold particle magnum
+	{	
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 -Gold Particle Magnum
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14847 0 7 0 0 0 xdim ydim // Icon
+		ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 item_num
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[150] 2 setarray SPECIALIST_EQUIPMENT[150] 1
+					
+					ife SPECIALIST_EQUIPMENT[item_num] 2 setarray SPECIALIST_EQUIPMENT[item_num] 1
+					else setarray SPECIALIST_EQUIPMENT[item_num] 2
+					sound GET_GUN
+					}
+				}
+		}
+	}
+		ife INFO_SEL_3 153
+			{
+			rotatesprite 288 148 HALFSIZE 0 35575 0 0 0 0 0 xdim ydim
+			qputs 1011 At this point we're certain
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 whoever made this just threw
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 darts at a board until they came
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 up with a name.
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 1 Pistol
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			set gun_damage_types GDT_GOLD
+			state gun_dam_type_disp
+			}
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 2) FC-8 Belier
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14414 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 564
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click
+					 ife clicked 1
+						{
+						ife SPECIALIST_EQUIPMENT[152] 2 setarray SPECIALIST_EQUIPMENT[152] 1
+						ife SPECIALIST_EQUIPMENT[119] 2 setarray SPECIALIST_EQUIPMENT[119] 1
+						ife SPECIALIST_EQUIPMENT[118] 2 setarray SPECIALIST_EQUIPMENT[118] 1
+						sound GET_GUN
+						}
+				}
+	}
+		ife INFO_SEL_3 564
+			{
+			
+			rotatesprite 288 150 INVENSIZE 128 35894 0 0 0 0 0 xdim ydim
+			qputs 1011 A combat shotgun developped by EAF
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 gunsmiths for combat within Cycloid
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 strongholds. Can output significant
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 firepower up close, but somewhat
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 lacks in versatility.
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 2 Shotgun
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 95 76 28672 0 0 2198 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 ^8ALT-FIRE: ^0Toggle scope
+			screentext STARTALPHANUM 95 88 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_SOFT
+			state gun_dam_type_disp
+			}
+
+	set item_num 118
+	ifg SPECIALIST_EQUIPMENT[item_num] 0 // player found shotgun?
+		{
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			qputs 1011 -FC-7R Onagre
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14413 0 0 0 0 0 xdim ydim // Icon
+			ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			ifle gui_pos_x_temp 15
+			 ifge gui_pos_x_temp -65
+			  ifle gui_pos_y_temp 3
+			   ifge gui_pos_y_temp 0
+					{
+					set INFO_SEL_3 item_num
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click
+					 ife clicked 1
+						{
+						ife SPECIALIST_EQUIPMENT[152] 2 setarray SPECIALIST_EQUIPMENT[152] 1
+						ife SPECIALIST_EQUIPMENT[119] 2 setarray SPECIALIST_EQUIPMENT[119] 1
+						ife SPECIALIST_EQUIPMENT[item_num] 1 setarray SPECIALIST_EQUIPMENT[item_num] 2
+						else setarray SPECIALIST_EQUIPMENT[item_num] 1
+						sound GET_GUN
+						}
+					}
+			}
+		}
+
+		ife INFO_SEL_3 118
+			{
+			rotatesprite 288 150 INVENSIZE 128 35879 0 0 0 0 0 xdim ydim
+			qputs 1011 An EAF copycat of the KSG-12 meant
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 for tank and APC crew self-defense
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 during offworld armored battles.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Has only one tube, as it was built for
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 high ammo versatility instead.
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 2 Shotgun
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 ^8ALT-FIRE: ^0Toggle scope
+			screentext STARTALPHANUM 95 82 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_SOFT
+			state gun_dam_type_disp
+			}
+
+	set item_num 119
+	ifg SPECIALIST_EQUIPMENT[118] 0 // special case
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 -FC-8A Onagre
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14414 0 0 0 0 0 xdim ydim // Icon
+		ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 item_num
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				 ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[152] 2 setarray SPECIALIST_EQUIPMENT[152] 1
+					ife SPECIALIST_EQUIPMENT[118] 2 setarray SPECIALIST_EQUIPMENT[118] 1
+					ife SPECIALIST_EQUIPMENT[item_num] 1 setarray SPECIALIST_EQUIPMENT[item_num] 2
+					else setarray SPECIALIST_EQUIPMENT[item_num] 1
+					sound GET_GUN
+					resetcount
+					}
+				}
+		}
+	}
+
+		ife INFO_SEL_3 119
+			{
+			rotatesprite 288 150 INVENSIZE 128 36071 0 0 0 0 0 xdim ydim
+			qputs 1011 An aftermarket mod of the Onagre,
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 turning it into a fully automatic
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 shotgun with a drum magazine.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 2 Shotgun
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_SOFT
+			state gun_dam_type_disp
+			}
+		
+	set item_num 152
+	ifg SPECIALIST_EQUIPMENT[item_num] 0 // player found shotgun?
+		{		
+		add gui_pos_y 7
+		state CURSOR_OVER_ITEM
+		ifg gui_pos_y 39 ifl gui_pos_y 187
+			{
+			qputs 1011 -Gold SPAS-15
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14413 0 7 0 0 0 xdim ydim // Icon
+			ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			ifle gui_pos_x_temp 15
+			 ifge gui_pos_x_temp -65
+			  ifle gui_pos_y_temp 3
+			   ifge gui_pos_y_temp 0
+					{
+					set INFO_SEL_3 item_num
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click
+					 ife clicked 1
+						{
+						ife SPECIALIST_EQUIPMENT[118] 2 setarray SPECIALIST_EQUIPMENT[18] 1
+						ife SPECIALIST_EQUIPMENT[119] 2 setarray SPECIALIST_EQUIPMENT[119] 1
+						ife SPECIALIST_EQUIPMENT[item_num] 1 setarray SPECIALIST_EQUIPMENT[item_num] 2
+						else setarray SPECIALIST_EQUIPMENT[item_num] 1
+						sound GET_GUN
+						}
+					}
+			}
+		}
+
+		ife INFO_SEL_3 152
+			{
+			rotatesprite 288 150 INVENSIZE 128 35571 0 0 0 0 0 xdim ydim
+			qputs 1011 A golden SPAS-15 Shotgun; has a 6
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 round magazine and fires gold
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 standard ammunition.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 2 Shotgun
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_GOLD
+			state gun_dam_type_disp
+			}
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 3) Stg-29 Lancier
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14839 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 565
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				 ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[160] 2 setarray SPECIALIST_EQUIPMENT[160] 1
+					ife SPECIALIST_EQUIPMENT[117] 2 setarray SPECIALIST_EQUIPMENT[117] 1 // turn the MP44 'off' if they have it
+					sound GET_GUN
+					resetcount
+					}
+				}
+	}
+		ife INFO_SEL_3 565
+			{
+			rotatesprite 288 150 INVENSIZE 128 35857 0 0 0 0 0 xdim ydim // Wheaton's assault rifle
+			qputs 1011 An European 7.62 rifle that Wheaton
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 kept from his EAF days. Combined 
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 engineering from FN and HK gives it
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 rather decent stability for a battle
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 rifle of its caliber.
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 3 Assault rifle
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			screentext STARTALPHANUM 95 76 28672 0 0 2198 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 ^8ALT-FIRE: ^0Toggle scope
+			screentext STARTALPHANUM 95 88 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_ARMOURP
+			state gun_dam_type_disp
+			}
+
+	set item_num 117
+	ifg SPECIALIST_EQUIPMENT[item_num] 0 // player found MP-44
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 -Mp-44/6
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14843 0 0 0 0 0 xdim ydim // Icon
+		ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 item_num
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				 ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[160] 2 setarray SPECIALIST_EQUIPMENT[160] 1
+					ife SPECIALIST_EQUIPMENT[item_num] 1 setarray SPECIALIST_EQUIPMENT[item_num] 2
+					else setarray SPECIALIST_EQUIPMENT[item_num] 1
+					sound GET_GUN
+					resetcount
+					}
+				}
+		}
+	}
+
+		ife INFO_SEL_3 117
+			{
+			rotatesprite 288 150 INVENSIZE 128 36037 0 0 0 0 0 xdim ydim // Wheaton's alternate assault rifle
+			qputs 1011 A carefully restored, unusual WWII
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 relic of a firearm that Rusty brought
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 back recently. Features avant-garde
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 attachment slots for its time such
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 as underbarrel and scope mounts.
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 3 Assault rifle
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			
+			qputs 1011 ^8ALT-FIRE: ^0Stun Scanner Flash
+			screentext STARTALPHANUM 95 82 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_STANDARD
+			state gun_dam_type_disp
+			}
+
+	set item_num 160
+	ifg SPECIALIST_EQUIPMENT[item_num] 0 // player found XM8
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 -XM8
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14843 0 0 0 0 0 xdim ydim // Icon
+		ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 item_num
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				 ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[117] 2 setarray SPECIALIST_EQUIPMENT[117] 1 // turn the MP44 'off' if they have it
+					ife SPECIALIST_EQUIPMENT[item_num] 1 setarray SPECIALIST_EQUIPMENT[item_num] 2
+					else setarray SPECIALIST_EQUIPMENT[item_num] 1
+					sound GET_GUN
+					resetcount
+					}
+				}
+		}
+	}
+
+		ife INFO_SEL_3 160
+			{
+			rotatesprite 288 150 INVENSIZE 128 38939 0 0 0 0 0 xdim ydim // Wheaton's alternate assault rifle
+			qputs 1011 An older prototype AR which was bought
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 and retrofitted by the EAF for stealth
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 missions. Fires .300 AAC Blackout ammo,
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 and is fitted with a suppressor. Also
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 has a built in scope.
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 3 Assault rifle
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_STANDARD
+			state gun_dam_type_disp
+			}
+
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 4) China Lake
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14842 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 566
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 566
+			{
+			rotatesprite 288 147 INVENSIZE 128 35873 0 0 0 0 0 xdim ydim
+			qputs 1011 A pump-action 40MM launcher built
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 7 140 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 in exceptionally low quantities, until
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 7 140 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 the advent of new ammo types would
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 7 140 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 make the design re-examined into a
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 7 140 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 newer, mass produced model.
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 7 140 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 4 Grenade Launcher
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 -Can fire 40MM cased grenades
+			screentext STARTALPHANUM 95 76 28672 0 0 1011 0 32 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 -Cannot fire 40MM Photopile ammo
+			screentext STARTALPHANUM 95 82 28672 0 0 1011 2 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_ARMOURP
+			state gun_dam_type_disp
+			}
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 6) Lebel-ICKX
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14793 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 562
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click
+					 ife clicked 1
+						{
+						ife SPECIALIST_EQUIPMENT[120] 2 setarray SPECIALIST_EQUIPMENT[120] 1
+						sound GET_GUN
+						resetcount
+						}
+				}
+	}
+		ife INFO_SEL_3 562
+			{
+			rotatesprite 288 148 24000 128 36044 0 0 0 0 0 xdim ydim
+			qputs 1011 A high-power sniper rifle combining
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 regular gunpowder operation with
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Gauss coilgun designs cues for a
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 devastating (and loud) yet perfect
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 shot. The bolt action remains a huge
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 downside to the design, though.
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 6 Gauss Sniper rifle
+			screentext STARTALPHANUM 95 76 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 ^8ALT-FIRE: ^0Toggle scope
+			screentext STARTALPHANUM 95 88 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_GAUSS
+			state gun_dam_type_disp
+			}
+	
+	set item_num 120
+	ifg SPECIALIST_EQUIPMENT[item_num] 0 // player found Photon DMR
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 -Photon DMR
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14796 0 0 0 0 0 xdim ydim // Icon
+		ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 item_num
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				 ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[item_num] 1 setarray SPECIALIST_EQUIPMENT[item_num] 2
+					else setarray SPECIALIST_EQUIPMENT[item_num] 1
+					sound GET_GUN
+					resetcount
+					}
+				}
+		}
+	}
+
+		ife INFO_SEL_3 120
+			{
+			rotatesprite 288 148 24000 128 36061 0 0 0 0 0 xdim ydim
+			qputs 1011 An automatic blaster rifle with
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 decent all-round performance,
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 distributed only to a few EAF veteran
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 squads, due to its relatively high
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 manufacturing costs.
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 6 Assault Rifle
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 ^8ALT-FIRE: ^0Switch to Shotgun
+			screentext STARTALPHANUM 95 76 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_GOLD
+			state gun_dam_type_disp
+			}
+
+
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 7) Laser caster
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14796 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 561
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				ife clicked 1
+					{			
+					ife SPECIALIST_EQUIPMENT[158] 2 setarray SPECIALIST_EQUIPMENT[158] 1
+					sound GET_GUN
+					}
+				}
+	}
+		ife INFO_SEL_3 561
+			{
+			rotatesprite 288 148 30000 128 36052 0 0 0 0 0 xdim ydim
+			qputs 1011 The closest thing we know to a
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 laser minigun, this energy weapon
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 eliminates the recoil miniguns are
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 notorious for, but otherwise keeps
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 all pros and cons to its class.
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 7 Heavy-laser gun
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_APLASER
+			state gun_dam_type_disp
+			}
+	
+	set item_num 158
+	ife WEAPONS_RESEARCH[14] 2 // Has MAG weaponry?
+	{	
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 -MAG Carbine
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14847 0 0 0 0 0 xdim ydim // Icon
+		ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 item_num
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				ife clicked 1
+					{			
+					ife SPECIALIST_EQUIPMENT[item_num] 2 setarray SPECIALIST_EQUIPMENT[item_num] 1
+					else setarray SPECIALIST_EQUIPMENT[item_num] 2
+					sound GET_GUN
+					}
+				}
+		}
+	}
+		ife INFO_SEL_3 158
+			{
+			rotatesprite 288 148 20000 128 38912 0 0 0 0 0 xdim ydim
+			qputs 1011 A Carbine version of our brand new
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 cutting edge MAG weaponry. Good
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 against armour and supernatural, but
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 cannot be manually reloaded.
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 1 Carbine
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Cannot be manually reloaded
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+
+			set gun_damage_types GDT_MAGP
+			state gun_dam_type_disp
+			}
+
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 8) Claymore mine
+
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14824 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 508
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+
+				state handle_click
+				 ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[125] 2 setarray SPECIALIST_EQUIPMENT[125] 1
+					sound GET_GUN
+					resetcount
+					}
+				}
+	}
+
+		ife INFO_SEL_3 508
+			{
+			rotatesprite 288 150 25000 0 36055 0 0 0 0 0 xdim ydim
+			qputs 1011 A powerful directional landmine.
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 These specialized explosives will
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 pepper countless steel balls ahead,
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 but at the expense of a much smaller
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 blast radius.
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 8 Trap
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_EXPLODE
+			state gun_dam_type_disp
+			}
+
+/* 	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		set item_num 125
+			qputs 1011 -MIA Mine
+			rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14842 0 0 0 0 0 xdim ydim // Icon
+			ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+			set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+			ifle gui_pos_x_temp 15
+			 ifge gui_pos_x_temp -65
+			  ifle gui_pos_y_temp 3
+			   ifge gui_pos_y_temp 0
+					{
+					set INFO_SEL_3 item_num
+					screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click
+					 ife clicked 1
+						{
+						ife SPECIALIST_EQUIPMENT[item_num] 1 setarray SPECIALIST_EQUIPMENT[item_num] 2
+						else setarray SPECIALIST_EQUIPMENT[item_num] 1
+						sound GET_GUN
+						}
+					}
+		}
+
+			ife INFO_SEL_3 125
+				{
+				rotatesprite 288 150 25000 0 36055 0 0 0 0 0 xdim ydim
+				qputs 1011 A non-lethal trap designed by Micky.
+				screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 This mine will unload eight MIA
+				screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 beams in a starry pattern upon
+				screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 detonation. Be very careful not to
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 MIA yourself in the process.
+				screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 Slot 8 Trap
+				screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				} */
+				
+add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 9) LAER-30Y
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14837 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 567
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+					state handle_click
+					 ife clicked 1
+						{
+						ife SPECIALIST_EQUIPMENT[96] 2 setarray SPECIALIST_EQUIPMENT[96] 1
+						sound GET_GUN
+						resetcount
+						}
+				}
+	}
+		ife INFO_SEL_3 567
+			{
+			rotatesprite 288 148 INVENSIZE 128 35889 0 0 0 0 0 xdim ydim
+			qputs 1011 This demonstrator EAF energy rifle
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 was 'mailed' to the base by one of
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Wheaton's 'old friends'. Rumored to
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 to be an attempt to try and emulate
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 MS-Corp's materia rifle technology,
+			screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 and to even double as a miniaturized
+			screentext STARTALPHANUM 95 70 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 power generator for offworld raids.
+			screentext STARTALPHANUM 95 76 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 9 Laser weapon
+			screentext STARTALPHANUM 95 82 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 ^8ALT-FIRE: ^0Toggle scope
+			screentext STARTALPHANUM 95 94 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_APLASER
+			state gun_dam_type_disp
+			}
+
+	set item_num 147
+	ifg SPECIALIST_EQUIPMENT[item_num] 0
+	{
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+		{
+		qputs 1011 -Gauss AR
+		rotatesprite gui_pos_x gui_pos_y INVENSIZE 0 14842 0 0 0 0 0 xdim ydim // Icon
+		ife SPECIALIST_EQUIPMENT[item_num] 2 set disp_temp4 32 else set disp_temp4 126
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 disp_temp4 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 item_num
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				state handle_click
+				 ife clicked 1
+					{
+					ife SPECIALIST_EQUIPMENT[item_num] 1 setarray SPECIALIST_EQUIPMENT[item_num] 2
+					else setarray SPECIALIST_EQUIPMENT[item_num] 1
+					sound GET_GUN
+					}
+				}
+		}
+	}
+
+			ife INFO_SEL_3 147
+				{
+				rotatesprite 288 150 25000 0 29733 0 0 0 0 0 xdim ydim
+				qputs 1011 An EAF attempt at creating a Gauss
+				screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 rifle; performs similarly to other
+				screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 attempts. A decent anti-armour AR
+				screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 that can also harm supernatural
+				screentext STARTALPHANUM 95 58 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 targets.
+				screentext STARTALPHANUM 95 64 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				qputs 1011 Slot 9 Gauss Rifle
+				screentext STARTALPHANUM 95 70 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+				
+			set gun_damage_types GDT_GAUSS
+			state gun_dam_type_disp
+				}
+
+ends

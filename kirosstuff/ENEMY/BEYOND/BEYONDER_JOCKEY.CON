@@ -1,0 +1,196 @@
+
+
+useractor notenemy 31434 action FIVE_ANG sizeat 40 30 enda
+
+
+action A_BEYOND_JOCKEY_START 0 0 5 1 12
+action A_BEYOND_JOCKEY_IDLE 0 0 5 1 12
+action A_BEYOND_JOCKEY_ATTACK_PREP 5 1 5 1 36
+action A_BEYOND_JOCKEY_ATTACK 10 1 5 1 12
+action A_BEYOND_JOCKEY_SEEK 15 4 5 1 24
+
+action A_BEYOND_JOCKEY_PAIN 35 0 1 1 8
+action A_BEYOND_JOCKEY_FREEZE 35 0 1 1 8
+action A_BEYOND_JOCKEY_GROW 35 0 1 1 8
+action A_BEYOND_JOCKEY_DYING 35 5 1 1 12
+action A_BEYOND_JOCKEY_DEAD 39
+
+move M_BEYOND_JOCKEY_WALK 64
+
+damageeventtile BEYOND_JOCKEY
+
+useractor enemystayput BEYOND_JOCKEY_STAYPUT 750 A_BEYOND_JOCKEY_START
+   cactor BEYOND_JOCKEY
+enda
+
+useractor enemy BEYOND_JOCKEY 750 A_BEYOND_JOCKEY_START
+fall
+
+	ifdead nullop
+	else ifsound HAZ_BREATH nullop
+	else ifrnd 64
+		soundonce HAZ_BREATH
+		
+ifaction A_BEYOND_JOCKEY_START
+{
+	cstat 257
+	strength 750
+	sizeat 34 30
+	set blood_type 0 // defaults to 0 which is red
+	set actor_type TYPE_FULL_BODY_ARMOUR
+	geta[].pal actor_pal
+	state monst_glow
+	action A_BEYOND_JOCKEY_IDLE
+}
+
+state actor_knockback_state
+xor element_type FLOOR_DAMAGE
+xor element_type FIRE_DAMAGE
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+
+ifaction A_BEYOND_JOCKEY_IDLE
+{
+	move STOP
+	state checkfortarget
+	ifn my_target -1 
+	{
+		ifrnd 128 sound BEYJ_SIGHT
+		else sound BEYJ_SIGHT2
+		
+		action A_BEYOND_JOCKEY_SEEK
+	}
+}
+else ifaction A_BEYOND_JOCKEY_ATTACK_PREP
+{
+	move STOP
+	state fronttowardstarget
+	
+	add INTERNALCOUNT 1
+	
+	ifge INTERNALCOUNT 30
+	{
+		set INTERNALCOUNT 1
+		action A_BEYOND_JOCKEY_ATTACK
+	}
+}
+else ifaction A_BEYOND_JOCKEY_ATTACK
+{
+	move STOP
+	state fronttowardstarget
+	
+	ifactioncount 1
+	{
+		set PROJECTILE_TO_SHOOT RUBYBLAST
+		set PROJECTILE_FIRING_SOUND BEYJ_FIRE
+		state sang_enemyShootProjectile
+		action A_BEYOND_JOCKEY_SEEK
+	}
+}
+else ifaction A_BEYOND_JOCKEY_SEEK
+{
+	ifsound BEYJ_ROAM nullop
+	else ifrnd 16 sound BEYJ_ROAM
+	
+	ifmove M_BEYOND_JOCKEY_WALK nullop 
+	else move M_BEYOND_JOCKEY_WALK geth
+		
+	state checkfortarget
+	
+	ifn my_target -1
+	ifrnd 64
+	{
+		// Target acquired, skill setting can still affect decision to shoot.
+		state SKILL_SHOOT_LEVELADJUST
+		
+		ifl RANDOM_CHANCE SKILLCHANCE 
+		{
+			set INTERNALCOUNT 0
+			ifrnd 128 sound BEYJ_ATCK
+			else sound BEYJ_ATCK2
+			action A_BEYOND_JOCKEY_ATTACK_PREP
+		}
+	}
+}
+
+else ifaction A_BEYOND_JOCKEY_PAIN
+{
+	sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0
+	{
+		ifdead action A_BEYOND_JOCKEY_DYING 
+		else action A_BEYOND_JOCKEY_SEEK
+	}
+}
+else ifaction A_BEYOND_JOCKEY_FREEZE state frozen_code
+else ifaction A_BEYOND_JOCKEY_GROW
+{
+	move STOP
+	state genericgrowcode
+}
+
+else ifaction A_BEYOND_JOCKEY_DYING
+{
+	strength 0
+	ifactioncount 5 { state rf state BODY_FALL_NOISES action A_BEYOND_JOCKEY_DEAD }
+}
+
+else ifaction A_BEYOND_JOCKEY_DEAD
+{
+	move STOP
+	ifhitweapon
+	{
+		ifwasweapon RADIUSEXPLOSION
+		{
+			state squish_sounds
+			state standard_jibs
+			killit
+		}
+	}
+}
+
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+	{
+		stopsound HAZ_BREATH
+		
+		addkills 1
+		state rf
+		ifwasweapon GROWSPARK { cstat 0 sound ACTOR_GROWING action A_BEYOND_JOCKEY_GROW break }
+		else ifg ice_damage 0 { spritepal 1 strength 0 sound SOMETHINGFROZE action A_BEYOND_JOCKEY_FREEZE } 
+		else ifg fire_damage 0 
+		{
+			shoot SPARK2 shoot SPARK2 shoot SPARK2 
+			ifrnd 128 sound ZSOLD_DIE1
+			else sound ZSOLD_DIE2
+			spawn ONFIREGUY
+			killit
+		}
+		else
+		{
+			ifrnd 128 sound BEYJ_DIE
+			else sound BEYJ_DIE2
+			action A_BEYOND_JOCKEY_DYING
+			spawn BLOODPOOL
+		}
+	}
+		
+	else // not dead
+	{
+		ifg PAIN_AMOUNT 0 { sound BEYJ_PAIN action A_BEYOND_JOCKEY_PAIN }
+		else ifrnd 32 { state PAIN_SKILL_LEVELADJUST sound BEYJ_PAIN action A_BEYOND_JOCKEY_PAIN }
+		// if they were idle, getting hit ALWAYS wakes them up
+		else ifaction A_BEYOND_JOCKEY_IDLE { state PAIN_SKILL_LEVELADJUST sound BEYJ_PAIN action A_BEYOND_JOCKEY_PAIN }
+	}
+}
+
+state checksquished
+
+enda

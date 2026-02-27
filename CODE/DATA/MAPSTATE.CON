@@ -1,0 +1,77 @@
+/*
+-------------------------------------------------------------------------------
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+- This script contains code for loading/saving mapstate on map transitions.
+--------------------------------------------------------------------------------
+*/
+
+// Restore map state and move the player to the correct transition point.
+onevent EVENT_ENTERLEVEL
+	ifn pdestination -1
+	{
+		setp[].look_ang 0
+		loadmapstate
+
+		set temp 0
+		for temp sprofstat 4
+		{
+			changespritestat temp 1
+			seta[temp].picnum SMALLSMOKE
+			seta[temp].cstat 32768
+		}
+
+		set temp 0
+		for temp sprofstat 3
+		{
+			ifg sprite[temp].lotag 68 ifl sprite[temp].lotag 71
+			{
+				ife sprite[temp].hitag pdestination
+				  ifn sprite[temp].shade 10
+				{
+					ifg END_LEVEL 0
+					    set END_LEVEL 0
+
+					setactorvar[temp].WAIT YES
+					getp[].i PLAYER_IDENTITY
+
+					geta[temp].x temp2
+					add temp2 xoff
+					setp[].posx temp2
+					seta[PLAYER_IDENTITY].x temp2
+
+					geta[temp].y temp2
+					add temp2 yoff
+					setp[].posy temp2
+					seta[PLAYER_IDENTITY].y temp2
+
+					geta[temp].z temp2
+					add temp2 zoff
+					seta[PLAYER_IDENTITY].z temp2
+					sub temp2 8192
+					setp[].posz temp2
+
+					setp[].cursectnum sprite[temp].sectnum
+					changespritesect PLAYER_IDENTITY sprite[temp].sectnum
+
+					setp[].knuckle_incs 0
+					setp[].kickback_pic 0
+					setp[].ang sprite[temp].ang
+
+					state player_read_equipment
+					exit
+				}
+			}
+		}
+		set pdestination -1
+		set END_LEVEL_TRIGGERED -1
+	}
+endevent

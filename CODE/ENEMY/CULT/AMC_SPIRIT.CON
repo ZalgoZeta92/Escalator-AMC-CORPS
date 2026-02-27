@@ -1,0 +1,229 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile SPIRIT
+
+action ASPIRIT_FROZEN 45 1 1 1 10
+
+action ASPIRIT_START  0 1 5 1 20
+action ASPIRIT_IDLE  0 1 5 1 20
+
+action ASPIRIT_SEEK     0  4 5 1 20
+action ASPIRIT_RUN      0  4 5 1 12
+
+action ASPIRIT_FIRE    20 5 5 1 16
+
+action ASPIRIT_COOLD 35 2 5 1 8
+
+action ASPIRITFLINCH 45 1 1 1 10
+action ASPIRITDYING 45 9 1 1 10
+action ASPIRIT_DEAD 50 1 1 1 10
+
+move SPIRITWALKVELS 90
+move SPIRITRUNVELS 118
+
+
+spritenoshade SPIRIT
+spritenoshade SPIRITSTAYPUT
+
+useractor enemystayput SPIRITSTAYPUT 125 ASPIRIT_START
+state monst_glow
+cactor SPIRIT
+enda
+
+useractor enemy SPIRIT 125 ASPIRIT_START
+fall
+
+ifaction ASPIRIT_START
+{
+	espawn SHOOTME
+	seta[RETURN].pal 1
+	state monst_glow
+	seta[].blend 255
+	seta[].shade 0
+	set actor_type TYPE_SUPERNATURAL
+	ifspritepal 24 { strength 200 sizeat 28 28 }
+	else { strength 125 sizeat 24 24 }
+	action ASPIRIT_IDLE
+	cstator 257
+}
+
+state actor_knockback_state
+xor element_type ICE_DAMAGE
+xor element_type SPIRIT_DAMAGE
+
+ifaction ASPIRIT_FROZEN
+{
+state frozen_code
+}
+else
+ifaction ASPIRITFLINCH
+{
+sub PAIN_AMOUNT 1
+	move STOP
+	ife PAIN_AMOUNT 0 action ASPIRIT_SEEK
+}
+else
+ifaction ASPIRIT_DEAD
+{
+move STOP
+cstat 2
+    ifhitweapon
+    {
+      ifwasweapon RADIUSEXPLOSION
+      {
+        state squish_sounds
+		spritepal 4
+	  state standard_jibs
+        killit
+      }
+      break
+    }
+}
+else
+ifaction ASPIRITDYING
+{
+	strength 0
+	ifactioncount 6 action ASPIRIT_DEAD
+}
+else
+ifaction ASPIRIT_COOLD
+{
+	move STOP
+	ifdead action ASPIRITDYING
+	ifactioncount 2 action ASPIRIT_SEEK
+}
+else
+ifaction ASPIRIT_IDLE
+	{
+	move STOP
+		state checkfortarget
+		ifn my_target -1 
+		{
+			sound SPIRIT_ALERT
+			action ASPIRIT_SEEK
+		}
+	}
+else
+ifaction ASPIRIT_SEEK
+	{
+	ifmove SPIRITWALKVELS nullop
+	else move SPIRITWALKVELS geth
+
+	state checkfortarget
+
+		ifspritepal 4 cstat 32768 else cstat 514
+		ifn my_target -1
+			{
+			dist temp THISACTOR my_target
+			ifl temp 8012 action ASPIRIT_RUN
+			else ifrnd 16 { sound SPIRIT_ATTACK action ASPIRIT_FIRE }
+			}
+	ifrnd 2 sound SPIRIT_ROAM
+	}
+else
+ifaction ASPIRIT_RUN
+	{
+	ifmove SPIRITRUNVELS nullop
+	else move SPIRITRUNVELS geth
+	
+	state checkfortarget
+		ifspritepal 4 cstat 771 else cstat 259
+		ifn my_target -1
+			{
+			dist temp THISACTOR my_target
+			ifg temp 8012 action ASPIRIT_SEEK
+			else ifrnd 32 { sound SPIRIT_ATTACK action ASPIRIT_FIRE }
+			}
+	}
+else
+ifaction ASPIRIT_FIRE
+	{
+	move STOP
+	cstat 259
+	state new_validatetarget
+	ife my_target -1 action ASPIRIT_RUN
+	state fronttowardstarget
+		ifactioncount 4
+		{
+			set PROJECTILE_TO_SHOOT SPELL8
+			set PROJECTILE_STRENGTH 30
+			set PROJECTILE_OFFSET -128
+			set PROJECTILE_FIRING_SOUND DEMON_THROWFIRE
+			state sang_enemyShootProjectile
+
+			ifspritepal 24
+			 ife silence_damage 0
+				{
+				sound DEMON_THROWFIRE
+				eshoot SPELL8
+				setthisprojectile[RETURN].extra 30
+				geta[RETURN].ang temp add temp 128 seta[RETURN].ang temp
+				sound DEMON_THROWFIRE
+				eshoot SPELL8
+				setthisprojectile[RETURN].extra 30
+				geta[RETURN].ang temp sub temp 128 seta[RETURN].ang temp
+				}
+		action ASPIRIT_COOLD
+		resetactioncount
+		}
+	}
+
+ifg silence_damage 0
+		{
+		sub silence_damage 1
+		state spawn_curse_particles
+		}
+
+ifhitweapon
+{
+	state NEWGUNEFFECTS
+	ifwasweapon VOID_PLAYER_BOLT { sound EN_CURSE set silence_damage 150 }
+	ifwasweapon VOID_BOLT { sound EN_CURSE set silence_damage 300 }
+	ifwasweapon VOID_BLAST { sound EN_CURSE set silence_damage 900 }
+	//spawn BLOOD
+	//guts JIBS6 1
+	state random_wall_jibs
+	ifdead
+		{
+		ifg ice_damage 0 { spritepal 1 strength 1 sound SOMETHINGFROZE action ASPIRIT_FROZEN }
+		else
+			{
+
+			state rf
+			sound SPIRIT_DIE
+			addkills 1
+			action ASPIRITDYING
+			}
+		}
+else
+    ifg PAIN_AMOUNT 0 action ASPIRITFLINCH else
+	ifrnd 64 { ifspritepal 24 nullop else { state PAIN_SKILL_LEVELADJUST action ASPIRITFLINCH } }
+}
+enda

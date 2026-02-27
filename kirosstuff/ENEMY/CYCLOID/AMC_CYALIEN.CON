@@ -1,0 +1,266 @@
+/*
+-------------------------------------------------------------------------------
+===============================================================================
+
+         -ooo:             +oo-            `+oo.       ./+oooooooooo+/:
+        /NMMMN+            NMMNo`         -dMMM/      .mMMNmmmmmmmmmMMNo
+       /NMd:mMMo           NMMNMd:      `oNMNMM/      :MMM/.........mMMh
+      oNMd. -mMMy`         NMN:mMNs`   -hMm/mMM/      :MMM:         ::-.
+    `sMMh`   .dMMh`        NMN .sNMd:`oNMh. mMM/      :MMM:
+   `yMMMdhhhhhmMMMd.       NMN   /mMNdMm+`  mMM/      :MMM:         ss+:
+  `hMMdhhhhhhhhhmMMm-      NMN    .yMMh.    mMM/      :MMM/.........mMMh
+ .dMMs`         .hMMm:     NMN      :/`     mMM/      .mMMNmmmmmmmmmMMNo
+ :oo+            `+oo+     +o+              +oo.       ./++ooooooooo+/:
+
+###############################################################################
++ The AMC Squad
++ CON code by James Stanfield, Cedric "Sangman" Haegeman, Dino Bollinger,
++              Mikko Sandt, Cedric "Zaxtor" Lutes and Dan "Danarama" Gaskill
+-------------------------------------------------------------------------------
+* See AMC_MAIN.CON for a full list of script authors.
+
+Feel free to use any code in the game for your own uses; just make
+sure to mention the authors and/or "The AMC Squad" in your credits.
+--------------------------------------------------------------------------------
+NOTES:
+
+--------------------------------------------------------------------------------
+*/
+
+damageeventtile CYBERALIEN
+
+action ACYBERA_START 35 1 5 1 10
+action ACYBERA_IDLE 35 1 5 1 10
+action ACYBERA_WALK 0 4 5 1 20
+action ACYBERA_RUN 0 4 5 1 8
+
+action ACYBERA_PREPARE 20 1 5 1 12
+action ACYBERA_MISSILE 25 1 5 1 12
+action ACYBERA_MORTER 30 1 5 1 12
+
+action ACYBERA_PAIN 40 1 1 1 10
+action ACYBERA_DYING 40 5 1 1 20
+action ACYBERA_DEAD 45
+
+move CYBERA_MOVE 180
+move CYBERA_RUN 320
+
+useractor enemystayput CYBERALIEN_STAYPUT 600 ACYBERA_START fall cactor CYBERALIEN enda
+
+useractor enemy CYBERALIEN 600 ACYBERA_START
+fall
+ifaction ACYBERA_START
+	{
+	spawn SHOOTME
+	state monst_glow
+	set actor_type TYPE_ARMOURED
+	spriteflags NORMAL_ENEMY
+	sizeat 26 26
+	cstat 257
+	strength 600
+	sound CYBERA_RECOG
+	action ACYBERA_IDLE
+	}
+
+ifaction ACYBERA_DEAD
+	{
+	move STOP
+		  strength 0
+		  ifhitweapon
+			ifwasweapon RADIUSEXPLOSION
+		  {
+			state squish_sounds
+			guts JIBS2 5              // Instead of the normal "standard_jibs"
+			guts JIBS3 5              // amount, I found that ,because these
+			guts JIBS4 5              // bodies are so huge, they should spawn
+			guts JIBS5 15             // a more realistic amount of gutter!
+			guts JIBS6 15
+			debris SCRAP1 5           // There are also spawned some metal
+			debris SCRAP2 5           // scraps, since this boss has a lot
+			debris SCRAP5 5           // of metalware with him.
+			state standard_jibs
+			killit
+		  }
+		  break
+	}
+else
+ifaction ACYBERA_DYING
+	{
+	ifactioncount 5 { spawn BLOODPOOL sound CYBERDEMON_METAL action ACYBERA_DEAD }
+	}
+else
+ifaction ACYBERA_PAIN
+	{
+	ifdead action ACYBERA_DYING else ifactioncount 2 action ACYBERA_WALK
+	}
+else
+ifaction ACYBERA_IDLE
+	{
+	move STOP
+	state checkfortarget
+	ifn my_target -1
+		{
+		sound CYBERA_RECOG
+		action ACYBERA_WALK
+		}
+	}
+else
+ifaction ACYBERA_WALK
+	{
+	ifmove CYBERA_MOVE nullop
+	else move CYBERA_MOVE geth
+
+	state checkfortarget
+
+	ifn my_target -1
+		{
+		soundonce CYBERA_ROAM
+		ldist temp THISACTOR my_target
+		ifl temp 16384 ifrnd 32 action ACYBERA_RUN
+			// Target acquired, skill setting can still affect decision to shoot.
+			state SKILL_SHOOT_LEVELADJUST
+
+			ifl RANDOM_CHANCE SKILLCHANCE
+				 action ACYBERA_PREPARE
+		}
+
+	}
+else
+ifaction ACYBERA_RUN
+	{
+	ifmove CYBERA_RUN nullop
+	else move CYBERA_RUN geth
+
+	state checkfortarget
+
+	ifn my_target -1
+		{
+		soundonce CYBERA_ROAM
+		ldist temp THISACTOR my_target
+		ifl temp 4096 action ACYBERA_WALK
+			// Target acquired, skill setting can still affect decision to shoot.
+			state SKILL_SHOOT_LEVELADJUST
+
+			ifl RANDOM_CHANCE SKILLCHANCE
+				 action ACYBERA_PREPARE
+		}
+
+	}
+else
+ifaction ACYBERA_PREPARE
+	{
+	move STOP
+	state new_validatetarget
+	state fronttowardstarget
+	ife my_target -1 action ACYBERA_WALK
+	ifactioncount 2
+		{
+		ifrnd 128
+			{
+			state SKILL_SHOOT_LEVELADJUST
+			ifl RANDOM_CHANCE SKILLCHANCE
+			{ sound CYBERA_RECOG set temp4 1 } else set temp4 0
+			action ACYBERA_MISSILE
+			}
+		else { set INTERNALCOUNT_2 0 action ACYBERA_MORTER }
+		resetactioncount
+		}
+	}
+else
+ifaction ACYBERA_MISSILE
+{
+	move STOP
+	state new_validatetarget
+	state fronttowardstarget
+	ife my_target -1 action ACYBERA_WALK
+	ifactioncount 1
+		{
+		ife INTERNALCOUNT 0
+			{
+			ife temp4 1 shoot HOMING_MISSILE else
+				{
+				set PROJECTILE_STRENGTH 30
+				set PROJECTILE_OFFSET -512
+				set PROJECTILE_TO_SHOOT MICRO_MISSILE
+				set PROJECTILE_FIRING_SOUND CYBERT_FIRE
+				state sang_enemyShootProjectile
+				}
+			ife PERFMODE 1
+			 ifcansee
+				{
+				set gunsmoke_z 5244
+				set gunsmoke_angle -356
+				state spawn_gunsmoke_z
+				set gunsmoke_z 5244
+				espawn 16114
+				seta[RETURN].pal 2
+				state spawn_muzzleflash
+				}
+			set INTERNALCOUNT 1
+			}
+		}
+	ifactioncount 2
+		{
+		set INTERNALCOUNT 0
+		resetactioncount
+		action ACYBERA_RUN
+		}
+}
+else
+ifaction ACYBERA_MORTER
+	{
+	move STOP
+	state new_validatetarget
+	state fronttowardstarget
+	ife my_target -1 action ACYBERA_WALK
+	ifactioncount 1
+		{
+		ife INTERNALCOUNT_2 0
+			{
+			state fronttowardstarget
+			sound BOS1_ATTACK2
+			eshoot MORTER
+			ife PERFMODE 1
+			 ifcansee
+				{
+				set gunsmoke_z 5244
+				set gunsmoke_angle 356
+				state spawn_gunsmoke_z
+				set gunsmoke_z 5244
+				espawn 16114
+				seta[RETURN].pal 2
+				state spawn_muzzleflash
+				}
+			set INTERNALCOUNT_2 1
+			}
+		}
+	ifactioncount 2
+		{
+		set INTERNALCOUNT_2 0
+		resetactioncount
+		action ACYBERA_RUN
+		}
+	}
+
+ifhitweapon
+{
+//spawn BLOOD
+ifrnd 128 guts JIBS6 1
+ifrnd 128 debris SCRAP1 1
+state NEWGUNEFFECTS
+ifdead
+	{
+	state rf
+	sound CYBERA_DYING
+
+	shoot NJIB shoot NJIB shoot NJIB shoot NJIB shoot NJIB
+	debris SCRAP1 5
+	shoot SPARK shoot SPARK shoot SPARK shoot SPARK
+	ifrnd 4 spawn HEAT_SEEK_CARD_PICKUP
+	action ACYBERA_DYING
+	}
+else ifrnd 16 { sound CYBERA_PAIN action ACYBERA_PAIN }
+}
+state checksquished
+
+enda
