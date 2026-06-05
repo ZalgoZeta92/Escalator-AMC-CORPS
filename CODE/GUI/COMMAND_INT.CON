@@ -169,7 +169,7 @@ defstate PAPER_INFO_BOX
 		  }
 		else
 	rotatesprite 160 100 NNORMALSIZE 0 22712 0 disp_temp4 0 0 0 xdim ydim // GUI bit
-	
+
 ends
 
 var BOX_TOGGLE 0 1
@@ -190,7 +190,7 @@ defstate PRECOG_BOX
 			{
 			ifand BOX_TOGGLE 1 nullop else xor BOX_TOGGLE 1
 			}
-			else 
+			else
 			ifand BOX_TOGGLE 1
 			{
 			xor BOX_TOGGLE 1
@@ -266,7 +266,7 @@ ends
 
 defstate SUB_SCENE
 // sub not found in earlier episodes so fallback to default flying scene
-ifl VOLUME 4 state FLY_SCENE else 
+ifl VOLUME 4 state FLY_SCENE else
 	{
 	ife play_sound 0
 		{
@@ -413,7 +413,7 @@ state CURSOR_OVER_ITEM
 			state strip_inventory
 			state strip_ammo_and_weapons
 			state strip_keys
-			
+
 			set amcbase_level LEVEL
 			set amcbase_volume VOLUME
 			ifn RAINREPLACE 0 set RAINREPLACE 0
@@ -537,14 +537,14 @@ state CURSOR_OVER_ITEM
 				ife INFO_SEL 56 { set CHAR 5 set mis_vol 4 set mis_lev 42 state FLY_SCENE } // The Airport
 				ife INFO_SEL 85 { set CHAR 18 startlevel 4 24 } // Foxtrot Uniform
 				ife INFO_SEL 86 // Titan Gas
-					{ 
-					set CHAR 12 
-					set mis_vol 4 
-					set mis_lev 34 
+					{
+					set CHAR 12
+					set mis_vol 4
+					set mis_lev 34
 					clearmapstate 34
 					clearmapstate 35
-					state FLY_SCENE 
-					} 
+					state FLY_SCENE
+					}
 				ife INFO_SEL 87 { set CHAR 12 set mis_vol 4 set mis_lev 36 state FLY_SCENE } // Titan Gas Lower
 				ife INFO_SEL 88 { set mis_vol 4 set mis_lev 54 set play_sound 1 screensound FLY_HUB set jump_gate 1 state FLY_SCENE } // Xuglop Mall (hub level)
 				ife INFO_SEL 54 { set CHAR 4 set mis_vol 4 set mis_lev 45 state FLY_SCENE } // The Glacier
@@ -556,14 +556,14 @@ state CURSOR_OVER_ITEM
 				ife INFO_SEL 96 { set mis_vol 4 set mis_lev 49 state FLY_SCENE } // Cairo digsite
 				ife INFO_SEL 98 { set CHAR 7 set mis_vol 4 set mis_lev 38 set jump_gate 2 state FLY_SF_SCENE } // Corporate Scheming
 				ife INFO_SEL 132 // Mu (finale)
-					{ 
+					{
 					state reset_player_equip_arrays
-					set CHAR 18 
-					set mis_vol 4 
+					set CHAR 18
+					set mis_vol 4
 					set mis_lev 47
-					set play_sound 1 screensound FLY_FINALE					
-					state SUB_SCENE 
-					} 
+					set play_sound 1 screensound FLY_FINALE
+					state SUB_SCENE
+					}
 				// Usermaps ==============================================================================================
 				ife INFO_SEL 95 { set CHAR 6 set mis_vol 6 set mis_lev 41 state FLY_SF_SCENE } // Venus Hijinks
 				ife INFO_SEL 97 { set mis_vol 6 set mis_lev 42 state FLY_SCENE } // WGCastles
@@ -757,7 +757,7 @@ screentext 2822 news_x 24 49152 0 0 news_ticker 0 0 16 0 5 8 0 0 TEXT_GAMETEXTNU
 		 rotatespritea 160 100 30360 0 21217 10 8 0 -255 0 0 xdim ydim
 		 ifand next_mission_loc 8192 state NEW_MAP_DISPLAY
 		 }
-		 
+
 	set gui_pos_x 243
 	set gui_pos_y 64
 	state CURSOR_OVER_ITEM
@@ -784,7 +784,7 @@ screentext 2822 news_x 24 49152 0 0 news_ticker 0 0 16 0 5 8 0 0 TEXT_GAMETEXTNU
 		 rotatespritea 160 100 30360 0 21097 10 8 0 -255 0 0 xdim ydim
 		 ifand next_mission_loc 131072 state NEW_MAP_DISPLAY
 		 }
-		 
+
 // ################################################
 // Europe/Africa Airfield
 // ################################################
@@ -817,9 +817,9 @@ screentext 2822 news_x 24 49152 0 0 news_ticker 0 0 16 0 5 8 0 0 TEXT_GAMETEXTNU
 				ifge cus_fade 2048 set cus_fade 0
 			   	ife FACILITIES_OWNED[14] 2
 					{
-					ife BASE_RESEARCH[7] 2 rotatespritea gui_pos_x gui_pos_y 40960 cus_fade 22388 0 11 33 -255 0 0 xdim ydim	
-					else rotatespritea gui_pos_x gui_pos_y 20480 cus_fade 22388 0 11 33 -255 0 0 xdim ydim	
-					}				
+					ife BASE_RESEARCH[7] 2 rotatespritea gui_pos_x gui_pos_y 40960 cus_fade 22388 0 11 33 -255 0 0 xdim ydim
+					else rotatespritea gui_pos_x gui_pos_y 20480 cus_fade 22388 0 11 33 -255 0 0 xdim ydim
+					}
 			   rotatesprite gui_pos_x gui_pos_y 20000 0 disp_temp9 0 0 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
@@ -862,9 +862,9 @@ screentext 2822 news_x 24 49152 0 0 news_ticker 0 0 16 0 5 8 0 0 TEXT_GAMETEXTNU
 				ifge cus_fade 2048 set cus_fade 0
 			   	ife FACILITIES_OWNED[10] 2
 					{
-					ife BASE_RESEARCH[7] 2 rotatespritea gui_pos_x gui_pos_y 40960 cus_fade 22388 0 11 33 -255 0 0 xdim ydim	
-					else rotatespritea gui_pos_x gui_pos_y 20480 cus_fade 22388 0 11 33 -255 0 0 xdim ydim	
-					}				
+					ife BASE_RESEARCH[7] 2 rotatespritea gui_pos_x gui_pos_y 40960 cus_fade 22388 0 11 33 -255 0 0 xdim ydim
+					else rotatespritea gui_pos_x gui_pos_y 20480 cus_fade 22388 0 11 33 -255 0 0 xdim ydim
+					}
 			   rotatesprite gui_pos_x gui_pos_y 20000 0 disp_temp9 0 0 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
@@ -905,7 +905,7 @@ screentext 2822 news_x 24 49152 0 0 news_ticker 0 0 16 0 5 8 0 0 TEXT_GAMETEXTNU
 		state mission_des
 		ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 		}
-		
+
 			// ################################################
 			// Foxtrot Uniform
 			// ################################################
@@ -923,7 +923,7 @@ screentext 2822 news_x 24 49152 0 0 news_ticker 0 0 16 0 5 8 0 0 TEXT_GAMETEXTNU
 					ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 				   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 				   state remove_earth_mission
-				   state mission_sel			 
+				   state mission_sel
 				   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_WHEATON disp_pulse 0 0 0 0 xdim ydim
 				   state CLICK_INFO_BOX
 				   }
@@ -934,7 +934,7 @@ screentext 2822 news_x 24 49152 0 0 news_ticker 0 0 16 0 5 8 0 0 TEXT_GAMETEXTNU
 					rotatesprite gui_pos_x gui_pos_y QUARTERSIZE 0 MI_WHEATON 0 0 0 0 0 xdim ydim
 					ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 					}
-					
+
 ifand BEAT_EPISODES[5] 524288 // beat episode 5?
 		{
 		// ################################################
@@ -966,7 +966,7 @@ ifand BEAT_EPISODES[5] 524288 // beat episode 5?
 			ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 			}
 		}
-					
+
 	// ################################################
 	// Mu Finale
 	// ################################################
@@ -997,7 +997,7 @@ ifand BEAT_EPISODES[5] 16777216 // beat Corporate scheming/ritual?
 		ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 		}
 	}
-	
+
 	 ifand BEAT_EPISODES[5] 4 // beat who goes there?
 	  ifand BEAT_EPISODES[5] 2 // beat Esoteric hunting?
 	   ifand BEAT_EPISODES[5] 512 // beat Foxtrot Uniform?
@@ -1034,7 +1034,7 @@ ifand BEAT_EPISODES[5] 16777216 // beat Corporate scheming/ritual?
 				rotatesprite gui_pos_x gui_pos_y QUARTERSIZE 0 MI_MAARTEN 5 0 0 0 0 xdim ydim
 				ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 				}
-				
+
 		// ################################################
 		// FROZEN KINGDOM
 		// ################################################
@@ -1067,7 +1067,7 @@ ifand BEAT_EPISODES[5] 16777216 // beat Corporate scheming/ritual?
 		   rotatesprite gui_pos_x gui_pos_y QUARTERSIZE 0 MI_ZAXTOR 5 0 0 0 0 xdim ydim
 			ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 			}
-							
+
 		// ################################################
 		// THE GREAT OBELISK
 		// ################################################
@@ -1094,7 +1094,7 @@ ifand BEAT_EPISODES[5] 16777216 // beat Corporate scheming/ritual?
 			state op_mission_des
 			ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 			}
-				
+
 	ifand EVIDENCE_EP5 2048 // found Backrooms location?
 		{
 		// ################################################
@@ -1128,7 +1128,7 @@ ifand BEAT_EPISODES[5] 16777216 // beat Corporate scheming/ritual?
 				ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 				}
 		}
-				
+
 			/* A cut map, yes you're so clever for reading this
 			// ################################################
 			// Terror from the Deep
@@ -1276,7 +1276,7 @@ ifand BEAT_EPISODES[5] 16777216 // beat Corporate scheming/ritual?
 			   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 			   state remove_earth_mission
 			   state mission_sel
-			   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_MIKKO disp_pulse 0 0 0 0 xdim ydim	
+			   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_MIKKO disp_pulse 0 0 0 0 xdim ydim
 			   state CLICK_INFO_BOX
 			   }
 			else
@@ -1441,7 +1441,7 @@ ifand BEAT_EPISODES[3] 4 // Post Le Sang?
 					ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 					state remove_earth_mission
 				   state op_mission_sel
-				   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_MICKY disp_pulse 0 0 0 0 xdim ydim		 
+				   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_MICKY disp_pulse 0 0 0 0 xdim ydim
 					state CLICK_INFO_BOX
 				   }
 				else
@@ -1473,7 +1473,7 @@ ifand BEAT_EPISODES[3] 64 // Post Axon scene/AMC base 2?
 			  ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 			   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 				state remove_earth_mission
-			   rotatesprite gui_pos_x gui_pos_y 20000 0 14777 0 0 0 0 0 xdim ydim	   
+			   rotatesprite gui_pos_x gui_pos_y 20000 0 14777 0 0 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 				else
@@ -1506,7 +1506,7 @@ ifand BEAT_EPISODES[3] 64 // Post Axon scene/AMC base 2?
 			   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 			   state remove_earth_mission
 			   state op_mission_sel
-			   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_CULTIST disp_pulse 0 0 0 0 xdim ydim	   
+			   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_CULTIST disp_pulse 0 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -1536,7 +1536,7 @@ ifand BEAT_EPISODES[3] 64 // Post Axon scene/AMC base 2?
 				 ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 				state remove_earth_mission
 			   state mission_sel
-			   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_MERLIJN disp_pulse 0 0 0 0 xdim ydim	 
+			   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_MERLIJN disp_pulse 0 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 				else
@@ -1671,7 +1671,7 @@ ifand BEAT_EPISODES[3] 64 // Post Axon scene/AMC base 2?
 					ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 					}
 		}
-		
+
 	ifand BEAT_EPISODES[5] 524288 // beat episode 5?
 		{
 		// ################################################
@@ -1700,9 +1700,9 @@ ifand BEAT_EPISODES[3] 64 // Post Axon scene/AMC base 2?
 					ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 					}
 		}
-					
 
-					
+
+
 	}
 
 	ifand COM_FILTER 32
@@ -1805,12 +1805,12 @@ ifand BEAT_EPISODES[3] 64 // Post Axon scene/AMC base 2?
 					ife cus_fadetics 1
 						add cus_fade 1
 				ifge cus_fade 2048 set cus_fade 0
-			   	ife FACILITIES_OWNED[12] 2 
+			   	ife FACILITIES_OWNED[12] 2
 					{
-					ife BASE_RESEARCH[7] 2 rotatespritea gui_pos_x gui_pos_y 40960 cus_fade 22388 0 11 33 -255 0 0 xdim ydim	
-					else rotatespritea gui_pos_x gui_pos_y 20480 cus_fade 22388 0 11 33 -255 0 0 xdim ydim	
+					ife BASE_RESEARCH[7] 2 rotatespritea gui_pos_x gui_pos_y 40960 cus_fade 22388 0 11 33 -255 0 0 xdim ydim
+					else rotatespritea gui_pos_x gui_pos_y 20480 cus_fade 22388 0 11 33 -255 0 0 xdim ydim
 					}
-			   rotatesprite gui_pos_x gui_pos_y 20000 0 disp_temp9 0 0 0 0 0 xdim ydim	   
+			   rotatesprite gui_pos_x gui_pos_y 20000 0 disp_temp9 0 0 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -1913,7 +1913,7 @@ ifand COM_FILTER 2 // Episode 2 missions
 				ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 				ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 				state remove_asia_mission
-			   state mission_sel  
+			   state mission_sel
 				state CLICK_INFO_BOX
 			   }
 				else
@@ -1943,7 +1943,7 @@ ifand COM_FILTER 2 // Episode 2 missions
 				ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 			   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 			   state remove_asia_mission
-			   state mission_sel 
+			   state mission_sel
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -1973,7 +1973,7 @@ ifand COM_FILTER 2 // Episode 2 missions
 			ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 		   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 		   state remove_asia_mission
-		   state mission_sel  
+		   state mission_sel
 			state CLICK_INFO_BOX
 		   }
 		else
@@ -2004,7 +2004,7 @@ ifand EVIDENCE_EP2 256 // Found the Oil rig's location?
 		   ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 		   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 		   state remove_asia_mission
-		   state op_mission_sel	 
+		   state op_mission_sel
 			state CLICK_INFO_BOX
 		   }
 		else
@@ -2040,7 +2040,7 @@ ifand EVIDENCE_EP2 256 // Found the Oil rig's location?
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 20000 0 14817 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 20000 0 14817 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -2189,7 +2189,7 @@ ifand COM_FILTER 2 // Episode 2 missions
 				ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 				ifand next_mission_loc 8192 { xor next_mission_loc 8192 savegamevar next_mission_loc }
 			   state mission_sel
-			   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_MICKY disp_pulse 0 0 0 0 xdim ydim	   
+			   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_MICKY disp_pulse 0 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 				else
@@ -2257,7 +2257,7 @@ ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
                                      ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
                                      ifand next_mission_loc 8192 { xor next_mission_loc 8192 savegamevar next_mission_loc }
                                   state mission_sel
-                                  rotatesprite gui_pos_x gui_pos_y 20000 0 MI_SANG disp_pulse 0 0 0 0 xdim ydim         
+                                  rotatesprite gui_pos_x gui_pos_y 20000 0 MI_SANG disp_pulse 0 0 0 0 xdim ydim
                                        state CLICK_INFO_BOX
                                   }
                                        else
@@ -2268,7 +2268,7 @@ ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
                                        ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
                                        }
                }
-			   
+
 ifand BEAT_EPISODES[5] 524288 // beat episode 5?
 		{
 		// ################################################
@@ -2297,7 +2297,7 @@ ifand BEAT_EPISODES[5] 524288 // beat episode 5?
 			state op_mission_des
 			ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 			}
-		} 
+		}
 }
 
 ifand COM_FILTER 1024 // Set to display EDF missions?
@@ -2322,7 +2322,7 @@ ifg EDF_MISSIONS 0
 		   set mission_pic 20221
 			ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 		   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
-		   state op_mission_sel	 
+		   state op_mission_sel
 			state CLICK_INFO_BOX
 		   }
 			else
@@ -2350,7 +2350,7 @@ ifg EDF_MISSIONS 0
 	   set mission_pic 20219
 		ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 	   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
-	   state op_mission_sel 
+	   state op_mission_sel
 	   state CLICK_INFO_BOX
 	   }
 	else
@@ -2411,7 +2411,7 @@ ifand COM_FILTER 32
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 20000 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim  
+			   rotatesprite gui_pos_x gui_pos_y 20000 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 				else
@@ -2618,7 +2618,7 @@ ifand BEAT_EPISODES[2] 1024 // unlock after beating episode two
 		set mission_pic 20220
 		ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 	   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
-	   state op_mission_sel 
+	   state op_mission_sel
 		state CLICK_INFO_BOX
 	   }
 		else
@@ -2627,11 +2627,11 @@ ifand BEAT_EPISODES[2] 1024 // unlock after beating episode two
 		state op_mission_des
 		ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 		}
-		
+
 		// ################################################
 		// Daikarin
 		// ################################################
-			
+
 		set gui_pos_x 39
 		set gui_pos_y 100
 		ifand BEAT_EPISODES[6] 32768 set disp_temp9 11 else set disp_temp9 18
@@ -2645,7 +2645,7 @@ ifand BEAT_EPISODES[2] 1024 // unlock after beating episode two
 		   set mission_pic 20208
 			ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 		   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
-		   state op_mission_sel 
+		   state op_mission_sel
 			state CLICK_INFO_BOX
 		   }
 		else
@@ -2877,7 +2877,7 @@ ifand COM_FILTER 1 // set to display Episode 1 missions?
 							 ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 							 ifand next_mission_loc 4096 { xor next_mission_loc 4096 savegamevar next_mission_loc }
 						   state op_mission_sel
-						   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_BOMBSHELL disp_pulse 0 0 0 0 xdim ydim  
+						   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_BOMBSHELL disp_pulse 0 0 0 0 xdim ydim
 							state CLICK_INFO_BOX
 						   }
 						else
@@ -2895,7 +2895,7 @@ ifand COM_FILTER 1 // set to display Episode 1 missions?
 	ifand COM_FILTER 16 // Episode 5 missions
 	ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
 	{
-	
+
 		// ################################################
 		// Esoteric Hunting
 		// ################################################
@@ -2923,7 +2923,7 @@ ifand COM_FILTER 1 // set to display Episode 1 missions?
 			state mission_des
 			ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 			}
-			
+
 	 ifand BEAT_EPISODES[5] 4 // beat who goes there?
 	  ifand BEAT_EPISODES[5] 2 // beat Esoteric hunting?
 	   ifand BEAT_EPISODES[5] 512 // beat Foxtrot Uniform?
@@ -2956,7 +2956,7 @@ ifand COM_FILTER 1 // set to display Episode 1 missions?
 					rotatesprite gui_pos_x gui_pos_y QUARTERSIZE 0 MI_GEOFFREY 5 0 0 0 0 xdim ydim
 					ife SEEN_MAP[info_number] 0 state NEW_MAP_DISPLAY
 					}
-					
+
 			// ################################################
 			// Toilets R Us
 			// ################################################
@@ -3116,7 +3116,7 @@ ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
 	  ifand BEAT_EPISODES[5] 2 // beat Esoteric hunting?
 	   ifand BEAT_EPISODES[5] 512 // beat Foxtrot Uniform?
 		{
-		ifand BEAT_EPISODES[5] 32768 // beat the upper parts? 
+		ifand BEAT_EPISODES[5] 32768 // beat the upper parts?
 			{
 			// ################################################
 			// Titan Gas Lower
@@ -3300,8 +3300,8 @@ ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
 		else
 	rotatesprite gui_pos_x gui_pos_y 2048 0 8466 10 0 0 0 0 xdim ydim
 	ifand next_mission_loc 16 state NEW_MAP_DISPLAY
-	
-	
+
+
 		set gui_pos_x 35
 		set gui_pos_y 117
 		ifand BEAT_EPISODES[1] 2 set disp_temp9 11 else set disp_temp9 21
@@ -3324,7 +3324,7 @@ ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
 			}
 	   }
 		else
-	rotatesprite 35 117 7400 0 8457 5 0 8 0 0 xdim ydim // venus	
+	rotatesprite 35 117 7400 0 8457 5 0 8 0 0 xdim ydim // venus
 
 		set gui_pos_x 92
 		set gui_pos_y 116
@@ -3374,7 +3374,7 @@ ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
 		else
 	rotatesprite gui_pos_x gui_pos_y 1792 0 20224 10 0 0 0 0 xdim ydim
 	ifand next_mission_loc 2048 state NEW_MAP_DISPLAY
-	
+
 	ifg FACILITIES_OWNED[6] 1 // Jupiter Satellite
 	{
 	ifand FOUND_ADS 8
@@ -3402,7 +3402,7 @@ ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
 			else
 		rotatesprite gui_pos_x gui_pos_y 1792 0 33765 10 0 0 0 0 xdim ydim
 		}
-		
+
 		ifand FOUND_ADS 16
 		{
 			set gui_pos_x 288
@@ -3428,7 +3428,7 @@ ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
 			else
 		rotatesprite gui_pos_x gui_pos_y 1792 0 33766 10 0 0 0 0 xdim ydim
 		}
-		
+
 		ifand FOUND_ADS 32
 		{
 			set gui_pos_x 291
@@ -3454,7 +3454,7 @@ ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
 			else
 		rotatesprite gui_pos_x gui_pos_y 1792 0 33767 10 0 0 0 0 xdim ydim
 		}
-		
+
 		ifand FOUND_ADS 64
 		{
 			set gui_pos_x 299
@@ -3480,7 +3480,7 @@ ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
 			else
 		rotatesprite gui_pos_x gui_pos_y 1792 0 33768 10 0 0 0 0 xdim ydim
 		}
-		
+
 	}
 
 ifand COM_FILTER 2 // Episode 2 missions
@@ -3597,7 +3597,7 @@ ifand COM_FILTER 4
 						ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 					   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 					   ifand next_mission_loc 2 { xor next_mission_loc 2 savegamevar next_mission_loc }
-					   state op_mission_sel			
+					   state op_mission_sel
 						state CLICK_INFO_BOX
 					   }
 					else
@@ -3782,7 +3782,7 @@ ifand BEAT_EPISODES[2] 1 // beaten city under siege?
 		set mission_pic 14743
 		ifn INFO_SEL info_number { set mouse_hint 32768 sub mouse_hint_timer 2 }
 	   rotatesprite gui_pos_x gui_pos_y 36768 0 14777 0 0 0 0 0 xdim ydim
-	   ifand next_mission_loc 4 { xor next_mission_loc 4 savegamevar next_mission_loc }   
+	   ifand next_mission_loc 4 { xor next_mission_loc 4 savegamevar next_mission_loc }
 		state CLICK_INFO_BOX
 	   }
 	else
@@ -3819,7 +3819,7 @@ ifand COM_FILTER 32
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -3859,7 +3859,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim		   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -3923,7 +3923,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -3955,7 +3955,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -4705,7 +4705,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim  
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -4815,7 +4815,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim		   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -4879,7 +4879,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -4911,7 +4911,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -4990,7 +4990,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim		   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -5054,7 +5054,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -5086,7 +5086,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -5164,7 +5164,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim		   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -5228,7 +5228,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -5260,7 +5260,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -5339,7 +5339,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim		   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -5403,7 +5403,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -5435,7 +5435,7 @@ ifand COM_FILTER 256
 			  ifl gui_pos_y_temp 3
 			   ifg gui_pos_y_temp -3 ife INFO_SEL 0
 			   {
-			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 36768 0 disp_temp8 0 disp_temp9 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -5579,6 +5579,8 @@ ends
 
 
 defstate SHOW_XUGLOP_SCREEN
+state XUGLOP_NEWS_TICKER
+screentext 2822 news_x 24 49152 0 0 news_ticker 0 0 16 0 5 8 0 0 TEXT_GAMETEXTNUMHACK 0 0 xdim ydim
 
 ifand COM_FILTER 2
  ifand BEAT_EPISODES[2] 32768 // beaten shadow realm?
@@ -5846,7 +5848,7 @@ ifand COM_FILTER 2
 		   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 		   ifand next_mission_loc 65536 { xor next_mission_loc 65536 savegamevar next_mission_loc }
 		   state mission_sel
-		   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_JAMES disp_pulse 0 0 0 0 xdim ydim	
+		   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_JAMES disp_pulse 0 0 0 0 xdim ydim
 			state CLICK_INFO_BOX
 		   }
 		else
@@ -5975,14 +5977,14 @@ defstate SHOW_MILKY_WAY_SCREEN
 		state mw_icon_hoveroff
 		ifand next_mission_loc 81407 state NEW_MAP_DISPLAY
 		}
-		
+
 ifand COM_FILTER 16 // Episode 5
  ifand BEAT_EPISODES[5] 1 // Started ep5 properly?
 {
 ifand BEAT_EPISODES[5] 65536 // Crashing and Burning
  ifand BEAT_EPISODES[5] 8192 // Titan Gas
   ifand BEAT_EPISODES[5] 131072 // Glacier
-   ifand BEAT_EPISODES[5] 1048576 // Saints and Sinners 
+   ifand BEAT_EPISODES[5] 1048576 // Saints and Sinners
     ifand BEAT_EPISODES[5] 256 // Legends Meet
 	{ // unlock Tannhauser gate Corporate schemeing
 		set gui_pos_x 12
@@ -6000,7 +6002,7 @@ ifand BEAT_EPISODES[5] 65536 // Crashing and Burning
 		   ife SEEN_MAP[info_number] 0 setarray SEEN_MAP[info_number] 1
 		   ifand next_mission_loc 16384 { xor next_mission_loc 16384 savegamevar next_mission_loc }
 		   state mission_sel
-		   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_MIKKO disp_pulse 0 0 0 0 xdim ydim	
+		   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_MIKKO disp_pulse 0 0 0 0 xdim ydim
 		   add gui_pos_x 4
 			rotatesprite gui_pos_x gui_pos_y 20000 0 MI_MERLIJN disp_pulse 0 0 0 0 xdim ydim
 			state CLICK_INFO_BOX
@@ -6155,7 +6157,7 @@ ife INFO_SEL 64 // Wetlands of Rowgar
 	ifg SKILL_MEDALS[61] 2 rotatesprite 195 125 HALFSIZE 0 14810 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[61] 3 rotatesprite 200 125 HALFSIZE 0 14809 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[61] 4 rotatesprite 205 125 HALFSIZE 0 14765 0 0 0 0 0 xdim ydim
-	
+
 	set disp_temp4 15
 	set m_charselect_forced 1
 	set m_charselect_flags FLAG_MICKY
@@ -6195,7 +6197,7 @@ ife INFO_SEL 65 // Lookout of irusoph
 	ifg SKILL_MEDALS[64] 2 rotatesprite 195 125 HALFSIZE 0 14810 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[64] 3 rotatesprite 200 125 HALFSIZE 0 14809 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[64] 4 rotatesprite 205 125 HALFSIZE 0 14765 0 0 0 0 0 xdim ydim
-	
+
 	set disp_temp4 15
 	set m_charselect_forced 1
 	set m_charselect_flags FLAG_MERLIJN
@@ -6211,13 +6213,13 @@ ife INFO_SEL 65 // Lookout of irusoph
 		state STANDARD_INFO_BOX
 		state MISSION_START_BOX
 		}
-		
+
 	ifn PCINTER 14
 		{
 		state PRECOG_BOX
 			ife BASE_RESEARCH[5] 2 // has the precog brain?
 			 ifand BOX_TOGGLE 1
-			  
+
 				{
 				rotatesprite 160 80 20000 0 14657 15 18 0 0 0 xdim ydim // Main Pic
 				set ps_necro 1640471
@@ -6254,13 +6256,13 @@ ife INFO_SEL 68 // The Necropolis
 		state STANDARD_INFO_BOX
 		state MISSION_START_BOX
 		}
-		
+
 	ifn PCINTER 14
 		{
 		state PRECOG_BOX
 			ife BASE_RESEARCH[5] 2 // has the precog brain?
 			 ifand BOX_TOGGLE 1
-			  
+
 				{
 				rotatesprite 160 80 20000 0 14657 15 18 0 0 0 xdim ydim // Main Pic
 				set ps_necro 131091
@@ -6318,7 +6320,7 @@ ife INFO_SEL 70 // Ebon Pinnacle
 	ifg SKILL_MEDALS[65] 2 rotatesprite 195 125 HALFSIZE 0 14810 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[65] 3 rotatesprite 200 125 HALFSIZE 0 14809 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[65] 4 rotatesprite 205 125 HALFSIZE 0 14765 0 0 0 0 0 xdim ydim
-	
+
 	set disp_temp4 15
 	set m_charselect_forced 1
 	set m_charselect_flags FLAG_SANG
@@ -6436,7 +6438,7 @@ ife INFO_SEL 74 // Palace of Rowgar
 	ifg SKILL_MEDALS[72] 2 rotatesprite 195 125 HALFSIZE 0 14810 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[72] 3 rotatesprite 200 125 HALFSIZE 0 14809 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[72] 4 rotatesprite 205 125 HALFSIZE 0 14765 0 0 0 0 0 xdim ydim
-		
+
 	set disp_temp4 15
 	state mission_charselector
 	ife PCINTER 14
@@ -6473,7 +6475,7 @@ ife INFO_SEL 75 // Up in the sky
 	ifg SKILL_MEDALS[73] 2 rotatesprite 195 125 HALFSIZE 0 14810 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[73] 3 rotatesprite 200 125 HALFSIZE 0 14809 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[73] 4 rotatesprite 205 125 HALFSIZE 0 14765 0 0 0 0 0 xdim ydim
-		
+
 	set disp_temp4 15
 	state mission_charselector
 	ife PCINTER 14
@@ -6491,7 +6493,7 @@ ife INFO_SEL 75 // Up in the sky
 		state PRECOG_BOX
 			ife BASE_RESEARCH[5] 2 // has the precog brain?
 			 ifand BOX_TOGGLE 1
-			  
+
 				{
 				rotatesprite 160 80 20000 0 14657 15 18 0 0 0 xdim ydim // Main Pic
 				set ps_misc 544
@@ -6510,7 +6512,7 @@ ife INFO_SEL 76 // Axon's library
 	ifg SKILL_MEDALS[74] 2 rotatesprite 195 125 HALFSIZE 0 14810 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[74] 3 rotatesprite 200 125 HALFSIZE 0 14809 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[74] 4 rotatesprite 205 125 HALFSIZE 0 14765 0 0 0 0 0 xdim ydim
-		
+
 	set disp_temp4 15
 	state mission_charselector
 	ife PCINTER 14
@@ -6548,7 +6550,7 @@ ife INFO_SEL 77 // Necromancer's keep
 	ifg SKILL_MEDALS[75] 2 rotatesprite 195 125 HALFSIZE 0 14810 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[75] 3 rotatesprite 200 125 HALFSIZE 0 14809 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[75] 4 rotatesprite 205 125 HALFSIZE 0 14765 0 0 0 0 0 xdim ydim
-		
+
 	set disp_temp4 15
 	state mission_charselector
 	ife PCINTER 14
@@ -6585,7 +6587,7 @@ ife INFO_SEL 78 // Serpent Canyon
 	ifg SKILL_MEDALS[68] 2 rotatesprite 195 125 HALFSIZE 0 14810 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[68] 3 rotatesprite 200 125 HALFSIZE 0 14809 0 0 0 0 0 xdim ydim
 	ifg SKILL_MEDALS[68] 4 rotatesprite 205 125 HALFSIZE 0 14765 0 0 0 0 0 xdim ydim
-	
+
 	set disp_temp4 15
 	set m_charselect_forced 1
 	set m_charselect_flags FLAG_MIKKO
@@ -6601,7 +6603,7 @@ ife INFO_SEL 78 // Serpent Canyon
 		state STANDARD_INFO_BOX
 		state MISSION_START_BOX
 		}
-		
+
 	ifn PCINTER 14
 		{
 		state PRECOG_BOX
@@ -6991,7 +6993,7 @@ defstate ELYSION_MAP_STUFF
 					else rotatesprite gui_pos_x gui_pos_y 14288 0 8140 disp_pulse 0 0 0 0 xdim ydim
 					}
 			   else state mission_sel
-			   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_SNOWFALL disp_pulse 0 0 0 0 xdim ydim   
+			   rotatesprite gui_pos_x gui_pos_y 20000 0 MI_SNOWFALL disp_pulse 0 0 0 0 xdim ydim
 				state CLICK_INFO_BOX
 			   }
 			else
@@ -7196,7 +7198,7 @@ defstate ELYSION_MAP_STUFF
 					ifand BEAT_EPISODES[4] 32768 rotatespritea gui_pos_x gui_pos_y 14288 0 8139 disp_pulse 0 0 75 0 0 xdim ydim
 					else rotatesprite gui_pos_x gui_pos_y 14288 0 8140 disp_pulse 0 0 0 0 xdim ydim
 					}
-			   else state mission_sel		   
+			   else state mission_sel
 				state CLICK_INFO_BOX
 			   }
 				else
@@ -7284,7 +7286,7 @@ ends
 		resetcount
 		}
 	ends
-	
+
 include CODE/GUI/COMM_MISS.CON
 
 defstate COMMAND_INTERFACE_DISPLAY
@@ -7332,13 +7334,13 @@ ife show_system SYS_SOL // Sol System
 	rotatesprite 160 100 20480 0 23756 0 0 8 0 0 xdim ydim
 	rotatespritea 0 100 40480 0 3605 0 2 265 -255 0 0 xdim ydim
 	rotatespritea 0 100 15000 0 29242 0 0 265 -255 0 0 xdim ydim
-	
+
 	rotatesprite 11 117 3400 0 8458 0 0 8 0 0 xdim ydim // mercury
 
 	rotatesprite 35 117 7400 0 8457 0 0 8 0 0 xdim ydim // venus
 
 	rotatesprite 130 108 5192 0 13697 0 0 8 0 0 xdim ydim // jupiter
-	
+
 	rotatesprite 190 108 7192 0 22367 0 0 8 0 0 xdim ydim // saturn
 
 	rotatesprite 240 108 2192 0 20226 0 0 8 0 0 xdim ydim // uranus
@@ -7346,22 +7348,22 @@ ife show_system SYS_SOL // Sol System
 	rotatesprite 280 108 2192 0 20428 0 0 8 0 0 xdim ydim // neptune
 
 	rotatesprite 310 108 512 0 22485 0 0 8 0 0 xdim ydim // pluto
-	
+
 	}
 else
-ife show_system SYS_MOON 
+ife show_system SYS_MOON
 rotatesprite 160 100 30360 0 14701 0 0 0 0 0 xdim ydim
 else
-ife show_system SYS_GANYMEDE 
+ife show_system SYS_GANYMEDE
 rotatesprite 160 100 30360 0 14702 0 0 0 0 0 xdim ydim
 else
 ife show_system SYS_IO
 rotatesprite 160 100 30360 0 14707 0 0 0 0 0 xdim ydim
 else
-ife show_system SYS_MARS 
+ife show_system SYS_MARS
 rotatesprite 160 100 30360 0 14717 0 0 0 0 0 xdim ydim
 else
-ife show_system SYS_ASIA 
+ife show_system SYS_ASIA
 	{
 	set disp_temp7 disp_temp3
 	sub disp_temp7 4
@@ -7381,10 +7383,10 @@ ife show_system SYS_ASIA
 		}
 	}
 else
-ife show_system SYS_VENUS 
+ife show_system SYS_VENUS
 rotatesprite 160 100 30360 0 14634 0 0 0 0 0 xdim ydim
 else
-ife show_system SYS_LOCAL_CLOUD 
+ife show_system SYS_LOCAL_CLOUD
 	{
 	rotatesprite 160 100 20480 1024 23756 0 12 8 0 0 xdim ydim
 	rotatespritea 160 100 30360 0 14691 0 0 9 -255 0 0 xdim ydim
@@ -7476,15 +7478,15 @@ rotatesprite 160 100 30360 0 33772 0 0 0 0 0 xdim ydim
 ife update_news_ticker 1
 {
 	sub news_x 1
-	
+
 	qstrlen disp_temp news_ticker
 	mul disp_temp 5
 	inv disp_temp
-	
+
 	ife news_x disp_temp
 	{
 		add news_ticker 1
-		ifg news_ticker 9207 set news_ticker 9200
+		ifg news_ticker 9208 set news_ticker 9200
 		set news_x 350
 	}
 }
@@ -7681,34 +7683,34 @@ set gui_pos_y 10
 	// next mission loc is basically filtering every mission that is outside the current system's zoom layer
 	ife show_system SYS_EARTH ifand next_mission_loc 118782 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_SOL ifand next_mission_loc 51136 { set disp_temp5 106 set disp_temp6 disp_pulse }
-	
+
 	ife show_system SYS_GANYMEDE ifand next_mission_loc 65527 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_IO ifand next_mission_loc 131055 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_MARS ifand next_mission_loc 131039 { set disp_temp5 106 set disp_temp6 disp_pulse }
-	
+
 	ife show_system SYS_LOCAL_CLOUD ifand next_mission_loc 49152 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_ISHTEG ifand next_mission_loc 130175 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_XUGLOP ifand next_mission_loc 130815 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_RACTONIA ifand next_mission_loc 130559 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_BOO ifand next_mission_loc 130047 { set disp_temp5 106 set disp_temp6 disp_pulse }
-	
+
 	ife show_system SYS_UMBRIEL ifand next_mission_loc 129023 { set disp_temp5 106 set disp_temp6 disp_pulse }
-	
+
 	ife show_system SYS_USA ifand next_mission_loc 258047 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_EUROPE ifand next_mission_loc 253951 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_ASIA ifand next_mission_loc 135167 { set disp_temp5 106 set disp_temp6 disp_pulse }
-	
+
 	ife show_system SYS_ABYSS ifand next_mission_loc 65535 { set disp_temp5 106 set disp_temp6 disp_pulse }
-	
+
 	ife show_system SYS_ELYSION ifand next_mission_loc 98303 { set disp_temp5 106 set disp_temp6 disp_pulse }
-	
+
 	ife show_system SYS_CERES ifand next_mission_loc 131071 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_HAUMEA ifand next_mission_loc 131071 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_MAKEMAKE ifand next_mission_loc 131071 { set disp_temp5 106 set disp_temp6 disp_pulse }
 	ife show_system SYS_ERIS ifand next_mission_loc 131071 { set disp_temp5 106 set disp_temp6 disp_pulse }
-	
+
 	ife show_system SYS_VENUS ifand next_mission_loc 131071 { set disp_temp5 106 set disp_temp6 disp_pulse }
-	
+
 ife VOLUME 0
 {
 state CURSOR_OVER_ITEM
@@ -7898,7 +7900,7 @@ ife VOLUME 2
 		else
 	rotatespritea gui_pos_x gui_pos_y 20000 0 14692 0 0 0 -255 0 0 xdim ydim
 	}
-	
+
 ife VOLUME 3
  ifand BEAT_EPISODES[4] 32768 // Watch Ep4 ending
 	 {
@@ -7922,7 +7924,7 @@ ife VOLUME 3
 		else
 	rotatespritea gui_pos_x gui_pos_y 20000 0 14692 0 0 0 -255 0 0 xdim ydim
 	}
-	
+
 ife VOLUME 4
  ifand BEAT_EPISODES[5] 524288 // Watch Ep5 ending
 	 {
@@ -7941,7 +7943,7 @@ ife VOLUME 4
 
 		state handle_click
 		 ife clicked 1
-			startlevel 4 61			
+			startlevel 4 61
 	   }
 		else
 	rotatespritea gui_pos_x gui_pos_y 20000 0 14692 0 0 0 -255 0 0 xdim ydim
@@ -8418,8 +8420,8 @@ state command_mission_boxes
 		qputs 7507 It is recommended that first-time players
 		qputs 7508 go through the Training map first. Click
 		qputs 7509 "Yes" to do that now, or "No" to skip.
-		qputs 7510 
-		qputs 7511 
+		qputs 7510
+		qputs 7511
 		state showyesnopopup
 
 		ife ui_popup_return 0
@@ -8441,15 +8443,15 @@ state command_mission_boxes
 		}
 	}
 	else
-	ife month 10 // October? 
+	ife month 10 // October?
 	{
-	ifand WATCHED_SCENE 16 nullop 
-	else 
+	ifand WATCHED_SCENE 16 nullop
+	else
 		{
 		qputs 7507 Dracula's Castle is beckoning this
 		qputs 7508 Hallows eve...click "Yes" to head to
 		qputs 7509 Europe to investigate. Once beaten,
-		qputs 7510 this mission will remain available 
+		qputs 7510 this mission will remain available
 		qputs 7511 throughout the year.
 		state showyesnopopup
 
@@ -8467,16 +8469,16 @@ state command_mission_boxes
 			}
 		}
 	}
-	else 
-	ife month 12 // December? 
+	else
+	ife month 12 // December?
 	{
-	ifand WATCHED_SCENE 32 nullop 
-	else 
+	ifand WATCHED_SCENE 32 nullop
+	else
 		{
 		qputs 7507 Two new missions are available;
 		qputs 7508 ^32-Driving home for Christmas, ^2Europe
 		qputs 7509 ^32-Wonderful Christmas Time, ^2America
-		qputs 7510 once beaten, they will remain 
+		qputs 7510 once beaten, they will remain
 		qputs 7511 available throughout the year
 		state showokpopup
 
@@ -8488,21 +8490,21 @@ state command_mission_boxes
 		}
 	}
 	else
-	// PROMPT FOR TANNHAUSER 
+	// PROMPT FOR TANNHAUSER
 ifand BEAT_EPISODES[5] 65536 // Crashing and Burning
  ifand BEAT_EPISODES[5] 8192 // Titan Gas
   ifand BEAT_EPISODES[5] 131072 // Glacier
-   ifand BEAT_EPISODES[5] 1048576 // Saints and Sinners 
+   ifand BEAT_EPISODES[5] 1048576 // Saints and Sinners
     ifand BEAT_EPISODES[5] 256 // Legends Meet
 	{
-	ifand WATCHED_SCENE 4 nullop 
-	else 
+	ifand WATCHED_SCENE 4 nullop
+	else
 		{
 		qputs 7507 A new critical mission has appeared in
 		qputs 7508 the Milky way; Mikko has uncovered a
-		qputs 7509 traitor in his organisation. 
-		qputs 7510 
-		qputs 7511 
+		qputs 7509 traitor in his organisation.
+		qputs 7510
+		qputs 7511
 		state showokpopup
 
 		ife ui_popup_return 1
@@ -8519,10 +8521,10 @@ ifand BEAT_EPISODES[5] 65536 // Crashing and Burning
 	else
    ifand BEAT_EPISODES[5] 524288 // Unlock Atlantis and The dream
 	{
-	ifand WATCHED_SCENE 8 nullop 
-	else 
+	ifand WATCHED_SCENE 8 nullop
+	else
 		{
-		qputs 7507 Additional missions are now available: 
+		qputs 7507 Additional missions are now available:
 		qputs 7508 ^32-Atlantis Arisen, ^2Atlantic
 		qputs 7509 ^32-"The Dream", ^2Europe
 		qputs 7510 ^32-Jungle Castle, ^2South America
@@ -8535,7 +8537,7 @@ ifand BEAT_EPISODES[5] 65536 // Crashing and Burning
 			}
 		}
 	}
-	
+
 ends
 
 defstate RES_BUY
@@ -8572,7 +8574,7 @@ else ife show_system SYS_CERES { ifsound COMMAND_AMB4 nullop else screensound CO
 else ife show_system SYS_HAUMEA { ifsound COMMAND_AMB4 nullop else screensound COMMAND_AMB4 }
 else ife show_system SYS_MAKEMAKE { ifsound COMMAND_AMB4 nullop else screensound COMMAND_AMB4 }
 else ife show_system SYS_ERIS { ifsound COMMAND_AMB4 nullop else screensound COMMAND_AMB4 }
-else ife show_system SYS_VENUS { ifsound COMMAND_AMB4 nullop else screensound COMMAND_AMB4 } 
+else ife show_system SYS_VENUS { ifsound COMMAND_AMB4 nullop else screensound COMMAND_AMB4 }
 else
 	{
 	ifg VOLUME 3 { ifsound COMM_AMB_ALT nullop else screensound COMM_AMB_ALT }
@@ -8651,7 +8653,7 @@ ifn buying_id 0
 			sub AMC_BUDGET 30
 			state FAC_BUY
 			}
-			
+
 		ife buying_id 110 // Europe/Africa airport
 			{
 			setarray FACILITIES_OWNED[14] 2
