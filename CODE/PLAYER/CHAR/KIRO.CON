@@ -1,0 +1,299 @@
+Kiros New Character in a texture pallete form.
+
+/*
+Reserved for Kiros Work and used for advance purposes.
+*/
+
+//holoduke pickup item to restock
+appendevent EVENT_HOLODUKEON
+
+ifg player[].holoduke_amount 0
+ife CHAR 27 sound
+
+endevent
+
+appendevent EVENT_HOLODUKEON
+
+ife CHAR 27
+ifg player[].holoduke_amount 0
+sound
+
+endevent
+//Kiros Teleport Device
+defstate kiro_teleport_fire
+ends
+
+
+//tertiary fire on all weapons
+
+defstate kiro_alt_fire
+ends
+defstate kiro_tertiary_fire
+ends
+ife CHAR 27 // Kiro
+
+
+appendevent EVENT_LOOKRIGHT
+
+// EXTRAMODE Character
+
+defstate PS_KIRO
+set P_GENDER MALE
+
+
+// Quotes here
+qputs 90 Wombo Combo System
+qputs 12 KICK THEIR ASS!
+
+qputs 101 Phantasm Visors
+qupts 106 Phantasm Visors On
+qputs 107 Phantasm Visors Off
+
+qputs 101 Thermal Visors
+qupts 106 Thermal Visors On
+qputs 107 Thermal Visors Off
+
+qputs 101 Light Amvison
+qupts 106 Light Amvison On
+qputs 107 Light Amvison Off
+
+qputs 3 Portable Medikit
+
+qputs 6 Drake Shield Suit
+qputs 75 Drake Shield %d %
+
+qputs 89 Aquadiver Gear
+
+qputs 47 Deploying Dropzones
+qputs 48 Packing Dropzones up.
+qputs 49 Random Dimension not found yet!
+qputs 51 Charcon Systems
+
+qputs 88 Exo Gravity
+qputs 50 Exo Gravity not found yet!
+qputs 52 Flight Mode
+qputs 53 Ground Mode
+
+qputs 102 Let's cut this dinosaur horns! (Evil Laughs)
+
+ends
+
+
+
+// LIVES start with depending on the difficult
+// Difficult 1;6 Difficult 2;5 Difficult 3;4 Difficult 4;3 Difficult 5;2
+
+ifand CHAR_APP
+
+set CDETON
+set CKNEE
+set C_MEDIKIT
+set C_HAND_1
+set C_HAND_2
+set CHOLDING_R
+set CTIP
+set C_PISTOL_R
+set CKEYCARDTILE
+set CKEYCARDTILE2
+set CKEYTILE3
+set CTRIPBOMB
+set CHOLDING_L
+set CHOLDING_3
+set C_ARM_1
+set C_ARM_2
+set C_ARM_3
+set C_PISTOL_L
+set C_UNIQUE_2
+set C_UNIQUE_3
+set C_UNIQUE_4
+set C_PUNCH
+
+set C_STEROIDS //
+set C_HOLODUKE //
+
+set C_JETPACK
+set C_NVGNORMAL
+set C_SCUBA
+set C_BOOTS
+set C_ARMOR
+set C_HEAVY_ARMOR
+
+state DISP_nvg
+
+//regeneration set
+// Live Set SYstem
+
+// weapon pickup sounds
+setarray wep_get_sound[1] PICK_PISTOL
+setarray wep_get_sound[2] PICK_SHOTG
+setarray wep_get_sound[3] PICK_SMG
+setarray wep_get_sound[4] PICK_RIFLE
+setarray wep_get_sound[5] PICK_BIGGUN
+setarray wep_get_sound[6] PICK_PISTOL Custom
+setarray wep_get_sound[7] PICK_PISTOL Custom
+setarray wep_get_sound[8] PICK_PISTOL Custom
+setarray wep_get_sound[9] PICK_PISTOL Custom
+
+// weapon pickup sounds
+
+set WEAPON1_SELECTSOUND SELECT_
+set WEAPON2_SELECTSOUND SELECT_
+set WEAPON3_SELECTSOUND SELECT_
+set WEAPON4_SELECTSOUND SELECT_
+set WEAPON5_SELECTSOUND SELECT_
+set WEAPON6_SELECTSOUND SELECT_
+set WEAPON7_SELECTSOUND SELECT_
+set WEAPON8_SELECTSOUND SELECT_
+set WEAPON9_SELECTSOUND SELECT_
+
+
+
+
+
+{
+setarray WEAPONTILE[1]
+setarray weap_special[1]
+setarray W_AMMO_TILE[1]
+setarray ammo_amount[1]
+setarray  p_max_ammo[1]
+
+set WEAPON1_FIREDELAY 2
+set WEAPON1_HOLDDELAY 6
+set WEAPON1_INITIALSOUND 4
+set WEAPON1_SHOTSPERBURST 1
+set WEAPON1_FIRESOUND 4
+set WEAPON1_SPAWN 0
+set WEAPON1_CLIP 0
+
+set WEAPON1_RELOAD 43
+set WEAPON1_RELOADSOUND1 4
+set WEAPON1_RELOADSOUND2 4
+}
+
+
+
+setarray  p_max_ammo[2] Number
+setarray  p_max_ammo[3] Number
+setarray  p_max_ammo[4] Number
+setarray  p_max_ammo[5] Number
+setarray  p_max_ammo[6] Number
+setarray  p_max_ammo[7] Number
+setarray  p_max_ammo[8] Number
+setarray  p_max_ammo[9] Number
+setarray  p_max_ammo[10] Number
+setarray  p_max_ammo[11] Number
+
+
+
+ife temp_weap
+{
+ife cur_weap 0
+{
+set
+}
+
+reserved for kiros inventory
+
+
+qputs 3
+
+qputs 6
+qputs 75
+set temp player[].boot_amount
+
+
+
+
+setuserdef[].userquote_xoffset -20
+setuserdef[].userquote_yoffset 130
+
+//Kiro sprite animation
+ifg CHAR_APP 27
+{
+setarray kiro_anims[1] 00000 // standing
+setarray kiro_anims[2] 00000 // idle
+setarray kiro_anims[3] 00000 // moving
+setarray kiro_anims[4] 00000 // jumping
+setarray kiro_anims[5] 00000 // falling
+setarray kiro_anims[6] 00000 // ducking
+setarray kiro_anims[7] 00000 // swimming
+setarray kiro_anims[8] 00000 // pain
+setarray kiro_anims[9] 00000 // dying
+setarray kiro_anims[10] 00000 // jetpack
+setarray kiro_anims[11] 00000 // on bike
+setarray kiro_anims[12] 00000 // firing
+setarray kiro_anims[13] 00000 // dead
+setarray kiro_anims[14] 00000 // walking
+setarray kiro_anims[15] 00000 // horse
+setarray kiro_anims[16] 00000 // hoverbike
+setarray kiro_anims[17] 00000 //
+}
+
+action KIRO_D_PAIN
+
+else if CHAR 27 sound KIRO_HURT1
+
+resizearray Kiro_equiped 0 resizearray Kiro_equip 256 // reset player equipe arrays
+
+ife p_def_helath_Char C_KIRO set p_default_health 125
+ife EXODUS_UPGRADES[] 2 set p_default_health 100
+else set p_default 75
+
+set P_ENERGYSHIELD
+
+P_MAX_SHIELD
+
+
+case 27 set tilenum 00000 break
+
+ife CHAR 27 globalsound UKX_GETITEM
+
+ife CHAR C_KIRO copy temp_equip[0] Kiro_equipe[0] 256
+
+else ife CHAR C_KIRO copy temp_equip[0] temp_equip[0] 256
+
+include CODE/PLAYER/CHAR/KIRO.CON
+
+resizearray
+
+
+
+state kiro_alt_fire
+
+defstate kiro_alt_fire
+
+
+
+
+// difficult
+
+defstate difficult_nightmare
+ife mouse_over_element 1 rotatesprite 119 130 HALFSIZE 0 21070 0 0 0 0 0 xdim ydim
+ends
+
+state difficult_nightmare
+
+All treasure will get deleted by nightmare difficult.
+
+
+
+extbits_press
+
+
+
+
+bitpress [name of player doing]
+
+bits_ press 1 [left click]
+bits _ press 2 [right click]
+
+extbits_press 1 2 4 8 16 32
+
+// EXTBITS_PRESS 1 Move Forward
+// EXTBITS_PRESS 2 Move Backward
+// EXTBITS_PRESS 4 Strafe Left
+// EXTBITS_PRESS 8 Strafe Right
+// EXTBITS_PRESS 16 Turn Left
+// EXTBITS_PRESS 32 Turn Right
+// EXTBITS_PRESS 64 X
+// EXTBITS_PRESS 128 X

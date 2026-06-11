@@ -268,7 +268,7 @@ state ITEM_SETTINGS
 					  setp[].inven_icon 2
 					  setp[].invdisptime 60
 					  }
-					
+
 					set booster_amount STEROID_AMOUNT
 					addinventory GET_STEROIDS STEROID_AMOUNT
 					state blue_flash
@@ -320,7 +320,7 @@ state ITEM_SETTINGS
 						case C_SNOWFALL
 							userquote 1750
 							break
-						case C_ROSA 
+						case C_ROSA
 							userquote 1769
 							break
 						case C_KAGURA
@@ -328,6 +328,9 @@ state ITEM_SETTINGS
 							break
 						case C_WHEATON
 							userquote 1748
+							break
+						case C_KIRO
+							userquote 1774
 							break
 						default
 							break
@@ -592,7 +595,7 @@ state ITEM_SETTINGS
 			case C_SNOWFALL
 				userquote 1761
 				break
-			case C_ROSA 
+			case C_ROSA
 				userquote 1768
 				break
 			case C_KAGURA
@@ -600,6 +603,9 @@ state ITEM_SETTINGS
 				break
 			case C_WHEATON
 				userquote 1755
+				break
+			case C_KIRO
+				userquote 1775
 				break
 			default
 				break
@@ -680,10 +686,10 @@ defstate display_key
 	mul DISP_KEY NORMALIZED_FACTOR
 	set DISP_KEY_PIC sprite[].picnum
 	set DISP_KEY_PAL sprite[].pal
-	
+
 	state PICKUP_DISPLAY
 	set picked_up_tile sprite[].picnum
-	set item_amount -1			
+	set item_amount -1
 	state white_flash
 ends
 
@@ -769,7 +775,7 @@ ifrnd 1 spawn GLINT
   state can_pickup_item
   ife actor_return 1
 	  {
-		ifand WORLD_TRIGGER 32 break 
+		ifand WORLD_TRIGGER 32 break
 		userquote 20014
 		xorvar WORLD_TRIGGER 32
 		state display_key
@@ -785,7 +791,7 @@ ifrnd 1 spawn GLINT
   state can_pickup_item
   ife actor_return 1
 	  {
-		ifand WORLD_TRIGGER 64 break 
+		ifand WORLD_TRIGGER 64 break
 		xorvar WORLD_TRIGGER 64
 		ife CHAR 17
 			{
@@ -811,7 +817,7 @@ ifrnd 1 spawn GLINT
   state can_pickup_item
   ife actor_return 1
 	  {
-	    ifand WORLD_TRIGGER 128 break 
+	    ifand WORLD_TRIGGER 128 break
 		xorvar WORLD_TRIGGER 128
 		userquote 20016
 		state white_flash
@@ -829,9 +835,9 @@ sizeat 32 32
   state can_pickup_item
   ife actor_return 1
 	  {
-		ifspritepal 15 { ifand SW_KEYS 16 break xorvar SW_KEYS 16 userquote 20017 } 
-		ifspritepal 12 { ifand SW_KEYS 32 break xorvar SW_KEYS 32 userquote 20018 } 
-		ifspritepal 83 { ifand SW_KEYS 64 break xorvar SW_KEYS 64 userquote 20019 } 
+		ifspritepal 15 { ifand SW_KEYS 16 break xorvar SW_KEYS 16 userquote 20017 }
+		ifspritepal 12 { ifand SW_KEYS 32 break xorvar SW_KEYS 32 userquote 20018 }
+		ifspritepal 83 { ifand SW_KEYS 64 break xorvar SW_KEYS 64 userquote 20019 }
 		ifspritepal 10 { ifand SW_KEYS 128 break xorvar SW_KEYS 128 userquote 20020 }
 
 		state display_key
@@ -862,9 +868,9 @@ sizeat 28 28
   state can_pickup_item
   ife actor_return 1
 	  {
-		ifspritepal 0 { ifand SW_KEYS 1 break add SW_KEYS 1 userquote 20021 } 
-		ifspritepal 10 { ifand SW_KEYS 2 break add SW_KEYS 2 userquote 20022 } 
-		ifspritepal 11 { ifand SW_KEYS 4 break add SW_KEYS 4 userquote 20023 } 
+		ifspritepal 0 { ifand SW_KEYS 1 break add SW_KEYS 1 userquote 20021 }
+		ifspritepal 10 { ifand SW_KEYS 2 break add SW_KEYS 2 userquote 20022 }
+		ifspritepal 11 { ifand SW_KEYS 4 break add SW_KEYS 4 userquote 20023 }
 		ifspritepal 23 { ifand SW_KEYS 8 break add SW_KEYS 8 userquote 20024 }
 
 		state display_key
@@ -917,7 +923,7 @@ sizeat 28 28
   state can_pickup_item
   ife actor_return 1
 	  {
-		ifand PLUGKEY 2 break 
+		ifand PLUGKEY 2 break
 		xorvar PLUGKEY 2
 		state white_flash
 		userquote 20026
@@ -940,7 +946,7 @@ sizeat 28 28
   state can_pickup_item
   ife actor_return 1
 	  {
-		ifand PLUGKEY 4 break 
+		ifand PLUGKEY 4 break
 		xorvar PLUGKEY 4
 		state white_flash
 		userquote 20027
@@ -1034,7 +1040,7 @@ else
 	      {
 		ifactor BLOODCHALICE
 			{
-	        ifand HELLGKEYS 1 break 
+	        ifand HELLGKEYS 1 break
 			userquote 20028
 			xor HELLGKEYS 1
 			state white_flash
@@ -1044,7 +1050,7 @@ else
 			}
 		ifactor SOULBOX
 			{
-	        ifand HELLGKEYS 2 break 
+	        ifand HELLGKEYS 2 break
 			userquote 20029
 			xor HELLGKEYS 2
 			state white_flash
@@ -1054,7 +1060,7 @@ else
 			}
 		ifactor SKULLCROWN
 			{
-	        ifand HELLGKEYS 4 break 
+	        ifand HELLGKEYS 4 break
 			userquote 20030
 			xor HELLGKEYS 4
 			state white_flash
@@ -1064,7 +1070,7 @@ else
 			}
 		ifactor DARKBOOK
 			{
-	        ifand HELLGKEYS 8 break 
+	        ifand HELLGKEYS 8 break
 			userquote 20031
 			xor HELLGKEYS 8
 			state white_flash
@@ -1074,7 +1080,7 @@ else
 			}
 		ifactor BROKENTORCH
 			{
-	        ifand HELLGKEYS 16 break 
+	        ifand HELLGKEYS 16 break
 			userquote 20032
 			xor HELLGKEYS 16
 			state white_flash
@@ -1118,7 +1124,7 @@ ifaction 0
 	{
 	cstat 0
 	sizeat 32 32
-	
+
 	set command 256
 	action ZERO
 	}
@@ -1128,17 +1134,17 @@ ifrnd 1 spawn GLINT
   state can_pickup_item
   ife actor_return 1
 	  {
-		ifactor FLAMEKEY { ifand OLDKEYS 1 break xor OLDKEYS 1 userquote 155 } 
-		ifactor SPIDERKEY { ifand OLDKEYS 2 break xor OLDKEYS 2 userquote 157 } 
-		ifactor DAGGERKEY { ifand OLDKEYS 4 break xor OLDKEYS 4 userquote 159 } 
-		ifactor MOONKEY { ifand OLDKEYS 8 break xor OLDKEYS 8 userquote 161 } 
-		ifactor SKULLKEY { ifand OLDKEYS 16 break xor OLDKEYS 16 userquote 163 } 
-		ifactor EYEKEY { ifand OLDKEYS 32 break xor OLDKEYS 32 userquote 240 } 
-		
-		ifactor DIAMOND_KEY { ifand NORMAL_KEYS 1 break xor NORMAL_KEYS 1 userquote 20033 } 
-		ifactor CLUB_KEY { ifand NORMAL_KEYS 2 break xor NORMAL_KEYS 2 userquote 20034 } 
-		ifactor SPADE_KEY { ifand NORMAL_KEYS 4 break xor NORMAL_KEYS 4 userquote 20035 } 
-		ifactor HEART_KEY { ifand NORMAL_KEYS 8 break xor NORMAL_KEYS 8 userquote 20036 } 
+		ifactor FLAMEKEY { ifand OLDKEYS 1 break xor OLDKEYS 1 userquote 155 }
+		ifactor SPIDERKEY { ifand OLDKEYS 2 break xor OLDKEYS 2 userquote 157 }
+		ifactor DAGGERKEY { ifand OLDKEYS 4 break xor OLDKEYS 4 userquote 159 }
+		ifactor MOONKEY { ifand OLDKEYS 8 break xor OLDKEYS 8 userquote 161 }
+		ifactor SKULLKEY { ifand OLDKEYS 16 break xor OLDKEYS 16 userquote 163 }
+		ifactor EYEKEY { ifand OLDKEYS 32 break xor OLDKEYS 32 userquote 240 }
+
+		ifactor DIAMOND_KEY { ifand NORMAL_KEYS 1 break xor NORMAL_KEYS 1 userquote 20033 }
+		ifactor CLUB_KEY { ifand NORMAL_KEYS 2 break xor NORMAL_KEYS 2 userquote 20034 }
+		ifactor SPADE_KEY { ifand NORMAL_KEYS 4 break xor NORMAL_KEYS 4 userquote 20035 }
+		ifactor HEART_KEY { ifand NORMAL_KEYS 8 break xor NORMAL_KEYS 8 userquote 20036 }
 		ifactor NORMAL_KEY5 { ifand NORMAL_KEYS 16 break xor NORMAL_KEYS 16 userquote 20037 }
 
 			state white_flash
@@ -1270,7 +1276,7 @@ ifaction 0
 		ifspritepal 12 { ifand SCARABKEYS 256 break xorvar SCARABKEYS 256 userquote 20052 }
 
 		state display_key
-		
+
 		ifmultiplayer
 			ife COOP 1
 				{
@@ -1562,7 +1568,7 @@ ifactor BRIMSTONE
 	else
 		{
 		sub temp 1
-		ifle temp 0 set ally_mag 1 
+		ifle temp 0 set ally_mag 1
 		}
 	clamp temp 0 20
 	seta[].shade temp
@@ -2231,7 +2237,7 @@ ifaction 0
 	{
 	sizeat 24 24
 	action ZERO
-	cstat 0 
+	cstat 0
 	set command 32768
 	geta[].mdflags temp
 	orvar temp 16
@@ -2242,7 +2248,7 @@ ifaction 0
   ife actor_return 1
 				{
 				ifand EGYPT_ARTIFACTS 8 break
-				spritepal 12 
+				spritepal 12
 				state display_key
 				xorvar EGYPT_ARTIFACTS 8
 				globalsound QUEST_ITEM
@@ -2261,7 +2267,7 @@ ifaction 0
 	{
 	sizeat 24 24
 	action ZERO
-	cstat 0 
+	cstat 0
 	set command 32768
 	geta[].mdflags temp
 	orvar temp 16
@@ -2311,7 +2317,7 @@ ifaction 0
 	{
 	sizeat 24 24
 	action ZERO
-	cstat 0 
+	cstat 0
 	set command 32768
 	geta[].mdflags temp
 	orvar temp 16
@@ -2336,7 +2342,7 @@ ifaction 0
 	{
 	sizeat 24 24
 	action ZERO
-	cstat 0 
+	cstat 0
 	set command 32768
 	geta[].mdflags temp
 	orvar temp 16
@@ -2434,7 +2440,7 @@ cstat 0
 	 ifl AIRSTRIKE_MARKER 4
 	  {
 	     add AIRSTRIKE_MARKER 1
-		 
+
 		 spritepal 21
 		 state display_key
 		  state quikget
@@ -2453,7 +2459,7 @@ useractor notenemy FIREWALL_CHIP
 	  ife GOT_FIREWALL 0
 	{
 		ifspawnedby EDF_FLIER state display_key
-		
+
 		set GOT_FIREWALL 1
 		state PICKUP_DISPLAY
 		geta[].picnum picked_up_tile
@@ -2998,7 +3004,7 @@ ifaction 0
 seta[].blend 255
 seta[].shade -127
 seta[].cstat 2
- 
+
  set command 32768
 }
 
@@ -3046,7 +3052,7 @@ state ITEM_SETTINGS
 
 	ifaction 0
 	{
-	 
+
 	 set command 32768
 	}
 
@@ -3081,7 +3087,7 @@ ifaction 0
 	{
 	spriteflags 69
 	sizeat 40 40
-	
+
 	set command 256
 	action ZERO
 	}
@@ -3113,7 +3119,7 @@ useractor notenemy SPIRIT_ARMOUR
 ifaction 0
 	{
 	sizeat 44 44
-	
+
 	set command 256
 	action ZERO
 	}
@@ -3207,7 +3213,7 @@ useractor notenemy BASIC_ARMOUR
 ifaction 0
 	{
 	sizeat 48 48
-	
+
 	set command 256
 	action ZERO
 	}
@@ -3237,7 +3243,7 @@ enda
 
 spriteshadow FIRSTAID
 actor FIRSTAID
-  
+
 	state ITEM_SETTINGS
 
   state can_pickup_item
@@ -3453,7 +3459,7 @@ sizeto 12 12
 ifaction 0
 	{
 	ife ORBS_FOUND 0 readgamevar ORBS_FOUND
-	
+
 	set command 32768
 	set INTERNALCOUNT 0
 	action ZERO

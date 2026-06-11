@@ -15,7 +15,7 @@ Character selection UI
 --------------------------------------------------------------------------------
 */
 
-// fatigue display: 
+// fatigue display:
 // input character in "disp_temp3"
 // input x & y pos
 defstate fatigue_display
@@ -85,7 +85,7 @@ defstate charselectionui_display
 	else
 	ifn LOCATION 0
 		state location_pic
-	
+
 	rotatesprite 45 100 36768 0 3732 0 0 41 0 0 xdim ydim
 
 	rotatesprite 120 100 36768 0 3755 0 0 41 0 0 xdim ydim
@@ -192,7 +192,7 @@ defstate charselectionui_display
 	rotatesprite 221 16 16384 0 13569 30 4 8 0 0 xdim ydim // drop shadow
 	rotatesprite 220 15 16384 0 13569 0 0 8 0 0 xdim ydim
 
-	
+
 	rotatesprite 121 24 16384 0 13570 30 4 8 0 0 xdim ydim // drop shadow
 	rotatesprite 120 23 16384 0 13570 0 0 8 0 0 xdim ydim
 
@@ -205,7 +205,7 @@ defstate charselectionui_display
 			else ifand CHAR_APP 64 set av_tile 25565
 			else ifand CHAR_APP 1 set av_tile 25566
 			else set av_tile 3589
-			
+
 			rotatesprite 170 40 27768 0 av_tile CHARSHADE 0 8 0 0 xdim ydim
 
 			rotatesprite 170 40 12384 0 3594 0 0 0 0 0 xdim ydim // FRAME
@@ -225,17 +225,17 @@ defstate charselectionui_display
 			else ifand CHAR_APP 64 set av_tile 25565
 			else ifand CHAR_APP 1 set av_tile 25566
 			else set av_tile 3589
-			
+
 			rotatesprite 170 40 27768 0 av_tile 20 27 0 0 0 xdim ydim
 			rotatesprite 170 40 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME
 			ife debug_stuff 1 digitalnumberz DIGITALNUM 100 110 AGENT_FATIGUE[0] 0 0 0 0 0 xdim ydim QUARTERSIZE
-		}	
+		}
 		set disp_temp3 C_JAMES
 		set x 177 set y 50
 		set mx 170 set my 40
 		state fatigue_display
 
-	
+
 	ife CHAR C_ZAXTOR // ======================================================================================================================================
 		{
 			gametext 2822 20 20 126 0 0 0 0 0 xdim ydim
@@ -255,24 +255,24 @@ defstate charselectionui_display
 			ife TRIGGER_BASE_SCENE 8 rotatesprite 205 40 29768 512 595 10 0 0 0 0 xdim ydim // Imprisoned
 			rotatesprite 205 40 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME
 			ife debug_stuff 1 digitalnumberz DIGITALNUM 140 110 AGENT_FATIGUE[1] 0 0 0 0 0 xdim ydim QUARTERSIZE
-		}	
+		}
 		set disp_temp3 C_ZAXTOR
 		set x 212 set y 50
 		set mx 205 set my 40
 		state fatigue_display
 
-	
+
 	ife CHAR C_MERLIJN // ======================================================================================================================================
 		{
 			gametext 2822 20 20 127 0 0 0 0 0 xdim ydim
 			ifand CHAR_APP 4 set av_tile 25567
 			else set av_tile 3591
-			
+
 			rotatesprite 240 40 27768 0 av_tile CHARSHADE 0 0 0 0 xdim ydim // AVATAR
 			rotatesprite 240 40 12384 0 3594 0 0 0 0 0 xdim ydim // FRAME
 			rotatespritea 240 40 12384 0 3588 disp_pulse 0 0 -255 0 0 xdim ydim // FRAME GLOW
 			rotatesprite 89 18 HALFSIZE 0 23293 0 0 0 0 0 xdim ydim // flag
-			
+
 			ifand CHAR_APP 131072 rotatesprite 45 100 36768 0 3731 CHARSHADE 22 8 0 0 xdim ydim // picture
 			else ifand CHAR_APP 4 rotatesprite 45 100 36768 0 3731 CHARSHADE 21 8 0 0 xdim ydim // picture
 			else rotatesprite 45 100 36768 0 3731 CHARSHADE 20 8 0 0 xdim ydim // picture
@@ -281,7 +281,7 @@ defstate charselectionui_display
 		{
 			ifand CHAR_APP 4 set av_tile 25567
 			else set av_tile 3591
-			
+
 			rotatesprite 240 40 27768 0 av_tile 20 27 0 0 0 xdim ydim // AVATAR
 			ife TRIGGER_BASE_SCENE 8 rotatesprite 240 40 29768 512 595 10 0 0 0 0 xdim ydim // Imprisoned
 			rotatesprite 240 40 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME
@@ -292,36 +292,36 @@ defstate charselectionui_display
 		set mx 240 set my 40
 		state fatigue_display
 
-	
+
 	ife CHAR C_HIGHWIRE // ======================================================================================================================================
 		{
 			gametext 2822 20 20 128 0 0 0 0 0 xdim ydim
 			ifand CHAR_APP 16 set av_tile 25568
 			else set av_tile 3593
-			
+
 			rotatesprite 275 40 27768 0 av_tile CHARSHADE 0 0 0 0 xdim ydim // AVATAR
 			rotatesprite 275 40 12384 0 3594 0 0 0 0 0 xdim ydim // FRAME
 			rotatespritea 275 40 12384 0 3588 disp_pulse 0 0 -255 0 0 xdim ydim // FRAME GLOW
 			rotatesprite 89 18 HALFSIZE 0 23292 0 0 0 0 0 xdim ydim // flag
 			ifand CHAR_APP 16 rotatesprite 45 100 36768 0 3731 CHARSHADE 32 8 0 0 xdim ydim // character
 			else rotatesprite 45 100 36768 0 3731 CHARSHADE 30 8 0 0 xdim ydim // character
-			
+
 		}
 	else
 		{
 			ifand CHAR_APP 16 set av_tile 25568
-			else set av_tile 3593 
+			else set av_tile 3593
 			rotatesprite 275 40 27768 0 av_tile 20 27 0 0 0 xdim ydim // AVATAR
 			ife TRIGGER_BASE_SCENE 8 rotatesprite 275 40 29768 512 595 10 0 0 0 0 xdim ydim // Imprisoned
 			rotatesprite 275 40 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME
 			ife debug_stuff 1 digitalnumberz DIGITALNUM 220 110 AGENT_FATIGUE[3] 0 0 0 0 0 xdim ydim QUARTERSIZE
-		}	
+		}
 		set disp_temp3 C_HIGHWIRE
 		set x 282 set y 50
 		set mx 275 set my 40
 		state fatigue_display
 
-	
+
 	ife CHAR C_SANG // ======================================================================================================================================
 		{
 			gametext 2822 20 20 129 0 0 0 0 0 xdim ydim
@@ -346,8 +346,8 @@ defstate charselectionui_display
 			ife TRIGGER_BASE_SCENE 8 rotatesprite 170 85 29768 512 595 10 0 0 0 0 xdim ydim // Imprisoned
 			rotatesprite 170 85 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME
 			ife debug_stuff 1 digitalnumberz DIGITALNUM 100 150 AGENT_FATIGUE[4] 0 0 0 0 0 xdim ydim QUARTERSIZE
-		}		
-		
+		}
+
 		set disp_temp3 C_SANG
 		set x 177 set y 95
 		set mx 170 set my 85
@@ -363,7 +363,7 @@ defstate charselectionui_display
 			rotatesprite 205 85 12384 0 3594 0 0 0 0 0 xdim ydim // FRAME
 			rotatespritea 205 85 12384 0 3588 disp_pulse 0 0 -255 0 0 xdim ydim // FRAME GLOW
 			ifand CHAR_APP 65536 set disp_temp5 52
-			else ifand CHAR_APP 32 set disp_temp5 51 
+			else ifand CHAR_APP 32 set disp_temp5 51
 			else set disp_temp5 50
 			rotatesprite 45 100 36768 0 3731 CHARSHADE disp_temp5 8 0 0 xdim ydim // CHARACTER
 		}
@@ -381,7 +381,7 @@ defstate charselectionui_display
 		set mx 205 set my 85
 		state fatigue_display
 
-	
+
 	ife CHAR C_GEOFFREY // ======================================================================================================================================
 		{
 			gametext 2822 20 20 131 0 0 0 0 0 xdim ydim
@@ -398,17 +398,17 @@ defstate charselectionui_display
 			rotatesprite 240 85 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME
 			ife debug_stuff 1 digitalnumberz DIGITALNUM 180 150 AGENT_FATIGUE[6] 0 0 0 0 0 xdim ydim QUARTERSIZE
 		}
-		
+
 		set disp_temp3 C_GEOFFREY
 		set x 247 set y 95
 		set mx 240 set my 85
 		state fatigue_display
-		
-	
+
+
 	ife CHAR C_MIKKO // ======================================================================================================================================
 		{
 			gametext 2822 20 20 132 0 0 0 0 0 xdim ydim
-			ifand CHAR_APP 8 rotatesprite 275 85 27768 0 33763 CHARSHADE 0 0 0 0 xdim ydim // AVATAR 
+			ifand CHAR_APP 8 rotatesprite 275 85 27768 0 33763 CHARSHADE 0 0 0 0 xdim ydim // AVATAR
 			else rotatesprite 275 85 27768 0 3606 CHARSHADE 0 0 0 0 xdim ydim // AVATAR
 			rotatesprite 275 85 12384 0 3594 0 0 0 0 0 xdim ydim // FRAME
 			rotatespritea 275 85 12384 0 3588 disp_pulse 0 0 -255 0 0 xdim ydim // FRAME GLOW
@@ -429,7 +429,7 @@ defstate charselectionui_display
 		set x 282 set y 95
 		set mx 275 set my 85
 		state fatigue_display
-		
+
 	ife ep2_new_char 1
 		{
 		ife CHAR C_MICKY // ======================================================================================================================================
@@ -449,7 +449,7 @@ defstate charselectionui_display
 			{
 				ifand CHAR_APP 256 rotatesprite 170 130 27768 0 18472 20 27 0 0 0 xdim ydim // AVATAR
 				else ifand CHAR_APP 128 rotatesprite 170 130 27768 0 18542 20 27 0 0 0 xdim ydim // AVATAR
-				else rotatesprite 170 130 27768 0 16600 20 27 0 0 0 xdim ydim // AVATAR			
+				else rotatesprite 170 130 27768 0 16600 20 27 0 0 0 xdim ydim // AVATAR
 				ife TRIGGER_BASE_SCENE 8 rotatesprite 170 130 29768 512 595 10 0 0 0 0 xdim ydim // Imprisoned
 				rotatesprite 170 130 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME
 				ife debug_stuff 1 digitalnumberz DIGITALNUM 260 150 AGENT_FATIGUE[13] 0 0 0 0 0 xdim ydim QUARTERSIZE
@@ -459,7 +459,7 @@ defstate charselectionui_display
 		set mx 170 set my 130
 		state fatigue_display
 		}
-		
+
 	ife ep3_new_char 1
 		{
 		ife CHAR C_SNOWFALL // ======================================================================================================================================
@@ -476,9 +476,9 @@ defstate charselectionui_display
 			{
 				rotatesprite 205 130 27768 0 20813 20 27 0 0 0 xdim ydim // AVATAR - Different tile due to tone map limitation
 				ife TRIGGER_BASE_SCENE 8 rotatesprite 205 130 29768 512 595 10 0 0 0 0 xdim ydim // Imprisoned
-				rotatesprite 205 130 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME			
+				rotatesprite 205 130 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME
 				ife debug_stuff 1 digitalnumberz DIGITALNUM 260 110 AGENT_FATIGUE[14] 0 0 0 0 0 xdim ydim QUARTERSIZE
-			}	
+			}
 		set disp_temp3 C_SNOWFALL
 		set x 212 set y 140
 		set mx 205 set my 130
@@ -500,16 +500,16 @@ defstate charselectionui_display
 			}
 		else
 			{
-				rotatesprite 240 130 27768 0 27262 20 27 0 0 0 xdim ydim // AVATAR	
-				rotatesprite 240 130 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME				
+				rotatesprite 240 130 27768 0 27262 20 27 0 0 0 xdim ydim // AVATAR
+				rotatesprite 240 130 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME
 				ife debug_stuff 1 digitalnumberz DIGITALNUM 260 110 AGENT_FATIGUE[17] 0 0 0 0 0 xdim ydim QUARTERSIZE
-			}		
+			}
 		set disp_temp3 C_KAGURA
 		set x 247 set y 140
 		set mx 240 set my 130
 		state fatigue_display
 		}
-		
+
 	ife ep5_new_char 1
 		{
 		ife CHAR C_WHEATON // ======================================================================================================================================
@@ -526,16 +526,16 @@ defstate charselectionui_display
 			rotatesprite 275 130 27768 0 35840 20 27 0 0 0 xdim ydim // AVATAR
 			rotatesprite 275 130 12384 0 3594 15 0 0 0 0 xdim ydim // BASE FRAME
 			ife debug_stuff 1 digitalnumberz DIGITALNUM 260 110 AGENT_FATIGUE[17] 0 0 0 0 0 xdim ydim QUARTERSIZE
-			}		
+			}
 			set disp_temp3 C_WHEATON
 			set x 282 set y 140
 			set mx 275 set my 130
 			state fatigue_display
 		}
-		
+
 	ifand allow_temp_characters 1
 		{
-		
+
 		ife CHAR C_CULTIST // ======================================================================================================================================
 			{
 				gametext 2822 20 20 235 0 0 0 0 0 xdim ydim
@@ -545,9 +545,9 @@ defstate charselectionui_display
 				rotatesprite 89 18 HALFSIZE 0 23287 0 0 8 0 0 xdim ydim // flag
 				rotatesprite 45 100 36768 0 3731 CHARSHADE 137 8 0 0 xdim ydim // CHARACTER
 			}
-		else 
+		else
 			{
-			rotatesprite 170 175 20076 0 7768 20 27 8 0 0 xdim ydim // AVATAR	
+			rotatesprite 170 175 20076 0 7768 20 27 8 0 0 xdim ydim // AVATAR
 			rotatesprite 170 175 8173 0 3594 15 0 8 0 0 xdim ydim // BASE FRAME
 			}
 		set disp_temp3 C_CULTIST
@@ -555,7 +555,7 @@ defstate charselectionui_display
 		set mx 170 set my 175
 		state small_fatigue_display
 		}
-		
+
 	ifand allow_temp_characters 2
 		{
 		ife CHAR C_BOMBSHELL // ======================================================================================================================================
@@ -567,9 +567,9 @@ defstate charselectionui_display
 				rotatesprite 89 18 HALFSIZE 0 23287 0 0 8 0 0 xdim ydim // flag
 				rotatesprite 45 100 36768 0 3731 CHARSHADE 130 8 0 0 xdim ydim // picture
 			}
-		else 
+		else
 			{
-			rotatesprite 193 175 20076 0 5368 20 27 8 0 0 xdim ydim // AVATAR			
+			rotatesprite 193 175 20076 0 5368 20 27 8 0 0 xdim ydim // AVATAR
 			rotatesprite 193 175 8173 0 3594 15 0 8 0 0 xdim ydim // BASE FRAME
 			}
 		set disp_temp3 C_BOMBSHELL
@@ -577,7 +577,7 @@ defstate charselectionui_display
 		set mx 193 set my 175
 		state small_fatigue_display
 		}
-		
+
 	ifand allow_temp_characters 4
 		{
 		ife CHAR C_MAARTEN // ======================================================================================================================================
@@ -589,14 +589,14 @@ defstate charselectionui_display
 				rotatesprite 89 18 HALFSIZE 0 23293 0 0 8 0 0 xdim ydim // flag
 				rotatesprite 45 100 36768 0 3731 CHARSHADE 136 8 0 0 xdim ydim // picture
 			}
-		else 
+		else
 			{
 			rotatesprite 216 175 20076 0 5488 20 27 8 0 0 xdim ydim // AVATAR
 			rotatesprite 216 175 8173 0 3594 15 0 8 0 0 xdim ydim // BASE FRAME
 			}
 		// Maarten cannot get fatigued
 		}
-		
+
 	ifand allow_temp_characters 8
 		{
 		ife CHAR C_JANE // ======================================================================================================================================
@@ -608,7 +608,7 @@ defstate charselectionui_display
 				rotatesprite 89 18 HALFSIZE 0 23295 0 0 8 0 0 xdim ydim // flag
 				rotatesprite 45 100 36768 0 3731 CHARSHADE 133 8 0 0 xdim ydim // picture
 			}
-		else 
+		else
 			{
 			rotatesprite 239 175 20076 0 5366 20 27 8 0 0 xdim ydim // AVATAR
 			rotatesprite 239 175 8173 0 3594 15 0 8 0 0 xdim ydim // BASE FRAME
@@ -618,7 +618,7 @@ defstate charselectionui_display
 		set mx 239 set my 175
 		state small_fatigue_display
 		}
-		
+
 	ifand allow_temp_characters 16
 		{
 		ife CHAR C_ROSA // ======================================================================================================================================
@@ -630,9 +630,9 @@ defstate charselectionui_display
 				rotatesprite 89 18 HALFSIZE 0 23287 0 0 8 0 0 xdim ydim // flag
 				rotatesprite 45 100 36768 0 3731 CHARSHADE 138 8 0 0 xdim ydim // CHARACTER
 			}
-		else 
+		else
 			{
-			rotatesprite 262 175 20076 0 34672 20 27 8 0 0 xdim ydim // AVATAR		
+			rotatesprite 262 175 20076 0 34672 20 27 8 0 0 xdim ydim // AVATAR
 			rotatesprite 262 175 8173 0 3594 15 0 8 0 0 xdim ydim // BASE FRAME
 			}
 		set disp_temp3 C_ROSA
@@ -640,16 +640,38 @@ defstate charselectionui_display
 		set mx 262 set my 175
 		state small_fatigue_display
 		}
-		
+
+	ifand allow_temp_characters 32
+		{
+		ife CHAR C_KIRO // ======================================================================================================================================
+			{
+				gametext 2822 20 20 382 0 0 0 0 0 xdim ydim
+				rotatesprite 285 175 20076 0 34672 CHARSHADE 0 8 0 0 xdim ydim // AVATAR
+				rotatesprite 285 175 8173 0 3594 0 0 8 0 0 xdim ydim // FRAME
+				rotatespritea 285 175 8173 0 3588 disp_pulse 0 0 -255 0 0 xdim ydim // FRAME GLOW
+				rotatesprite 89 18 HALFSIZE 0 23300 0 0 8 0 0 xdim ydim // flag
+				rotatesprite 45 100 36768 0 3731 CHARSHADE 138 8 0 0 xdim ydim // CHARACTER
+			}
+		else
+			{
+			rotatesprite 285 175 20076 0 34672 20 27 8 0 0 xdim ydim // AVATAR
+			rotatesprite 285 175 8173 0 3594 15 0 8 0 0 xdim ydim // BASE FRAME
+			}
+		set disp_temp3 C_KIRO
+		set x 292 set y 185
+		set mx 285 set my 175
+		state small_fatigue_display
+		}
+
 	ife CHAR -1 rotatesprite 45 100 36768 0 3731 15 0 8 0 0 xdim ydim // unselected frame
 	else rotatesprite 45 100 36768 0 3731 0 0 8 0 0 xdim ydim // frame
-		
+
 	// Current character tooltip
 	ifn char_help -1
 	{
 		// The tooltip is in a different position when we are selecting characters below Mikko (who is the end of the second row)
 		// Eyeballed it and it just means a difference of -90 on the Y-axis on characters after Mikko
-		
+
 		ifg char_help C_MIKKO
 		{
 			rotatesprite 240 60 36768 0 3757 0 0 9 0 0 xdim ydim
@@ -660,18 +682,18 @@ defstate charselectionui_display
 			rotatesprite 240 150 36768 0 3757 0 0 9 0 0 xdim ydim
 			rotatesprite 240 150 36768 0 3756 0 0 8 0 0 xdim ydim
 		}
-		
+
 		// show health ring bonus
 	        ife ARTIFACTS_LOADOUT[char_help] 11
 		{
 			qputs 810 ^54+ 20
-			
+
 			ifg char_help C_MIKKO
  				screentext 2822 242 35 37500 0 0 810 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 			else
  				screentext 2822 242 125 37500 0 0 810 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 		}
-		
+
 		ife char_help C_JAMES
 		{
 			ifand CHAR_APP 512 qputs 815 Abyssal Revenant
@@ -795,7 +817,7 @@ defstate charselectionui_display
 				else qputs 811 Stamina: 100%
 				qputs 812 Armor Type: Medium
 			}
-			
+
  			screentext 2822 185 115 37500 0 0 815 0 24 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
  			screentext 2822 185 125 37500 0 0 810 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
  			screentext 2822 185 141 37500 0 0 811 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
@@ -935,7 +957,7 @@ defstate charselectionui_display
 			qputs 814 - Exhausted faster
  			screentext 2822 185 77 30500 0 0 814 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 		}
-		else ife char_help C_CULTIST 
+		else ife char_help C_CULTIST
 		{
 			qputs 815 Deadbeat Hero
  			screentext 2822 185 25 37500 0 0 815 0 24 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
@@ -949,8 +971,8 @@ defstate charselectionui_display
  			screentext 2822 185 61 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 			qputs 813 + Can't get drunk
  			screentext 2822 185 69 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-		}	
-		else ife char_help C_BOMBSHELL 
+		}
+		else ife char_help C_BOMBSHELL
 		{
 			qputs 815 Hail to the Queen
  			screentext 2822 185 25 37500 0 0 815 0 24 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
@@ -964,7 +986,7 @@ defstate charselectionui_display
  			screentext 2822 185 61 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 			qputs 813 + Heals more from booze
  			screentext 2822 185 69 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-		}	
+		}
 		else ife char_help C_MAARTEN
 		{
 			qputs 815 Medieval Warrior
@@ -979,7 +1001,7 @@ defstate charselectionui_display
  			screentext 2822 185 61 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 			qputs 813 + Chomp stunned human enemies
  			screentext 2822 185 69 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-		}	
+		}
 		else ife char_help C_JANE
 		{
 			qputs 815 EDF Agent #1
@@ -1010,6 +1032,23 @@ defstate charselectionui_display
 			qputs 813 + Drain stunned human enemies
  			screentext 2822 185 69 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 			qputs 813 - Healing items less useful
+ 			screentext 2822 185 77 30500 0 0 813 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+		}
+		else ife char_help C_KIRO
+		{
+			qputs 815 Exodus Galactic PMC
+ 			screentext 2822 185 25 37500 0 0 815 0 24 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 810 HP: 100
+ 			screentext 2822 185 35 37500 0 0 810 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 811 Armor Type: Medium
+ 			screentext 2822 185 43 37500 0 0 811 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 812 Stamina: 125%
+ 			screentext 2822 185 51 37500 0 0 812 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 813 + Access from Exodus and Custom PDA
+ 			screentext 2822 185 61 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 813 + Management and Strategy
+ 			screentext 2822 185 69 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 813 - Restricted access to AMC Arsenal
  			screentext 2822 185 77 30500 0 0 813 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 		}
 	}

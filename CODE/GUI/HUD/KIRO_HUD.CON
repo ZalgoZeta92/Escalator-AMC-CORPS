@@ -1,0 +1,16 @@
+Kiros New Character in a texture pallete form.
+
+/*
+Reserved for Kiros Work and used for advance purposes.
+*/
+
+
+defstate kiro_hud
+	//How to make numbers
+	getu .color hud_disp_pcolour
+	ife hud_disp_pcolour 0 set hud_disp_pcolour 21
+	set hud_disp_font 5139
+
+	rotatesprite 19 185 NNORMALSIZE 0 5135 0 hud_disp_pcolour 256 0 0 xdim ydim // hp background box
+
+ends

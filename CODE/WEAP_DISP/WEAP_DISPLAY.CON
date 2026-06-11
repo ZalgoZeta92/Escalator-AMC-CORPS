@@ -237,32 +237,32 @@ ends
 var specular_tile 0 1
 
 defstate specular_gun
-ife opt_glass_effects YES 
+ife opt_glass_effects YES
 	ifl player_shade_diff 0
 			{
 			set total_player_shade_diff shade
 			add total_player_shade_diff player_shade_diff
-			rotatespritea x y 40960 weap_disp_temp2 specular_tile total_player_shade_diff wall_pal 4096 -255 0 0 xdim ydim 
+			rotatespritea x y 40960 weap_disp_temp2 specular_tile total_player_shade_diff wall_pal 4096 -255 0 0 xdim ydim
 			}
 ends
 
 defstate specular_gun_45
-ife opt_glass_effects YES 
+ife opt_glass_effects YES
 	ifl player_shade_diff 0
 			{
 			set total_player_shade_diff shade
 			add total_player_shade_diff player_shade_diff
-			rotatespritea x y 45152 weap_disp_temp2 specular_tile total_player_shade_diff wall_pal 4096 -255 0 0 xdim ydim 
+			rotatespritea x y 45152 weap_disp_temp2 specular_tile total_player_shade_diff wall_pal 4096 -255 0 0 xdim ydim
 			}
 ends
 
 defstate specular_gun_left
-ife opt_glass_effects YES 
+ife opt_glass_effects YES
 	ifl player_shade_diff 0
 			{
 			set total_player_shade_diff shade
 			add total_player_shade_diff player_shade_diff
-			rotatespritea x2 y2 40960 weap_disp_temp2 specular_tile total_player_shade_diff wall_pal 4100 -255 0 0 xdim ydim 
+			rotatespritea x2 y2 40960 weap_disp_temp2 specular_tile total_player_shade_diff wall_pal 4100 -255 0 0 xdim ydim
 			}
 ends
 
@@ -424,7 +424,7 @@ else ife CHAR 4
 	ifand CHAR_APP 2 set tilenum 23878
 	else set tilenum 12042
 	}
-else ife CHAR 5 
+else ife CHAR 5
 	{
 	ifand CHAR_APP 65536 set tilenum 38242
 	else set tilenum 6723
@@ -604,7 +604,7 @@ else
 ends
 
 defstate fortyfive_flashes_left
-ifand AMMO_TYPES[cur_weap] 2 
+ifand AMMO_TYPES[cur_weap] 2
 	{
 	state random_silver_flash
 	guniqhudid 20
@@ -635,14 +635,14 @@ ife shoot_mode[cur_weap] 0 // normal
 			guniqhudid 10
 			rotatespritea x y 21000 0 rot_flash 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
 			}
-	else 
+	else
 		ife shoot_mode[cur_weap] 1 // AP
 			{
 			state random_AR_horzflash
 			guniqhudid 10
 			rotatespritea x y 21000 0 rot_flash 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
 			}
-	else 
+	else
 		ife shoot_mode[cur_weap] 2 // hollowpoint
 			{
 			state random_STAR_flash
@@ -732,11 +732,11 @@ defstate JSPUNCH
   set x2 60
   sub x2 weapon_xoffset
   sub x2 looking_angSR1
-  
+
   set y2 264
   add y2 looking_arc
   sub y2 gun_pos
-  
+
  set tilenum C_PUNCH
 
 switch weaponcount
@@ -1166,7 +1166,7 @@ case 5
   guniqhudid 10
   rotatespritea x y weap_disp_temp6 0 6240 0 2 4097 -255 windowx1 windowy1 windowx2 windowy2
   add x 25
- 
+
   guniqhudid 11
   rotatesprite x y 40960 0 8410 0 25 4096 windowx1 windowy1 windowx2 windowy2
   guniqhudid 12
@@ -1372,7 +1372,7 @@ case 3
 	state gun_smoke_display
    displayrandvar gun_pushb_disp 10
    add gun_pushb_disp 10
-   
+
    ife weaponcount 3 state gunpushback_display
 
 	sub x 60
@@ -1693,7 +1693,7 @@ defstate displaytemp_rot_xbow
   add y looking_arc
   div gun_pos 2
   sub y gun_pos
-  
+
   state gunpushback_display
 
 ifg kickbackpic_2 0
@@ -2067,7 +2067,7 @@ defstate displaytemp_jug_minigun
   div gun_pos 2
   sub y gun_pos
   clamp y 162 320
-  
+
 	ifl gunsmoke_disp 40 ife INVINC 0
 	 ifn weaponcount 2
 		{
@@ -2241,7 +2241,7 @@ case 16
   state gun_smoke_display
   displayrandvar gun_pushb_disp 10
   add gun_pushb_disp 10
-  
+
 	guniqhudid 11
 	rotatesprite x y 40960 weap_disp_temp2 19922 shade wep_pal 4096 windowx1 windowy1 windowx2 windowy2
 	guniqhudid 12
@@ -2286,7 +2286,7 @@ defstate displaytemp_ar65
   add y looking_arc
   sub y gun_pos
   clamp y 140 320
-  
+
   state gunpushback_display
 
   ifg scope 0 { add x 30 add y 30 }
@@ -2365,7 +2365,7 @@ add gun_pushb_disp 3
   sub x 55
   state random_AR_horzflash
   guniqhudid 10
-  
+
   ifg GUN_HEAT[cur_weap] 75 rotatespritea x y 30000 0 rot_flash 0 2 4096 -255 windowx1 windowy1 windowx2 windowy2
   else rotatespritea x y 28000 0 rot_flash 0 0 4096 -255 windowx1 windowy1 windowx2 windowy2
   add y 25
@@ -2778,7 +2778,7 @@ defstate displaytemp_lasergun
 		add y 32
 		guniqhudid 0
 		}
-		
+
   sub y 32
   sub x 50
   set weap_disp_temp3 11
@@ -3225,9 +3225,9 @@ defstate displaytemp_tommygun
   add y looking_arc
   sub y gun_pos
   clamp y 146 320
-  
+
   state gunpushback_display
-  
+
 	ifl gunsmoke_disp 40 ife INVINC 0
 	 ifn weaponcount 2
 		{
@@ -4767,7 +4767,7 @@ defstate displaytemp_chainsaw
 		else set BLOOD_PAL WEP0_BLOODY
 		ife BLOOD_PAL 30 set BLOOD_PAL 49 // purple blood
 		ife BLOOD_PAL 2 set BLOOD_PAL 21 // red blood
-		ife BLOOD_PAL 8 set BLOOD_PAL 11 // green blood 
+		ife BLOOD_PAL 8 set BLOOD_PAL 11 // green blood
 		ife BLOOD_PAL 1 set BLOOD_PAL 3
 		ife BLOOD_PAL 4 set BLOOD_PAL 21
 	}
@@ -6287,7 +6287,7 @@ defstate displaytemp_FNFAL
   sub y wepsway_y
   add y looking_arc
   sub y gun_pos
-  
+
   state gunpushback_display
 
 	ifl gunsmoke_disp 40 ife INVINC 0
@@ -9422,7 +9422,7 @@ defstate displaytemp_garand
   sub y wepsway_y
   add y looking_arc
   sub y gun_pos
-  
+
   state gunpushback_display
 
 	ifl gunsmoke_disp 40 ife INVINC 0
@@ -9727,7 +9727,7 @@ defstate displaytemp_ripperheart
 	ifand CHAR_APP 2 set tilenum 23884
 	else set tilenum 18050
 	}
-  else ife CHAR 5 
+  else ife CHAR 5
 	{
 	ifand CHAR_APP 2 set tilenum 38244
 	else set tilenum 17999
@@ -9737,7 +9737,7 @@ defstate displaytemp_ripperheart
   else ife CHAR 10 set tilenum 18042
   else ife CHAR 11 set tilenum 38289
   else ife CHAR 12 set tilenum 13143
-  else ife CHAR 13 
+  else ife CHAR 13
 	{
 	ifand CHAR_APP 256 set tilenum 38332 else
 	set tilenum 18062
@@ -10036,7 +10036,7 @@ defstate displaytemp_m960
 		add y 28
 		guniqhudid 0
 		}
-		
+
 sub x 55
 sub y 20
 state flash_scanner
@@ -10193,7 +10193,7 @@ ife RETURN 1 break
 getu .drawweapon disp_temp
 ifmultiplayer set disp_temp 1
 
-ife PERSONNEL_RESEARCH[RS_P_ENHANCED_HOLSTER] 2 ifg player[].weapon_pos 4 set RETURN 1 else 
+ife PERSONNEL_RESEARCH[RS_P_ENHANCED_HOLSTER] 2 ifg player[].weapon_pos 4 set RETURN 1 else
 ife PERSONNEL_RESEARCH[RS_P_ENHANCED_HOLSTER] 2 ifl player[].weapon_pos -4 set RETURN 1 else
 ife disp_temp 1
 {
@@ -10217,7 +10217,7 @@ ife disp_temp 1
 		set wep_pal 121
 		set pal 121
 		}
-		
+
 	ife CHAR 2
 	 ifp pboosted
 		{
@@ -10300,6 +10300,7 @@ ife disp_temp 1
 	else ife CHAR C_CULTIST state display_cultist_weapons
 	else ife CHAR C_JANE state display_jane_weapons
 	else ife CHAR C_ROSA state display_rosa_weapons
+  // else ife CHAR C_KIRO state display_kiro_weapons
 	else ife currentweapon 1 ife CHAR 15 { set RETURN 1 state draw_auto9_pistol }
 	else ife currentweapon 10 state drawdetonator
 

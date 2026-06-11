@@ -113,6 +113,7 @@ define C_ROSA 16
 define C_KAGURA 17
 define C_WHEATON 18
 define C_CASSANDRA 20
+define C_KIRO 27
 
 // These defines are used for flags on mission box
 define FLAG_ALL 0
@@ -133,5 +134,6 @@ define FLAG_JANE 8192
 define FLAG_MAARTEN 16384
 define FLAG_ROSA 32768
 define FLAG_WHEATON 65536
+define FLAG_KIRO 131072 // ERROR FOUND //
 
 define ALLIED_FACTION_FLAG 1024

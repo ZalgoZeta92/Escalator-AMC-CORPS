@@ -1,0 +1,284 @@
+Kiros New Character in a texture pallete form.
+
+/*
+Reserved for Kiros Work and used for advance purposes.
+*/
+
+defstate KIRO_EQUIP_SCREEN
+	{
+	set gui_pos_x 12
+	set gui_pos_y 40
+	state SCROLL_POS
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 1)Arcane Gauntlet & Pistol
+		rotatesprite gui_posx gui_pos_y INVENSIZE 0 14822 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 568 /* Number Assigned */
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 568
+			{
+			rotatesprite 288 148 INVENSIZE 0 22588 0 0 0 0 0 xdim ydim
+			qputs 1011 Kiros Custom Hybrid Arcane Pistol;
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Created from Exodus Dominion Galaxy,
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 manufacture by Galoriftians States.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Used to shoot with z-g alloy bullets,
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 and magic & energy beam shot.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 1 Pistol
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_ARMOURP
+			state gun_dam_type_disp
+			}
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 2)Chain "Kalibur" Shotgun
+		rotatesprite gui_posx gui_pos_y INVENSIZE 0 14822 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 568 /* Number Assigned */
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 568
+			{
+			rotatesprite 288 148 INVENSIZE 0 22588 0 0 0 0 0 xdim ydim
+			qputs 1011 Exodus Multirole Chain-shotgun Weapon
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Semi to full automatic caliber shell
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 gun systems. Carries variety of any
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 shells to run the carnage battles.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Uses Alternative / Advance Shells
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 2 Shotgun
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_ARMOURP
+			state gun_dam_type_disp
+			}
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 3)Gun "Grizzler" Heavy Rifle
+		rotatesprite gui_posx gui_pos_y INVENSIZE 0 14822 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 568 /* Number Assigned */
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 568
+			{
+			rotatesprite 288 148 INVENSIZE 0 22588 0 0 0 0 0 xdim ydim
+			qputs 1011 Exodus Mitaurons Large SMG; uses semi
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 auto mode to fire for accuracy. Switch
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 to full auto mode requires high skills
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 to maintain accuarcy and full control.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Dual wieldable
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 3 Rifle / SMG
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_ARMOURP
+			state gun_dam_type_disp
+			}
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 4)Tactical "Dread Grip" Launcher
+		rotatesprite gui_posx gui_pos_y INVENSIZE 0 14822 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 568 /* Number Assigned */
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 568
+			{
+			rotatesprite 288 148 INVENSIZE 0 22588 0 0 0 0 0 xdim ydim
+			qputs 1011 Also known as the Exodus Nailgun MK5;
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Using this weapon to change mechanics
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 from low-power grenade to high-power
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 cannon to material-piercing Objects.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Triple Switchable
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 4 Launchers
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_ARMOURP
+			state gun_dam_type_disp
+			}
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 6)Portable "Experfiew"
+		rotatesprite gui_posx gui_pos_y INVENSIZE 0 14822 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 568 /* Number Assigned */
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 568
+			{
+			rotatesprite 288 148 INVENSIZE 0 22588 0 0 0 0 0 xdim ydim
+			qputs 1011 Portable weapon detached from the main
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 battle tank turret. Difficult to carry
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 it on its shoulder, however uses grav
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 module device. Many usable functions.
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Cannon, Coilgun, Missile, Energy Beam
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 6 Portable Weapon
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_ARMOURP
+			state gun_dam_type_disp
+			}
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 7)Strategic "Gunlock" Arsenal
+		rotatesprite gui_posx gui_pos_y INVENSIZE 0 14822 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 568 /* Number Assigned */
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 568
+			{
+			rotatesprite 288 148 INVENSIZE 0 22588 0 0 0 0 0 xdim ydim
+			qputs 1011 Portable Lock-On-Laser Weapon Systems;
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 With single target with to enough energy
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 dealing high damage. In addition, target
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 multiple enemies will fire numbers of
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 energy to destroy many of them.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 7 Experimental
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_ARMOURP
+			state gun_dam_type_disp
+			}
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 8)Tactical Equipment Set
+		rotatesprite gui_posx gui_pos_y INVENSIZE 0 14822 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 568 /* Number Assigned */
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 568
+			{
+			rotatesprite 288 148 INVENSIZE 0 22588 0 0 0 0 0 xdim ydim
+			qputs 1011 Tactical Equipment Set Manual Guide:
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Arcane Computer Tool: Breaks Keycards
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Magnetic Pressure Key: Breaks Keylocks
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Engineering Kit Set: Manage Objects
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Portable Dimension Device: Storage
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 86 Survival Set
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_ARMOURP
+			state gun_dam_type_disp
+			}
+	add gui_pos_y 7
+	state CURSOR_OVER_ITEM
+	ifg gui_pos_y 39 ifl gui_pos_y 187
+	{
+		qputs 1011 9)Custom Arbitors Weapon
+		rotatesprite gui_posx gui_pos_y INVENSIZE 0 14822 0 0 0 0 0 xdim ydim // Icon
+		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
+		ifle gui_pos_x_temp 15
+		 ifge gui_pos_x_temp -65
+		  ifle gui_pos_y_temp 3
+		   ifge gui_pos_y_temp 0
+				{
+				set INFO_SEL_3 568 /* Number Assigned */
+				screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 disp_pulse 2 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // highlight the text
+				}
+	}
+		ife INFO_SEL_3 568
+			{
+			rotatesprite 288 148 INVENSIZE 0 22588 0 0 0 0 0 xdim ydim
+			qputs 1011 Kiros Unique Weapon gifted from the name;
+			screentext STARTALPHANUM 95 40 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Exodus Apex Arbitor "Scarfint Cinte";
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 multirole purpose combat. Ranging from
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 melee to super long range and ballistics
+			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 to charging energy beam.
+			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 1011 Slot 9 Ultimate
+			screentext STARTALPHANUM 95 58 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			set gun_damage_types GDT_ARMOURP
+			state gun_dam_type_disp
+			}
+	}
+ends

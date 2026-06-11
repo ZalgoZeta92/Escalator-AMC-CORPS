@@ -511,11 +511,20 @@ string 369 is playing as Micky!
 string 370 is playing as Snowfall!
 string 371 is playing as Rosa!
 string 372 is playing as Kagura!
+string 373 is playing as Wheaton!
+string 374 is playing as Jolteon!
+string 375 is playing as Solais!
+string 376 is playing as Kiro!
+string 377 Jolteon
+string 378 Solais
+string 379 Kiro
+
 
 string 380 I can't use this.
 string 381 Rosa
 string 382 Kagura
 string 383 Wheaton
+
 
 string 385 Grenade key set to ^32Grenades
 string 386 Grenade key set to ^32Throwables
@@ -790,6 +799,9 @@ string 1219 Snowfall
 string 1221 Student M. Crisp
 string 1222 Agent Takahashi
 string 1223 Agent Wheaton
+string 1223 Agent Solais
+string 1223 Agent Jolteon
+string 1223 Mercenary Kiro X
 
 
 string 1012 Member Bios
@@ -1010,6 +1022,9 @@ string 1750 ^8Inventory item: ^0Immuno booster - ^8Shield recharges instantly
 string 1751 ^8Inventory item: ^0Demon potion - ^8Super charges Yo
 string 1765 ^8Inventory item: ^0PortaNuke - ^8Shoots a nuke
 string 1769 ^8Inventory item: ^0Vintage Lozenges - ^8Headshots do extra damage, trigger slo-mo
+string 1770 ^8Inventory item: ^0Solais Stuff - ^8Solais Description
+string 1771 ^8Inventory item: ^0Jolteon Stuff - ^8Jolteon Description
+string 1774 ^8Inventory item: ^0Wombo Combo System - ^8Extra hits and beats adds more mana points
 
 // holoduke replacements
 string 1752 ^8Inventory item: ^0Portable forcefield - ^8Deflects projectiles
@@ -1027,6 +1042,9 @@ string 1764 ^8Inventory item: ^0Dragon Summon - ^8Summons Maarten's pet
 string 1766 ^8Inventory item: ^0Arm Blade - ^8Use Jane's energy blade
 string 1767 ^8Inventory item: ^0Ninja potion - ^8Summons friendly Shadow Ninjas
 string 1768 ^8Inventory item: ^0Vampiric bats - ^8Summons a swarm of friendy bats
+string 1772 ^8Inventory item: ^0Solais Stuff - ^8Solais Description
+string 1773 ^8Inventory item: ^0Jolteon Stuff - ^8Jolteon Description
+string 1775 ^8Inventory item: ^0Deploy MSCDS - Deploys as a Mobile Portal Gateway System for RTS
 
 
 string 1763 Silver Bearing shells
@@ -1755,6 +1773,17 @@ string 4113 ASIA
 
  string 4780 Used the toilet? Don't forget to wash and dry your hands!
 
+ string 4781 Beware playing as Kiro does not let him access to AMC PDA and Computer stuff.
+ string 4782 However, Kiro uses his own Exodus Custom PDA without visiting the AMC Staff
+ string 4783 or smart machines. He will not lose any of his equipment thanks to Dimensional
+ string 4784 Transfer Storage Device. Kiro's PDA features: Scanners, Mission, Management,
+ string 4785 Items, Keys, Resource, Maps, Personal Calls, Weapons,
+
+ string
+ string
+ string
+
+
  string 4779 If you can read this, then the hint screen broke. Report me please!
 
 
@@ -2471,147 +2500,147 @@ ife VOLUME 0
  {
  ife LEVEL 1
 	{
-	qputs 9200 ^32USA: ^2 1/8 ^1Cycloid alien sightings reported near LA
-	qputs 9201 ^32USA: ^2 2/8 ^1Nukem memorial constructed in Washington
-	qputs 9202 ^32USA: ^2 3/8 ^1Senate reaches impasse on climate discussions
-	qputs 9203 ^32USA: ^2 4/8 ^1Health care reform act approved by Congress
-	qputs 9204 ^32USA: ^2 5/8 ^1Alien Invasion reparations underway in trial run
-	qputs 9205 ^32USA: ^2 6/8 ^1Record heat wave reported in Chicago
-	qputs 9206 ^32USA: ^2 7/8 ^1Sandt Industries overtakes Microsoft
-	qputs 9207 ^32USA: ^2 8/8 ^1EDF Panama construction begins
-	qputs 9208 ^32USA: ^2 1/9 ^1EDF improves new equipment for standard troops
+	qputs 9200 ^32USA: ^2 1/9 ^1Cycloid alien sightings reported near LA
+	qputs 9201 ^32USA: ^2 2/9 ^1Nukem memorial constructed in Washington
+	qputs 9202 ^32USA: ^2 3/9 ^1Senate reaches impasse on climate discussions
+	qputs 9203 ^32USA: ^2 4/9 ^1Health care reform act approved by Congress
+	qputs 9204 ^32USA: ^2 5/9 ^1Alien Invasion reparations underway in trial run
+	qputs 9205 ^32USA: ^2 6/9 ^1Record heat wave reported in Chicago
+	qputs 9206 ^32USA: ^2 7/9 ^1Sandt Industries overtakes Microsoft
+	qputs 9207 ^32USA: ^2 8/9 ^1EDF Panama construction begins
+	qputs 9208 ^32USA: ^2 9/9 ^1EDF improves new equipment for standard troops
 	}
  ife LEVEL 8
 	{
-	qputs 9200 ^32USA: ^2 1/8 ^1Reports of alleged phenomena skyrocket in US
-	qputs 9201 ^32USA: ^2 2/8 ^1UFO sightings increase in 30 year high
-	qputs 9202 ^32USA: ^2 3/8 ^1Climate discussions derailed by latest reports
-	qputs 9203 ^32USA: ^2 4/8 ^1Fourth cult dismantled in Pennsylvania this week
-	qputs 9204 ^32USA: ^2 5/8 ^1Contact lost with rural communities in Texas
-	qputs 9205 ^32USA: ^2 6/8 ^1Jet downed near Providence; 67 lives lost
-	qputs 9206 ^32USA: ^2 7/8 ^1Sandt Industries overtakes Exxon
-	qputs 9207 ^32USA: ^2 8/8 ^1EDF Michelle 'Bombshell' Bomkowski to receive MoH
-	qputs 9208 ^32USA: ^2 1/9 ^1Cycloid infiltrators is discovered on all states
+	qputs 9200 ^32USA: ^2 1/9 ^1Reports of alleged phenomena skyrocket in US
+	qputs 9201 ^32USA: ^2 2/9 ^1UFO sightings increase in 30 year high
+	qputs 9202 ^32USA: ^2 3/9 ^1Climate discussions derailed by latest reports
+	qputs 9203 ^32USA: ^2 4/9 ^1Fourth cult dismantled in Pennsylvania this week
+	qputs 9204 ^32USA: ^2 5/9 ^1Contact lost with rural communities in Texas
+	qputs 9205 ^32USA: ^2 6/9 ^1Jet downed near Providence; 67 lives lost
+	qputs 9206 ^32USA: ^2 7/9 ^1Sandt Industries overtakes Exxon
+	qputs 9207 ^32USA: ^2 8/9 ^1EDF Michelle 'Bombshell' Bomkowski to receive MoH
+	qputs 9208 ^32USA: ^2 9/9 ^1Cycloid infiltrators is discovered on all states
 	}
   }
  ife VOLUME 1
  {
   ife LEVEL 1
 	{
-	qputs 9200 ^32USA:^2 1/8 ^1Cycloid invasion of Los Angeles underway
-	qputs 9201 ^32USA:^2 2/8 ^1EAS system in place in all counties
-	qputs 9202 ^32USA:^2 3/8 ^1EDF forces in all states mobilized
-	qputs 9203 ^32USA:^2 4/8 ^1State of Emergency declared in California
-	qputs 9204 ^32USA:^2 5/8 ^1Skirmishes between Cycloids and National Guard reported
-	qputs 9205 ^32USA:^2 6/8 ^1Cycloid fighter shot down over Atlanta
-	qputs 9206 ^32USA:^2 7/8 ^1Gunfire reported in survivalist encampments near Oregon
-	qputs 9207 ^32USA:^2 8/8 ^1President moved to Air Force One
-	qputs 9208 ^32USA:^2 1/9 ^1Cycloid abducts women in California for experiments
+	qputs 9200 ^32USA:^2 1/9 ^1Cycloid invasion of Los Angeles underway
+	qputs 9201 ^32USA:^2 2/9 ^1EAS system in place in all counties
+	qputs 9202 ^32USA:^2 3/9 ^1EDF forces in all states mobilized
+	qputs 9203 ^32USA:^2 4/9 ^1State of Emergency declared in California
+	qputs 9204 ^32USA:^2 5/9 ^1Skirmishes between Cycloids and National Guard reported
+	qputs 9205 ^32USA:^2 6/9 ^1Cycloid fighter shot down over Atlanta
+	qputs 9206 ^32USA:^2 7/9 ^1Gunfire reported in survivalist encampments near Oregon
+	qputs 9207 ^32USA:^2 8/9 ^1President moved to Air Force One
+	qputs 9208 ^32USA:^2 9/9 ^1Cycloid abducts women in California for experiments
 	}
   ife LEVEL 4
 	{
-	qputs 9200 ^32USA:^2 1/8 ^1Cycloid invasion of Los Angeles repelled
-	qputs 9201 ^32USA:^2 2/8 ^1EAS system deactivated
-	qputs 9202 ^32USA:^2 3/8 ^1EDF mobilization halted nationwide
-	qputs 9203 ^32USA:^2 4/8 ^1State of Emergency LIFTED in California
-	qputs 9204 ^32USA:^2 5/8 ^1Unknown third party combatants spotted alongside EDF
-	qputs 9205 ^32USA:^2 6/8 ^1Enquiry into latest invasion underway
-	qputs 9206 ^32USA:^2 7/8 ^1Cycloids driven out of neighbouring states
-	qputs 9207 ^32USA:^2 8/8 ^1President moved to PEOC
-	qputs 9208 ^32USA:^2 1/9 ^1Member of the Magic Circle went missing after ritual mistake
+	qputs 9200 ^32USA:^2 1/9 ^1Cycloid invasion of Los Angeles repelled
+	qputs 9201 ^32USA:^2 2/9 ^1EAS system deactivated
+	qputs 9202 ^32USA:^2 3/9 ^1EDF mobilization halted nationwide
+	qputs 9203 ^32USA:^2 4/9 ^1State of Emergency LIFTED in California
+	qputs 9204 ^32USA:^2 5/9 ^1Unknown third party combatants spotted alongside EDF
+	qputs 9205 ^32USA:^2 6/9 ^1Enquiry into latest invasion underway
+	qputs 9206 ^32USA:^2 7/9 ^1Cycloids driven out of neighbouring states
+	qputs 9207 ^32USA:^2 8/9 ^1President moved to PEOC
+	qputs 9208 ^32USA:^2 9/9 ^1Member of the Magic Circle went missing after ritual mistake
 	}
   ife LEVEL 50
 	{
-	qputs 9200 ^32USA:^2 1/8 ^1EDF reveals existence of third party combatants, AMC Squad
-	qputs 9201 ^32USA:^2 2/8 ^1Congress questioning of Allied Military Complex underway
-	qputs 9202 ^32USA:^2 3/8 ^1Death cult 'Paradigm Eschaton' attacks Hospital in Michigan
-	qputs 9203 ^32USA:^2 4/8 ^1EDF Panama construction finished
-	qputs 9204 ^32USA:^2 5/8 ^1Record tornadoes in Salt Lake City
-	qputs 9205 ^32USA:^2 6/8 ^1Memorial for Millhaven, Texas victims underway
-	qputs 9206 ^32USA:^2 7/8 ^1Sandt Industries overtakes UnitedHealth
-	qputs 9207 ^32USA:^2 8/8 ^1President gives rare address to nation
-	qputs 9208 ^32USA:^2 1/9 ^1Stings & Crackdown against Cycloid operations begins
+	qputs 9200 ^32USA:^2 1/9 ^1EDF reveals existence of third party combatants, AMC Squad
+	qputs 9201 ^32USA:^2 2/9 ^1Congress questioning of Allied Military Complex underway
+	qputs 9202 ^32USA:^2 3/9 ^1Death cult 'Paradigm Eschaton' attacks Hospital in Michigan
+	qputs 9203 ^32USA:^2 4/9 ^1EDF Panama construction finished
+	qputs 9204 ^32USA:^2 5/9 ^1Record tornadoes in Salt Lake City
+	qputs 9205 ^32USA:^2 6/9 ^1Memorial for Millhaven, Texas victims underway
+	qputs 9206 ^32USA:^2 7/9 ^1Sandt Industries overtakes UnitedHealth
+	qputs 9207 ^32USA:^2 8/9 ^1President gives rare address to nation
+	qputs 9208 ^32USA:^2 9/9 ^1Stings & Crackdown against Cycloid operations begins
  }
  }
  ife VOLUME 2
  {
   ifl LEVEL 25 // multiple base visits take place purely for code reasons so this covers all of them
 	{
-	qputs 9200 ^32USA:^2 1/8 ^1Paradigm Eschaton attacks Mall in Seattle
-	qputs 9201 ^32USA:^2 2/8 ^1Hurricane Viviana wrecks Virginia
-	qputs 9202 ^32USA:^2 3/8 ^1Cult deprogramming funds rejected by congress
-	qputs 9203 ^32USA:^2 4/8 ^1LA invasion reparations stalled
-	qputs 9204 ^32USA:^2 5/8 ^1EDF Panama sent on first mission, EDF 'Bombshell' onboard
-	qputs 9205 ^32USA:^2 6/8 ^1Rioting in Dallas over Paradigm activity
-	qputs 9206 ^32USA:^2 7/8 ^1Sandt Industries overtakes CVS Health
-	qputs 9207 ^32USA:^2 8/8 ^1President is 'fine and well' according to officials
-	qputs 9208 ^32USA:^2 1/9 ^1Cycloids activity begins to decline
+	qputs 9200 ^32USA:^2 1/9 ^1Paradigm Eschaton attacks Mall in Seattle
+	qputs 9201 ^32USA:^2 2/9 ^1Hurricane Viviana wrecks Virginia
+	qputs 9202 ^32USA:^2 3/9 ^1Cult deprogramming funds rejected by congress
+	qputs 9203 ^32USA:^2 4/9 ^1LA invasion reparations stalled
+	qputs 9204 ^32USA:^2 5/9 ^1EDF Panama sent on first mission, EDF 'Bombshell' onboard
+	qputs 9205 ^32USA:^2 6/9 ^1Rioting in Dallas over Paradigm activity
+	qputs 9206 ^32USA:^2 7/9 ^1Sandt Industries overtakes CVS Health
+	qputs 9207 ^32USA:^2 8/9 ^1President is 'fine and well' according to officials
+	qputs 9208 ^32USA:^2 9/9 ^1Cycloids activity begins to decline
 	}
  ife LEVEL 26
 	{
-	qputs 9200 ^32USA:^2 1/8 ^1Paradigm Eschaton destroy AMC base near central Garmid
-	qputs 9201 ^32USA:^2 2/8 ^1Raid on Cult in Denver ends in multiple fatalities
-	qputs 9202 ^32USA:^2 3/8 ^1Climate protest disrupted by Alien Reparation protest
-	qputs 9203 ^32USA:^2 4/8 ^1EDF General Graves to give speech in New York
-	qputs 9204 ^32USA:^2 5/8 ^1Paranormal sightings near Miami increase
-	qputs 9205 ^32USA:^2 6/8 ^1EDF Panama now silent running
-	qputs 9206 ^32USA:^2 7/8 ^1Sandt Industries overtakes Apple
-	qputs 9207 ^32USA:^2 8/8 ^1Vigilante spotted fighting Cult in Washington
-	qputs 9208 ^32USA:^2 1/9 ^1Troops participated in the crackdown awarded with medals
+	qputs 9200 ^32USA:^2 1/9 ^1Paradigm Eschaton destroy AMC base near central Garmid
+	qputs 9201 ^32USA:^2 2/9 ^1Raid on Cult in Denver ends in multiple fatalities
+	qputs 9202 ^32USA:^2 3/9 ^1Climate protest disrupted by Alien Reparation protest
+	qputs 9203 ^32USA:^2 4/9 ^1EDF General Graves to give speech in New York
+	qputs 9204 ^32USA:^2 5/9 ^1Paranormal sightings near Miami increase
+	qputs 9205 ^32USA:^2 6/9 ^1EDF Panama now silent running
+	qputs 9206 ^32USA:^2 7/9 ^1Sandt Industries overtakes Apple
+	qputs 9207 ^32USA:^2 8/9 ^1Vigilante spotted fighting Cult in Washington
+	qputs 9208 ^32USA:^2 9/9 ^1Troops participated in the crackdown awarded with medals
 	}
  }
  ife VOLUME 3
  {
  ife LEVEL 1
 	{
-	qputs 9200 ^32USA:^2 1/8 ^1EDF Panama officially declared lost
-	qputs 9201 ^32USA:^2 2/8 ^1Memorial for all aboard to be given by Graves
-	qputs 9202 ^32USA:^2 3/8 ^1Michelle 'Bombshell' Bomkowski declared MIA
-	qputs 9203 ^32USA:^2 4/8 ^1EDF reveals existence of Supersoldier project
-	qputs 9204 ^32USA:^2 5/8 ^1EDF Panama carried prototype division onboard
-	qputs 9205 ^32USA:^2 6/8 ^1Congress inquiry into Panama's loss to begin
-	qputs 9206 ^32USA:^2 7/8 ^1Sandt Industries overtakes Amazon
-	qputs 9207 ^32USA:^2 8/8 ^1Costs of EDF Panama allegedly 130+ billion
+	qputs 9200 ^32USA:^2 1/9 ^1EDF Panama officially declared lost
+	qputs 9201 ^32USA:^2 2/9 ^1Memorial for all aboard to be given by Graves
+	qputs 9202 ^32USA:^2 3/9 ^1Michelle 'Bombshell' Bomkowski declared MIA
+	qputs 9203 ^32USA:^2 4/9 ^1EDF reveals existence of Supersoldier project
+	qputs 9204 ^32USA:^2 5/9 ^1EDF Panama carried prototype division onboard
+	qputs 9205 ^32USA:^2 6/9 ^1Congress inquiry into Panama's loss to begin
+	qputs 9206 ^32USA:^2 7/9 ^1Sandt Industries overtakes Amazon
+	qputs 9207 ^32USA:^2 8/9 ^1Costs of EDF Panama allegedly 130+ billion
 	qputs 9208 ^32USA:^2 1/9 ^1No Cycloids activity has been found
 	}
  ife LEVEL 63 // repeat of episode 5
 	{
-	qputs 9200 ^32USA:^2 1/8 ^1National State of Emergency declared
-	qputs 9201 ^32USA:^2 2/8 ^1All non first and second class settlements to be abandoned
-	qputs 9202 ^32USA:^2 3/8 ^1Effects of changed Sea Water as yet unknown
-	qputs 9203 ^32USA:^2 4/8 ^1Government unveils list of new regulations regarding phenomena
-	qputs 9204 ^32USA:^2 5/8 ^1Government unveils existence of First Encounter Assault Recon
-	qputs 9205 ^32USA:^2 6/8 ^1Do NOT answer the door to strangers, Govt. advises all
-	qputs 9206 ^32USA:^2 7/8 ^1Evacuate to the closest and largest city at once
-	qputs 9207 ^32USA:^2 8/8 ^1Panama survivors greeted by global crisis on return
-	qputs 9208 ^32USA:^2 1/9 ^1Paradign Eschaton activity increases all over the country
+	qputs 9200 ^32USA:^2 1/9 ^1National State of Emergency declared
+	qputs 9201 ^32USA:^2 2/9 ^1All non first and second class settlements to be abandoned
+	qputs 9202 ^32USA:^2 3/9 ^1Effects of changed Sea Water as yet unknown
+	qputs 9203 ^32USA:^2 4/9 ^1Government unveils list of new regulations regarding phenomena
+	qputs 9204 ^32USA:^2 5/9 ^1Government unveils existence of First Encounter Assault Recon
+	qputs 9205 ^32USA:^2 6/9 ^1Do NOT answer the door to strangers, Govt. advises all
+	qputs 9206 ^32USA:^2 7/9 ^1Evacuate to the closest and largest city at once
+	qputs 9207 ^32USA:^2 8/9 ^1Panama survivors greeted by global crisis on return
+	qputs 9208 ^32USA:^2 9/9 ^1Paradign Eschaton activity increases all over the country
 	}
  }
  ife VOLUME 4
  {
  ife LEVEL 1
 	{
-	qputs 9200 ^32USA:^2 1/8 ^1National State of Emergency declared
-	qputs 9201 ^32USA:^2 2/8 ^1All non first and second class settlements to be abandoned
-	qputs 9202 ^32USA:^2 3/8 ^1Effects of changed Sea Water as yet unknown
-	qputs 9203 ^32USA:^2 4/8 ^1Government unveils list of new regulations regarding phenomena
-	qputs 9204 ^32USA:^2 5/8 ^1Government unveils existence of First Encounter Assault Recon
-	qputs 9205 ^32USA:^2 6/8 ^1Do NOT answer the door to strangers, Govt. advises all
-	qputs 9206 ^32USA:^2 7/8 ^1Evacuate to the closest and largest city at once
-	qputs 9207 ^32USA:^2 8/8 ^1Panama survivors greeted by global crisis on return
-	qputs 9208 ^32USA:^2 1/9 ^1EDF sighted with unknown weapons amassing in Yakima military base
+	qputs 9200 ^32USA:^2 1/9 ^1National State of Emergency declared
+	qputs 9201 ^32USA:^2 2/9 ^1All non first and second class settlements to be abandoned
+	qputs 9202 ^32USA:^2 3/9 ^1Effects of changed Sea Water as yet unknown
+	qputs 9203 ^32USA:^2 4/9 ^1Government unveils list of new regulations regarding phenomena
+	qputs 9204 ^32USA:^2 5/9 ^1Government unveils existence of First Encounter Assault Recon
+	qputs 9205 ^32USA:^2 6/9 ^1Do NOT answer the door to strangers, Govt. advises all
+	qputs 9206 ^32USA:^2 7/9 ^1Evacuate to the closest and largest city at once
+	qputs 9207 ^32USA:^2 8/9 ^1Panama survivors greeted by global crisis on return
+	qputs 9208 ^32USA:^2 9/9 ^1EDF sighted with unknown weapons amassing in Yakima military base
 	}
  ife LEVEL 31
 	{
-	qputs 9200 ^32USA:^2 1/8 ^1Devastation across the nation due to EDF attacks
-	qputs 9201 ^32USA:^2 2/8 ^1Washington DC directly hit by EDF satellite lasers
-	qputs 9202 ^32USA:^2 3/8 ^1Civilians flee cities into the wilderness despite Govt. orders
-	qputs 9203 ^32USA:^2 4/8 ^1Disappearences surge across the country
-	qputs 9204 ^32USA:^2 5/8 ^1Satellite attack on Yellowstone no additional cause for concern
-	qputs 9205 ^32USA:^2 6/8 ^1EDF offices attacked across the country
-	qputs 9206 ^32USA:^2 7/8 ^1Remaining EDF higher ups resign en masse
-	qputs 9207 ^32USA:^2 8/8 ^1Mysterious creatures spotted on Western shore
-	qputs 9208 ^32USA:^2 1/9 ^1Bloody skirmish between PMCs against EDF on Yakima warzone ended
+	qputs 9200 ^32USA:^2 1/9 ^1Devastation across the nation due to EDF attacks
+	qputs 9201 ^32USA:^2 2/9 ^1Washington DC directly hit by EDF satellite lasers
+	qputs 9202 ^32USA:^2 3/9 ^1Civilians flee cities into the wilderness despite Govt. orders
+	qputs 9203 ^32USA:^2 4/9 ^1Disappearences surge across the country
+	qputs 9204 ^32USA:^2 5/9 ^1Satellite attack on Yellowstone no additional cause for concern
+	qputs 9205 ^32USA:^2 6/9 ^1EDF offices attacked across the country
+	qputs 9206 ^32USA:^2 7/9 ^1Remaining EDF higher ups resign en masse
+	qputs 9207 ^32USA:^2 8/9 ^1Mysterious creatures spotted on Western shore
+	qputs 9208 ^32USA:^2 9/9 ^1Bloody skirmish between PMCs against EDF on Yakima warzone ended
 	}
  }
 
@@ -2649,15 +2678,15 @@ ife VOLUME 0
  {
   ife LEVEL 1
 	{
-	qputs 9200 ^32Global:^2 1/8 ^1Cycloids invade Los Angeles, USA
-	qputs 9201 ^32Global:^2 2/8 ^1All air traffic temporarily halted
-	qputs 9202 ^32Global:^2 3/8 ^1All EDF forces placed on standby
-	qputs 9203 ^32Global:^2 4/8 ^1Cycloid Mothership spotted above LA, USA
-	qputs 9204 ^32Global:^2 5/8 ^1EDF calls global membership council
-	qputs 9205 ^32UAE:^2 6/8 ^1Airport collision over global ground stop, casualties unknown
-	qputs 9206 ^32Russia:^2 7/8 ^1Air traffic continues despite global mandate
-	qputs 9207 ^32Global:^2 8/8 ^1INTERPOL issue wanted notice for 'Jacques Dumas'
-	qputs 9208 ^32Global:^2 1/9 ^1Space skirmish between Earth, PMC, and Cycloid forces.
+	qputs 9200 ^32Global:^2 1/9 ^1Cycloids invade Los Angeles, USA
+	qputs 9201 ^32Global:^2 2/9 ^1All air traffic temporarily halted
+	qputs 9202 ^32Global:^2 3/9 ^1All EDF forces placed on standby
+	qputs 9203 ^32Global:^2 4/9 ^1Cycloid Mothership spotted above LA, USA
+	qputs 9204 ^32Global:^2 5/9 ^1EDF calls global membership council
+	qputs 9205 ^32UAE:^2 6/9 ^1Airport collision over global ground stop, casualties unknown
+	qputs 9206 ^32Russia:^2 7/9 ^1Air traffic continues despite global mandate
+	qputs 9207 ^32Global:^2 8/9 ^1INTERPOL issue wanted notice for 'Jacques Dumas'
+	qputs 9208 ^32Global:^2 9/9 ^1Space skirmish between Earth, PMC, and Cycloid forces.
 	}
   ife LEVEL 4
 	{
@@ -2676,7 +2705,7 @@ ife VOLUME 0
 	qputs 9200 ^32China:^2 1/9 ^1Triad and Yakuza collusion thwarted by AMC Squad
 	qputs 9201 ^32China:^2 2/9 ^1Local government thanks AMC for their efforts
 	qputs 9202 ^32Mexico:^2 3/9 ^1Paradigm Eschaton claim ownership of recent terror attacks
-	qputs 9203 ^32UAE:^2 4/8 ^1Bank buildings targeted by 'Paradigm Eschaton'
+	qputs 9203 ^32UAE:^2 4/9 ^1Bank buildings targeted by 'Paradigm Eschaton'
 	qputs 9204 ^32Australia:^2 5/9 ^1Cycloid remnants discovered near Brisbane
 	qputs 9205 ^32Madagascar:^2 6/9 ^1Zaxtor Znort to be awarded 'lifetime achievement' medal
 	qputs 9206 ^32Garmid:^2 7/9 ^1Council talks stall on Garmid Space Elevator construction
@@ -2708,7 +2737,7 @@ ife VOLUME 0
 	qputs 9205 ^32Egypt:^2 6/9 ^1Strange lights spotted near Pyramids
 	qputs 9206 ^32Garmid:^2 7/9 ^1Space Elevator plans shot down by Garmid Council
 	qputs 9207 ^32Canada:^2 8/9 ^1Cycloid aliens found dead in sewers under Winnipeg
-	qputs 9208 ^32Global:^2 9/9 ^1Earth Forces successfully invaded & control Cycloids X-64-2
+	qputs 9208 ^32Global:^2 9/9 ^1Earth Forces successfully invaded & controls Cycloids X-64-2
 	}
  }
  ife VOLUME 3
@@ -2762,7 +2791,7 @@ ife VOLUME 0
 	qputs 9205 ^32Africa: ^2 6/9 ^1Massive hives spotted throughout wilderness
 	qputs 9206 ^32Mu: ^2 7/9 ^1Landmass continues to expand in size
 	qputs 9207 ^32Antarctica: ^2 8/9 ^1Mysterious structures spotted near Nuke blast
-	qputs 9208 ^32Global:^2 9/9 ^1Members known as MJ12 and Council 12 exposed
+	qputs 9208 ^32Global:^2 9/9 ^1MJ12 and Council 12 leaders exposed, behind it all
 	}
  }
 ends
@@ -2781,7 +2810,7 @@ ife VOLUME 0
 	qputs 9205 ^32Belgium:^2 6/9 ^1Chocolate truck overturns on Highway
 	qputs 9206 ^32Ireland:^2 7/9 ^1Temperatures soar in heatwave
 	qputs 9207 ^32Italy:^2 8/9 ^1Fire breaks out at EAF facility
-	qputs 9208 ^32Ukraine:^2 4/9 ^1Leader visits Russia following Empirical Union downfall
+	qputs 9208 ^32Ukraine:^2 9/9 ^1Leaders visits Russia following Empirical Union downfall
 	}
  ife LEVEL 8
 	{
@@ -2808,7 +2837,7 @@ ife VOLUME 0
 	qputs 9205 ^32Switzerland:^2 6/9 ^1EDF Euro council calls emergency meeting
 	qputs 9206 ^32Germany:^2 7/9 ^1Increases funds to neighbouring EDF facilities
 	qputs 9207 ^32Austria:^2 8/9 ^1Bee truck overturns in local town
-	qputs 9208 ^32Europe:^2 9/9 ^1Number of supernatural entities increased
+	qputs 9208 ^32Europe:^2 9/9 ^1Number of supernatural entities increases, likely cults
 	}
   ife LEVEL 4
 	{
@@ -2832,7 +2861,7 @@ ife VOLUME 0
 	qputs 9205 ^32Finland:^2 6/9 ^1Warmest summer on record
 	qputs 9206 ^32Scotland:^2 7/9 ^1Construction begins on Fusion reactors
 	qputs 9207 ^32Malta:^2 8/9 ^1Strange lights seen over south coast
-	qputs 9208 ^32Greece:^2 9/9 ^1Unidentified fossils located in deserted areas
+	qputs 9208 ^32Greece:^2 9/9 ^1Unidentified fossils located in desert areas
 	}
  }
  ife VOLUME 2
@@ -2882,7 +2911,7 @@ ife VOLUME 0
 	qputs 9201 ^32UK:^2 2/9 ^1Stonehenge vanishes after 'mysterious' individuals spotted
 	qputs 9202 ^32France:^2 3/9 ^1Eiffel tower 'making strange noises, and is bleeding'
 	qputs 9203 ^32Ukraine:^2 4/9 ^1Chornobyl evacuated after radioactive 'entities' attack
-	qputs 9204 ^32Greenland:^2 5/9 ^1Coastline abandonded after creature sightings
+	qputs 9204 ^32Greenland:^2 5/9 ^1Coastline abandoned after creature sightings
 	qputs 9205 ^32Spain:^2 6/9 ^1Quake detected near Cumbra Vieja, collapse feared
 	qputs 9206 ^32Germany:^2 7/9 ^1Multiple EF5 tornadoes wreck Frankfurt
 	qputs 9207 ^32Belgium:^2 8/9 ^1Paradigm destroy multiple Chocolate factories
@@ -2897,7 +2926,7 @@ ife VOLUME 0
 	qputs 9201 ^32UK:^2 2/9 ^1Stonehenge vanishes after 'mysterious' individuals spotted
 	qputs 9202 ^32France:^2 3/9 ^1Eiffel tower 'making strange noises, and is bleeding'
 	qputs 9203 ^32Ukraine:^2 4/9 ^1Chornobyl evacuated after radioactive 'entities' attack
-	qputs 9204 ^32Greenland:^2 5/9 ^1Coastline abandonded after creature sightings
+	qputs 9204 ^32Greenland:^2 5/9 ^1Coastline abandoned after creature sightings
 	qputs 9205 ^32Spain:^2 6/9 ^1Quake detected near Cumbra Vieja, collapse feared
 	qputs 9206 ^32Germany:^2 7/9 ^1Multiple EF5 tornadoes wreck Frankfurt
 	qputs 9207 ^32Belgium:^2 8/9 ^1Paradigm destroy multiple Chocolate factories
@@ -2924,7 +2953,7 @@ ife VOLUME 0
  {
  ife LEVEL 1
 	{
-	qputs 9200 ^32Global:^2 1/9 ^1Xuglpop government is established
+	qputs 9200 ^32Global:^2 1/9 ^1Xuglop government is established
 	qputs 9201 ^32Global:^2 2/9 ^1Humans from Earth began migrating for new life
 	qputs 9202 ^32Global:^2 3/9 ^1Terran colonization begins
 	qputs 9203 ^32Global:^2 4/9 ^1Xuglop completed their media network systems
@@ -2953,7 +2982,7 @@ ife VOLUME 0
 	{
 	qputs 9200 ^32Global:^2 1/9 ^1More skirmish occure between government and cartels
 	qputs 9201 ^32Global:^2 2/9 ^1AOF operation against Zorgonite Empire is successful
-	qputs 9202 ^32Global:^2 3/9 ^1Human civilization and Zorgonites negotiation begins
+	qputs 9202 ^32Global:^2 3/9 ^1Sol Systems and Zorgonites negotiation begins
 	qputs 9203 ^32Global:^2 4/9 ^1Cartel gains upperhand by utilizing pitfiends
 	qputs 9204 ^32Global:^2 5/9 ^1EDF diplomats arrives at Zorgonites home to discuss terms
 	qputs 9205 ^32Global:^2 6/9 ^1Strange energy reports from Zorgonites home system
@@ -2963,21 +2992,21 @@ ife VOLUME 0
 	}
   ife LEVEL 4
 	{
-	qputs 9200 ^32Global:^2 1/9 ^1Cycloid space forces flees from Sol System
+	qputs 9200 ^32Global:^2 1/9 ^1Cycloid space forces retreats from Sol System
 	qputs 9201 ^32Global:^2 2/9 ^1Cartels Submarine has been discovered and captured
-	qputs 9202 ^32Global:^2 3/9 ^1Human & Zorgonites completes peace terms Validatus Treaty
+	qputs 9202 ^32Global:^2 3/9 ^1Humans & Zorgonites signs the Validatus Treaty, flourishing civilization
 	qputs 9203 ^32Global:^2 4/9 ^1Xuglop first shopping mall is completed.
 	qputs 9204 ^32Global:^2 5/9 ^1Government have full control on the Southern Hemisphere
 	qputs 9205 ^32Global:^2 6/9 ^1Xuglop continues prosper while dealing with pirates and cartels
-	qputs 9206 ^32Global:^2 7/9 ^1EDF expedition returns to perform military excercise
+	qputs 9206 ^32Global:^2 7/9 ^1EDF expedition returns to perform military exercise
 	qputs 9207 ^32Global:^2 8/9 ^1Aerofare second space shipyard is completed
 	qputs 9208 ^32Global:^2 9/9 ^1AOF missing division has returned with a strange artifact
 	}
   ife LEVEL 50
 	{
-	qputs 9200 ^32Global:^2 1/9 ^1Xuglop began to flourish following of the peace terms
-	qputs 9201 ^32Global:^2 2/9 ^1Aerofare repesentative Daniel Nestrod assassinated
-	qputs 9202 ^32Global:^2 3/9 ^1EDF expeditions completed their excercise and returns to Sol System
+	qputs 9200 ^32Global:^2 1/9 ^1Xuglop began to flourish following the peace terms
+	qputs 9201 ^32Global:^2 2/9 ^1Aerofare repesentative Daniel Nestrod is assassinated by cartels
+	qputs 9202 ^32Global:^2 3/9 ^1EDF expeditions completed their exercise and returns to Sol System
 	qputs 9203 ^32Global:^2 4/9 ^1Sandt Industries attempts to purchase some PMCs but fails due to Anti-Trust Act
 	qputs 9204 ^32Global:^2 5/9 ^1Sourthern Hemisphere city development rises among with new policies
 	qputs 9205 ^32Global:^2 6/9 ^1Mining Corporation establishes their mining colony in Ractonia
@@ -3002,13 +3031,13 @@ ife VOLUME 0
 	}
 	else
 	{
-	qputs 9200 ^32Global:^2 1/9 ^1XEC announces the discovery of the new civilization on Atems Star System
+	qputs 9200 ^32Global:^2 1/9 ^1XEC returns from the Atems Star System with civilization discovery
 	qputs 9201 ^32Global:^2 2/9 ^1Cartels & pirates activity has been slightly reduced
 	qputs 9202 ^32Global:^2 3/9 ^1Sandt Industries attempts to takeover some of the competitors, but fails
 	qputs 9203 ^32Global:^2 4/9 ^1Paradigm Accomplices has been captured for purchasing spaceships
 	qputs 9204 ^32Global:^2 5/9 ^1Security Council concerns about Paradigm Eschaton terrorist activity
 	qputs 9205 ^32Global:^2 6/9 ^1Experimental Defense Systems tested in the island regions
-	qputs 9206 ^32Global:^2 7/9 ^1Governement associates first visit to Zorgonites homeworld system
+	qputs 9206 ^32Global:^2 7/9 ^1Governement associates first to visit Zorgonites homeworld system
 	qputs 9207 ^32Global:^2 8/9 ^1Officials urges citizens to report suspicious activity
 	qputs 9208 ^32Global:^2 9/9 ^1AOF discovers a strange structure on the other star system
 	}
@@ -3029,7 +3058,7 @@ ife VOLUME 0
 	}
  ife LEVEL 63 // repeat of episode 5
 	{
-	qputs 9200 ^32Global:^2 1/9 ^1Refugees migrated from Earth began to settle
+	qputs 9200 ^32Global:^2 1/9 ^1Refugees migrated from Earth began to settle new lives
 	qputs 9201 ^32Global:^2 2/9 ^1Strange reports of anomaly occurs on Ractonia
 	qputs 9202 ^32Global:^2 3/9 ^1XEC Kingsfield Class arrives in Elysion System and reported their discoverys
 	qputs 9203 ^32Global:^2 4/9 ^1Xuglop University contruction is completed
@@ -3057,14 +3086,315 @@ ife VOLUME 0
  ife LEVEL 31
 	{
 	qputs 9200 ^32Global:^2 1/9 ^1Relationships between Earth and Xuglop is restored
-	qputs 9201 ^32Global:^2 2/9 ^1Government passes citizenship act to allow migrants to become one
+	qputs 9201 ^32Global:^2 2/9 ^1Government passes citizenship act to allows all migrants to become one
 	qputs 9202 ^32Global:^2 3/9 ^1EDF defectors share details about the MJ12 & council plots
 	qputs 9203 ^32Global:^2 4/9 ^1XEC Kingsfield Class returns their trip from Elysion Ringworld with discovery
 	qputs 9204 ^32Global:^2 5/9 ^1New technology and materials found from the Elysion Ringworld
 	qputs 9205 ^32Global:^2 6/9 ^1XDF Dreadnought Class construction begins based on Advance FTL
-	qputs 9206 ^32Global:^2 7/9 ^1Space PMCs has been intregated into complete universal military force
-	qputs 9207 ^32Global:^2 8/8 ^1Earth refuges can allow to return their home
+	qputs 9206 ^32Global:^2 7/9 ^1All current military is integrated into universal forces
+	qputs 9207 ^32Global:^2 8/9 ^1Earth refuges can allow to return their home
 	qputs 9208 ^32Global:^2 9/9 ^1New fossils has been sent to the museum for tourist attraction.
+	}
+ }
+ends
+
+defstate GLOBAL_NEWS_TICKER // ===========================================================================
+ife VOLUME 0
+ {
+ ife LEVEL 1
+	{
+	qputs 9200 ^32Global:^2 1/9 ^1Temperatures reported to continue rising
+	qputs 9201 ^32Japan:^2 2/9 ^1Yakuza raid ends in failure for SAT, details unknown
+	qputs 9202 ^32Australia:^2 3/9 ^1Rebuilding in Adelaide begins after Cycloid attack
+	qputs 9203 ^32Russia:^2 4/9 ^1War in rural Russia ended, Empirical Union destroyed
+	qputs 9204 ^32China:^2 5/9 ^1Rural town attacked by unknown wildlife
+	qputs 9205 ^32UAE:^2 6/9 ^1Fighting reported in Mesopotamia
+	qputs 9206 ^32Madagascar:^2 7/9 ^1Cycloid Asteroid impact site turned into wildlife reserve
+	qputs 9207 ^32Global:^2 8/9 ^1EDF send division to Antarctica research facility
+	qputs 9208 ^32Global:^2 9/9 ^1EAF begins conducting military excercise for offensive force
+	}
+ ife LEVEL 8
+	{
+	qputs 9200 ^32Global:^2 1/9 ^1Reports of 'Paranormal' activity increase in unusual high
+	qputs 9201 ^32UAE:^2 2/9 ^1First Fusion reactor comes online
+	qputs 9202 ^32Australia:^2 3/9 ^1EDF Crisp to receive commendation for Adelaide
+	qputs 9203 ^32Russia:^2 4/9 ^1Cycloid sightings in Siberia fall to all time low
+	qputs 9204 ^32China:^2 5/9 ^1Aurora spotted in night sky over Hong Kong
+	qputs 9205 ^32Africa:^2 6/9 ^1Ancient Tomb discovered near outskirts of Cairo
+	qputs 9206 ^32Garmid:^2 7/9 ^1AMC to be questioned over LA and Ganymede involvement
+	qputs 9207 ^32Canada:^2 8/9 ^1MS Corp facility attacked in Les Laurentides
+	qputs 9208 ^32Global:^2 9/9 ^1International countries concern about bizarre entity
+	}
+  }
+ ife VOLUME 1
+ {
+  ife LEVEL 1
+	{
+	qputs 9200 ^32Global:^2 1/9 ^1Cycloids invade Los Angeles, USA
+	qputs 9201 ^32Global:^2 2/9 ^1All air traffic temporarily halted
+	qputs 9202 ^32Global:^2 3/9 ^1All EDF forces placed on standby
+	qputs 9203 ^32Global:^2 4/9 ^1Cycloid Mothership spotted above LA, USA
+	qputs 9204 ^32Global:^2 5/9 ^1EDF calls global membership council
+	qputs 9205 ^32UAE:^2 6/9 ^1Airport collision over global ground stop, casualties unknown
+	qputs 9206 ^32Russia:^2 7/9 ^1Air traffic continues despite global mandate
+	qputs 9207 ^32Global:^2 8/9 ^1INTERPOL issue wanted notice for 'Jacques Dumas'
+	qputs 9208 ^32Global:^2 9/9 ^1Space skirmish between Earth, PMC, and Cycloid forces.
+	}
+  ife LEVEL 4
+	{
+	qputs 9200 ^32Global:^2 1/9 ^1Lunar Colony 'New LA' lockdown lifted
+	qputs 9201 ^32Global:^2 2/9 ^1USA, LA invasion thwarted by EDF and JTF forces
+	qputs 9202 ^32China:^2 3/9 ^1Triad overthrow local Government in Hong Kong
+	qputs 9203 ^32China:^2 4/9 ^1Local phenomena tied to organised crime, alleges Chinese Govt.
+	qputs 9204 ^32Argentina:^2 5/9 ^1EDF base attacked by Cycloids
+	qputs 9205 ^32Africa:^2 6/9 ^1More ancient ruins discovered near Congo border
+	qputs 9206 ^32Garmid:^2 7/9 ^1GDF runs invasion drills with EDF
+	qputs 9207 ^32UAE:^2 8/9 ^1Fighting breaks out between paramilitary forces
+	qputs 9208 ^32Global:^2 9/9 ^1Cycloid space forces retreats from Sol System
+	}
+  ife LEVEL 50
+	{
+	qputs 9200 ^32China:^2 1/9 ^1Triad and Yakuza collusion thwarted by AMC Squad
+	qputs 9201 ^32China:^2 2/9 ^1Local government thanks AMC for their efforts
+	qputs 9202 ^32Mexico:^2 3/9 ^1Paradigm Eschaton claim ownership of recent terror attacks
+	qputs 9203 ^32UAE:^2 4/9 ^1Bank buildings targeted by 'Paradigm Eschaton'
+	qputs 9204 ^32Australia:^2 5/9 ^1Cycloid remnants discovered near Brisbane
+	qputs 9205 ^32Madagascar:^2 6/9 ^1Zaxtor Znort to be awarded 'lifetime achievement' medal
+	qputs 9206 ^32Garmid:^2 7/9 ^1Council talks stall on Garmid Space Elevator construction
+	qputs 9207 ^32Russia:^2 8/9 ^1Empirical Union palace demolished
+	qputs 9208 ^32Global:^2 9/9 ^1Three ancient sites is discovered in Mars
+	}
+ }
+ ife VOLUME 2
+ {
+  ifl LEVEL 25 // multiple base visits take place purely for code reasons so this covers all of them
+	{
+	qputs 9200 ^32Egypt:^2 1/9 ^1Local towns near Pyramids go silent
+	qputs 9201 ^32Egypt:^2 2/9 ^1No terrorist groups claim responsibility
+	qputs 9202 ^32Japan:^2 3/9 ^1Prominent Takahashi family members slain in organised attack
+	qputs 9203 ^32Global:^2 4/9 ^1Heskel Inc. overtake Zilla Industries in cybernetic sales
+	qputs 9204 ^32Global:^2 5/9 ^1Arsia Mons Colony attacked by Paradigm Eschaton
+	qputs 9205 ^32Africa:^2 6/9 ^1Dig site of Ancient Ruins drops out of contact near Congo
+	qputs 9206 ^32Garmid:^2 7/9 ^1Cult worshipping alleged 'Revelion' site shut down
+	qputs 9207 ^32Russia:^2 8/9 ^1Paradigm Eschaton bomb statue in Volgograd
+	qputs 9208 ^32Global:^2 9/9 ^1Earth Forces begins their invasion on Cycloids X-64-2
+	}
+ ife LEVEL 26
+	{
+	qputs 9200 ^32Garmid:^2 1/9 ^1AMC base destroyed in large explosion amidst reports of gunfire
+	qputs 9201 ^32Garmid:^2 2/9 ^1EDF and EAF refuse to comment on AMC base attack
+	qputs 9202 ^32Garmid:^2 3/9 ^1Paradigm leader Trenton Solari claims ownership
+	qputs 9203 ^32UAE:^2 4/9 ^1Battle intensifies between Cult and local forces in Mesopotamia
+	qputs 9204 ^32Australia:^2 5/9 ^1Jacques Dumas evades capture, slays 12 EDF soldiers in escape
+	qputs 9205 ^32Egypt:^2 6/9 ^1Strange lights spotted near Pyramids
+	qputs 9206 ^32Garmid:^2 7/9 ^1Space Elevator plans shot down by Garmid Council
+	qputs 9207 ^32Canada:^2 8/9 ^1Cycloid aliens found dead in sewers under Winnipeg
+	qputs 9208 ^32Global:^2 9/9 ^1Earth Forces successfully invaded & controls Cycloids X-64-2
+	}
+ }
+ ife VOLUME 3
+ {
+ ife LEVEL 1
+	{
+	qputs 9200 ^32Global^2 1/9 ^1EDF Panama reported lost with all hands
+	qputs 9201 ^32Garmid:^2 2/9 ^1EDF leadership crisis over Panama's loss
+	qputs 9202 ^32Australia:^2 3/9 ^1Second spaceship construction yard launched into orbit
+	qputs 9203 ^32UAE:^2 4/9 ^1Dubai attempts for space elevator stonewalled by Indian Govt.
+	qputs 9204 ^32India:^2 5/9 ^1Climate talks progress despite conflict
+	qputs 9205 ^32Japan:^2 6/9 ^1Zilla Industries cybernetics reach all time high profits
+	qputs 9206 ^32Mexico:^2 7/9 ^1Sightings of 'strange' creatures near coast rise
+	qputs 9207 ^32Russia:^2 8/9 ^1Towns on northern border have dropped out of contact
+	qputs 9208 ^32Global:^2 9/9 ^1Earth Forces successfully invaded & control Cycloids X-64-2
+	}
+ ife LEVEL 63 // repeat of Episode 5
+	{
+	qputs 9200 ^32Global:^2 1/9 ^1Panic continues to rise amidst 'Apocalypse'
+	qputs 9201 ^32Mu:^2 2/9 ^1Planes drop out of sky near 'new' continent
+	qputs 9202 ^32Australia:^2 3/9 ^1Government stonewalls refugee crisis
+	qputs 9203 ^32Mexico:^2 4/9 ^1Coastal cities to be abandoned amid creature sightings
+	qputs 9204 ^32Japan:^2 5/9 ^1Collossal creature rises from Mu, attacks Yokohama
+	qputs 9205 ^32UAE:^2 6/9 ^1Dubai destroyed, Burj Khalifa toppled
+	qputs 9206 ^32Africa:^2 7/9 ^1Wilderness areas declared uninhabitable
+	qputs 9207 ^32Asia:^2 8/9 ^1Hypercane batters Asia, catastrophic loss of life
+	qputs 9208 ^32Global:^2 9/9 ^1Survivors footage shows dinosaurs truly existed
+	}
+ }
+ ife VOLUME 4
+ {
+ ife LEVEL 1
+	{
+	qputs 9200 ^32Global:^2 1/9 ^1Panic continues to rise amidst 'Apocalypse'
+	qputs 9201 ^32Mu:^2 2/9 ^1Planes drop out of sky near 'new' continent
+	qputs 9202 ^32Australia:^2 3/9 ^1Government stonewalls refugee crisis
+	qputs 9203 ^32Mexico:^2 4/9 ^1Coastal cities to be abandoned amid creature sightings
+	qputs 9204 ^32Japan:^2 5/9 ^1Collossal creature rises from Mu, attacks Yokohama
+	qputs 9205 ^32UAE:^2 6/9 ^1Dubai destroyed, Burj Khalifa toppled
+	qputs 9206 ^32Africa:^2 7/9 ^1Wilderness areas declared uninhabitable
+	qputs 9207 ^32Asia:^2 8/9 ^1Hypercane batters Asia, catastrophic loss of life
+	qputs 9208 ^32Global:^2 9/9 ^1Space PMC Forces begins to attack against rogue EDF
+	}
+ ife LEVEL 31
+	{
+	qputs 9200 ^32Global:^2 1/9 ^1Global tides wrecked due to Lunar phenomenon
+	qputs 9201 ^32Garmid:^2 2/9 ^1EDF offices firebombed in reprisal
+	qputs 9202 ^32UAE:^2 3/9 ^1Explosions devastate remains of Dubai
+	qputs 9203 ^32Japan: ^2 4/9 ^1Ocean beasts continue assault on coasts
+	qputs 9204 ^32Mexico: ^2 5/9 ^1Nuclear explosion in Yucatan devastates area
+	qputs 9205 ^32Africa: ^2 6/9 ^1Massive hives spotted throughout wilderness
+	qputs 9206 ^32Mu: ^2 7/9 ^1Landmass continues to expand in size
+	qputs 9207 ^32Antarctica: ^2 8/9 ^1Mysterious structures spotted near Nuke blast
+	qputs 9208 ^32Global:^2 9/9 ^1MJ12 and Council 12 leaders exposed, behind it all
+	}
+ }
+ends
+
+defstate ASIA_NEWS_TICKER // ===========================================================================
+
+ife VOLUME 0
+ {
+ ife LEVEL 1
+	{
+	qputs 9200 ^32China:^2 1/9 ^1Conflicts escalated between police and crime organization
+	qputs 9201 ^32Spain:^2 2/9 ^1
+	qputs 9202 ^32Germany:^2 3/9 ^1
+	qputs 9203 ^32Ukraine:^2 4/9 ^1
+	qputs 9204 ^32Switzerland:^2 5/9 ^1
+	qputs 9205 ^32Belgium:^2 6/9 ^1
+	qputs 9206 ^32Ireland:^2 7/9 ^1
+	qputs 9207 ^32Italy:^2 8/9 ^1
+	qputs 9208 ^32S.Korea:^2 9/9 ^1Starcraft Player have won the Blizzards Tournament Cup
+	}
+ ife LEVEL 8
+	{
+	qputs 9200 ^32China:^2 1/9 ^1Hong Kong police forces has been beatened by Triads
+	qputs 9201 ^32China:^2 2/9 ^1Three Gorges Dam is exploded and flooded into villages.
+	qputs 9202 ^32Italy:^2 3/9 ^1
+	qputs 9203 ^32Spain:^2 4/9 ^1
+	qputs 9204 ^32Poland:^2 5/9 ^1
+	qputs 9205 ^32France:^2 6/9 ^1
+	qputs 9206 ^32Norway:^2 7/9 ^1
+	qputs 9207 ^32Netherlands:^2 8/9 ^1
+	qputs 9208 ^32Europe:^2 9/9 ^1
+	}
+  }
+ ife VOLUME 1
+ {
+  ife LEVEL 1
+	{
+	qputs 9200 ^32China:^2 1/9 ^1Hong Kong police forces has been overrun by Triads
+	qputs 9201 ^32China:^2 2/9 ^1Reports that Triads brings with supernatural beings
+	qputs 9202 ^32China:^2 3/9 ^1PLA stays alert on Triads terrorists activities
+	qputs 9203 ^32Japan:^2 4/9 ^1Unmarked ship identitfied as Yakuzas smuggling ship.
+	qputs 9204 ^32Europe:^2 5/9 ^1
+	qputs 9205 ^32Switzerland:^2 6/9 ^1
+	qputs 9206 ^32Germany:^2 7/9 ^1
+	qputs 9207 ^32Austria:^2 8/9 ^1
+	qputs 9208 ^32Europe:^2 9/9 ^1
+	}
+  ife LEVEL 4
+	{
+	qputs 9200 ^32China:^2 1/9 ^1Triads has been defeated by a third party militants
+	qputs 9201 ^32China:^2 2/9 ^1PLA and local police has managed to secure Hong Kong
+	qputs 9202 ^32Japan:^2 3/9 ^1Hooded corpse traced to Triads ties with Yakuza
+	qputs 9203 ^32China:^2 4/9 ^1PLA liberates Convention Center from Triads control
+	qputs 9204 ^32Poland:^2 5/9 ^1
+	qputs 9205 ^32Spain:^2 6/9 ^1
+	qputs 9206 ^32France:^2 7/9 ^1
+	qputs 9207 ^32Belgium:^2 8/9 ^1
+	qputs 9208 ^32Europe:^2 9/9 ^1
+	}
+  ife LEVEL 50
+	{
+	qputs 9200 ^32Mongolia:^2 1/9 ^1Strange energy reported on the desert regions
+	qputs 9201 ^32Japan:^2 2/9 ^1Zilla denies involvement with the Triads & Yakuza
+	qputs 9202 ^32Italy:^2 3/9 ^1
+	qputs 9203 ^32Spain:^2 4/9 ^1
+	qputs 9204 ^32Germany:^2 5/9 ^1
+	qputs 9205 ^32Finland:^2 6/9 ^1
+	qputs 9206 ^32Scotland:^2 7/9 ^1
+	qputs 9207 ^32Malta:^2 8/9 ^1
+	qputs 9208 ^32Greece:^2 9/9 ^1
+	}
+ }
+ ife VOLUME 2
+ {
+   ifl LEVEL 25 // multiple base visits take place purely for code reasons so this covers all of them
+	{
+	qputs 9200 ^32Netherlands:^2 1/9 ^1
+	qputs 9201 ^32Sweden:^2 2/9 ^1
+	qputs 9202 ^32Switzerland:^2 3/9 ^1
+	qputs 9203 ^32Germany:^2 4/9 ^
+	qputs 9204 ^32Norway:^2 5/9 ^1
+	qputs 9205 ^32Ukraine:^2 6/9 ^1
+	qputs 9206 ^32Poland:^2 7/9 ^1
+	qputs 9207 ^32France:^2 8/9 ^1
+	qputs 9208 ^32Europe:^2 9/9 ^1
+	}
+	else
+	{
+	qputs 9200 ^32UK:^2 1/9 ^1
+	qputs 9201 ^32UK:^2 2/9 ^1
+	qputs 9202 ^32Netherlands:^2 3/9 ^1
+	qputs 9203 ^32Austria:^2 4/9 ^1
+	qputs 9204 ^32Greece:^2 5/9 ^1
+	qputs 9205 ^32Ukraine:^2 6/9 ^1
+	qputs 9206 ^32Czechia:^2 7/9 ^1
+	qputs 9207 ^32Hungary:^2 8/9 ^1
+	qputs 9208 ^32Europe:^2 9/9 ^1
+	}
+ }
+ ife VOLUME 3
+ {
+ ife LEVEL 1
+	{
+	qputs 9200 ^32UK^2 1/9 ^1
+	qputs 9201 ^32Switzerland:^2 2/9 ^1
+	qputs 9202 ^32France:^2 3/9 ^1
+	qputs 9203 ^32Germany:^2 4/9 ^1
+	qputs 9204 ^32Finland:^2 5/9 ^1
+	qputs 9205 ^32Belgium:^2 6/9 ^1
+	qputs 9206 ^32Greece:^2 7/9 ^1
+	qputs 9207 ^32Poland:^2 8/9 ^1
+	qputs 9208 ^32Europe:^2 9/9 ^1
+	}
+ ife LEVEL 63 // repeat of episode 5
+	{
+	qputs 9200 ^32Europe:^2 1/9 ^1
+	qputs 9201 ^32UK:^2 2/9 ^1
+	qputs 9202 ^32France:^2 3/9 ^1
+	qputs 9203 ^32Ukraine:^2 4/9 ^1
+	qputs 9204 ^32Greenland:^2 5/9 ^1
+	qputs 9205 ^32Spain:^2 6/9 ^1
+	qputs 9206 ^32N.Korea:^2 7/9 ^1Military forces underfire by enstranged EDF troops
+	qputs 9207 ^32Belgium:^2 8/9 ^1
+	qputs 9208 ^32Norway:^2 9/9 ^1
+	}
+ }
+ ife VOLUME 4
+ {
+ ife LEVEL 1
+	{
+	qputs 9200 ^32Europe:^2 1/9 ^1
+	qputs 9201 ^32UK:^2 2/9 ^1
+	qputs 9202 ^32France:^2 3/9 ^1
+	qputs 9203 ^32Ukraine:^2 4/9 ^1
+	qputs 9204 ^32Greenland:^2 5/9 ^1
+	qputs 9205 ^32Spain:^2 6/9 ^1
+	qputs 9206 ^32N.Korea:^2 7/9 ^1Military forces destroyed by enstranged EDF weapons
+	qputs 9207 ^32N.Korea:^2 8/9 ^1Leadership slained and government collapses
+	qputs 9208 ^32Russia:^2 9/9 ^1Vladiostok Airport is underfire between EDF & PMCs
+	}
+ ife LEVEL 31
+	{
+	qputs 9200 ^32Russia:^2 1/9 ^1Vladiostok Airport battle has been stop following EDF turmoil
+	qputs 9201 ^32N.Korea:^2 2/9 ^1Due to the loss of the government, PMCs supervises them
+	qputs 9202 ^32S.Korea:^2 3/9 ^1The uniification of North and South Korea at last
+	qputs 9203 ^32Japan:^2 4/9 ^1
+	qputs 9204 ^32Taiwan:^2 5/9 ^1Military forces faces overwhelm numbers of sea creatures
+	qputs 9205 ^32Spain:^2 6/9 ^1
+	qputs 9206 ^32Switzerland:^2 7/9 ^1
+	qputs 9207 ^32Belgium:^2 8/9 ^1
+	qputs 9208 ^32Sweden:^2 9/9 ^1
 	}
  }
 ends
@@ -3094,6 +3424,7 @@ defstate get_player_name_from_char
 	case 16 qstrcpy 356 381 break // Rosa
 	case 17 qstrcpy 356 382 break // Kagura
 	case 18 qstrcpy 356 383 break // Wheaton
+	case 27 qstrcpy 356 379 break // Kiro
 	default // unknown char
 		qputs 356 ???
 		break

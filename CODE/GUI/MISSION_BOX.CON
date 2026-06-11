@@ -208,16 +208,16 @@ var CHAR_IN 0 0
 var CHAR_ALLOWED 0 0
 defstate mission_charsel_CHAR_ALLOWED
 	set CHAR_ALLOWED 1
-	
+
 	ifand CHAR_IN FLAG_WHEATON { ife ep5_new_char 1 nullop else set CHAR_ALLOWED 0 }
 	else ifand CHAR_IN FLAG_ROSA { ifand allow_temp_characters 16 nullop else set CHAR_ALLOWED 0 }
 	else ifand CHAR_IN FLAG_KAGURA { ife ep4_new_char 1 nullop else set CHAR_ALLOWED 0 }
-	else ifand CHAR_IN FLAG_SNOWFALL 
-		{ 
+	else ifand CHAR_IN FLAG_SNOWFALL
+		{
 		ife TRIGGER_BASE_SCENE 8 set CHAR_ALLOWED 0 else
 			{ ife ep3_new_char 1 nullop else set CHAR_ALLOWED 0 }
 		}
-	else ifand CHAR_IN FLAG_MICKY 
+	else ifand CHAR_IN FLAG_MICKY
 		{
 		ife TRIGGER_BASE_SCENE 8 set CHAR_ALLOWED 0 else
 			{ ife ep2_new_char 1 nullop else set CHAR_ALLOWED 0 }
@@ -226,7 +226,7 @@ defstate mission_charsel_CHAR_ALLOWED
 	else ifand CHAR_IN FLAG_MAARTEN { ifand allow_temp_characters 4 nullop else set CHAR_ALLOWED 0 }
 	else ifand CHAR_IN FLAG_BOMBSHELL { ifand allow_temp_characters 2 nullop else set CHAR_ALLOWED 0 }
 	else ifand CHAR_IN FLAG_CULTIST { ifand allow_temp_characters 1 nullop else set CHAR_ALLOWED 0 }
-	
+
 	else ifand CHAR_IN FLAG_ZAXTOR ife TRIGGER_BASE_SCENE 8 set CHAR_ALLOWED 0 // imprisoned!
 	else ifand CHAR_IN FLAG_MERLIJN ife TRIGGER_BASE_SCENE 8 set CHAR_ALLOWED 0 // imprisoned!
 	else ifand CHAR_IN FLAG_HIGHWIRE ife TRIGGER_BASE_SCENE 8 set CHAR_ALLOWED 0 // imprisoned!
@@ -298,7 +298,7 @@ defstate mission_charsel_next
 		{
 			mul temp2 2
 			set temp3 temp2
-		
+
 			set CHAR_IN temp3
 
 			state mission_charsel_CHAR_ALLOWED
@@ -306,13 +306,13 @@ defstate mission_charsel_next
 			ife CHAR_ALLOWED 0
 				set temp4 0
 			else
-			{			
+			{
 				ifand temp3 m_charselect_flags
 					set temp4 1
 				else ife m_charselect_flags FLAG_ALL
 					set temp4 1
 			}
-			
+
 			// next char wasn't allowed, and we're at the final character in the list, jump back to the first
 			ife temp4 0
 				ife temp2 RETURN
@@ -340,15 +340,15 @@ defstate mission_charsel_prev
 	{
 		// go to previous available character
 		set temp4 0
-		
+
 		whilevarn temp4 1
 		{
 			div temp2 2
 			set temp3 temp2
-			
+
 			set CHAR_IN temp3
 			state mission_charsel_CHAR_ALLOWED
-	
+
 			ife CHAR_ALLOWED 0
 				set temp4 0
 			else

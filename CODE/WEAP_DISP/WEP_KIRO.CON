@@ -1,0 +1,35 @@
+Kiros New Character in a texture pallete form.
+
+/*
+Reserved for Kiros Work and used for advance purposes.
+*/
+// Slot 0 Fist Melee & Arcane Gauntlet
+defstate
+ends
+// Slot 1 Arcane Hybrid Pistol
+defstate
+ends
+// Slot 2 Chain "Kalibur" Autoshotgun
+defstate
+ends
+// Slot 3 Gun "Grizzler" Heavy Rifle
+defstate
+ends
+// Slot 4 Tactical "Dread Grip" Launcher
+defstate
+ends
+// Slot 5 Chain "Kalibur" Autoshotgun
+defstate
+ends
+// Slot 6 Portable "Experfiew" Gun
+defstate
+ends
+// Slot 7 Strategic "Gunlock" Arsenal
+defstate
+ends
+// Slot 8 Tactical Equipment Set
+defstate
+ends
+// Slot 9 Custom Arbitors Weapon
+defstate
+ends
