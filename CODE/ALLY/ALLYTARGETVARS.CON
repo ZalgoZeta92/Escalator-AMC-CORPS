@@ -102,6 +102,7 @@ defstate applyAllyTargetVars
 		case GLORIA
 		case SHELLY
 		case JANE
+		case ALLYJAMES
 		case SKYHV
 			set weight_increase 2
 			set max_weight 8

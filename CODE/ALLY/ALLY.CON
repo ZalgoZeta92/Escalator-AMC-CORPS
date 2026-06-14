@@ -33,7 +33,7 @@ defstate special_npc_teleport
 ifpdistg 16384
 ife FOLLOW_PLAYER 1
 {
-ifp pfacing ifcansee nullop else 
+ifp pfacing ifcansee nullop else
 	{
 	state getxycoords_behind_player
 
@@ -98,11 +98,11 @@ defstate do_healAlly
 				}
 			break
 		default
-			geta[closest_allied_target].extra temp2 
+			geta[closest_allied_target].extra temp2
 			set PERCENTAGE_IN actorvar[closest_allied_target].max_health
 			set PERCENTAGE_PERCENT 50
 			state getpercentage
-			add temp2 PERCENTAGE_OUT  
+			add temp2 PERCENTAGE_OUT
 			clamp temp2 0 actorvar[closest_allied_target].max_health
 			seta[closest_allied_target].extra temp2
 			setactorvar[closest_allied_target].effect_countd 30
@@ -122,9 +122,9 @@ defstate defs_allySelect
 		case AMC_WITCH
 			switch sprite[cur_allied_target].picnum
 				case APLAYER
-					ifphealthl 50 
-						nullop 
-					else 
+					ifphealthl 50
+						nullop
+					else
 						set cur_allied_target -1
 					break
 				default
@@ -183,7 +183,7 @@ defstate checkForClosestAlly
 				{
 					set cur_allied_target temp
 					state defs_allySelect
-					
+
 					// Found a suitable allied target, check if it is the closest of all suitable targets
 					ifn cur_allied_target -1
 					{
@@ -205,23 +205,23 @@ defstate checkForClosestAlly
 
 		add targets_iterator 1
 	}
-	
+
 	// Output: closest_allied_target
 ends
 
 defstate nu_heal_allies
 	state checkForClosestAlly
-	
+
 	ifn closest_allied_target -1
 		state defs_allyDo
 	else // heal themselves if need be
-	  ifl sprite[].extra actorvar[].max_health 
+	  ifl sprite[].extra actorvar[].max_health
 		{
-		geta[].extra temp2 
+		geta[].extra temp2
 		set PERCENTAGE_IN actorvar[].max_health
 		set PERCENTAGE_PERCENT 50
 		state getpercentage
-		add temp2 PERCENTAGE_OUT  
+		add temp2 PERCENTAGE_OUT
 		clamp temp2 0 actorvar[].max_health
 		seta[].extra temp2
 		setactorvar[].effect_countd 30
@@ -241,8 +241,8 @@ defstate heal_allies
 			else ifn ALLYSLOT1 -1 ifn sprite[ALLYSLOT1].picnum AMC_209_ACTIVE
 			 ifl sprite[ALLYSLOT1].extra actorvar[ALLYSLOT1].max_health
 					{
-					geta[ALLYSLOT1].extra temp2 
-					add temp2 1000  
+					geta[ALLYSLOT1].extra temp2
+					add temp2 1000
 					clamp temp2 0 actorvar[ALLYSLOT1].max_health
 					seta[ALLYSLOT1].extra temp2
 					setactorvar[ALLYSLOT1].effect_countd 30
@@ -252,8 +252,8 @@ defstate heal_allies
 			else ifn ALLYSLOT2 -1 ifn sprite[ALLYSLOT2].picnum AMC_209_ACTIVE
 				ifl sprite[ALLYSLOT2].extra actorvar[ALLYSLOT2].max_health
 					{
-					geta[ALLYSLOT2].extra temp2 
-					add temp2 1000  
+					geta[ALLYSLOT2].extra temp2
+					add temp2 1000
 					clamp temp2 0 actorvar[ALLYSLOT2].max_health
 					seta[ALLYSLOT2].extra temp2
 					setactorvar[ALLYSLOT2].effect_countd 30
@@ -263,8 +263,8 @@ defstate heal_allies
 			else ifn ALLYSLOT3 -1 ifn sprite[ALLYSLOT3].picnum AMC_209_ACTIVE
 				ifl sprite[ALLYSLOT3].extra actorvar[ALLYSLOT3].max_health
 					{
-					geta[ALLYSLOT3].extra temp2 
-					add temp2 1000  
+					geta[ALLYSLOT3].extra temp2
+					add temp2 1000
 					clamp temp2 0 actorvar[ALLYSLOT3].max_health
 					seta[ALLYSLOT3].extra temp2
 					setactorvar[ALLYSLOT3].effect_countd 30
@@ -274,56 +274,56 @@ defstate heal_allies
 			else ifn ALLYSLOT4 -1 ifn sprite[ALLYSLOT4].picnum AMC_209_ACTIVE
 				ifl sprite[ALLYSLOT4].extra actorvar[ALLYSLOT4].max_health
 					{
-					geta[ALLYSLOT4].extra temp2 
-					add temp2 1000  
+					geta[ALLYSLOT4].extra temp2
+					add temp2 1000
 					clamp temp2 0 actorvar[ALLYSLOT4].max_health
 					seta[ALLYSLOT4].extra temp2
 					setactorvar[ALLYSLOT4].effect_countd 30
-					setactorvar[ALLYSLOT4].effect_type 2					
+					setactorvar[ALLYSLOT4].effect_type 2
 					sound MEDIC_HEAL
 					}
 			else ifn ALLYSLOT5 -1 ifn sprite[ALLYSLOT5].picnum AMC_209_ACTIVE
 				ifl sprite[ALLYSLOT5].extra actorvar[ALLYSLOT5].max_health
 					{
-					geta[ALLYSLOT5].extra temp2 
-					add temp2 1000  
+					geta[ALLYSLOT5].extra temp2
+					add temp2 1000
 					clamp temp2 0 actorvar[ALLYSLOT5].max_health
 					seta[ALLYSLOT5].extra temp2
 					setactorvar[ALLYSLOT5].effect_countd 30
-					setactorvar[ALLYSLOT5].effect_type 2					
+					setactorvar[ALLYSLOT5].effect_type 2
 					sound MEDIC_HEAL
 					}
 			else ifn ALLYSLOT6 -1 ifn sprite[ALLYSLOT6].picnum AMC_209_ACTIVE
 				ifl sprite[ALLYSLOT6].extra actorvar[ALLYSLOT6].max_health
 					{
-					geta[ALLYSLOT6].extra temp2 
-					add temp2 1000  
+					geta[ALLYSLOT6].extra temp2
+					add temp2 1000
 					clamp temp2 0 actorvar[ALLYSLOT6].max_health
 					seta[ALLYSLOT6].extra temp2
 					setactorvar[ALLYSLOT6].effect_countd 30
-					setactorvar[ALLYSLOT6].effect_type 2					
+					setactorvar[ALLYSLOT6].effect_type 2
 					sound MEDIC_HEAL
 					}
 			else ifn ALLYSLOT7 -1 ifn sprite[ALLYSLOT7].picnum AMC_209_ACTIVE
 				ifl sprite[ALLYSLOT7].extra actorvar[ALLYSLOT7].max_health
 					{
-					geta[ALLYSLOT7].extra temp2 
-					add temp2 1000  
+					geta[ALLYSLOT7].extra temp2
+					add temp2 1000
 					clamp temp2 0 actorvar[ALLYSLOT7].max_health
 					seta[ALLYSLOT7].extra temp2
 					setactorvar[ALLYSLOT7].effect_countd 30
-					setactorvar[ALLYSLOT7].effect_type 2					
+					setactorvar[ALLYSLOT7].effect_type 2
 					sound MEDIC_HEAL
 					}
 			else ifn ALLYSLOT8 -1 ifn sprite[ALLYSLOT8].picnum AMC_209_ACTIVE
 				ifl sprite[ALLYSLOT8].extra actorvar[ALLYSLOT6].max_health
 					{
-					geta[ALLYSLOT8].extra temp2 
-					add temp2 1000  
+					geta[ALLYSLOT8].extra temp2
+					add temp2 1000
 					clamp temp2 0 actorvar[ALLYSLOT8].max_health
 					seta[ALLYSLOT8].extra temp2
 					setactorvar[ALLYSLOT8].effect_countd 30
-					setactorvar[ALLYSLOT8].effect_type 2					
+					setactorvar[ALLYSLOT8].effect_type 2
 					sound MEDIC_HEAL
 					}
 ends
@@ -375,26 +375,26 @@ defstate ALLY_SHIELD_STUFF
 			}
 	ifl NPC_SHIELD 200
 		{
-		ifg NPC_REC_DELAY 0 
+		ifg NPC_REC_DELAY 0
 			{
-			ife NPC_REC_DELAY 1 
-				{ 
-				sound ESHEILD_CHARGING 
-				setactorsoundpitch THISACTOR ESHEILD_CHARGING -256 
-				espawn ENERGY_SHIELD 
+			ife NPC_REC_DELAY 1
+				{
+				sound ESHEILD_CHARGING
+				setactorsoundpitch THISACTOR ESHEILD_CHARGING -256
+				espawn ENERGY_SHIELD
 				seta[RETURN].xrepeat 64
 				seta[RETURN].yrepeat 64
 				seta[RETURN].ang sprite[THISACTOR].ang
 				seta[RETURN].pal 23
 				}
-			sub NPC_REC_DELAY 1		
+			sub NPC_REC_DELAY 1
 			}
 		else
 			{
 			add NPC_SHIELD 2
-			ifg NPC_SHIELD 199 
-				{ 
-				espawn ENERGY_SHIELD 
+			ifg NPC_SHIELD 199
+				{
+				espawn ENERGY_SHIELD
 				seta[RETURN].xrepeat sprite[].xrepeat
 				seta[RETURN].yrepeat sprite[].yrepeat
 				seta[RETURN].ang sprite[THISACTOR].ang
@@ -798,7 +798,7 @@ ifpdistl 1536
    {
    ifhitspace
 	{
-	ife CHAR 0 
+	ife CHAR 0
 		{
 		ifand CHAR_APP 512 sound RB_JS_HI2 else
 		sound RB_JS_HI
@@ -1044,7 +1044,7 @@ useractor notenemy 9462
 		geta[].z z
 		sub z 8192
 		seta[].z z
-		
+
 		espawn SHOOTME
 		strength 150
 		sizeat 64 64
@@ -1121,3 +1121,5 @@ include CODE/ALLY/MINERVA.CON // Minerva Armitage
 include CODE/ALLY/RIPPERH.CON // Ripper Heart
 include CODE/ALLY/TURRETS.CON // Turrets, Sentry Staffs .etc
 include CODE/ALLY/MICKY_BOT.CON // Micky Bot
+
+include CODE/CHARALLY/ALLYJAMES.CON // Test for first AI Set

@@ -738,6 +738,41 @@ defstate lookup_hints
 	case 67
 		set hint_line1 4780
 		break
+	case 68
+		set hint_line1 4780
+		break
+	case 69
+		set hint_line1 4781
+		set hint_line1 4782
+		set hint_line1 4783
+		set hint_line1 4784
+		set hint_line1 4785
+		break
+	case 70
+		set hint_line1 4786
+		set hint_line1 4787
+		set hint_line1 4788
+		set hint_line1 4789
+		set hint_line1 4790
+		break
+	case 71
+		set hint_line1 4791
+		set hint_line1 4792
+		set hint_line1 4793
+		set hint_line1 4794
+		set hint_line1 4795
+		break
+	case 72
+		set hint_line1 4796
+		set hint_line1 4787
+		set hint_line1 4798
+		break
+	case 73
+		set hint_line1 4799
+		break
+	case 74
+		set hint_line1 4800
+		break
 	default
 		set hint_line1 4779
 		break

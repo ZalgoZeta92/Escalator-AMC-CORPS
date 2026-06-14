@@ -1221,10 +1221,19 @@ defstate BODYA_DAMAGE_MODIFIER // Modifier for Body Armour
 			else
 				{
 				switch EV_PROJ_TYPE
+					case CYCLOID_PLASMA
+					case RPG
+					case MISSILE
+					case HANDHOLDINGLASER
+					case LASERSITE
+					case ENEMY_BULLET
+					case ENEMY_SHOTGUN
+						ifg playervar[EV_PID].SKILL_LEVEL 6 add EV_NEW_DAMAGE 25 // nightmaremode only 10 times damage
+						break
 					case CHAINGUN // hardcoded chaingun pellets
 					case SHOTSPARK1 // shotspark
 					case EXPLOSION2
-						ifg playervar[EV_PID].SKILL_LEVEL 6 mul EV_NEW_DAMAGE 10 // nightmaremode only 10 times damage
+						ifg playervar[EV_PID].SKILL_LEVEL 6 add EV_NEW_DAMAGE 25 // nightmaremode only 10 times damage
 						else
 						ifg playervar[EV_PID].SKILL_LEVEL 2 div EV_NEW_DAMAGE 3 // 1/3 damage if playing on expert or above
 						else div EV_NEW_DAMAGE 2 // else 1/2 damage
@@ -1234,7 +1243,7 @@ defstate BODYA_DAMAGE_MODIFIER // Modifier for Body Armour
 						sound HITARMOUR2
 						break
 					case SHOTGUN // hardcoded shotgun pellets
-						ifg playervar[EV_PID].SKILL_LEVEL 6 mul EV_NEW_DAMAGE 10 // nightmaremode only
+						ifg playervar[EV_PID].SKILL_LEVEL 6 add EV_NEW_DAMAGE 25 // nightmaremode only
 						else
 						ifg playervar[EV_PID].SKILL_LEVEL 2 set EV_NEW_DAMAGE -1 // remove all damage if on expert or professional
 						else div EV_NEW_DAMAGE 4 // quarter the damage

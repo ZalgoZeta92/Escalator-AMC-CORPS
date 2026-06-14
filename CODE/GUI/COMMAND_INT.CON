@@ -1829,7 +1829,7 @@ ends
 // =========================================================================================================================================
 
 defstate SHOW_ASIA_SCREEN
-state GLOBAL_NEWS_TICKER
+state ASIA_NEWS_TICKER
 screentext 2822 news_x 24 49152 0 0 news_ticker 0 0 16 0 5 8 0 0 TEXT_GAMETEXTNUMHACK 0 0 xdim ydim
 
 ifand COM_FILTER 2 // Episode 2 missions

@@ -219,7 +219,7 @@ definegamefuncname 48 USE_INVENTORY_SLOT_2
 definegamefuncname 49 MELEE_ATTACK
 definegamefuncname 57 LAST_WEAPON_USED
 definegamefuncname 60 CYCLE_WEAPON_SLOT
-definegamefuncname 70 KIRO_PDA_COMMAND
+// definegamefuncname 61 3rd Person View
 /* Removed gamefuncs */
 // Run
 undefinegamefunc 7

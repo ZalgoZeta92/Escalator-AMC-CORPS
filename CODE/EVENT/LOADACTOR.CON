@@ -231,7 +231,7 @@ switch sprite[].picnum
 		seta[RETURN].pal sprite[].pal
 		break
 	case 12514 state GETHITAGLOTAG geta[].extra extra_saved geta[].cstat cstat_saved break
-	case MUSIC_CHANGE_PLUS 
+	case MUSIC_CHANGE_PLUS
 	case MUSIC_CHANGE state GETHITAGLOTAG geta[].extra extra_saved break
 	case 3728
 		state GETALLTAGS
@@ -731,7 +731,7 @@ switch sprite[].picnum
 	case SPOTLITE seta[].blend 255 cstator 2 break
 	case 15967 state GETHITAGLOTAG geta[].cstat cstat_saved break
 	case 3375 state GETHITAGLOTAG geta[].ang temp8 break
-	case 18463 
+	case 18463
 	case 30054
 		state GETHITAGLOTAG geta[].cstat cstat_saved
 		break
@@ -858,12 +858,14 @@ switch sprite[].picnum
 		break
 	case MSSOLDIER_ACTIVE geta[].zvel zvel_saved seta[].zvel 0 break
 	case JANE
+	case ALLYJAMES
 	case SHELLY
 	case GLORIA
 	case ID_ORC
 	case ID_EARTHM
 	case VLADMIR
 	case GRANDPA
+	// Insert Ally here: James,Zaxtor,Merlijn,Highwire,Sang,Rusty,Geoffrey,Mikko,Micky,Snowfall,Kagura,Wheaton,WheatonMech,Solais,Jolteon,Kiro
 	case RUSSIAN
 	case MINERVA
 		state GETALLTAGS

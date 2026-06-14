@@ -72,6 +72,14 @@ defstate difficulty_very_hard
 ife mouse_over_element 1 rotatesprite 119 130 HALFSIZE 0 21070 0 0 0 0 0 xdim ydim
 ends
 
+defstate difficulty_nightmare
+ife mouse_over_element 1 rotatesprite 119 130 HALFSIZE 0 21070 0 16 0 0 0 xdim ydim
+ends
+
+defstate difficulty_life_miserable
+ife mouse_over_element 1 rotatesprite 119 130 HALFSIZE 0 21070 0 49 0 0 0 xdim ydim
+ends
+
 defstate command_mission_boxes
 
 set airdrop_available 0
@@ -245,7 +253,7 @@ ife INFO_SEL 5 // Revolution
 			rotatesprite 160 80 20000 0 14657 15 18 0 0 0 xdim ydim // Main Pic
 			set ps_mercs 224
 			state precog_enemies
-			
+
 			ife CHIBIS_FOUND[27] 1 rotatesprite 100 110 HALFSIZE 0 24303 0 0 0 0 0 xdim ydim
 			else rotatesprite 100 110 HALFSIZE 0 24303 0 33 33 0 0 xdim ydim
 			}
@@ -275,7 +283,7 @@ ife INFO_SEL 6 // Providence
 			rotatesprite 160 80 20000 0 14657 15 18 0 0 0 xdim ydim // Main Pic
 			set ps_cults 46122
 			state precog_enemies
-			
+
 			qputs 1011 EQUIPMENT LOSS POSSIBILITY
 			minitext 96 67 1011 0 4
 			minitext 96 68 1011 0 2
@@ -342,7 +350,7 @@ ife INFO_SEL 7 // Dis Base
 			rotatesprite 140 100 QUARTERSIZE 0 6386 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 140 100 QUARTERSIZE 0 6386 0 33 41 0 0 xdim ydim
-			
+
 			ifand FOUND_ADS 8
 			rotatesprite 140 118 NORMALSIZE 0 13203 0 0 8 0 0 xdim ydim
 			else
@@ -410,7 +418,7 @@ ife INFO_SEL 10 // CITY UNDER SIEGE
 			qsprintf 480 1011
 			set ps_cycloids 30426879
 			state precog_enemies
-			
+
 			qputs 1011 EQUIPMENT LOSS POSSIBILITY
 			minitext 96 61 1011 0 4
 			minitext 96 62 1011 0 2
@@ -481,7 +489,7 @@ ife INFO_SEL 12 // FISHING WHARF
 			set ps_shadow 47
 			set ps_misc 2048
 			state precog_enemies
-			
+
 			qputs 1011 NEW MISSION POSSIBILITY
 			minitext 96 55 1011 0 4
 			minitext 96 56 1011 0 8
@@ -550,7 +558,7 @@ ife INFO_SEL 14 // TOWER OF LIFE
 			rotatesprite 115 115 INVENSIZE 0 15991 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 115 115 INVENSIZE 0 15991 0 33 41 0 0 xdim ydim
-			
+
 			ife ARTIFACTS_FOUND[4] 1 // Plant book
 			rotatesprite 140 115 INVENSIZE 0 13542 0 0 8 0 0 xdim ydim
 			else
@@ -740,7 +748,7 @@ ife INFO_SEL 21 // Ghost Ship
 			rotatesprite 130 120 QUARTERSIZE 0 16573 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 130 120 QUARTERSIZE 0 16573 0 33 41 0 0 xdim ydim
-			
+
 			ifand FOUND_ADS 16
 			rotatesprite 165 118 NORMALSIZE 0 13203 0 0 8 0 0 xdim ydim
 			else
@@ -980,7 +988,7 @@ ife INFO_SEL 30 // EGYPT
 			rotatesprite 140 120 QUARTERSIZE 0 22571 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 140 120 QUARTERSIZE 0 22571 0 33 41 0 0 xdim ydim
-			
+
 			ifg SPECIALIST_EQUIPMENT[82] 0 // Zaxtor's MP5k?
 			rotatesprite 160 110 QUARTERSIZE 0 22645 0 0 8 0 0 xdim ydim
 			else
@@ -1000,7 +1008,7 @@ ife INFO_SEL 31 // X64-2M
 	ife mouse_over_element 1 rotatesprite 143 118 NORMALSIZE 0 14819 0 0 0 0 0 xdim ydim // Squad Icon
 	state time_medium
 	state difficulty_hard
-	
+
 	state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -1060,7 +1068,7 @@ ife INFO_SEL 42 // Pipedream
 	set skill_mission_id 150 state skill_medals
     state time_medium
 	state difficulty_medium
-	
+
 	state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -1131,7 +1139,7 @@ ife INFO_SEL 50 // Neutrino
 			rotatesprite 140 110 INVENSIZE 0 20806 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 140 110 INVENSIZE 0 20806 0 33 41 0 0 xdim ydim
-			
+
 			ifand FOUND_ADS 32
 			rotatesprite 180 110 NORMALSIZE 0 13203 0 0 8 0 0 xdim ydim
 			else
@@ -1236,12 +1244,12 @@ ife INFO_SEL 53 // Eviction Notice
 			rotatesprite 115 110 QUARTERSIZE 0 8175 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 115 110 QUARTERSIZE 0 8175 0 33 41 0 0 xdim ydim
-			
+
 			ife TECH_LEVEL_A[16] 1 // scientist
 			rotatesprite 130 110 QUARTERSIZE 0 8180 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 130 110 QUARTERSIZE 0 8180 0 33 41 0 0 xdim ydim
-			
+
 			ifg SPECIALIST_EQUIPMENT[81] 0 // Geoffrey Gp-63
 			rotatesprite 165 110 INVENSIZE 0 22617 0 0 8 0 0 xdim ydim
 			else
@@ -1325,7 +1333,7 @@ ife INFO_SEL 56 // Crashing and Burning
 			set ps_cults 58370
 			set ps_misc 192
 			state precog_enemies
-			
+
 			ifg SPECIALIST_EQUIPMENT[117] 0 // Wheaton STG
 			rotatesprite 130 110 INVENSIZE 0 36037 0 0 8 0 0 xdim ydim
 			else
@@ -1576,7 +1584,7 @@ ife INFO_SEL 82 // Who goes there?
 			qputs 1011 No threat detected
 			minitext 96 41 1011 0 4
 			minitext 96 42 1011 0 2
-			
+
 			ifg SPECIALIST_EQUIPMENT[163] 0 // Rusty G11
 			rotatesprite 120 100 18000 0 38925 0 0 8 0 0 xdim ydim
 			else
@@ -1586,7 +1594,7 @@ ife INFO_SEL 82 // Who goes there?
 			rotatesprite 120 120 18000 0 38954 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 120 120 18000 0 38954 0 33 41 0 0 xdim ydim
-			
+
 			}
 	}
 
@@ -1621,11 +1629,11 @@ ife INFO_SEL 83 // Esoteric Hunting (Beaumont University)
 			set ps_mercs 256
 			set ps_cults 61490
 			state precog_enemies
-			
+
 			// Sebab chibi
 			ife CHIBIS_FOUND[51] 1 rotatesprite 100 110 HALFSIZE 0 25085 0 0 0 0 0 xdim ydim
 			else rotatesprite 100 110 HALFSIZE 0 25085 0 33 33 0 0 xdim ydim
-			
+
 			ifg SPECIALIST_EQUIPMENT[162] 0 // Sang's magic missile
 			rotatesprite 140 100 18000 0 38933 0 0 8 0 0 xdim ydim
 			else
@@ -1648,7 +1656,7 @@ ife INFO_SEL 84 // Toilets R Us
 	set m_charselect_forced 1
 	set m_charselect_flags FLAG_HIGHWIRE
 	state mission_charselector
-	
+
 	ife FACILITIES_OWNED[10] 2 state AIRDROP_BOX
 	set skill_mission_id 84 state skill_medals
     state time_medium
@@ -1665,12 +1673,12 @@ ife INFO_SEL 84 // Toilets R Us
 			set ps_misc 544
 			set ps_necro 2
 			state precog_enemies
-			
+
 			ifg SPECIALIST_EQUIPMENT[175] 0 // Rusty's piledriver
 			rotatesprite 130 115 20000 0 39047 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 130 115 20000 0 39047 0 33 41 0 0 xdim ydim
-			
+
 			// SMART Highwire chibi
 			ife CHIBIS_FOUND[28] 1 rotatesprite 100 110 HALFSIZE 0 24304 0 0 0 0 0 xdim ydim
 			else rotatesprite 100 110 HALFSIZE 0 24304 0 33 33 0 0 xdim ydim
@@ -1686,10 +1694,10 @@ ife INFO_SEL 85 // Foxtrot Uniform
 	set m_charselect_forced 1
 	set m_charselect_flags FLAG_WHEATON
 	state mission_charselector
-	
+
 	ife FACILITIES_OWNED[14] 2 state AIRDROP_BOX
 	set skill_mission_id 85 state skill_medals
-    state time_short 
+    state time_short
 	state difficulty_easy
 	state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
@@ -1698,12 +1706,12 @@ ife INFO_SEL 85 // Foxtrot Uniform
 			rotatesprite 160 80 20000 0 14657 15 18 0 0 0 xdim ydim // Main Pic
 			set ps_mercs 3706
 			state precog_enemies
-			
+
 			ifg SPECIALIST_EQUIPMENT[160] 0 // Wheaton's XM8
 			rotatesprite 130 115 24000 0 38939 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 130 115 24000 0 38939 0 33 41 0 0 xdim ydim
-			
+
 			// Wheaton chibi
 			ife CHIBIS_FOUND[52] 1 rotatesprite 100 110 HALFSIZE 0 25086 0 0 0 0 0 xdim ydim
 			else rotatesprite 100 110 HALFSIZE 0 25086 0 33 33 0 0 xdim ydim
@@ -1738,7 +1746,7 @@ ife INFO_SEL 86 // Titan Gas
 			state precog_enemies
 			}
 	}
-	
+
 ife INFO_SEL 87 // Titan Gas Lower
 	{
 	rotatesprite 160 100 MISSION_PIC_SIZE 0 mission_pic 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -1824,7 +1832,7 @@ ife INFO_SEL 91 // Elysian Fields
 			set ps_egypt 735
 			set ps_necro 1572891
 			state precog_enemies
-			
+
 			ifg SPECIALIST_EQUIPMENT[136] 0 // Zaxtor revolver shotgun
 			rotatesprite 120 100 18000 0 29741 0 0 8 0 0 xdim ydim
 			else
@@ -1834,7 +1842,7 @@ ife INFO_SEL 91 // Elysian Fields
 			rotatesprite 120 120 20000 0 29770 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 120 120 20000 0 29770 0 33 41 0 0 xdim ydim
-			
+
 			ifg ARTIFACTS_FOUND[10] 0 // bag of holding
 			rotatesprite 170 100 QUARTERSIZE 0 22691 0 0 8 0 0 xdim ydim
 			else
@@ -1867,7 +1875,7 @@ ife INFO_SEL 90 // ZETA BASE
 			state precog_enemies
 			}
 	}
-	
+
 // back to episode 5
 
 ife INFO_SEL 92 // Chasing Phantoms
@@ -1893,24 +1901,24 @@ ife INFO_SEL 92 // Chasing Phantoms
 			set ps_egypt 64
 			set ps_necro 4293159
 			state precog_enemies
-			
+
 			ifg SPECIALIST_EQUIPMENT[144] 0 // Merlijn's draining axe
 			rotatesprite 120 115 20000 0 29763 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 120 115 20000 0 29763 0 33 41 0 0 xdim ydim
-			
+
 			ifg ARTIFACTS_FOUND[11] 0 // ring of ice
 			rotatesprite 160 115 QUARTERSIZE 0 22761 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 160 115 QUARTERSIZE 0 22761 0 33 41 0 0 xdim ydim
-			
+
 			ifg SPECIALIST_EQUIPMENT[178] 0 // Jedrik's shield
 			rotatesprite 180 115 8096 0 39071 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 180 115 8096 0 39071 0 33 41 0 0 xdim ydim
 			}
 	}
-	
+
 ife INFO_SEL 93 // Saints and Sinners
 	{
 	rotatesprite 160 100 MISSION_PIC_SIZE 0 mission_pic 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -1920,7 +1928,7 @@ ife INFO_SEL 93 // Saints and Sinners
 	set m_charselect_forced 1
 	set m_charselect_flags FLAG_GEOFFREY
 	state mission_charselector
-	
+
 	ife FACILITIES_OWNED[10] 2 state AIRDROP_BOX
 	set skill_mission_id 93 state skill_medals
     state time_medium
@@ -1934,19 +1942,19 @@ ife INFO_SEL 93 // Saints and Sinners
 			set ps_mercs 66
 			set ps_paradigm 46
 			state precog_enemies
-			
+
 			ifg SPECIALIST_EQUIPMENT[141] 0 // Geoffrey's Coatl HMG
 			rotatesprite 120 115 20000 0 29912 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 120 115 20000 0 29912 0 33 41 0 0 xdim ydim
-			
+
 			ifg SPECIALIST_EQUIPMENT[134] 0 // Rusty's big game
 			rotatesprite 120 85 20000 0 29774 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 120 85 20000 0 29774 0 33 41 0 0 xdim ydim
 			}
 	}
-	
+
 ife INFO_SEL 94 // Backrooms (I'll check out back)
 	{
 	rotatesprite 160 100 MISSION_PIC_SIZE 0 mission_pic 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -1954,13 +1962,13 @@ ife INFO_SEL 94 // Backrooms (I'll check out back)
 	state STANDARD_INFO_BOX
 	state MISSION_START_BOX
 	state mission_charselector
-	
+
 	ifand BEAT_EPISODES[7] 64
 	{
 	rotatesprite 190 110 NORMALSIZE 0 14817 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 110 300 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 	set skill_mission_id 94 state skill_medals
     state time_very_short
 	state difficulty_easy
@@ -1973,14 +1981,14 @@ ife INFO_SEL 94 // Backrooms (I'll check out back)
 			set ps_cults 16
 			set ps_mj12 11
 			state precog_enemies
-			
+
 			ifg SPECIALIST_EQUIPMENT[139] 0 // Highwire's KS-23
 			rotatesprite 120 115 20000 0 29870 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 120 115 20000 0 29870 0 33 41 0 0 xdim ydim
 			}
 	}
-	
+
 ife INFO_SEL 95 // Venus Hijinks
 	{
 	rotatesprite 160 100 MISSION_PIC_SIZE 0 mission_pic 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -1990,7 +1998,7 @@ ife INFO_SEL 95 // Venus Hijinks
 	set m_charselect_forced 1
 	set m_charselect_flags FLAG_GEOFFREY
 	state mission_charselector
-	
+
 	set skill_mission_id 95 state skill_medals
     state time_medium
 	state difficulty_medium
@@ -2004,7 +2012,7 @@ ife INFO_SEL 95 // Venus Hijinks
 			set ps_misc 11268
 			set ps_egypt 8
 			state precog_enemies
-			
+
 			ifg SPECIALIST_EQUIPMENT[176] 0 // Geoffrey's Heavy Gauss
 			rotatesprite 120 115 20000 0 38986 0 0 8 0 0 xdim ydim
 			else
@@ -2020,7 +2028,7 @@ ife INFO_SEL 96 // Cairo dig saga
 	state mission_charselector
 	ife FACILITIES_OWNED[14] 2 state AIRDROP_BOX
 	ife FACILITIES_OWNED[12] 2 ife BASE_RESEARCH[7] 2 state AIRDROP_BOX
-	
+
 	set skill_mission_id 110 state skill_medals
     state time_very_long
 	state difficulty_medium
@@ -2036,12 +2044,12 @@ ife INFO_SEL 96 // Cairo dig saga
 			set ps_egypt 134
 			set ps_necro 557225
 			state precog_enemies
-			
+
 			ifg SPECIALIST_EQUIPMENT[168] 0 // Rusty's Gauss Revolver
 			rotatesprite 120 100 18000 0 39040 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 120 100 18000 0 39040 0 33 41 0 0 xdim ydim
-			
+
 			ifg SPECIALIST_EQUIPMENT[169] 0 // Mikko's Panflute
 			rotatesprite 160 120 18000 0 38967 0 0 8 0 0 xdim ydim
 			else
@@ -2061,7 +2069,7 @@ ife INFO_SEL 97 // WG Castle
 	state STANDARD_INFO_BOX
 	state MISSION_START_BOX
 	state mission_charselector
-	
+
 	set skill_mission_id 97 state skill_medals
     state time_short
 	state difficulty_medium
@@ -2088,7 +2096,7 @@ ife INFO_SEL 98 // Tannhauser
 	set m_charselect_flags FLAG_MIKKO
 	or m_charselect_flags FLAG_MERLIJN
 	state mission_charselector
-	
+
 	set skill_mission_id 96 state skill_medals
     state time_short
 	state difficulty_medium
@@ -2109,7 +2117,7 @@ ife INFO_SEL 98 // Tannhauser
 			rotatesprite 115 110 QUARTERSIZE 0 8180 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 115 110 QUARTERSIZE 0 8180 0 33 41 0 0 xdim ydim
-			
+
 			ifg SPECIALIST_EQUIPMENT[145] 0 // msc rifle mk2
 			rotatesprite 160 100 QUARTERSIZE 0 29750 0 0 8 0 0 xdim ydim
 			else
@@ -2133,7 +2141,7 @@ ife INFO_SEL 100 // Atlantis Arisen
 	ife FACILITIES_OWNED[10] 2 ife BASE_RESEARCH[7] 2 state AIRDROP_BOX
 	ife FACILITIES_OWNED[14] 2 ife BASE_RESEARCH[7] 2 state AIRDROP_BOX
 	set skill_mission_id 100 state skill_medals
-    state time_very_long 
+    state time_very_long
 	state difficulty_very_hard
 	state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
@@ -2149,11 +2157,11 @@ ife INFO_SEL 100 // Atlantis Arisen
 			set ps_paradigm 32
 			set ps_necro 176
 			state precog_enemies
-			
+
 			ifand BASE_COSMETICS 128 // nanoboard
 			rotatesprite 100 100 22000 0 38900 0 0 8 0 0 xdim ydim
 			else
-			rotatesprite 100 100 22000 0 38900 0 33 41 0 0 xdim ydim			
+			rotatesprite 100 100 22000 0 38900 0 33 41 0 0 xdim ydim
 			}
 	}
 // 101 - 120 resources stuff
@@ -2164,7 +2172,7 @@ ife INFO_SEL 130 // The dream
 	state STANDARD_INFO_BOX
 	state MISSION_START_BOX
 	state mission_charselector
-	
+
 	set skill_mission_id 102 state skill_medals
     state time_medium
 	state difficulty_very_hard
@@ -2196,7 +2204,7 @@ ife INFO_SEL 131 // Frozen Kingdom
 	set m_charselect_flags FLAG_SNOWFALL
 	or m_charselect_flags FLAG_ZAXTOR
 	state mission_charselector
-	
+
 	set skill_mission_id 101 state skill_medals
     state time_long
 	state difficulty_hard
@@ -2213,9 +2221,9 @@ ife INFO_SEL 131 // Frozen Kingdom
 			set ps_misc 4096
 			set ps_shadow 64
 			set ps_egypt 8
-			set ps_necro 360625			
+			set ps_necro 360625
 			state precog_enemies
-			
+
 			ifg SPECIALIST_EQUIPMENT[179] 0 // Merlijn's Magma hammer
 			rotatesprite 120 115 20000 0 39077 0 0 8 0 0 xdim ydim
 			else
@@ -2234,7 +2242,7 @@ ife INFO_SEL 132 // Mu Saga
 	or m_charselect_flags FLAG_BOMBSHELL
 	or m_charselect_flags FLAG_JAMES
 	state mission_charselector
-	
+
 	set skill_mission_id 99 state skill_medals
     state time_very_long
 	state difficulty_hard
@@ -2249,15 +2257,15 @@ ife INFO_SEL 132 // Mu Saga
 			set ps_mj12 31
 			set ps_beyond 28
 			state precog_enemies
-			
+
 			ifg ARTIFACTS_FOUND[12] 0 // Mu idol
 			rotatesprite 120 115 INVENSIZE 0 38902 0 0 8 0 0 xdim ydim
 			else
 			rotatesprite 120 115 INVENSIZE 0 38902 0 33 41 0 0 xdim ydim
-			
+
 			ife CHIBIS_FOUND[9] 1 rotatesprite 100 110 HALFSIZE 0 24315 0 0 0 0 0 xdim ydim
 			else rotatesprite 100 110 HALFSIZE 0 24315 0 33 33 0 0 xdim ydim
-			
+
 			ife CHIBIS_FOUND[15] 1 rotatesprite 100 120 HALFSIZE 0 24319 0 0 0 0 0 xdim ydim
 			else rotatesprite 100 120 HALFSIZE 0 24319 0 33 33 0 0 xdim ydim
 			}
@@ -2271,7 +2279,7 @@ ife INFO_SEL 133 // The Great Obelisk
 	state mission_charselector
 	ife FACILITIES_OWNED[14] 2 state AIRDROP_BOX
 	ife FACILITIES_OWNED[12] 2 ife BASE_RESEARCH[7] 2 state AIRDROP_BOX
-	
+
 	set skill_mission_id 103 state skill_medals
     state time_short
 	state difficulty_medium
@@ -2286,14 +2294,14 @@ ife INFO_SEL 133 // The Great Obelisk
 			set ps_shadow 19
 			set ps_egypt 767
 			state precog_enemies
-			
+
 				ifg SPECIALIST_EQUIPMENT[132] 0 // Kagura's Ice minigun
 				rotatesprite 120 115 20000 0 26538 0 0 8 0 0 xdim ydim
 				else
 				rotatesprite 120 115 20000 0 26538 0 33 41 0 0 xdim ydim
 			}
 	}
-// INFO_SEL 120 
+// INFO_SEL 120
 
 ife INFO_SEL 101 // FACTORY 1 EUROPE
 	{
@@ -2431,7 +2439,7 @@ ife INFO_SEL 109 // Ganymede Factory
     digitalnumberz 14674 210 115 3 0 11 0 0 0 xdim ydim NORMALSIZE
 	rotatesprite 160 115 HALFSIZE 0 14781 0 0 0 0 0 xdim ydim
 	}
-	
+
 ife INFO_SEL 110 // Europe/Africa Airfield
 	{
 	rotatesprite 160 100 51000 0 14730 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -2877,7 +2885,7 @@ ife INFO_SEL 224 // Umbriel resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 30 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 225 // Ceres resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 51 0 0 0 xdim ydim // Main Pic
@@ -2895,7 +2903,7 @@ ife INFO_SEL 225 // Ceres resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 226 // Ceres resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 51 0 0 0 xdim ydim // Main Pic
@@ -2913,7 +2921,7 @@ ife INFO_SEL 226 // Ceres resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 227 // Ceres resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 51 0 0 0 xdim ydim // Main Pic
@@ -2931,7 +2939,7 @@ ife INFO_SEL 227 // Ceres resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 228 // Ceres resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 51 0 0 0 xdim ydim // Main Pic
@@ -2949,7 +2957,7 @@ ife INFO_SEL 228 // Ceres resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 229 // Ceres resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 51 0 0 0 xdim ydim // Main Pic
@@ -2967,7 +2975,7 @@ ife INFO_SEL 229 // Ceres resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 230 // Haumea resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -2985,7 +2993,7 @@ ife INFO_SEL 230 // Haumea resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 231 // Haumea resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -3003,7 +3011,7 @@ ife INFO_SEL 231 // Haumea resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 232 // Haumea resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -3021,7 +3029,7 @@ ife INFO_SEL 232 // Haumea resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 233 // Haumea resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -3039,7 +3047,7 @@ ife INFO_SEL 233 // Haumea resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 234 // Haumea resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -3057,7 +3065,7 @@ ife INFO_SEL 234 // Haumea resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 235 // Makemake resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 50 0 0 0 xdim ydim // Main Pic
@@ -3075,7 +3083,7 @@ ife INFO_SEL 235 // Makemake resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 236 // Makemake resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 50 0 0 0 xdim ydim // Main Pic
@@ -3093,7 +3101,7 @@ ife INFO_SEL 236 // Makemake resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 237 // Makemake resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 50 0 0 0 xdim ydim // Main Pic
@@ -3111,7 +3119,7 @@ ife INFO_SEL 237 // Makemake resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 238 // Makemake resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 50 0 0 0 xdim ydim // Main Pic
@@ -3129,7 +3137,7 @@ ife INFO_SEL 238 // Makemake resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 239 // Makemake resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 50 0 0 0 xdim ydim // Main Pic
@@ -3147,7 +3155,7 @@ ife INFO_SEL 239 // Makemake resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 240 // Eris resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -3165,7 +3173,7 @@ ife INFO_SEL 240 // Eris resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 241 // Eris resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -3183,7 +3191,7 @@ ife INFO_SEL 241 // Eris resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 242 // Eris resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -3201,7 +3209,7 @@ ife INFO_SEL 242 // Eris resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 243 // Eris resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -3219,7 +3227,7 @@ ife INFO_SEL 243 // Eris resources
 	rotatesprite 190 115 NORMALSIZE 0 14821 0 0 0 0 0 xdim ydim
     digitalnumberz 14674 210 115 35 0 11 0 0 0 xdim ydim NORMALSIZE
 	}
-	
+
 ife INFO_SEL 244 // Eris resources
 	{
 	rotatesprite 160 100 51000 0 14711 0 mission_pic_pal 0 0 0 xdim ydim // Main Pic
@@ -3272,7 +3280,7 @@ ife INFO_SEL 401 // Wet Dream
 	set skill_mission_id 202 state skill_medals
     state time_very_short
 	state difficulty_very_easy
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3281,7 +3289,7 @@ ife INFO_SEL 401 // Wet Dream
 			set ps_cycloids 2097199
 			state precog_enemies
 			}
-	
+
 	}
 
 
@@ -3304,7 +3312,7 @@ ife INFO_SEL 403 // Clear the Coast
 			set ps_cycloids 2097663
 			state precog_enemies
 			}
-	
+
 	}
 
 ife INFO_SEL 404 // Another big base attacked
@@ -3326,7 +3334,7 @@ ife INFO_SEL 404 // Another big base attacked
 			set ps_cycloids 2097663
 			state precog_enemies
 			}
-	
+
 	}
 
 ife INFO_SEL 405 // Driving Home for Christmas
@@ -3340,7 +3348,7 @@ ife INFO_SEL 405 // Driving Home for Christmas
 	set skill_mission_id 206 state skill_medals
     state time_very_short
 	state difficulty_very_easy
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3362,7 +3370,7 @@ ife INFO_SEL 406 // Wonderful Christmas Time
 	set skill_mission_id 207 state skill_medals
     state time_very_short
 	state difficulty_very_easy
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3371,7 +3379,7 @@ ife INFO_SEL 406 // Wonderful Christmas Time
 			set ps_cycloids 10486879
 			state precog_enemies
 			}
-	
+
 	}
 
 ife INFO_SEL 407 // The Fantasy Hotel
@@ -3385,7 +3393,7 @@ ife INFO_SEL 407 // The Fantasy Hotel
 	set skill_mission_id 208 state skill_medals
     state time_very_short
 	state difficulty_easy
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3394,7 +3402,7 @@ ife INFO_SEL 407 // The Fantasy Hotel
 			set ps_cycloids 2097247
 			state precog_enemies
 			}
-	
+
 	}
 
 ife INFO_SEL 408 // The Beach CBP
@@ -3408,7 +3416,7 @@ ife INFO_SEL 408 // The Beach CBP
 	set skill_mission_id 209 state skill_medals
     state time_medium
 	state difficulty_medium
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3417,7 +3425,7 @@ ife INFO_SEL 408 // The Beach CBP
 			set ps_cycloids 28451327
 			state precog_enemies
 			}
-	
+
 	}
 
 ife INFO_SEL 409 // Secret base
@@ -3431,7 +3439,7 @@ ife INFO_SEL 409 // Secret base
 	set skill_mission_id 210 state skill_medals
     state time_short
 	state difficulty_medium
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3440,7 +3448,7 @@ ife INFO_SEL 409 // Secret base
 			set ps_cycloids 2097543
 			state precog_enemies
 			}
-	
+
 	}
 
 ife INFO_SEL 410 // Underground fortress
@@ -3454,7 +3462,7 @@ ife INFO_SEL 410 // Underground fortress
 	set skill_mission_id 211 state skill_medals
     state time_long
 	state difficulty_hard
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3463,7 +3471,7 @@ ife INFO_SEL 410 // Underground fortress
 			set ps_cycloids 11633103
 			state precog_enemies
 			}
-	
+
 	}
 
 ife INFO_SEL 411 // Dracula's castle
@@ -3477,7 +3485,7 @@ ife INFO_SEL 411 // Dracula's castle
 	set skill_mission_id 212 state skill_medals
     state time_very_short
 	state difficulty_easy
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3490,7 +3498,7 @@ ife INFO_SEL 411 // Dracula's castle
 			set ps_necro 1
 			state precog_enemies
 			}
-	
+
 	}
 
 ife INFO_SEL 412 // EDF Bureau
@@ -3504,7 +3512,7 @@ ife INFO_SEL 412 // EDF Bureau
 	set skill_mission_id 213 state skill_medals
     state time_very_short
 	state difficulty_easy
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3513,7 +3521,7 @@ ife INFO_SEL 412 // EDF Bureau
 			set ps_cycloids 2097263
 			state precog_enemies
 			}
-	
+
 	}
 
 
@@ -3528,7 +3536,7 @@ ife INFO_SEL 415 // Daikarin
 	set skill_mission_id 216 state skill_medals
     state time_long
 	state difficulty_medium
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3537,7 +3545,7 @@ ife INFO_SEL 415 // Daikarin
 			set ps_cycloids 2245631
 			state precog_enemies
 			}
-	
+
 	}
 
 
@@ -3552,7 +3560,7 @@ ife INFO_SEL 416 // The Final confrontation
 	set skill_mission_id 217 state skill_medals
     state time_very_long
 	state difficulty_hard
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3561,7 +3569,7 @@ ife INFO_SEL 416 // The Final confrontation
 			set ps_cycloids 27451647
 			state precog_enemies
 			}
-	
+
 	}
 
 ife INFO_SEL 417 // The Lost Highway
@@ -3575,7 +3583,7 @@ ife INFO_SEL 417 // The Lost Highway
 	set skill_mission_id 218 state skill_medals
     state time_medium
 	state difficulty_medium
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3584,7 +3592,7 @@ ife INFO_SEL 417 // The Lost Highway
 			set ps_cycloids 18874495
 			state precog_enemies
 			}
-	
+
 	}
 
 ife INFO_SEL 430 // Alone in the dark with the Undead
@@ -3598,7 +3606,7 @@ ife INFO_SEL 430 // Alone in the dark with the Undead
 	set skill_mission_id 231 state skill_medals
     state time_very_short
 	state difficulty_easy
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3608,7 +3616,7 @@ ife INFO_SEL 430 // Alone in the dark with the Undead
 			set ps_cults 6144
 			state precog_enemies
 			}
-	
+
 	}
 
 ife INFO_SEL 438 // Metropolitan Starlight
@@ -3621,7 +3629,7 @@ ife INFO_SEL 438 // Metropolitan Starlight
 	set skill_mission_id 239 state skill_medals
     state time_medium
 	state difficulty_hard
-	
+
 		state PRECOG_BOX
 		ife BASE_RESEARCH[5] 2 // has the precog brain?
 		 ifand BOX_TOGGLE 1
@@ -3630,6 +3638,6 @@ ife INFO_SEL 438 // Metropolitan Starlight
 			set ps_cycloids 2097279
 			state precog_enemies
 			}
-	
+
 	}
 ends
