@@ -4275,6 +4275,7 @@ else
 		ifand allow_temp_characters 8 nullop else orvar allow_temp_characters 8 // Unlock Jane if not unlocked already
 		}
 	ifand BEAT_EPISODES[5] 2 orvar allow_temp_characters 16 // Unlock Rosa when Beaumont is finished
+	ifand BEAT_EPISODES[7] 2 orvar allow_temp_characters 32 // Unlock Kiro when nightmare mode is played
 }
 
 state charselectionmenu_logic

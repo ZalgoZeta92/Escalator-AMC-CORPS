@@ -121,7 +121,7 @@ set C_HEAVY_ARMOR
 state DISP_nvg
 
 //regeneration set
-// Live Set SYstem
+// Live set sYstem
 
 // weapon pickup sounds
 setarray wep_get_sound[1] PICK_PISTOL
@@ -208,26 +208,6 @@ setuserdef[].userquote_xoffset -20
 setuserdef[].userquote_yoffset 130
 
 //Kiro sprite animation
-ifg CHAR_APP 27
-{
-setarray kiro_anims[1] 00000 // standing
-setarray kiro_anims[2] 00000 // idle
-setarray kiro_anims[3] 00000 // moving
-setarray kiro_anims[4] 00000 // jumping
-setarray kiro_anims[5] 00000 // falling
-setarray kiro_anims[6] 00000 // ducking
-setarray kiro_anims[7] 00000 // swimming
-setarray kiro_anims[8] 00000 // pain
-setarray kiro_anims[9] 00000 // dying
-setarray kiro_anims[10] 00000 // jetpack
-setarray kiro_anims[11] 00000 // on bike
-setarray kiro_anims[12] 00000 // firing
-setarray kiro_anims[13] 00000 // dead
-setarray kiro_anims[14] 00000 // walking
-setarray kiro_anims[15] 00000 // horse
-setarray kiro_anims[16] 00000 // hoverbike
-setarray kiro_anims[17] 00000 //
-}
 
 action KIRO_D_PAIN
 

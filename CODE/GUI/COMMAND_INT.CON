@@ -3054,6 +3054,8 @@ ends
 // =========================================================================================================================================
 
 defstate SHOW_SOL_SCREEN
+state SOLSYSYTEM_NEWS_TICKER
+screentext 2822 news_x 24 49152 0 0 news_ticker 0 0 16 0 5 8 0 0 TEXT_GAMETEXTNUMHACK 0 0 xdim ydim
 
 	set gui_pos_x 61
 	set gui_pos_y 117

@@ -804,6 +804,33 @@ setarray Cassandra_anims[30] 22 // x size
 setarray Cassandra_anims[31] 22 // y size
 setarray Cassandra_anims[32] 0 // default colour
 
+/*
+// Kiros Character
+
+setarray kiro_anims[0] 00000 // standing
+setarray kiro_anims[1] 00000 // idle
+setarray kiro_anims[2] 00000 // moving
+setarray kiro_anims[3] 00000 // jumping
+setarray kiro_anims[4] 00000 // falling
+setarray kiro_anims[5] 00000 // ducking
+setarray kiro_anims[6] 00000 // swimming
+setarray kiro_anims[7] 00000 // pain
+setarray kiro_anims[8] 00000 // dying
+setarray kiro_anims[9] 00000 // jetpack
+setarray kiro_anims[10] 00000 // on bike
+setarray kiro_anims[11] 00000 // firing
+setarray kiro_anims[12] 00000 // dead
+setarray kiro_anims[13] 00000 // walking
+setarray kiro_anims[14] 00000 // horse
+setarray kiro_anims[15] 00000 // hoverbike
+setarray kiro_anims[16] 00000 // onbike
+
+setarray kiro_anims[30] 23 // x size
+setarray kiro_anims[31] 23 // y size
+setarray kiro_anims[32] 0 // default colour
+*/
+
+
 ife CHAR C_JAMES copy James_anims[0] player_anims[0] 33
 else ife CHAR C_ZAXTOR copy Zaxtor_anims[0] player_anims[0] 33
 else ife CHAR C_MERLIJN copy Merlijn_anims[0] player_anims[0] 33
@@ -823,7 +850,7 @@ else ife CHAR C_ROSA copy Rosa_anims[0] player_anims[0] 33
 else ife CHAR C_KAGURA copy Kagura_anims[0] player_anims[0] 33
 else ife CHAR C_WHEATON copy Wheaton_anims[0] player_anims[0] 33
 else ife CHAR C_CASSANDRA copy Cassandra_anims[0] player_anims[0] 33
-
+// else ife CHAR C_KIRO copy kiro_anims[0] player_anims[0] 33
 ends
 
 // action DUMMY_STAND -1404 1 5
@@ -863,6 +890,7 @@ ifactor DUMMY_PLAYER
 		case C_KAGURA add tsprite_temp Kagura_anims[0] break
 		case C_WHEATON add tsprite_temp Wheaton_anims[0] break
 		case C_CASSANDRA add tsprite_temp Cassandra_anims[0] break
+		// case C_KIRO add tsprite_temp kiro_anims[0] break
 		default add tsprite_temp player_anims[0] break
 		endswitch
 	settspr[].tsprpicnum tsprite_temp
@@ -891,6 +919,7 @@ ifactor DUMMY_PLAYER
 			case C_KAGURA add tsprite_temp Kagura_anims[2] break
 			case C_WHEATON add tsprite_temp Wheaton_anims[2] break
 			case C_CASSANDRA add tsprite_temp Cassandra_anims[2] break
+			// case C_KIRO add tsprite_temp kiro_anims[2] break
 			default add tsprite_temp player_anims[2] break
 		endswitch
 		settspr[].tsprpicnum tsprite_temp
@@ -927,6 +956,7 @@ ifactor DUMMY_PLAYER
 			case C_KAGURA settspr[].tsprxrepeat Kagura_anims[30] break
 			case C_WHEATON settspr[].tsprxrepeat Wheaton_anims[30] break
 			case C_CASSANDRA settspr[].tsprxrepeat Cassandra_anims[30] break
+			// case C_KIRO settspr[].tsprxrepeat kiro_anims[30] break
 			case 30 settspr[].tsprxrepeat 22 break
 			default settspr[].tsprxrepeat player_anims[30] break
 		endswitch
@@ -953,6 +983,7 @@ ifactor DUMMY_PLAYER
 			case C_KAGURA settspr[].tspryrepeat Kagura_anims[31] break
 			case C_WHEATON settspr[].tspryrepeat Wheaton_anims[31] break
 			case C_CASSANDRA settspr[].tspryrepeat Cassandra_anims[31] break
+			// case C_KIRO settspr[].tspryrepeat kiro_anims[31] break
 			case 30 settspr[].tspryrepeat 22 break
 			default settspr[].tspryrepeat player_anims[31] break
 		endswitch

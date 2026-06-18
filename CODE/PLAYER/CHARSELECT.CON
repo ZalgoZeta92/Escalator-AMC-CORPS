@@ -304,6 +304,16 @@ defstate charselectionmenu_logic
 			state start_as_char
 		}
 
+		ifge MOUSEX 275
+		  ifge MOUSEY 162
+		  ifle MOUSEX 293
+		  ifle MOUSEY 185
+		 ifand allow_temp_characters 32
+		{
+			set CHANGE_TO_CHAR C_KIRO
+			state start_as_char
+		}
+
 		action 0
 		state lower_weapon
 		set lockp_countdown 10

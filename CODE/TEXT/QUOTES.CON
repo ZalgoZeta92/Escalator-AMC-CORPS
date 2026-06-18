@@ -3143,7 +3143,7 @@ ife VOLUME 0
 	{
 	qputs 9200 ^32Netherlands:^2 1/9 ^1Country close to fully green energy targets
 	qputs 9201 ^32Sweden:^2 2/9 ^1EAF base construction denied by Govt.
-	qputs 9202 ^32Global:^2 3/9 ^1EAF began their full scale invasion for Cycloids homeworld
+	qputs 9202 ^32Global:^2 3/9 ^1EAF prepares counter invasion on Cycloids homeworld
 	qputs 9203 ^32Germany:^2 4/9 ^1Research into anti-matter energy 'fruitful'
 	qputs 9204 ^32Norway:^2 5/9 ^1Reaches 100% green energy
 	qputs 9205 ^32Ukraine:^2 6/9 ^1Planning permissions for Fusion power obtained
@@ -3404,12 +3404,12 @@ ife VOLUME 0
  {
   ife LEVEL 1
 	{
-	qputs 9200 ^32China:^2 1/9 ^1Hong Kong police forces has been overrun by Triads
-	qputs 9201 ^32China:^2 2/9 ^1Reports that Triads brings with supernatural beings
-	qputs 9202 ^32China:^2 3/9 ^1PLA stays alert on Triads terrorists activities
+	qputs 9200 ^32China:^2 1/9 ^1Traids defeats Hong Kong police and PLA
+	qputs 9201 ^32China:^2 2/9 ^1Reports that Triads brings supernatural creatures
+	qputs 9202 ^32Russia:^2 3/9 ^1Strange supernatural activity from the forest
 	qputs 9203 ^32Japan:^2 4/9 ^1Unmarked ship identitfied as Yakuzas smuggling ship.
 	qputs 9204 ^32S.Korea:^2 5/9 ^1USA NORAD has been recalled for Californias Emergency
-	qputs 9205 ^32S.Korea:^2 6/9 ^1N.Korea took advantage to build their force for takeover
+	qputs 9205 ^32S.Korea:^2 6/9 ^1N.Korea took advantage of the situation by exploits
 	qputs 9206 ^32Kazakhstan:^2 7/9 ^1Reports of Avalanche from the mountains
 	qputs 9207 ^32China:^2 8/9 ^1China naval fails to blockade Triads smuggling ships
 	qputs 9208 ^32Asia:^2 9/9 ^1Cycloids hypersonic alien warfighter strikes airbase
@@ -3417,7 +3417,7 @@ ife VOLUME 0
   ife LEVEL 4
 	{
 	qputs 9200 ^32China:^2 1/9 ^1Reports that Triads have brought high-tech weapons
-	qputs 9201 ^32China:^2 2/9 ^1PLA and local police has managed to secure Hong Kong
+	qputs 9201 ^32China:^2 2/9 ^1PLA and local police mangages to secure Hong Kong
 	qputs 9202 ^32Japan:^2 3/9 ^1Hooded corpse traced to Triads ties with Yakuza
 	qputs 9203 ^32China:^2 4/9 ^1PLA liberates Convention Center from Triads control
 	qputs 9204 ^32Vietnam:^2 5/9 ^1Unknown Explosion occurs over the jungle
@@ -3444,7 +3444,7 @@ ife VOLUME 0
    ifl LEVEL 25 // multiple base visits take place purely for code reasons so this covers all of them
 	{
 	qputs 9200 ^32Vietnam:^2 1/9 ^1Details discovers the site was a destroyed ancient temple
-	qputs 9201 ^32China:^2 2/9 ^1PLA sucessfully destroyed Triads, several of them escapes
+	qputs 9201 ^32China:^2 2/9 ^1PLA sucessfully destroys Triads, several of them escapes
 	qputs 9202 ^32Japan:^2 3/9 ^1Prominent Takahashi family members slain in organised attack
 	qputs 9203 ^32Japan:^2 4/9 ^1Details reports of a same supernatural beings from Triads
 	qputs 9204 ^32Russia:^2 5/9 ^1Reports of strange snowstorm near Novosibirsk
@@ -3456,11 +3456,11 @@ ife VOLUME 0
 	else
 	{
 	qputs 9200 ^32S.Korea:^2 1/9 ^1Blizzard Ent. Tournament season final cup canceled
-	qputs 9201 ^32China:^2 2/9 ^1Sandt Industries attempts to purchase land for new structures fails
+	qputs 9201 ^32China:^2 2/9 ^1Government rejects Sandt Industries purchase land for development
 	qputs 9202 ^32Cambodia:^2 3/9 ^1Several fled Triads has been captured and extradited
 	qputs 9203 ^32China:^2 4/9 ^1Government condems Paradigm Eschaton as terror acts
 	qputs 9204 ^32Japan:^2 5/9 ^1Sarin nerge gass attack on subway, Paradigm claims reponsibility
-	qputs 9205 ^32Japan:^2 6/9 ^1Japan condems Paradigm Eschaton as terrorist group
+	qputs 9205 ^32China:^2 6/9 ^1PLA military parade disrupted by Paradign Eschaton activities
 	qputs 9206 ^32Vietnam:^2 7/9 ^1Strange entities appear on jungle regions aka Tree Speaks
 	qputs 9207 ^32Kazakhstan:^2 8/9 ^1Airplane has been exploded blaming terrorists
 	qputs 9208 ^32Asia:^2 9/9 ^1Many government designated Paradigm Eschaton as terrorist group
@@ -3470,7 +3470,7 @@ ife VOLUME 0
  {
  ife LEVEL 1
 	{
-	qputs 9200 ^32Kazakhstan^2 1/9 ^1Astana has been secured by all participating military forces
+	qputs 9200 ^32Russia^2 1/9 ^1Strange supernatural creatures vanishes by unknown
 	qputs 9201 ^32Kazakhstan:^2 2/9 ^1Paradign Eschaton has been expelled completely
 	qputs 9202 ^32China:^2 3/9 ^1Paradign Eschaton has been expelled completely
 	qputs 9203 ^32Kazakhstan:^2 4/9 ^1Baikonur Cosmodrome site dismantled by EDF
@@ -3489,7 +3489,7 @@ ife VOLUME 0
 	qputs 9204 ^32Russia:^2 5/9 ^1Cargo train crashes near Novosibirsk due to snowstorm
 	qputs 9205 ^32China:^2 6/9 ^1Military intervenes N.Korea faces much chaos
 	qputs 9206 ^32N.Korea:^2 7/9 ^1Military forces gone underfire by enstranged EDF troops
-	qputs 9207 ^32Russia:^2 8/9 ^1Vladiostok Regions is under evacuation by PMC
+	qputs 9207 ^32Russia:^2 8/9 ^1Vladiostok city is under fire between EDF and Space PMCs
 	qputs 9208 ^32Asia:^2 9/9 ^1Natural disasters occure on all countries
 	}
  }
@@ -3529,10 +3529,10 @@ ife VOLUME 0
 	{
 	qputs 9200 ^32Sol System: ^2 1/9 ^1The first Sol System space platform media is established
 	qputs 9201 ^32Earth: ^2 2/9 ^1EDF begun testing their main weapon satellite for defense
-	qputs 9202 ^32Sol System: ^2 3/9 ^1
-	qputs 9203 ^32Sol System: ^2 4/9 ^1
-	qputs 9204 ^32Sol System: ^2 5/9 ^1
-	qputs 9205 ^32Sol System: ^2 6/9 ^1
+	qputs 9202 ^32Sol System: ^2 3/9 ^1Space satellite Apollo IV mission trip towards the Sol System
+	qputs 9203 ^32Titan: ^2 4/9 ^1New minerals discovered in colony mines
+	qputs 9204 ^32Mars: ^2 5/9 ^1Terrform atmosphere processor construction begins
+	qputs 9205 ^32Xuglop: ^2 6/9 ^1EDF Government representatives visits Xuglop for developments
 	qputs 9206 ^32Mars: ^2 7/9 ^1Zeta colony is under lockdown due to circumstances
 	qputs 9207 ^32Moon: ^2 8/9 ^1Notorius Dr. Protains secret base salvaged and demolished
 	qputs 9208 ^32Xuglop: ^2 9/9 ^1 Aerofare Corps establishes PMC, Aerofare Operational Force
@@ -3540,14 +3540,14 @@ ife VOLUME 0
  ife LEVEL 8
 	{
 	qputs 9200 ^32Sol System: ^2 1/9 ^1Energy signatures originated from Ganymede
-	qputs 9201 ^32Ganymede: ^2 2/9 ^1No survivors found in UAC research base
+	qputs 9201 ^32Ganymede: ^2 2/9 ^1No survivors found in UAC research base except unid. group
 	qputs 9202 ^32Earth: ^2 3/9 ^1EDF began their full production on tactical defense satellites
 	qputs 9203 ^32Mars:^2 4/9 ^1Lost communication with the Zeta colony due to jamming signals
-	qputs 9204 ^32Sol System: ^2 5/9 ^1
-	qputs 9205 ^32Sol System: ^2 6/9 ^1
-	qputs 9206 ^32Sol System: ^2 7/9 ^1
-	qputs 9207 ^32Sol System: ^2 8/9 ^1
-	qputs 9208 ^32Sol System: ^2 9/9 ^1
+	qputs 9204 ^32Xuglop: ^2 5/9 ^1Reports that some multiple PMCs are gathering for space raids
+	qputs 9205 ^32Io: ^2 6/9 ^1Discovery of new minerals that can produce energy battery
+	qputs 9206 ^32Triton: ^2 7/9 ^1Land developer plans to terraform Triton while researching
+	qputs 9207 ^32Ganymede: ^2 8/9 ^1EDF Investigation Bureau sends to investigate this site
+	qputs 9208 ^32Mars: ^2 9/9 ^1Disputes among with low-class citizens and thugs over issues
 	}
   }
  ife VOLUME 1
@@ -3557,36 +3557,36 @@ ife VOLUME 0
 	qputs 9200 ^32Earth:^2 1/9 ^1Cycloids invasion occurs again on Earth
 	qputs 9201 ^32Earth:^2 2/9 ^1EAF / EDF Fleet clashes with the Cycloid Fleet
 	qputs 9202 ^32Sol System:^2 3/9 ^1EDF security fleet near Stargate tightens
-	qputs 9203 ^32Moon:^2 4/9 ^1Increases security to prevent Cycloids infiltration
-	qputs 9204 ^32Sol System:^2 5/9 ^1
-	qputs 9205 ^32Sol System:^2 6/9 ^1
-	qputs 9206 ^32Sol System:^2 7/9 ^1
-	qputs 9207 ^32Sol System:^2 8/9 ^1
+	qputs 9203 ^32Moon:^2 4/9 ^1Lunar Colonies increases security to prevent Cycloids infiltration
+	qputs 9204 ^32Moon:^2 5/9 ^1New Lunar colony Hamlet planned
+	qputs 9205 ^32Sol System:^2 6/9 ^1Cylcoids spaceship shot down satellite Apollo IV
+	qputs 9206 ^32Sol System:^2 7/9 ^1Mercury burns several space equipment while landing
+	qputs 9207 ^32Zorgonite System:^2 8/9 ^1Few AOF and PMCs returns from missing action
 	qputs 9208 ^32A33 Boo System:^2 9/9 ^1Disputes between Vandeley Industries and Sandt Industrutes over Energia
 	}
   ife LEVEL 4
 	{
-	qputs 9200 ^32Sol System:^2 1/9 ^1Cycloid forces commits tactical withdraw
-	qputs 9201 ^32Sol System:^2 2/9 ^1
+	qputs 9200 ^32Sol System:^2 1/9 ^1Cycloid forces expelled by combined Humanity forces
+	qputs 9201 ^32Xuglop:^2 2/9 ^1Incidents triggers conflict between government and PMCs
 	qputs 9202 ^32Ganymede:^2 3/9 ^1 Reports UAC research base has been destroyed, investigators claims
 	qputs 9203 ^32Mars:^2 4/9 ^1Lost communication with the Zeta colony due to jamming signals
-	qputs 9204 ^32Venus:^2 5/9 ^1Lost contact with colony, Cycloids captures it, marked as untravel
-	qputs 9205 ^32Sol System:^2 6/9 ^1
-	qputs 9206 ^32Sol System:^2 7/9 ^1
-	qputs 9207 ^32Sol System:^2 8/9 ^1
-	qputs 9208 ^32A33 Boo System:^2 9/9 ^1Sandt Indsustries expels Vandeley from Energia
+	qputs 9204 ^32Venus:^2 5/9 ^1Lost contact with colony due to unknown circumstances
+	qputs 9205 ^32Mars:^2 6/9 ^1Operators in excavation sites goes offline and missing
+	qputs 9206 ^32Io:^2 7/9 ^1Terrorists siezes control of few mining stations, EDF saids
+	qputs 9207 ^32Ceres.Asteroid:^2 8/9 ^1New minerals found in some of the large asteroid belts
+	qputs 9208 ^32A33 Boo System:^2 9/9 ^1Sandt Indsustries expels Vandeley Industries from Energia
 	}
   ife LEVEL 50
 	{
 	qputs 9200 ^32Mars:^2 1/9 ^1Three Ancient Sites has been discovered, 2 in desert, 1 in ice regions
-	qputs 9201 ^32Sol System:^2 2/9 ^1
-	qputs 9202 ^32Sol System:^2 3/9 ^1
-	qputs 9203 ^32Sol System:^2 4/9 ^1
-	qputs 9204 ^32Sol System:^2 5/9 ^1
-	qputs 9205 ^32Sol System:^2 6/9 ^1
-	qputs 9206 ^32Sol System:^2 7/9 ^1
-	qputs 9207 ^32Sol System:^2 8/9 ^1
-	qputs 9208 ^32Sol System:^2 9/9 ^1
+	qputs 9201 ^32Neutrino:^2 2/9 ^1Satellite disappears and reappears following orbital surveillance
+	qputs 9202 ^32Sol System:^2 3/9 ^1Satellite Apollo V is sent for another mission accompanied by remote spaceships
+	qputs 9203 ^32Sol System:^2 4/9 ^1Introduction of advance layer materials to resist higher heat temperatures
+	qputs 9204 ^32Triton:^2 5/9 ^1Poesidon Industries annouces their new weapon prototypes for space
+	qputs 9205 ^32Io:^2 6/9 ^1Terrorist mining continues to grew, fears that they'll construct weapons
+	qputs 9206 ^32Mars:^2 7/9 ^1Terraformation on Phobos and Deimos commenced by UAC
+	qputs 9207 ^32Xuglop:^2 8/9 ^1Disorder averted, government and PMCs relationship restored
+	qputs 9208 ^32Zorgonite System:^2 9/9 ^1Survivors share details from the dimensional inhabitants
  }
  }
  ife VOLUME 2
@@ -3597,7 +3597,7 @@ ife VOLUME 0
 	qputs 9201 ^32Mars:^2 2/9 ^1Paramilitary organization identified as AMC Squad, led by James Stanfield
 	qputs 9202 ^32Mars:^2 3/9 ^1Unverified starship is marked as the XII, investigator claims
 	qputs 9203 ^32A33 Boo System:^2 4/9 ^1The Energia dissappearance, caused by corporate rivals
-	qputs 9204 ^32Triton:^2 5/9 ^1Poesidon Industries annouces their new weapon prototypes for space
+	qputs 9204 ^32Xilh Star System:^2 5/9 ^1AOF and Space PMCs claims victory on Xilh Star System
 	qputs 9205 ^32Earth:^2 6/9 ^1EAF prepares their invasion on Cylcoids planet X64-2
 	qputs 9206 ^32Mars:^2 7/9 ^1Zeta colony reported as nuclear power planet explodes
 	qputs 9207 ^32Mars:^2 8/9 ^1Fears confirmed as the next colony will be targeted
@@ -3607,40 +3607,40 @@ ife VOLUME 0
 	{
 	qputs 9200 ^32Earth:^2 1/9 ^1EAF Battleship makes expedition trips and returns from X64-2
 	qputs 9201 ^32Earth:^2 2/9 ^1EDF prepares to test their satellite weapons on all views
-	qputs 9202 ^32Sol System:^2 3/9 ^1
-	qputs 9203 ^32Sol System:^2 4/9 ^1
-	qputs 9204 ^32Sol System:^2 5/9 ^1
-	qputs 9205 ^32Sol System:^2 6/9 ^1
-	qputs 9206 ^32Sol System:^2 7/9 ^1
-	qputs 9207 ^32Sol System:^2 8/9 ^1
-	qputs 9208 ^32Sol System:^2 9/9 ^1
+	qputs 9202 ^32Mars:^2 3/9 ^1Aris Mon colony improves secuirty after Paradigm retailiation
+	qputs 9203 ^32Atem Star System:^2 4/9 ^Another AOF and Space PMCs claims victory on Atem Star System
+	qputs 9204 ^32Earth:^2 5/9 ^1Security tightens as suspicious organization Paradign Eschaton is active
+	qputs 9205 ^32Xilh Star System:^2 6/9 ^1Details from the battlefield discovers more horrific holo images
+	qputs 9206 ^32Sol System:^2 7/9 ^1Civil lawsuit against Mikko and his corporates over million deaths from Energia
+	qputs 9207 ^32Sol System:^2 8/9 ^1Investigations against Vandalay Industries ongoing
+	qputs 9208 ^32Titan:^2 9/9 ^1Colony Inspectors arrives to verify the source of minerals
 	}
  }
  ife VOLUME 3
  {
  ife LEVEL 1
 	{
-	qputs 9200 ^32Sol System:^2 1/9 ^1EAF Expedition announces their sucessful capture X64-2
-	qputs 9201 ^32Sol System:^2 2/9 ^1
-	qputs 9202 ^32Sol System:^2 3/9 ^1
-	qputs 9203 ^32Sol System:^2 4/9 ^1
-	qputs 9204 ^32Sol System:^2 5/9 ^1
-	qputs 9205 ^32Sol System:^2 6/9 ^1
-	qputs 9206 ^32Sol System:^2 7/9 ^1
-	qputs 9207 ^32Sol System:^2 8/9 ^1
-	qputs 9208 ^32Sol System:^2 9/9 ^1
+	qputs 9200 ^32X64-2:^2 1/9 ^1EAF Expedition announces their successful capture X64-2
+	qputs 9201 ^32X64-2:^2 2/9 ^1New discovery from Cycloids research indicates a new breed abominations
+	qputs 9202 ^32Sol System:^2 3/9 ^1Scientists details the creature from the hologram even existed
+	qputs 9203 ^32Sol System:^2 4/9 ^1Mikko and his corporates is accquited from the Energia Incident
+	qputs 9204 ^32Sol System:^2 5/9 ^1Vandalay Industries is confirmed as the terrorist organization
+	qputs 9205 ^32Sol System:^2 6/9 ^1Vandalay Industries CEO Georgei Constanza exposed
+	qputs 9206 ^32Sol System:^2 7/9 ^1Colony Inspectors went missing during investigation
+	qputs 9207 ^32Io:^2 8/9 ^1Space PMCs expels terrorist and restores its normal status
+	qputs 9208 ^32Sol System:^2 9/9 ^1New FTL prototype Hyperspace testing
 	}
  ife LEVEL 63 // repeat of episode 5
 	{
 	qputs 9200 ^32Sol System:^2 1/9 ^1AMC Squad returns from Elysion with new discovery
 	qputs 9201 ^32Sol System:^2 2/9 ^1EDF begins clashing with the other PMCs
-	qputs 9202 ^32Sol System:^2 3/9 ^1
+	qputs 9202 ^32Earth:^2 3/9 ^1Satellite images shows an unidentified contient appears from pacific
 	qputs 9203 ^32Earth:^2 4/9 ^1Earths atmosphere has been covered by high rediation frequency
-	qputs 9204 ^32Sol System:^2 5/9 ^1
-	qputs 9205 ^32Sol System:^2 6/9 ^1
-	qputs 9206 ^32Sol System:^2 7/9 ^1
-	qputs 9207 ^32Sol System:^2 8/9 ^1
-	qputs 9208 ^32Sol System:^2 9/9 ^1
+	qputs 9204 ^32Earth:^2 5/9 ^1Satellite images shows another Atlantic small island near Garmid
+	qputs 9205 ^32Ganymede:^2 6/9 ^1Fears claims the source of the root came from after the surge
+	qputs 9206 ^32Titan:^2 7/9 ^1Reports of strange strikes or unusual activity found but no evident
+	qputs 9207 ^32Earth:^2 8/9 ^1EDF satellites prepares for defenses in case of danger
+	qputs 9208 ^32Moon:^2 9/9 ^1Lunar colony security has been tightened due to phenomenal activity
 	}
  }
  ife VOLUME 4
@@ -3651,11 +3651,11 @@ ife VOLUME 0
 	qputs 9201 ^32Earth:^2 2/9 ^1EDF uses weapon satellites to destroy terrorist in progress
 	qputs 9202 ^32Sol System:^2 3/9 ^1 Fighting intensified between enstranged EDF and other PMCs
 	qputs 9203 ^32Sol System:^2 4/9 ^1 Multiple PMCs enters to intervene Earth
-	qputs 9204 ^32Titan:^2 5/9 ^1Reports of unidentified aliens and its strange spaceship buried
+	qputs 9204 ^32Titan:^2 5/9 ^1Reports Paradigm activity occur with takeover
 	qputs 9205 ^32Sol System:^2 6/9 ^1 Other PMCs new advance space fighter has been sighted
 	qputs 9206 ^32Sol System:^2 7/9 ^1 Other PMCs advance space fighter shows much high technology
 	qputs 9207 ^32Moon:^2 8/9 ^1Project Hamlet has been canceled due to ongoing conflict
-	qputs 9208 ^32Ceres.Asteroids:^2 9/9 ^1EDF and PMCs suffered losses due to collision
+	qputs 9208 ^32Ceres.Asteroids:^2 9/9 ^1EDF and PMCs suffered losses due to asteroids collision
 	}
  ife LEVEL 31
 	{
