@@ -35,11 +35,11 @@ definevolumename 1 SHOWDOWN IN HONG KONG
 definevolumename 2 QUEST FOR THE GOLDEN SANG
 definevolumename 3 LAW OF THE KNIGHTS
 definevolumename 4 PERFECT STORM
-//definevolumename 5 REDACTED
+//definevolumename 5 REDACTED NOTHING LAST FOREVER
 definevolumename 6 EXTRA MISSIONS
 
 // New volumes with extra mode
-definevolumename 7 NIGHTMARE MISSIONS
+definevolumename 7 THE TRUE UNIVERSAL WAR
 
 // Note this hard coded engine is up to 8 volumes max!
 
@@ -49,8 +49,8 @@ defineskillname 0 STORY
 defineskillname 1 STANDARD
 defineskillname 2 EXPERT
 defineskillname 3 PROFESSIONAL
-defineskillname 4 .
-defineskillname 5 .
+defineskillname 4 ARMAGEDDON
+defineskillname 5 NIGHTMARE.EXE
 
 // Nightmare unlocks new missions only after completing Armageddon on all episodes.
 
@@ -104,6 +104,17 @@ definelevelname 0 42 MAPS/EP1/CREDITS.MAP 00:00 00:00 EPISODE ONE CREDITS
 // 50 surreal truth
 // 51 elements
 // 52 title music 3
+// Kiros Set 53 Kiros EXODUS BATTLESHIP SET
+// Kiros Set 54 Kiros Entering the Battleship
+// Kiros Set 55 Kiros job at exodus outer colony
+// Kiros Set 56 Kiros job at exodus outer colony
+// Kiros Set 57 Kiros job at exodus outer colony
+// Kiros Set 58 Kiros job at exodus outer colony
+// Kiros Set 59 Kiros job at exodus outer colony
+// Kiros Set 60 Kiros job at exodus outer colony
+// Kiros Set 61 Kiros helpd the AOF in Dimension gate
+// Kiros Set 62 Kiros Secure the passage with AOF
+// Kiros Set 63 Kiros Entering the Milkyway
 
 // =====================================================================================================================
 // EPISODE TWO STUFF
@@ -390,12 +401,22 @@ definelevelname 4 58 MAPS/EP5/PATCOS.map 00:00 00:00 MAN VERSUS MACHINE
 definelevelname 4 60 MAPS/EP5/TRENTON.MAP 00:00 00:00 LUNAR SURFACE
 definelevelname 4 61 MAPS/EP5/EP5END.MAP 00:00 00:00 THE END IS HERE
 definelevelname 4 62 MAPS/EP5/CREDITS5.MAP 00:00 00:00 EPISODE FIVE CREDITS
+// Kiros Set 63 Battle at Cartagrapher
 
 // =====================================================================================================================
 // EPISODE SIX STUFF
 // =====================================================================================================================
 
 music 6
+
+//0 - 63
+
+// =====================================================================================================================
+// EPISODE SEVEN STUFF THE FINAL BATTLE
+// =====================================================================================================================
+
+// 0 - 63
+
 
 // =====================================================================================================================
 // EDF MISSIONS

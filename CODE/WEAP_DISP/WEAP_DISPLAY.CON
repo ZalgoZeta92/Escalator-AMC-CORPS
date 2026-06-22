@@ -10186,7 +10186,7 @@ include CODE/WEAP_DISP/WEP_JANE.CON
 include CODE/WEAP_DISP/WEP_MAARTN.CON
 include CODE/WEAP_DISP/WEP_ROSA.CON
 include CODE/WEAP_DISP/WEP_WHEATON.CON
-
+//include CODE/WEAP_DISP/WEP_KIRO.CON
 
 defstate weapon_drawcode
 ife RETURN 1 break
@@ -10300,7 +10300,7 @@ ife disp_temp 1
 	else ife CHAR C_CULTIST state display_cultist_weapons
 	else ife CHAR C_JANE state display_jane_weapons
 	else ife CHAR C_ROSA state display_rosa_weapons
-  // else ife CHAR C_KIRO state display_kiro_weapons
+  //else ife CHAR C_KIRO state display_kiro_weapons
 	else ife currentweapon 1 ife CHAR 15 { set RETURN 1 state draw_auto9_pistol }
 	else ife currentweapon 10 state drawdetonator
 

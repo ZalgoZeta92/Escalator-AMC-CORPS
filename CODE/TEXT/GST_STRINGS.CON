@@ -2376,11 +2376,11 @@ string 13267 ^8Wheaton: ^0
 string 13268 ^8Wheaton: ^0
 string 13269 ^8Wheaton: ^0
 
-string 13270 ^8Wheaton: ^0
-string 13271 ^8Wheaton: ^0
-string 13272 ^8Wheaton: ^0
-string 13273 ^8Wheaton: ^0
-string 13274 ^8Wheaton: ^0
+string 13270 ^8Wheaton: ^0Why you do call me Frenchy?
+string 13271 ^8Wheaton: ^0Stop calling me Frenchy!
+string 13272 ^8Wheaton: ^0You shall not call me Frenchy!
+string 13273 ^8Wheaton: ^0I will beat the shit out of you!
+string 13274 ^8Wheaton: ^0I will remain vigilant!
 string 13275 ^8Wheaton: ^0
 string 13276 ^8Wheaton: ^0
 string 13277 ^8Wheaton: ^0
@@ -2390,115 +2390,271 @@ string 13279 ^8Wheaton: ^0
 string 13300 ^8Solais: ^0The strings from 13300 to 13499
 string 13500 ^8Jolteon: ^0The strings from 13500 to 13699
 /*Kiros Strings starts here*/
-string 13700 ^8Kiro: ^0
-string 13701 ^8Kiro: ^0
-string 13702 ^8Kiro: ^0
-string 13703 ^8Kiro: ^0
-string 13704 ^8Kiro: ^0
-string 13705 ^8Kiro: ^0
-string 13706 ^8Kiro: ^0
-string 13707 ^8Kiro: ^0
-string 13708 ^8Kiro: ^0
-string 13709 ^8Kiro: ^0
+// Sword and Use
+string 13700 ^8Kiro: ^0Chop! Chop! Chop!
+string 13701 ^8Kiro: ^0Just me and this thing. We go way a back!
+string 13702 ^8Kiro: ^0My custom style is better than a single.
+// Sword Draw
+string 13703 ^8Kiro: ^0Here we go!
+string 13704 ^8Kiro: ^0Scarfint, guide me through the journey.
+// Galamoth Rage Skill
+string 13705 ^8Kiro: ^0RRRAWWWWWRRRRRRRR!
+// Wombo Combo System
+string 13706 ^8Kiro: ^0Kietair! (Exodus Dub)
 
-string 13700 ^8Kiro: ^0
-string 13701 ^8Kiro: ^0
-string 13702 ^8Kiro: ^0
-string 13703 ^8Kiro: ^0
-string 13704 ^8Kiro: ^0
-string 13705 ^8Kiro: ^0
-string 13706 ^8Kiro: ^0
-string 13707 ^8Kiro: ^0
-string 13708 ^8Kiro: ^0
-string 13709 ^8Kiro: ^0
+// Anubis
+string 13707 ^8Kiro: ^0Cerbusians should play with them.
+string 13708 ^8Kiro: ^0Walking like a Egypt and way-o!
+string 13709 ^8Kiro: ^0This is for Pierska!
+// Osrius
+string 13710 ^8Kiro: ^0Oh serious flight!
+string 13711 ^8Kiro: ^0Chosen one gone smacked!
+string 13712 ^8Kiro: ^0Can you fly buddy?
+// Wizard Cult and Siren and the cultists
+string 13713 ^8Kiro: ^0I've put a spell on you!
+string 13714 ^8Kiro: ^0I've cast the oblivion shadow!
+string 13715 ^8Kiro: ^0Off the Robes, buddy!
+// Orcs
+string 13716 ^8Kiro: ^0Dragons can give a good old cook in!
+string 13717 ^8Kiro: ^0Hey where's your riding squiggers, orks?
+string 13718 ^8Kiro: ^0Those squattys don't have rights with them.
+// Archer
+string 13719 ^8Kiro: ^0That was close for that one.
+string 13720 ^8Kiro: ^0Needle eye to eye!
+string 13721 ^8Kiro: ^0I got some good old skills back them.
+// Behold and Octabrain
+string 13722 ^8Kiro: ^0Bolds eyes!
+string 13723 ^8Kiro: ^0Poke! Poke! Poke!
+string 13724 ^8Kiro: ^0Dodge This!
+// Ogre
+string 13725 ^8Kiro: ^0I'm going to end your body in half!
+string 13726 ^8Kiro: ^0When you gonna learn orkies?
+string 13727 ^8Kiro: ^0Two heads equal unmovable!
+// Svedr & Death Knight & Shadow Ninja
+string 13728 ^8Kiro: ^0You can't beat me with my close range hack.
+string 13729 ^8Kiro: ^0Your sword & sorcery lose to the Gunblaze!
+string 13730 ^8Kiro: ^0Checkmate!
+// Triads and Ninjas
+string 13731 ^8Kiro: ^0Hey, gangstas people hold your hands up.
+string 13732 ^8Kiro: ^0You can't evade taxes because they'll coming to get you.
+string 13733 ^8Kiro: ^0Stealing is taxable. You better file it.
+// Skull and Squire Revenants
+string 13734 ^8Kiro: ^0Can you still stay very long dead!
+string 13735 ^8Kiro: ^0You first ticket to a full life. Enjoy!
+string 13736 ^8Kiro: ^0Heal yourself with the holy majin.
+// Dragon
+string 13737 ^8Kiro: ^0I wish my pet can handle this such thing.
+string 13738 ^8Kiro: ^0The dinosaur jumps and throw you down to the ground.
+string 13739 ^8Kiro: ^0No flying wings for you long necks!
+// Trolls & Dimension Shambler
+string 13740 ^8Kiro: ^0When you going to end trolling, scrub!
+string 13741 ^8Kiro: ^0Too large. Too Slow
+string 13742 ^8Kiro: ^0You can't jump that high!
+// Berserker & Satyr & Chainsawboi & Mamammo
+string 13743 ^8Kiro: ^0You've gone too deep with no control!
+string 13744 ^8Kiro: ^0You've commited suicide right in front of me.
+string 13745 ^8Kiro: ^0Bring your guns next time, bud.
+// Golem
+string 13746 ^8Kiro: ^0Smashed into multi-pieces!
+string 13747 ^8Kiro: ^0You can't move when you're baked!
+// All Piggy Soldiers
+string 13748 ^8Kiro: ^0I want to make bacon out of them.
+string 13749 ^8Kiro: ^0Piggy wiggy crying over their dead children.
+string 13750 ^8Kiro: ^0Get some lipsuction will ya.
+string 13751 ^8Kiro: ^0Chazzar downed by scarface!
+// Lost and Yukitonia
+string 13752 ^8Kiro: ^0Soul Orb can catch you very easy.
+string 13753 ^8Kiro: ^0Looks like I can't hear you.
+// Zombies and Zombie soldiers
+string 13754 ^8Kiro: ^0Injected with Necrophobia therapy.
+string 13755 ^8Kiro: ^0I should take weapons from them.
+// Killing Nazi
+string 13756 ^8Kiro: ^0Don't go steal someones tech stuff for evil purpose.
+string 13757 ^8Kiro: ^0Why copy cat on someone elses logo?
+string 13758 ^8Kiro: ^0Single race does not save you from combined arms.
+// Killing Paradign High Elder Rank
+string 13759 ^8Kiro: ^0Me, themselves and our kins will beat you down to bits.
+string 13760 ^8Kiro: ^0Immortality doesn't make you invincible.
+// Beyonders minions level 1
+string 13761 ^8Kiro: ^0This alien is getting real creepy!
+// Beyonders True Form
+string 13762 ^8Kiro: ^0Many galaxy came here to roast you, abominations.
+string 13703 ^8Kiro: ^0It's time to end your nightmares long time ago.
+// Abyssal Form
+string 13764 ^8Kiro: ^0My kin can beat you down just like the old days.
+string 13765 ^8Kiro: ^0We got a exodemon running on loose.
+string 13766 ^8Kiro: ^0These things are just always real.
+// Burning Enemies
+string 13767 ^8Kiro: ^0Fried to a grilled skeleton.
+string 13768 ^8Kiro: ^0Light it up so I can see it.
+string 13769 ^8Kiro: ^0Time to unleash the second death.
+// Head Shot
+string 13770 ^8Kiro: ^0This head gets triggered.
+string 13771 ^8Kiro: ^0No brains! No brawns!
+string 13772 ^8Kiro: ^0Where's your head when you can move!
+string 13773 ^8Kiro: ^0Too much farsighting!
+// Mechanical Enemies
+string 13774 ^8Kiro: ^0Off you go jacked bots!
+string 13775 ^8Kiro: ^0I want to send my bots to shave someone.
+string 13776 ^8Kiro: ^0Warmachines is heck!
+string 13777 ^8Kiro: ^0Time to get spare parts from them.
+string 13778 ^8Kiro: ^0I wish I can convert it to my own.
+string 13779 ^8Kiro: ^0Electronic fried application.
+// Player hud EMPED
+string 13780 ^8Kiro: ^0I need to recharge this.
+string 13781 ^8Kiro: ^0E.M.P.
+string 13782 ^8Kiro: ^0My visors got fried.
+// Ammo
+string 13783 ^8Kiro: ^0I need a extra hard needle to punch through the wall.
+string 13784 ^8Kiro: ^0Where's the silver ammo when I need them.
+// Enemy Armor Issues
+string 13785 ^8Kiro: ^0Why being invincible?
+string 13786 ^8Kiro: ^0There's got to be another way.
+// Vehicles
+string 13787 ^8Kiro: ^0Let me search through the manuals.
+// Motorbikes
+string 13788 ^8Kiro: ^0I've should brought my own bike.
+string 13789 ^8Kiro: ^0Let's Roll
+// Grabbing a Weapon
+string 13790 ^8Kiro: ^0Elements of firepower!
+string 13791 ^8Kiro: ^0Gonna try to test it with this.
+string 13792 ^8Kiro: ^0Here's a striker five, Right on.
+string 13793 ^8Kiro: ^0Ready and Forward. Running the party!
+string 13794 ^8Kiro: ^0Let's go gun in blazings.
+// Akimbo
+string 13795 ^8Kiro: ^0Double Can Can!
+string 13796 ^8Kiro: ^0Knack! Knack!
+string 13797 ^8Kiro: ^0Two triggers at once.
+// Ally Death
+string 13798 ^8Kiro: ^0Oh great, someone got killed.
+string 13799 ^8Kiro: ^0Call available replacements.
+// Ally Replacements
+string 13800 ^8EXDS CMDR: ^0Roger that! Sending replacements Don't waste them.
+string 13801 ^8EXDS CMDR: ^0No replacements available. You'll be solo for now.
+// Alarm
+string 13802 ^8Kiro: ^0Oh, why do I have to do this?
+// Climing Ladders
+string 13803 ^8Kiro: ^0I wanna slide back up with a booster!
+// Homing Missile
+string 13804 ^8Kiro: ^0Red Eye is awesome!
+string 13805 ^8Kiro: ^0My Lock-on guidance is better!
+string 13806 ^8Kiro: ^0Ding! Ding! Ding! Ding!
+// Grabbing the Nuke
+string 13807 ^8Kiro: ^0Time for multi nuke strikes!
+string 13808 ^8Kiro: ^0A-Bomb does ruin somebody's day!
+string 13809 ^8Kiro: ^0Time to level nuke your city!
+// Key and Locks
+string 13810 ^8Kiro: ^0If I had a lockpick with me.
+string 13811 ^8Kiro: ^0I want to try breaking this handle.
+string 13812 ^8Kiro: ^0There should be another way.
+string 13813 ^8Kiro: ^0It's locked already.
+string 13814 ^8Kiro: ^0A weak door? Maybe I should do bruteforce.
+string 13815 ^8Kiro: ^0I got mechanical parts somewhere?
+string 13816 ^8Kiro: ^0Where's the tool when I need them.
+string 13817 ^8Kiro: ^0It works!
+string 13818 ^8Kiro: ^0This will do the trick.
+string 13819 ^8Kiro: ^0Engineering.
+// Killing Enemies plus taunt
+string 13820 ^8Kiro: ^0Off you go, scrub!
+string 13821 ^8Kiro: ^0You suck at it!
+string 13822 ^8Kiro: ^0Kicked right to its end!
+string 13823 ^8Kiro: ^0Hit it to the beat!
+string 13824 ^8Kiro: ^0Fell to the death guns!
+string 13825 ^8Kiro: ^0Rigged One! Make my day good!
+string 13826 ^8Kiro: ^0Back to my old times I used to be.
+string 13827 ^8Kiro: ^0They seem to never know about it.
+// Humor
+string 13828 ^8Kiro: ^0Ah, that gets the sting out of it.
+// Medkit heal
+string 13829 ^8Kiro: ^0Got it patched up and ready to go.
+// Pain
+string 13830 ^8Kiro: ^0Oh, this is not fun to do.
+string 13831 ^8Kiro: ^0I've got to find some medikits.
+string 13832 ^8Kiro: ^0Trink, You've got medic with you?
+string 13833 ^8Kiro: ^0Should've cast the spell in it.
+// Freeze Enemy
+string 13834 ^8Kiro: ^0Hard frost wall!
+string 13835 ^8Kiro: ^0Cracking the ice!
+string 13836 ^8Kiro: ^0Nitrogen needles anyone?
+// Shocks Enemy
+string 13837 ^8Kiro: ^0Burn! Rabid! Burn!
+string 13838 ^8Kiro: ^0Extra bone and crispy!
+string 13839 ^8Kiro: ^0Nerve disability inserted.
+// Other
+// Money
+string 13840 ^8Kiro: ^0Added money to my list.
+string 13841 ^8Kiro: ^0I always love to have passive income.
+// Night Vision
+string 13842 ^8Kiro: ^0Opps! I didn't even look at my battery.
+string 13843 ^8Kiro: ^0I have a full recharger somewhere.
+// Oxygen
+string 13844 ^8Kiro: ^0Oh crack. My oxygen supply almost drops.
+string 13845 ^8Kiro: ^0Got my oxygen back to filled.
+// Tipped on someone
+string 13846 ^8Kiro: ^0Sorry, I guess you look for someone else.
+string 13847 ^8Kiro: ^0What are you looking at me?
+// Where is it?
+string 13848 ^8Kiro: ^0Um what am I'm doing here, anyway?
+// Guns Machine
+string 13849 ^8Kiro: ^0Looks like it doesn't lend out guns to me.
+// C4
+string 13850 ^8Kiro: ^0I should order high explosives.
+string 13851 ^8Kiro: ^0Blow it away!
+string 13852 ^8Kiro: ^0Ping pong! Ding dong!
+// Variant Ammo
+string 13853 ^8Kiro: ^0A good variant ammunition I have got.
+string 13854 ^8Kiro: ^0New special ammo. Right.
+// Allies
+string 13855 ^8Kiro: ^0I've got coordinates for you.
+string 13856 ^8Kiro: ^0I'm guiding you thru.
+string 13857 ^8Kiro: ^0You ready to go.
+string 13858 ^8Kiro: ^0Watch for me.
+string 13859 ^8Kiro: ^0Take a break will ya.
+// Stepping on Feces
+string 13860 ^8Kiro: ^0Oh I hate those litters.
 
-string 13700 ^8Kiro: ^0
-string 13701 ^8Kiro: ^0
-string 13702 ^8Kiro: ^0
-string 13703 ^8Kiro: ^0
-string 13704 ^8Kiro: ^0
-string 13705 ^8Kiro: ^0
-string 13706 ^8Kiro: ^0
-string 13707 ^8Kiro: ^0
-string 13708 ^8Kiro: ^0
-string 13709 ^8Kiro: ^0
+string 13861 ^8Kiro: ^0
+string 13862 ^8Kiro: ^0
+string 13863 ^8Kiro: ^0
+string 13864 ^8Kiro: ^0
+string 13865 ^8Kiro: ^0
+string 13866 ^8Kiro: ^0
+string 13867 ^8Kiro: ^0
+string 13868 ^8Kiro: ^0
+string 13869 ^8Kiro: ^0
 
-string 13700 ^8Kiro: ^0
-string 13701 ^8Kiro: ^0
-string 13702 ^8Kiro: ^0
-string 13703 ^8Kiro: ^0
-string 13704 ^8Kiro: ^0
-string 13705 ^8Kiro: ^0
-string 13706 ^8Kiro: ^0
-string 13707 ^8Kiro: ^0
-string 13708 ^8Kiro: ^0
-string 13709 ^8Kiro: ^0
+string 13870 ^8Kiro: ^0
+string 13871 ^8Kiro: ^0
+string 13872 ^8Kiro: ^0
+string 13873 ^8Kiro: ^0
+string 13874 ^8Kiro: ^0
+string 13875 ^8Kiro: ^0
+string 13876 ^8Kiro: ^0
+string 13877 ^8Kiro: ^0
+string 13878 ^8Kiro: ^0
+string 13879 ^8Kiro: ^0
 
-string 13700 ^8Kiro: ^0
-string 13701 ^8Kiro: ^0
-string 13702 ^8Kiro: ^0
-string 13703 ^8Kiro: ^0
-string 13704 ^8Kiro: ^0
-string 13705 ^8Kiro: ^0
-string 13706 ^8Kiro: ^0
-string 13707 ^8Kiro: ^0
-string 13708 ^8Kiro: ^0
-string 13709 ^8Kiro: ^0
+string 13880 ^8Kiro: ^0
+string 13881 ^8Kiro: ^0
+string 13882 ^8Kiro: ^0
+string 13883 ^8Kiro: ^0
+string 13884 ^8Kiro: ^0
+string 13885 ^8Kiro: ^0
+string 13886 ^8Kiro: ^0
+string 13887 ^8Kiro: ^0
+string 13888 ^8Kiro: ^0
+string 13889 ^8Kiro: ^0
 
-string 13700 ^8Kiro: ^0
-string 13701 ^8Kiro: ^0
-string 13702 ^8Kiro: ^0
-string 13703 ^8Kiro: ^0
-string 13704 ^8Kiro: ^0
-string 13705 ^8Kiro: ^0
-string 13706 ^8Kiro: ^0
-string 13707 ^8Kiro: ^0
-string 13708 ^8Kiro: ^0
-string 13709 ^8Kiro: ^0
-
-string 13700 ^8Kiro: ^0
-string 13701 ^8Kiro: ^0
-string 13702 ^8Kiro: ^0
-string 13703 ^8Kiro: ^0
-string 13704 ^8Kiro: ^0
-string 13705 ^8Kiro: ^0
-string 13706 ^8Kiro: ^0
-string 13707 ^8Kiro: ^0
-string 13708 ^8Kiro: ^0
-string 13709 ^8Kiro: ^0
-
-string 13700 ^8Kiro: ^0
-string 13701 ^8Kiro: ^0
-string 13702 ^8Kiro: ^0
-string 13703 ^8Kiro: ^0
-string 13704 ^8Kiro: ^0
-string 13705 ^8Kiro: ^0
-string 13706 ^8Kiro: ^0
-string 13707 ^8Kiro: ^0
-string 13708 ^8Kiro: ^0
-string 13709 ^8Kiro: ^0
-
-string 13700 ^8Kiro: ^0
-string 13701 ^8Kiro: ^0
-string 13702 ^8Kiro: ^0
-string 13703 ^8Kiro: ^0
-string 13704 ^8Kiro: ^0
-string 13705 ^8Kiro: ^0
-string 13706 ^8Kiro: ^0
-string 13707 ^8Kiro: ^0
-string 13708 ^8Kiro: ^0
-string 13709 ^8Kiro: ^0
-
-string 13700 ^8Kiro: ^0
-string 13701 ^8Kiro: ^0
-string 13702 ^8Kiro: ^0
-string 13703 ^8Kiro: ^0
-string 13704 ^8Kiro: ^0
-string 13705 ^8Kiro: ^0
-string 13706 ^8Kiro: ^0
-string 13707 ^8Kiro: ^0
-string 13708 ^8Kiro: ^0
-string 13709 ^8Kiro: ^0
+string 13890 ^8Kiro: ^0
+string 13891 ^8Kiro: ^0
+string 13892 ^8Kiro: ^0
+string 13893 ^8Kiro: ^0
+string 13894 ^8Kiro: ^0
+string 13895 ^8Kiro: ^0
+string 13896 ^8Kiro: ^0
+string 13897 ^8Kiro: ^0
+string 13898 ^8Kiro: ^0
+string 13899 ^8Kiro: ^0
 
 
 // misc

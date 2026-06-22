@@ -113,6 +113,8 @@ define C_ROSA 16
 define C_KAGURA 17
 define C_WHEATON 18
 define C_CASSANDRA 20
+define C_JOLT 21
+define C_SOLAIS 22
 define C_KIRO 27
 
 // These defines are used for flags on mission box

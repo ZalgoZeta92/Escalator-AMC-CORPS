@@ -12,7 +12,7 @@ defstate KIRO_EQUIP_SCREEN
 	state CURSOR_OVER_ITEM
 	ifg gui_pos_y 39 ifl gui_pos_y 187
 	{
-		qputs 1011 1)Arcane Gauntlet & Pistol
+		qputs 1011 1)Arcane "Gauntlet" Pistol
 		rotatesprite gui_posx gui_pos_y INVENSIZE 0 14822 0 0 0 0 0 xdim ydim // Icon
 		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
 		ifle gui_pos_x_temp 15
@@ -67,7 +67,7 @@ defstate KIRO_EQUIP_SCREEN
 			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 			qputs 1011 gun systems. Carries variety of any
 			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-			qputs 1011 shells to run the carnage battles.
+			qputs 1011 shells to run heavy carnage battles.
 			screentext STARTALPHANUM 95 46 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 			qputs 1011 Uses Alternative / Advance Shells
 			screentext STARTALPHANUM 95 52 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
@@ -250,7 +250,7 @@ defstate KIRO_EQUIP_SCREEN
 	state CURSOR_OVER_ITEM
 	ifg gui_pos_y 39 ifl gui_pos_y 187
 	{
-		qputs 1011 9)Custom Arbitors Weapon
+		qputs 1011 9)Custom "Arbitors" Weapon
 		rotatesprite gui_posx gui_pos_y INVENSIZE 0 14822 0 0 0 0 0 xdim ydim // Icon
 		set disp_temp9 gui_pos_y sub disp_temp9 3 screentext STARTALPHANUM 18 disp_temp9 28672 0 0 1011 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim // display what it is
 		ifle gui_pos_x_temp 15

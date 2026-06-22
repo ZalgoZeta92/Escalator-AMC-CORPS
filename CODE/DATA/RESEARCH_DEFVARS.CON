@@ -184,6 +184,8 @@ define RS_B_CURMAX 9 // Current biggest id
  define RS_D_CURMAX 11 // current biggest id
 
 var rs_item_picnum 0 1
+var rs_item_pal 0 1
+var rs_item_id 0 1 //pal id of the research icon
 var rs_item_techcost 0 1
 var rs_item_budgetcost 0 1
 var rs_item_researched 0 1

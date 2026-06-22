@@ -64,9 +64,9 @@ qputs 75 Drake Shield %d %
 
 qputs 89 Aquadiver Gear
 
-qputs 47 Deploying Dropzones
-qputs 48 Packing Dropzones up.
-qputs 49 Random Dimension not found yet!
+qputs 47 D-Vis activated, weapons ready!
+qputs 48 D-Vis deactivated, conserve ammo.
+qputs 49 Dimension Visors not found yet!
 qputs 51 Charcon Systems
 
 qputs 88 Exo Gravity
@@ -216,7 +216,7 @@ else if CHAR 27 sound KIRO_HURT1
 resizearray Kiro_equiped 0 resizearray Kiro_equip 256 // reset player equipe arrays
 
 ife p_def_helath_Char C_KIRO set p_default_health 125
-ife EXODUS_UPGRADES[] 2 set p_default_health 100
+ife EXODUS_UPGRADES[] 2 set p_default_health 150
 else set p_default 75
 
 set P_ENERGYSHIELD

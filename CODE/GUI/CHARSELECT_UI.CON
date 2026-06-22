@@ -1038,18 +1038,22 @@ defstate charselectionui_display
 		{
 			qputs 815 Exodus Galactic PMC
  			screentext 2822 185 25 37500 0 0 815 0 24 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-			qputs 810 HP: 100
+			qputs 810 HP: 125
  			screentext 2822 185 35 37500 0 0 810 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-			qputs 811 Armor Type: Medium
+			qputs 811 Armor Type: Variety
  			screentext 2822 185 43 37500 0 0 811 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-			qputs 812 Stamina: 125%
+			qputs 812 Stamina: 150%
  			screentext 2822 185 51 37500 0 0 812 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-			qputs 813 + Access from Exodus and Custom PDA
+			qputs 813 + Access Exodus &Custom PDA
  			screentext 2822 185 61 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-			qputs 813 + Management and Strategy
+			qputs 813 + Management & Strategy PDA
  			screentext 2822 185 69 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-			qputs 813 - Restricted access to AMC Arsenal
- 			screentext 2822 185 77 30500 0 0 813 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 813 + Variable weapons & ammo
+ 			screentext 2822 185 77 30500 0 0 813 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 814 - Restricted to AMC Techs
+ 			screentext 2822 185 85 30500 0 0 814 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
+			qputs 815 - Commands his own faction
+ 			screentext 2822 185 93 30500 0 0 815 0 124 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 		}
 	}
 

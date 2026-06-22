@@ -206,7 +206,7 @@ defstate disp_bst_help
 	set ui_help_query_id 2
 	qputs 1380 MIA gun
 	state disp_bst_helplistitem
-	
+
 	add gui_pos_y 15
 	set ui_help_query_id 3
 	qputs 1380 Stun Scanners
@@ -228,7 +228,7 @@ defstate disp_bst_help
  		screentext 2822 65 98 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 		qputs 1011 that the enemy in question has.
  		screentext 2822 65 103 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-		qputs 1011 You can also ^2use the MIA gun, or scanners, ^0on 
+		qputs 1011 You can also ^2use the MIA gun, or scanners, ^0on
  		screentext 2822 65 108 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 		qputs 1011 enemies to unlock more details about them.
  		screentext 2822 65 113 28672 0 0 1011 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
@@ -589,7 +589,7 @@ defstate disp_bst_item
 	set best_size INVENSIZE
 	set disp_temp4 tilesizx[bst_item_picnum]
 	set disp_temp5 tilesizy[bst_item_picnum]
-	
+
 	ifle disp_temp4 190
 	  ifle disp_temp5 190
 		nullop
@@ -600,7 +600,7 @@ defstate disp_bst_item
 	}
 	else
 		set best_size 8192
-	
+
 	rotatesprite gui_pos_x gui_pos_y best_size 0 bst_item_picnum 0 bst_item_pal 0 0 0 xdim ydim
 
 	// Beyonder drawing, case specific scenario
@@ -676,7 +676,7 @@ defstate disp_bst_item
  			screentext STARTALPHANUM 110 183 25000 0 0 1504 0 0 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
 		}
 	}
-	
+
 	// MIA UNLOCKS
 	ifn bst_item_research -1
 	{
@@ -685,7 +685,7 @@ defstate disp_bst_item
 
 		qputs 1380 MIA RESEARCH PROJECT
  		screentext STARTALPHANUM 245 145 28672 0 0 1380 0 125 16 0 5 8 TX_GP 1 0 0 0 xdim ydim
-		
+
 		// if this is the dojo/melee category, we need the dojo research
 		ife bst_item_res_cat RS_TAB_DOJO
 		  ifn BASE_RESEARCH[RS_B_DOJO] 2
@@ -714,17 +714,17 @@ defstate disp_bst_item
 			set ui_btn_size 20000
 			set ui_btn_fontsize 20000
 			state putgenericbutton
-			
+
 			// Swap to research terminal
 			ife ui_btn_return 2
 			{
 				set show_bst_ui 0
-				
+
 				state prep_rs_terminal
-				
+
 				set ui_help_id 0
 				set ui_tab bst_item_res_cat
-				
+
 				switch ui_tab
 					case RS_TAB_WEAPONS
 						state rs_init_weapon_list
@@ -745,7 +745,7 @@ defstate disp_bst_item
 						state rs_init_dojo_list
 						break
 				endswitch
-				
+
 				set ui_item bst_item_research
 				set show_rs_ui 1
 				sound INTERFACE_1
